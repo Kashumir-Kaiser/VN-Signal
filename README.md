@@ -70,3 +70,5 @@ go -C go run ./cmd/vnpipe preview-backfill --probe docs/probe/2026-10-16.json --
 ```
 
 This is **preview-only**. It does not reserve quota, fetch symbols, backfill, or import PostgreSQL rows. A dated capability probe does not authorize live execution; production ingestion must check *fresh* account usage immediately before every quota-consuming call, and persist reservations. SQL migration 002 lays the durable ingestion state groundwork, but no database-connected Go ingester is claimed.
+
+The new `ingest.Runner` is an **offline-tested orchestration core**, not a launched backfill command. It binds successful worker frames to strict validation and a transactional persistence interface, and refuses to skip completion checks. A real PostgreSQL persistence adapter and durable *pre-dispatch* quota reservation are still required before it may be activated against vnstock.
