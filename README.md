@@ -83,13 +83,15 @@ go -C go build -tags postgres -o ../vnpipe.exe ./cmd/vnpipe
 .\vnpipe.exe migrate --dir sql/migrations
 ```
 
-If you have a **fresh, successful active probe**, absolute remaining quotas, and an already-populated `core.symbols` listing table, an explicitly authorized *subset* backfill is available:
+After importing an authoritative complete listing snapshot and obtaining a **fresh successful active probe**, the opt-in backfill selects pending equities from PostgreSQL:
 
 ```powershell
-.\vnpipe.exe backfill --active --probe docs/probe/YYYY-MM-DD.json --symbols symbols.json --from 2018-10-01 --to 2026-10-16 --days 10 --source vci
+.\vnpipe.exe backfill --active --probe docs/probe/YYYY-MM-DD.json --from 2018-10-01 --to 2026-10-16 --days 10 --source vci
 ```
 
-This is **not** a one-click setup: `symbols.json` is a JSON array of ticker names that must already exist in `core.symbols` from a separately verified listing import. The command preflights every planned symbol before requesting data, checks the present vnstock tier and absolute quota again, and stops if it cannot guarantee a safe reservation. Do not hand-author market provenance or invent missing quota figures to bypass the restrictions. An end-to-end real-database test is required before relying on it for a large backfill. On Linux, compile with `-o ../vnpipe` and use `./vnpipe`.
+There is **no `--symbols` argument for live backfill**. The command verifies a complete listing (at least 1,000 active equities, all three exchanges, current status matching the latest snapshot, provenance checksum intact, and no more than seven Vietnam calendar days old). It excludes already completed, blocked, and recently leased jobs *before* the fresh quota budget caps the plan, preventing repeated first-alphabet batches. Unknown or percentage-only vendor quotas block calls.
+
+**For multi-day resumption, keep `--from`, `--to`, and `--source` identical.** A different range creates new job IDs and can require repeating calls. Refresh the authoritative listing snapshot as needed; never fabricate membership or account quotas. PostgreSQL integration and live-vnstock results still require verification on the registered machine. On Linux build with `-o ../vnpipe` and use `./vnpipe`.
 
 ### Verified equity listing import
 
