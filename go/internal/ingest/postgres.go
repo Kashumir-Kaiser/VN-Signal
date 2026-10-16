@@ -379,9 +379,9 @@ func (p *PostgresStore) CommitLanding(ctx context.Context, land Landing) error {
 	}
 	var landingID int64
 	err = tx.QueryRowContext(ctx, `INSERT INTO raw.landings
-         (ingest_id,source,route,fetched_at,symbol,payload,payload_sha256)
-         VALUES($1::uuid,$2,'equity_ohlcv',$3,$4,$5::jsonb,$6) RETURNING landing_id`,
-		idstr, land.Source, land.FetchedAt, symbol, string(land.Raw), land.SHA256).Scan(&landingID)
+         (ingest_id,source,route,fetched_at,symbol,payload,payload_sha256,payload_bytes)
+         VALUES($1::uuid,$2,'equity_ohlcv',$3,$4,$5::jsonb,$6,$7) RETURNING landing_id`,
+		idstr, land.Source, land.FetchedAt, symbol, string(land.Raw), land.SHA256, []byte(land.Raw)).Scan(&landingID)
 	if err != nil {
 		return err
 	}
