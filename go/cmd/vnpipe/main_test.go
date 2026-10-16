@@ -125,18 +125,49 @@ func TestProbeFailureType(t *testing.T) {
 	}
 }
 
+func TestProbeFailureDetailsCauseCategoriesAreSafe(t *testing.T) {
+	tests := []struct {
+		stderr string
+		want   string
+	}{
+		{stderr: "SystemExit: private output", want: "PythonSystemExit"},
+		{stderr: "MemoryError: private output", want: "PythonMemoryError"},
+		{stderr: "ModuleNotFoundError: No module named 'vnstock'", want: "PythonDependencyError"},
+		{stderr: "ImportError: private output", want: "PythonImportError"},
+		{stderr: "PermissionError: private output", want: "PythonPermissionError"},
+		{stderr: "Fatal Python error: private output", want: "PythonProcessCrash"},
+		{stderr: "Traceback (most recent call last): private output", want: "PythonUnhandledException"},
+		{stderr: "private output", want: "UnknownWorkerExit"},
+	}
+	for _, tt := range tests {
+		err := errors.New("worker exit: exit status 1; stderr: " + tt.stderr)
+		details := probeFailureDetails(err)
+		if got := details["worker_cause"]; got != tt.want {
+			t.Errorf("worker_cause = %v, want %q", got, tt.want)
+		}
+		if strings.Contains(fmt.Sprint(details), "private output") {
+			t.Fatalf("private stderr leaked into report fields: %v", details)
+		}
+	}
+
+	noFrame := errors.New("worker returned 0 frames (want exactly one); stderr: Python was not found")
+	if got := probeFailureDetails(noFrame)["worker_cause"]; got != "PythonUnavailable" {
+		t.Errorf("no-frame worker cause = %v, want PythonUnavailable", got)
+	}
+}
+
 func TestProbeFailureDetailsExitCodeIsSafe(t *testing.T) {
 	py := pythonForTest(t)
 	script := filepath.Join(t.TempDir(), "exit.py")
-	if err := os.WriteFile(script, []byte("import sys\nsys.exit(23)\n"), 0600); err != nil {
+	if err := os.WriteFile(script, []byte("import sys\nprint('SystemExit: private output', file=sys.stderr)\nsys.exit(23)\n"), 0600); err != nil {
 		t.Fatal(err)
 	}
 	processErr := exec.Command(py, script).Run()
 	if processErr == nil {
 		t.Fatal("fixture process unexpectedly succeeded")
 	}
-	details := probeFailureDetails(fmt.Errorf("worker exit: %w; stderr: private output", processErr))
-	if details["error_type"] != "WorkerExitError" || details["exit_code"] != 23 {
+	details := probeFailureDetails(fmt.Errorf("worker exit: %w; stderr: SystemExit: private output", processErr))
+	if details["error_type"] != "WorkerExitError" || details["exit_code"] != 23 || details["worker_cause"] != "PythonSystemExit" {
 		t.Fatalf("unexpected diagnostic fields: %v", details)
 	}
 	if strings.Contains(fmt.Sprint(details), "private output") {

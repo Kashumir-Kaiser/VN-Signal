@@ -154,11 +154,46 @@ func probeFailureType(err error) string {
 	}
 }
 
+// probeWorkerCause maps private stderr to stable categories without including
+// traceback text, vendor output, symbols, credentials or paths in reports.
+func probeWorkerCause(err error) string {
+	if err == nil {
+		return ""
+	}
+	message := strings.ToLower(err.Error())
+	if !strings.Contains(message, "worker exit:") && !strings.Contains(message, "worker returned 0 frames") {
+		return ""
+	}
+	switch {
+	case strings.Contains(message, "systemexit"):
+		return "PythonSystemExit"
+	case strings.Contains(message, "modulenotfounderror"), strings.Contains(message, "no module named"):
+		return "PythonDependencyError"
+	case strings.Contains(message, "importerror"):
+		return "PythonImportError"
+	case strings.Contains(message, "memoryerror"), strings.Contains(message, "cannot allocate memory"):
+		return "PythonMemoryError"
+	case strings.Contains(message, "permissionerror"):
+		return "PythonPermissionError"
+	case strings.Contains(message, "fatal python error"), strings.Contains(message, "segmentation fault"), strings.Contains(message, "access violation"):
+		return "PythonProcessCrash"
+	case strings.Contains(message, "traceback (most recent call last)"):
+		return "PythonUnhandledException"
+	case strings.Contains(message, "python was not found"), strings.Contains(message, "python not found"):
+		return "PythonUnavailable"
+	default:
+		return "UnknownWorkerExit"
+	}
+}
+
 func probeFailureDetails(err error) map[string]any {
 	details := map[string]any{"available": false, "error_type": probeFailureType(err)}
 	var exitErr *exec.ExitError
 	if errors.As(err, &exitErr) {
 		details["exit_code"] = exitErr.ExitCode()
+	}
+	if cause := probeWorkerCause(err); cause != "" {
+		details["worker_cause"] = cause
 	}
 	return details
 }

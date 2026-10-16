@@ -76,6 +76,15 @@ class FrameTests(unittest.TestCase):
         self.assertTrue(frames[0]["ok"])
         self.assertIn("vendor warning", err)
 
+    def test_system_exit_is_returned_as_one_safe_frame(self):
+        def adapter_exits(_job):
+            raise SystemExit("private vendor detail")
+        frames, _ = self.run_lines(b'{"id":"x","op":"equity_list"}\n', adapter_exits)
+        self.assertEqual(len(frames), 1)
+        self.assertFalse(frames[0]["ok"])
+        self.assertEqual(frames[0]["error"]["type"], "WorkerSystemExit")
+        self.assertNotIn("private vendor detail", json.dumps(frames[0]))
+
     def test_broken_pipe_terminates_cleanly(self):
         class ClosedStream:
             def write(self, _):

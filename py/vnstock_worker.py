@@ -209,6 +209,14 @@ def main() -> None:
             with contextlib.redirect_stdout(sys.stderr):
                 data = dispatch(job)
             output = {"id": job["id"], "ok": True, "data": data}
+        except SystemExit:
+            # Third-party adapters must not terminate the supervised process
+            # before it can return the required JSONL frame. Keep the exit code
+            # and message private; the caller needs only a stable safe label.
+            output = {"id": job.get("id") if isinstance(job, dict) else None,
+                      "ok": False, "error": {
+                          "type": "WorkerSystemExit",
+                          "message": "adapter operation attempted to exit the worker"}}
         except Exception as ex:
             cls = type(ex).__name__
             if cls not in ("EntitlementError", "RateLimitedError", "InputError", "ValueError"):
