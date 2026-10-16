@@ -108,3 +108,9 @@ After a verified listing import, use the **read-only** command with the *same* e
 ```
 
 It checks source-frame provenance against **every current symbol, exchange and ICB industry code**, not just the total count or a checksum. It returns `completed`, `blocked`, `leased`, `pending` and a ten-symbol preview. It does not invoke the Python worker, reserve quota, or show a stock suggestion. A tampered, stale or incomplete universe fails closed. A PostgreSQL-tagged binary and your local database are still required.
+
+### Multi-hour quota refresh
+
+The five-minute PostgreSQL quota verification is now renewable **during an explicitly authorized backfill**. Before an unfinished job can reserve a call, the runner checks the stored expiry. Within 90 seconds of expiry it obtains a fresh passive vnstock status/absolute usage reading, rejects unknown or changed-tier reports, and commits the lower safe remaining budget. No previous reservations are refunded. Failure blocks the next market call.
+
+An existing run does **not** carry a quota across Vietnam midnight: resume on a new day with a fresh authorized command and the same exact history range. The full live PostgreSQL integration and real-vendor flow still await independent verification; this is not an unattended scheduler or a finished Phase 1.
