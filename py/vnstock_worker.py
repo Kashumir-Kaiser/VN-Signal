@@ -62,7 +62,8 @@ def _cli(op: str) -> Any:
     executable = Path(sys.executable).with_name("vnstock.exe" if os.name == "nt" else "vnstock")
     cli = str(executable) if executable.is_file() else "vnstock"
     try:
-        p = subprocess.run([cli, op, "--json"], capture_output=True,
+        # --json is a global CLI option and must precede the subcommand.
+        p = subprocess.run([cli, "--json", op], capture_output=True,
                            text=True, timeout=30, check=False)
     except (OSError, subprocess.TimeoutExpired) as ex:
         return {"available": False, "error_type": type(ex).__name__}
