@@ -21,7 +21,7 @@ func TestParseListingProbe(t *testing.T) {
 	if e != nil {
 		t.Fatal(e)
 	}
-	if p.AsOf != "2026-10-16" || len(p.Listings) != 3 || p.Listings[0].Symbol != "ACB" || p.Listings[0].Exchange != "UPCOM" || p.Listings[1].Industry != "9500" {
+	if p.AsOf != "2026-10-16" || len(p.Listings) != 3 || p.ProviderRows != 3 || p.ExcludedDelisted != 0 || p.Listings[0].Symbol != "ACB" || p.Listings[0].Exchange != "UPCOM" || p.Listings[1].Industry != "9500" {
 		t.Fatalf("unexpected %+v", p)
 	}
 	if err := RevalidateBeforeImport(p); err != nil {
@@ -32,6 +32,28 @@ func TestParseListingProbe(t *testing.T) {
 		t.Fatal("mutated canonical accepted")
 	}
 }
+func TestParseListingProbeExcludesProviderDelistedRows(t *testing.T) {
+	rows := append(goodListings(), map[string]any{
+		"symbol": "OLD", "exchange": "DELISTED", "icb_code_lv2": nil,
+		"organ_name": "Công ty Cũ",
+	})
+	raw := listingProbe(rows)
+	snapshot, err := ParseListingProbe(raw, 3)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if snapshot.ProviderRows != 4 || snapshot.ExcludedDelisted != 1 || len(snapshot.Listings) != 3 {
+		t.Fatalf("provider/current counts mismatch: provider=%d excluded=%d listings=%d",
+			snapshot.ProviderRows, snapshot.ExcludedDelisted, len(snapshot.Listings))
+	}
+	if !strings.Contains(string(snapshot.Frame), "\"exchange\":\"DELISTED\"") {
+		t.Fatal("original delisted row was not retained in the raw frame")
+	}
+	if err := RevalidateBeforeImport(snapshot); err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestInvalidListingSnapshotFailsClosed(t *testing.T) {
 	for _, tc := range []struct {
 		name   string

@@ -9,10 +9,12 @@ import (
 
 // ListingImportSummary reports authoritative storage, not an API call.
 type ListingImportSummary struct {
-	AsOf            string `json:"as_of"`
-	Symbols         int    `json:"symbols"`
-	Deactivated     int    `json:"deactivated"`
-	AlreadyImported bool   `json:"already_imported"`
+	AsOf             string `json:"as_of"`
+	Symbols          int    `json:"symbols"`
+	ProviderRows     int    `json:"provider_rows"`
+	ExcludedDelisted int    `json:"excluded_delisted"`
+	Deactivated      int    `json:"deactivated"`
+	AlreadyImported  bool   `json:"already_imported"`
 }
 
 // ImportListingSnapshot atomically records an independently probed, complete
@@ -28,6 +30,8 @@ func (p *PostgresStore) ImportListingSnapshot(ctx context.Context, snap ListingS
 	}
 	result.AsOf = snap.AsOf
 	result.Symbols = len(snap.Listings)
+	result.ProviderRows = snap.ProviderRows
+	result.ExcludedDelisted = snap.ExcludedDelisted
 	tx, err := p.DB.BeginTx(ctx, &sql.TxOptions{Isolation: sql.LevelSerializable})
 	if err != nil {
 		return ListingImportSummary{}, err

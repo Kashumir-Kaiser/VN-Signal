@@ -25,13 +25,15 @@ type Listing struct {
 }
 
 type ListingSnapshot struct {
-	AsOf        string
-	CollectedAt time.Time
-	Source      string
-	MinSymbols  int
-	Frame       json.RawMessage
-	SHA256      string
-	Listings    []Listing
+	AsOf             string
+	CollectedAt      time.Time
+	Source           string
+	MinSymbols       int
+	ProviderRows     int
+	ExcludedDelisted int
+	Frame            json.RawMessage
+	SHA256           string
+	Listings         []Listing
 }
 
 type listingFrame struct {
@@ -54,8 +56,8 @@ func decodeListingFrame(raw []byte, minSymbols int) ([]Listing, error) {
 	if err := d.Decode(new(any)); err != io.EOF {
 		return nil, fmt.Errorf("%w: extra data", ErrInvalidListing)
 	}
-	if frame.Count != len(frame.Rows) || frame.Count < minSymbols {
-		return nil, fmt.Errorf("%w: incomplete count", ErrInvalidListing)
+	if frame.Count != len(frame.Rows) {
+		return nil, fmt.Errorf("%w: incomplete provider row count", ErrInvalidListing)
 	}
 	columns := make(map[string]bool, len(frame.Columns))
 	for _, col := range frame.Columns {
@@ -90,7 +92,7 @@ func decodeListingFrame(raw []byte, minSymbols int) ([]Listing, error) {
 			}
 		}
 		exchange = strings.ToUpper(strings.TrimSpace(exchange))
-		if exchange != "HOSE" && exchange != "HNX" && exchange != "UPCOM" {
+		if exchange != "HOSE" && exchange != "HNX" && exchange != "UPCOM" && exchange != "DELISTED" {
 			return nil, fmt.Errorf("%w: unknown exchange %q", ErrInvalidListing, exchange)
 		}
 		industry := ""
@@ -111,8 +113,18 @@ func decodeListingFrame(raw []byte, minSymbols int) ([]Listing, error) {
 				}
 			}
 		}
-		seen[symbol], exchanges[exchange] = true, true
+		seen[symbol] = true
+		// The live provider includes a DELISTED category without the original
+		// exchange. Preserve it in Frame/raw landing, but never make it active
+		// or eligible for a market-data backfill.
+		if exchange == "DELISTED" {
+			continue
+		}
+		exchanges[exchange] = true
 		listings = append(listings, Listing{Symbol: symbol, Exchange: exchange, Industry: industry})
+	}
+	if len(listings) < minSymbols {
+		return nil, fmt.Errorf("%w: fewer than %d current listed symbols", ErrInvalidListing, minSymbols)
 	}
 	if len(exchanges) != 3 {
 		return nil, fmt.Errorf("%w: all three exchanges required", ErrInvalidListing)
@@ -152,14 +164,19 @@ func ParseListingProbe(raw []byte, minSymbols int) (ListingSnapshot, error) {
 	if err != nil {
 		return out, err
 	}
-	if len(listings) != route.Count {
-		return out, fmt.Errorf("%w: probe count disagrees with frame", ErrInvalidListing)
+	var frameMeta struct {
+		Count int `json:"count"`
+	}
+	if err := json.Unmarshal(report.ListingFrame, &frameMeta); err != nil || frameMeta.Count != route.Count {
+		return out, fmt.Errorf("%w: probe count disagrees with provider frame", ErrInvalidListing)
 	}
 	vntz := time.FixedZone("Asia/Ho_Chi_Minh", 7*3600)
 	sum := sha256.Sum256(report.ListingFrame)
 	return ListingSnapshot{
 		AsOf: observed.In(vntz).Format("2006-01-02"), CollectedAt: observed.UTC(), Source: "vci",
-		MinSymbols: minSymbols, Frame: append(json.RawMessage(nil), report.ListingFrame...),
+		MinSymbols: minSymbols, ProviderRows: frameMeta.Count,
+		ExcludedDelisted: frameMeta.Count - len(listings),
+		Frame: append(json.RawMessage(nil), report.ListingFrame...),
 		SHA256: hex.EncodeToString(sum[:]), Listings: listings,
 	}, nil
 }
@@ -171,9 +188,16 @@ func RevalidateBeforeImport(s ListingSnapshot) error {
 	if err != nil {
 		return err
 	}
+	var frameMeta struct {
+		Count int `json:"count"`
+	}
+	if err := json.Unmarshal(s.Frame, &frameMeta); err != nil {
+		return fmt.Errorf("%w: unreadable provider count", ErrInvalidListing)
+	}
 	d := sha256.Sum256(s.Frame)
 	if s.Source != "vci" || s.AsOf == "" || s.CollectedAt.IsZero() ||
 		s.CollectedAt.In(time.FixedZone("Asia/Ho_Chi_Minh", 7*3600)).Format("2006-01-02") != s.AsOf ||
+		s.ProviderRows != frameMeta.Count || s.ExcludedDelisted != frameMeta.Count-len(rows) ||
 		s.SHA256 != hex.EncodeToString(d[:]) || !reflect.DeepEqual(rows, s.Listings) {
 		return fmt.Errorf("%w: canonical listing differs from raw frame", ErrInvalidListing)
 	}

@@ -16,8 +16,9 @@ func listingIntegrationFixture(day string, count int) []byte {
 	for i := 0; i < count; i++ {
 		rows = append(rows, map[string]any{"symbol": fmt.Sprintf("X%03d", i), "exchange": exchanges[i%3], "icb_code_lv2": "9500"})
 	}
-	frame := map[string]any{"columns": []string{"symbol", "exchange", "icb_code_lv2"}, "count": count, "rows": rows, "attributes": map[string]any{"source": "vci"}}
-	raw, _ := json.Marshal(map[string]any{"at": day + "T03:00:00+07:00", "active": true, "routes": map[string]any{"equity_list": map[string]any{"available": true, "count": count}}, "listing_frame": frame})
+	rows = append(rows, map[string]any{"symbol": "OLD000", "exchange": "DELISTED", "icb_code_lv2": nil})
+	frame := map[string]any{"columns": []string{"symbol", "exchange", "icb_code_lv2"}, "count": len(rows), "rows": rows, "attributes": map[string]any{"source": "vci"}}
+	raw, _ := json.Marshal(map[string]any{"at": day + "T03:00:00+07:00", "active": true, "routes": map[string]any{"equity_list": map[string]any{"available": true, "count": len(rows)}}, "listing_frame": frame})
 	return raw
 }
 func TestListingSnapshotTransactionIdempotencyAndDelisting(t *testing.T) {
@@ -30,8 +31,12 @@ func TestListingSnapshotTransactionIdempotencyAndDelisting(t *testing.T) {
 		t.Fatal(e)
 	}
 	result, e := store.ImportListingSnapshot(ctx, day1)
-	if e != nil || result.Symbols != 20 || result.Deactivated != 0 {
+	if e != nil || result.Symbols != 20 || result.ProviderRows != 21 || result.ExcludedDelisted != 1 || result.Deactivated != 0 {
 		t.Fatalf("first %+v %v", result, e)
+	}
+	var excluded int
+	if e = db.QueryRow(`SELECT count(*) FROM core.symbols WHERE symbol='OLD000'`).Scan(&excluded); e != nil || excluded != 0 {
+		t.Fatalf("provider delisted symbol entered current universe: count=%d error=%v", excluded, e)
 	}
 	result, e = store.ImportListingSnapshot(ctx, day1)
 	if e != nil || !result.AlreadyImported {
