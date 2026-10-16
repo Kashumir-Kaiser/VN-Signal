@@ -101,7 +101,7 @@ There is **no `--symbols` argument for live backfill**. The command verifies a c
 
 ### Verified equity listing import
 
-The active Go probe now preserves the already-metered `equity_list` response as `listing_frame`. To populate verified HOSE/HNX/UPCOM membership without a second vnstock call, use the native `import-listings` CLI after database migrations. See [Listing import workflow](docs/LISTING_IMPORT.md). The importer rejects partial frames, conflicting snapshots and >5% drops, and preserves inactive tickers as historical members. This is **not** evidence that a local live probe or full backfill has succeeded.
+The active Go probe preserves the already-metered `equity_list` response as `listing_frame`. The registered-machine probe on 2026-10-16 returned 1,754 provider rows: 406 HOSE, 299 HNX, 814 UPCOM and 235 `DELISTED`. The importer keeps the entire response in raw storage and imports only the 1,519 currently listed exchange members; it does not guess the original exchange for `DELISTED` rows. PostgreSQL import and historical backfill are still pending. See [Listing import workflow](docs/LISTING_IMPORT.md).
 
 Raw landings now include `payload_bytes` (migration 004) in addition to queryable JSONB, so the original vendor payload SHA-256 can be checked against exact bytes rather than reserialized JSON.
 

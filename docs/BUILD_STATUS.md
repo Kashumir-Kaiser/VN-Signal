@@ -1,11 +1,11 @@
 # Build status — 2026-10-16
 
-**State: INCOMPLETE, no trading recommendations are enabled. The offline Go/Python checks and PostgreSQL 16 CI suite pass on `62f4872`; the user's local passive vnstock 5.0.3 report now confirms an authenticated free account and exact zero-used counters. Active route capability, listings import, and real backfill remain unverified.** This is still an incomplete implementation of the master prompt.
+**State: INCOMPLETE, no trading recommendations are enabled. Go, Python, and PostgreSQL CI pass on `1407695`. The registered machine's active `equity_list` probe succeeded on 2026-10-16 and returned 1,754 provider rows: 406 HOSE, 299 HNX, 814 UPCOM and 235 DELISTED. The importer preserves the full provider frame and imports only the 1,519 current exchange listings; local PostgreSQL import, historical backfill and end-to-end data-quality validation remain pending.**
 
 | Phase | Status | Evidence | Unfinished exit criteria |
 | --- | --- | --- | --- |
-| 0: probe/schema/config | PARTIAL | Strict Python/Go JSONL tests, passive probe, metered active probe gateway, validated Go config; PostgreSQL 16 workflow passes | Run the capability probe on the user's registered device and validate real vnstock routes/data shapes |
-| 1: ingestion/backfill | PARTIAL | Fail-closed quota parsing, metered call gateway, OHLCV normalizer, durable PostgreSQL reservations and quota guard, resumable backfill, DQ gates; tagged PostgreSQL 16 integration suite passes in CI | Real listings import, full quota-capped historical backfill, coverage and end-to-end DQ validation on the user's machine |
+| 0: probe/schema/config | PARTIAL | Strict Python/Go JSONL tests, passive and metered active probes, validated Go config; registered-device `equity_list` shape confirmed; PostgreSQL 16 workflow passes | Record the final capability disposition for failed routes and confirm local migration execution |
+| 1: ingestion/backfill | PARTIAL | Transactional importer, durable per-call quota reservations, resumable backfill, DQ gates, tagged PostgreSQL 16 CI, and successful registered-device listing probe (1,519 current listings after excluding 235 DELISTED rows) | Import the verified snapshot into local PostgreSQL; complete the quota-capped history queue; inspect coverage and run end-to-end DQ gates on the user's machine |
 | 2: features/PIT | NOT STARTED | contract describes the required rules | features, PIT archive, leakage and parity tests |
 | 3: models/backtest | NOT STARTED | architecture specified | real Rust training, 36+ monthly OOS folds, calibration, backtest |
 | 4: serving/portfolio | NOT STARTED | architecture specified | atomic SQLite export, parity, optimisation |
@@ -98,3 +98,11 @@ Offline evidence: `VNPIPE_DISABLE_LIVE=1 go -C go test -race ./...`, `go -C go v
 - The user registered vnstock 5.0.3 successfully. The CLI status reports `tier=free` and `authenticated=true`; the passive probe supplies exact usage limits and counters.
 - The fresh report shows 60 requests/minute, 3,600/hour, 10,000/day and 100,000/month, with zero used in each bucket. The report root has `active=false`; no market-data route was called.
 - This confirms local authentication and the v5 quota JSON shape only. The active capability probe, listings import, and historical backfill remain unverified. Credentials and device identifiers are intentionally omitted.
+
+
+## 2026-10-16 — registered-device listing probe
+
+- The user ran the active `equity_list` route from `docs/probe/retry6/2026-10-16.json`. It returned 1,754 rows with columns `symbol`, `exchange`, `organ_name`, `organ_short_name`, and `icb_code_lv2`: HOSE 406, HNX 299, UPCOM 814, and DELISTED 235.
+- The initial importer accepted only the three trading exchanges. The live probe proved the provider also returns a `DELISTED` category, with no original exchange. The importer now preserves the complete frame and exact source bytes in `raw.landings`, excludes those 235 rows from `core.symbols`, `core.listing_snapshots`, and backfill candidates, and reports provider/current/excluded counts. It does not infer their prior exchange.
+- The Windows Unicode transport fix is in `d04bba5`; Go, Python, and PostgreSQL CI passed. The DELISTED-aware importer is in `1407695`; its Go race/vet, Python, and PostgreSQL 16 migration/integration jobs all passed. No probe JSON containing company rows is committed.
+- **Phase 1 remains partial:** the local PostgreSQL migration/import, quota-capped daily-bar backfill, queue resumption, coverage and end-to-end quality gates still need to run on the registered machine.
