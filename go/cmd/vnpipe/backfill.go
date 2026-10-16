@@ -22,7 +22,6 @@ func runBackfill(args []string) error {
 	f := flag.NewFlagSet("backfill", flag.ContinueOnError)
 	approve := f.Bool("active", false, "explicitly authorize account-metered vendor calls")
 	reportFile := f.String("probe", "", "active verified vnstock capability report")
-	symbolsFile := f.String("symbols", "", "JSON array of symbols already present in core.symbols")
 	start := f.String("from", "", "earliest ISO trade date")
 	end := f.String("to", "", "latest ISO trade date")
 	days := f.Int("days", 0, "remaining market sessions in calendar month")
@@ -30,8 +29,8 @@ func runBackfill(args []string) error {
 	if err := f.Parse(args); err != nil {
 		return err
 	}
-	if len(f.Args()) != 0 || !*approve || *reportFile == "" || *symbolsFile == "" {
-		return errors.New("backfill requires --active --probe and --symbols; market calls are never implicit")
+	if len(f.Args()) != 0 || !*approve || *reportFile == "" {
+		return errors.New("backfill requires --active and --probe; candidates come only from a verified PostgreSQL listing snapshot")
 	}
 	if os.Getenv("VNPIPE_DISABLE_LIVE") == "1" {
 		return live.ErrDisabled
@@ -57,21 +56,6 @@ func runBackfill(args []string) error {
 	if err != nil || !probe.Active || time.Since(stamp) > 24*time.Hour || time.Until(stamp) > time.Minute {
 		return ingest.ErrUnverified
 	}
-	raw, err := os.ReadFile(*symbolsFile)
-	if err != nil {
-		return err
-	}
-	var symbols []string
-	if err = json.Unmarshal(raw, &symbols); err != nil {
-		return err
-	}
-	plan, err := ingest.PlanBackfill(saved, *days, *start, *end, symbols, nil)
-	if err != nil {
-		return err
-	}
-	if len(plan.Planned) == 0 {
-		return errors.New("nothing budgeted for this run")
-	}
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Hour)
 	defer cancel()
 	db, err := openPostgres(ctx, os.Getenv("DATABASE_URL"))
@@ -79,16 +63,17 @@ func runBackfill(args []string) error {
 		return err
 	}
 	defer db.Close()
-	// No live call is permitted until all symbols have validated listing rows.
-	for _, job := range plan.Planned {
-		var known bool
-		err = db.QueryRowContext(ctx, `SELECT EXISTS(SELECT 1 FROM core.symbols WHERE symbol=$1)`, job.Symbol).Scan(&known)
-		if err != nil {
-			return fmt.Errorf("PostgreSQL schema/listing preflight: %w", err)
-		}
-		if !known {
-			return fmt.Errorf("no verified listing for %s: ingest listings before bars", job.Symbol)
-		}
+	// Do not trust an arbitrary user-supplied ticker list or scan all historical
+	// symbols: only the latest verified full listing is eligible. Completed jobs
+	// are removed BEFORE the call budget is applied, avoiding repeat starvation.
+	universe, err := ingest.LoadVerifiedBackfillUniverse(ctx, db, time.Now(), *start, *end, *source)
+	if err != nil {
+		return fmt.Errorf("verified PostgreSQL universe: %w", err)
+	}
+	if len(universe.Pending) == 0 {
+		fmt.Printf("No eligible backfill jobs: snapshot=%s total=%d completed=%d blocked=%d leased=%d\\n",
+			universe.AsOf, universe.Total, universe.Completed, universe.Blocked, universe.Leased)
+		return nil
 	}
 	// Passive status/usage (no market-data route) is the only source for a new
 	// quota allowance; report percentages / unknown fields block entirely.
@@ -118,6 +103,24 @@ func runBackfill(args []string) error {
 	if fresh < 1 {
 		return quota.ErrExhausted
 	}
+	// Rebuild the plan from FRESH absolute account usage. The saved active
+	// probe establishes route availability, not today's spendable allowance.
+	var report map[string]json.RawMessage
+	if err := json.Unmarshal(saved, &report); err != nil {
+		return err
+	}
+	report["status"], report["usage"] = cap.Status, cap.Usage
+	currentReport, err := json.Marshal(report)
+	if err != nil {
+		return err
+	}
+	plan, err := ingest.PlanBackfill(currentReport, *days, *start, *end, universe.Pending, nil)
+	if err != nil {
+		return err
+	}
+	if len(plan.Planned) == 0 {
+		return quota.ErrExhausted
+	}
 	if len(plan.Planned) > fresh {
 		plan.Planned = plan.Planned[:fresh]
 	}
@@ -143,6 +146,7 @@ func runBackfill(args []string) error {
 	}
 	runner := ingest.Runner{Gateway: gateway, Store: store, Now: time.Now}
 	summary, err := runner.RunBarsBackfill(ctx, plan.Planned, *source)
-	fmt.Printf("Backfill: committed=%d skipped=%d deferred=%d (latest snapshot untouched)\n", summary.Committed, summary.Skipped, len(plan.Deferred))
+	fmt.Printf("Backfill: snapshot=%s universe=%d completed_before=%d committed=%d skipped=%d blocked=%d leased=%d deferred=%d (serving snapshot untouched)\\n",
+		universe.AsOf, universe.Total, universe.Completed, summary.Committed, summary.Skipped, universe.Blocked, universe.Leased, len(plan.Deferred))
 	return err
 }
