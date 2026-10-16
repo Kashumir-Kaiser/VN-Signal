@@ -94,6 +94,15 @@ class FrameTests(unittest.TestCase):
 
 
 class LocalCLITests(unittest.TestCase):
+    def test_cli_places_global_json_option_before_subcommand(self):
+        result = subprocess.CompletedProcess(
+            [], 0, '{"tier":"community"}', "")
+        with patch.object(worker.subprocess, "run", return_value=result) as run:
+            self.assertEqual(worker._cli("status"), {"tier": "community"})
+        args, kwargs = run.call_args
+        self.assertEqual(args[0][-2:], ["--json", "status"])
+        self.assertTrue(kwargs["capture_output"])
+
     def test_cli_fatal_cases(self):
         for outcome in (subprocess.TimeoutExpired("vnstock", 30), FileNotFoundError("missing CLI")):
             with patch.object(worker.subprocess, "run", side_effect=outcome):
