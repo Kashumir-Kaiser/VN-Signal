@@ -90,7 +90,8 @@ func LoadVerifiedBackfillUniverse(ctx context.Context, db *sql.DB, now time.Time
         (SELECT count(*) FROM core.symbols WHERE active),
         (SELECT count(*) FROM core.listing_snapshots l
             JOIN core.symbols s ON s.symbol_id=l.symbol_id
-            WHERE l.snapshot_date=$1::date AND s.active AND s.exchange=l.exchange),
+            WHERE l.snapshot_date=$1::date AND s.active AND s.exchange=l.exchange
+              AND COALESCE(s.industry,'')=COALESCE(l.industry,'')),
         (SELECT count(DISTINCT exchange) FROM core.listing_snapshots WHERE snapshot_date=$1::date)`, result.AsOf).
 		Scan(&result.Total, &active, &matched, &exchanges)
 	if err != nil {
