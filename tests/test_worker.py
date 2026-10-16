@@ -3,6 +3,7 @@ import importlib.util
 import math
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 
 p = Path(__file__).resolve().parents[1] / "py" / "vnstock_worker.py"
 spec = importlib.util.spec_from_file_location("vnstock_worker", p)
@@ -13,6 +14,13 @@ spec.loader.exec_module(worker)
 class WorkerTests(unittest.TestCase):
     def test_health(self):
         self.assertEqual(worker.dispatch({"op": "health"})["protocol"], 1)
+
+    def test_passive_probe_never_fetches_market_data(self):
+        with patch.object(worker, "_cli", return_value={"tier": "unknown"}):
+            with patch.object(worker, "_fetch", side_effect=AssertionError("market call")):
+                result = worker.dispatch({"op": "probe", "active": False})
+        self.assertEqual(result["routes"], {})
+        self.assertFalse(result["active"])
 
     def test_unknown_route_rejected(self):
         with self.assertRaises(ValueError):

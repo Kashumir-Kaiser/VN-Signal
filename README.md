@@ -15,7 +15,7 @@ Phase 0 foundation and a portion of Phase 1: a Go 1.23 CLI; supervised JSON-line
 
 ```powershell
 uv venv --python 3.12 .venv
-uv pip install --python .venv/Scripts/python.exe "vnstock>=5,<6"
+uv pip install --python .venv/Scripts/python.exe --extra-index-url https://vnstocks.com/api/packages "vnstock==5.0.1"
 .venv\Scripts\vnstock.exe register
 go -C go test ./...
 go -C go run ./cmd/vnpipe --help

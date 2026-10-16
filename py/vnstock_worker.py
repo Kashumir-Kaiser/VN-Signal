@@ -5,6 +5,7 @@ import datetime as dt
 import json
 import math
 import os
+from pathlib import Path
 import subprocess
 import sys
 from typing import Any
@@ -51,8 +52,10 @@ def _frame(df: Any) -> dict[str, Any]:
 
 def _cli(op: str) -> Any:
     # Local CLI returns structured JSON on v5; never print stdout/stderr containing secrets.
+    executable = Path(sys.executable).with_name("vnstock.exe" if os.name == "nt" else "vnstock")
+    cli = str(executable) if executable.is_file() else "vnstock"
     try:
-        p = subprocess.run(["vnstock", op, "--json"], capture_output=True,
+        p = subprocess.run([cli, op, "--json"], capture_output=True,
                            text=True, timeout=30, check=False)
     except (OSError, subprocess.TimeoutExpired) as ex:
         return {"available": False, "error_type": type(ex).__name__}
@@ -122,8 +125,9 @@ def dispatch(job: dict[str, Any]) -> dict[str, Any]:
         }
         if active:
             # Explicit single small call per route, no requests in CI/offline mode.
-            today = dt.date.today()
-            recent = (today - dt.timedelta(days=16)).isoformat()
+            from zoneinfo import ZoneInfo
+            today = dt.datetime.now(ZoneInfo("Asia/Ho_Chi_Minh")).date()
+            recent = "2016-01-01"  # Single call per bar route; assess actual accessible depth.
             for route, params in (
                 ("equity_list", {}),
                 ("equity_ohlcv", {"symbol": "FPT", "start": recent, "end": today.isoformat()}),
@@ -135,8 +139,12 @@ def dispatch(job: dict[str, Any]) -> dict[str, Any]:
             ):
                 try:
                     data = _fetch({"op": route, **params})
+                    dates = [row.get("time", row.get("date")) for row in data["rows"]]
+                    dates = [str(x) for x in dates if x is not None]
                     result["routes"][route] = {
                         "available": bool(data["count"]), "count": data["count"],
+                        "first_observed_date": min(dates) if dates else None,
+                        "last_observed_date": max(dates) if dates else None,
                         "columns": data["columns"], "attributes": data["attributes"]}
                 except Exception as ex:
                     result["routes"][route] = {

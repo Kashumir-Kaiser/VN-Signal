@@ -2,7 +2,7 @@
 
 ## Installation
 
-Install Python 3.12 and Go 1.23. Install the `vnstock` generation 5 package from its official channel and register your free Community key on the **one designated machine**. See the [official guide](https://www.vnstocks.com/docs/vnstock/cau-hinh-va-dong-lenh). Never run `vnstock register` in CI, or paste the key into GitHub secrets for ingestion.
+Install Python 3.12 and Go 1.23. Install `vnstock==5.0.1` using `--extra-index-url https://vnstocks.com/api/packages` from its official channel and register your free Community key on the **one designated machine**. See the [official guide](https://www.vnstocks.com/docs/vnstock/cau-hinh-va-dong-lenh). Never run `vnstock register` in CI, or paste the key into GitHub secrets for ingestion.
 
 ## Verify without spending market-data calls
 
