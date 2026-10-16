@@ -43,7 +43,7 @@ func clearDB(t *testing.T, db *sql.DB) {
 		t.Fatal(e)
 	}
 }
-func verified(t *testing.T, s *PostgresStore, budget int) {
+func installVerifiedQuota(t *testing.T, s *PostgresStore, budget int) {
 	t.Helper()
 	// DailyRemaining=budget*2 means floor(80%) >= budget for budget>=2.
 	e := s.InstallQuota(context.Background(), QuotaSnapshot{DailyRemaining: budget * 2, MonthlyRemaining: 10000, TradingDaysRemaining: 2, VerifiedRPM: 60, ObservedAt: time.Now().Add(-500 * time.Millisecond)})
@@ -56,7 +56,7 @@ func TestPostgresIngestionTransactionAndResume(t *testing.T) {
 	db := pgTestDB(t)
 	clearDB(t, db)
 	store, _ := NewPostgresStore(db)
-	verified(t, store, 3)
+	installVerifiedQuota(t, store, 3)
 	_, err := db.Exec(`INSERT INTO core.symbols(symbol,exchange,first_seen_at,last_seen_at)
         VALUES('FPT','HOSE',now(),now())`)
 	if err != nil {
@@ -101,7 +101,7 @@ func TestPostgresDurableQuotaAndRollback(t *testing.T) {
 	db := pgTestDB(t)
 	clearDB(t, db)
 	s, _ := NewPostgresStore(db)
-	verified(t, s, 1)
+	installVerifiedQuota(t, s, 1)
 	ctx := context.Background()
 	a := BackfillJob{Route: "equity_ohlcv", Symbol: "FPT", Start: "2026-10-15", End: "2026-10-16"}
 	b := BackfillJob{Route: "equity_ohlcv", Symbol: "HPG", Start: "2026-10-15", End: "2026-10-16"}
