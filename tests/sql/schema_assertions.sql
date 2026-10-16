@@ -21,6 +21,17 @@ INSERT INTO core.fundamentals_pit(symbol_id,line_item,period_end,period_type,val
 SELECT symbol_id,'revenue','2026-06-30','quarter',100,'vci','{}',
 '2026-08-15 08:00:00+07','2026-08-15 08:00:00+07'
 FROM core.symbols WHERE symbol='FPT';
+-- Store the exact vendor byte sequence as well as queryable JSONB.
+INSERT INTO raw.landings(ingest_id,source,route,fetched_at,payload,payload_sha256,payload_bytes)
+VALUES ('00000000-0000-4000-8000-000000000042','vci','equity_list',now(),
+        '{"a":1}'::jsonb,repeat('0',64),convert_to(' { "a" : 1 } ','UTF8'));
+DO $ BEGIN
+    IF NOT EXISTS (
+      SELECT 1 FROM raw.landings
+      WHERE payload_bytes=convert_to(' { "a" : 1 } ','UTF8')
+        AND payload='{"a":1}'::jsonb
+    ) THEN RAISE EXCEPTION 'raw byte preservation failed'; END IF;
+END $;
 -- The durable quota guard rejects overspending and impossible expiry windows.
 INSERT INTO ops.quota_guard(singleton,verified_at,expires_at,day_key,call_budget,spent,min_spacing_ms)
 VALUES (true,'2026-10-15 15:00:00+07','2026-10-15 15:05:00+07','2026-10-15',2,1,1177);
