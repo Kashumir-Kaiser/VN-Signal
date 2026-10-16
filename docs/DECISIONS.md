@@ -30,3 +30,9 @@ The implementation introduces an offline-tested `LandingStore` boundary instead 
 - `Gateway.CallRecorded` requires durable reserve, dispatch, and finish hooks. A failed hook cannot result in successful ingestion, and unknown quota always blocks. Temporary rate limits consume a reservation and require a new preflight; entitlement failures block the job, and malformed source frames are quarantined.
 - A `PostgresStore` transaction writes the unmodified vendor JSON, its SHA-256, the canonical OHLCV rows, and job completion together; unknown symbols are not automatically assigned fictitious exchange/industry metadata. Listing import must be completed before a full-universe backfill.
 - Tagged backfill is opt-in only. There is no automatic scheduler, no live calls from CI, no daily trading recommendations, no charting app, and no claim that Phase 1 is finished without PostgreSQL CI and a local vnstock probe. The native Go migration runner replaces shell-only runtime instructions and supports both Windows and Linux.
+
+## 2026-10-16 — equity universe provenance
+
+- Only an already-metered, successful v5 `Reference().equity.list_by_exchange()` probe with a complete embedded response is eligible for offline import. `symbol` and `exchange` are required; `icb_code_lv2` is an industry code, not an English/Vietnamese name. No guessed metadata.
+- The CLI requires at least 1,000 equities and all three exchanges before changing the current listed universe. A drop of more than 5%, out-of-order input or same-day conflict blocks the whole transaction instead of silently mass-delisting stocks. This threshold is a protective heuristic, not an external free-tier limit.
+- Keep inactive names and daily listing snapshots for future survivorship analysis. Store exact vendor response bytes alongside JSONB (migration 004): comparing SHA-256 with reserialized JSONB is invalid because its canonical representation need not match the input bytes.
