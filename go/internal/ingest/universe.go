@@ -114,9 +114,17 @@ func LoadVerifiedBackfillUniverse(ctx context.Context, db *sql.DB, now time.Time
 	if len(bytes) < 2 || len(bytes) > 10*1024*1024 || !strings.EqualFold(hex.EncodeToString(sum[:]), wantDigest) {
 		return UniverseSelection{}, fmt.Errorf("%w: listing provenance digest", ErrUnverifiedUniverse)
 	}
+	// A checksum proves only that the archived bytes were not altered. It does
+	// NOT prove the mutable current symbols/snapshot tables still represent the
+	// archived vendor universe. Reparse the signed payload and compare every
+	// symbol, exchange and ICB code, in a single ordered SQL scan.
+	listed, err := decodeListingFrame(bytes, minVerifiedUniverse)
+	if err != nil || len(listed) != result.Total {
+		return UniverseSelection{}, fmt.Errorf("%w: source listing frame invalid or size differs: %v", ErrUnverifiedUniverse, err)
+	}
 	// Query once; no one-query-per-symbol loops. Exclude completed work before
 	// applying the budget cap to avoid starvation on second and later runs.
-	rows, err := tx.QueryContext(ctx, `SELECT s.symbol,COALESCE(j.state,''),j.updated_at
+	rows, err := tx.QueryContext(ctx, `SELECT s.symbol,l.exchange,COALESCE(l.industry,''),COALESCE(j.state,''),j.updated_at
         FROM core.listing_snapshots l
         JOIN core.symbols s ON s.symbol_id=l.symbol_id
         LEFT JOIN ops.ingest_jobs j
@@ -126,13 +134,19 @@ func LoadVerifiedBackfillUniverse(ctx context.Context, db *sql.DB, now time.Time
 	if err != nil {
 		return UniverseSelection{}, err
 	}
+	rowIndex := 0
 	for rows.Next() {
-		var symbol, state string
+		var symbol, exchange, industry, state string
 		var updated sql.NullTime
-		if err := rows.Scan(&symbol, &state, &updated); err != nil {
+		if err := rows.Scan(&symbol, &exchange, &industry, &state, &updated); err != nil {
 			rows.Close()
 			return UniverseSelection{}, err
 		}
+		if rowIndex >= len(listed) || listed[rowIndex] != (Listing{Symbol: symbol, Exchange: exchange, Industry: industry}) {
+			rows.Close()
+			return UniverseSelection{}, fmt.Errorf("%w: current listing differs from archived vendor frame at row %d", ErrUnverifiedUniverse, rowIndex)
+		}
+		rowIndex++
 		switch state {
 		case "COMPLETED":
 			result.Completed++
@@ -158,7 +172,7 @@ func LoadVerifiedBackfillUniverse(ctx context.Context, db *sql.DB, now time.Time
 	if err := rows.Close(); err != nil {
 		return UniverseSelection{}, err
 	}
-	if result.Total != result.Completed+result.Blocked+result.Leased+len(result.Pending) {
+	if rowIndex != len(listed) || result.Total != result.Completed+result.Blocked+result.Leased+len(result.Pending) {
 		return UniverseSelection{}, fmt.Errorf("%w: inconsistent queue counts", ErrUnverifiedUniverse)
 	}
 	if err := tx.Commit(); err != nil {
