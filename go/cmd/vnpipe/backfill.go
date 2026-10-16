@@ -92,7 +92,7 @@ func runBackfill(args []string) error {
 	if err != nil {
 		return err
 	}
-	rpm, err := quota.TierRPM(cap.Status)
+	rpm, err := quota.TierRPM(cap.Status, cap.Usage)
 	if err != nil {
 		return err
 	}

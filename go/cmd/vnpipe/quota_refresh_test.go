@@ -72,12 +72,17 @@ func TestObserveAbsoluteQuotaFailsClosed(t *testing.T) {
 			return worker.Response{ID: j["id"].(string), OK: true, Data: json.RawMessage(report)}, nil
 		}
 	}
-	valid := `{"status":{"tier":"community"},"usage":{"daily_remaining":60,"monthly_remaining":300}}`
+	valid := `{"status":{"tier":"community","authenticated":true},"usage":{"tier":"community","authenticated":true,"limits":{"per_minute":60,"per_day":300,"per_month":1000},"used":{"day":240,"month":700}}}`
 	v, err := observeAbsoluteQuota(context.Background(), 12, mk(valid))
 	if err != nil || v.VerifiedRPM != 60 || v.DailyRemaining != 60 || v.MonthlyRemaining != 300 || v.ObservedAt.IsZero() {
 		t.Fatalf("valid report: %+v %v", v, err)
 	}
-	for _, bad := range []string{`{}`, `{"status":{"tier":"community"},"usage":{"daily_remaining":"80%","monthly_remaining":100}}`, `{"status":{"tier":"paid"},"usage":{"daily_remaining":60,"monthly_remaining":300}}`} {
+	for _, bad := range []string{
+		`{}`,
+		`{"status":{"tier":"community","authenticated":true},"usage":{"daily_remaining":"80%","monthly_remaining":100}}`,
+		`{"status":{"tier":"paid","authenticated":true},"usage":{"tier":"paid","authenticated":true,"limits":{"per_minute":60,"per_day":300,"per_month":1000},"used":{"day":0,"month":0}}}`,
+		`{"status":{"tier":"guest","authenticated":false},"usage":{"tier":"guest","authenticated":false,"limits":{"per_minute":10,"per_day":300,"per_month":1000},"used":{"day":0,"month":0}}}`,
+	} {
 		if _, err := observeAbsoluteQuota(context.Background(), 12, mk(bad)); err == nil {
 			t.Fatalf("invalid quota accepted: %s", bad)
 		}

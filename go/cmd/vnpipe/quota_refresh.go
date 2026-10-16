@@ -23,7 +23,7 @@ type quotaGuardStore interface {
 // ensureFreshQuota is invoked BEFORE each new market-data reservation. It
 // neither requests a market route nor ever refunds an already spent call.
 func ensureFreshQuota(ctx context.Context, store quotaGuardStore, rpm int, read func(context.Context) (ingest.QuotaSnapshot, error)) error {
-	if store == nil || read == nil || (rpm != 20 && rpm != 60) {
+	if store == nil || read == nil || rpm < 1 || rpm > 60 {
 		return ingest.ErrNoQuotaSnapshot
 	}
 	needed, err := store.QuotaRefreshRequired(ctx, 90*time.Second)
@@ -71,7 +71,7 @@ func observeAbsoluteQuota(ctx context.Context, days int, invoke func(context.Con
 	if err != nil {
 		return ingest.QuotaSnapshot{}, err
 	}
-	rpm, err := quota.TierRPM(report.Status)
+	rpm, err := quota.TierRPM(report.Status, report.Usage)
 	if err != nil {
 		return ingest.QuotaSnapshot{}, err
 	}

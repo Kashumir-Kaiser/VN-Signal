@@ -66,7 +66,7 @@ type QuotaSnapshot struct {
 // The caller must query real absolute account usage immediately beforehand.
 func (p *PostgresStore) InstallQuota(ctx context.Context, q QuotaSnapshot) error {
 	if p == nil || p.DB == nil || q.ObservedAt.IsZero() ||
-		(q.VerifiedRPM != 20 && q.VerifiedRPM != 60) {
+		q.VerifiedRPM < 1 || q.VerifiedRPM > 60 {
 		return ErrNoQuotaSnapshot
 	}
 	budget, err := quota.Budget(q.DailyRemaining, q.MonthlyRemaining, q.TradingDaysRemaining)

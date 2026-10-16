@@ -49,7 +49,7 @@ func PlanBackfill(report []byte, tradingDays int, start, end string, tierA, tier
 	if err != nil {
 		return p, ErrUnverified
 	}
-	rpm, err := quota.TierRPM(cap.Status)
+	rpm, err := quota.TierRPM(cap.Status, cap.Usage)
 	if err != nil {
 		return p, ErrUnverified
 	}

@@ -1,6 +1,6 @@
 # Build status — 2026-10-16
 
-**State: INCOMPLETE, no trading recommendations are enabled. The offline Go/Python checks and PostgreSQL 16 CI suite pass on `a43f0a9`; the registered-machine vnstock probe and real backfill have not been run.** This is still an incomplete implementation of the master prompt.
+**State: INCOMPLETE, no trading recommendations are enabled. The offline Go/Python checks and PostgreSQL 16 CI suite pass on `a43f0a9`; a local passive vnstock 5.0.3 probe returned an unauthenticated Guest account, so authenticated route capability and real backfill remain unverified.** This is still an incomplete implementation of the master prompt.
 
 | Phase | Status | Evidence | Unfinished exit criteria |
 | --- | --- | --- | --- |
@@ -78,7 +78,7 @@ Offline evidence: `VNPIPE_DISABLE_LIVE=1 go -C go test -race ./...`, `go -C go v
 ## Quota freshness during long backfills (2026-10-16)
 
 - The five-minute PostgreSQL quota-guard expiry no longer forces every lengthy backfill to stop at the first expiry. `Runner.BeforeCall` now invokes a fail-closed refresh check **only for unfinished jobs, before the local pacer and durable reservation**.
-- When less than 90 seconds remain, the runner obtains a new **passive** vnstock status/usage report. It accepts only recognized Guest/Community RPM and absolute daily/monthly remaining counts. Missing, percentage-only, mismatched-worker-ID, or changed-tier readings stop the run before a new market call.
+- When less than 90 seconds remain, the runner obtains a new **passive** vnstock status/usage report. It accepts only authenticated Community/free status and exact usage limits/counters, deriving remaining daily/monthly calls and using the reported per-minute rate. Missing, Guest, percentage-only, mismatched-worker-ID, or changed-tier readings stop the run before a new market call.
 - The refreshed observation is installed through `PostgresStore.InstallQuota`, which retains the lesser of verified remaining allowance and previously unspent budget, preserving all historical reservation records. The new preflight refuses to roll an old Vietnam trading-day quota into a later day; starting the next day's run requires fresh explicit authorization.
 - Added Go standard-library unit/race tests for quota guard expiry, database failure, missing observations, tier changes, worker response validation and the no-reservation-on-refresh-failure invariant. Corrected the existing injected storage-failure test to exercise the actual commit path instead of an earlier response-ID mismatch.
 - Added a tagged PostgreSQL 16 regression test proving refresh does not replenish three already-consumed reservations. **This tagged test has been committed but has not been executed in this container.** Isolated local Go tests with `-race` and `go vet` passed; the full repository suite and GitHub Actions push checks remain unverified.
@@ -92,3 +92,8 @@ Offline evidence: `VNPIPE_DISABLE_LIVE=1 go -C go test -race ./...`, `go -C go v
 - Local checks on Go 1.23.0: `go test -race -count=1 ./...`, `go vet ./...`, and a tagged PostgreSQL build-only run all pass. All 15 Python worker tests pass; Python compilation and TOML parsing pass.
 - PostgreSQL 16 service execution is not available in this container because service setup requires privilege transitions the runtime blocks. GitHub Actions run 67 on `a43f0a9` passed the PostgreSQL 16 migration assertions, native migration twice, and tagged database integration tests; it also passed the Go race/vet and Python jobs. The local tagged run compiled the PostgreSQL code but did not execute database tests.
 - **Phase 1 remains PARTIAL.** The installed vnstock v5 probe, real listings import, quota-capped historical bars backfill, full coverage, throughput, and end-to-end quality gates still require the user's single registered machine and its local PostgreSQL database. No live market call was made here; no Phase 0/1 exit is claimed.
+
+## 2026-10-16 — local passive vendor report
+
+- The user's passive probe succeeded with vnstock 5.0.3 and returned structured status and usage JSON after correcting the global `--json` flag order. The account status was `guest` with `authenticated=false`; the usage response supplied exact limit and used counters.
+- No market-data routes ran. This confirms the local CLI report shape only. Active probes and ingestion remain blocked until the user registers the free Community account and a fresh report verifies it.

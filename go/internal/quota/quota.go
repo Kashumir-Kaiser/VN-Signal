@@ -62,48 +62,106 @@ func (p *Pacer) Remaining() int {
 	return p.remaining
 }
 
-// ParseRemaining accepts only exact integer absolute counts from the capability
-// report. A percent, unknown field, missing key or approximate reading fails closed.
+// ParseRemaining accepts exact absolute remaining counts or derives them from
+// vnstock's exact per-period limits and used counters. Percentages and incomplete
+// or inconsistent reports fail closed.
 func ParseRemaining(raw []byte) (daily, monthly int, err error) {
 	var m map[string]json.RawMessage
 	if json.Unmarshal(raw, &m) != nil {
 		return 0, 0, ErrUnknown
 	}
-	for i, k := range []string{"daily_remaining", "monthly_remaining"} {
-		v, ok := m[k]
+	_, hasDaily := m["daily_remaining"]
+	_, hasMonthly := m["monthly_remaining"]
+	if hasDaily || hasMonthly {
+		var ok bool
+		daily, ok = exactNonNegativeInt(m["daily_remaining"])
 		if !ok {
 			return 0, 0, ErrUnknown
 		}
-		var n int
-		if json.Unmarshal(v, &n) != nil || n < 0 {
+		monthly, ok = exactNonNegativeInt(m["monthly_remaining"])
+		if !ok {
 			return 0, 0, ErrUnknown
 		}
-		if i == 0 {
-			daily = n
-		} else {
-			monthly = n
-		}
+		return daily, monthly, nil
+	}
+	limits, limitsOK := objectField(m["limits"])
+	used, usedOK := objectField(m["used"])
+	if !limitsOK || !usedOK {
+		return 0, 0, ErrUnknown
+	}
+	daily, err = remainingFrom(limits, used, "per_day", "day")
+	if err != nil {
+		return 0, 0, ErrUnknown
+	}
+	monthly, err = remainingFrom(limits, used, "per_month", "month")
+	if err != nil {
+		return 0, 0, ErrUnknown
 	}
 	return daily, monthly, nil
 }
 
-// TierRPM returns only supported documented free-tier request rates.
-// Unknown plans or unstructured CLI output never enable live ingestion.
-func TierRPM(raw []byte) (int, error) {
-	var m map[string]json.RawMessage
-	if json.Unmarshal(raw, &m) != nil {
+func exactNonNegativeInt(raw json.RawMessage) (int, bool) {
+	var n int
+	if len(raw) == 0 || json.Unmarshal(raw, &n) != nil || n < 0 {
+		return 0, false
+	}
+	return n, true
+}
+
+func objectField(raw json.RawMessage) (map[string]json.RawMessage, bool) {
+	var value map[string]json.RawMessage
+	if len(raw) == 0 || json.Unmarshal(raw, &value) != nil || value == nil {
+		return nil, false
+	}
+	return value, true
+}
+
+func remainingFrom(limits, used map[string]json.RawMessage, limitKey, usedKey string) (int, error) {
+	limit, ok := exactNonNegativeInt(limits[limitKey])
+	if !ok {
 		return 0, ErrUnknown
 	}
-	var tier string
-	if json.Unmarshal(m["tier"], &tier) != nil {
+	spent, ok := exactNonNegativeInt(used[usedKey])
+	if !ok || spent > limit {
 		return 0, ErrUnknown
 	}
+	return limit - spent, nil
+}
+
+func normalizedFreeTier(tier string) string {
 	switch strings.ToLower(strings.TrimSpace(tier)) {
-	case "guest":
-		return 20, nil
-	case "community":
-		return 60, nil
+	case "free", "community":
+		return "community"
 	default:
+		return ""
+	}
+}
+
+// TierRPM accepts only an authenticated Community/free account and obtains its
+// exact minute cap from the same usage snapshot. Guest and sponsored tiers are
+// outside this pipeline's registered free-tier contract.
+func TierRPM(statusRaw, usageRaw []byte) (int, error) {
+	var status struct {
+		Tier          string `json:"tier"`
+		Authenticated bool   `json:"authenticated"`
+	}
+	var usage struct {
+		Tier          string `json:"tier"`
+		Authenticated bool   `json:"authenticated"`
+		Limits        struct {
+			PerMinute int `json:"per_minute"`
+		} `json:"limits"`
+	}
+	if json.Unmarshal(statusRaw, &status) != nil || json.Unmarshal(usageRaw, &usage) != nil {
 		return 0, ErrUnknown
 	}
+	statusTier := normalizedFreeTier(status.Tier)
+	usageTier := normalizedFreeTier(usage.Tier)
+	if !status.Authenticated || !usage.Authenticated || statusTier == "" || statusTier != usageTier {
+		return 0, ErrUnknown
+	}
+	if usage.Limits.PerMinute < 1 || usage.Limits.PerMinute > 60 {
+		return 0, ErrUnknown
+	}
+	return usage.Limits.PerMinute, nil
 }

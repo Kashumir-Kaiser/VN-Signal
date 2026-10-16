@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-var verified = []byte(`{"active":true,"status":{"tier":"Community"},"usage":{"daily_remaining":5,"monthly_remaining":30},"routes":{"equity_ohlcv":{"available":true}}}`)
+var verified = []byte(`{"active":true,"status":{"tier":"Community","authenticated":true},"usage":{"tier":"free","authenticated":true,"limits":{"per_minute":60,"per_day":8,"per_month":100},"used":{"day":3,"month":70}},"routes":{"equity_ohlcv":{"available":true}}}`)
 
 func TestPlanBackfillBudgetAndDeterminism(t *testing.T) {
 	p, e := PlanBackfill(verified, 10, "2018-10-01", "2026-10-16", []string{"HPG", "fpt", "ACB", "VHM", "MBB"}, []string{"YEG"})

@@ -15,7 +15,7 @@ Phase 0 foundation and a portion of Phase 1, including an offline, transactional
 
 ```powershell
 uv venv --python 3.12 .venv
-uv pip install --python .venv/Scripts/python.exe --extra-index-url https://vnstocks.com/api/packages "vnstock==5.0.1"
+uv pip install --python .venv/Scripts/python.exe --extra-index-url https://vnstocks.com/api/packages "vnstock==5.0.3"
 .venv\Scripts\vnstock.exe register
 go -C go test ./...
 go -C go run ./cmd/vnpipe --help
@@ -37,7 +37,7 @@ In Git Bash, point Go tests and the CLI at the venv interpreter with:
 export VNPIPE_PYTHON="$(cygpath -aw "$PWD/.venv/Scripts/python.exe")"
 ```
 
-`probe` writes a date-stamped report to `docs/probe/` locally. Without `--active`, it checks the installed tier and quotas but does not request market data. The active probe checks a minimal symbol/bar/calendar sample, records actual columns and limitations and never treats missing data as success. **It refuses to send any live request unless `vnstock --json status` exposes a recognized free-tier name and `vnstock --json usage` reports absolute integer `daily_remaining` and `monthly_remaining`.** Percent-only or unavailable usage fails closed; do not manufacture quotas. This protects quota/device usage. A durable API reservation ledger is now implemented for the explicit backfill command, but real account quotas and database transactions still require CI and local verification. **Do not use GitHub-hosted runners for live vnstock calls.**
+`probe` writes a date-stamped report to `docs/probe/` locally. Without `--active`, it checks the installed tier and quota policy but does not request market data. The active probe checks a minimal symbol/bar/calendar sample, records actual columns and limitations, and never treats missing data as success. **It refuses live calls unless `vnstock --json status` reports an authenticated `free`/`community` account and `vnstock --json usage` provides exact `limits.per_day` / `limits.per_month`, `used.day` / `used.month`, and `limits.per_minute` values.** Remaining counts are computed as limit minus used; percentages alone, Guest accounts and unknown fields fail closed. A durable API reservation ledger is implemented for explicit backfill, but real account entitlements and database transactions still require local verification. **Do not use GitHub-hosted runners for live vnstock calls.**
 
 ## Next gates
 
@@ -95,7 +95,7 @@ After importing an authoritative complete listing snapshot and obtaining a **fre
 .\vnpipe.exe backfill --active --probe docs/probe/YYYY-MM-DD.json --from 2018-10-01 --to 2026-10-16 --days 10 --source vci
 ```
 
-There is **no `--symbols` argument for live backfill**. The command verifies a complete listing (at least 1,000 active equities, all three exchanges, current status matching the latest snapshot, provenance checksum intact, and no more than seven Vietnam calendar days old). It excludes already completed, blocked, and recently leased jobs *before* the fresh quota budget caps the plan, preventing repeated first-alphabet batches. Unknown or percentage-only vendor quotas block calls.
+There is **no `--symbols` argument for live backfill**. The command verifies a complete listing (at least 1,000 active equities, all three exchanges, current status matching the latest snapshot, provenance checksum intact, and no more than seven Vietnam calendar days old). It excludes already completed, blocked, and recently leased jobs *before* the fresh quota budget caps the plan, preventing repeated first-alphabet batches. Unknown, unauthenticated, or percentage-only vendor quotas block calls.
 
 **For multi-day resumption, keep `--from`, `--to`, and `--source` identical.** A different range creates new job IDs and can require repeating calls. Refresh the authoritative listing snapshot as needed; never fabricate membership or account quotas. PostgreSQL integration and live-vnstock results still require verification on the registered machine. On Linux build with `-o ../vnpipe` and use `./vnpipe`.
 

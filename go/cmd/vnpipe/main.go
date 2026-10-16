@@ -105,7 +105,7 @@ func run(args []string) error {
 			if e != nil {
 				return fmt.Errorf("cannot meter live probe: %w", e)
 			}
-			rpm, e := quota.TierRPM(report["status"])
+			rpm, e := quota.TierRPM(report["status"], report["usage"])
 			if e != nil {
 				return fmt.Errorf("cannot verify tier rate: %w", e)
 			}
@@ -310,8 +310,8 @@ func run(args []string) error {
 		if err != nil {
 			return err
 		}
-		if *rpm != 20 && *rpm != 60 {
-			return errors.New("unknown free-tier RPM; expected verified 20 or 60")
+		if *rpm < 1 || *rpm > 60 {
+			return errors.New("RPM must be a verified value between 1 and 60")
 		}
 		if _, err := quota.NewPacer(*rpm, b); err != nil {
 			return err
