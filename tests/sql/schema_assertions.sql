@@ -21,6 +21,29 @@ INSERT INTO core.fundamentals_pit(symbol_id,line_item,period_end,period_type,val
 SELECT symbol_id,'revenue','2026-06-30','quarter',100,'vci','{}',
 '2026-08-15 08:00:00+07','2026-08-15 08:00:00+07'
 FROM core.symbols WHERE symbol='FPT';
+-- A backfill job cannot be marked complete before its landing is committed.
+INSERT INTO ops.ingest_jobs(idempotency_key,route,symbol,source,date_from,date_to)
+VALUES ('test-fpt-20261015-vci','equity_ohlcv','FPT','vci','2026-10-15','2026-10-16');
+INSERT INTO ops.api_reservations(job_id,attempt_no,reserved_at,not_before)
+SELECT job_id,1,'2026-10-15 15:00+07','2026-10-15 15:00+07' FROM ops.ingest_jobs
+WHERE idempotency_key='test-fpt-20261015-vci';
+DO $$ DECLARE n bigint; BEGIN
+    SELECT job_id INTO n FROM ops.ingest_jobs WHERE idempotency_key='test-fpt-20261015-vci';
+    BEGIN
+        UPDATE ops.ingest_jobs SET state='COMPLETED' WHERE job_id=n;
+        RAISE EXCEPTION 'job completed without landing';
+    EXCEPTION WHEN check_violation THEN NULL; END;
+    BEGIN
+        INSERT INTO ops.api_reservations(job_id,attempt_no,reserved_at,not_before)
+        VALUES (n,1,'2026-10-15 15:00+07','2026-10-15 15:00+07');
+        RAISE EXCEPTION 'reused reservation attempt accepted';
+    EXCEPTION WHEN unique_violation THEN NULL; END;
+    BEGIN
+        INSERT INTO ops.ingest_jobs(idempotency_key,route,symbol,source,date_from,date_to)
+        VALUES ('invalid-range-fpt','equity_ohlcv','FPT','vci','2026-10-16','2026-10-15');
+        RAISE EXCEPTION 'invalid date range accepted';
+    EXCEPTION WHEN check_violation THEN NULL; END;
+END $$;
 -- pg_temp runs inside this session; failed constraint violations are caught using PL/pgSQL.
 DO $$ DECLARE n bigint; BEGIN
     SELECT symbol_id INTO n FROM core.symbols WHERE symbol='FPT';

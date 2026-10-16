@@ -6,7 +6,7 @@ VN-Signal is designed around the **vnstock v5 free tier**. It must not claim tha
 
 ## Current implementation
 
-Phase 0 foundation and a portion of Phase 1: a Go 1.23 CLI; supervised JSON-lines Python 3.12 vnstock adapter; status/usage/capability probes; fail-closed quota reservations and single-worker process bound; bar quality/publishing gates; crash-aware checkpoints; checked configuration; initial PostgreSQL schemas; integration tests and CI. **No trained model, portfolio recommendations, usable desktop app, full backfill, or deployed scheduler yet.** See [Build status](docs/BUILD_STATUS.md).
+Phase 0 foundation and a portion of Phase 1: a Go 1.23 CLI with offline OHLCV frame normalization and quota-aware backfill previews; supervised JSON-lines Python 3.12 vnstock adapter; status/usage/capability probes; fail-closed quota reservations and single-worker process bound; bar quality/publishing gates; crash-aware checkpoints; checked configuration; initial PostgreSQL schemas; integration tests and CI. **No trained model, portfolio recommendations, usable desktop app, full backfill, or deployed scheduler yet.** See [Build status](docs/BUILD_STATUS.md).
 
 ## Prerequisites
 
@@ -52,3 +52,21 @@ py -3.12 -m unittest discover -s tests -v
 CI sets `VNPIPE_DISABLE_LIVE=1` and never registers vnstock or queries market data. Its PostgreSQL 16 service runs migration and SQL assertions including transaction rollback. Run locally against a disposable PostgreSQL database with `DATABASE_URL` set: `bash tests/sql/test_migration.sh`. Do not point fault-injection tests at a valuable database.
 
 The SQL migration CI check is **not evidence of a successful local historical backfill**. Tests requiring valid vnstock quota data, real histories, a deployed scheduler, or a serving SQLite snapshot remain incomplete until those components exist.
+
+## Phase 1 offline ingestion checks
+
+A saved successful worker `data` frame can be validated **without making a market-data request**:
+
+```powershell
+go -C go run ./cmd/vnpipe validate-bars --input saved-data.json --symbol FPT
+```
+
+The validator rejects missing/extra schema columns, mismatched counts, duplicated or non-chronological dates, null/nonfinite numeric values, and invalid OHLCV. It prints counts and dates only, never prices. `saved-data.json` contains the `data` object of the worker's JSONL response, not the outer `{id,ok,data}` envelope.
+
+Given a *locally recorded* successful active probe and a JSON array of real symbols, you can preview a deterministic, capped backfill plan:
+
+```powershell
+go -C go run ./cmd/vnpipe preview-backfill --probe docs/probe/2026-10-16.json --symbols symbols.json --from 2018-10-01 --to 2026-10-16 --days 10
+```
+
+This is **preview-only**. It does not reserve quota, fetch symbols, backfill, or import PostgreSQL rows. A dated capability probe does not authorize live execution; production ingestion must check *fresh* account usage immediately before every quota-consuming call, and persist reservations. SQL migration 002 lays the durable ingestion state groundwork, but no database-connected Go ingester is claimed.

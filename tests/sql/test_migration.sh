@@ -2,8 +2,11 @@
 set -euo pipefail
 : "${DATABASE_URL:?DATABASE_URL required}"
 export PGOPTIONS='-c TimeZone=UTC'
-psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 -f sql/migrations/001_init.sql
-psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 -f sql/migrations/001_init.sql
+for pass in 1 2; do
+    for migration in sql/migrations/[0-9]*.sql; do
+        psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 -f "$migration"
+    done
+done
 psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 -f tests/sql/schema_assertions.sql
 if psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 <<'SQL'
 BEGIN;

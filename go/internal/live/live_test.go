@@ -27,7 +27,7 @@ func TestUnknownQuotaBlocks(t *testing.T) {
 	}
 }
 func TestReservedAndWaitedBeforeEveryCall(t *testing.T) {
-	// The worker is fake; explicitly lift the CI live-call block for this test only.
+	// Hosted CI disables live calls globally; these tests exercise only injected fake invokers.
 	t.Setenv("VNPIPE_DISABLE_LIVE", "0")
 	p, _ := quota.NewPacer(60, 2)
 	var calls atomic.Int32
@@ -52,7 +52,7 @@ func TestReservedAndWaitedBeforeEveryCall(t *testing.T) {
 	}
 }
 func TestLiveGateConcurrentReservations(t *testing.T) {
-	// The worker is fake; explicitly lift the CI live-call block for this test only.
+	// Hosted CI disables live calls globally; these tests exercise only injected fake invokers.
 	t.Setenv("VNPIPE_DISABLE_LIVE", "0")
 	p, _ := quota.NewPacer(60000, 25)
 	var count atomic.Int32
@@ -88,7 +88,7 @@ func TestDisabledInCI(t *testing.T) {
 	}
 }
 func TestCancellationDuringWaitConsumesCall(t *testing.T) {
-	// The worker is fake; explicitly lift the CI live-call block for this test only.
+	// Hosted CI disables live calls globally; these tests exercise only injected fake invokers.
 	t.Setenv("VNPIPE_DISABLE_LIVE", "0")
 	p, _ := quota.NewPacer(60, 2)
 	g, _ := New(p, func(context.Context, map[string]any) (worker.Response, error) {
@@ -105,7 +105,7 @@ func TestCancellationDuringWaitConsumesCall(t *testing.T) {
 }
 
 func TestReservationWaitIsActuallyAwaited(t *testing.T) {
-	// The worker is fake; explicitly lift the CI live-call block for this test only.
+	// Hosted CI disables live calls globally; these tests exercise only injected fake invokers.
 	t.Setenv("VNPIPE_DISABLE_LIVE", "0")
 	p, _ := quota.NewPacer(20, 2)
 	var count atomic.Int32

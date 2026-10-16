@@ -7,11 +7,13 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"time"
 
 	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/config"
+	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/ingest"
 	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/live"
 	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/quota"
 	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/worker"
@@ -22,6 +24,8 @@ func usage() {
 Usage:
   vnpipe probe [--active --trading-days N] [--out DIR]
   vnpipe budget --daily N --monthly N --days N --rpm N
+  vnpipe validate-bars --input FILE --symbol TICKER
+  vnpipe preview-backfill --probe FILE --symbols FILE --from DATE --to DATE --days N
   vnpipe version
 Active probe requires verified absolute vnstock usage and tier status.
 Unknown/percentage quota readings block active requests; CI always blocks live calls.
@@ -184,6 +188,64 @@ func run(args []string) error {
 		}
 		fmt.Printf("Probe report: %s (active=%v). Does NOT certify entitlements.\n", name, *active)
 		return nil
+	case "preview-backfill":
+		f := flag.NewFlagSet("preview-backfill", flag.ContinueOnError)
+		probeFile := f.String("probe", "", "locally recorded active probe report")
+		symbolFile := f.String("symbols", "", "JSON array of current listed symbols (not a live call)")
+		start := f.String("from", "", "earliest requested history YYYY-MM-DD")
+		end := f.String("to", "", "latest requested history YYYY-MM-DD")
+		days := f.Int("days", 0, "remaining trading sessions this month")
+		if err := f.Parse(args[1:]); err != nil {
+			return err
+		}
+		if *probeFile == "" || *symbolFile == "" || len(f.Args()) != 0 {
+			return errors.New("--probe and --symbols are required")
+		}
+		if _, err := config.Load(configPath()); err != nil {
+			return err
+		}
+		probe, err := os.ReadFile(*probeFile)
+		if err != nil {
+			return err
+		}
+		raw, err := os.ReadFile(*symbolFile)
+		if err != nil {
+			return err
+		}
+		var symbols []string
+		if err := json.Unmarshal(raw, &symbols); err != nil {
+			return err
+		}
+		p, err := ingest.PlanBackfill(probe, *days, *start, *end, symbols, nil)
+		if err != nil {
+			return err
+		}
+		return json.NewEncoder(os.Stdout).Encode(p)
+	case "validate-bars":
+		f := flag.NewFlagSet("validate-bars", flag.ContinueOnError)
+		input := f.String("input", "", "saved, successful Python worker data frame JSON")
+		symbol := f.String("symbol", "", "ticker to bind to all parsed rows")
+		if err := f.Parse(args[1:]); err != nil {
+			return err
+		}
+		if *input == "" || *symbol == "" || len(f.Args()) != 0 {
+			return errors.New("--input and --symbol are required")
+		}
+		file, err := os.Open(*input)
+		if err != nil {
+			return err
+		}
+		defer file.Close()
+		raw, err := io.ReadAll(io.LimitReader(file, 10*1024*1024+1))
+		if err != nil {
+			return err
+		}
+		result, err := ingest.NormalizeBars(*symbol, raw)
+		if err != nil {
+			return err
+		}
+		// Do not print full historical price data: output only safe validation summary.
+		return json.NewEncoder(os.Stdout).Encode(map[string]any{"symbol": result.Symbol, "rows": result.Count, "first_date": result.FirstDate, "last_date": result.LastDate, "validation": "passed"})
 	case "budget":
 		f := flag.NewFlagSet("budget", flag.ContinueOnError)
 		daily := f.Int("daily", -1, "absolute daily calls remaining")
