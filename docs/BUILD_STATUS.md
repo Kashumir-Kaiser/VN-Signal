@@ -1,11 +1,11 @@
 # Build status — 2026-10-16
 
-**State: INCOMPLETE, no trading recommendations are enabled. Go offline CI failure fixed; a guarded Phase 1 PostgreSQL ingester is now implemented, but the tagged PostgreSQL test and live probe have not been independently observed.** This is an initial checked-in foundation, not a complete implementation of the master prompt.
+**State: INCOMPLETE, no trading recommendations are enabled. The offline Go/Python checks and PostgreSQL 16 CI suite pass on `a43f0a9`; the registered-machine vnstock probe and real backfill have not been run.** This is still an incomplete implementation of the master prompt.
 
 | Phase | Status | Evidence | Unfinished exit criteria |
 | --- | --- | --- | --- |
-| 0: probe/schema/config | PARTIAL | Strict Python/Go JSONL tests, passive probe, metered active probe gateway, validated Go config, PostgreSQL 16 service test defined in CI | Observe CI PostgreSQL results and live probe on user's registered device, validate real data shapes |
-| 1: ingestion/backfill | PARTIAL | Fail-closed quota parsing and metered call gateway with wait tests; Go OHLCV frame normalizer and backfill preview; SQL durable job and API reservation migration; checkpoint persistence, DQ blocking gates, worker-process concurrency bound | PostgreSQL pgx CopyFrom bulk path, real completed listings import, verified tagged PostgreSQL integration test and live full quota-safe backfill |
+| 0: probe/schema/config | PARTIAL | Strict Python/Go JSONL tests, passive probe, metered active probe gateway, validated Go config; PostgreSQL 16 workflow passes | Run the capability probe on the user's registered device and validate real vnstock routes/data shapes |
+| 1: ingestion/backfill | PARTIAL | Fail-closed quota parsing, metered call gateway, OHLCV normalizer, durable PostgreSQL reservations and quota guard, resumable backfill, DQ gates; tagged PostgreSQL 16 integration suite passes in CI | Real listings import, full quota-capped historical backfill, coverage and end-to-end DQ validation on the user's machine |
 | 2: features/PIT | NOT STARTED | contract describes the required rules | features, PIT archive, leakage and parity tests |
 | 3: models/backtest | NOT STARTED | architecture specified | real Rust training, 36+ monthly OOS folds, calibration, backtest |
 | 4: serving/portfolio | NOT STARTED | architecture specified | atomic SQLite export, parity, optimisation |
@@ -90,5 +90,5 @@ Offline evidence: `VNPIPE_DISABLE_LIVE=1 go -C go test -race ./...`, `go -C go v
 - Updated the CI guard test to use supported arguments and added a check that caller-supplied symbols remain rejected. Fixed the PL/pgSQL block to use `$$` delimiters. The tagged integration helper is now named `installVerifiedQuota` to avoid colliding with the `verified` fixture in `planner_test.go`.
 - Added `go.sum` and pinned transitive pgx module requirements in `go.mod`; `go mod verify` passes.
 - Local checks on Go 1.23.0: `go test -race -count=1 ./...`, `go vet ./...`, and a tagged PostgreSQL build-only run all pass. All 15 Python worker tests pass; Python compilation and TOML parsing pass.
-- PostgreSQL 16 service execution is not available in this container because service setup requires privilege transitions the runtime blocks. The SQL migration and tagged database tests therefore still need the hosted PostgreSQL 16 workflow result. The local tagged run compiled the PostgreSQL code but did not execute database tests.
+- PostgreSQL 16 service execution is not available in this container because service setup requires privilege transitions the runtime blocks. GitHub Actions run 67 on `a43f0a9` passed the PostgreSQL 16 migration assertions, native migration twice, and tagged database integration tests; it also passed the Go race/vet and Python jobs. The local tagged run compiled the PostgreSQL code but did not execute database tests.
 - **Phase 1 remains PARTIAL.** The installed vnstock v5 probe, real listings import, quota-capped historical bars backfill, full coverage, throughput, and end-to-end quality gates still require the user's single registered machine and its local PostgreSQL database. No live market call was made here; no Phase 0/1 exit is claimed.
