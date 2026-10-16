@@ -3,6 +3,7 @@
 package ingest
 
 import (
+	"bytes"
 	"context"
 	"crypto/sha256"
 	"database/sql"
@@ -83,6 +84,13 @@ func TestPostgresIngestionTransactionAndResume(t *testing.T) {
 		if err = db.QueryRow(q).Scan(&n); err != nil || n != 1 {
 			t.Fatalf("query=%s n=%d err=%v", q, n, err)
 		}
+	}
+	// JSONB is intentionally queryable, but exact bytes must also survive
+	// normalization for provenance/hash verification.
+	var original []byte
+	if err = db.QueryRow(`SELECT payload_bytes FROM raw.landings WHERE route='equity_ohlcv' LIMIT 1`).Scan(&original); err != nil ||
+		!bytes.Equal(original, []byte(payload("["+one+"]", 1))) {
+		t.Fatalf("vendor payload byte parity: %v", err)
 	}
 	again, err := runner.RunBarsBackfill(context.Background(), []BackfillJob{job}, "vci")
 	if err != nil || again.Skipped != 1 || calls != 1 {
