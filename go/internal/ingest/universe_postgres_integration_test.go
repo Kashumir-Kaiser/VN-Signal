@@ -1,0 +1,94 @@
+//go:build postgres_integration
+
+package ingest
+
+import (
+	"context"
+	"errors"
+	"fmt"
+	"testing"
+	"time"
+)
+
+// Uses pgTestDB, clearDB and listingIntegrationFixture in this package.
+// This test runs only against the disposable PostgreSQL 16 CI service.
+func TestVerifiedUniverseProgressesBeyondFirstBudgetBatch(t *testing.T) {
+	db := pgTestDB(t)
+	clearDB(t, db)
+	store, err := NewPostgresStore(db)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ctx := context.Background()
+	now := time.Now()
+	asOf := vnMarketDate(now).Format("2006-01-02")
+	snap, err := ParseListingProbe(listingIntegrationFixture(asOf, 1005), 1000)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err = store.ImportListingSnapshot(ctx, snap); err != nil {
+		t.Fatal(err)
+	}
+	first, err := LoadVerifiedBackfillUniverse(ctx, db, now, "2018-10-01", asOf, "vci")
+	if err != nil || len(first.Pending) != 1005 || first.Total != 1005 {
+		t.Fatalf("initial %+v: %v", first, err)
+	}
+	// An earlier completed batch must not occupy the first N slots forever.
+	// Blocked and freshly leased work are also never selected.
+	_, err = db.ExecContext(ctx, `INSERT INTO raw.landings (ingest_id,source,route,fetched_at,symbol,payload,payload_sha256,payload_bytes)
+        VALUES ('00000000-0000-4000-8000-000000000088','vci','equity_ohlcv',now(),'X000','{}',repeat('0',64),'{}'::bytea)`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for i, state := range []string{"COMPLETED", "BLOCKED", "RUNNING"} {
+		symbol := fmt.Sprintf("X%03d", i)
+		landed := "NULL"
+		if state == "COMPLETED" {
+			landed = "(SELECT max(landing_id) FROM raw.landings)"
+		}
+		_, err = db.ExecContext(ctx, fmt.Sprintf(`INSERT INTO ops.ingest_jobs
+            (idempotency_key,route,symbol,source,date_from,date_to,state,landed_id)
+            VALUES ($1,'equity_ohlcv',$2,'vci','2018-10-01',$3,$4,%s)`, landed),
+			fmt.Sprintf("equity_ohlcv:%s:vci:2018-10-01:%s", symbol, asOf), symbol, asOf, state)
+		if err != nil {
+			t.Fatal(err)
+		}
+	}
+	next, err := LoadVerifiedBackfillUniverse(ctx, db, time.Now(), "2018-10-01", asOf, "vci")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if next.Completed != 1 || next.Blocked != 1 || next.Leased != 1 || len(next.Pending) != 1002 || next.Pending[0] != "X003" {
+		t.Fatalf("resume did not move beyond completed batch: %+v", next)
+	}
+	// Corruption of the original listing payload must block all market calls.
+	_, err = db.ExecContext(ctx, `UPDATE raw.landings SET payload_bytes='corrupted'::bytea WHERE route='equity_list'`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err = LoadVerifiedBackfillUniverse(ctx, db, time.Now(), "2018-10-01", asOf, "vci"); !errors.Is(err, ErrUnverifiedUniverse) {
+		t.Fatalf("tampered frame accepted: %v", err)
+	}
+}
+
+func TestVerifiedUniverseRejectsPartialActiveFlags(t *testing.T) {
+	db := pgTestDB(t)
+	clearDB(t, db)
+	store, _ := NewPostgresStore(db)
+	ctx := context.Background()
+	today := vnMarketDate(time.Now()).Format("2006-01-02")
+	snap, err := ParseListingProbe(listingIntegrationFixture(today, 1000), 1000)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err = store.ImportListingSnapshot(ctx, snap); err != nil {
+		t.Fatal(err)
+	}
+	_, err = db.ExecContext(ctx, `UPDATE core.symbols SET active=false WHERE symbol='X000'`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err = LoadVerifiedBackfillUniverse(ctx, db, time.Now(), "2018-10-01", today, "vci"); !errors.Is(err, ErrUnverifiedUniverse) {
+		t.Fatalf("partial snapshot accepted: %v", err)
+	}
+}
