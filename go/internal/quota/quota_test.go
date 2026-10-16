@@ -34,3 +34,37 @@ func TestPacer(t *testing.T) {
 		t.Fatal("over-budget call allowed")
 	}
 }
+
+func TestTierParsing(t *testing.T) {
+	for raw, expect := range map[string]int{`{"tier":"Community"}`: 60, `{"tier":"Guest"}`: 20} {
+		got, e := TierRPM([]byte(raw))
+		if e != nil || got != expect {
+			t.Fatalf("%q %d %v", raw, got, e)
+		}
+	}
+	for _, raw := range []string{`{}`, `{"tier":"Sponsor"}`, `{"tier":"unknown"}`} {
+		if _, e := TierRPM([]byte(raw)); !errors.Is(e, ErrUnknown) {
+			t.Fatal(raw)
+		}
+	}
+}
+
+func TestClockJumpAndLowRPM(t *testing.T) {
+	p, err := NewPacer(1, 3)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t0 := time.Date(2026, 10, 16, 0, 0, 0, 0, time.UTC)
+	a, _ := p.Reserve(t0)
+	b, _ := p.Reserve(t0.Add(-24 * time.Hour))
+	if b.Sub(a) < time.Minute {
+		t.Fatal("backward clock jump compressed pacing")
+	}
+	c, _ := p.Reserve(t0.Add(time.Hour))
+	if c.Before(t0.Add(time.Hour)) {
+		t.Fatal("forward jump produced an earlier reservation")
+	}
+	if p.Remaining() != 0 {
+		t.Fatal("reserve did not consume 3 calls")
+	}
+}

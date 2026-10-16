@@ -6,7 +6,7 @@ VN-Signal is designed around the **vnstock v5 free tier**. It must not claim tha
 
 ## Current implementation
 
-Phase 0 foundation and a portion of Phase 1: a Go 1.23 CLI; supervised JSON-lines Python 3.12 vnstock adapter; status/usage/capability probes; conservative quota budgeting and rate limiting; bar validation; atomic checkpoints; initial PostgreSQL schemas; unit tests and CI. **No trained model, portfolio recommendations, usable desktop app, full backfill, or deployed scheduler yet.** See [Build status](docs/BUILD_STATUS.md).
+Phase 0 foundation and a portion of Phase 1: a Go 1.23 CLI; supervised JSON-lines Python 3.12 vnstock adapter; status/usage/capability probes; fail-closed quota reservations and single-worker process bound; bar quality/publishing gates; crash-aware checkpoints; checked configuration; initial PostgreSQL schemas; integration tests and CI. **No trained model, portfolio recommendations, usable desktop app, full backfill, or deployed scheduler yet.** See [Build status](docs/BUILD_STATUS.md).
 
 ## Prerequisites
 
@@ -27,13 +27,28 @@ On Linux, replace `.venv/Scripts/python.exe` with `.venv/bin/python`, and `.venv
 $env:VNPIPE_PYTHON = ".venv/Scripts/python.exe"
 go -C go run ./cmd/vnpipe probe
 # Active probe consumes your *local* free-tier allowance, opt in explicitly:
-go -C go run ./cmd/vnpipe probe --active
+go -C go run ./cmd/vnpipe probe --active --trading-days 12
+# Replace 12 with actual remaining trading sessions; never guess account quotas.
 ```
 
-`probe` writes a date-stamped report to `docs/probe/` locally. Without `--active`, it checks the installed tier and quotas but does not request market data. The active probe checks a minimal symbol/bar/calendar sample, records actual columns and limitations and never treats missing data as success. **Do not use GitHub-hosted runners for live vnstock calls.**
+`probe` writes a date-stamped report to `docs/probe/` locally. Without `--active`, it checks the installed tier and quotas but does not request market data. The active probe checks a minimal symbol/bar/calendar sample, records actual columns and limitations and never treats missing data as success. **It refuses to send any live request unless `vnstock status --json` exposes a recognized free-tier name and `vnstock usage --json` reports absolute integer `daily_remaining` and `monthly_remaining`.** Percent-only or unavailable usage fails closed; do not manufacture quotas. This protects quota/device usage, but the unattended ingestion system and durable API ledger remain unimplemented. **Do not use GitHub-hosted runners for live vnstock calls.**
 
 ## Next gates
 
 Read [Runbook](docs/RUNBOOK.md), [Data contract](docs/DATA_CONTRACT.md), and [Decisions](docs/DECISIONS.md). Nothing is presented as a validated market signal until historical point-in-time checks, walk-forward testing, cross-language parity, and paper-trading checks pass.
 
 Attribution: [Vnstock](https://vnstocks.com/docs/vnstock) provides the source API and its own licensing and tier rules; this repository does **not** license Vnstock or redistribute its data.
+
+## Offline hardening checks
+
+From the repository root (Go must be installed):
+
+```powershell
+go -C go test -race ./...
+go -C go vet ./...
+py -3.12 -m unittest discover -s tests -v
+```
+
+CI sets `VNPIPE_DISABLE_LIVE=1` and never registers vnstock or queries market data. Its PostgreSQL 16 service runs migration and SQL assertions including transaction rollback. Run locally against a disposable PostgreSQL database with `DATABASE_URL` set: `bash tests/sql/test_migration.sh`. Do not point fault-injection tests at a valuable database.
+
+The SQL migration CI check is **not evidence of a successful local historical backfill**. Tests requiring valid vnstock quota data, real histories, a deployed scheduler, or a serving SQLite snapshot remain incomplete until those components exist.

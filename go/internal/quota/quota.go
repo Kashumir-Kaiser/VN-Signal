@@ -2,8 +2,10 @@
 package quota
 
 import (
+	"encoding/json"
 	"errors"
 	"math"
+	"strings"
 	"sync"
 	"time"
 )
@@ -58,4 +60,50 @@ func (p *Pacer) Remaining() int {
 	p.mu.Lock()
 	defer p.mu.Unlock()
 	return p.remaining
+}
+
+// ParseRemaining accepts only exact integer absolute counts from the capability
+// report. A percent, unknown field, missing key or approximate reading fails closed.
+func ParseRemaining(raw []byte) (daily, monthly int, err error) {
+	var m map[string]json.RawMessage
+	if json.Unmarshal(raw, &m) != nil {
+		return 0, 0, ErrUnknown
+	}
+	for i, k := range []string{"daily_remaining", "monthly_remaining"} {
+		v, ok := m[k]
+		if !ok {
+			return 0, 0, ErrUnknown
+		}
+		var n int
+		if json.Unmarshal(v, &n) != nil || n < 0 {
+			return 0, 0, ErrUnknown
+		}
+		if i == 0 {
+			daily = n
+		} else {
+			monthly = n
+		}
+	}
+	return daily, monthly, nil
+}
+
+// TierRPM returns only supported documented free-tier request rates.
+// Unknown plans or unstructured CLI output never enable live ingestion.
+func TierRPM(raw []byte) (int, error) {
+	var m map[string]json.RawMessage
+	if json.Unmarshal(raw, &m) != nil {
+		return 0, ErrUnknown
+	}
+	var tier string
+	if json.Unmarshal(m["tier"], &tier) != nil {
+		return 0, ErrUnknown
+	}
+	switch strings.ToLower(strings.TrimSpace(tier)) {
+	case "guest":
+		return 20, nil
+	case "community":
+		return 60, nil
+	default:
+		return 0, ErrUnknown
+	}
 }

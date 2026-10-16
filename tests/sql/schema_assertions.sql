@@ -1,0 +1,48 @@
+\set ON_ERROR_STOP on
+BEGIN;
+INSERT INTO core.symbols(symbol,exchange,first_seen_at,last_seen_at)
+VALUES ('FPT','HOSE','2026-10-01+07','2026-10-01+07'),('YEG','UPCoM','2026-10-01+07','2026-10-01+07');
+DO $$ BEGIN
+    IF (SELECT exchange FROM core.symbols WHERE symbol='YEG') <> 'UPCOM' THEN
+        RAISE EXCEPTION 'UPCoM not normalized';
+    END IF;
+END $$;
+INSERT INTO core.listing_snapshots(snapshot_date,symbol_id,exchange)
+SELECT '2026-10-15',symbol_id,'UPCoM' FROM core.symbols WHERE symbol='YEG';
+DO $$ BEGIN
+    IF (SELECT exchange FROM core.listing_snapshots LIMIT 1) <> 'UPCOM' THEN
+        RAISE EXCEPTION 'listing exchange not normalized';
+    END IF;
+END $$;
+INSERT INTO core.bars_daily(symbol_id,trade_date,o,h,l,c,v,adj_basis,source,ingest_id,fetched_at)
+SELECT symbol_id,'2026-10-15',100,106,99,102,0,'unknown','vci','00000000-0000-0000-0000-000000000001','2026-10-15+07'
+FROM core.symbols WHERE symbol='FPT';
+INSERT INTO core.fundamentals_pit(symbol_id,line_item,period_end,period_type,value,source,payload,first_seen_at,available_at)
+SELECT symbol_id,'revenue','2026-06-30','quarter',100,'vci','{}',
+'2026-08-15 08:00:00+07','2026-08-15 08:00:00+07'
+FROM core.symbols WHERE symbol='FPT';
+-- pg_temp runs inside this session; failed constraint violations are caught using PL/pgSQL.
+DO $$ DECLARE n bigint; BEGIN
+    SELECT symbol_id INTO n FROM core.symbols WHERE symbol='FPT';
+    BEGIN
+        INSERT INTO core.bars_daily(symbol_id,trade_date,o,h,l,c,v,adj_basis,source,ingest_id,fetched_at)
+        VALUES (n,'2026-10-15',100,105,99,101,100,'unknown','vci','00000000-0000-0000-0000-000000000001',now());
+        RAISE EXCEPTION 'duplicate primary key accepted';
+    EXCEPTION WHEN unique_violation THEN NULL; END;
+    BEGIN
+        INSERT INTO core.bars_daily(symbol_id,trade_date,o,h,l,c,v,adj_basis,source,ingest_id,fetched_at)
+        VALUES (n,'2026-10-16',100,90,99,101,100,'unknown','vci','00000000-0000-0000-0000-000000000001',now());
+        RAISE EXCEPTION 'invalid high < low accepted';
+    EXCEPTION WHEN check_violation THEN NULL; END;
+    BEGIN
+        INSERT INTO core.bars_daily(symbol_id,trade_date,o,h,l,c,v,adj_basis,source,ingest_id,fetched_at)
+        VALUES (-10,'2026-10-16',100,105,99,101,100,'unknown','vci','00000000-0000-0000-0000-000000000001',now());
+        RAISE EXCEPTION 'missing symbol FK accepted';
+    EXCEPTION WHEN foreign_key_violation THEN NULL; END;
+    BEGIN
+        INSERT INTO core.fundamentals_pit(symbol_id,line_item,period_end,period_type,value,source,payload,first_seen_at,available_at)
+        VALUES (n,'revenue','2026-06-30','quarter',100,'vci','{}',now(),'2026-06-29 23:59:59+07');
+        RAISE EXCEPTION 'future information accepted';
+    EXCEPTION WHEN check_violation THEN NULL; END;
+END $$;
+ROLLBACK;

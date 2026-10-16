@@ -1,6 +1,7 @@
 """Small, single-purpose vnstock v5 JSONL adapter. No financial logic here."""
 from __future__ import annotations
 
+import contextlib
 import datetime as dt
 import json
 import math
@@ -13,6 +14,12 @@ from typing import Any
 
 def _safe(value: Any) -> Any:
     """Convert dataframe values into RFC 8259 compliant JSON."""
+    if value is None or type(value).__name__ in ("NAType", "NaTType"):
+        return None
+    if isinstance(value, (bytes, bytearray)):
+        return value.hex()
+    if hasattr(value, "tolist") and not hasattr(value, "item"):
+        return _safe(value.tolist())
     if value is None:
         return None
     if hasattr(value, "to_pydatetime"):
@@ -75,11 +82,21 @@ def _symbol(job: dict[str, Any]) -> str:
 
 
 def _fetch(job: dict[str, Any]) -> dict[str, Any]:
+    if os.getenv("VNPIPE_DISABLE_LIVE") == "1":
+        raise PermissionError("market calls disabled in offline/hosted CI")
     from vnstock import Fundamental, Market, Reference  # noqa: dynamically installed
     op = job["op"]
     source = job.get("source")
-    if source is not None and source not in ("vci", "kbs", "mas", "tcbs", "msn", "vnd"):
-        raise ValueError("source not allowed")
+    allowed_sources = {
+        "equity_list": {"vci"}, "market_calendar": set(),
+        "equity_ohlcv": {"vci", "kbs", "vnd", "mas", "asean"},
+        "index_ohlcv": {"vci", "kbs"},
+        "income_statement": {"vci", "kbs", "mas"},
+        "balance_sheet": {"vci", "kbs", "mas"},
+        "cash_flow": {"vci", "kbs", "mas"},
+    }
+    if source is not None and source not in allowed_sources.get(op, set()):
+        raise ValueError("source not allowed for route")
     opts = {"source": source} if source is not None else {}
     if op == "equity_list":
         return _frame(Reference().equity.list_by_exchange())
@@ -116,6 +133,8 @@ def dispatch(job: dict[str, Any]) -> dict[str, Any]:
         return {"operation": op, "data": _cli(op)}
     if op == "probe":
         active = job.get("active", False) is True
+        if active:
+            raise ValueError("active probe must be performed by Go's metered live gateway")
         result: dict[str, Any] = {
             "at": dt.datetime.now(dt.timezone.utc).isoformat(),
             "active": active,
@@ -157,24 +176,51 @@ def dispatch(job: dict[str, Any]) -> dict[str, Any]:
     return _fetch(job)
 
 
+MAX_INPUT_LINE = 65536
+
+
 def main() -> None:
-    # No logger/traceback on stdout: one response object for each job object.
-    for line in sys.stdin:
+    # Each stdin record has an absolute size bound. Consume the remainder of an
+    # oversized record before attempting the next, without buffering it in RAM.
+    stdin = sys.stdin.buffer
+    stdout = sys.stdout
+    while True:
+        line = stdin.readline(MAX_INPUT_LINE + 1)
+        if not line:
+            return
+        oversized = len(line) > MAX_INPUT_LINE
+        if oversized and not line.endswith(b"\n"):
+            while True:
+                chunk = stdin.readline(MAX_INPUT_LINE + 1)
+                if not chunk or chunk.endswith(b"\n"):
+                    break
         job = None
         try:
-            if len(line) > 65536:
+            if oversized:
                 raise ValueError("job too large")
             job = json.loads(line)
-            data = dispatch(job)
-            output = {"id": job.get("id") if isinstance(job, dict) else None,
-                      "ok": True, "data": data}
+            if not isinstance(job, dict):
+                raise ValueError("job must be an object")
+            if not isinstance(job.get("id"), str) or not job["id"]:
+                raise ValueError("job id must be a nonempty string")
+            # Redirect all library prints (including import-time warnings) away
+            # from the JSONL protocol, preserving stdout only for frames.
+            with contextlib.redirect_stdout(sys.stderr):
+                data = dispatch(job)
+            output = {"id": job["id"], "ok": True, "data": data}
         except Exception as ex:
             cls = type(ex).__name__
             if cls not in ("EntitlementError", "RateLimitedError", "InputError", "ValueError"):
                 cls = "AdapterError"
-            output = {"id": job.get("id") if isinstance(locals().get("job"), dict) else None,
+            output = {"id": job.get("id") if isinstance(job, dict) else None,
                       "ok": False, "error": {"type": cls, "message": str(ex)[:280]}}
-        print(json.dumps(_safe(output), ensure_ascii=False, allow_nan=False), flush=True)
+        try:
+            stdout.write(json.dumps(_safe(output), ensure_ascii=False, allow_nan=False) + "\n")
+            stdout.flush()
+        except (BrokenPipeError, OSError):
+            # Go killed the subprocess / closed the transport. Never emit a
+            # secondary traceback to stdout or keep ingesting jobs.
+            return
 
 
 if __name__ == "__main__":

@@ -38,6 +38,14 @@ CREATE TABLE IF NOT EXISTS raw.landings (
 CREATE INDEX IF NOT EXISTS landings_fetched_at_idx ON raw.landings USING BRIN(fetched_at);
 CREATE INDEX IF NOT EXISTS landings_ingest_id_idx ON raw.landings(ingest_id);
 
+-- Enforce one canonical exchange spelling at the database boundary.
+CREATE OR REPLACE FUNCTION core.canonical_exchange() RETURNS trigger
+LANGUAGE plpgsql AS $$
+BEGIN
+    NEW.exchange := upper(NEW.exchange);
+    RETURN NEW;
+END;
+$$;
 CREATE TABLE IF NOT EXISTS core.symbols (
     symbol_id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     symbol text NOT NULL UNIQUE,
@@ -47,13 +55,19 @@ CREATE TABLE IF NOT EXISTS core.symbols (
     last_seen_at timestamptz NOT NULL,
     active boolean NOT NULL DEFAULT true
 );
+DROP TRIGGER IF EXISTS symbols_canonical_exchange ON core.symbols;
+CREATE TRIGGER symbols_canonical_exchange BEFORE INSERT OR UPDATE ON core.symbols
+FOR EACH ROW EXECUTE FUNCTION core.canonical_exchange();
 CREATE TABLE IF NOT EXISTS core.listing_snapshots (
     snapshot_date date NOT NULL,
     symbol_id bigint NOT NULL REFERENCES core.symbols(symbol_id),
-    exchange text NOT NULL,
+    exchange text NOT NULL CHECK (exchange IN ('HOSE','HNX','UPCOM')),
     industry text,
     PRIMARY KEY(snapshot_date,symbol_id)
 );
+DROP TRIGGER IF EXISTS listing_canonical_exchange ON core.listing_snapshots;
+CREATE TRIGGER listing_canonical_exchange BEFORE INSERT OR UPDATE ON core.listing_snapshots
+FOR EACH ROW EXECUTE FUNCTION core.canonical_exchange();
 CREATE TABLE IF NOT EXISTS core.bars_daily (
     symbol_id bigint NOT NULL REFERENCES core.symbols(symbol_id),
     trade_date date NOT NULL,
@@ -92,7 +106,8 @@ CREATE TABLE IF NOT EXISTS core.fundamentals_pit (
     available_at timestamptz NOT NULL,
     last_seen_at timestamptz,
     restated boolean NOT NULL DEFAULT false,
-    CHECK(available_at >= period_end::timestamptz),
+    -- period_end in exchange-local date; explicit timezone avoids DB session drift.
+    CHECK(available_at >= (period_end::timestamp AT TIME ZONE 'Asia/Ho_Chi_Minh')),
     CHECK(last_seen_at IS NULL OR last_seen_at >= first_seen_at)
 );
 CREATE INDEX IF NOT EXISTS fundamentals_pit_lookup ON core.fundamentals_pit(symbol_id,available_at,period_end);

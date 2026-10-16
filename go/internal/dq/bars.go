@@ -52,7 +52,7 @@ func Validate(rows []Bar) error {
 }
 
 func StaleShare(latestBySymbol map[string]time.Time, expected time.Time, threshold float64) (bool, float64, error) {
-	if len(latestBySymbol) == 0 || threshold < 0 || threshold > 1 {
+	if len(latestBySymbol) == 0 || expected.IsZero() || threshold < 0 || threshold > 1 || math.IsNaN(threshold) {
 		return true, 1, errors.New("invalid staleness sample")
 	}
 	stale := 0

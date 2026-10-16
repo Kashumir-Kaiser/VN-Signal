@@ -4,6 +4,9 @@ on:
   pull_request:
 permissions:
   contents: read
+# CI is deliberately prevented from making any live vnstock requests.
+env:
+  VNPIPE_DISABLE_LIVE: '1'
 jobs:
   go:
     runs-on: ubuntu-latest
@@ -12,7 +15,10 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version-file: go/go.mod
-      - run: go -C go test ./...
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: go -C go test -race ./...
       - run: go -C go vet ./...
   python:
     runs-on: ubuntu-latest
@@ -23,4 +29,23 @@ jobs:
           python-version: '3.12'
       - run: python -m unittest discover -s tests -v
       - run: python -m py_compile py/vnstock_worker.py
-# Hosted CI deliberately never installs/queries vnstock or registers a device.
+      - run: python -c "import tomllib; tomllib.load(open('config/default.toml', 'rb'))"
+  postgres:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: test_only
+          POSTGRES_USER: vnsignal
+          POSTGRES_DB: vnsignal_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd="pg_isready -U vnsignal -d vnsignal_test"
+          --health-interval=5s --health-timeout=5s --health-retries=12
+    env:
+      DATABASE_URL: postgresql://vnsignal:test_only@localhost:5432/vnsignal_test
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - run: bash tests/sql/test_migration.sh
