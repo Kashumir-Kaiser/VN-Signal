@@ -4,9 +4,26 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 )
+
+func pythonForTest(t *testing.T) string {
+	t.Helper()
+	if p := os.Getenv("VNPIPE_PYTHON"); p != "" {
+		return p
+	}
+	name := "python3"
+	if runtime.GOOS == "windows" {
+		name = "python"
+	}
+	p, err := exec.LookPath(name)
+	if err != nil {
+		t.Skipf("Python interpreter %q unavailable; set VNPIPE_PYTHON", name)
+	}
+	return p
+}
 
 func TestRejectInvalidConfigInCLI(t *testing.T) {
 	p := filepath.Join(t.TempDir(), "bad.toml")
@@ -27,10 +44,7 @@ func TestActiveProbeDisabledCI(t *testing.T) {
 func TestPercentageUsageStopsActiveProbe(t *testing.T) {
 	t.Setenv("VNPIPE_DISABLE_LIVE", "0")
 	t.Setenv("VNPIPE_CONFIG", filepath.Join("..", "..", "..", "config", "default.toml"))
-	py, err := exec.LookPath("python3")
-	if err != nil {
-		t.Skip("python3 unavailable")
-	}
+	py := pythonForTest(t)
 	script := filepath.Join(t.TempDir(), "mock_worker.py")
 	fixture := `import sys,json
 r=json.loads(sys.stdin.readline())
@@ -42,7 +56,7 @@ print(json.dumps({"id":r["id"],"ok":True,"data":{"active":False,"status":{"tier"
 	t.Setenv("VNPIPE_PYTHON", py)
 	t.Setenv("VNPIPE_WORKER", script)
 	output := filepath.Join(t.TempDir(), "report")
-	err = run([]string{"probe", "--active", "--trading-days=10", "--out", output})
+	err := run([]string{"probe", "--active", "--trading-days=10", "--out", output})
 	if err == nil || !strings.Contains(err.Error(), "quota capacity unknown") {
 		t.Fatalf("percent accepted: %v", err)
 	}

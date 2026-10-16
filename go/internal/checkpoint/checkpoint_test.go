@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"runtime"
 	"sync"
 	"testing"
 )
@@ -94,6 +95,9 @@ func TestConcurrentWritersNoCorruption(t *testing.T) {
 	}
 }
 func TestPermissions(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("Windows chmod does not enforce Unix directory permission bits")
+	}
 	if os.Geteuid() == 0 {
 		t.Skip("root ignores directory permissions")
 	}

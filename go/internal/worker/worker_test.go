@@ -15,9 +15,16 @@ import (
 
 func python(t *testing.T) string {
 	t.Helper()
-	p, err := exec.LookPath("python3")
+	if p := os.Getenv("VNPIPE_PYTHON"); p != "" {
+		return p
+	}
+	name := "python3"
+	if runtime.GOOS == "windows" {
+		name = "python"
+	}
+	p, err := exec.LookPath(name)
 	if err != nil {
-		t.Skip("python3 not installed")
+		t.Skipf("Python interpreter %q unavailable; set VNPIPE_PYTHON", name)
 	}
 	return p
 }
