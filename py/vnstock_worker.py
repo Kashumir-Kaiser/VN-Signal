@@ -1,0 +1,173 @@
+"""Small, single-purpose vnstock v5 JSONL adapter. No financial logic here."""
+from __future__ import annotations
+
+import datetime as dt
+import json
+import math
+import os
+import subprocess
+import sys
+from typing import Any
+
+
+def _safe(value: Any) -> Any:
+    """Convert dataframe values into RFC 8259 compliant JSON."""
+    if value is None:
+        return None
+    if hasattr(value, "to_pydatetime"):
+        value = value.to_pydatetime()
+    if hasattr(value, "isoformat"):
+        return value.isoformat()
+    if hasattr(value, "item"):
+        try:
+            return _safe(value.item())
+        except (ValueError, TypeError):
+            pass
+    if isinstance(value, float) and not math.isfinite(value):
+        return None
+    if isinstance(value, (int, float, bool, str)):
+        return value
+    if isinstance(value, dict):
+        return {str(k): _safe(v) for k, v in value.items()}
+    if isinstance(value, (tuple, list)):
+        return [_safe(v) for v in value]
+    if isinstance(value, dt.date):
+        return value.isoformat()
+    return str(value)
+
+
+def _frame(df: Any) -> dict[str, Any]:
+    if not hasattr(df, "to_dict") or not hasattr(df, "columns"):
+        raise TypeError("Expected pandas DataFrame from vnstock")
+    rows = df.to_dict(orient="records")
+    return {
+        "columns": [str(c) for c in df.columns],
+        "count": len(rows),
+        "rows": _safe(rows),
+        "attributes": _safe({k: v for k, v in df.attrs.items()
+                             if k in ("source", "route") or k.startswith("tier_cap_")}),
+    }
+
+
+def _cli(op: str) -> Any:
+    # Local CLI returns structured JSON on v5; never print stdout/stderr containing secrets.
+    try:
+        p = subprocess.run(["vnstock", op, "--json"], capture_output=True,
+                           text=True, timeout=30, check=False)
+    except (OSError, subprocess.TimeoutExpired) as ex:
+        return {"available": False, "error_type": type(ex).__name__}
+    if p.returncode:
+        return {"available": False, "returncode": p.returncode}
+    try:
+        return json.loads(p.stdout)
+    except ValueError:
+        return {"available": False, "error_type": "InvalidJSON"}
+
+
+def _symbol(job: dict[str, Any]) -> str:
+    val = job.get("symbol", "")
+    if not isinstance(val, str) or not 1 <= len(val) <= 12 or not val.isalnum():
+        raise ValueError("symbol must be a 1-12 character alphanumeric identifier")
+    return val.upper()
+
+
+def _fetch(job: dict[str, Any]) -> dict[str, Any]:
+    from vnstock import Fundamental, Market, Reference  # noqa: dynamically installed
+    op = job["op"]
+    source = job.get("source")
+    if source is not None and source not in ("vci", "kbs", "mas", "tcbs", "msn", "vnd"):
+        raise ValueError("source not allowed")
+    opts = {"source": source} if source is not None else {}
+    if op == "equity_list":
+        return _frame(Reference().equity.list_by_exchange())
+    if op == "market_calendar":
+        return _frame(Reference().events.market())
+    if op in ("equity_ohlcv", "index_ohlcv"):
+        val = _symbol(job)
+        start, end = job.get("start"), job.get("end")
+        if not isinstance(start, str) or not isinstance(end, str):
+            raise ValueError("start and end ISO dates are required")
+        begin = dt.date.fromisoformat(start)
+        finish = dt.date.fromisoformat(end)
+        if begin > finish:
+            raise ValueError("start after end")
+        asset = (Market().equity(val) if op == "equity_ohlcv"
+                 else Market().index(val))
+        return _frame(asset.ohlcv(start=start, end=end, interval="1D", **opts))
+    if op in ("income_statement", "balance_sheet", "cash_flow"):
+        val = _symbol(job)
+        period = job.get("period", "quarter")
+        if period not in ("quarter", "year"):
+            raise ValueError("invalid statement period")
+        return _frame(getattr(Fundamental().equity(val), op)(period=period, **opts))
+    raise ValueError("operation not allowed")
+
+
+def dispatch(job: dict[str, Any]) -> dict[str, Any]:
+    if not isinstance(job, dict):
+        raise ValueError("job must be an object")
+    op = job.get("op")
+    if op == "health":
+        return {"protocol": 1, "python": sys.version.split()[0], "worker": "vnstock-v5"}
+    if op in ("status", "usage"):
+        return {"operation": op, "data": _cli(op)}
+    if op == "probe":
+        active = job.get("active", False) is True
+        result: dict[str, Any] = {
+            "at": dt.datetime.now(dt.timezone.utc).isoformat(),
+            "active": active,
+            "status": _cli("status"),
+            "usage": _cli("usage"),
+            "routes": {},
+        }
+        if active:
+            # Explicit single small call per route, no requests in CI/offline mode.
+            today = dt.date.today()
+            recent = (today - dt.timedelta(days=16)).isoformat()
+            for route, params in (
+                ("equity_list", {}),
+                ("equity_ohlcv", {"symbol": "FPT", "start": recent, "end": today.isoformat()}),
+                ("index_ohlcv", {"symbol": "VNINDEX", "start": recent, "end": today.isoformat()}),
+                ("income_statement", {"symbol": "FPT", "period": "quarter"}),
+                ("balance_sheet", {"symbol": "FPT", "period": "quarter"}),
+                ("cash_flow", {"symbol": "FPT", "period": "quarter"}),
+                ("market_calendar", {}),
+            ):
+                try:
+                    data = _fetch({"op": route, **params})
+                    result["routes"][route] = {
+                        "available": bool(data["count"]), "count": data["count"],
+                        "columns": data["columns"], "attributes": data["attributes"]}
+                except Exception as ex:
+                    result["routes"][route] = {
+                        "available": False, "error_type": type(ex).__name__}
+        return result
+    allowed = {"equity_list", "market_calendar", "equity_ohlcv", "index_ohlcv",
+               "income_statement", "balance_sheet", "cash_flow"}
+    if op not in allowed:
+        raise ValueError("unknown operation")
+    return _fetch(job)
+
+
+def main() -> None:
+    # No logger/traceback on stdout: one response object for each job object.
+    for line in sys.stdin:
+        job = None
+        try:
+            if len(line) > 65536:
+                raise ValueError("job too large")
+            job = json.loads(line)
+            data = dispatch(job)
+            output = {"id": job.get("id") if isinstance(job, dict) else None,
+                      "ok": True, "data": data}
+        except Exception as ex:
+            cls = type(ex).__name__
+            if cls not in ("EntitlementError", "RateLimitedError", "InputError", "ValueError"):
+                cls = "AdapterError"
+            output = {"id": job.get("id") if isinstance(locals().get("job"), dict) else None,
+                      "ok": False, "error": {"type": cls, "message": str(ex)[:280]}}
+        print(json.dumps(_safe(output), ensure_ascii=False, allow_nan=False), flush=True)
+
+
+if __name__ == "__main__":
+    main()

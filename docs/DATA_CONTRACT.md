@@ -1,0 +1,9 @@
+# Data contract (initial v1)
+
+All `raw` landings are append-only, with `ingest_id` (UUID), `fetched_at` (timestamptz), `source`, `route`, `payload` (JSONB); never replace a landing row. `core.bars_daily` is the deduplicated daily price table, keyed by `(symbol_id, trade_date)`. Its `adj_basis` must be explicitly determined before modelling.
+
+`core.fundamentals_pit` has `period_end`, `period_type`, `first_seen_at`, `available_at`, `last_seen_at`, `restated`, and `payload`. For backfilled financial periods, availability **cannot be earlier** than conservatively assumed publication lag (quarter: 45 days, year: 100 days); once directly observed on local pulls, availability is the first seen timestamp. Training joins on `available_at <= signal_time`, not `period_end`.
+
+`ops.api_calls` is an append-only audit with route, source, attempted/fetched timestamps, result type, quota bucket metadata and run ID. `ops.pipeline_runs` records an idempotency key, status, step and error. `feat`, `ml` schemas are deliberately created for future migrations, not populated with fake model outputs.
+
+Go's DQ gate treats zero and negative prices, high < low, negative volume, duplicate symbol/date rows, invalid ISO session dates, and missing fields as blocking. Exchange price jumps require a separate adjustment/corporate-action review; do not mechanically delete genuine corporate actions.

@@ -1,0 +1,44 @@
+[vnstock]
+tier_rate_utilisation = 0.85
+quota_soft_ceiling = 0.80
+
+[universe]
+investable_n = 400
+exit_rank = 500
+min_sessions_listed = 250
+min_adv20_vnd = 5000000000
+
+[labels]
+horizons = [5,20]
+entry = "next_open"
+benchmark = "VNINDEX"
+
+[validation]
+min_train_years = 3
+embargo_sessions = 20
+test_block = "1M"
+
+[portfolio]
+max_positions = 15
+max_weight = 0.12
+max_industry_weight = 0.35
+rebalance_every_sessions = 5
+order_to_adv_cap = 0.05
+risk_off_gross_cap = 0.50
+
+[costs]
+commission_per_side = 0.0015
+sale_tax = 0.0010
+slippage_base_bps = 5
+slippage_impact_bps = 25
+survivorship_haircut_per_year = 0.01
+
+[exchange_limits]
+HOSE = 0.07
+HNX = 0.10
+UPCOM = 0.15
+
+[schedule]
+timezone = "Asia/Ho_Chi_Minh"
+daily_trigger = "17:30"
+retry_until = "23:00"
