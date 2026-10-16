@@ -5,7 +5,7 @@
 | Phase | Status | Evidence | Unfinished exit criteria |
 | --- | --- | --- | --- |
 | 0: probe/schema/config | PARTIAL | Strict Python/Go JSONL tests, passive probe, metered active probe gateway, validated Go config, PostgreSQL 16 service test defined in CI | Observe CI PostgreSQL results and live probe on user's registered device, validate real data shapes |
-| 1: ingestion/backfill | PARTIAL | Fail-closed quota parsing and metered call gateway with wait tests; Go OHLCV frame normalizer and backfill preview; SQL durable job and API reservation migration; checkpoint persistence, DQ blocking gates, worker-process concurrency bound | PostgreSQL `pgx` loader, incremental ingestion, real durable API-call ledger and full quota-safe backfill; can't certify every future call yet |
+| 1: ingestion/backfill | PARTIAL | Fail-closed quota parsing and metered call gateway with wait tests; Go OHLCV frame normalizer and backfill preview; SQL durable job and API reservation migration; checkpoint persistence, DQ blocking gates, worker-process concurrency bound | PostgreSQL pgx CopyFrom bulk path, listings ingestion, verified tagged PostgreSQL integration test and live full quota-safe backfill |
 | 2: features/PIT | NOT STARTED | contract describes the required rules | features, PIT archive, leakage and parity tests |
 | 3: models/backtest | NOT STARTED | architecture specified | real Rust training, 36+ monthly OOS folds, calibration, backtest |
 | 4: serving/portfolio | NOT STARTED | architecture specified | atomic SQLite export, parity, optimisation |
@@ -37,3 +37,17 @@
 `go/internal/ingest/runner.go` now defines `Runner.RunBarsBackfill`. Offline tests confirm a successful worker response gets validated and committed once, repeated completed jobs consume no additional quota, storage errors fail closed, and hosted CI cannot call the vendor. Every market call goes through `live.Gateway`, never directly through the Python worker.
 
 The `LandingStore` is deliberately an interface, not a fake production database adapter. It still needs a PostgreSQL transaction implementation that **records the API reservation before dispatch**, inserts append-only `raw.landings`, merges canonical `core.bars_daily`, and marks the job complete in the same transaction. Until that exists, the runner is not wired to a public `backfill` command and no live backfill is enabled.
+
+
+## Phase 1 continuation — transactional ingest boundary (2026-10-16)
+
+Implemented locally and included in the next push:
+
+- New database transaction store (`go/internal/ingest/postgres.go`) records a per-attempt reservation before invoking vnstock, records dispatch and result status, and writes raw landing, canonical `core.bars_daily`, and `COMPLETED` marker together. Duplicate/completed job IDs do not request data twice.
+- A new singleton `ops.quota_guard` (migration 003) enforces an absolute, durable, cross-process allowance; verifies short-lived vendor readings; retains cross-process pacing after restart; and never returns calls previously counted as spent. A reservation is spent even on a canceled or failed request.
+- `live.CallRecorded` refuses absent/failing audit hooks and records failures/cancellation, and the runner quarantines frames that do not match the requested symbol/period/ID. Vendor rate limits remain retryable with a renewed verified quota and expired lease; entitlement errors and invalid frames block the affected job.
+- A Windows/Linux native migration command with checksum registry and PostgreSQL dollar-string-aware parser replaces a shell-only runtime process.
+- Tagged PostgreSQL integration tests cover real transaction commit/resume, absent-symbol rollback, and durable quota exhaustion across store instances. CI now runs PostgreSQL 16, the native migration command twice, and the tagged driver tests. These **have not been executed locally**, because PostgreSQL and the pinned pgx dependency are not available in this offline build environment.
+- A narrowly scoped opt-in `backfill --active` path is wired only for PGX-tagged binaries, current verified absolute quota, a previous successful active probe, and already-known listed symbols. It intentionally does not infer missing symbol metadata or schedule itself.
+
+Offline evidence: `VNPIPE_DISABLE_LIVE=1 go -C go test -race ./...`, `go -C go vet ./...`, and `VNPIPE_DISABLE_LIVE=1 python3 -m unittest discover -s tests -v` pass. No live price calls were made. **Phase 1 remains PARTIAL** until provider shape, PostgreSQL CI, full listed-universe import/backfill, DQ gates and runtime operation are verified. No Phase 2–6 exit milestones are claimed.

@@ -21,6 +21,19 @@ INSERT INTO core.fundamentals_pit(symbol_id,line_item,period_end,period_type,val
 SELECT symbol_id,'revenue','2026-06-30','quarter',100,'vci','{}',
 '2026-08-15 08:00:00+07','2026-08-15 08:00:00+07'
 FROM core.symbols WHERE symbol='FPT';
+-- The durable quota guard rejects overspending and impossible expiry windows.
+INSERT INTO ops.quota_guard(singleton,verified_at,expires_at,day_key,call_budget,spent,min_spacing_ms)
+VALUES (true,'2026-10-15 15:00:00+07','2026-10-15 15:05:00+07','2026-10-15',2,1,1177);
+DO $$ BEGIN
+    BEGIN
+        UPDATE ops.quota_guard SET spent=3 WHERE singleton=true;
+        RAISE EXCEPTION 'overspend accepted';
+    EXCEPTION WHEN check_violation THEN NULL; END;
+    BEGIN
+        UPDATE ops.quota_guard SET expires_at='2026-10-15 15:11:00+07' WHERE singleton=true;
+        RAISE EXCEPTION 'overlong verification accepted';
+    EXCEPTION WHEN check_violation THEN NULL; END;
+END $$;
 -- A backfill job cannot be marked complete before its landing is committed.
 INSERT INTO ops.ingest_jobs(idempotency_key,route,symbol,source,date_from,date_to)
 VALUES ('test-fpt-20261015-vci','equity_ohlcv','FPT','vci','2026-10-15','2026-10-16');

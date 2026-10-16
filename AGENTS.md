@@ -10,5 +10,5 @@ The authoritative specification is [docs/MASTER_BUILD_SPEC.md](docs/MASTER_BUILD
 6. Run `go -C go test ./...`, `go -C go vet ./...`, and `python -m unittest discover -s tests -v` after each relevant edit. Document unavailable PostgreSQL/Rust/desktop tests rather than claiming success.
 7. Preserve the proprietary license and vendor attribution. Commit to main only after checks; avoid creating feature branches unless explicitly requested.
 
-8. Only call vnstock data routes through Go `internal/live.Gateway.Call`, never by a raw `worker.Invoke` for market data. Unknown or percentage quota must block; each retry requires a fresh reservation. `VNPIPE_DISABLE_LIVE=1` is required in hosted CI.
+8. Only call vnstock data routes through Go `internal/live.Gateway.CallRecorded` with a durable audit for ingestion (`Call` only for metered probes), never by a raw `worker.Invoke` for market data. Unknown or percentage quota must block; each retry requires a fresh reservation. `VNPIPE_DISABLE_LIVE=1` is required in hosted CI.
 9. Changes to the worker must preserve exactly one JSON-line frame, stdout isolation, bounded responses and the one-process concurrency bound. Run `go -C go test -race ./...`, the Python JSONL tests, and the PostgreSQL CI migration check before signing off on Phase 0/1.

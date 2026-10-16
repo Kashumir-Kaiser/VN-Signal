@@ -15,8 +15,39 @@ import (
 type memoryStore struct {
 	done                   map[string]Landing
 	failLookup, failCommit bool
+	attempts               map[string]string
 }
 
+func (s *memoryStore) ReserveAttempt(_ context.Context, _ BackfillJob, key, _ string, at time.Time) (time.Time, error) {
+	if s.attempts == nil {
+		s.attempts = map[string]string{}
+	}
+	if s.attempts[key] != "" {
+		return at, errors.New("duplicate concurrent attempt")
+	}
+	s.attempts[key] = "RESERVED"
+	return at, nil
+}
+func (s *memoryStore) MarkDispatch(_ context.Context, key string) error {
+	if s.attempts[key] != "RESERVED" {
+		return errors.New("not reserved")
+	}
+	s.attempts[key] = "SENT"
+	return nil
+}
+func (s *memoryStore) MarkOutcome(_ context.Context, key, outcome, _ string) error {
+	if s.attempts[key] != "SENT" && s.attempts[key] != "RESERVED" {
+		return errors.New("not dispatched")
+	}
+	s.attempts[key] = ""
+	return nil
+}
+func (s *memoryStore) BlockInvalid(_ context.Context, key, _ string) error {
+	if s.attempts[key] != "" {
+		s.attempts[key] = "BLOCKED"
+	}
+	return nil
+}
 func (s *memoryStore) Completed(_ context.Context, key string) (bool, error) {
 	if s.failLookup {
 		return false, errors.New("database down")
@@ -68,7 +99,7 @@ func TestRunnerFailsClosedOnStorageFaults(t *testing.T) {
 			gate, _ := live.New(p, func(_ context.Context, j map[string]any) (worker.Response, error) {
 				calls++
 				if mode == "vendor" {
-					return worker.Response{OK: false, Error: &struct {
+					return worker.Response{ID: j["id"].(string), OK: false, Error: &struct {
 						Type    string `json:"type"`
 						Message string `json:"message"`
 					}{Type: "RateLimitedError"}}, nil

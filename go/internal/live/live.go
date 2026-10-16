@@ -43,16 +43,23 @@ func wait(ctx context.Context, d time.Duration) error {
 var routes = map[string]bool{"equity_list": true, "market_calendar": true, "equity_ohlcv": true, "index_ohlcv": true, "income_statement": true, "balance_sheet": true, "cash_flow": true}
 var ErrDisabled = errors.New("live market calls disabled in this environment")
 
-func (g *Gateway) Call(ctx context.Context, job map[string]any) (worker.Response, error) {
-	var empty worker.Response
+func (g *Gateway) preflight(ctx context.Context, job map[string]any) error {
 	if os.Getenv("VNPIPE_DISABLE_LIVE") == "1" {
-		return empty, ErrDisabled
+		return ErrDisabled
 	}
 	op, _ := job["op"].(string)
 	if !routes[op] {
-		return empty, errors.New("unsupported live route")
+		return errors.New("unsupported live route")
 	}
-	if err := ctx.Err(); err != nil {
+	return ctx.Err()
+}
+
+func (g *Gateway) Call(ctx context.Context, job map[string]any) (worker.Response, error) {
+	var empty worker.Response
+	if g == nil || g.pacer == nil || g.invoke == nil {
+		return empty, errors.New("unconfigured gateway")
+	}
+	if err := g.preflight(ctx, job); err != nil {
 		return empty, err
 	}
 	at, err := g.pacer.Reserve(g.now())

@@ -15,6 +15,7 @@ import (
 	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/config"
 	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/ingest"
 	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/live"
+	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/migrate"
 	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/quota"
 	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/worker"
 )
@@ -26,10 +27,12 @@ Usage:
   vnpipe budget --daily N --monthly N --days N --rpm N
   vnpipe validate-bars --input FILE --symbol TICKER
   vnpipe preview-backfill --probe FILE --symbols FILE --from DATE --to DATE --days N
+  vnpipe backfill --active --probe FILE --symbols FILE --from DATE --to DATE --days N
+  vnpipe migrate [--dir sql/migrations] (Postgres-tagged build)
   vnpipe version
 Active probe requires verified absolute vnstock usage and tier status.
 Unknown/percentage quota readings block active requests; CI always blocks live calls.
-Full ingestion, training, recommendations and the desktop app are NOT implemented.`)
+Full market-universe ingestion, training, recommendations and the desktop app are NOT implemented.`)
 }
 func main() {
 	if err := run(os.Args[1:]); err != nil {
@@ -188,6 +191,30 @@ func run(args []string) error {
 		}
 		fmt.Printf("Probe report: %s (active=%v). Does NOT certify entitlements.\n", name, *active)
 		return nil
+	case "migrate":
+		f := flag.NewFlagSet("migrate", flag.ContinueOnError)
+		dir := f.String("dir", "sql/migrations", "numbered migrations folder")
+		if err := f.Parse(args[1:]); err != nil {
+			return err
+		}
+		if len(f.Args()) != 0 {
+			return errors.New("unexpected migration arguments")
+		}
+		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
+		defer cancel()
+		db, err := openPostgres(ctx, os.Getenv("DATABASE_URL"))
+		if err != nil {
+			return err
+		}
+		defer db.Close()
+		count, err := migrate.Apply(ctx, db, *dir)
+		if err != nil {
+			return err
+		}
+		fmt.Printf("PostgreSQL migrations applied: %d (existing checked by SHA-256)\n", count)
+		return nil
+	case "backfill":
+		return runBackfill(args[1:])
 	case "preview-backfill":
 		f := flag.NewFlagSet("preview-backfill", flag.ContinueOnError)
 		probeFile := f.String("probe", "", "locally recorded active probe report")

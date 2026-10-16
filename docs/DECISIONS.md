@@ -21,3 +21,12 @@
 ### Phase 1: do not enable live backfill before transactional storage
 
 The implementation introduces an offline-tested `LandingStore` boundary instead of publishing an unmetered backfill command. `RunBarsBackfill` always invokes routes through `live.Gateway`, and a failed validation or storage operation never marks a job complete. This still does **not** guarantee crash-safe quota accounting: before any production integration, implement durable reservations written *prior to* the API call in PostgreSQL (`ops.api_reservations`), with outcome updates and resumable job state. Neither a JSON checkpoint nor a memory-only pacer is acceptable as the sole source of quota truth.
+
+
+## 2026-10-16 — Phase 1 PostgreSQL execution boundary
+
+- Go uses `database/sql` for a transactionally tested store API; the explicitly tagged `postgres` binary registers the pinned `pgx/v5/stdlib` driver. This allows the offline standard-library tests to run without downloading third-party modules while hosted PostgreSQL CI verifies the real connection. The full `pgx.CopyFrom` fast path is not yet implemented; correctness and failure isolation take precedence over bulk throughput at this stage.
+- An `ops.quota_guard` singleton serializes reservations across processes, tracks irrevocable spent calls, enforces min spacing and a five-minute freshness deadline, and retains prior pacing across restarts. Refreshing the guard within the same Vietnam date cannot increase the previous remaining allowance, even if the vendor returned stale absolute usage. This is deliberately conservative.
+- `Gateway.CallRecorded` requires durable reserve, dispatch, and finish hooks. A failed hook cannot result in successful ingestion, and unknown quota always blocks. Temporary rate limits consume a reservation and require a new preflight; entitlement failures block the job, and malformed source frames are quarantined.
+- A `PostgresStore` transaction writes the unmodified vendor JSON, its SHA-256, the canonical OHLCV rows, and job completion together; unknown symbols are not automatically assigned fictitious exchange/industry metadata. Listing import must be completed before a full-universe backfill.
+- Tagged backfill is opt-in only. There is no automatic scheduler, no live calls from CI, no daily trading recommendations, no charting app, and no claim that Phase 1 is finished without PostgreSQL CI and a local vnstock probe. The native Go migration runner replaces shell-only runtime instructions and supports both Windows and Linux.
