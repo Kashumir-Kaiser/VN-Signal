@@ -135,16 +135,51 @@ func Invoke(ctx context.Context, interpreter, script string, job map[string]any)
 	return response, nil
 }
 
-type cappedWriter struct{ b bytes.Buffer }
+const stderrMaxBytes = 4096
+const stderrHeadBytes = 1024
+const stderrTruncatedMarker = "\n...[stderr truncated]...\n"
+const stderrTailBytes = stderrMaxBytes - stderrHeadBytes - len(stderrTruncatedMarker)
+
+// cappedWriter retains the start and end of private stderr within a fixed
+// bound so diagnostics can identify the final exception class safely.
+type cappedWriter struct {
+	head  bytes.Buffer
+	tail  []byte
+	total int
+}
 
 func (c *cappedWriter) Write(p []byte) (int, error) {
 	n := len(p)
-	if c.b.Len() < 4096 {
-		_, _ = c.b.Write(p[:min(len(p), 4096-c.b.Len())])
+	if n == 0 {
+		return 0, nil
 	}
+	headRemaining := stderrHeadBytes - c.head.Len()
+	if headRemaining > 0 {
+		_, _ = c.head.Write(p[:min(n, headRemaining)])
+	}
+	tailStart := stderrHeadBytes - c.total
+	if tailStart < 0 {
+		tailStart = 0
+	}
+	if tailStart < n {
+		c.tail = append(c.tail, p[tailStart:]...)
+		if len(c.tail) > stderrTailBytes {
+			c.tail = bytes.Clone(c.tail[len(c.tail)-stderrTailBytes:])
+		}
+	}
+	c.total += n
 	return n, nil
 }
-func (c *cappedWriter) String() string { return strings.TrimSpace(c.b.String()) }
+
+func (c *cappedWriter) String() string {
+	if c.total <= stderrHeadBytes {
+		return strings.TrimSpace(c.head.String())
+	}
+	if c.total <= stderrMaxBytes {
+		return strings.TrimSpace(c.head.String() + string(c.tail))
+	}
+	return strings.TrimSpace(c.head.String() + stderrTruncatedMarker + string(c.tail))
+}
 
 func ScriptPath() string {
 	if v := os.Getenv("VNPIPE_WORKER"); v != "" {

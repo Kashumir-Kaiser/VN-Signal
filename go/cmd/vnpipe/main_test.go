@@ -138,6 +138,7 @@ func TestProbeFailureDetailsCauseCategoriesAreSafe(t *testing.T) {
 		{stderr: "PermissionError: private output", want: "PythonPermissionError"},
 		{stderr: "Fatal Python error: private output", want: "PythonProcessCrash"},
 		{stderr: "Traceback (most recent call last): private output", want: "PythonUnhandledException"},
+		{stderr: "Traceback (most recent call last):\n  File \"vendor.py\", line 1\nOddVendorError: private output", want: "PythonUnhandledOddVendorError"},
 		{stderr: "private output", want: "UnknownWorkerExit"},
 	}
 	for _, tt := range tests {

@@ -154,8 +154,50 @@ func probeFailureType(err error) string {
 	}
 }
 
-// probeTracebackCause extracts only a whitelisted exception class from the
-// final traceback line. The exception message and traceback remain private.
+// probeTracebackCause extracts a safe category from the final traceback line.
+// The exception message and traceback remain private.
+// tracebackExceptionType returns only a valid exception class identifier.
+// It deliberately discards the exception message and all traceback context.
+func tracebackExceptionType(message string) string {
+	marker := "traceback (most recent call last):"
+	start := strings.LastIndex(strings.ToLower(message), marker)
+	if start < 0 {
+		return ""
+	}
+	lines := strings.Split(message[start+len(marker):], "\n")
+	for i := len(lines) - 1; i >= 0; i-- {
+		line := strings.TrimSpace(lines[i])
+		colon := strings.IndexByte(line, ':')
+		if colon < 1 {
+			continue
+		}
+		name := strings.TrimSpace(line[:colon])
+		if dot := strings.LastIndexByte(name, '.'); dot >= 0 {
+			name = name[dot+1:]
+		}
+		if len(name) == 0 || len(name) > 48 {
+			continue
+		}
+		valid := true
+		for j, r := range name {
+			if !((r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') || (j > 0 && r >= '0' && r <= '9') || (j > 0 && r == '_')) {
+				valid = false
+				break
+			}
+		}
+		if !valid {
+			continue
+		}
+		lowerName := strings.ToLower(name)
+		if strings.HasSuffix(lowerName, "error") || strings.HasSuffix(lowerName, "exception") ||
+			lowerName == "systemexit" || lowerName == "keyboardinterrupt" ||
+			lowerName == "generatorexit" || lowerName == "stopiteration" {
+			return name
+		}
+	}
+	return ""
+}
+
 func probeTracebackCause(message string) string {
 	marker := "traceback (most recent call last):"
 	start := strings.LastIndex(message, marker)
@@ -224,6 +266,9 @@ func probeWorkerCause(err error) string {
 	case strings.Contains(message, "traceback (most recent call last)"):
 		if cause := probeTracebackCause(message); cause != "" {
 			return cause
+		}
+		if exceptionType := tracebackExceptionType(err.Error()); exceptionType != "" {
+			return "PythonUnhandled" + exceptionType
 		}
 		return "PythonUnhandledException"
 	case strings.Contains(message, "python was not found"), strings.Contains(message, "python not found"):

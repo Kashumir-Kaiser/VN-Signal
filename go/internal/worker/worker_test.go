@@ -40,6 +40,25 @@ func invoke(t *testing.T, body string) (Response, error) {
 	t.Helper()
 	return Invoke(context.Background(), python(t), fake(t, body), map[string]any{"id": "q1", "op": "health"})
 }
+func TestCappedWriterPreservesBoundedTracebackTail(t *testing.T) {
+	var stderr cappedWriter
+	_, _ = stderr.Write([]byte("Traceback (most recent call last):\n"))
+	_, _ = stderr.Write([]byte(strings.Repeat("x", 6000)))
+	_, _ = stderr.Write([]byte("\nOddVendorError: private message"))
+
+	got := stderr.String()
+	if len(got) > stderrMaxBytes {
+		t.Fatalf("stderr length %d exceeds %d", len(got), stderrMaxBytes)
+	}
+	if !strings.Contains(got, "Traceback (most recent call last):") ||
+		!strings.Contains(got, "OddVendorError: private message") {
+		t.Fatalf("stderr head/tail lost diagnostic markers: %q", got)
+	}
+	if !strings.Contains(got, stderrTruncatedMarker) {
+		t.Fatalf("truncation marker missing: %q", got)
+	}
+}
+
 func TestRejectMissingID(t *testing.T) {
 	if _, err := Invoke(context.Background(), "unused", "unused", map[string]any{"op": "health"}); err == nil {
 		t.Fatal("missing ID accepted")
