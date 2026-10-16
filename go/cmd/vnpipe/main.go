@@ -28,7 +28,7 @@ Usage:
   vnpipe validate-bars --input FILE --symbol TICKER
   vnpipe preview-backfill --probe FILE --symbols FILE --from DATE --to DATE --days N
   vnpipe import-listings --probe FILE [--min-symbols N] (offline Postgres import)
-  vnpipe backfill --active --probe FILE --symbols FILE --from DATE --to DATE --days N
+  vnpipe backfill --active --probe FILE --from DATE --to DATE --days N
   vnpipe migrate [--dir sql/migrations] (Postgres-tagged build)
   vnpipe version
 Active probe requires verified absolute vnstock usage and tier status.
