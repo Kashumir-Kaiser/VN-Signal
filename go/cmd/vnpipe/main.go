@@ -187,7 +187,14 @@ func run(args []string) error {
 		if err := os.MkdirAll(*out, 0700); err != nil {
 			return err
 		}
-		name := filepath.Join(*out, time.Now().Format("2006-01-02")+".json")
+		// Passive health checks must not overwrite the active probe's saved
+		// listing frame on the same Vietnam trading date.
+		nameSuffix := ".json"
+		if !*active {
+			nameSuffix = ".passive.json"
+		}
+		vietnamToday := time.Now().In(time.FixedZone("Asia/Ho_Chi_Minh", 7*3600)).Format("2006-01-02")
+		name := filepath.Join(*out, vietnamToday+nameSuffix)
 		pretty, err := json.MarshalIndent(report, "", "  ")
 		if err != nil {
 			return err
