@@ -10,6 +10,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/config"
@@ -23,7 +24,7 @@ import (
 func usage() {
 	fmt.Println(`vnpipe (bootstrap) - VN-Signal
 Usage:
-  vnpipe probe [--active --trading-days N] [--out DIR]
+  vnpipe probe [--active --trading-days N] [--routes route,...] [--out DIR]
   vnpipe budget --daily N --monthly N --days N --rpm N
   vnpipe validate-bars --input FILE --symbol TICKER
   vnpipe preview-backfill --probe FILE --symbols FILE --from DATE --to DATE --days N
@@ -53,6 +54,105 @@ func configPath() string {
 	}
 	return "config/default.toml"
 }
+func probeRequests(endDate string) []map[string]any {
+	return []map[string]any{
+		{"op": "equity_list"},
+		{"op": "equity_ohlcv", "symbol": "FPT", "start": "2016-01-01", "end": endDate},
+		{"op": "index_ohlcv", "symbol": "VNINDEX", "start": "2016-01-01", "end": endDate},
+		{"op": "income_statement", "symbol": "FPT", "period": "quarter"},
+		{"op": "balance_sheet", "symbol": "FPT", "period": "quarter"},
+		{"op": "cash_flow", "symbol": "FPT", "period": "quarter"},
+		{"op": "market_calendar"},
+	}
+}
+
+func selectProbeRequests(requests []map[string]any, routeNames string) ([]map[string]any, error) {
+	if routeNames == "" {
+		return requests, nil
+	}
+	selected := make(map[string]bool)
+	for _, raw := range strings.Split(routeNames, ",") {
+		route := strings.TrimSpace(raw)
+		if route == "" {
+			return nil, errors.New("--routes contains an empty route")
+		}
+		if selected[route] {
+			return nil, fmt.Errorf("--routes repeats %q", route)
+		}
+		selected[route] = true
+	}
+
+	filtered := make([]map[string]any, 0, len(selected))
+	for _, request := range requests {
+		route, _ := request["op"].(string)
+		if selected[route] {
+			filtered = append(filtered, request)
+			delete(selected, route)
+		}
+	}
+	if len(selected) != 0 {
+		for route := range selected {
+			return nil, fmt.Errorf("unsupported probe route %q", route)
+		}
+	}
+	if len(filtered) == 0 {
+		return nil, errors.New("--routes must select at least one route")
+	}
+	return filtered, nil
+}
+
+// probeFailureType exposes only stable, non-sensitive categories. In
+// particular, worker stderr is never copied into a probe report.
+func probeFailureType(err error) string {
+	if err == nil {
+		return ""
+	}
+	switch {
+	case errors.Is(err, context.DeadlineExceeded):
+		return "WorkerTimeout"
+	case errors.Is(err, context.Canceled):
+		return "WorkerCanceled"
+	case errors.Is(err, quota.ErrExhausted):
+		return "QuotaBudgetExhausted"
+	case errors.Is(err, live.ErrDisabled):
+		return "LiveCallsDisabled"
+	case errors.Is(err, quota.ErrUnknown):
+		return "QuotaCapacityUnknown"
+	}
+
+	message := strings.ToLower(err.Error())
+	switch {
+	case strings.Contains(message, "worker request too large"):
+		return "WorkerRequestTooLarge"
+	case strings.Contains(message, "token too long"), strings.Contains(message, "worker frame exceeds maximum"):
+		return "WorkerFrameTooLarge"
+	case strings.Contains(message, "worker frame:"):
+		return "WorkerFrameReadError"
+	case strings.Contains(message, "malformed worker frame"),
+		strings.Contains(message, "response id mismatch"),
+		strings.Contains(message, "trailing data"),
+		strings.Contains(message, "invalid success envelope"),
+		strings.Contains(message, "invalid failure envelope"):
+		return "WorkerProtocolError"
+	case strings.Contains(message, "worker start:"):
+		return "WorkerStartError"
+	case strings.Contains(message, "worker exit:"):
+		return "WorkerExitError"
+	case strings.Contains(message, "worker returned 0 frames"):
+		if strings.Contains(message, "python was not found") || strings.Contains(message, "python not found") {
+			return "WorkerPythonUnavailable"
+		}
+		return "WorkerNoFrame"
+	case strings.Contains(message, "missing worker path"),
+		strings.Contains(message, "missing request id"),
+		strings.Contains(message, "unconfigured gateway"),
+		strings.Contains(message, "unsupported live route"):
+		return "WorkerConfigurationError"
+	default:
+		return "WorkerOrGatewayError"
+	}
+}
+
 func run(args []string) error {
 	if len(args) == 0 {
 		usage()
@@ -69,12 +169,33 @@ func run(args []string) error {
 		f := flag.NewFlagSet("probe", flag.ContinueOnError)
 		active := f.Bool("active", false, "opt in to metered vnstock route calls")
 		remainingDays := f.Int("trading-days", 0, "remaining trading days in this month, mandatory for active probe")
+		routeNames := f.String("routes", "", "comma-separated routes to probe (active only; default: all)")
 		out := f.String("out", filepath.Join("..", "docs", "probe"), "report directory")
 		if err := f.Parse(args[1:]); err != nil {
 			return err
 		}
 		if len(f.Args()) != 0 {
 			return errors.New("unexpected arguments")
+		}
+		routesSet := false
+		f.Visit(func(fl *flag.Flag) {
+			if fl.Name == "routes" {
+				routesSet = true
+			}
+		})
+		if routesSet && !*active {
+			return errors.New("--routes requires --active")
+		}
+		if routesSet && strings.TrimSpace(*routeNames) == "" {
+			return errors.New("--routes must select at least one route")
+		}
+		var requests []map[string]any
+		if *active {
+			selected, err := selectProbeRequests(probeRequests(time.Now().Format("2006-01-02")), *routeNames)
+			if err != nil {
+				return err
+			}
+			requests = selected
 		}
 		if _, err := config.Load(configPath()); err != nil {
 			return fmt.Errorf("invalid config: %w", err)
@@ -113,13 +234,6 @@ func run(args []string) error {
 			if e != nil {
 				return e
 			}
-			requests := []map[string]any{
-				{"op": "equity_list"}, {"op": "equity_ohlcv", "symbol": "FPT", "start": "2016-01-01", "end": time.Now().Format("2006-01-02")},
-				{"op": "index_ohlcv", "symbol": "VNINDEX", "start": "2016-01-01", "end": time.Now().Format("2006-01-02")},
-				{"op": "income_statement", "symbol": "FPT", "period": "quarter"},
-				{"op": "balance_sheet", "symbol": "FPT", "period": "quarter"},
-				{"op": "cash_flow", "symbol": "FPT", "period": "quarter"}, {"op": "market_calendar"},
-			}
 			if budget < len(requests) {
 				return fmt.Errorf("insufficient conservative budget %d for %d probe calls", budget, len(requests))
 			}
@@ -137,13 +251,15 @@ func run(args []string) error {
 			for i, job := range requests {
 				op := job["op"].(string)
 				job["id"] = fmt.Sprintf("probe-%02d", i)
+				started := time.Now()
 				resp, e := gateway.Call(ctx, job)
+				elapsed := time.Since(started).Milliseconds()
 				if e != nil {
-					summary[op] = map[string]any{"available": false, "error_type": "WorkerOrGatewayError"}
+					summary[op] = map[string]any{"available": false, "error_type": probeFailureType(e), "duration_ms": elapsed}
 					continue
 				}
 				if !resp.OK {
-					summary[op] = map[string]any{"available": false, "error_type": resp.Error.Type}
+					summary[op] = map[string]any{"available": false, "error_type": resp.Error.Type, "duration_ms": elapsed}
 					continue
 				}
 				var payload struct {
@@ -153,7 +269,7 @@ func run(args []string) error {
 					Attributes map[string]any   `json:"attributes"`
 				}
 				if e := json.Unmarshal(resp.Data, &payload); e != nil {
-					summary[op] = map[string]any{"available": false, "error_type": "InvalidRouteFrame"}
+					summary[op] = map[string]any{"available": false, "error_type": "InvalidRouteFrame", "duration_ms": elapsed}
 					continue
 				}
 				dates := make([]string, 0, len(payload.Rows))
@@ -179,7 +295,7 @@ func run(args []string) error {
 				if op == "equity_list" && payload.Count > 0 {
 					report["listing_frame"] = append(json.RawMessage(nil), resp.Data...)
 				}
-				summary[op] = map[string]any{"available": payload.Count > 0, "count": payload.Count, "columns": payload.Columns, "first_observed_date": first, "last_observed_date": last, "attributes": payload.Attributes}
+				summary[op] = map[string]any{"available": payload.Count > 0, "count": payload.Count, "columns": payload.Columns, "first_observed_date": first, "last_observed_date": last, "attributes": payload.Attributes, "duration_ms": elapsed}
 			}
 			report["active"] = json.RawMessage("true")
 			encoded, _ := json.Marshal(summary)
