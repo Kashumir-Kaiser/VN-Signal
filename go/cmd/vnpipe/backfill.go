@@ -144,7 +144,21 @@ func runBackfill(args []string) error {
 	if err != nil {
 		return err
 	}
-	runner := ingest.Runner{Gateway: gateway, Store: store, Now: time.Now}
+	// Long historical runs may outlive the five-minute verification window.
+	// Refresh only on demand, using a new passive CLI report, before reserving
+	// another market-data request. This never permits unverified capacity or
+	// a different tier to silently alter the already configured pacer.
+	reader := func(ctx context.Context) (ingest.QuotaSnapshot, error) {
+		return observeAbsoluteQuota(ctx, *days, func(ctx context.Context, request map[string]any) (worker.Response, error) {
+			return worker.Invoke(ctx, worker.Python(), worker.ScriptPath(), request)
+		})
+	}
+	runner := ingest.Runner{
+		Gateway: gateway, Store: store, Now: time.Now,
+		BeforeCall: func(ctx context.Context) error {
+			return ensureFreshQuota(ctx, store, rpm, reader)
+		},
+	}
 	summary, err := runner.RunBarsBackfill(ctx, plan.Planned, *source)
 	fmt.Printf("Backfill: snapshot=%s universe=%d completed_before=%d committed=%d skipped=%d blocked=%d leased=%d deferred=%d (serving snapshot untouched)\n",
 		universe.AsOf, universe.Total, universe.Completed, summary.Committed, summary.Skipped, universe.Blocked, universe.Leased, len(plan.Deferred))
