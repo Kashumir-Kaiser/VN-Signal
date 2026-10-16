@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"database/sql/driver"
 	"encoding/hex"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -17,7 +18,7 @@ import (
 // This fake provides a real database/sql transaction with a fixed read
 // snapshot, making the resume selection executable in standard-library CI.
 type universeDriver struct{}
-type universeConn struct{ tampered bool }
+type universeConn struct{ mode string }
 type universeTx struct{}
 type universeRows struct {
 	cols    []string
@@ -26,7 +27,7 @@ type universeRows struct {
 }
 
 func (universeDriver) Open(name string) (driver.Conn, error) {
-	return &universeConn{tampered: name == "tampered"}, nil
+	return &universeConn{mode: name}, nil
 }
 func (*universeConn) Prepare(string) (driver.Stmt, error) { return nil, errors.New("not supported") }
 func (*universeConn) Close() error                        { return nil }
@@ -53,10 +54,23 @@ func (c *universeConn) QueryContext(ctx context.Context, query string, _ []drive
 	case strings.Contains(query, "count(DISTINCT exchange)"):
 		return &universeRows{cols: []string{"count", "active", "matched", "exchanges"}, records: [][]driver.Value{{int64(1002), int64(1002), int64(1002), int64(3)}}}, nil
 	case strings.Contains(query, "SELECT payload_bytes,payload_sha256"):
-		bytes := []byte(`{"count":1002,"rows":[]}`)
+		items := make([]map[string]string, 1002)
+		markets := []string{"HOSE", "HNX", "UPCOM"}
+		for i := range items {
+			items[i] = map[string]string{
+				"symbol": fmt.Sprintf("X%04d", i), "exchange": markets[i%3], "icb_code_lv2": "9500",
+			}
+		}
+		bytes, err := json.Marshal(map[string]any{
+			"columns": []string{"symbol", "exchange", "icb_code_lv2"},
+			"count":   len(items), "rows": items, "attributes": map[string]any{"source": "vci"},
+		})
+		if err != nil {
+			return nil, err
+		}
 		h := sha256.Sum256(bytes)
 		digest := hex.EncodeToString(h[:])
-		if c.tampered {
+		if c.mode == "tampered" {
 			digest = strings.Repeat("0", 64)
 		}
 		return &universeRows{cols: []string{"bytes", "sha"}, records: [][]driver.Value{{bytes, digest}}}, nil
@@ -76,9 +90,13 @@ func (c *universeConn) QueryContext(ctx context.Context, query string, _ []drive
 				state = "RUNNING"
 				update = time.Date(2026, 10, 16, 11, 59, 0, 0, time.UTC)
 			}
-			items = append(items, []driver.Value{symbol, state, update})
+			exchange := []string{"HOSE", "HNX", "UPCOM"}[i%3]
+			if c.mode == "membership-tampered" && i == 0 {
+				exchange = "HNX" // database tables agree with each other, but not with vendor frame
+			}
+			items = append(items, []driver.Value{symbol, exchange, "9500", state, update})
 		}
-		return &universeRows{cols: []string{"symbol", "state", "updated"}, records: items}, nil
+		return &universeRows{cols: []string{"symbol", "exchange", "industry", "state", "updated"}, records: items}, nil
 	default:
 		return nil, fmt.Errorf("unexpected SQL %q", query)
 	}
@@ -109,5 +127,18 @@ func TestUniverseRejectsBadProvenanceViaSQL(t *testing.T) {
 	_, err = LoadVerifiedBackfillUniverse(context.Background(), db, time.Date(2026, 10, 16, 12, 0, 0, 0, time.UTC), "2018-10-01", "2026-10-16", "vci")
 	if !errors.Is(err, ErrUnverifiedUniverse) {
 		t.Fatalf("tampered digest accepted: %v", err)
+	}
+}
+
+func TestUniverseRejectsMutableMembershipTamperViaSQL(t *testing.T) {
+	db, err := sql.Open("universe-test", "membership-tampered")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+	_, err = LoadVerifiedBackfillUniverse(context.Background(), db,
+		time.Date(2026, 10, 16, 12, 0, 0, 0, time.UTC), "2018-10-01", "2026-10-16", "vci")
+	if !errors.Is(err, ErrUnverifiedUniverse) {
+		t.Fatalf("database listing change accepted despite unchanged signed vendor frame: %v", err)
 	}
 }
