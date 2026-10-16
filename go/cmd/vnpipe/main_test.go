@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -121,5 +122,24 @@ func TestProbeFailureType(t *testing.T) {
 		if got := probeFailureType(tt.err); got != tt.want {
 			t.Errorf("probeFailureType(%q) = %q, want %q", tt.err, got, tt.want)
 		}
+	}
+}
+
+func TestProbeFailureDetailsExitCodeIsSafe(t *testing.T) {
+	py := pythonForTest(t)
+	script := filepath.Join(t.TempDir(), "exit.py")
+	if err := os.WriteFile(script, []byte("import sys\nsys.exit(23)\n"), 0600); err != nil {
+		t.Fatal(err)
+	}
+	processErr := exec.Command(py, script).Run()
+	if processErr == nil {
+		t.Fatal("fixture process unexpectedly succeeded")
+	}
+	details := probeFailureDetails(fmt.Errorf("worker exit: %w; stderr: private output", processErr))
+	if details["error_type"] != "WorkerExitError" || details["exit_code"] != 23 {
+		t.Fatalf("unexpected diagnostic fields: %v", details)
+	}
+	if strings.Contains(fmt.Sprint(details), "private output") {
+		t.Fatalf("private stderr leaked into report fields: %v", details)
 	}
 }

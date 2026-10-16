@@ -8,7 +8,7 @@ Install Python 3.12 and Go 1.23. Install `vnstock==5.0.3` using `--extra-index-u
 
 `go -C go test ./...` and `py -3.12 -m unittest discover -s tests -v` (Windows) or `python3 -m unittest discover -s tests -v` (Linux).
 
-`go -C go run ./cmd/vnpipe probe` checks CLI entitlement and usage without querying market quotes. `go -C go run ./cmd/vnpipe probe --active` explicitly spends up to seven calls. Inspect the report under `docs/probe/`. For a partial probe, rerun only selected routes with `--routes equity_list,income_statement` and set `--out` to a separate directory. Each route records a safe `error_type` and `duration_ms`; raw worker stderr is not saved. If quota/counts or routes cannot be determined, ingestion remains disabled until reviewed.
+`go -C go run ./cmd/vnpipe probe` checks CLI entitlement and usage without querying market quotes. `go -C go run ./cmd/vnpipe probe --active` explicitly spends up to seven calls. Inspect the report under `docs/probe/`. For a partial probe, rerun only selected routes with `--routes equity_list,income_statement` and set `--out` to a separate directory. Each route records a safe `error_type` and `duration_ms`, plus a numeric `exit_code` when the worker process exits unsuccessfully; raw worker stderr is not saved. If quota/counts or routes cannot be determined, ingestion remains disabled until reviewed.
 
 ## PostgreSQL
 

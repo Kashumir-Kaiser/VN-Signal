@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"time"
@@ -153,6 +154,15 @@ func probeFailureType(err error) string {
 	}
 }
 
+func probeFailureDetails(err error) map[string]any {
+	details := map[string]any{"available": false, "error_type": probeFailureType(err)}
+	var exitErr *exec.ExitError
+	if errors.As(err, &exitErr) {
+		details["exit_code"] = exitErr.ExitCode()
+	}
+	return details
+}
+
 func run(args []string) error {
 	if len(args) == 0 {
 		usage()
@@ -255,7 +265,9 @@ func run(args []string) error {
 				resp, e := gateway.Call(ctx, job)
 				elapsed := time.Since(started).Milliseconds()
 				if e != nil {
-					summary[op] = map[string]any{"available": false, "error_type": probeFailureType(e), "duration_ms": elapsed}
+					details := probeFailureDetails(e)
+					details["duration_ms"] = elapsed
+					summary[op] = details
 					continue
 				}
 				if !resp.OK {

@@ -56,6 +56,7 @@ func TestWorkerFailureModes(t *testing.T) {
 		{"extra_tokens", "print('{\"id\":\"q1\",\"ok\":true,\"data\":{}} trailing')\n", "trailing"},
 		{"exit_nonzero", ok + "sys.exit(2)\n", "worker exit"},
 		{"no_frame", "import sys\nsys.exit(0)\n", "0 frames"},
+		{"no_frame_exit_nonzero", "import sys\nsys.exit(23)\n", "worker exit"},
 		{"large", "print('x'*(10*1024*1024+2))\n", "frame"},
 	}
 	for _, tc := range cases {
