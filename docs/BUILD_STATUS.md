@@ -1,6 +1,6 @@
 # Build status — 2026-10-16
 
-**State: INCOMPLETE, no trading recommendations are enabled. P0 CI Go failure reproduced and fixed; Phase 1 offline normalizer/plan and SQL job state added. PostgreSQL CI and live probe not yet observed.** This is an initial checked-in foundation, not a complete implementation of the master prompt.
+**State: INCOMPLETE, no trading recommendations are enabled. Go offline CI failure fixed; a guarded Phase 1 PostgreSQL ingester is now implemented, but the tagged PostgreSQL test and live probe have not been independently observed.** This is an initial checked-in foundation, not a complete implementation of the master prompt.
 
 | Phase | Status | Evidence | Unfinished exit criteria |
 | --- | --- | --- | --- |
@@ -30,13 +30,13 @@
 - New `ingest.NormalizeBars` validates saved vendor OHLCV frames, refuses unknown/invalid columns, duplicates, non-chronological dates, and numeric invalidity, and never synthesizes missing prices.
 - `preview-backfill` generates an offline, budget-capped deterministic plan only from a verified active probe and absolute quota readings. It cannot call the market API.
 - `sql/migrations/002_ingest_state.sql` adds backfill jobs and per-attempt reservations for future Postgres integration; CI migration tests now apply both numbered migrations twice, with new invalid-completion and duplicate-reservation assertions.
-- Still not complete: PostgreSQL pgx loader, data freshness verification from live source, actual persistent quota reservation wiring, full historical backfill, model and desktop app. No Phase 0/1 exit claimed.
+- Historical note: this section predates the transactional PostgreSQL store added below. Remaining: live source verification, stock-listing import, full historical backfill, models and desktop app. No Phase 0/1 exit claimed.
 
 ### Backfill execution boundary (work in progress)
 
 `go/internal/ingest/runner.go` now defines `Runner.RunBarsBackfill`. Offline tests confirm a successful worker response gets validated and committed once, repeated completed jobs consume no additional quota, storage errors fail closed, and hosted CI cannot call the vendor. Every market call goes through `live.Gateway`, never directly through the Python worker.
 
-The `LandingStore` is deliberately an interface, not a fake production database adapter. It still needs a PostgreSQL transaction implementation that **records the API reservation before dispatch**, inserts append-only `raw.landings`, merges canonical `core.bars_daily`, and marks the job complete in the same transaction. Until that exists, the runner is not wired to a public `backfill` command and no live backfill is enabled.
+`LandingStore` was initially an interface; the PostgreSQL implementation and explicitly authorized tagged `backfill` command have now been added, as described below.
 
 
 ## Phase 1 continuation — transactional ingest boundary (2026-10-16)
