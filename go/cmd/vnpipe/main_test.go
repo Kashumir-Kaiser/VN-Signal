@@ -132,6 +132,7 @@ func TestProbeFailureDetailsCauseCategoriesAreSafe(t *testing.T) {
 	}{
 		{stderr: "SystemExit: private output", want: "PythonSystemExit"},
 		{stderr: "MemoryError: private output", want: "PythonMemoryError"},
+		{stderr: "Traceback (most recent call last):\n  File \"vendor.py\", line 1\nAttributeError: private output", want: "PythonUnhandledAttributeError"},
 		{stderr: "ModuleNotFoundError: No module named 'vnstock'", want: "PythonDependencyError"},
 		{stderr: "ImportError: private output", want: "PythonImportError"},
 		{stderr: "PermissionError: private output", want: "PythonPermissionError"},

@@ -154,6 +154,50 @@ func probeFailureType(err error) string {
 	}
 }
 
+// probeTracebackCause extracts only a whitelisted exception class from the
+// final traceback line. The exception message and traceback remain private.
+func probeTracebackCause(message string) string {
+	marker := "traceback (most recent call last):"
+	start := strings.LastIndex(message, marker)
+	if start < 0 {
+		return ""
+	}
+	classes := []struct{ name, cause string }{
+		{"modulenotfounderror", "PythonDependencyError"},
+		{"importerror", "PythonImportError"},
+		{"memoryerror", "PythonMemoryError"},
+		{"permissionerror", "PythonPermissionError"},
+		{"filenotfounderror", "PythonUnhandledFileNotFoundError"},
+		{"attributeerror", "PythonUnhandledAttributeError"},
+		{"typeerror", "PythonUnhandledTypeError"},
+		{"valueerror", "PythonUnhandledValueError"},
+		{"keyerror", "PythonUnhandledKeyError"},
+		{"indexerror", "PythonUnhandledIndexError"},
+		{"runtimeerror", "PythonUnhandledRuntimeError"},
+		{"connectionerror", "PythonUnhandledConnectionError"},
+		{"timeouterror", "PythonUnhandledTimeoutError"},
+		{"sslerror", "PythonUnhandledSSLError"},
+		{"httperror", "PythonUnhandledHTTPError"},
+		{"requestexception", "PythonUnhandledRequestError"},
+		{"entitlementerror", "PythonEntitlementError"},
+		{"ratelimitederror", "PythonRateLimitedError"},
+		{"inputerror", "PythonInputError"},
+		{"datasourceerror", "PythonDataSourceError"},
+		{"dataunavailableerror", "PythonDataUnavailableError"},
+		{"assertionerror", "PythonUnhandledAssertionError"},
+	}
+	lines := strings.Split(message[start+len(marker):], "\n")
+	for i := len(lines) - 1; i >= 0; i-- {
+		line := strings.TrimSpace(lines[i])
+		for _, class := range classes {
+			if strings.HasPrefix(line, class.name+":") || line == class.name {
+				return class.cause
+			}
+		}
+	}
+	return ""
+}
+
 // probeWorkerCause maps private stderr to stable categories without including
 // traceback text, vendor output, symbols, credentials or paths in reports.
 func probeWorkerCause(err error) string {
@@ -178,6 +222,9 @@ func probeWorkerCause(err error) string {
 	case strings.Contains(message, "fatal python error"), strings.Contains(message, "segmentation fault"), strings.Contains(message, "access violation"):
 		return "PythonProcessCrash"
 	case strings.Contains(message, "traceback (most recent call last)"):
+		if cause := probeTracebackCause(message); cause != "" {
+			return cause
+		}
 		return "PythonUnhandledException"
 	case strings.Contains(message, "python was not found"), strings.Contains(message, "python not found"):
 		return "PythonUnavailable"
