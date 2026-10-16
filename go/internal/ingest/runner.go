@@ -42,6 +42,10 @@ type Runner struct {
 	Gateway *live.Gateway
 	Store   LandingStore
 	Now     func() time.Time
+	// BeforeCall refreshes a nearly expired durable quota guard from an
+	// independently verified absolute usage report. Called only for unfinished
+	// jobs, and always BEFORE the local pacer can reserve a call.
+	BeforeCall func(context.Context) error
 }
 
 type RunSummary struct{ Skipped, Committed int }
@@ -72,6 +76,11 @@ func (r *Runner) RunBarsBackfill(ctx context.Context, jobs []BackfillJob, source
 		if already {
 			sum.Skipped++
 			continue
+		}
+		if r.BeforeCall != nil {
+			if err := r.BeforeCall(ctx); err != nil {
+				return sum, fmt.Errorf("pre-call quota verification: %w", err)
+			}
 		}
 		reply, err := r.Gateway.CallRecorded(ctx, map[string]any{
 			"id": jobID, "op": job.Route, "symbol": job.Symbol, "start": job.Start, "end": job.End, "source": source,
