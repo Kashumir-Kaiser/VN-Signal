@@ -92,3 +92,36 @@ func TestVerifiedUniverseRejectsPartialActiveFlags(t *testing.T) {
 		t.Fatalf("partial snapshot accepted: %v", err)
 	}
 }
+
+// The upstream JSON remains unchanged, and both mutable tables agree, but
+// changing a single exchange still must block subsequent vendor requests.
+func TestVerifiedUniverseRejectsCoordinatedMetadataTamper(t *testing.T) {
+	db := pgTestDB(t)
+	clearDB(t, db)
+	store, err := NewPostgresStore(db)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ctx := context.Background()
+	today := vnMarketDate(time.Now()).Format("2006-01-02")
+	snap, err := ParseListingProbe(listingIntegrationFixture(today, 1000), 1000)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err = store.ImportListingSnapshot(ctx, snap); err != nil {
+		t.Fatal(err)
+	}
+	_, err = db.ExecContext(ctx, `UPDATE core.symbols SET exchange='HNX' WHERE symbol='X000'`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, err = db.ExecContext(ctx, `UPDATE core.listing_snapshots SET exchange='HNX'
+        WHERE symbol_id=(SELECT symbol_id FROM core.symbols WHERE symbol='X000')`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, err = LoadVerifiedBackfillUniverse(ctx, db, time.Now(), "2018-10-01", today, "vci")
+	if !errors.Is(err, ErrUnverifiedUniverse) {
+		t.Fatalf("coordinated metadata tampering passed despite unchanged source frame: %v", err)
+	}
+}
