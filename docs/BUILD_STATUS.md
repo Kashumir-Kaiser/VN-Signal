@@ -1,6 +1,6 @@
 # Build status — 2026-10-16
 
-**State: INCOMPLETE, no trading recommendations are enabled. The offline Go/Python checks and PostgreSQL 16 CI suite pass on `a43f0a9`; a local passive vnstock 5.0.3 probe returned an unauthenticated Guest account, so authenticated route capability and real backfill remain unverified.** This is still an incomplete implementation of the master prompt.
+**State: INCOMPLETE, no trading recommendations are enabled. The offline Go/Python checks and PostgreSQL 16 CI suite pass on `62f4872`; the user's local passive vnstock 5.0.3 report now confirms an authenticated free account and exact zero-used counters. Active route capability, listings import, and real backfill remain unverified.** This is still an incomplete implementation of the master prompt.
 
 | Phase | Status | Evidence | Unfinished exit criteria |
 | --- | --- | --- | --- |
@@ -93,7 +93,8 @@ Offline evidence: `VNPIPE_DISABLE_LIVE=1 go -C go test -race ./...`, `go -C go v
 - PostgreSQL 16 service execution is not available in this container because service setup requires privilege transitions the runtime blocks. GitHub Actions run 67 on `a43f0a9` passed the PostgreSQL 16 migration assertions, native migration twice, and tagged database integration tests; it also passed the Go race/vet and Python jobs. The local tagged run compiled the PostgreSQL code but did not execute database tests.
 - **Phase 1 remains PARTIAL.** The installed vnstock v5 probe, real listings import, quota-capped historical bars backfill, full coverage, throughput, and end-to-end quality gates still require the user's single registered machine and its local PostgreSQL database. No live market call was made here; no Phase 0/1 exit is claimed.
 
-## 2026-10-16 — local passive vendor report
+## 2026-10-16 — authenticated local passive vendor report
 
-- The user's passive probe succeeded with vnstock 5.0.3 and returned structured status and usage JSON after correcting the global `--json` flag order. The account status was `guest` with `authenticated=false`; the usage response supplied exact limit and used counters.
-- No market-data routes ran. This confirms the local CLI report shape only. Active probes and ingestion remain blocked until the user registers the free Community account and a fresh report verifies it.
+- The user registered vnstock 5.0.3 successfully. The CLI status reports `tier=free` and `authenticated=true`; the passive probe supplies exact usage limits and counters.
+- The fresh report shows 60 requests/minute, 3,600/hour, 10,000/day and 100,000/month, with zero used in each bucket. The report root has `active=false`; no market-data route was called.
+- This confirms local authentication and the v5 quota JSON shape only. The active capability probe, listings import, and historical backfill remain unverified. Credentials and device identifiers are intentionally omitted.
