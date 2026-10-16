@@ -6,7 +6,7 @@ VN-Signal is designed around the **vnstock v5 free tier**. It must not claim tha
 
 ## Current implementation
 
-Phase 0 foundation and a portion of Phase 1: a Go 1.23 CLI with offline OHLCV frame normalization and quota-aware backfill previews; supervised JSON-lines Python 3.12 vnstock adapter; status/usage/capability probes; fail-closed quota reservations and single-worker process bound; bar quality/publishing gates; crash-aware checkpoints; checked configuration; PostgreSQL schemas and transactional ingestion store with durable quota audit; tagged PostgreSQL driver and migration tooling; integration tests and CI. **No trained model, portfolio recommendations, usable desktop app, full backfill, or deployed scheduler yet.** See [Build status](docs/BUILD_STATUS.md).
+Phase 0 foundation and a portion of Phase 1, including an offline, transactionally persisted current-universe listing importer: a Go 1.23 CLI with offline OHLCV frame normalization and quota-aware backfill previews; supervised JSON-lines Python 3.12 vnstock adapter; status/usage/capability probes; fail-closed quota reservations and single-worker process bound; bar quality/publishing gates; crash-aware checkpoints; checked configuration; PostgreSQL schemas and transactional ingestion store with durable quota audit; tagged PostgreSQL driver and migration tooling; integration tests and CI. **No trained model, portfolio recommendations, usable desktop app, full backfill, or deployed scheduler yet.** See [Build status](docs/BUILD_STATUS.md).
 
 ## Prerequisites
 
@@ -71,7 +71,7 @@ go -C go run ./cmd/vnpipe preview-backfill --probe docs/probe/2026-10-16.json --
 
 This is **preview-only**. It does not reserve quota, fetch symbols, backfill, or import PostgreSQL rows. A dated capability probe does not authorize live execution; the real backfill command refreshes *absolute* account usage before beginning, persists every reservation before dispatch, and refuses to send any calls when that snapshot expires. No unattended or full-universe ingestion is claimed.
 
-The `ingest.Runner` is now connected to a `PostgresStore` through an opt-in `backfill` command in **PGX-tagged builds**. It commits vendor frames, validated bars and job completion atomically, while writing a durable per-call reservation before invoking Python. It refuses to read unknown symbols (the authoritative listing import is still missing), will not proceed beyond a short-lived absolute quota guard, and does not touch SQLite serving. PostgreSQL integration tests have been added to CI, but execution against the live service has not yet been independently confirmed.
+The `ingest.Runner` is now connected to a `PostgresStore` through an opt-in `backfill` command in **PGX-tagged builds**. It commits vendor frames, validated bars and job completion atomically, while writing a durable per-call reservation before invoking Python. It refuses to read unknown symbols (run the verified listing importer before backfill), will not proceed beyond a short-lived absolute quota guard, and does not touch SQLite serving. PostgreSQL integration tests have been added to CI, but execution against the live service has not yet been independently confirmed.
 
 ### Native PostgreSQL migrations and guarded backfill
 
@@ -90,3 +90,9 @@ If you have a **fresh, successful active probe**, absolute remaining quotas, and
 ```
 
 This is **not** a one-click setup: `symbols.json` is a JSON array of ticker names that must already exist in `core.symbols` from a separately verified listing import. The command preflights every planned symbol before requesting data, checks the present vnstock tier and absolute quota again, and stops if it cannot guarantee a safe reservation. Do not hand-author market provenance or invent missing quota figures to bypass the restrictions. An end-to-end real-database test is required before relying on it for a large backfill. On Linux, compile with `-o ../vnpipe` and use `./vnpipe`.
+
+### Verified equity listing import
+
+The active Go probe now preserves the already-metered `equity_list` response as `listing_frame`. To populate verified HOSE/HNX/UPCOM membership without a second vnstock call, use the native `import-listings` CLI after database migrations. See [Listing import workflow](docs/LISTING_IMPORT.md). The importer rejects partial frames, conflicting snapshots and >5% drops, and preserves inactive tickers as historical members. This is **not** evidence that a local live probe or full backfill has succeeded.
+
+Raw landings now include `payload_bytes` (migration 004) in addition to queryable JSONB, so the original vendor payload SHA-256 can be checked against exact bytes rather than reserialized JSON.
