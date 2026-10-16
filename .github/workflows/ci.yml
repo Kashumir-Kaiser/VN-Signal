@@ -50,6 +50,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: sudo apt-get update && sudo apt-get install -y postgresql-client
       - run: bash tests/sql/test_migration.sh
+      - run: psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 -f sql/diagnostics/ohlcv_quarantine.sql
       # Only the PostgreSQL integration job fetches pgx. Hosted CI never uses
       # user credentials, devices or live vnstock routes.
       - uses: actions/setup-go@v5
