@@ -108,7 +108,7 @@ func TestRunnerFailsClosedOnStorageFaults(t *testing.T) {
 				if mode == "invalid" {
 					data = []byte(`{"bad":true}`)
 				}
-				return worker.Response{OK: true, Data: data}, nil
+				return worker.Response{ID: j["id"].(string), OK: true, Data: data}, nil
 			})
 			s := &memoryStore{done: map[string]Landing{}, failLookup: mode == "lookup", failCommit: mode == "commit"}
 			r := Runner{Gateway: gate, Store: s, Now: time.Now}
@@ -139,5 +139,36 @@ func TestRunnerCannotExecuteInHostedCI(t *testing.T) {
 	_, err := r.RunBarsBackfill(context.Background(), []BackfillJob{{Route: "equity_ohlcv", Symbol: "FPT", Start: "2026-10-15", End: "2026-10-16"}}, "vci")
 	if !errors.Is(err, live.ErrDisabled) || p.Remaining() != 2 {
 		t.Fatal(err)
+	}
+}
+
+// The quota refresh hook must precede any pacer reservation or vendor call.
+// Already-completed jobs never require new account usage checks.
+func TestRunnerBeforeCallFailsClosedAndSkipsCompleted(t *testing.T) {
+	t.Setenv("VNPIPE_DISABLE_LIVE", "0")
+	p, _ := quota.NewPacer(60000, 1)
+	calls, checks := 0, 0
+	gate, _ := live.New(p, func(context.Context, map[string]any) (worker.Response, error) {
+		calls++
+		t.Fatal("worker invoked despite refused quota refresh")
+		return worker.Response{}, nil
+	})
+	s := &memoryStore{done: map[string]Landing{}}
+	job := BackfillJob{Route: "equity_ohlcv", Symbol: "FPT", Start: "2026-10-15", End: "2026-10-16"}
+	runner := Runner{Gateway: gate, Store: s, Now: time.Now, BeforeCall: func(context.Context) error {
+		checks++
+		return quota.ErrUnknown
+	}}
+	if _, err := runner.RunBarsBackfill(context.Background(), []BackfillJob{job}, "vci"); !errors.Is(err, quota.ErrUnknown) {
+		t.Fatalf("missing quota was accepted: %v", err)
+	}
+	if calls != 0 || checks != 1 || p.Remaining() != 1 || len(s.attempts) != 0 {
+		t.Fatalf("called worker or reserved quota: worker=%d checks=%d remaining=%d", calls, checks, p.Remaining())
+	}
+	key := "equity_ohlcv:FPT:vci:2026-10-15:2026-10-16"
+	s.done[key] = Landing{JobID: key}
+	got, err := runner.RunBarsBackfill(context.Background(), []BackfillJob{job}, "vci")
+	if err != nil || got.Skipped != 1 || checks != 1 || calls != 0 {
+		t.Fatalf("completed job consumed quota check: %+v err=%v checks=%d", got, err, checks)
 	}
 }
