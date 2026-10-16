@@ -27,6 +27,7 @@ Usage:
   vnpipe budget --daily N --monthly N --days N --rpm N
   vnpipe validate-bars --input FILE --symbol TICKER
   vnpipe preview-backfill --probe FILE --symbols FILE --from DATE --to DATE --days N
+  vnpipe import-listings --probe FILE [--min-symbols N] (offline Postgres import)
   vnpipe backfill --active --probe FILE --symbols FILE --from DATE --to DATE --days N
   vnpipe migrate [--dir sql/migrations] (Postgres-tagged build)
   vnpipe version
@@ -172,6 +173,11 @@ func run(args []string) error {
 						last = d
 					}
 				}
+				// Preserve the SAME metered equity-list response for a later offline,
+				// transactional import. No second vendor request is needed.
+				if op == "equity_list" && payload.Count > 0 {
+					report["listing_frame"] = append(json.RawMessage(nil), resp.Data...)
+				}
 				summary[op] = map[string]any{"available": payload.Count > 0, "count": payload.Count, "columns": payload.Columns, "first_observed_date": first, "last_observed_date": last, "attributes": payload.Attributes}
 			}
 			report["active"] = json.RawMessage("true")
@@ -213,6 +219,8 @@ func run(args []string) error {
 		}
 		fmt.Printf("PostgreSQL migrations applied: %d (existing checked by SHA-256)\n", count)
 		return nil
+	case "import-listings":
+		return runImportListings(args[1:])
 	case "backfill":
 		return runBackfill(args[1:])
 	case "preview-backfill":
