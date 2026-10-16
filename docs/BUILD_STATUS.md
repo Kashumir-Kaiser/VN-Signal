@@ -31,3 +31,9 @@
 - `preview-backfill` generates an offline, budget-capped deterministic plan only from a verified active probe and absolute quota readings. It cannot call the market API.
 - `sql/migrations/002_ingest_state.sql` adds backfill jobs and per-attempt reservations for future Postgres integration; CI migration tests now apply both numbered migrations twice, with new invalid-completion and duplicate-reservation assertions.
 - Still not complete: PostgreSQL pgx loader, data freshness verification from live source, actual persistent quota reservation wiring, full historical backfill, model and desktop app. No Phase 0/1 exit claimed.
+
+### Backfill execution boundary (work in progress)
+
+`go/internal/ingest/runner.go` now defines `Runner.RunBarsBackfill`. Offline tests confirm a successful worker response gets validated and committed once, repeated completed jobs consume no additional quota, storage errors fail closed, and hosted CI cannot call the vendor. Every market call goes through `live.Gateway`, never directly through the Python worker.
+
+The `LandingStore` is deliberately an interface, not a fake production database adapter. It still needs a PostgreSQL transaction implementation that **records the API reservation before dispatch**, inserts append-only `raw.landings`, merges canonical `core.bars_daily`, and marks the job complete in the same transaction. Until that exists, the runner is not wired to a public `backfill` command and no live backfill is enabled.
