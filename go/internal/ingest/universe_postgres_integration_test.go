@@ -125,3 +125,29 @@ func TestVerifiedUniverseRejectsCoordinatedMetadataTamper(t *testing.T) {
 		t.Fatalf("coordinated metadata tampering passed despite unchanged source frame: %v", err)
 	}
 }
+
+func TestVerifiedUniverseRejectsSymbolIndustryDrift(t *testing.T) {
+	db := pgTestDB(t)
+	clearDB(t, db)
+	store, err := NewPostgresStore(db)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ctx := context.Background()
+	today := vnMarketDate(time.Now()).Format("2006-01-02")
+	snap, err := ParseListingProbe(listingIntegrationFixture(today, 1000), 1000)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err = store.ImportListingSnapshot(ctx, snap); err != nil {
+		t.Fatal(err)
+	}
+	_, err = db.ExecContext(ctx, `UPDATE core.symbols SET industry='9999' WHERE symbol='X000'`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, err = LoadVerifiedBackfillUniverse(ctx, db, time.Now(), "2018-10-01", today, "vci")
+	if !errors.Is(err, ErrUnverifiedUniverse) {
+		t.Fatalf("current classification drift accepted: %v", err)
+	}
+}
