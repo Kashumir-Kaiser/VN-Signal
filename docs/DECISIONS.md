@@ -49,3 +49,9 @@ The implementation introduces an offline-tested `LandingStore` boundary instead 
 - A SHA-256 match on `raw.landings.payload_bytes` alone **does not** show that `core.symbols` and the latest `core.listing_snapshots` still match the source. A coordinated mutation of both relational tables could satisfy previous count/active-flag guards.
 - The backfill-universe read now reparses the archived, signed listing frame and compares every symbol, exchange and level-two ICB industry code against its latest database snapshot in sorted order, inside the existing repeatable-read transaction. Any mismatch disables ingestion.
 - `vnpipe backfill-status` is a read-only reporting entry point using this same verified queue. Unlike `backfill --active`, it never contacts vnstock or mutates the PostgreSQL quota guard.
+
+## 2026-10-16 — renewable, fail-closed short-lived quota proof
+
+- A quota snapshot valid for five minutes is not a valid reason to abort all long-running historical jobs after five minutes; but extending its lifetime without a fresh absolute vendor observation would risk the account/device quota. Before **each pending** market job, check the durable guard; when it will expire in 90 seconds, fetch a fresh *passive* status/usage report and atomically install the lower permitted remaining allowance.
+- Do not reset spent calls on renewal. `InstallQuota` already carries the minimum of prior remaining budget and newly observed account capacity forward; `ops.api_reservations` is append-only. The initial local Go pacer is not enlarged by a renewal.
+- A tier/RPM change mid-run is a reason to stop and restart explicitly, not silently increase throughput. Errors from the CLI, status parsing, PostgreSQL, or date change block all further market calls. New trading-day quota is handled by a new explicitly authorized run, not unattended renewal.
