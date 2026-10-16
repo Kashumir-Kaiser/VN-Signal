@@ -33,7 +33,7 @@ Usage:
   vnpipe version
 Active probe requires verified absolute vnstock usage and tier status.
 Unknown/percentage quota readings block active requests; CI always blocks live calls.
-Full market-universe ingestion, training, recommendations and the desktop app are NOT implemented.`)
+Historical full-universe backfill is available only as guarded opt-in; live results are unverified. Training, recommendations and the desktop app are NOT implemented.`)
 }
 func main() {
 	if err := run(os.Args[1:]); err != nil {
