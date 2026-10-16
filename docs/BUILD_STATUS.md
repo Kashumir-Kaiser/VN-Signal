@@ -5,7 +5,7 @@
 | Phase | Status | Evidence | Unfinished exit criteria |
 | --- | --- | --- | --- |
 | 0: probe/schema/config | PARTIAL | Strict Python/Go JSONL tests, passive probe, metered active probe gateway, validated Go config, PostgreSQL 16 service test defined in CI | Observe CI PostgreSQL results and live probe on user's registered device, validate real data shapes |
-| 1: ingestion/backfill | PARTIAL | Fail-closed quota parsing and metered call gateway with wait tests; Go OHLCV frame normalizer and backfill preview; SQL durable job and API reservation migration; checkpoint persistence, DQ blocking gates, worker-process concurrency bound | PostgreSQL pgx CopyFrom bulk path, listings ingestion, verified tagged PostgreSQL integration test and live full quota-safe backfill |
+| 1: ingestion/backfill | PARTIAL | Fail-closed quota parsing and metered call gateway with wait tests; Go OHLCV frame normalizer and backfill preview; SQL durable job and API reservation migration; checkpoint persistence, DQ blocking gates, worker-process concurrency bound | PostgreSQL pgx CopyFrom bulk path, real completed listings import, verified tagged PostgreSQL integration test and live full quota-safe backfill |
 | 2: features/PIT | NOT STARTED | contract describes the required rules | features, PIT archive, leakage and parity tests |
 | 3: models/backtest | NOT STARTED | architecture specified | real Rust training, 36+ monthly OOS folds, calibration, backtest |
 | 4: serving/portfolio | NOT STARTED | architecture specified | atomic SQLite export, parity, optimisation |
@@ -41,7 +41,7 @@
 
 ## Phase 1 continuation — transactional ingest boundary (2026-10-16)
 
-Implemented locally and included in the next push:
+Implemented and committed on main:
 
 - New database transaction store (`go/internal/ingest/postgres.go`) records a per-attempt reservation before invoking vnstock, records dispatch and result status, and writes raw landing, canonical `core.bars_daily`, and `COMPLETED` marker together. Duplicate/completed job IDs do not request data twice.
 - A new singleton `ops.quota_guard` (migration 003) enforces an absolute, durable, cross-process allowance; verifies short-lived vendor readings; retains cross-process pacing after restart; and never returns calls previously counted as spent. A reservation is spent even on a canceled or failed request.
@@ -51,3 +51,10 @@ Implemented locally and included in the next push:
 - A narrowly scoped opt-in `backfill --active` path is wired only for PGX-tagged binaries, current verified absolute quota, a previous successful active probe, and already-known listed symbols. It intentionally does not infer missing symbol metadata or schedule itself.
 
 Offline evidence: `VNPIPE_DISABLE_LIVE=1 go -C go test -race ./...`, `go -C go vet ./...`, and `VNPIPE_DISABLE_LIVE=1 python3 -m unittest discover -s tests -v` pass. No live price calls were made. **Phase 1 remains PARTIAL** until provider shape, PostgreSQL CI, full listed-universe import/backfill, DQ gates and runtime operation are verified. No Phase 2–6 exit milestones are claimed.
+
+## Point-in-time equity listings and exact raw bytes (2026-10-16)
+
+- Implemented and pushed strict v5 `equity_list` normalization using documented `symbol`, `exchange`, `icb_code_lv2` fields. Go active probe now saves the complete frame it already requested, alongside its summary, without an extra API call.
+- Added `vnpipe import-listings --probe FILE`, requiring a complete active-probe frame with at least 1,000 symbols across HOSE/HNX/UPCOM. PostgreSQL importer preserves original rows and SHA-256, upserts `core.symbols`, appends dated `core.listing_snapshots`, and marks absent names inactive rather than deleting them. Transaction, advisory lock, idempotency, backdate rejection and >5% shrinkage guard enforce safe state changes.
+- Migration `004_raw_bytes.sql` records the original vendor JSON bytes as `bytea`, because JSONB canonicalization prevents reliable original-byte SHA comparison; legacy rows remain nullable. Both listing and OHLCV landings write bytes. Added SQL and tagged PostgreSQL tests for exact-byte parity.
+- **Verification:** new listing parser and store code passed isolated stdlib Go race/unit tests and vet locally. The full repository Go test suite, PostgreSQL 16 integration, GitHub push workflow result, installed vnstock v5 probe and actual listing import were **not** executed or observed in this environment. All Phase 0/1 exit gates remain open until these are verified on CI and the registered machine.
