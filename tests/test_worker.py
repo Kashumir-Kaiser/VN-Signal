@@ -85,6 +85,22 @@ class FrameTests(unittest.TestCase):
         self.assertEqual(frames[0]["error"]["type"], "WorkerSystemExit")
         self.assertNotIn("private vendor detail", json.dumps(frames[0]))
 
+    def test_vietnamese_text_round_trips_on_ascii_stdout(self):
+        class ASCIIOnly(io.StringIO):
+            def write(self, value):
+                value.encode("ascii")
+                return super().write(value)
+
+        stdin = types.SimpleNamespace(buffer=io.BytesIO(b'{"id":"x","op":"equity_list"}\n'))
+        stdout = ASCIIOnly()
+        with patch.object(worker.sys, "stdin", stdin), patch.object(worker.sys, "stdout", stdout), \
+                patch.object(worker, "dispatch", return_value={"name": "Công ty Cổ phần"}):
+            worker.main()
+
+        wire = stdout.getvalue()
+        self.assertIn("\\u", wire)
+        self.assertEqual(json.loads(wire)["data"]["name"], "Công ty Cổ phần")
+
     def test_broken_pipe_terminates_cleanly(self):
         class ClosedStream:
             def write(self, _):

@@ -224,7 +224,9 @@ def main() -> None:
             output = {"id": job.get("id") if isinstance(job, dict) else None,
                       "ok": False, "error": {"type": cls, "message": str(ex)[:280]}}
         try:
-            stdout.write(json.dumps(_safe(output), ensure_ascii=False, allow_nan=False) + "\n")
+                        # ASCII escaping keeps JSONL writes independent of Windows' active
+            # console code page while preserving the decoded Unicode values.
+            stdout.write(json.dumps(_safe(output), ensure_ascii=True, allow_nan=False) + "\n")
             stdout.flush()
         except (BrokenPipeError, OSError):
             # Go killed the subprocess / closed the transport. Never emit a
