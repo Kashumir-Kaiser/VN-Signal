@@ -103,7 +103,7 @@ func Invoke(ctx context.Context, interpreter, script string, job map[string]any)
 		return response, fmt.Errorf("worker frame: %w", scanErr)
 	}
 	if frames != 1 {
-		if waitErr != nil {
+		if frames == 0 && waitErr != nil {
 			return response, fmt.Errorf("worker exit: %w; stderr: %s", waitErr, stderr.String())
 		}
 		return response, fmt.Errorf("worker returned %d frames (want exactly one); stderr: %s", frames, stderr.String())
