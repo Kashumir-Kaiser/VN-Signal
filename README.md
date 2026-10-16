@@ -98,3 +98,13 @@ There is **no `--symbols` argument for live backfill**. The command verifies a c
 The active Go probe now preserves the already-metered `equity_list` response as `listing_frame`. To populate verified HOSE/HNX/UPCOM membership without a second vnstock call, use the native `import-listings` CLI after database migrations. See [Listing import workflow](docs/LISTING_IMPORT.md). The importer rejects partial frames, conflicting snapshots and >5% drops, and preserves inactive tickers as historical members. This is **not** evidence that a local live probe or full backfill has succeeded.
 
 Raw landings now include `payload_bytes` (migration 004) in addition to queryable JSONB, so the original vendor payload SHA-256 can be checked against exact bytes rather than reserialized JSON.
+
+### Inspect backfill without consuming quota
+
+After a verified listing import, use the **read-only** command with the *same* exact dates and source as the live backfill:
+
+```powershell
+.\vnpipe.exe backfill-status --from 2018-10-01 --to 2026-10-16 --source vci
+```
+
+It checks source-frame provenance against **every current symbol, exchange and ICB industry code**, not just the total count or a checksum. It returns `completed`, `blocked`, `leased`, `pending` and a ten-symbol preview. It does not invoke the Python worker, reserve quota, or show a stock suggestion. A tampered, stale or incomplete universe fails closed. A PostgreSQL-tagged binary and your local database are still required.
