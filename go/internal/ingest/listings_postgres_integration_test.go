@@ -3,6 +3,7 @@
 package ingest
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -39,6 +40,10 @@ func TestListingSnapshotTransactionIdempotencyAndDelisting(t *testing.T) {
 	var n int
 	if e = db.QueryRow(`SELECT count(*) FROM raw.landings WHERE route='equity_list'`).Scan(&n); e != nil || n != 1 {
 		t.Fatalf("duplicate raw landing count=%d error=%v", n, e)
+	}
+	var exact []byte
+	if e = db.QueryRow(`SELECT payload_bytes FROM raw.landings WHERE route='equity_list'`).Scan(&exact); e != nil || !bytes.Equal(exact, day1.Frame) {
+		t.Fatalf("raw payload byte parity lost: %v", e)
 	}
 	// Incomplete route result must roll back and preserve all current listings.
 	day2, e := ParseListingProbe(listingIntegrationFixture("2026-10-17", 18), 3)
