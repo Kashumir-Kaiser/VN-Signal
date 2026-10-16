@@ -79,8 +79,34 @@ func (p *PostgresStore) ImportListingSnapshot(ctx context.Context, snap ListingS
 		result.AlreadyImported = true
 		return result, tx.Commit()
 	}
-	var active int
-	if err = tx.QueryRowContext(ctx, `SELECT count(*) FROM core.symbols WHERE active=true`).Scan(&active); err != nil {
+	// Compute *newly* deactivated symbols, not the lifetime count of inactive
+	// symbols. Relistings may make the all-time inactive count decrease.
+	incoming := make(map[string]bool, len(snap.Listings))
+	for _, listing := range snap.Listings {
+		incoming[listing.Symbol] = true
+	}
+	current, err := tx.QueryContext(ctx, `SELECT symbol FROM core.symbols WHERE active=true`)
+	if err != nil {
+		return ListingImportSummary{}, err
+	}
+	active := 0
+	for current.Next() {
+		var symbol string
+		if err = current.Scan(&symbol); err != nil {
+			break
+		}
+		active++
+		if !incoming[symbol] {
+			result.Deactivated++
+		}
+	}
+	if err == nil {
+		err = current.Err()
+	}
+	if closeErr := current.Close(); err == nil {
+		err = closeErr
+	}
+	if err != nil {
 		return ListingImportSummary{}, err
 	}
 	// A sudden >5% shrinkage is more likely to be a partial provider response
@@ -121,11 +147,6 @@ func (p *PostgresStore) ImportListingSnapshot(ctx context.Context, snap ListingS
 		if err != nil {
 			return ListingImportSummary{}, fmt.Errorf("snapshot %s: %w", row.Symbol, err)
 		}
-	}
-	// Report actual deactivations, not the temporary all-inactive intermediate.
-	err = tx.QueryRowContext(ctx, `SELECT count(*) FROM core.symbols WHERE active=false`).Scan(&result.Deactivated)
-	if err != nil {
-		return ListingImportSummary{}, err
 	}
 	if err = tx.Commit(); err != nil {
 		return ListingImportSummary{}, err
