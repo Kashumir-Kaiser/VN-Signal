@@ -43,3 +43,9 @@ The implementation introduces an offline-tested `LandingStore` boundary instead 
 - The source frame's stored bytes must verify against `payload_sha256`; membership must match current active flags exactly and cover all three exchanges. A seven-day age limit is a conservative local operating guard, not a vnstock entitlement claim.
 - Resume keys are exact `(route,symbol,source,from,to)`. Exclude already completed and blocked keys before applying the current absolute quota cap; otherwise the same first N alphabetical symbols starve later symbols. A new `--to` date creates different jobs and must not be treated as an automatic incremental 5-session refresh.
 - Read membership/provenance/jobs in one repeatable-read PostgreSQL transaction. Existing per-attempt durable quota reservations, cross-process pacing and 15-minute recovery leases remain mandatory. Do not auto-enable background ingestion or financial suggestions before vendor/CI validation.
+
+## 2026-10-16 — verify membership against immutable vendor data
+
+- A SHA-256 match on `raw.landings.payload_bytes` alone **does not** show that `core.symbols` and the latest `core.listing_snapshots` still match the source. A coordinated mutation of both relational tables could satisfy previous count/active-flag guards.
+- The backfill-universe read now reparses the archived, signed listing frame and compares every symbol, exchange and level-two ICB industry code against its latest database snapshot in sorted order, inside the existing repeatable-read transaction. Any mismatch disables ingestion.
+- `vnpipe backfill-status` is a read-only reporting entry point using this same verified queue. Unlike `backfill --active`, it never contacts vnstock or mutates the PostgreSQL quota guard.
