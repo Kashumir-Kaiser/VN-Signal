@@ -432,3 +432,61 @@ func (p *PostgresStore) BlockInvalid(ctx context.Context, key, reason string) er
 	}
 	return nil
 }
+// QuarantineFrame retains the exact successful vendor response, even if some
+// bars are invalid. It never inserts into core.bars_daily. The state transition
+// and raw-byte archival share one transaction, so a DB failure stops the run.
+func (p *PostgresStore) QuarantineFrame(ctx context.Context, key, source, reason string, raw json.RawMessage) error {
+	if p == nil || p.DB == nil || key == "" || source == "" || reason == "" ||
+		len(reason) > 120 || len(raw) == 0 || len(raw) > 10*1024*1024 || !json.Valid(raw) {
+		return errors.New("invalid quarantine request")
+	}
+	idstr, err := newUUID()
+	if err != nil {
+		return err
+	}
+	digest := sha256.Sum256(raw)
+	tx, err := p.DB.BeginTx(ctx, &sql.TxOptions{Isolation: sql.LevelSerializable})
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+	var id int64
+	var symbol, storedSource, state string
+	var attempts int
+	err = tx.QueryRowContext(ctx, `SELECT job_id,symbol,source,state,attempts FROM ops.ingest_jobs
+        WHERE idempotency_key=$1 FOR UPDATE`, key).Scan(&id, &symbol, &storedSource, &state, &attempts)
+	if err != nil {
+		return err
+	}
+	if state != "RUNNING" || storedSource != source || attempts < 1 {
+		return errors.New("quarantine requires dispatched matching job")
+	}
+	var outcome string
+	if err = tx.QueryRowContext(ctx, `SELECT outcome FROM ops.api_reservations
+        WHERE job_id=$1 AND attempt_no=$2`, id, attempts).Scan(&outcome); err != nil {
+		return err
+	}
+	if outcome != "SUCCEEDED" {
+		return errors.New("cannot quarantine a call without successful audited response")
+	}
+	var landingID int64
+	err = tx.QueryRowContext(ctx, `INSERT INTO raw.landings
+        (ingest_id,source,route,fetched_at,symbol,payload,payload_sha256,payload_bytes)
+        VALUES ($1::uuid,$2,'equity_ohlcv_quarantine',$3,$4,$5::jsonb,$6,$7)
+        RETURNING landing_id`,
+		idstr, source, p.clock(), symbol, string(raw), hex.EncodeToString(digest[:]), []byte(raw)).Scan(&landingID)
+	if err != nil {
+		return err
+	}
+	res, err := tx.ExecContext(ctx, `UPDATE ops.ingest_jobs
+        SET state='BLOCKED',last_error_type=$2,landed_id=$3,updated_at=now()
+        WHERE job_id=$1 AND state='RUNNING'`, id, reason, landingID)
+	if err != nil {
+		return err
+	}
+	n, err := res.RowsAffected()
+	if err != nil || n != 1 {
+		return errors.New("quarantine state transition failed")
+	}
+	return tx.Commit()
+}

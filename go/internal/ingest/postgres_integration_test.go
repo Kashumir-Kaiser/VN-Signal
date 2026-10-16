@@ -147,3 +147,45 @@ func TestPostgresDurableQuotaAndRollback(t *testing.T) {
 }
 
 func checksum(data []byte) string { x := sha256.Sum256(data); return hex.EncodeToString(x[:]) }
+
+func TestPostgresQuarantinePreservesRawWithoutCanonicalBars(t *testing.T) {
+	db := pgTestDB(t)
+	clearDB(t, db)
+	s, _ := NewPostgresStore(db)
+	installVerifiedQuota(t, s, 1)
+	ctx := context.Background()
+	job := BackfillJob{Route: "equity_ohlcv", Symbol: "A32", Start: "2026-10-15", End: "2026-10-16"}
+	key := "equity_ohlcv:A32:vci:2026-10-15:2026-10-16"
+	if _, err := s.ReserveAttempt(ctx, job, key, "vci", time.Now()); err != nil {
+		t.Fatal(err)
+	}
+	if err := s.MarkDispatch(ctx, key); err != nil {
+		t.Fatal(err)
+	}
+	if err := s.MarkOutcome(ctx, key, "SUCCEEDED", ""); err != nil {
+		t.Fatal(err)
+	}
+	raw := json.RawMessage(payload(`[{"time":"2026-10-15","open":0,"high":105,"low":99,"close":103,"volume":100}]`, 1))
+	reason := "InvalidFrame: row 0 date 2026-10-15: open price is nonpositive or nonfinite"
+	if err := s.QuarantineFrame(ctx, key, "vci", reason, raw); err != nil {
+		t.Fatal(err)
+	}
+	var state, recordedReason, route, digest string
+	var archived []byte
+	if err := db.QueryRow(`SELECT j.state,j.last_error_type,l.route,l.payload_bytes,l.payload_sha256
+        FROM ops.ingest_jobs j JOIN raw.landings l ON l.landing_id=j.landed_id
+        WHERE j.idempotency_key=$1`, key).Scan(&state, &recordedReason, &route, &archived, &digest); err != nil {
+		t.Fatal(err)
+	}
+	if state != "BLOCKED" || recordedReason != reason || route != "equity_ohlcv_quarantine" ||
+		!bytes.Equal(archived, []byte(raw)) || digest != checksum(raw) {
+		t.Fatalf("quarantine lost provenance: state=%s reason=%s route=%s", state, recordedReason, route)
+	}
+	var count int
+	if err := db.QueryRow(`SELECT count(*) FROM core.bars_daily`).Scan(&count); err != nil || count != 0 {
+		t.Fatalf("invalid bars entered canonical storage: %d %v", count, err)
+	}
+	if err := s.QuarantineFrame(ctx, key, "vci", reason, raw); err == nil {
+		t.Fatal("duplicate quarantine unexpectedly succeeded")
+	}
+}

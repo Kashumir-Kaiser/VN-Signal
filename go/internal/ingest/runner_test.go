@@ -14,8 +14,10 @@ import (
 
 type memoryStore struct {
 	done                   map[string]Landing
-	failLookup, failCommit bool
+	failLookup, failCommit, failQuarantine bool
 	attempts               map[string]string
+	quarantined            map[string]json.RawMessage
+	reasons                map[string]string
 }
 
 func (s *memoryStore) ReserveAttempt(_ context.Context, _ BackfillJob, key, _ string, at time.Time) (time.Time, error) {
@@ -46,6 +48,19 @@ func (s *memoryStore) BlockInvalid(_ context.Context, key, _ string) error {
 	if s.attempts[key] != "" {
 		s.attempts[key] = "BLOCKED"
 	}
+	return nil
+}
+func (s *memoryStore) QuarantineFrame(_ context.Context, key, _, reason string, raw json.RawMessage) error {
+	if s.failQuarantine {
+		return errors.New("cannot persist quarantine")
+	}
+	if s.quarantined == nil {
+		s.quarantined = map[string]json.RawMessage{}
+		s.reasons = map[string]string{}
+	}
+	s.quarantined[key] = append(json.RawMessage(nil), raw...)
+	s.reasons[key] = reason
+	s.attempts[key] = "BLOCKED"
 	return nil
 }
 func (s *memoryStore) Completed(_ context.Context, key string) (bool, error) {
@@ -92,7 +107,7 @@ func TestRunnerQuotaAndIdempotency(t *testing.T) {
 func TestRunnerFailsClosedOnStorageFaults(t *testing.T) {
 	t.Setenv("VNPIPE_DISABLE_LIVE", "0")
 	job := BackfillJob{Route: "equity_ohlcv", Symbol: "FPT", Start: "2026-10-15", End: "2026-10-16"}
-	for _, mode := range []string{"lookup", "commit", "invalid", "vendor"} {
+	for _, mode := range []string{"lookup", "commit", "invalid", "vendor", "quarantine_error"} {
 		t.Run(mode, func(t *testing.T) {
 			p, _ := quota.NewPacer(1000, 1)
 			calls := 0
@@ -105,15 +120,19 @@ func TestRunnerFailsClosedOnStorageFaults(t *testing.T) {
 					}{Type: "RateLimitedError"}}, nil
 				}
 				data := payload("["+one+"]", 1)
-				if mode == "invalid" {
+				if mode == "invalid" || mode == "quarantine_error" {
 					data = []byte(`{"bad":true}`)
 				}
 				return worker.Response{ID: j["id"].(string), OK: true, Data: data}, nil
 			})
-			s := &memoryStore{done: map[string]Landing{}, failLookup: mode == "lookup", failCommit: mode == "commit"}
+			s := &memoryStore{done: map[string]Landing{}, failLookup: mode == "lookup", failCommit: mode == "commit", failQuarantine: mode == "quarantine_error"}
 			r := Runner{Gateway: gate, Store: s, Now: time.Now}
-			_, e := r.RunBarsBackfill(context.Background(), []BackfillJob{job}, "vci")
-			if e == nil {
+			summary, e := r.RunBarsBackfill(context.Background(), []BackfillJob{job}, "vci")
+			if mode == "invalid" {
+				if e != nil || summary.Blocked != 1 || len(s.quarantined) != 1 {
+					t.Fatalf("invalid frame not quarantined: summary=%+v err=%v", summary, e)
+				}
+			} else if e == nil {
 				t.Fatal("failure accepted")
 			}
 			if mode == "lookup" && (calls != 0 || p.Remaining() != 1) {
@@ -170,5 +189,53 @@ func TestRunnerBeforeCallFailsClosedAndSkipsCompleted(t *testing.T) {
 	got, err := runner.RunBarsBackfill(context.Background(), []BackfillJob{job}, "vci")
 	if err != nil || got.Skipped != 1 || checks != 1 || calls != 0 {
 		t.Fatalf("completed job consumed quota check: %+v err=%v checks=%d", got, err, checks)
+	}
+}
+
+func TestRunnerQuarantinesIsolatedCorruptionAndContinues(t *testing.T) {
+	t.Setenv("VNPIPE_DISABLE_LIVE", "0")
+	p, _ := quota.NewPacer(60000, 5)
+	calls := 0
+	g, _ := live.New(p, func(_ context.Context, job map[string]any) (worker.Response, error) {
+		calls++
+		id := job["id"].(string)
+		if job["symbol"] == "AAA" || job["symbol"] == "AAC" {
+			return worker.Response{ID: id, OK: true, Data: json.RawMessage(payload(`[{"time":"2026-10-15","open":0,"high":105,"low":99,"close":103,"volume":100}]`, 1))}, nil
+		}
+		return worker.Response{ID: id, OK: true, Data: json.RawMessage(payload("["+one+"]", 1))}, nil
+	})
+	s := &memoryStore{done: map[string]Landing{}}
+	r := Runner{Gateway: g, Store: s, Now: time.Now}
+	jobs := []BackfillJob{}
+	for _, symbol := range []string{"AAA", "AAB", "AAC", "AAD"} {
+		jobs = append(jobs, BackfillJob{Route: "equity_ohlcv", Symbol: symbol, Start: "2026-10-15", End: "2026-10-16"})
+	}
+	summary, err := r.RunBarsBackfill(context.Background(), jobs, "vci")
+	if err != nil || summary.Blocked != 2 || summary.Committed != 2 || calls != 4 ||
+		len(s.quarantined) != 2 || len(s.done) != 2 || p.Remaining() != 1 {
+		t.Fatalf("summary=%+v err=%v calls=%d", summary, err, calls)
+	}
+	if len(summary.BlockedPreview) != 2 || s.reasons["equity_ohlcv:AAA:vci:2026-10-15:2026-10-16"] == "" {
+		t.Fatalf("missing quarantine diagnostic: %+v", summary)
+	}
+}
+func TestRunnerStopsSystemicCorruption(t *testing.T) {
+	t.Setenv("VNPIPE_DISABLE_LIVE", "0")
+	p, _ := quota.NewPacer(60000, 6)
+	calls := 0
+	g, _ := live.New(p, func(_ context.Context, job map[string]any) (worker.Response, error) {
+		calls++
+		return worker.Response{ID: job["id"].(string), OK: true, Data: json.RawMessage(payload(`[{"time":"2026-10-15","open":0,"high":105,"low":99,"close":103,"volume":100}]`, 1))}, nil
+	})
+	s := &memoryStore{done: map[string]Landing{}}
+	r := Runner{Gateway: g, Store: s, Now: time.Now}
+	jobs := []BackfillJob{}
+	for _, symbol := range []string{"AAA", "AAB", "AAC", "AAD", "AAE", "AAF"} {
+		jobs = append(jobs, BackfillJob{Route: "equity_ohlcv", Symbol: symbol, Start: "2026-10-15", End: "2026-10-16"})
+	}
+	sum, err := r.RunBarsBackfill(context.Background(), jobs, "vci")
+	if !errors.Is(err, ErrExcessiveInvalidFrames) || calls != 3 || sum.Blocked != 3 ||
+		len(s.quarantined) != 3 || p.Remaining() != 3 || len(s.done) != 0 {
+		t.Fatalf("systemic corruption not stopped: summary=%+v err=%v calls=%d", sum, err, calls)
 	}
 }

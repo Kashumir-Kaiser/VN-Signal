@@ -36,16 +36,30 @@ func Validate(rows []Bar) error {
 			return fmt.Errorf("row %d: duplicate %s", i, key)
 		}
 		seen[key] = true
-		for _, price := range []float64{b.Open, b.High, b.Low, b.Close} {
-			if price <= 0 || math.IsNaN(price) || math.IsInf(price, 0) {
-				return fmt.Errorf("row %d: invalid price", i)
+		for _, item := range []struct {
+			name  string
+			price float64
+		}{{"open", b.Open}, {"high", b.High}, {"low", b.Low}, {"close", b.Close}} {
+			if item.price <= 0 || math.IsNaN(item.price) || math.IsInf(item.price, 0) {
+				return fmt.Errorf("row %d date %s: %s price is nonpositive or nonfinite", i, b.Date, item.name)
 			}
 		}
-		if b.High < b.Low || b.High < b.Open || b.High < b.Close || b.Low > b.Open || b.Low > b.Close {
-			return fmt.Errorf("row %d: inconsistent OHLC", i)
+		for _, check := range []struct {
+			bad    bool
+			reason string
+		}{
+			{b.High < b.Low, "high below low"},
+			{b.High < b.Open, "high below open"},
+			{b.High < b.Close, "high below close"},
+			{b.Low > b.Open, "low above open"},
+			{b.Low > b.Close, "low above close"},
+		} {
+			if check.bad {
+				return fmt.Errorf("row %d date %s: %s", i, b.Date, check.reason)
+			}
 		}
 		if b.Volume < 0 || math.IsNaN(b.Volume) || math.IsInf(b.Volume, 0) {
-			return fmt.Errorf("row %d: invalid volume", i)
+			return fmt.Errorf("row %d date %s: negative or nonfinite volume", i, b.Date)
 		}
 	}
 	return nil

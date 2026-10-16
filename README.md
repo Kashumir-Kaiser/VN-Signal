@@ -120,3 +120,28 @@ It checks source-frame provenance against **every current symbol, exchange and I
 The five-minute PostgreSQL quota verification is now renewable **during an explicitly authorized backfill**. Before an unfinished job can reserve a call, the runner checks the stored expiry. Within 90 seconds of expiry it obtains a fresh passive vnstock status/absolute usage reading, rejects unknown or changed-tier reports, and commits the lower safe remaining budget. No previous reservations are refunded. Failure blocks the next market call.
 
 An existing run does **not** carry a quota across Vietnam midnight: resume on a new day with a fresh authorized command and the same exact history range. The full live PostgreSQL integration and real-vendor flow still await independent verification; this is not an unattended scheduler or a finished Phase 1.
+
+### Corrupt historical frame isolation
+
+A vnstock route can succeed while some returned OHLCV bars contain nonpositive
+prices or impossible high/low relationships. These are source-quality defects,
+not authorization or PostgreSQL connection errors. `vnpipe backfill --active`
+now quarantines such responses in `raw.landings` under
+`route='equity_ohlcv_quarantine'` with exact original bytes and SHA-256, and
+atomically marks the corresponding `ops.ingest_jobs` row `BLOCKED` with a
+bounded date/field diagnostic. **No invalid rows enter `core.bars_daily`.**
+Healthy symbols continue, with prior completions and all quota reservations
+preserved. Three consecutive invalid symbols, or at least 20% quarantined once
+20 symbols have been examined, halt the current command as a systemic-source
+safety measure. Vendor errors, database faults and quota failures still halt.
+
+Inspect quarantined jobs without consuming vendor quota:
+
+```bash
+psql "$DATABASE_URL" -c "SELECT symbol,state,last_error_type FROM ops.ingest_jobs WHERE state='BLOCKED' ORDER BY updated_at DESC;"
+```
+
+Previously blocked jobs stay blocked and **are not retried automatically**.
+Investigate their archived source frames before adding a separately reviewed
+recovery procedure. Never hand-edit job states or remove the bad bar to turn
+an invalid history into a verified one.
