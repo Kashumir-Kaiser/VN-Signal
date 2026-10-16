@@ -17,3 +17,7 @@
 - Checkpoint writers take an exclusive directory lock. A crash leaving the `.lock` behind blocks automatic writes until manually inspected; this is safer than racing a prior writer. Crash orphan temp files are removed under this lock; previous checkpoint remains readable after failed fsync/rename. Unix directory entry sync is attempted; Windows uses native rename guarantees, and durability remains filesystem-dependent.
 - The Go configuration parser intentionally supports only the simple committed TOML subset; it rejects unknown/missing keys instead of silently accepting unexpected constructs. Python 3.12 `tomllib` also checks syntax in CI.
 - Hardening tests do not turn absent components into implemented features. Scheduler recovery, SQLite swapping/inference parity, seven unattended runs and PostgreSQL disk-exhaustion recovery are future implementation gates.
+
+### Phase 1: do not enable live backfill before transactional storage
+
+The implementation introduces an offline-tested `LandingStore` boundary instead of publishing an unmetered backfill command. `RunBarsBackfill` always invokes routes through `live.Gateway`, and a failed validation or storage operation never marks a job complete. This still does **not** guarantee crash-safe quota accounting: before any production integration, implement durable reservations written *prior to* the API call in PostgreSQL (`ops.api_reservations`), with outcome updates and resumable job state. Neither a JSON checkpoint nor a memory-only pacer is acceptable as the sole source of quota truth.
