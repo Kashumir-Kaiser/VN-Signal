@@ -36,3 +36,10 @@ The implementation introduces an offline-tested `LandingStore` boundary instead 
 - Only an already-metered, successful v5 `Reference().equity.list_by_exchange()` probe with a complete embedded response is eligible for offline import. `symbol` and `exchange` are required; `icb_code_lv2` is an industry code, not an English/Vietnamese name. No guessed metadata.
 - The CLI requires at least 1,000 equities and all three exchanges before changing the current listed universe. A drop of more than 5%, out-of-order input or same-day conflict blocks the whole transaction instead of silently mass-delisting stocks. This threshold is a protective heuristic, not an external free-tier limit.
 - Keep inactive names and daily listing snapshots for future survivorship analysis. Store exact vendor response bytes alongside JSONB (migration 004): comparing SHA-256 with reserialized JSONB is invalid because its canonical representation need not match the input bytes.
+
+## 2026-10-16 — verified queue before quota cap
+
+- Historical backfill candidates are always derived from the latest complete local PostgreSQL listing snapshot. No live CLI-provided ticker array; the preview-only tool can still accept a file without authorizing API calls.
+- The source frame's stored bytes must verify against `payload_sha256`; membership must match current active flags exactly and cover all three exchanges. A seven-day age limit is a conservative local operating guard, not a vnstock entitlement claim.
+- Resume keys are exact `(route,symbol,source,from,to)`. Exclude already completed and blocked keys before applying the current absolute quota cap; otherwise the same first N alphabetical symbols starve later symbols. A new `--to` date creates different jobs and must not be treated as an automatic incremental 5-session refresh.
+- Read membership/provenance/jobs in one repeatable-read PostgreSQL transaction. Existing per-attempt durable quota reservations, cross-process pacing and 15-minute recovery leases remain mandatory. Do not auto-enable background ingestion or financial suggestions before vendor/CI validation.
