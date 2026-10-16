@@ -71,7 +71,7 @@ func runBackfill(args []string) error {
 		return fmt.Errorf("verified PostgreSQL universe: %w", err)
 	}
 	if len(universe.Pending) == 0 {
-		fmt.Printf("No eligible backfill jobs: snapshot=%s total=%d completed=%d blocked=%d leased=%d\\n",
+		fmt.Printf("No eligible backfill jobs: snapshot=%s total=%d completed=%d blocked=%d leased=%d\n",
 			universe.AsOf, universe.Total, universe.Completed, universe.Blocked, universe.Leased)
 		return nil
 	}
@@ -146,7 +146,7 @@ func runBackfill(args []string) error {
 	}
 	runner := ingest.Runner{Gateway: gateway, Store: store, Now: time.Now}
 	summary, err := runner.RunBarsBackfill(ctx, plan.Planned, *source)
-	fmt.Printf("Backfill: snapshot=%s universe=%d completed_before=%d committed=%d skipped=%d blocked=%d leased=%d deferred=%d (serving snapshot untouched)\\n",
+	fmt.Printf("Backfill: snapshot=%s universe=%d completed_before=%d committed=%d skipped=%d blocked=%d leased=%d deferred=%d (serving snapshot untouched)\n",
 		universe.AsOf, universe.Total, universe.Completed, summary.Committed, summary.Skipped, universe.Blocked, universe.Leased, len(plan.Deferred))
 	return err
 }
