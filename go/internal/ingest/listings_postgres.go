@@ -92,8 +92,8 @@ func (p *PostgresStore) ImportListingSnapshot(ctx context.Context, snap ListingS
 	if err != nil {
 		return ListingImportSummary{}, err
 	}
-	_, err = tx.ExecContext(ctx, `INSERT INTO raw.landings(ingest_id,source,route,fetched_at,symbol,payload,payload_sha256)
- VALUES($1::uuid,'vci','equity_list',$2,NULL,$3::jsonb,$4)`, ingestID, snap.CollectedAt, string(snap.Frame), snap.SHA256)
+	_, err = tx.ExecContext(ctx, `INSERT INTO raw.landings(ingest_id,source,route,fetched_at,symbol,payload,payload_sha256,payload_bytes)
+ VALUES($1::uuid,'vci','equity_list',$2,NULL,$3::jsonb,$4,$5)`, ingestID, snap.CollectedAt, string(snap.Frame), snap.SHA256, []byte(snap.Frame))
 	if err != nil {
 		return ListingImportSummary{}, fmt.Errorf("raw listing landing: %w", err)
 	}
