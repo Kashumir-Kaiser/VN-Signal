@@ -202,7 +202,11 @@ func TestArchivedCompanyProfileIsProviderMetadataNotFirstTrade(t *testing.T) {
     if err!=nil{t.Fatal(err)}
     if _,err=store.ImportListingSnapshot(ctx,snap);err!=nil{t.Fatal(err)}
     report:=companyProbeFixture("X000","2020-02-01T00:00:00+07:00")
-    p,err:=ParseCompanyInfoProbe(report)
+    // Mimic the real Go probe's pretty-printed 2026-10-17.json rather
+    // than a compact synthetic frame. Previously failed on SHA mismatch.
+    var pretty bytes.Buffer
+    if err:=json.Indent(&pretty,report,"","  ");err!=nil{t.Fatal(err)}
+    p,err:=ParseCompanyInfoProbe(pretty.Bytes())
     if err!=nil{t.Fatal(err)}
     created,err:=store.ImportCompanyInfo(ctx,p)
     if err!=nil||!created{t.Fatalf("initial profile import: %v %v",created,err)}

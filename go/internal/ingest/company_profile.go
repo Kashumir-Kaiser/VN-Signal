@@ -59,48 +59,8 @@ func ParseCompanyInfoProbe(reportBytes []byte)(CompanyInfoProbe,error){
             return result,errors.New("invalid company symbol")
         }
     }
-    dec:=json.NewDecoder(bytes.NewReader(report.Frame))
-    dec.DisallowUnknownFields()
-    var frame listingFrame
-    if err:=dec.Decode(&frame);err!=nil{return result,err}
-    if err:=dec.Decode(new(any));err!=io.EOF{return result,errors.New("trailing company profile bytes")}
-    if frame.Count!=1||len(frame.Rows)!=1{return result,errors.New("company info must contain exactly one row")}
-    columns:=map[string]bool{}
-    for _,col:=range frame.Columns{
-        if col==""||columns[col]{return result,errors.New("duplicate company column")}
-        columns[col]=true
-    }
-    if !columns["symbol"]||!columns["listing_date"]{
-        return result,errors.New("company profile lacks source fields")
-    }
-    for key:=range frame.Rows[0]{
-        if !columns[key]{return result,errors.New("company profile contains unknown field")}
-    }
-    var fromSource string
-    if err:=json.Unmarshal(frame.Rows[0]["symbol"],&fromSource);err!=nil||fromSource!=symbol{
-        return result,errors.New("provider returned wrong security")
-    }
-    reported:=""
-    if date,ok:=frame.Rows[0]["listing_date"];ok && string(date)!="null" {
-        var value string
-        if err:=json.Unmarshal(date,&value);err!=nil{return result,errors.New("bad provider listing_date type")}
-        if len(value)<10{return result,errors.New("truncated provider listing_date")}
-        parsed,err:=time.Parse("2006-01-02",value[:10])
-        if err!=nil||parsed.Format("2006-01-02")!=value[:10] {
-            return result,errors.New("invalid provider listing_date")
-        }
-        if len(value)>10{
-            // ISO timestamp with an explicit offset or naive provider-local
-            // timestamp. Never apply UTC conversion to the reported date.
-            layouts:=[]string{time.RFC3339Nano,"2006-01-02T15:04:05","2006-01-02 15:04:05"}
-            valid:=false
-            for _,layout:=range layouts{
-                if _,err:=time.Parse(layout,value);err==nil{valid=true;break}
-            }
-            if !valid{return result,errors.New("invalid provider listing datetime")}
-        }
-        reported=value[:10]
-    }
+    reported,err:=parseCompanyInfoFrame(report.Frame,symbol)
+    if err!=nil{return result,err}
     h:=sha256.Sum256(report.Frame)
     return CompanyInfoProbe{
         Symbol:symbol,ObservedAt:at.UTC(),ReportedListingDate:reported,
@@ -109,16 +69,74 @@ func ParseCompanyInfoProbe(reportBytes []byte)(CompanyInfoProbe,error){
     },nil
 }
 
+// parseCompanyInfoFrame validates the ORIGINAL byte-for-byte archive payload.
+// Never round-trip through json.Marshal before comparing its source digest:
+// encoding/json compacts RawMessage (and json.MarshalIndent adds whitespace).
+func parseCompanyInfoFrame(raw json.RawMessage,symbol string)(string,error){
+    if !json.Valid(raw) || len(raw)>10*1024*1024 {
+        return "",errors.New("invalid company_info source frame bytes")
+    }
+    dec:=json.NewDecoder(bytes.NewReader(raw))
+    dec.DisallowUnknownFields()
+    var frame listingFrame
+    if err:=dec.Decode(&frame);err!=nil{return "",err}
+    if err:=dec.Decode(new(any));err!=io.EOF{return "",errors.New("trailing company profile bytes")}
+    if frame.Count!=1||len(frame.Rows)!=1{return "",errors.New("company info must contain exactly one row")}
+    columns:=map[string]bool{}
+    for _,col:=range frame.Columns{
+        if col==""||columns[col]{return "",errors.New("duplicate company column")}
+        columns[col]=true
+    }
+    if !columns["symbol"]||!columns["listing_date"]{
+        return "",errors.New("company profile lacks source fields")
+    }
+    for key:=range frame.Rows[0]{
+        if !columns[key]{return "",errors.New("company profile contains unknown field")}
+    }
+    var fromSource string
+    if err:=json.Unmarshal(frame.Rows[0]["symbol"],&fromSource);err!=nil||fromSource!=symbol{
+        return "",errors.New("provider returned wrong security")
+    }
+    reported:=""
+    if date,ok:=frame.Rows[0]["listing_date"];ok && string(date)!="null" {
+        var value string
+        if err:=json.Unmarshal(date,&value);err!=nil{return "",errors.New("bad provider listing_date type")}
+        if len(value)<10{return "",errors.New("truncated provider listing_date")}
+        parsed,err:=time.Parse("2006-01-02",value[:10])
+        if err!=nil||parsed.Format("2006-01-02")!=value[:10] {
+            return "",errors.New("invalid provider listing_date")
+        }
+        if len(value)>10{
+            // Keep the calendar day as reported by VCI; do not silently
+            // convert a midnight listing date through UTC.
+            layouts:=[]string{time.RFC3339Nano,"2006-01-02T15:04:05","2006-01-02 15:04:05"}
+            valid:=false
+            for _,layout:=range layouts{
+                if _,err:=time.Parse(layout,value);err==nil{valid=true;break}
+            }
+            if !valid{return "",errors.New("invalid provider listing datetime")}
+        }
+        reported=value[:10]
+    }
+    return reported,nil
+}
+
 func (p *PostgresStore) ImportCompanyInfo(ctx context.Context,profile CompanyInfoProbe)(bool,error){
     if p==nil||p.DB==nil{return false,errors.New("database not configured")}
     if len(profile.Raw)==0||profile.ObservedAt.IsZero(){return false,errors.New("missing source bytes")}
-    // Reparse a synthetic active probe frame at the same boundary so caller
-    // cannot substitute a forged symbol or normalized listing date.
-    verified,err:=ParseCompanyInfoProbe(mustMarshalProfileProbe(profile))
-    if err!=nil || verified.Symbol!=profile.Symbol ||
-        verified.ReportedListingDate!=profile.ReportedListingDate ||
-        verified.SHA256!=profile.SHA256{
-        return false,errors.New("company profile differs from vendor bytes")
+    // Validate directly against the preserved JSON bytes. Re-marshalling
+    // the saved probe compacts RawMessage and changes the SHA-256 despite
+    // logically identical JSON, so it is never appropriate for provenance.
+    h:=sha256.Sum256(profile.Raw)
+    if hex.EncodeToString(h[:])!=strings.ToLower(profile.SHA256){
+        return false,errors.New("company profile original-byte SHA-256 mismatch")
+    }
+    observedListingDate,err:=parseCompanyInfoFrame(profile.Raw,profile.Symbol)
+    if err!=nil{
+        return false,fmt.Errorf("company profile original bytes invalid: %w",err)
+    }
+    if observedListingDate!=profile.ReportedListingDate{
+        return false,errors.New("company profile listing date differs from original source bytes")
     }
     tx,err:=p.DB.BeginTx(ctx,&sql.TxOptions{Isolation:sql.LevelSerializable})
     if err!=nil{return false,err}
@@ -164,15 +182,3 @@ func (p *PostgresStore) ImportCompanyInfo(ctx context.Context,profile CompanyInf
     return true,tx.Commit()
 }
 
-// Recreate a minimal active probe envelope for boundary revalidation.
-// All relevant fields come from the original profile object; raw itself is
-// parsed and matched again, including its symbol and date.
-func mustMarshalProfileProbe(p CompanyInfoProbe) []byte {
-    body,_:=json.Marshal(map[string]any{
-        "active":true,"at":p.ObservedAt.Format(time.RFC3339Nano),
-        "routes":map[string]any{"company_info":map[string]any{"available":true,"count":1}},
-        "company_info_symbol":p.Symbol,
-        "company_info_frame":p.Raw,
-    })
-    return body
-}

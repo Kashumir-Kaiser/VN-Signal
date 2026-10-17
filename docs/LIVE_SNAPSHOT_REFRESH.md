@@ -94,3 +94,30 @@ enabled and tested with injected fake workers, one-call quota exhaustion,
 and offline-mode rejection. The original failed probe contains **no
 company frame**, so it cannot be imported; one new explicit profile
 request is required on the registered workstation to obtain genuine data.
+
+## 2026-10-17 original-byte validation correction
+
+A subsequent real VCI ABR response returned one company_info row with
+`listing_date` and attributes `fundamental.company.info` / `vci`.
+The frame was saved successfully, but `ImportCompanyInfo` rejected it as
+"company profile differs from vendor bytes". Root cause: importer
+constructed a **synthetic JSON probe using json.Marshal** as its second
+validation pass. json.Marshal normalizes the whitespace in the already
+pretty-printed `json.RawMessage`; source SHA-256 hashes by raw bytes,
+therefore the incorrect round trip changed the digest despite identical
+provider data. It also redundantly pretended to authenticate another probe.
+
+The importer now compares the original raw bytes against the original
+SHA-256 and validates the original frame's ticker and reported date
+without JSON re-encoding. Regression tests exercise the exact
+`json.MarshalIndent` archive format, the previous digest mismatch,
+transactional storage, corrupted digests, symbol mismatches and date
+forgery. **No repeat VCI request is required** to import the retained
+`docs/probe/company/20261017T014949.191191700Z/2026-10-17.json`
+report. From the repo root:
+
+```bash
+export VNPIPE_DISABLE_LIVE=1
+go -C go run -mod=mod -tags postgres ./cmd/vnpipe import-company-info \
+  --probe "../docs/probe/company/20261017T014949.191191700Z/2026-10-17.json"
+```
