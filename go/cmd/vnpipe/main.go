@@ -297,6 +297,27 @@ func probeFailureDetails(err error) map[string]any {
 	return details
 }
 
+// Check a saved route summary without disclosing provider exception messages,
+// account usage, local paths, or authentication details.
+func companyProbeRouteError(routes json.RawMessage) error {
+    var report map[string]json.RawMessage
+    if err:=json.Unmarshal(routes,&report);err!=nil{return fmt.Errorf("company_info route summary invalid: %w",err)}
+    body,ok:=report["company_info"]
+    if !ok{return errors.New("company_info route missing from saved active probe")}
+    var state struct {
+        Available bool `json:"available"`
+        Count int `json:"count"`
+        ErrorType string `json:"error_type"`
+        ErrorCause string `json:"error_cause"`
+    }
+    if err:=json.Unmarshal(body,&state);err!=nil{return fmt.Errorf("company_info route status invalid: %w",err)}
+    if !state.Available || state.Count!=1 {
+        return fmt.Errorf("company_info route unavailable: error_type=%s cause=%s count=%d",
+            state.ErrorType,state.ErrorCause,state.Count)
+    }
+    return nil
+}
+
 func run(args []string) error {
 	if len(args) == 0 {
 		usage()
@@ -422,7 +443,9 @@ func run(args []string) error {
 					continue
 				}
 				if !resp.OK {
-					summary[op] = map[string]any{"available": false, "error_type": resp.Error.Type, "duration_ms": elapsed}
+                    details:=map[string]any{"available":false,"error_type":resp.Error.Type,"duration_ms":elapsed}
+                    if resp.Error.Cause!="" { details["error_cause"]=resp.Error.Cause }
+					summary[op] = details
 					continue
 				}
 				var payload struct {
@@ -431,6 +454,14 @@ func run(args []string) error {
 					Rows       []map[string]any `json:"rows"`
 					Attributes map[string]any   `json:"attributes"`
 				}
+                // Retain successful provider data even if downstream frame
+                // validation later fails. No extra vendor request is required
+                // to investigate source shapes on the registered machine.
+                if op=="company_info" {
+                    report["company_info_frame"]=append(json.RawMessage(nil),resp.Data...)
+                    symbolJSON,_:=json.Marshal(job["symbol"].(string))
+                    report["company_info_symbol"]=symbolJSON
+                }
 				if e := json.Unmarshal(resp.Data, &payload); e != nil {
 					summary[op] = map[string]any{"available": false, "error_type": "InvalidRouteFrame", "duration_ms": elapsed}
 					continue
@@ -473,12 +504,18 @@ func run(args []string) error {
                         summary[op] = map[string]any{"available":false,"error_type":"InvalidCompanyInfoFrame","duration_ms":elapsed}
                         continue
                     }
-                    report["company_info_frame"] = append(json.RawMessage(nil),resp.Data...)
-                    symbolJSON,_:=json.Marshal(symbol)
-                    report["company_info_symbol"] = symbolJSON
+                    // The original frame and requested symbol were already
+                    // retained before validation for offline inspection.
                 }
 
-				summary[op] = map[string]any{"available": payload.Count > 0, "count": payload.Count, "columns": payload.Columns, "first_observed_date": first, "last_observed_date": last, "attributes": payload.Attributes, "duration_ms": elapsed}
+                details:=map[string]any{"available":payload.Count>0,
+                    "count":payload.Count,"columns":payload.Columns,
+                    "first_observed_date":first,"last_observed_date":last,
+                    "attributes":payload.Attributes,"duration_ms":elapsed}
+                if op=="company_info" && payload.Count==0 {
+                    details["error_type"]="EmptyCompanyInfo"
+                }
+				summary[op] = details
 			}
 			report["active"] = json.RawMessage("true")
 			encoded, _ := json.Marshal(summary)
@@ -503,6 +540,11 @@ func run(args []string) error {
 			return err
 		}
 		fmt.Printf("Probe report: %s (active=%v). Does NOT certify entitlements.\n", name, *active)
+        if *active && len(requests)==1 && requests[0]["op"]=="company_info" {
+            if routeErr:=companyProbeRouteError(report["routes"]);routeErr!=nil {
+                return fmt.Errorf("%w; saved report=%s",routeErr,name)
+            }
+        }
 		return nil
 	case "migrate":
 		f := flag.NewFlagSet("migrate", flag.ContinueOnError)

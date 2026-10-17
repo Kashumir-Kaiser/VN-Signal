@@ -30,6 +30,7 @@ type Response struct {
 	Error *struct {
 		Type    string `json:"type"`
 		Message string `json:"message"`
+        Cause   string `json:"cause,omitempty"`
 	} `json:"error"`
 }
 

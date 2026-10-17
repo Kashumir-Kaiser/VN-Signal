@@ -223,8 +223,23 @@ def main() -> None:
             cls = type(ex).__name__
             if cls not in ("EntitlementError", "RateLimitedError", "InputError", "ValueError"):
                 cls = "AdapterError"
+            # Keep a stable, non-sensitive exception category in the wire
+            # response. Do not copy vendor error text to probe reports.
+            safe_causes = {
+                "AttributeError", "TypeError", "KeyError", "IndexError",
+                "ValueError", "RuntimeError", "ConnectionError",
+                "TimeoutError", "HTTPError", "RequestException",
+                "EntitlementError", "RateLimitedError", "InputError",
+                "DataSourceError", "DataUnavailableError",
+                "ModuleNotFoundError", "ImportError",
+            }
+            cause = type(ex).__name__
             output = {"id": job.get("id") if isinstance(job, dict) else None,
-                      "ok": False, "error": {"type": cls, "message": str(ex)[:280]}}
+                      "ok": False, "error": {
+                          "type": cls,
+                          "message": str(ex)[:280],
+                          "cause": cause if cause in safe_causes else "UnknownAdapterError",
+                      }}
         try:
                         # ASCII escaping keeps JSONL writes independent of Windows' active
             # console code page while preserving the decoded Unicode values.

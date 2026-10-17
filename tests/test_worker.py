@@ -196,3 +196,20 @@ class LocalCLITests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class AdapterErrorCauseTests(unittest.TestCase):
+    def test_safe_exception_class_survives_without_vendor_text_in_category(self):
+        for name in ("AttributeError", "TypeError", "ConnectionError"):
+            failure = type(name, (Exception,), {})("vendor private authentication data")
+            inp = types.SimpleNamespace(buffer=io.BytesIO(
+                b'{"id":"company-1","op":"company_info","symbol":"ABR"}\n'))
+            out = io.StringIO()
+            with patch.object(worker.sys, "stdin", inp), \
+                 patch.object(worker.sys, "stdout", out), \
+                 patch.object(worker, "_fetch", side_effect=failure):
+                worker.main()
+            parsed = json.loads(out.getvalue())
+            self.assertFalse(parsed["ok"])
+            self.assertEqual(parsed["error"]["type"], "AdapterError")
+            self.assertEqual(parsed["error"]["cause"], name)
+            self.assertNotIn("vendor private", parsed["error"]["cause"])

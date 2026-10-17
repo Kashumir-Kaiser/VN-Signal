@@ -33,14 +33,20 @@ func ParseCompanyInfoProbe(reportBytes []byte)(CompanyInfoProbe,error){
         Routes map[string]struct{
             Available bool `json:"available"`
             Count int `json:"count"`
+            ErrorType string `json:"error_type"`
+            ErrorCause string `json:"error_cause"`
         } `json:"routes"`
         CompanySymbol string `json:"company_info_symbol"`
         Frame json.RawMessage `json:"company_info_frame"`
     }
     if err:=json.Unmarshal(reportBytes,&report);err!=nil{return result,err}
     route,ok:=report.Routes["company_info"]
-    if !report.Active || !ok || !route.Available || route.Count!=1{
-        return result,errors.New("company info source not verified by an active Go probe")
+    if !report.Active || !ok {
+        return result,errors.New("company_info not verified: missing active route proof")
+    }
+    if !route.Available || route.Count!=1{
+        return result,fmt.Errorf("company_info unavailable: error_type=%s cause=%s count=%d",
+            route.ErrorType,route.ErrorCause,route.Count)
     }
     at,err:=time.Parse(time.RFC3339Nano,report.At)
     if err!=nil{return result,err}

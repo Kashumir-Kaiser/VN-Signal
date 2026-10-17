@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+    "encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -175,4 +176,21 @@ func TestProbeFailureDetailsExitCodeIsSafe(t *testing.T) {
 	if strings.Contains(fmt.Sprint(details), "private output") {
 		t.Fatalf("private stderr leaked into report fields: %v", details)
 	}
+}
+
+func TestCompanyProbeRouteErrorPreservesSafeDiagnostics(t *testing.T) {
+    cases:=[]struct{payload string;want string}{
+        {`{"company_info":{"available":false,"error_type":"AdapterError","error_cause":"AttributeError"}}`,"AttributeError"},
+        {`{"company_info":{"available":false,"count":0,"error_type":"EmptyCompanyInfo"}}`,"EmptyCompanyInfo"},
+        {`{"company_info":{"available":false,"error_type":"InvalidCompanyInfoFrame"}}`,"InvalidCompanyInfoFrame"},
+        {`{"company_info":{"available":true,"count":1}}`,""},
+    }
+    for _,c:=range cases{
+        err:=companyProbeRouteError(json.RawMessage(c.payload))
+        if c.want=="" {
+            if err!=nil{t.Fatalf("valid route rejected: %v",err)}
+        }else if err==nil||!strings.Contains(err.Error(),c.want){
+            t.Fatalf("route error lost %q: %v",c.want,err)
+        }
+    }
 }

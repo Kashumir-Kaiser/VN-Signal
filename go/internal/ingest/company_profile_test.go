@@ -3,6 +3,7 @@ package ingest
 import (
     "encoding/json"
     "testing"
+    "strings"
 )
 
 func companyProbeFixture(symbol,date string) []byte {
@@ -42,5 +43,20 @@ func TestCompanyInfoProbeSourceSemantics(t *testing.T) {
     p.Symbol="BBB"
     if _,err=ParseCompanyInfoProbe(mustMarshalProfileProbe(p));err==nil{
         t.Fatal("swapped symbol accepted")
+    }
+}
+
+func TestCompanyInfoProbeReportsSavedRouteCause(t *testing.T) {
+    raw,_:=json.Marshal(map[string]any{
+        "active":true,"at":"2026-10-17T08:32:00+07:00",
+        "routes":map[string]any{"company_info":map[string]any{
+            "available":false,"count":0,
+            "error_type":"AdapterError","error_cause":"AttributeError",
+        }},
+    })
+    _,err:=ParseCompanyInfoProbe(raw)
+    if err==nil || !strings.Contains(err.Error(),"AdapterError") ||
+        !strings.Contains(err.Error(),"AttributeError"){
+        t.Fatalf("lost verified route failure cause: %v",err)
     }
 }
