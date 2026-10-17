@@ -295,9 +295,12 @@ func TestProfileBatchQueueQuotaAndResume(t *testing.T) {
     if err=db.QueryRow(`SELECT attempted FROM ops.company_profile_batch_runs WHERE batch_id=$1`,batch).Scan(&n);err!=nil||n!=2{
         t.Fatalf("batch summary absent: %d %v",n,err)
     }
+    var rawFlags string
+    err=db.QueryRow(`SELECT to_json(review_flags)::text FROM ops.company_profile_coverage_review WHERE symbol='X000'`).Scan(&rawFlags)
+    if err!=nil{t.Fatal(err)}
     var flags []string
-    err=db.QueryRow(`SELECT review_flags FROM ops.company_profile_coverage_review WHERE symbol='X000'`).Scan(&flags)
-    if err!=nil||!slices.Contains(flags,"NO_VALID_OHLCV_ROWS")||
+    if err=json.Unmarshal([]byte(rawFlags),&flags);err!=nil{t.Fatal(err)}
+    if !slices.Contains(flags,"NO_VALID_OHLCV_ROWS")||
        !slices.Contains(flags,"FIRST_EVER_PUBLIC_TRADE_UNVERIFIED"){
         t.Fatalf("coverage flags wrong: %+v %v",flags,err)
     }

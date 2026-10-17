@@ -295,7 +295,7 @@ func runProfileStatus(args []string)error{
     defer db.Close()
     rows,err:=db.QueryContext(ctx,`SELECT symbol,profile_job_state,
        reported_listing_date::text,first_traded_bar::text,source_zero_unverified,
-       review_flags FROM ops.company_profile_coverage_review
+       to_json(review_flags)::text FROM ops.company_profile_coverage_review
        ORDER BY CASE WHEN 'ZERO_VOLUME_LIFECYCLE_UNVERIFIED'=ANY(review_flags) THEN 0 ELSE 1 END,
           source_zero_unverified DESC,symbol LIMIT $1`,*limit)
     if err!=nil{return err}
@@ -305,8 +305,10 @@ func runProfileStatus(args []string)error{
         var sym,state string
         var listing,first sql.NullString
         var z int64
+        var rawFlags string
+        if err:=rows.Scan(&sym,&state,&listing,&first,&z,&rawFlags);err!=nil{return err}
         var flags []string
-        if err:=rows.Scan(&sym,&state,&listing,&first,&z,&flags);err!=nil{return err}
+        if err:=json.Unmarshal([]byte(rawFlags),&flags);err!=nil{return err}
         result=append(result,map[string]any{
             "symbol":sym,"state":state,"reported_listing_date":listing.String,
             "first_traded_bar":first.String,"source_zero_unverified":z,
