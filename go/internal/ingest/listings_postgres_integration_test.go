@@ -8,6 +8,10 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+    "errors"
+    "slices"
+    "strings"
+    "time"
 	"testing"
 )
 
@@ -230,5 +234,71 @@ func TestArchivedCompanyProfileIsProviderMetadataNotFirstTrade(t *testing.T) {
     p.ReportedListingDate="1999-01-01"
     if _,err=store.ImportCompanyInfo(ctx,p);err==nil{
         t.Fatal("caller-invented reported listing date accepted")
+    }
+}
+
+func TestProfileBatchQueueQuotaAndResume(t *testing.T) {
+    db:=pgTestDB(t)
+    clearDB(t,db)
+    store,_:=NewPostgresStore(db)
+    ctx:=context.Background()
+    snap,err:=ParseListingProbe(listingIntegrationFixture("2026-10-16",20),3)
+    if err!=nil{t.Fatal(err)}
+    if _,err=store.ImportListingSnapshot(ctx,snap);err!=nil{t.Fatal(err)}
+    if err=store.SeedProfileQueue(ctx);err!=nil{t.Fatal(err)}
+    queue,err:=store.ProfileQueue(ctx)
+    if err!=nil||len(queue)!=21{t.Fatalf("full universe not queued: %d %v",len(queue),err)}
+    profile,err:=ParseCompanyInfoProbe(companyProbeFixture("X000","2020-02-01"))
+    if err!=nil{t.Fatal(err)}
+    if _,err=store.ImportCompanyInfo(ctx,profile);err!=nil{t.Fatal(err)}
+    if err=store.SeedProfileQueue(ctx);err!=nil{t.Fatal(err)}
+    queue,err=store.ProfileQueue(ctx)
+    if err!=nil{t.Fatal(err)}
+    imported:=false
+    for _,c:=range queue{if c.Symbol=="X000"{imported=c.State=="IMPORTED"}}
+    if !imported{t.Fatal("already imported profile requeued")}
+    q:=QuotaSnapshot{
+        DailyRemaining:30,MonthlyRemaining:3000,TradingDaysRemaining:10,
+        VerifiedRPM:60,ObservedAt:time.Now().UTC().Add(-time.Millisecond),
+    }
+    if err=store.InstallQuota(ctx,q);err!=nil{t.Fatal(err)}
+    dir:=t.TempDir()
+    first,at,err:=store.ReserveProfileCall(ctx,"X001",dir,false,false)
+    if err!=nil||first.ID==0||at.IsZero(){t.Fatalf("durable reserve: %+v %v",first,err)}
+    if !strings.HasSuffix(first.ReportPath,fmt.Sprintf("X001-%012d.json",first.ID)){
+        t.Fatalf("wrong deterministic archive path: %s",first.ReportPath)
+    }
+    if _,_,err=store.ReserveProfileCall(ctx,"X001",dir,false,false);!errors.Is(err,ErrProfileUnknownOutcome){
+        t.Fatalf("in flight request not protected: %v",err)
+    }
+    attempts,err:=store.UnfinishedProfileAttempts(ctx)
+    if err!=nil||len(attempts)!=1||attempts[0].ID!=first.ID{t.Fatalf("no recoverable attempt: %+v %v",attempts,err)}
+    if err=store.EndProfileCall(ctx,first.ID,"UNKNOWN","InterruptedWithoutSavedResponse");err!=nil{t.Fatal(err)}
+    if _,_,err=store.ReserveProfileCall(ctx,"X001",dir,false,false);!errors.Is(err,ErrProfileUnknownOutcome){
+        t.Fatalf("unknown request automatically repeated: %v",err)
+    }
+    repeated,_,err:=store.ReserveProfileCall(ctx,"X001",dir,false,true)
+    if err!=nil||repeated.ID==first.ID{t.Fatalf("explicit retry failed: %+v %v",repeated,err)}
+    if err=store.EndProfileCall(ctx,repeated.ID,"ERROR","ProviderFailure");err!=nil{t.Fatal(err)}
+    if _,_,err=store.ReserveProfileCall(ctx,"X001",dir,false,false);!errors.Is(err,ErrProfileAlreadyHandled){
+        t.Fatalf("error request auto retried: %v",err)
+    }
+    var spent int
+    if err=db.QueryRow(`SELECT spent FROM ops.quota_guard`).Scan(&spent);err!=nil||spent!=2{
+        t.Fatalf("shared quota not debited twice: %d %v",spent,err)
+    }
+    batch,err:=store.StartProfileBatch(ctx,5)
+    if err!=nil{t.Fatal(err)}
+    sum:=ProfileBatchSummary{BatchID:batch,MaxCalls:5,Attempted:2,Errors:1,SkippedExisting:1,SkippedUnknown:1}
+    if err=store.FinishProfileBatch(ctx,sum);err!=nil{t.Fatal(err)}
+    var n int
+    if err=db.QueryRow(`SELECT attempted FROM ops.company_profile_batch_runs WHERE batch_id=$1`,batch).Scan(&n);err!=nil||n!=2{
+        t.Fatalf("batch summary absent: %d %v",n,err)
+    }
+    var flags []string
+    err=db.QueryRow(`SELECT review_flags FROM ops.company_profile_coverage_review WHERE symbol='X000'`).Scan(&flags)
+    if err!=nil||!slices.Contains(flags,"NO_VALID_OHLCV_ROWS")||
+       !slices.Contains(flags,"FIRST_EVER_PUBLIC_TRADE_UNVERIFIED"){
+        t.Fatalf("coverage flags wrong: %+v %v",flags,err)
     }
 }

@@ -34,6 +34,8 @@ Usage:
   vnpipe refresh-listings --active --trading-days N [--out DIR] (one metered call, save and import)
   vnpipe refresh-company-info --active --trading-days N --symbol TICKER [--out DIR]
   vnpipe import-company-info --probe FILE (offline source-backed profile import)
+  vnpipe collect-company-profiles --active --trading-days N [--max-calls N] [--out DIR]
+  vnpipe company-profile-status [--limit N] (offline coverage review)
   vnpipe rebuild-security-master (offline sync of every archived VCI equity_list frame)
   vnpipe backfill-status --from DATE --to DATE [--source vci] (read-only)
   vnpipe reprocess-archived --from DATE --to DATE --source vci (offline no-quota)
@@ -574,6 +576,10 @@ func run(args []string) error {
 		return runRefreshListings(args[1:])
 	case "import-company-info":
 		return runImportCompanyInfo(args[1:])
+	case "collect-company-profiles":
+		return runProfileBatch(args[1:])
+	case "company-profile-status":
+		return runProfileStatus(args[1:])
 	case "refresh-company-info":
 		return runRefreshCompanyInfo(args[1:])
 	case "rebuild-security-master":

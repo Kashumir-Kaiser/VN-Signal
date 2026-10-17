@@ -159,3 +159,7 @@ Zero volume alone cannot distinguish a listed security with no trades from a com
 ### Refresh live listing and company metadata on your registered computer
 
 Use `vnpipe refresh-listings --active --trading-days N` for one genuine quota-metered VCI listing call followed by the transactional PostgreSQL import. Use `vnpipe refresh-company-info --active --trading-days N --symbol ABR` for a real v5 `Reference().company(...).info(source="vci")` profile request with verbatim source archiving. These explicit calls are blocked by `VNPIPE_DISABLE_LIVE=1`. The reported `listing_date` is **not** used as a verified first-ever public-trading date. See [live metadata snapshot guide](docs/LIVE_SNAPSHOT_REFRESH.md).
+
+### Resumable profile collection and coverage review (Phase 1)
+
+After migration 010, run `vnpipe collect-company-profiles --active --trading-days N --max-calls 50` to collect source-backed VCI profiles in a resumable PostgreSQL queue, with global quota-guard reservations and original-frame archives. Use `vnpipe company-profile-status --limit 30` and `sql/diagnostics/company_profile_coverage.sql` for offline coverage flags (not inferred lifecycle dates). See [batch collection runbook](docs/COMPANY_PROFILE_BATCH.md).
