@@ -108,3 +108,34 @@ was broken: if the original saved success frame validates under the
 current code, it is imported offline and the job is reconciled to
 `IMPORTED`/`MISSING_DATE`. Invalid/error route frames remain `ERROR`
 and require explicit `--retry-errors` to consume another quota unit.
+
+## 2026-10-17 single-connection deadlock regression
+
+Earlier `collect-company-profiles` appeared frozen after
+`PostgreSQL migrations applied: 1`. No API calls were being made.
+`openPostgres` intentionally configured `SetMaxOpenConns(1)`, while
+`profileBatchLock` pinned that only connection for a session-level advisory
+lock for the entire run. `SeedProfileQueue` waited for another connection
+that would never be made; the five-hour context obscured the failure.
+
+The collector now **only for this command** raises the pool to **two**
+connections (one dedicated to the advisory lock and one for ordinary
+queries), checks the configuration before taking its lock, and prints a
+startup/progress line before any potentially blocking operation. An
+actual-PostgreSQL regression test starts with the original single-connection
+factory, confirms the lock refuses to run, then opens the second connection
+and executes a query and transaction while the lock remains held.
+No separate worker or parallel API request was introduced.
+
+If a previous run has frozen, stop it with Ctrl+C, update main, then
+rerun the same command. The database queue persists across restarts.
+A frozen run that never passed initial seeding cannot have dispatched
+profile requests. Existing rows and saved source frames are not cleared.
+
+For offline inspection of preexisting attempts and batches:
+```bash
+psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 -c "
+SELECT state,count(*) FROM ops.company_profile_jobs GROUP BY state ORDER BY state;
+SELECT batch_id,started_at,finished_at,attempted,last_error_type
+FROM ops.company_profile_batch_runs ORDER BY batch_id DESC LIMIT 10;"
+```

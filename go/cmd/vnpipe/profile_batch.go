@@ -143,10 +143,26 @@ func awaitProfileDispatch(ctx context.Context,at time.Time)error{
     select{case <-timer.C:return ctx.Err();case <-ctx.Done():return ctx.Err()}
 }
 
+// openPostgres intentionally defaults to ONE connection for ordinary
+// ingestion. A session-level advisory lock pins that connection until the
+// batch ends; without another connection, the first queue query deadlocks
+// waiting for the 5-hour command context. Only this batch uses two connections.
+// All profile vendor calls remain strictly serial and quota-metered.
+func configureProfileBatchDB(db *sql.DB) error {
+    if db == nil {return errors.New("PostgreSQL required")}
+    db.SetMaxOpenConns(2)
+    db.SetMaxIdleConns(2)
+    return nil
+}
+
 // The batch lock is session-scoped. It prevents two copies of this collector
 // from racing in parallel, while the existing quota_guard row serializes
 // allowances and pacing with the OHLCV backfill process.
 func profileBatchLock(ctx context.Context,db *sql.DB)(func(),error){
+    if db==nil {return nil,errors.New("PostgreSQL required")}
+    if max:=db.Stats().MaxOpenConnections;max>0 && max<2 {
+        return nil,fmt.Errorf("company profile batch requires >=2 PostgreSQL connections (one pinned for its advisory lock); configured max=%d",max)
+    }
     conn,err:=db.Conn(ctx)
     if err!=nil{return nil,err}
     var locked bool
@@ -183,19 +199,29 @@ func runProfileBatch(args []string)(retErr error){
     if err:=os.MkdirAll(absOut,0700);err!=nil{return err}
     ctx,cancel:=context.WithTimeout(context.Background(),5*time.Hour)
     defer cancel()
+    fmt.Fprintln(os.Stdout,"Profile batch: opening PostgreSQL (no vendor calls yet)")
     db,err:=openPostgres(ctx,os.Getenv("DATABASE_URL"))
     if err!=nil{return err}
     defer db.Close()
-    unlock,err:=profileBatchLock(ctx,db)
+    // openPostgres normally caps connections at one. Do not hold that sole
+    // connection for a long-lived session advisory lock.
+    if err=configureProfileBatchDB(db);err!=nil{return err}
+    fmt.Fprintln(os.Stdout,"Profile batch: acquiring single-run advisory lock")
+    lockCtx,lockCancel:=context.WithTimeout(ctx,10*time.Second)
+    defer lockCancel()
+    unlock,err:=profileBatchLock(lockCtx,db)
     if err!=nil{return err}
     defer unlock()
     store,err:=ingest.NewPostgresStore(db)
     if err!=nil{return err}
-    if err=store.SeedProfileQueue(ctx);err!=nil{return err}
-    restored,err:=recoverProfileAttempts(ctx,store)
+    fmt.Fprintln(os.Stdout,"Profile batch: loading queue and recovering archived responses (offline)")
+    setupCtx,setupCancel:=context.WithTimeout(ctx,30*time.Second)
+    defer setupCancel()
+    if err=store.SeedProfileQueue(setupCtx);err!=nil{return fmt.Errorf("seed profile queue: %w",err)}
+    restored,err:=recoverProfileAttempts(setupCtx,store)
     if err!=nil{return err}
-    if err=store.SeedProfileQueue(ctx);err!=nil{return err}
-    candidates,err:=store.ProfileQueue(ctx)
+    if err=store.SeedProfileQueue(setupCtx);err!=nil{return err}
+    candidates,err:=store.ProfileQueue(setupCtx)
     if err!=nil{return err}
     summary:=ingest.ProfileBatchSummary{Candidates:len(candidates),MaxCalls:*maxCalls}
     eligible:=make([]string,0,len(candidates))
@@ -222,7 +248,10 @@ func runProfileBatch(args []string)(retErr error){
         fmt.Fprintf(os.Stdout,"Recovered saved profiles: %d\n",restored)
         _=json.NewEncoder(os.Stdout).Encode(summary)
     }()
+    fmt.Fprintf(os.Stdout,"Profile batch: %d securities, %d pending/retryable, %d already archived, %d skipped errors, %d skipped unknowns; recovered=%d\n",
+        len(candidates),len(eligible),summary.SkippedExisting,summary.SkippedErrors,summary.SkippedUnknown,restored)
     if len(eligible)==0{return nil}
+    fmt.Fprintln(os.Stdout,"Profile batch: checking registered vnstock allowance (no market-data call)")
     // Passive CLI usage is FREE of market-data calls, and reading it
     // confirms authenticated tier, absolute daily/monthly quota and RPM.
     quotaSnap,err:=observeAbsoluteQuota(ctx,*days,func(ctx context.Context,req map[string]any)(worker.Response,error){
@@ -247,7 +276,10 @@ func runProfileBatch(args []string)(retErr error){
         })
     }
     count:=min(len(eligible),*maxCalls,budget)
+    fmt.Fprintf(os.Stdout,"Profile batch: up to %d metered VCI calls (max requested=%d; verified budget=%d; RPM=%d)\n",
+        count,*maxCalls,budget,quotaSnap.VerifiedRPM)
     for _,symbol:=range eligible[:count]{
+        fmt.Fprintf(os.Stdout,"Profile batch: starting %s (%d/%d), verifying quota\n",symbol,summary.Attempted+1,count)
         if err=ensureFreshQuota(ctx,store,quotaSnap.VerifiedRPM,quotaReader);err!=nil{
             summary.LastErrorType="QuotaRefresh";return err
         }
@@ -257,6 +289,8 @@ func runProfileBatch(args []string)(retErr error){
             return fmt.Errorf("profile %s reservation failed: %w",symbol,e)
         }
         summary.Attempted++
+        fmt.Fprintf(os.Stdout,"Profile batch: reserved %s attempt=%d; dispatch after %s\n",
+            symbol,attempt.ID,when.In(time.FixedZone("ICT",7*3600)).Format("15:04:05 MST"))
         // The durable reservation exists before any possible vendor call.
         if err=awaitProfileDispatch(ctx,when);err!=nil{
             if e=store.EndProfileCall(context.Background(),attempt.ID,"UNKNOWN","CancelledBeforeWorker");e!=nil{return e}
@@ -267,6 +301,7 @@ func runProfileBatch(args []string)(retErr error){
         req:=map[string]any{"id":fmt.Sprintf("profile-%d",attempt.ID),
             "op":"company_info","symbol":symbol,"source":"vci"}
         reply,callErr:=gateway.Call(ctx,req)
+        fmt.Fprintf(os.Stdout,"Profile batch: %s worker completed (ok=%v); preserving response\n",symbol,reply.OK && callErr==nil)
         if saveErr:=saveProfileBatchReport(attempt.ReportPath,symbol,reply,callErr);saveErr!=nil{
             // The vendor may already have charged the call. Do not retry it.
             summary.Errors++
@@ -278,6 +313,7 @@ func runProfileBatch(args []string)(retErr error){
             if e=store.EndProfileCall(ctx,attempt.ID,"ERROR",reason);e!=nil{return e}
             summary.Errors++
             summary.LastErrorType=reason
+            fmt.Fprintf(os.Stdout,"Profile batch: %s failed (%s); evidence saved\n",symbol,reason)
             if reason!="DataUnavailableError" && reason!="InputError" {
                 return fmt.Errorf("provider blocked %s with %s; saved evidence %s",symbol,reason,attempt.ReportPath)
             }
