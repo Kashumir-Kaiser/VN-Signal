@@ -151,3 +151,40 @@ func TestVerifiedUniverseRejectsSymbolIndustryDrift(t *testing.T) {
 		t.Fatalf("current classification drift accepted: %v", err)
 	}
 }
+// A32/ABC-style requeued legacy errors have no archived source for offline
+// recovery. Skip them by default, but keep explicit retry possible.
+func TestBackfillDefersLegacyInvalidFrameWithoutWriting(t *testing.T){
+    db:=pgTestDB(t)
+    clearDB(t,db)
+    store,err:=NewPostgresStore(db)
+    if err!=nil{t.Fatal(err)}
+    ctx:=context.Background()
+    now:=time.Now()
+    today:=vnMarketDate(now).Format("2006-01-02")
+    snap,err:=ParseListingProbe(listingIntegrationFixture(today,1000),1000)
+    if err!=nil{t.Fatal(err)}
+    if _,err=store.ImportListingSnapshot(ctx,snap);err!=nil{t.Fatal(err)}
+    _,err=db.ExecContext(ctx,`INSERT INTO ops.ingest_jobs
+      (idempotency_key,route,symbol,source,date_from,date_to,state,attempts,last_error_type)
+      VALUES
+      ('equity_ohlcv:X000:vci:2018-10-01:'||$1,'equity_ohlcv','X000','vci','2018-10-01',$1,'PENDING',1,'InvalidFrame'),
+      ('equity_ohlcv:X001:vci:2018-10-01:'||$1,'equity_ohlcv','X001','vci','2018-10-01',$1,'PENDING',1,'InvalidFrame: bad candle')`,today)
+    if err!=nil{t.Fatal(err)}
+    normal,err:=LoadVerifiedBackfillUniverse(ctx,db,now,"2018-10-01",today,"vci")
+    if err!=nil{t.Fatal(err)}
+    if normal.DeferredInvalid!=2||len(normal.Pending)!=998||normal.Pending[0]!="X002"{
+        t.Fatalf("unarchived failures erroneously retried: %+v",normal)
+    }
+    retried,err:=LoadVerifiedBackfillUniverseWithPolicy(ctx,db,now,"2018-10-01",today,"vci",true)
+    if err!=nil{t.Fatal(err)}
+    if retried.DeferredInvalid!=0||len(retried.Pending)!=1000||
+       retried.Pending[0]!="X000"||retried.Pending[1]!="X001"{
+        t.Fatalf("explicitly authorized retry not selectable %+v",retried)
+    }
+    var state string
+    var attempts int
+    err=db.QueryRowContext(ctx,`SELECT state,attempts FROM ops.ingest_jobs WHERE symbol='X000'`).Scan(&state,&attempts)
+    if err!=nil||state!="PENDING"||attempts!=1{
+        t.Fatalf("audit mutated: %q %d %v",state,attempts,err)
+    }
+}

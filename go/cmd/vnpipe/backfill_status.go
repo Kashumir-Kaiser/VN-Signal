@@ -52,8 +52,9 @@ func runBackfillStatus(args []string) error {
 		Partial        int      `json:"partial"`
 		Blocked        int      `json:"blocked"`
 		Leased         int      `json:"leased"`
+        DeferredInvalid int `json:"deferred_invalid_frame"`
 		Pending        int      `json:"pending"`
 		PendingPreview []string `json:"pending_preview"`
 		Verified       bool     `json:"source_provenance_verified"`
-	}{queue.AsOf, queue.Total, queue.Completed, queue.Partial, queue.Blocked, queue.Leased, len(queue.Pending), preview, true})
+	}{queue.AsOf, queue.Total, queue.Completed, queue.Partial, queue.Blocked, queue.Leased, queue.DeferredInvalid, len(queue.Pending), preview, true})
 }

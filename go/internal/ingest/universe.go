@@ -24,6 +24,7 @@ type UniverseSelection struct {
 	Partial   int      `json:"partial"`
 	Blocked   int      `json:"blocked"`
 	Leased    int      `json:"leased"`
+    DeferredInvalid int `json:"deferred_invalid_frame"`
 	Pending   []string `json:"pending"`
 }
 
@@ -58,7 +59,12 @@ func validateUniverse(asOf string, now time.Time, total, active, matched, exchan
 // currently unleased symbols for the requested *exact* date range and source.
 // All SQL reads come from the user's locally imported listing snapshot.
 // The planner must cap Pending by the freshly verified absolute vendor budget.
-func LoadVerifiedBackfillUniverse(ctx context.Context, db *sql.DB, now time.Time, start, end, source string) (UniverseSelection, error) {
+func LoadVerifiedBackfillUniverse(ctx context.Context, db *sql.DB, now time.Time, start, end, source string) (UniverseSelection,error){
+    return LoadVerifiedBackfillUniverseWithPolicy(ctx,db,now,start,end,source,false)
+}
+// Retried unarchived InvalidFrame requests require an explicit CLI opt-in.
+// Do not erase or falsely complete their durable audit records.
+func LoadVerifiedBackfillUniverseWithPolicy(ctx context.Context, db *sql.DB, now time.Time, start, end, source string,retryLegacyInvalid bool) (UniverseSelection,error){
 	var result UniverseSelection
 	if db == nil || ctx == nil || source != "vci" || start == "" || end == "" || start > end || now.IsZero() {
 		return result, ErrUnverifiedUniverse
@@ -126,7 +132,7 @@ func LoadVerifiedBackfillUniverse(ctx context.Context, db *sql.DB, now time.Time
 	}
 	// Query once; no one-query-per-symbol loops. Exclude completed work before
 	// applying the budget cap to avoid starvation on second and later runs.
-	rows, err := tx.QueryContext(ctx, `SELECT s.symbol,l.exchange,COALESCE(l.industry,''),COALESCE(j.state,''),j.updated_at
+	rows, err := tx.QueryContext(ctx, `SELECT s.symbol,l.exchange,COALESCE(l.industry,''),COALESCE(j.state,''),j.updated_at,COALESCE(j.attempts,0),COALESCE(j.last_error_type,'')
         FROM core.listing_snapshots l
         JOIN core.symbols s ON s.symbol_id=l.symbol_id
         LEFT JOIN ops.ingest_jobs j
@@ -140,7 +146,9 @@ func LoadVerifiedBackfillUniverse(ctx context.Context, db *sql.DB, now time.Time
 	for rows.Next() {
 		var symbol, exchange, industry, state string
 		var updated sql.NullTime
-		if err := rows.Scan(&symbol, &exchange, &industry, &state, &updated); err != nil {
+        var attempts int
+        var lastError string
+        if err := rows.Scan(&symbol, &exchange, &industry, &state, &updated, &attempts, &lastError); err != nil {
 			rows.Close()
 			return UniverseSelection{}, err
 		}
@@ -163,7 +171,11 @@ func LoadVerifiedBackfillUniverse(ctx context.Context, db *sql.DB, now time.Time
 				result.Pending = append(result.Pending, symbol)
 			}
 		case "", "PENDING":
-			result.Pending = append(result.Pending, symbol)
+            if state=="PENDING" && attempts>0 && strings.HasPrefix(lastError,"InvalidFrame") && !retryLegacyInvalid {
+                result.DeferredInvalid++
+            }else{
+                result.Pending=append(result.Pending,symbol)
+            }
 		default:
 			rows.Close()
 			return UniverseSelection{}, fmt.Errorf("%w: unknown job state %q", ErrUnverifiedUniverse, state)
@@ -176,7 +188,7 @@ func LoadVerifiedBackfillUniverse(ctx context.Context, db *sql.DB, now time.Time
 	if err := rows.Close(); err != nil {
 		return UniverseSelection{}, err
 	}
-	if rowIndex != len(listed) || result.Total != result.Completed+result.Partial+result.Blocked+result.Leased+len(result.Pending) {
+	if rowIndex != len(listed) || result.Total != result.Completed+result.Partial+result.Blocked+result.Leased+result.DeferredInvalid+len(result.Pending) {
 		return UniverseSelection{}, fmt.Errorf("%w: inconsistent queue counts", ErrUnverifiedUniverse)
 	}
 	if err := tx.Commit(); err != nil {

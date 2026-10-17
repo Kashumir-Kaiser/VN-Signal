@@ -68,3 +68,40 @@ we choose whether this is a tiny source representation issue or a material
 discrepancy needing alternate-source comparison. Do not re-fetch the same
 blocked symbols blindly. Existing completed jobs and blocked states remain
 unchanged.
+
+
+## Resuming OHLCV safely after 2026-10-17 quality review
+
+Twelve histories were completed and six more partially accepted. Across
+the six partial histories, 16 invalid traded bars were quarantined from
+the canonical trade set while other valid sessions were retained. The
+1,392 reported zero-volume source sessions have separate quality evidence.
+No artificial prices, inferred tradability, or synthetic OHLC fixes are used.
+
+A32 and ABC were earlier failed InvalidFrame histories requeued as
+PENDING after original failed frames were not retained. Their archived
+payload cannot be reconstructed offline. The verified universe loader
+now defers **any already attempted PENDING InvalidFrame** by default,
+without changing state, deleting rows, or reserving quota. The read-only
+backfill-status includes `deferred_invalid_frame`. Retrying explicitly
+requires `backfill --retry-legacy-invalid`.
+
+`backfill --max-calls N` limits per-run metered calls after the verified
+account quota budget; the default is 20. The deferred plan includes the
+remaining unattempted jobs. Preserve the original requested history
+range (2018-10-01 to 2026-10-16), or a different range creates distinct
+jobs and can use fresh quota again. Existing 12 user-excluded tickers
+remain excluded from per-symbol live calls.
+
+Run locally with a fresh active equity_ohlcv probe report (one metered
+call) and an explicit bounded backfill (up to 20 additional calls).
+```bash
+git pull --ff-only origin main
+export VNPIPE_PYTHON="$(cygpath -aw "$PWD/.venv/Scripts/python.exe")"
+unset VNPIPE_DISABLE_LIVE
+go -C go run -mod=mod -tags postgres ./cmd/vnpipe probe --active --routes equity_ohlcv --trading-days 10 --out ../docs/probe/resume
+go -C go run -mod=mod -tags postgres ./cmd/vnpipe backfill --active --probe ../docs/probe/resume/2026-10-17.json --from 2018-10-01 --to 2026-10-16 --days 10 --source vci --max-calls 20
+go -C go run -mod=mod -tags postgres ./cmd/vnpipe backfill-status --from 2018-10-01 --to 2026-10-16
+```
+Check the real quota-month trading-day count before the active run. This
+does not establish Phase-1 completion.
