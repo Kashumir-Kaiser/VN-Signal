@@ -94,9 +94,9 @@ func (c *universeConn) QueryContext(ctx context.Context, query string, _ []drive
 			if c.mode == "membership-tampered" && i == 0 {
 				exchange = "HNX" // database tables agree with each other, but not with vendor frame
 			}
-			items = append(items, []driver.Value{symbol, exchange, "9500", state, update})
+			items = append(items, []driver.Value{symbol, exchange, "9500", state, update, int64(0), ""})
 		}
-		return &universeRows{cols: []string{"symbol", "exchange", "industry", "state", "updated"}, records: items}, nil
+		return &universeRows{cols: []string{"symbol", "exchange", "industry", "state", "updated", "attempts", "last_error_type"}, records: items}, nil
 	default:
 		return nil, fmt.Errorf("unexpected SQL %q", query)
 	}
