@@ -122,6 +122,7 @@ func TestRunnerFailsClosedOnStorageFaults(t *testing.T) {
 					return worker.Response{ID: j["id"].(string), OK: false, Error: &struct {
 						Type    string `json:"type"`
 						Message string `json:"message"`
+                        Cause string `json:"cause,omitempty"`
 					}{Type: "RateLimitedError"}}, nil
 				}
 				data := payload("["+one+"]", 1)

@@ -96,6 +96,7 @@ func TestRecordedVendorErrorIsAudited(t *testing.T) {
 		return worker.Response{ID: "x", OK: false, Error: &struct {
 			Type    string `json:"type"`
 			Message string `json:"message"`
+                        Cause string `json:"cause,omitempty"`
 		}{Type: "RateLimitedError"}}, nil
 	})
 	g.sleep = func(context.Context, time.Duration) error { return nil }
