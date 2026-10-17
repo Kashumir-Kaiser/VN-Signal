@@ -11,12 +11,12 @@ ALTER TABLE core.bars_daily DROP CONSTRAINT IF EXISTS bars_daily_is_traded_check
 -- Enforce the meaning at the database boundary even for older callers that
 -- insert zero-volume rows without explicitly passing is_traded.
 CREATE OR REPLACE FUNCTION core.derive_is_traded() RETURNS trigger
-LANGUAGE plpgsql AS $
+LANGUAGE plpgsql AS $marketbar$
 BEGIN
     NEW.is_traded := (NEW.v > 0);
     RETURN NEW;
 END;
-$;
+$marketbar$;
 DROP TRIGGER IF EXISTS bars_daily_derive_is_traded ON core.bars_daily;
 CREATE TRIGGER bars_daily_derive_is_traded
 BEFORE INSERT OR UPDATE ON core.bars_daily
