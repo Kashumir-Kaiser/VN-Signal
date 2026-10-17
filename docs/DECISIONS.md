@@ -58,3 +58,12 @@ The implementation introduces an offline-tested `LandingStore` boundary instead 
 
 7. **Provider `DELISTED` rows are archived but not backfilled.** The registered-device `equity_list` probe on 2026-10-16 returned a `DELISTED` exchange category. Preserve the complete exact provider frame in raw storage, but do not invent former exchange membership or treat those rows as currently listed. Active snapshots and history jobs use HOSE/HNX/UPCOM rows only; a name previously observed as listed is retained inactive when it disappears.
 
+
+## 2026-10-17 — Historical securities master is Phase 1 data provenance, not Phase 2/3 execution
+
+- Extend Phase 1 with `core.security_master` (observed ticker codes) and append-only `core.security_observations` (exact source landing, row index, observation day, provider category and reported exchange). Backfill the registry entirely from previously imported, SHA-256-verified complete VCI listing frames; future listing imports update the same registry transactionally.
+- All 235 provider-`DELISTED` rows from the 2026-10-16 frame may be recovered as **observed provider symbols**. They are not automatically active, investable, formerly listed on any asserted exchange, or eligible for a historical price request. The provider's `DELISTED` label is **not** an effective delisting date.
+- Avoid coalescing ticker renames/reuse as one legal issuer without independent corporate-action evidence. `core.security_master.first_observed_at` means first available local provider observation, not date of founding, IPO, first trading, exchange admission or delisting.
+- Exact-dated `core.security_observed_days` reports only what the source observed on that date, with explicit same-day conflict status. Historical gaps and unverified periods stay unknown; the current 1,519-stock backfill queue is intentionally unchanged.
+- The specification §4.2 explicitly accepts the survivorship caveat and a disclosed backtest haircut while daily snapshots accumulate. Phase 2 owns PIT investable-universe joins; Phase 3 owns historical walk-forward backtesting. This change cannot silently train, score or backtest.
+- No undocumented vnstock route is introduced: obtaining historical first-ever trading dates, exchange transfer intervals and delisting effective dates requires new validated evidence and an entitlement/absolute-quota check, not guesses from an adjusted OHLCV row or company-profile `listing_date`.
