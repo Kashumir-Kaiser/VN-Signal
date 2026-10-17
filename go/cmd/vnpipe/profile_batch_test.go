@@ -68,7 +68,14 @@ func TestProfileTimeoutIsUncertainAndSkippable(t *testing.T){
     if state!="UNKNOWN"||reason!="WorkerInvocationError"||continueBatch{
         t.Fatalf("transport failure must fail closed: %s %s %v",state,reason,continueBatch)
     }
-    if maxConsecutiveProfileTimeouts!=3{t.Fatal("circuit breaker threshold unexpectedly changed")}
+    var circuit profileFailureCircuit
+    if circuit.record("WorkerTimeout",true)!="" {t.Fatal("first timeout prematurely trips")}
+    if circuit.record("",false)!="" {t.Fatal("success must reset consecutive timeout count")}
+    if circuit.record("WorkerTimeout",true)!="" {t.Fatal("second isolated timeout prematurely trips")}
+    if circuit.record("WorkerTimeout",true)!="" {t.Fatal("still only two consecutive timeouts")}
+    if got:=circuit.record("WorkerTimeout",true);got!="three consecutive worker timeouts" {
+        t.Fatalf("timeout breaker failed: %s",got)
+    }
 }
 func TestProfileStructuredProviderErrorsAreDistinct(t *testing.T){
     newResp:=func(cause string)worker.Response{
@@ -85,11 +92,35 @@ func TestProfileStructuredProviderErrorsAreDistinct(t *testing.T){
         {"DataUnavailableError","ERROR",true},
         {"InputError","ERROR",true},
         {"RateLimitedError","ERROR",false},
-        {"AttributeError","ERROR",false},
+        {"AttributeError","ERROR",true},
+        {"AdapterError","ERROR",true},
+        {"ModuleNotFoundError","ERROR",false},
+        {"ImportError","ERROR",false},
+        {"WorkerSystemExit","ERROR",false},
     }{
         state,reason,cont:=profileFailedCallDisposition(newResp(tc.name),nil)
         if state!=tc.expectedState||reason!=tc.name||cont!=tc.canContinue{
             t.Fatalf("%s: got state=%s reason=%s continue=%v",tc.name,state,reason,cont)
         }
+    }
+}
+
+func TestProfileCircuitBreaksRepeatedAdapterFailuresNotSingleTicker(t *testing.T){
+    var c profileFailureCircuit
+    if got:=c.record("AdapterError",true);got!=""{t.Fatalf("single failed symbol stopped batch: %s",got)}
+    if got:=c.record("",false);got!=""{t.Fatal(got)}
+    if got:=c.record("AttributeError",true);got!=""{t.Fatal(got)}
+    if got:=c.record("AdapterError",true);got!=""{t.Fatal(got)}
+    if got:=c.record("",false);got!=""{t.Fatal(got)}
+    if got:=c.record("AdapterError",true);got!=""{t.Fatal(got)}
+    if got:=c.record("",false);got!=""{t.Fatal(got)}
+    if got:=c.record("AdapterError",true);got!="five transient failures within 25 calls"{
+        t.Fatalf("clustered adapter failures did not stop batch: %s",got)
+    }
+    var consecutive profileFailureCircuit
+    if got:=consecutive.record("AdapterError",true);got!=""{t.Fatal(got)}
+    if got:=consecutive.record("AdapterError",true);got!=""{t.Fatal(got)}
+    if got:=consecutive.record("AdapterError",true);got!="three consecutive adapter/transport errors"{
+        t.Fatalf("consecutive adapter breaker: %s",got)
     }
 }

@@ -39,6 +39,49 @@ func profileExitStatus(resp worker.Response, err error)string{
     return profileSafeCause(resp.Error.Type)
 }
 
+// Distinguish an isolated symbol-level adapter exception from failures
+// indicating the whole worker/provider environment is unusable. These
+// classifications determine whether the *batch* continues, not whether a
+// company has valid listing evidence. Any structured adapter failure remains
+// ERROR until a future explicitly authorized retry.
+func profileProviderFailureMayContinue(reason string) bool {
+    switch reason {
+    case "DataUnavailableError", "InputError", "ValueError",
+        "AdapterError", "AttributeError", "TypeError", "KeyError",
+        "IndexError", "RuntimeError", "ConnectionError", "TimeoutError",
+        "HTTPError", "RequestException", "DataSourceError":
+        return true
+    default:
+        // Rate-limit/entitlement, import/configuration, worker-protocol,
+        // system exit and any unrecognized error fail closed.
+        return false
+    }
+}
+
+// A request can fail while the rest of a batch remains healthy. Break after
+// three consecutive timeouts, three consecutive other worker/adapter errors,
+// or five such errors inside the last 25 calls. A healthy or confirmed
+// data-unavailable response resets consecutive counts, but not the rolling
+// error window. This limits quota spent when an external service degrades.
+type profileFailureCircuit struct {
+    consecutiveTimeouts int
+    consecutiveAdapters int
+    recent []bool
+}
+
+func (c *profileFailureCircuit) record(reason string, failure bool) string {
+    if failure && reason=="WorkerTimeout" {c.consecutiveTimeouts++} else {c.consecutiveTimeouts=0}
+    if failure && reason!="WorkerTimeout" {c.consecutiveAdapters++} else {c.consecutiveAdapters=0}
+    c.recent=append(c.recent,failure)
+    if len(c.recent)>25 {c.recent=c.recent[len(c.recent)-25:]}
+    recentFailures:=0
+    for _,failed:=range c.recent {if failed {recentFailures++}}
+    if c.consecutiveTimeouts>=3 {return "three consecutive worker timeouts"}
+    if c.consecutiveAdapters>=3 {return "three consecutive adapter/transport errors"}
+    if recentFailures>=5 {return "five transient failures within 25 calls"}
+    return ""
+}
+
 // A process timeout does NOT establish that VCI rejected the symbol:
 // the request may have reached the provider before the worker was killed.
 // Record it as UNKNOWN, skip this ticker, and preserve the quota charge.
@@ -48,10 +91,8 @@ func profileFailedCallDisposition(resp worker.Response,callErr error)(state,reas
     if callErr!=nil {
         return "UNKNOWN",reason,errors.Is(callErr,context.DeadlineExceeded)
     }
-    return "ERROR",reason,reason=="DataUnavailableError"||reason=="InputError"
+    return "ERROR",reason,profileProviderFailureMayContinue(reason)
 }
-
-const maxConsecutiveProfileTimeouts = 3
 
 // Each worker call has its own timeout. The batch's five-hour aggregate
 // deadline must never replace the subprocess's normal bounded lifetime.
@@ -293,7 +334,7 @@ func runProfileBatch(args []string)(retErr error){
         })
     }
     count:=min(len(eligible),*maxCalls,budget)
-    consecutiveTimeouts:=0
+    var failureCircuit profileFailureCircuit
     fmt.Fprintf(os.Stdout,"Profile batch: up to %d metered VCI calls (max requested=%d; verified budget=%d; RPM=%d)\n",
         count,*maxCalls,budget,quotaSnap.VerifiedRPM)
     for _,symbol:=range eligible[:count]{
@@ -339,21 +380,22 @@ func runProfileBatch(args []string)(retErr error){
             summary.LastErrorType=reason
             fmt.Fprintf(os.Stdout,"Profile batch: %s %s (%s); evidence saved; no automatic retry\n",
                 symbol,state,reason)
-            if callErr==nil{consecutiveTimeouts=0}
-            if reason=="WorkerTimeout" {
-                consecutiveTimeouts++
-                if consecutiveTimeouts>=maxConsecutiveProfileTimeouts {
-                    return fmt.Errorf("profile circuit breaker: %d consecutive worker timeouts; provider may be degraded; last symbol=%s, evidence=%s",
-                        consecutiveTimeouts,symbol,attempt.ReportPath)
-                }
-            }
+            // Data-unavailable is an explicit per-security response; its
+            // outcome stays ERROR for audit but is not a systemic failure.
+            transient:=reason!="DataUnavailableError" && reason!="InputError" &&
+                reason!="ValueError"
+            trip:=failureCircuit.record(reason,transient)
             if !canContinue || ctx.Err()!=nil {
-                return fmt.Errorf("profile %s outcome=%s cause=%s; evidence=%s (batch stopped to avoid further quota spending): %v",
-                    symbol,state,reason,attempt.ReportPath,errors.Join(callErr,ctx.Err()))
+                return fmt.Errorf("profile %s outcome=%s cause=%s; evidence=%s (batch stopped to avoid further quota spending)",
+                    symbol,state,reason,attempt.ReportPath)
+            }
+            if trip!="" {
+                return fmt.Errorf("profile batch circuit breaker: %s; last symbol=%s cause=%s evidence=%s",
+                    trip,symbol,reason,attempt.ReportPath)
             }
             continue
         }
-        consecutiveTimeouts=0
+        failureCircuit.record("",false)
         status,importErr:=profileResultFromReport(ctx,store,attempt.ReportPath,symbol)
         if importErr!=nil{
             // A schema/import regression affects every remaining symbol.

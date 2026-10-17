@@ -159,3 +159,37 @@ removing original error evidence. `--retry-errors` will not retry those
 uncertain requests. Only `--retry-unknown` deliberately authorizes
 another possibly billed call. This recovery needs no database schema
 migration and performs no VCI calls.
+
+## 2026-10-17 BPW isolated AdapterError
+
+During batch 4, 56 successful profiles were archived, BHI and BLN
+timed out (UNKNOWN), and BPW returned a structured `AdapterError`.
+An adapter exception is not proof of a delisting, a missing listing
+date, or anything about the security's historical trading eligibility.
+A formerly generic structured adapter exception unconditionally stopped
+the entire collector, even after dozens of successful tickers.
+
+The collector now preserves that failure as `ERROR`, skips the ticker
+without re-requesting it, and continues to the next pending security.
+It does **not** silently retry BPW, BBT, BHI or BLN. Explicit
+`--retry-errors` is required to retry BPW; `--retry-unknown` is
+required to retry an uncertain request. Neither is part of the normal
+continuation command.
+
+A safety circuit stops subsequent live calls after three consecutive
+worker timeouts, three consecutive other adapter failures, or five
+transient failures in the most recent 25 calls. It still immediately
+stops on provider quota/entitlement rejection, missing Python packages,
+worker protocol/system exit or unknown error classes. Genuine
+successes reset the consecutive failure counts. The error categories
+are always persisted without leaking third-party exception text.
+
+For an offline check of the BPW saved probe's safe error category:
+
+```bash
+py -c 'import json; p="docs/probe/company/batch/BPW-000000000142.json"; d=json.load(open(p,encoding="utf-8")); print(json.dumps(d.get("routes",{}).get("company_info",{}),indent=2))'
+```
+
+The saved batch report includes only the category known at collection
+time; if it says `AdapterError`, that is *not sufficient* to diagnose
+which third-party operation failed. Do not invent provider failure details.
