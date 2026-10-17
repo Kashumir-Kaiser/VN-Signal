@@ -8,6 +8,19 @@ ALTER TABLE ops.ingest_jobs ADD CONSTRAINT ingest_jobs_state_check
 ALTER TABLE core.bars_daily ADD COLUMN IF NOT EXISTS is_traded boolean NOT NULL DEFAULT true;
 UPDATE core.bars_daily SET is_traded = false WHERE v = 0;
 ALTER TABLE core.bars_daily DROP CONSTRAINT IF EXISTS bars_daily_is_traded_check;
+-- Enforce the meaning at the database boundary even for older callers that
+-- insert zero-volume rows without explicitly passing is_traded.
+CREATE OR REPLACE FUNCTION core.derive_is_traded() RETURNS trigger
+LANGUAGE plpgsql AS $
+BEGIN
+    NEW.is_traded := (NEW.v > 0);
+    RETURN NEW;
+END;
+$;
+DROP TRIGGER IF EXISTS bars_daily_derive_is_traded ON core.bars_daily;
+CREATE TRIGGER bars_daily_derive_is_traded
+BEFORE INSERT OR UPDATE ON core.bars_daily
+FOR EACH ROW EXECUTE FUNCTION core.derive_is_traded();
 ALTER TABLE core.bars_daily ADD CONSTRAINT bars_daily_is_traded_check CHECK (is_traded = (v > 0));
 
 CREATE TABLE IF NOT EXISTS ops.bar_quality_issues (
