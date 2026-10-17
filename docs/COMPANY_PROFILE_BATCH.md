@@ -139,3 +139,23 @@ SELECT state,count(*) FROM ops.company_profile_jobs GROUP BY state ORDER BY stat
 SELECT batch_id,started_at,finished_at,attempted,last_error_type
 FROM ops.company_profile_batch_runs ORDER BY batch_id DESC LIMIT 10;"
 ```
+
+## 2026-10-17 BBT timeout handling
+
+Real collection completed 27 additional symbols and the BBT subprocess
+exceeded its 60-second bound. Previously this recorded BBT as `ERROR` and
+terminated the entire batch. A worker process timeout is **not** evidence
+that VCI rejected the security; it is uncertain whether a provider request
+was received or counted. The collector now archives the failure, marks
+the attempt/security `UNKNOWN`, counts it as an attempted call, skips
+it **without retrying**, and continues to the next symbol. Other
+transport failures and provider rate-limit/entitlement errors still halt
+the batch; a circuit breaker halts after three consecutive worker
+timeouts to avoid wasting quota during a widespread outage.
+
+The next invocation also corrects already-archived `WorkerTimeout`/
+`ERROR` rows (including BBT) to `UNKNOWN` idempotently without
+removing original error evidence. `--retry-errors` will not retry those
+uncertain requests. Only `--retry-unknown` deliberately authorizes
+another possibly billed call. This recovery needs no database schema
+migration and performs no VCI calls.

@@ -64,6 +64,43 @@ func (p *PostgresStore) SeedProfileQueue(ctx context.Context)error{
     return err
 }
 
+// ReclassifyLegacyProfileTimeouts corrects the earlier collector, which
+// recorded worker timeouts as ERROR. A killed worker cannot prove whether its
+// provider request was charged. The old safe error category remains recorded;
+// statuses become UNKNOWN so --retry-errors cannot unknowingly repeat them.
+// The migration is deliberately performed offline and idempotently on startup.
+func (p *PostgresStore) ReclassifyLegacyProfileTimeouts(ctx context.Context)(int64,error){
+    if p==nil||p.DB==nil{return 0,errors.New("PostgreSQL required")}
+    tx,err:=p.DB.BeginTx(ctx,&sql.TxOptions{Isolation:sql.LevelSerializable})
+    if err!=nil{return 0,err}
+    defer tx.Rollback()
+    _,err=tx.ExecContext(ctx,`UPDATE ops.company_profile_attempts a
+        SET status='UNKNOWN'
+        WHERE a.status='ERROR' AND a.error_type='WorkerTimeout'
+          AND EXISTS (
+            SELECT 1 FROM ops.company_profile_jobs j
+            WHERE j.security_id=a.security_id AND j.state='ERROR'
+              AND j.last_error_type='WorkerTimeout'
+          )`)
+    if err!=nil{return 0,err}
+    res,err:=tx.ExecContext(ctx,`UPDATE ops.company_profile_jobs j
+        SET state='UNKNOWN',updated_at=now()
+        WHERE j.state='ERROR' AND j.last_error_type='WorkerTimeout'
+          AND NOT EXISTS(
+              SELECT 1 FROM core.company_profile_observations p
+              WHERE p.security_id=j.security_id
+          )
+          AND EXISTS (
+              SELECT 1 FROM ops.company_profile_attempts a
+              WHERE a.security_id=j.security_id
+                AND a.status='UNKNOWN' AND a.error_type='WorkerTimeout'
+          )`)
+    if err!=nil{return 0,err}
+    count,err:=res.RowsAffected()
+    if err!=nil{return 0,err}
+    return count,tx.Commit()
+}
+
 func (p *PostgresStore) ProfileQueue(ctx context.Context)([]ProfileQueueItem,error){
     if p==nil||p.DB==nil{return nil,errors.New("PostgreSQL required")}
     rows,err:=p.DB.QueryContext(ctx,`SELECT m.symbol,j.state

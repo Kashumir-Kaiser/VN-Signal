@@ -2,6 +2,8 @@ package main
 
 import (
     "context"
+    "errors"
+    "fmt"
     "encoding/json"
     "os"
     "path/filepath"
@@ -47,5 +49,47 @@ func TestProfileBatchCancelledWaitDoesNotDispatch(t *testing.T){
     cancel()
     if err:=awaitProfileDispatch(ctx,time.Now().Add(time.Second));err!=context.Canceled{
         t.Fatalf("cancelled dispatch wait: %v",err)
+    }
+}
+
+func TestProfileTimeoutIsUncertainAndSkippable(t *testing.T){
+    state,reason,continueBatch:=profileFailedCallDisposition(
+        worker.Response{},fmt.Errorf("timed out: %w",context.DeadlineExceeded))
+    if state!="UNKNOWN"||reason!="WorkerTimeout"||!continueBatch{
+        t.Fatalf("timeout must skip, not fail batch: state=%s reason=%s continue=%t",state,reason,continueBatch)
+    }
+    state,reason,continueBatch=profileFailedCallDisposition(
+        worker.Response{},fmt.Errorf("cancelled: %w",context.Canceled))
+    if state!="UNKNOWN"||reason!="WorkerCancelled"||continueBatch{
+        t.Fatalf("outer cancellation must stop: %s %s %v",state,reason,continueBatch)
+    }
+    state,reason,continueBatch=profileFailedCallDisposition(
+        worker.Response{},errors.New("unknown worker failure"))
+    if state!="UNKNOWN"||reason!="WorkerInvocationError"||continueBatch{
+        t.Fatalf("transport failure must fail closed: %s %s %v",state,reason,continueBatch)
+    }
+    if maxConsecutiveProfileTimeouts!=3{t.Fatal("circuit breaker threshold unexpectedly changed")}
+}
+func TestProfileStructuredProviderErrorsAreDistinct(t *testing.T){
+    newResp:=func(cause string)worker.Response{
+        return worker.Response{ID:"x",OK:false,Error:&struct{
+            Type string `json:"type"`
+            Message string `json:"message"`
+            Cause string `json:"cause,omitempty"`
+        }{Type:cause,Message:"redacted"}}
+    }
+    for _,tc:=range []struct{
+        name,expectedState string
+        canContinue bool
+    }{
+        {"DataUnavailableError","ERROR",true},
+        {"InputError","ERROR",true},
+        {"RateLimitedError","ERROR",false},
+        {"AttributeError","ERROR",false},
+    }{
+        state,reason,cont:=profileFailedCallDisposition(newResp(tc.name),nil)
+        if state!=tc.expectedState||reason!=tc.name||cont!=tc.canContinue{
+            t.Fatalf("%s: got state=%s reason=%s continue=%v",tc.name,state,reason,cont)
+        }
     }
 }

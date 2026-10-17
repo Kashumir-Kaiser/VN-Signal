@@ -283,8 +283,25 @@ func TestProfileBatchQueueQuotaAndResume(t *testing.T) {
     if _,_,err=store.ReserveProfileCall(ctx,"X001",dir,false,false);!errors.Is(err,ErrProfileAlreadyHandled){
         t.Fatalf("error request auto retried: %v",err)
     }
+    // Prior versions misclassified an interrupted request as ERROR, even
+    // though the provider may have received and billed the call.
+    former,_,err:=store.ReserveProfileCall(ctx,"X002",dir,false,false)
+    if err!=nil{t.Fatal(err)}
+    if err=store.EndProfileCall(ctx,former.ID,"ERROR","WorkerTimeout");err!=nil{t.Fatal(err)}
+    corrected,err:=store.ReclassifyLegacyProfileTimeouts(ctx)
+    if err!=nil||corrected!=1{t.Fatalf("legacy timeout not corrected: %d %v",corrected,err)}
+    if _,_,err=store.ReserveProfileCall(ctx,"X002",dir,true,false);
+      !errors.Is(err,ErrProfileUnknownOutcome){
+        t.Fatalf("old WorkerTimeout request was retried via --retry-errors: %v",err)
+    }
+    corrected,err=store.ReclassifyLegacyProfileTimeouts(ctx)
+    if err!=nil||corrected!=0{t.Fatalf("not idempotent: %d %v",corrected,err)}
+    var previousState string
+    err=db.QueryRow(`SELECT status FROM ops.company_profile_attempts WHERE attempt_id=$1`,former.ID).
+        Scan(&previousState)
+    if err!=nil||previousState!="UNKNOWN"{t.Fatalf("legacy attempt still mislabeled: %s %v",previousState,err)}
     var spent int
-    if err=db.QueryRow(`SELECT spent FROM ops.quota_guard`).Scan(&spent);err!=nil||spent!=2{
+    if err=db.QueryRow(`SELECT spent FROM ops.quota_guard`).Scan(&spent);err!=nil||spent!=3{
         t.Fatalf("shared quota not debited twice: %d %v",spent,err)
     }
     batch,err:=store.StartProfileBatch(ctx,5)

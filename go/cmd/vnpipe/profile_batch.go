@@ -39,6 +39,20 @@ func profileExitStatus(resp worker.Response, err error)string{
     return profileSafeCause(resp.Error.Type)
 }
 
+// A process timeout does NOT establish that VCI rejected the symbol:
+// the request may have reached the provider before the worker was killed.
+// Record it as UNKNOWN, skip this ticker, and preserve the quota charge.
+// Only an actual structured provider reply may be classified as ERROR.
+func profileFailedCallDisposition(resp worker.Response,callErr error)(state,reason string,continueBatch bool){
+    reason=profileExitStatus(resp,callErr)
+    if callErr!=nil {
+        return "UNKNOWN",reason,errors.Is(callErr,context.DeadlineExceeded)
+    }
+    return "ERROR",reason,reason=="DataUnavailableError"||reason=="InputError"
+}
+
+const maxConsecutiveProfileTimeouts = 3
+
 // Each worker call has its own timeout. The batch's five-hour aggregate
 // deadline must never replace the subprocess's normal bounded lifetime.
 func profileWorkerCall(ctx context.Context,request map[string]any)(worker.Response,error){
@@ -218,6 +232,9 @@ func runProfileBatch(args []string)(retErr error){
     setupCtx,setupCancel:=context.WithTimeout(ctx,30*time.Second)
     defer setupCancel()
     if err=store.SeedProfileQueue(setupCtx);err!=nil{return fmt.Errorf("seed profile queue: %w",err)}
+    corrected,err:=store.ReclassifyLegacyProfileTimeouts(setupCtx)
+    if err!=nil{return fmt.Errorf("reclassify legacy uncertain timeouts: %w",err)}
+    if corrected>0 {fmt.Fprintf(os.Stdout,"Profile batch: reclassified %d previous WorkerTimeout results as UNKNOWN (no retry)\n",corrected)}
     restored,err:=recoverProfileAttempts(setupCtx,store)
     if err!=nil{return err}
     if err=store.SeedProfileQueue(setupCtx);err!=nil{return err}
@@ -276,6 +293,7 @@ func runProfileBatch(args []string)(retErr error){
         })
     }
     count:=min(len(eligible),*maxCalls,budget)
+    consecutiveTimeouts:=0
     fmt.Fprintf(os.Stdout,"Profile batch: up to %d metered VCI calls (max requested=%d; verified budget=%d; RPM=%d)\n",
         count,*maxCalls,budget,quotaSnap.VerifiedRPM)
     for _,symbol:=range eligible[:count]{
@@ -309,16 +327,33 @@ func runProfileBatch(args []string)(retErr error){
             return fmt.Errorf("unable to archive %s source result: %w",symbol,saveErr)
         }
         if callErr!=nil||!reply.OK{
-            reason:=profileExitStatus(reply,callErr)
-            if e=store.EndProfileCall(ctx,attempt.ID,"ERROR",reason);e!=nil{return e}
+            state,reason,canContinue:=profileFailedCallDisposition(reply,callErr)
+            // The original request already has a durable reservation and
+            // its failed worker envelope has been archived. This transition
+            // never refunds or automatically repeats the potentially billed call.
+            finishCtx,finishCancel:=context.WithTimeout(context.Background(),10*time.Second)
+            e=store.EndProfileCall(finishCtx,attempt.ID,state,reason)
+            finishCancel()
+            if e!=nil{return fmt.Errorf("persist outcome %s %s: %w",symbol,state,e)}
             summary.Errors++
             summary.LastErrorType=reason
-            fmt.Fprintf(os.Stdout,"Profile batch: %s failed (%s); evidence saved\n",symbol,reason)
-            if reason!="DataUnavailableError" && reason!="InputError" {
-                return fmt.Errorf("provider blocked %s with %s; saved evidence %s",symbol,reason,attempt.ReportPath)
+            fmt.Fprintf(os.Stdout,"Profile batch: %s %s (%s); evidence saved; no automatic retry\n",
+                symbol,state,reason)
+            if callErr==nil{consecutiveTimeouts=0}
+            if reason=="WorkerTimeout" {
+                consecutiveTimeouts++
+                if consecutiveTimeouts>=maxConsecutiveProfileTimeouts {
+                    return fmt.Errorf("profile circuit breaker: %d consecutive worker timeouts; provider may be degraded; last symbol=%s, evidence=%s",
+                        consecutiveTimeouts,symbol,attempt.ReportPath)
+                }
+            }
+            if !canContinue || ctx.Err()!=nil {
+                return fmt.Errorf("profile %s outcome=%s cause=%s; evidence=%s (batch stopped to avoid further quota spending): %v",
+                    symbol,state,reason,attempt.ReportPath,errors.Join(callErr,ctx.Err()))
             }
             continue
         }
+        consecutiveTimeouts=0
         status,importErr:=profileResultFromReport(ctx,store,attempt.ReportPath,symbol)
         if importErr!=nil{
             // A schema/import regression affects every remaining symbol.
