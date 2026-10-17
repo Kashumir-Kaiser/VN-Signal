@@ -40,7 +40,7 @@ revalidates the *complete* source-frame schema including three active
 venues, and cross-checks every currently listed symbol, exchange and
 industry against the separately imported dated
 `core.listing_snapshots` before projecting **any** row. One failed frame
-rolls back its own transaction. Duplicate replays are idempotent.
+rolls back its own transaction. Duplicate replays are idempotent, and `already_present` counts all independently validated existing source rows. A replay checks every canonical row field against its original archived source, refusing differences in security identity, exchange, classification, company name, industry or observation date instead of masking changes behind `ON CONFLICT DO NOTHING`.
 New imports via `vnpipe import-listings` apply the same projection in
 the original importer transaction, with a shared advisory lock.
 

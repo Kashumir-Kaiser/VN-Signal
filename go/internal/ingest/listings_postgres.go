@@ -155,7 +155,7 @@ func (p *PostgresStore) ImportListingSnapshot(ctx context.Context, snap ListingS
 	}
 	// Preserve ALL provider security categories from this same metered call,
 	// including DELISTED, without adding them to the active OHLCV universe.
-	if _, _, _, err = syncSecurityLandingTx(ctx, tx, masterLandingID); err != nil {
+	if _, _, _, _, err = syncSecurityLandingTx(ctx, tx, masterLandingID); err != nil {
 		return ListingImportSummary{}, fmt.Errorf("transactional securities master: %w", err)
 	}
 	if err = tx.Commit(); err != nil {

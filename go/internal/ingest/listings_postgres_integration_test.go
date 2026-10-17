@@ -121,7 +121,7 @@ func TestSecuritiesMasterPreservesAllObservedSymbols(t *testing.T) {
         t.Fatalf("invented historical listing for OLD000: %s %v",oldCategory,oldExchange)
     }
     summary,err:=store.RebuildSecurityMaster(ctx)
-    if err!=nil||summary.Frames!=1||summary.ObservationsAdded!=0 {
+    if err!=nil||summary.Frames!=1||summary.ObservationsAdded!=0||summary.AlreadyPresent!=21 {
         t.Fatalf("replay not idempotent: %+v %v",summary,err)
     }
     _,err=db.Exec(`UPDATE raw.landings SET payload_bytes='{}'::bytea
@@ -133,5 +133,44 @@ func TestSecuritiesMasterPreservesAllObservedSymbols(t *testing.T) {
     var still int
     if err=db.QueryRow(`SELECT count(*) FROM core.security_observations`).Scan(&still);err!=nil||still!=21 {
         t.Fatalf("tamper changed observed history %d %v",still,err)
+    }
+}
+
+func TestSecurityMasterReplayRejectsMutatedObservationFields(t *testing.T) {
+    db:=pgTestDB(t)
+    clearDB(t,db)
+    store,_:=NewPostgresStore(db)
+    ctx:=context.Background()
+    snap,err:=ParseListingProbe(listingIntegrationFixture("2026-10-16",20),3)
+    if err!=nil{t.Fatal(err)}
+    if _,err=store.ImportListingSnapshot(ctx,snap);err!=nil{t.Fatal(err)}
+    if _,err=db.Exec(`UPDATE core.security_observations
+        SET legal_name='forged', short_name='tampered'
+        WHERE provider_row_index=0`);err!=nil{t.Fatal(err)}
+    if _,err=store.RebuildSecurityMaster(ctx);err==nil{
+        t.Fatal("source master replay accepted mutable observation metadata")
+    }
+    // The original complete provider frame remains unmodified: the mismatch
+    // must be detected from the projection rather than the raw checksum.
+    var count int
+    if err=db.QueryRow(`SELECT count(*) FROM core.security_observations`).Scan(&count);err!=nil||count!=21{
+        t.Fatalf("failed replay changed observation count: %d %v",count,err)
+    }
+}
+func TestSecurityMasterReplayRejectsSwappedObservedClassification(t *testing.T) {
+    db:=pgTestDB(t)
+    clearDB(t,db)
+    store,_:=NewPostgresStore(db)
+    ctx:=context.Background()
+    snap,err:=ParseListingProbe(listingIntegrationFixture("2026-10-16",20),3)
+    if err!=nil{t.Fatal(err)}
+    if _,err=store.ImportListingSnapshot(ctx,snap);err!=nil{t.Fatal(err)}
+    // Same unique key, but false category/exchange, should not disappear
+    // behind the projection's ON CONFLICT DO NOTHING.
+    if _,err=db.Exec(`UPDATE core.security_observations
+        SET category='PROVIDER_DELISTED_UNDATED',exchange=NULL
+        WHERE provider_row_index=0`);err!=nil{t.Fatal(err)}
+    if _,err=store.RebuildSecurityMaster(ctx);err==nil{
+        t.Fatal("source master replay accepted falsified trading category")
     }
 }

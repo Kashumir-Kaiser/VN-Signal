@@ -95,52 +95,53 @@ func (p *PostgresStore) RebuildSecurityMaster(ctx context.Context)(SecurityMaste
     if err:=rows.Close();err!=nil{return result,err}
     if len(ids)==0{return result,errors.New("no previously imported equity listing landings")}
     for _,id:=range ids{
-        newCount,oldCount,listCount,err:=p.syncSecurityLanding(ctx,id)
+        newCount,oldCount,listCount,existingCount,err:=p.syncSecurityLanding(ctx,id)
         if err!=nil{return result,fmt.Errorf("security master source landing %d: %w",id,err)}
         result.Frames++
         result.ObservationsAdded+=newCount
         result.ProviderDelistedAdded+=oldCount
         result.ListedAdded+=listCount
-        // The number of provider symbols per frame is counted again in the
-        // projection; a repeated call must not duplicate existing evidence.
+        result.AlreadyPresent+=existingCount
+        // Every already-stored observation was validated against the exact
+        // source row; replay never silently accepts mutated canonical data.
     }
     return result,nil
 }
 
-func (p *PostgresStore) syncSecurityLanding(ctx context.Context,landingID int64)(int,int,int,error){
+func (p *PostgresStore) syncSecurityLanding(ctx context.Context,landingID int64)(int,int,int,int,error){
     tx,err:=p.DB.BeginTx(ctx,&sql.TxOptions{Isolation:sql.LevelSerializable})
-    if err!=nil{return 0,0,0,err}
+    if err!=nil{return 0,0,0,0,err}
     defer tx.Rollback()
-    if _,err:=tx.ExecContext(ctx,`SELECT pg_advisory_xact_lock(2108701,2601)`);err!=nil{return 0,0,0,err}
-    n,d,l,err:=syncSecurityLandingTx(ctx,tx,landingID)
-    if err!=nil{return 0,0,0,err}
-    return n,d,l,tx.Commit()
+    if _,err:=tx.ExecContext(ctx,`SELECT pg_advisory_xact_lock(2108701,2601)`);err!=nil{return 0,0,0,0,err}
+    n,d,l,a,err:=syncSecurityLandingTx(ctx,tx,landingID)
+    if err!=nil{return 0,0,0,0,err}
+    return n,d,l,a,tx.Commit()
 }
 
 // syncSecurityLandingTx is also called by the normal current-listing importer,
 // so every FUTURE verified listing call includes DELISTED observations as well.
-func syncSecurityLandingTx(ctx context.Context,tx *sql.Tx,landingID int64)(int,int,int,error){
+func syncSecurityLandingTx(ctx context.Context,tx *sql.Tx,landingID int64)(int,int,int,int,error){
     var raw []byte
     var expected,route,source string
     var fetched time.Time
     err:=tx.QueryRowContext(ctx,`SELECT payload_bytes,payload_sha256,route,source,fetched_at
       FROM raw.landings WHERE landing_id=$1`,landingID).
       Scan(&raw,&expected,&route,&source,&fetched)
-    if err!=nil{return 0,0,0,err}
+    if err!=nil{return 0,0,0,0,err}
     if route!="equity_list"||source!="vci"||len(raw)<2||len(raw)>10*1024*1024{
-        return 0,0,0,errors.New("not an archived verified vci equity listing frame")
+        return 0,0,0,0,errors.New("not an archived verified vci equity listing frame")
     }
     h:=sha256.Sum256(raw)
-    if hex.EncodeToString(h[:])!=strings.ToLower(expected){return 0,0,0,errors.New("archived frame SHA-256 mismatch")}
+    if hex.EncodeToString(h[:])!=strings.ToLower(expected){return 0,0,0,0,errors.New("archived frame SHA-256 mismatch")}
     symbols,err:=ParseFullSecurityListing(raw)
-    if err!=nil{return 0,0,0,err}
+    if err!=nil{return 0,0,0,0,err}
     observed:=fetched.In(time.FixedZone("Asia/Ho_Chi_Minh",7*3600)).Format("2006-01-02")
     // An archive cannot manufacture new historical membership: all currently
     // listed entries must match their independently committed daily snapshot.
     verification,err:=tx.QueryContext(ctx,`SELECT s.symbol,l.exchange,coalesce(l.industry,'')
        FROM core.listing_snapshots l JOIN core.symbols s ON s.symbol_id=l.symbol_id
        WHERE l.snapshot_date=$1::date ORDER BY s.symbol`,observed)
-    if err!=nil{return 0,0,0,err}
+    if err!=nil{return 0,0,0,0,err}
     actual:=map[string]Listing{}
     for verification.Next(){
         var row Listing
@@ -149,18 +150,18 @@ func syncSecurityLandingTx(ctx context.Context,tx *sql.Tx,landingID int64)(int,i
     }
     if err==nil{err=verification.Err()}
     if closeErr:=verification.Close();err==nil{err=closeErr}
-    if err!=nil{return 0,0,0,err}
+    if err!=nil{return 0,0,0,0,err}
     listed:=0
     for _,r:=range symbols{
         if r.Category!="EXCHANGE_LISTED"{continue}
         listed++
         expectedRow,ok:=actual[r.Symbol]
         if !ok||expectedRow.Exchange!=r.Exchange||expectedRow.Industry!=r.Industry{
-            return 0,0,0,fmt.Errorf("source differs from imported listing snapshot %s/%s",r.Symbol,observed)
+            return 0,0,0,0,fmt.Errorf("source differs from imported listing snapshot %s/%s",r.Symbol,observed)
         }
     }
-    if listed!=len(actual){return 0,0,0,errors.New("archived market membership incomplete")}
-    added,delisted,listedAdded:=0,0,0
+    if listed!=len(actual){return 0,0,0,0,errors.New("archived market membership incomplete")}
+    added,delisted,listedAdded,alreadyPresent:=0,0,0,0
     for _,r:=range symbols{
         var securityID int64
         err=tx.QueryRowContext(ctx,`INSERT INTO core.security_master(symbol,first_observed_at,last_observed_at)
@@ -169,7 +170,7 @@ func syncSecurityLandingTx(ctx context.Context,tx *sql.Tx,landingID int64)(int,i
              first_observed_at=LEAST(core.security_master.first_observed_at,EXCLUDED.first_observed_at),
              last_observed_at=GREATEST(core.security_master.last_observed_at,EXCLUDED.last_observed_at)
            RETURNING security_id`,r.Symbol,fetched).Scan(&securityID)
-        if err!=nil{return 0,0,0,err}
+        if err!=nil{return 0,0,0,0,err}
         var name,short,industry any
         if r.Name!=""{name=r.Name}
         if r.ShortName!=""{short=r.ShortName}
@@ -182,11 +183,56 @@ func syncSecurityLandingTx(ctx context.Context,tx *sql.Tx,landingID int64)(int,i
           ON CONFLICT(landing_id,provider_row_index) DO NOTHING
           RETURNING observation_id`,securityID,landingID,r.SourceRow,observed,fetched,
           r.Category,nullIfEmpty(r.Exchange),name,short,industry).Scan(&rowID)
-        if errors.Is(err,sql.ErrNoRows){continue}
-        if err!=nil{return 0,0,0,err}
+        if errors.Is(err,sql.ErrNoRows){
+            // A uniqueness conflict must mean this exact immutable source
+            // observation is already projected, not merely that the key
+            // exists. Check all persisted fields rather than silently using
+            // ON CONFLICT DO NOTHING to hide a mismatched row.
+            if err:=verifyExistingSecurityObservation(ctx,tx,landingID,securityID,r,observed,fetched);err!=nil{
+                return 0,0,0,0,err
+            }
+            alreadyPresent++
+            continue
+        }
+        if err!=nil{return 0,0,0,0,err}
         added++
         if r.Category=="PROVIDER_DELISTED_UNDATED"{delisted++}else{listedAdded++}
     }
-    return added,delisted,listedAdded,nil
+    if added+alreadyPresent != len(symbols){
+        return 0,0,0,0,errors.New("security observation accounting does not match archived frame")
+    }
+    return added,delisted,listedAdded,alreadyPresent,nil
 }
 func nullIfEmpty(s string) any {if s==""{return nil};return s}
+
+// verifyExistingSecurityObservation ensures repeat imports detect damaged
+// projections even if the original source landing and its hash are intact.
+// The SQL transaction aborts before committing any partial new observations.
+func verifyExistingSecurityObservation(ctx context.Context,tx *sql.Tx,landingID,securityID int64,
+    expected SecurityObservation, observedOn string, observedAt time.Time) error {
+    var storedID int64
+    var storedDay,storedSource,storedCategory string
+    var storedAt time.Time
+    var storedExchange,storedName,storedShort,storedIndustry sql.NullString
+    err:=tx.QueryRowContext(ctx,`SELECT security_id,observed_on::text,observed_at,
+        source,category,exchange,legal_name,short_name,icb_lv2
+        FROM core.security_observations
+        WHERE landing_id=$1 AND provider_row_index=$2`,landingID,expected.SourceRow).
+        Scan(&storedID,&storedDay,&storedAt,&storedSource,&storedCategory,
+            &storedExchange,&storedName,&storedShort,&storedIndustry)
+    if err!=nil{return fmt.Errorf("existing security observation read: %w",err)}
+    sameNullable:=func(v sql.NullString,w string) bool {
+        return (!v.Valid && w=="") || (v.Valid && w!="" && v.String==w)
+    }
+    if storedID!=securityID || storedDay!=observedOn ||
+        !storedAt.Equal(observedAt) || storedSource!="vci" ||
+        storedCategory!=expected.Category ||
+        !sameNullable(storedExchange,expected.Exchange) ||
+        !sameNullable(storedName,expected.Name) ||
+        !sameNullable(storedShort,expected.ShortName) ||
+        !sameNullable(storedIndustry,expected.Industry) {
+        return fmt.Errorf("source projection mismatch at landing=%d row=%d symbol=%s",
+            landingID,expected.SourceRow,expected.Symbol)
+    }
+    return nil
+}
