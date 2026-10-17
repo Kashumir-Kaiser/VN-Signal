@@ -213,3 +213,31 @@ class AdapterErrorCauseTests(unittest.TestCase):
             self.assertEqual(parsed["error"]["type"], "AdapterError")
             self.assertEqual(parsed["error"]["cause"], name)
             self.assertNotIn("vendor private", parsed["error"]["cause"])
+
+class ExtendedAdapterCauseTests(unittest.TestCase):
+    def test_unknown_vendor_exception_class_is_retained_without_message(self):
+        for name in ("VciLegacyProfileFailure", "ProviderUnlistedError"):
+            failure = type(name, (Exception,), {})("secret=example")
+            stdin = types.SimpleNamespace(buffer=io.BytesIO(
+                b'{"id":"diag","op":"company_info","symbol":"BPW"}\n'))
+            stdout = io.StringIO()
+            with patch.object(worker.sys, "stdin", stdin), \
+                 patch.object(worker.sys, "stdout", stdout), \
+                 patch.object(worker, "_fetch", side_effect=failure):
+                worker.main()
+            result = json.loads(stdout.getvalue())
+            self.assertEqual(result["error"]["type"], "AdapterError")
+            self.assertEqual(result["error"]["cause"], name)
+            self.assertNotIn("secret=example", result["error"]["cause"])
+
+    def test_nonascii_exception_class_is_not_persisted(self):
+        failure = type("Secret_日本語", (Exception,), {})("sensitive")
+        stdin = types.SimpleNamespace(buffer=io.BytesIO(
+            b'{"id":"diag","op":"company_info","symbol":"BPW"}\n'))
+        stdout = io.StringIO()
+        with patch.object(worker.sys, "stdin", stdin), \
+             patch.object(worker.sys, "stdout", stdout), \
+             patch.object(worker, "_fetch", side_effect=failure):
+            worker.main()
+        result = json.loads(stdout.getvalue())
+        self.assertEqual(result["error"]["cause"], "UnknownAdapterError")

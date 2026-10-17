@@ -6,6 +6,7 @@ import datetime as dt
 import json
 import math
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -225,20 +226,18 @@ def main() -> None:
                 cls = "AdapterError"
             # Keep a stable, non-sensitive exception category in the wire
             # response. Do not copy vendor error text to probe reports.
-            safe_causes = {
-                "AttributeError", "TypeError", "KeyError", "IndexError",
-                "ValueError", "RuntimeError", "ConnectionError",
-                "TimeoutError", "HTTPError", "RequestException",
-                "EntitlementError", "RateLimitedError", "InputError",
-                "DataSourceError", "DataUnavailableError",
-                "ModuleNotFoundError", "ImportError",
-            }
+            # Only the Python exception *class*, never its value/message,
+            # is persisted by Go. This reveals previously hidden vendor
+            # exception categories without storing account identifiers,
+            # URLs, private arguments or tracebacks.
             cause = type(ex).__name__
+            if not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]{0,79}", cause):
+                cause = "UnknownAdapterError"
             output = {"id": job.get("id") if isinstance(job, dict) else None,
                       "ok": False, "error": {
                           "type": cls,
                           "message": str(ex)[:280],
-                          "cause": cause if cause in safe_causes else "UnknownAdapterError",
+                          "cause": cause,
                       }}
         try:
                         # ASCII escaping keeps JSONL writes independent of Windows' active

@@ -214,3 +214,49 @@ Review unresolved failures **offline**, before considering explicit retries:
 psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 \
   -f sql/diagnostics/company_profile_failures.sql
 ```
+
+## Controlled recovery after 1,696 / 1,754 profiles imported
+
+After 2026-10-17, five formerly timed-out symbols (BBT, BHI, BLN, CEG,
+CVN) succeeded in 1.4–2.9 s each; 47 UNKNOWN and 11 ERROR remained.
+A repeat of `--retry-errors` ran BPW, CT5 and DKH again, hit three
+consecutive `AdapterError` responses and stopped without reaching other
+failures. Do not repeatedly retry the same first three symbols.
+
+A new `--symbols` flag restricts the eligible universe to a named, comma-
+separated list. **This does not override retry permissions**: ERROR still
+requires `--retry-errors`, UNKNOWN still requires `--retry-unknown`,
+and successfully imported profiles cannot be recollected. Unknown/
+ineligible symbols fail before any quota reservation. Calls remain
+serial, metered, source-archived, and covered by the circuit breaker.
+
+New worker exceptions capture only a sanitized class name in
+`routes.company_info.error_class` of the per-attempt saved JSON, not a
+vendor message, traceback, or credentials. `error_type` remains a
+stable category for quota/circuit policy. Older reports generally
+cannot be retroactively diagnosed to more specific classes: the worker
+previously sanitized them before saving.
+
+After reviewing the verified remaining quota and only if explicitly willing
+to pay for another vendor call, run exactly one targeted diagnostic
+request (not the whole error queue):
+
+```bash
+git pull --ff-only origin main
+export VNPIPE_PYTHON="$(cygpath -aw "$PWD/.venv/Scripts/python.exe")"
+unset VNPIPE_DISABLE_LIVE
+go -C go run -mod=mod -tags postgres ./cmd/vnpipe collect-company-profiles \
+  --active --trading-days 10 --max-calls 1 --retry-errors --symbols BPW
+```
+
+Replace the `--trading-days` value with the actual number of remaining
+quota-month trading days. The resulting console line prints the new
+attempt identifier. Read just its safe archived class, for example:
+
+```bash
+py -c 'import json,glob,os; a=sorted(glob.glob("docs/probe/company/batch/BPW-*.json")); d=json.load(open(a[-1],encoding="utf-8")); print(os.path.basename(a[-1]),json.dumps(d.get("routes",{}).get("company_info",{}),indent=2))'
+```
+
+When `error_class` identifies a true provider-specific failure, adjust
+the route's behavior only on confirmed evidence. Do not mark those
+securities as delisted or fabricated missing dates.

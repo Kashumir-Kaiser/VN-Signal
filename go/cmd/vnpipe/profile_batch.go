@@ -10,6 +10,7 @@ import (
     "os"
     "path/filepath"
     "regexp"
+    "strings"
     "time"
 
     "github.com/Kashumir-Kaiser/VN-Signal/go/internal/config"
@@ -34,9 +35,99 @@ func profileExitStatus(resp worker.Response, err error)string{
     if resp.OK{return ""}
     if resp.Error==nil{return "WorkerProtocolError"}
     if resp.Error.Cause!="" && resp.Error.Cause!="UnknownAdapterError" {
-        return profileSafeCause(resp.Error.Cause)
+        // Preserve known systemic categories for stop/continue decisions.
+        // Newly surfaced third-party exception class names are diagnostic,
+        // not automatically trusted as a reason to bypass the circuit.
+        cause:=profileSafeCause(resp.Error.Cause)
+        switch cause {
+        case "EntitlementError","RateLimitedError","ModuleNotFoundError","ImportError",
+            "DataUnavailableError","InputError","ValueError","AttributeError","TypeError",
+            "KeyError","IndexError","RuntimeError","ConnectionError","TimeoutError",
+            "HTTPError","RequestException","DataSourceError":
+            return cause
+        }
     }
     return profileSafeCause(resp.Error.Type)
+}
+
+var profileSymbolRe=regexp.MustCompile(`^[A-Z0-9]{1,12}package main
+
+import (
+    "context"
+    "database/sql"
+    "encoding/json"
+    "errors"
+    "flag"
+    "fmt"
+    "os"
+    "path/filepath"
+    "regexp"
+    "strings"
+    "time"
+
+    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/config"
+    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/ingest"
+    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/live"
+    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/quota"
+    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/worker"
+)
+
+var safeProfileCause=regexp.MustCompile(`^[A-Za-z][A-Za-z0-9_]{0,79}$`)
+func profileSafeCause(cause string)string{
+    if safeProfileCause.MatchString(cause){return cause}
+    return "WorkerFailure"
+}
+func profileExitStatus(resp worker.Response, err error)string{
+    if err!=nil{
+        if errors.Is(err,context.DeadlineExceeded){return "WorkerTimeout"}
+        if errors.Is(err,context.Canceled){return "WorkerCancelled"}
+        if errors.Is(err,quota.ErrExhausted){return "QuotaExhausted"}
+        return "WorkerInvocationError"
+    }
+    if resp.OK{return ""}
+    if resp.Error==nil{return "WorkerProtocolError"}
+    if resp.Error.Cause!="" && resp.Error.Cause!="UnknownAdapterError" {
+        // Preserve known systemic categories for stop/continue decisions.
+        // Newly surfaced third-party exception class names are diagnostic,
+        // not automatically trusted as a reason to bypass the circuit.
+        cause:=profileSafeCause(resp.Error.Cause)
+        switch cause {
+        case "EntitlementError","RateLimitedError","ModuleNotFoundError","ImportError",
+            "DataUnavailableError","InputError","ValueError","AttributeError","TypeError",
+            "KeyError","IndexError","RuntimeError","ConnectionError","TimeoutError",
+            "HTTPError","RequestException","DataSourceError":
+            return cause
+        }
+    }
+    return profileSafeCause(resp.Error.Type)
+}
+
+)
+
+// An explicit symbol filter never broadens the eligible retry states.
+// Invalid, duplicate or currently ineligible symbols fail BEFORE quotas
+// are reserved; otherwise user order never bypasses deterministic queue order.
+func parseProfileSymbols(csv string)(map[string]bool,error){
+    if csv=="" {return nil,nil}
+    result:=make(map[string]bool)
+    for _,piece:=range strings.Split(csv,","){
+        symbol:=strings.ToUpper(strings.TrimSpace(piece))
+        if !profileSymbolRe.MatchString(symbol) {return nil,fmt.Errorf("invalid --symbols entry %q",piece)}
+        if result[symbol] {return nil,fmt.Errorf("duplicate --symbols entry %s",symbol)}
+        result[symbol]=true
+    }
+    return result,nil
+}
+func selectProfileSymbols(eligible []string,selected map[string]bool)([]string,error){
+    if len(selected)==0{return eligible,nil}
+    out:=make([]string,0,len(selected))
+    for _,sym:=range eligible {
+        if selected[sym]{out=append(out,sym)}
+    }
+    if len(out)!=len(selected){
+        return nil,errors.New("one or more --symbols tickers are not eligible for this run (already imported, unknown/error without explicit retry flag, or absent from security master)")
+    }
+    return out,nil
 }
 
 // Distinguish an isolated symbol-level adapter exception from failures
@@ -119,6 +210,11 @@ func saveProfileBatchReport(path,symbol string,resp worker.Response,callErr erro
         route["error_type"]=profileExitStatus(resp,callErr)
     } else if !resp.OK{
         route["error_type"]=profileExitStatus(resp,nil)
+        if resp.Error!=nil && resp.Error.Cause!=""{
+            // Archive only a bounded ASCII exception class name; never the
+            // vendor's exception message (it may contain private tokens).
+            route["error_class"]=profileSafeCause(resp.Error.Cause)
+        }
     } else {
         report["company_info_frame"]=json.RawMessage(resp.Data)
         var frame struct{
@@ -245,11 +341,14 @@ func runProfileBatch(args []string)(retErr error){
     maxCalls:=f.Int("max-calls",50,"maximum attempted API calls in this invocation")
     retryErrors:=f.Bool("retry-errors",false,"retry previously failed provider calls (additional quota)")
     retryUnknown:=f.Bool("retry-unknown",false,"explicitly allow repeating uncertain, possibly billed calls")
+    symbols:=f.String("symbols","","optional comma-separated existing symbols to target (no broadening of retry permissions)")
     out:=f.String("out",filepath.Join("..","docs","probe","company","batch"),"archive directory for source reports")
     if err:=f.Parse(args);err!=nil{return err}
     if len(f.Args())!=0||!*active||*days<1||*days>31||*maxCalls<1||*maxCalls>100000{
         return errors.New("collect-company-profiles requires --active --trading-days 1..31 and --max-calls 1..100000")
     }
+    chosen,err:=parseProfileSymbols(*symbols)
+    if err!=nil{return err}
     if os.Getenv("VNPIPE_DISABLE_LIVE")=="1"{return live.ErrDisabled}
     if _,err:=config.Load(configPath());err!=nil{return err}
     absOut,err:=filepath.Abs(*out)
@@ -298,6 +397,8 @@ func runProfileBatch(args []string)(retErr error){
         default:return fmt.Errorf("invalid database profile state %q",r.State)
         }
     }
+    eligible,err=selectProfileSymbols(eligible,chosen)
+    if err!=nil{return err}
     id,err:=store.StartProfileBatch(ctx,*maxCalls)
     if err!=nil{return err}
     summary.BatchID=id

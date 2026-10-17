@@ -138,3 +138,47 @@ func TestProfileCircuitBreaksRepeatedAdapterFailuresNotSingleTicker(t *testing.T
         t.Fatalf("consecutive adapter breaker: %s",got)
     }
 }
+
+func TestProfileSymbolTargetingIsStrictAndOffline(t *testing.T){
+    for _,tc:=range []string{"A32,,BPW","BPW,BPW","BPW,../../secrets","-1"," "}{
+        if _,err:=parseProfileSymbols(tc);err==nil{t.Fatalf("accepted unsafe filter %q",tc)}
+    }
+    selected,err:=parseProfileSymbols(" bpw, ct5 ")
+    if err!=nil||!selected["BPW"]||!selected["CT5"]||len(selected)!=2{
+        t.Fatalf("failed normalizing symbols %+v %v",selected,err)
+    }
+    got,err:=selectProfileSymbols([]string{"A32","BPW","CT5"},selected)
+    if err!=nil||len(got)!=2||got[0]!="BPW"||got[1]!="CT5"{
+        t.Fatalf("wrong targeted queue: %+v %v",got,err)
+    }
+    if _,err=selectProfileSymbols([]string{"A32","BPW"},selected);err==nil{
+        t.Fatal("selected noneligible ticker must fail before reserving quota")
+    }
+    all,err:=selectProfileSymbols([]string{"A32","BPW"},nil)
+    if err!=nil||len(all)!=2{t.Fatalf("normal queue altered: %v %+v",err,all)}
+}
+func TestProfileNewVendorExceptionClassDoesNotBypassSafety(t *testing.T){
+    response:=worker.Response{ID:"x",OK:false,Error:&struct{
+        Type string `json:"type"`
+        Message string `json:"message"`
+        Cause string `json:"cause,omitempty"`
+    }{Type:"AdapterError",Message:"private vendor text",Cause:"VciLegacyProfileFailure"}}
+    if reason:=profileExitStatus(response,nil);reason!="AdapterError"{
+        t.Fatalf("unknown exception class bypassed fail policy: %s",reason)
+    }
+    path:=filepath.Join(t.TempDir(),"BPW-archive.json")
+    if err:=saveProfileBatchReport(path,"BPW",response,nil);err!=nil{t.Fatal(err)}
+    raw,err:=os.ReadFile(path)
+    if err!=nil{t.Fatal(err)}
+    if strings.Contains(string(raw),"private vendor text"){t.Fatal("private worker message leaked")}
+    var data struct{Routes map[string]struct{
+        ErrorType string `json:"error_type"`
+        ErrorClass string `json:"error_class"`
+    } `json:"routes"`}
+    if err=json.Unmarshal(raw,&data);err!=nil{t.Fatal(err)}
+    observed:=data.Routes["company_info"]
+    if observed.ErrorType!="AdapterError"||observed.ErrorClass!="VciLegacyProfileFailure"{
+        t.Fatalf("unsafe/uninformative error evidence: %+v",observed)
+    }
+    if profileSafeCause("../token")!="WorkerFailure"{t.Fatal("unexpected unsafe class accepted")}
+}
