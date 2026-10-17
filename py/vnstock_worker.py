@@ -89,7 +89,7 @@ def _fetch(job: dict[str, Any]) -> dict[str, Any]:
     op = job["op"]
     source = job.get("source")
     allowed_sources = {
-        "equity_list": {"vci"}, "market_calendar": set(),
+        "equity_list": {"vci"}, "company_info": {"vci"}, "market_calendar": set(),
         "equity_ohlcv": {"vci", "kbs", "vnd", "mas", "asean"},
         "index_ohlcv": {"vci", "kbs"},
         "income_statement": {"vci", "kbs", "mas"},
@@ -103,6 +103,8 @@ def _fetch(job: dict[str, Any]) -> dict[str, Any]:
         return _frame(Reference().equity.list_by_exchange())
     if op == "market_calendar":
         return _frame(Reference().events.market())
+    if op == "company_info":
+        return _frame(Reference().company(_symbol(job)).info(source="vci"))
     if op in ("equity_ohlcv", "index_ohlcv"):
         val = _symbol(job)
         start, end = job.get("start"), job.get("end")
@@ -170,7 +172,7 @@ def dispatch(job: dict[str, Any]) -> dict[str, Any]:
                     result["routes"][route] = {
                         "available": False, "error_type": type(ex).__name__}
         return result
-    allowed = {"equity_list", "market_calendar", "equity_ohlcv", "index_ohlcv",
+    allowed = {"equity_list", "company_info", "market_calendar", "equity_ohlcv", "index_ohlcv",
                "income_statement", "balance_sheet", "cash_flow"}
     if op not in allowed:
         raise ValueError("unknown operation")

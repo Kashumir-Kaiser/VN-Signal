@@ -192,3 +192,39 @@ func corruptSecurityObservationForTest(t *testing.T,db *sql.DB,update string) {
     }
     if err=tx.Commit();err!=nil{t.Fatal(err)}
 }
+
+func TestArchivedCompanyProfileIsProviderMetadataNotFirstTrade(t *testing.T) {
+    db:=pgTestDB(t)
+    clearDB(t,db)
+    store,_:=NewPostgresStore(db)
+    ctx:=context.Background()
+    snap,err:=ParseListingProbe(listingIntegrationFixture("2026-10-16",20),3)
+    if err!=nil{t.Fatal(err)}
+    if _,err=store.ImportListingSnapshot(ctx,snap);err!=nil{t.Fatal(err)}
+    report:=companyProbeFixture("X000","2020-02-01T00:00:00+07:00")
+    p,err:=ParseCompanyInfoProbe(report)
+    if err!=nil{t.Fatal(err)}
+    created,err:=store.ImportCompanyInfo(ctx,p)
+    if err!=nil||!created{t.Fatalf("initial profile import: %v %v",created,err)}
+    repeated,err:=store.ImportCompanyInfo(ctx,p)
+    if err!=nil||repeated{t.Fatalf("replayed profile not idempotent: %v %v",repeated,err)}
+    var date string
+    err=db.QueryRow(`SELECT reported_listing_date::text
+       FROM core.company_profile_listing_evidence WHERE symbol='X000'`).Scan(&date)
+    if err!=nil||date!="2020-02-01"{t.Fatalf("missing source reported date %s %v",date,err)}
+    for q,want:=range map[string]int{
+        "SELECT count(*) FROM raw.landings WHERE route='company_info'":1,
+        "SELECT count(*) FROM core.company_profile_observations":1,
+        "SELECT count(*) FROM core.security_lifecycle_evidence":0,
+        "SELECT count(*) FROM ops.api_reservations":0,
+    }{
+        var n int
+        if err=db.QueryRow(q).Scan(&n);err!=nil||n!=want{
+            t.Fatalf("%s got %d want %d: %v",q,n,want,err)
+        }
+    }
+    p.ReportedListingDate="1999-01-01"
+    if _,err=store.ImportCompanyInfo(ctx,p);err==nil{
+        t.Fatal("caller-invented reported listing date accepted")
+    }
+}

@@ -155,3 +155,7 @@ Previously blocked A32/ABC-style jobs without any saved raw frame can be explici
 ### Historical listing-date safety (migration 007)
 
 Zero volume alone cannot distinguish a listed security with no trades from a company before initial public trading, during a trading halt, or outside an exchange trading episode. Prior `NO_TRADE` findings are migrated to `ZERO_VOLUME_UNVERIFIED`. Until separately evidenced, the `ops.zero_volume_lifecycle_status` view reports `LISTING_STATUS_UNVERIFIED`. See [docs/LIFECYCLE_EVIDENCE.md](docs/LIFECYCLE_EVIDENCE.md). No additional vnstock quota is required for this migration.
+
+### Refresh live listing and company metadata on your registered computer
+
+Use `vnpipe refresh-listings --active --trading-days N` for one genuine quota-metered VCI listing call followed by the transactional PostgreSQL import. Use `vnpipe refresh-company-info --active --trading-days N --symbol ABR` for a real v5 `Reference().company(...).info(source="vci")` profile request with verbatim source archiving. These explicit calls are blocked by `VNPIPE_DISABLE_LIVE=1`. The reported `listing_date` is **not** used as a verified first-ever public-trading date. See [live metadata snapshot guide](docs/LIVE_SNAPSHOT_REFRESH.md).

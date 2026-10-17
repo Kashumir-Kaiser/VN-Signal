@@ -26,10 +26,14 @@ func usage() {
 	fmt.Println(`vnpipe (bootstrap) - VN-Signal
 Usage:
   vnpipe probe [--active --trading-days N] [--routes route,...] [--out DIR]
+  vnpipe probe --active --trading-days N --routes company_info --symbol TICKER --out DIR
   vnpipe budget --daily N --monthly N --days N --rpm N
   vnpipe validate-bars --input FILE --symbol TICKER
   vnpipe preview-backfill --probe FILE --symbols FILE --from DATE --to DATE --days N
   vnpipe import-listings --probe FILE [--min-symbols N] (offline Postgres import)
+  vnpipe refresh-listings --active --trading-days N [--out DIR] (one metered call, save and import)
+  vnpipe refresh-company-info --active --trading-days N --symbol TICKER [--out DIR]
+  vnpipe import-company-info --probe FILE (offline source-backed profile import)
   vnpipe rebuild-security-master (offline sync of every archived VCI equity_list frame)
   vnpipe backfill-status --from DATE --to DATE [--source vci] (read-only)
   vnpipe reprocess-archived --from DATE --to DATE --source vci (offline no-quota)
@@ -310,6 +314,7 @@ func run(args []string) error {
 		active := f.Bool("active", false, "opt in to metered vnstock route calls")
 		remainingDays := f.Int("trading-days", 0, "remaining trading days in this month, mandatory for active probe")
 		routeNames := f.String("routes", "", "comma-separated routes to probe (active only; default: all)")
+		companySymbol := f.String("symbol", "", "company_info only: ticker whose profile to inspect")
 		out := f.String("out", filepath.Join("..", "docs", "probe"), "report directory")
 		if err := f.Parse(args[1:]); err != nil {
 			return err
@@ -331,12 +336,28 @@ func run(args []string) error {
 		}
 		var requests []map[string]any
 		if *active {
-			selected, err := selectProbeRequests(probeRequests(time.Now().Format("2006-01-02")), *routeNames)
-			if err != nil {
-				return err
-			}
-			requests = selected
-		}
+            if strings.TrimSpace(*routeNames) == "company_info" {
+                sym := strings.ToUpper(strings.TrimSpace(*companySymbol))
+                if len(sym) < 1 || len(sym) > 12 || sym != *companySymbol {
+                    return errors.New("--routes company_info requires --symbol UPPERCASE_TICKER")
+                }
+                for _, ch := range sym {
+                    if !(ch >= 'A' && ch <= 'Z' || ch >= '0' && ch <= '9') {
+                        return errors.New("invalid company_info ticker")
+                    }
+                }
+                requests = []map[string]any{{"op":"company_info","symbol":sym,"source":"vci"}}
+            } else {
+                if *companySymbol != "" {
+                    return errors.New("--symbol only applies to --routes company_info")
+                }
+                selected, err := selectProbeRequests(probeRequests(time.Now().Format("2006-01-02")), *routeNames)
+                if err != nil {return err}
+                requests = selected
+            }
+        } else if *companySymbol != "" {
+            return errors.New("--symbol requires an active company_info probe")
+        }
 		if _, err := config.Load(configPath()); err != nil {
 			return fmt.Errorf("invalid config: %w", err)
 		}
@@ -437,6 +458,26 @@ func run(args []string) error {
 				if op == "equity_list" && payload.Count > 0 {
 					report["listing_frame"] = append(json.RawMessage(nil), resp.Data...)
 				}
+                if op == "company_info" {
+                    symbol := job["symbol"].(string)
+                    matched := false
+                    if payload.Count==1 && len(payload.Rows)==1 {
+                        v,ok:=payload.Rows[0]["symbol"].(string)
+                        matched=ok && strings.EqualFold(v,symbol)
+                    }
+                    hasDateColumn:=false
+                    for _,column:=range payload.Columns {
+                        if column=="listing_date" {hasDateColumn=true;break}
+                    }
+                    if !matched || !hasDateColumn {
+                        summary[op] = map[string]any{"available":false,"error_type":"InvalidCompanyInfoFrame","duration_ms":elapsed}
+                        continue
+                    }
+                    report["company_info_frame"] = append(json.RawMessage(nil),resp.Data...)
+                    symbolJSON,_:=json.Marshal(symbol)
+                    report["company_info_symbol"] = symbolJSON
+                }
+
 				summary[op] = map[string]any{"available": payload.Count > 0, "count": payload.Count, "columns": payload.Columns, "first_observed_date": first, "last_observed_date": last, "attributes": payload.Attributes, "duration_ms": elapsed}
 			}
 			report["active"] = json.RawMessage("true")
@@ -487,6 +528,12 @@ func run(args []string) error {
 		return nil
 	case "import-listings":
 		return runImportListings(args[1:])
+	case "refresh-listings":
+		return runRefreshListings(args[1:])
+	case "import-company-info":
+		return runImportCompanyInfo(args[1:])
+	case "refresh-company-info":
+		return runRefreshCompanyInfo(args[1:])
 	case "rebuild-security-master":
 		return runRebuildSecurityMaster(args[1:])
 	case "backfill-status":
