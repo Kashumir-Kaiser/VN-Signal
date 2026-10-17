@@ -60,9 +60,12 @@ func profileProviderFailureMayContinue(reason string) bool {
 
 // A request can fail while the rest of a batch remains healthy. Break after
 // three consecutive timeouts, three consecutive other worker/adapter errors,
-// or five such errors inside the last 25 calls. A healthy or confirmed
-// data-unavailable response resets consecutive counts, but not the rolling
-// error window. This limits quota spent when an external service degrades.
+// or five such errors inside the last TEN calls (50% failure density).
+// A healthy or confirmed data-unavailable response resets consecutive
+// counts, but not the rolling error window. In the October 17 observed batch,
+// five isolated timeouts across 22 calls were not a systemic collapse:
+// the previous five-in-25 threshold stopped after 488 successful imports.
+// Fail-closed classification of systemic errors is unchanged.
 type profileFailureCircuit struct {
     consecutiveTimeouts int
     consecutiveAdapters int
@@ -73,12 +76,12 @@ func (c *profileFailureCircuit) record(reason string, failure bool) string {
     if failure && reason=="WorkerTimeout" {c.consecutiveTimeouts++} else {c.consecutiveTimeouts=0}
     if failure && reason!="WorkerTimeout" {c.consecutiveAdapters++} else {c.consecutiveAdapters=0}
     c.recent=append(c.recent,failure)
-    if len(c.recent)>25 {c.recent=c.recent[len(c.recent)-25:]}
+    if len(c.recent)>10 {c.recent=c.recent[len(c.recent)-10:]}
     recentFailures:=0
     for _,failed:=range c.recent {if failed {recentFailures++}}
     if c.consecutiveTimeouts>=3 {return "three consecutive worker timeouts"}
     if c.consecutiveAdapters>=3 {return "three consecutive adapter/transport errors"}
-    if recentFailures>=5 {return "five transient failures within 25 calls"}
+    if recentFailures>=5 {return "five transient failures within 10 calls"}
     return ""
 }
 
@@ -359,8 +362,10 @@ func runProfileBatch(args []string)(retErr error){
         }
         req:=map[string]any{"id":fmt.Sprintf("profile-%d",attempt.ID),
             "op":"company_info","symbol":symbol,"source":"vci"}
+        workerStarted:=time.Now()
         reply,callErr:=gateway.Call(ctx,req)
-        fmt.Fprintf(os.Stdout,"Profile batch: %s worker completed (ok=%v); preserving response\n",symbol,reply.OK && callErr==nil)
+        fmt.Fprintf(os.Stdout,"Profile batch: %s worker completed (ok=%v duration_ms=%d); preserving response\n",
+            symbol,reply.OK && callErr==nil,time.Since(workerStarted).Milliseconds())
         if saveErr:=saveProfileBatchReport(attempt.ReportPath,symbol,reply,callErr);saveErr!=nil{
             // The vendor may already have charged the call. Do not retry it.
             summary.Errors++

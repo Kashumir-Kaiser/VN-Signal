@@ -106,16 +106,30 @@ func TestProfileStructuredProviderErrorsAreDistinct(t *testing.T){
 }
 
 func TestProfileCircuitBreaksRepeatedAdapterFailuresNotSingleTicker(t *testing.T){
-    var c profileFailureCircuit
-    if got:=c.record("AdapterError",true);got!=""{t.Fatalf("single failed symbol stopped batch: %s",got)}
-    if got:=c.record("",false);got!=""{t.Fatal(got)}
-    if got:=c.record("AttributeError",true);got!=""{t.Fatal(got)}
-    if got:=c.record("AdapterError",true);got!=""{t.Fatal(got)}
-    if got:=c.record("",false);got!=""{t.Fatal(got)}
-    if got:=c.record("AdapterError",true);got!=""{t.Fatal(got)}
-    if got:=c.record("",false);got!=""{t.Fatal(got)}
-    if got:=c.record("AdapterError",true);got!="five transient failures within 25 calls"{
-        t.Fatalf("clustered adapter failures did not stop batch: %s",got)
+    // Batch 5 had five isolated timeouts across 22 calls with successful
+    // profiles between them: a 20% rolling-25 failure rate must NOT stop an
+    // otherwise healthy vendor route. Those failures stay UNKNOWN and billed.
+    var sparse profileFailureCircuit
+    for i:=0;i<22;i++{
+        fail:=i==0||i==2||i==13||i==18||i==21
+        cause:=""
+        if fail{cause="WorkerTimeout"}
+        if trip:=sparse.record(cause,fail);trip!=""{
+            t.Fatalf("five scattered timeouts across 22 requests incorrectly stopped at %d: %s",i,trip)
+        }
+    }
+    // A genuine severe cluster of at least half the last ten requests
+    // still halts before consuming more quota.
+    var concentrated profileFailureCircuit
+    for i:=0;i<10;i++{
+        fail:=i%2==0
+        cause:=""
+        if fail{cause="AdapterError"}
+        trip:=concentrated.record(cause,fail)
+        if i<8 && trip!=""{t.Fatalf("premature trip at %d: %s",i,trip)}
+        if i==8 && trip!="five transient failures within 10 calls"{
+            t.Fatalf("cluster circuit should trip at fifth failure: %s",trip)
+        }
     }
     var consecutive profileFailureCircuit
     if got:=consecutive.record("AdapterError",true);got!=""{t.Fatal(got)}

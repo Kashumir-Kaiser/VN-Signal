@@ -178,7 +178,7 @@ continuation command.
 
 A safety circuit stops subsequent live calls after three consecutive
 worker timeouts, three consecutive other adapter failures, or five
-transient failures in the most recent 25 calls. It still immediately
+transient failures in the most recent 10 calls. It still immediately
 stops on provider quota/entitlement rejection, missing Python packages,
 worker protocol/system exit or unknown error classes. Genuine
 successes reset the consecutive failure counts. The error categories
@@ -193,3 +193,24 @@ py -c 'import json; p="docs/probe/company/batch/BPW-000000000142.json"; d=json.l
 The saved batch report includes only the category known at collection
 time; if it says `AdapterError`, that is *not sufficient* to diagnose
 which third-party operation failed. Do not invent provider failure details.
+
+## 2026-10-17 observed batch 5: sparse timeout cluster
+
+Batch 5 attempted 515 profiles, committed 488, and recorded 27 errors,
+then stopped because five uncertain worker timeouts were spread over
+22 requests. This is about 5.2% failures overall, but exceeded an overly
+sensitive five-in-25 circuit threshold. The collector now uses **five
+transient errors among the most recent ten requests** in addition to its
+unchanged three-consecutive-timeout and three-consecutive-adapter-error
+limits. A single failure is still archived with its quota reservation and
+skipped without retrying it; quota/entitlement and systemic failures still
+fail closed. This does not change the individual 60-second worker timeout.
+The worker completion log now includes elapsed milliseconds for further
+real-world diagnosis. The reason individual VCI tickers stall remains
+unverified; do not infer a market listing event from a timeout.
+
+Review unresolved failures **offline**, before considering explicit retries:
+```bash
+psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 \
+  -f sql/diagnostics/company_profile_failures.sql
+```
