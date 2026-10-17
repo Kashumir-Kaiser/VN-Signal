@@ -241,3 +241,41 @@ class ExtendedAdapterCauseTests(unittest.TestCase):
             worker.main()
         result = json.loads(stdout.getvalue())
         self.assertEqual(result["error"]["cause"], "UnknownAdapterError")
+
+class VendorMetadataDiagnosticsTests(unittest.TestCase):
+    def test_structured_provider_error_metadata_no_vendor_message(self):
+        cls = type("ProviderError", (Exception,), {})
+        err = cls("https://private.token/secret?key=x")
+        err.code = "VNSTOCK_SOURCE_NOT_FOUND"
+        err.kind = "provider"
+        err.route = "reference.company.info"
+        err.provider = "vci"
+        err.status = 404
+        err.retryable = False
+        fake = types.SimpleNamespace(buffer=io.BytesIO(
+            b'{"id":"one","op":"company_info","symbol":"BPW"}\n'))
+        out = io.StringIO()
+        with patch.object(worker.sys, "stdin", fake), \
+             patch.object(worker.sys, "stdout", out), \
+             patch.object(worker, "_fetch", side_effect=err):
+            worker.main()
+        result = json.loads(out.getvalue())
+        self.assertEqual(result["error"]["type"], "AdapterError")
+        self.assertEqual(result["error"]["cause"], "ProviderError")
+        self.assertEqual(result["diagnostic"], {
+            "code": "VNSTOCK_SOURCE_NOT_FOUND", "kind": "provider",
+            "route": "reference.company.info", "provider": "vci",
+            "http_status": 404, "retryable": False
+        })
+        self.assertNotIn("private.token", json.dumps(result["diagnostic"]))
+
+    def test_bad_vendor_metadata_is_omitted(self):
+        cls=type("ProviderError",(Exception,),{})
+        ex=cls("do not save this")
+        ex.code="TOKEN_abc12345"
+        ex.kind="password"
+        ex.route="https://key:password@server/"
+        ex.provider="anotherhost"
+        ex.status=999
+        ex.retryable="true"
+        self.assertEqual(worker._safe_failure_diagnostic(ex), {})

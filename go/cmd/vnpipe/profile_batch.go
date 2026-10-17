@@ -144,6 +144,320 @@ func profileWorkerCall(ctx context.Context,request map[string]any)(worker.Respon
     return worker.Invoke(requestCtx,worker.Python(),worker.ScriptPath(),request)
 }
 
+// Only sanitized attributes are archived. This repeats validation at the Go
+// persistence boundary so malformed subprocess data cannot leak private text.
+var profileErrorCodeRE=regexp.MustCompile(`^VNSTOCK_[A-Z0-9_]{1,72}package main
+
+import (
+    "context"
+    "database/sql"
+    "encoding/json"
+    "errors"
+    "flag"
+    "fmt"
+    "os"
+    "path/filepath"
+    "regexp"
+    "strings"
+    "time"
+
+    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/config"
+    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/ingest"
+    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/live"
+    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/quota"
+    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/worker"
+)
+
+var safeProfileCause=regexp.MustCompile(`^[A-Za-z][A-Za-z0-9_]{0,79}$`)
+func profileSafeCause(cause string)string{
+    if safeProfileCause.MatchString(cause){return cause}
+    return "WorkerFailure"
+}
+func profileExitStatus(resp worker.Response, err error)string{
+    if err!=nil{
+        if errors.Is(err,context.DeadlineExceeded){return "WorkerTimeout"}
+        if errors.Is(err,context.Canceled){return "WorkerCancelled"}
+        if errors.Is(err,quota.ErrExhausted){return "QuotaExhausted"}
+        return "WorkerInvocationError"
+    }
+    if resp.OK{return ""}
+    if resp.Error==nil{return "WorkerProtocolError"}
+    if resp.Error.Cause!="" && resp.Error.Cause!="UnknownAdapterError" {
+        // Preserve known systemic categories for stop/continue decisions.
+        // Newly surfaced third-party exception class names are diagnostic,
+        // not automatically trusted as a reason to bypass the circuit.
+        cause:=profileSafeCause(resp.Error.Cause)
+        switch cause {
+        case "EntitlementError","RateLimitedError","ModuleNotFoundError","ImportError",
+            "DataUnavailableError","InputError","ValueError","AttributeError","TypeError",
+            "KeyError","IndexError","RuntimeError","ConnectionError","TimeoutError",
+            "HTTPError","RequestException","DataSourceError":
+            return cause
+        }
+    }
+    return profileSafeCause(resp.Error.Type)
+}
+
+var profileSymbolRe=regexp.MustCompile("^[A-Z0-9]{1,12}$")
+
+// An explicit symbol filter never broadens the eligible retry states.
+// Invalid, duplicate or currently ineligible symbols fail BEFORE quotas
+// are reserved; otherwise user order never bypasses deterministic queue order.
+func parseProfileSymbols(csv string)(map[string]bool,error){
+    if csv=="" {return nil,nil}
+    result:=make(map[string]bool)
+    for _,piece:=range strings.Split(csv,","){
+        symbol:=strings.ToUpper(strings.TrimSpace(piece))
+        if !profileSymbolRe.MatchString(symbol) {return nil,fmt.Errorf("invalid --symbols entry %q",piece)}
+        if result[symbol] {return nil,fmt.Errorf("duplicate --symbols entry %s",symbol)}
+        result[symbol]=true
+    }
+    return result,nil
+}
+func selectProfileSymbols(eligible []string,selected map[string]bool)([]string,error){
+    if len(selected)==0{return eligible,nil}
+    out:=make([]string,0,len(selected))
+    for _,sym:=range eligible {
+        if selected[sym]{out=append(out,sym)}
+    }
+    if len(out)!=len(selected){
+        return nil,errors.New("one or more --symbols tickers are not eligible for this run (already imported, unknown/error without explicit retry flag, or absent from security master)")
+    }
+    return out,nil
+}
+
+// Distinguish an isolated symbol-level adapter exception from failures
+// indicating the whole worker/provider environment is unusable. These
+// classifications determine whether the *batch* continues, not whether a
+// company has valid listing evidence. Any structured adapter failure remains
+// ERROR until a future explicitly authorized retry.
+func profileProviderFailureMayContinue(reason string) bool {
+    switch reason {
+    case "DataUnavailableError", "InputError", "ValueError",
+        "AdapterError", "AttributeError", "TypeError", "KeyError",
+        "IndexError", "RuntimeError", "ConnectionError", "TimeoutError",
+        "HTTPError", "RequestException", "DataSourceError":
+        return true
+    default:
+        // Rate-limit/entitlement, import/configuration, worker-protocol,
+        // system exit and any unrecognized error fail closed.
+        return false
+    }
+}
+
+// A request can fail while the rest of a batch remains healthy. Break after
+// three consecutive timeouts, three consecutive other worker/adapter errors,
+// or five such errors inside the last TEN calls (50% failure density).
+// A healthy or confirmed data-unavailable response resets consecutive
+// counts, but not the rolling error window. In the October 17 observed batch,
+// five isolated timeouts across 22 calls were not a systemic collapse:
+// the previous five-in-25 threshold stopped after 488 successful imports.
+// Fail-closed classification of systemic errors is unchanged.
+type profileFailureCircuit struct {
+    consecutiveTimeouts int
+    consecutiveAdapters int
+    recent []bool
+}
+
+func (c *profileFailureCircuit) record(reason string, failure bool) string {
+    if failure && reason=="WorkerTimeout" {c.consecutiveTimeouts++} else {c.consecutiveTimeouts=0}
+    if failure && reason!="WorkerTimeout" {c.consecutiveAdapters++} else {c.consecutiveAdapters=0}
+    c.recent=append(c.recent,failure)
+    if len(c.recent)>10 {c.recent=c.recent[len(c.recent)-10:]}
+    recentFailures:=0
+    for _,failed:=range c.recent {if failed {recentFailures++}}
+    if c.consecutiveTimeouts>=3 {return "three consecutive worker timeouts"}
+    if c.consecutiveAdapters>=3 {return "three consecutive adapter/transport errors"}
+    if recentFailures>=5 {return "five transient failures within 10 calls"}
+    return ""
+}
+
+// A process timeout does NOT establish that VCI rejected the symbol:
+// the request may have reached the provider before the worker was killed.
+// Record it as UNKNOWN, skip this ticker, and preserve the quota charge.
+// Only an actual structured provider reply may be classified as ERROR.
+func profileFailedCallDisposition(resp worker.Response,callErr error)(state,reason string,continueBatch bool){
+    reason=profileExitStatus(resp,callErr)
+    if callErr!=nil {
+        return "UNKNOWN",reason,errors.Is(callErr,context.DeadlineExceeded)
+    }
+    return "ERROR",reason,profileProviderFailureMayContinue(reason)
+}
+
+// Each worker call has its own timeout. The batch's five-hour aggregate
+// deadline must never replace the subprocess's normal bounded lifetime.
+func profileWorkerCall(ctx context.Context,request map[string]any)(worker.Response,error){
+    requestCtx,cancel:=context.WithTimeout(ctx,60*time.Second)
+    defer cancel()
+    return worker.Invoke(requestCtx,worker.Python(),worker.ScriptPath(),request)
+}
+
+)
+var profileRouteRE=regexp.MustCompile(`^[a-z][a-z0-9_.]{0,99}package main
+
+import (
+    "context"
+    "database/sql"
+    "encoding/json"
+    "errors"
+    "flag"
+    "fmt"
+    "os"
+    "path/filepath"
+    "regexp"
+    "strings"
+    "time"
+
+    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/config"
+    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/ingest"
+    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/live"
+    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/quota"
+    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/worker"
+)
+
+var safeProfileCause=regexp.MustCompile(`^[A-Za-z][A-Za-z0-9_]{0,79}$`)
+func profileSafeCause(cause string)string{
+    if safeProfileCause.MatchString(cause){return cause}
+    return "WorkerFailure"
+}
+func profileExitStatus(resp worker.Response, err error)string{
+    if err!=nil{
+        if errors.Is(err,context.DeadlineExceeded){return "WorkerTimeout"}
+        if errors.Is(err,context.Canceled){return "WorkerCancelled"}
+        if errors.Is(err,quota.ErrExhausted){return "QuotaExhausted"}
+        return "WorkerInvocationError"
+    }
+    if resp.OK{return ""}
+    if resp.Error==nil{return "WorkerProtocolError"}
+    if resp.Error.Cause!="" && resp.Error.Cause!="UnknownAdapterError" {
+        // Preserve known systemic categories for stop/continue decisions.
+        // Newly surfaced third-party exception class names are diagnostic,
+        // not automatically trusted as a reason to bypass the circuit.
+        cause:=profileSafeCause(resp.Error.Cause)
+        switch cause {
+        case "EntitlementError","RateLimitedError","ModuleNotFoundError","ImportError",
+            "DataUnavailableError","InputError","ValueError","AttributeError","TypeError",
+            "KeyError","IndexError","RuntimeError","ConnectionError","TimeoutError",
+            "HTTPError","RequestException","DataSourceError":
+            return cause
+        }
+    }
+    return profileSafeCause(resp.Error.Type)
+}
+
+var profileSymbolRe=regexp.MustCompile("^[A-Z0-9]{1,12}$")
+
+// An explicit symbol filter never broadens the eligible retry states.
+// Invalid, duplicate or currently ineligible symbols fail BEFORE quotas
+// are reserved; otherwise user order never bypasses deterministic queue order.
+func parseProfileSymbols(csv string)(map[string]bool,error){
+    if csv=="" {return nil,nil}
+    result:=make(map[string]bool)
+    for _,piece:=range strings.Split(csv,","){
+        symbol:=strings.ToUpper(strings.TrimSpace(piece))
+        if !profileSymbolRe.MatchString(symbol) {return nil,fmt.Errorf("invalid --symbols entry %q",piece)}
+        if result[symbol] {return nil,fmt.Errorf("duplicate --symbols entry %s",symbol)}
+        result[symbol]=true
+    }
+    return result,nil
+}
+func selectProfileSymbols(eligible []string,selected map[string]bool)([]string,error){
+    if len(selected)==0{return eligible,nil}
+    out:=make([]string,0,len(selected))
+    for _,sym:=range eligible {
+        if selected[sym]{out=append(out,sym)}
+    }
+    if len(out)!=len(selected){
+        return nil,errors.New("one or more --symbols tickers are not eligible for this run (already imported, unknown/error without explicit retry flag, or absent from security master)")
+    }
+    return out,nil
+}
+
+// Distinguish an isolated symbol-level adapter exception from failures
+// indicating the whole worker/provider environment is unusable. These
+// classifications determine whether the *batch* continues, not whether a
+// company has valid listing evidence. Any structured adapter failure remains
+// ERROR until a future explicitly authorized retry.
+func profileProviderFailureMayContinue(reason string) bool {
+    switch reason {
+    case "DataUnavailableError", "InputError", "ValueError",
+        "AdapterError", "AttributeError", "TypeError", "KeyError",
+        "IndexError", "RuntimeError", "ConnectionError", "TimeoutError",
+        "HTTPError", "RequestException", "DataSourceError":
+        return true
+    default:
+        // Rate-limit/entitlement, import/configuration, worker-protocol,
+        // system exit and any unrecognized error fail closed.
+        return false
+    }
+}
+
+// A request can fail while the rest of a batch remains healthy. Break after
+// three consecutive timeouts, three consecutive other worker/adapter errors,
+// or five such errors inside the last TEN calls (50% failure density).
+// A healthy or confirmed data-unavailable response resets consecutive
+// counts, but not the rolling error window. In the October 17 observed batch,
+// five isolated timeouts across 22 calls were not a systemic collapse:
+// the previous five-in-25 threshold stopped after 488 successful imports.
+// Fail-closed classification of systemic errors is unchanged.
+type profileFailureCircuit struct {
+    consecutiveTimeouts int
+    consecutiveAdapters int
+    recent []bool
+}
+
+func (c *profileFailureCircuit) record(reason string, failure bool) string {
+    if failure && reason=="WorkerTimeout" {c.consecutiveTimeouts++} else {c.consecutiveTimeouts=0}
+    if failure && reason!="WorkerTimeout" {c.consecutiveAdapters++} else {c.consecutiveAdapters=0}
+    c.recent=append(c.recent,failure)
+    if len(c.recent)>10 {c.recent=c.recent[len(c.recent)-10:]}
+    recentFailures:=0
+    for _,failed:=range c.recent {if failed {recentFailures++}}
+    if c.consecutiveTimeouts>=3 {return "three consecutive worker timeouts"}
+    if c.consecutiveAdapters>=3 {return "three consecutive adapter/transport errors"}
+    if recentFailures>=5 {return "five transient failures within 10 calls"}
+    return ""
+}
+
+// A process timeout does NOT establish that VCI rejected the symbol:
+// the request may have reached the provider before the worker was killed.
+// Record it as UNKNOWN, skip this ticker, and preserve the quota charge.
+// Only an actual structured provider reply may be classified as ERROR.
+func profileFailedCallDisposition(resp worker.Response,callErr error)(state,reason string,continueBatch bool){
+    reason=profileExitStatus(resp,callErr)
+    if callErr!=nil {
+        return "UNKNOWN",reason,errors.Is(callErr,context.DeadlineExceeded)
+    }
+    return "ERROR",reason,profileProviderFailureMayContinue(reason)
+}
+
+// Each worker call has its own timeout. The batch's five-hour aggregate
+// deadline must never replace the subprocess's normal bounded lifetime.
+func profileWorkerCall(ctx context.Context,request map[string]any)(worker.Response,error){
+    requestCtx,cancel:=context.WithTimeout(ctx,60*time.Second)
+    defer cancel()
+    return worker.Invoke(requestCtx,worker.Python(),worker.ScriptPath(),request)
+}
+
+)
+func safeProfileDiagnostic(d *worker.ErrorDiagnostic) map[string]any {
+    if d==nil{return nil}
+    out:=map[string]any{}
+    if profileErrorCodeRE.MatchString(d.Code){out["code"]=d.Code}
+    switch d.Kind{
+    case "input","auth","entitlement","network","provider","schema","unsupported","internal":
+        out["kind"]=d.Kind
+    }
+    if profileRouteRE.MatchString(d.Route){out["route"]=d.Route}
+    if d.Provider=="vci"||d.Provider=="kbs"{out["provider"]=d.Provider}
+    if d.HTTPStatus!=nil && *d.HTTPStatus>=100 && *d.HTTPStatus<=599{
+        out["http_status"]=*d.HTTPStatus
+    }
+    if d.Retryable!=nil{out["retryable"]=*d.Retryable}
+    if len(out)==0{return nil}
+    return out
+}
+
 // Source frames are archived BEFORE the importer or queue status is updated.
 // The stored file path is reserved in PostgreSQL ahead of the actual call.
 // No network interaction occurs when processing previously archived files.
@@ -162,6 +476,9 @@ func saveProfileBatchReport(path,symbol string,resp worker.Response,callErr erro
             // Archive only a bounded ASCII exception class name; never the
             // vendor's exception message (it may contain private tokens).
             route["error_class"]=profileSafeCause(resp.Error.Cause)
+        }
+        if safe:=safeProfileDiagnostic(resp.Diagnostic);safe!=nil{
+            route["diagnostic"]=safe
         }
     } else {
         report["company_info_frame"]=json.RawMessage(resp.Data)

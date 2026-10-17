@@ -182,3 +182,46 @@ func TestProfileNewVendorExceptionClassDoesNotBypassSafety(t *testing.T){
     }
     if profileSafeCause("../token")!="WorkerFailure"{t.Fatal("unexpected unsafe class accepted")}
 }
+
+func TestProfileProviderErrorSafeMetadataArchive(t *testing.T){
+    status:=502
+    retryable:=false
+    resp:=worker.Response{ID:"x",OK:false,Error:&struct{
+        Type string `json:"type"`
+        Message string `json:"message"`
+        Cause string `json:"cause,omitempty"`
+    }{Type:"AdapterError",Message:"supersecret vendor payload",Cause:"ProviderError"},
+    Diagnostic:&worker.ErrorDiagnostic{Code:"VNSTOCK_SOURCE_NOT_FOUND",
+        Kind:"provider",Route:"reference.company.info",Provider:"vci",
+        HTTPStatus:&status,Retryable:&retryable}}
+    path:=filepath.Join(t.TempDir(),"BPW.json")
+    if err:=saveProfileBatchReport(path,"BPW",resp,nil);err!=nil{t.Fatal(err)}
+    data,err:=os.ReadFile(path)
+    if err!=nil{t.Fatal(err)}
+    if strings.Contains(string(data),"supersecret"){t.Fatal("vendor message leaked into persisted failure")}
+    var decoded struct{Routes map[string]struct{
+        ErrorType string `json:"error_type"`
+        ErrorClass string `json:"error_class"`
+        Diagnostic struct{
+            Code string `json:"code"`
+            Kind string `json:"kind"`
+            HTTPStatus int `json:"http_status"`
+            Retryable *bool `json:"retryable"`
+        } `json:"diagnostic"`
+    } `json:"routes"`}
+    if err:=json.Unmarshal(data,&decoded);err!=nil{t.Fatal(err)}
+    observed:=decoded.Routes["company_info"]
+    if observed.ErrorType!="AdapterError"||observed.ErrorClass!="ProviderError"||
+       observed.Diagnostic.Code!="VNSTOCK_SOURCE_NOT_FOUND"||
+       observed.Diagnostic.Kind!="provider"||observed.Diagnostic.HTTPStatus!=502||
+       observed.Diagnostic.Retryable==nil||*observed.Diagnostic.Retryable{
+        t.Fatalf("invalid safe metadata %+v",observed)
+    }
+    // Do not accept plausible but non-standard identifiers or injected
+    // free-text messages from untrusted worker frames.
+    x:=safeProfileDiagnostic(&worker.ErrorDiagnostic{
+       Code:"account_5678:private",Kind:"secret=foo",Route:"https://secret/path",
+       Provider:"malicious",HTTPStatus:func()*int{n:=999;return &n}(),
+    })
+    if x!=nil{t.Fatalf("unsafe diagnostic persisted: %+v",x)}
+}

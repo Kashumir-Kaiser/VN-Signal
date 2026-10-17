@@ -180,6 +180,34 @@ def dispatch(job: dict[str, Any]) -> dict[str, Any]:
     return _fetch(job)
 
 
+# Standard v5 VnstockError attributes give a stable source-failure code
+# without leaking exception strings, URLs, API keys, HTML bodies or tracebacks.
+def _safe_failure_diagnostic(ex: Exception) -> dict[str, Any]:
+    info: dict[str, Any] = {}
+    code = getattr(ex, "code", None)
+    if isinstance(code, str) and re.fullmatch(r"VNSTOCK_[A-Z0-9_]{1,72}", code):
+        info["code"] = code
+    kind = getattr(ex, "kind", None)
+    if isinstance(kind, str) and kind in {
+        "input", "auth", "entitlement", "network", "provider",
+        "schema", "unsupported", "internal"
+    }:
+        info["kind"] = kind
+    route = getattr(ex, "route", None)
+    if isinstance(route, str) and re.fullmatch(r"[a-z][a-z0-9_.]{0,99}", route):
+        info["route"] = route
+    provider = getattr(ex, "provider", None)
+    if isinstance(provider, str) and provider in {"vci", "kbs"}:
+        info["provider"] = provider
+    status = getattr(ex, "status", None)
+    if type(status) is int and 100 <= status <= 599:
+        info["http_status"] = status
+    retryable = getattr(ex, "retryable", None)
+    if type(retryable) is bool:
+        info["retryable"] = retryable
+    return info
+
+
 MAX_INPUT_LINE = 65536
 
 
@@ -239,6 +267,9 @@ def main() -> None:
                           "message": str(ex)[:280],
                           "cause": cause,
                       }}
+            diagnostic = _safe_failure_diagnostic(ex)
+            if diagnostic:
+                output["diagnostic"] = diagnostic
         try:
                         # ASCII escaping keeps JSONL writes independent of Windows' active
             # console code page while preserving the decoded Unicode values.

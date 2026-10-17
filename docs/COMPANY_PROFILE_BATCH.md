@@ -260,3 +260,31 @@ py -c 'import json,glob,os; a=sorted(glob.glob("docs/probe/company/batch/BPW-*.j
 When `error_class` identifies a true provider-specific failure, adjust
 the route's behavior only on confirmed evidence. Do not mark those
 securities as delisted or fabricated missing dates.
+
+## Vendor-specific ProviderError diagnostics
+
+The targeted BPW retry (attempt 1762) returned a generic AdapterError with
+Python class ProviderError, consistent with vnstock v5's typed exceptions.
+The class **does not identify** the reason for the failure by itself.
+The v5 public docs explicitly supply stable fields on VnstockError:
+`code`, `kind`, `route`, `provider`, `status`, and `retryable`:
+https://vnstocks.com/docs/vnstock/tham-khao/xu-ly-loi
+
+For *new* failed worker responses only, save allowlisted, bounded values
+from these attributes under `routes.company_info.diagnostic`. No
+arbitrary vendor messages, exception values, stack traces or tokens enter
+the saved report. The original exception class remains in `error_class`
+and error category in `error_type`. No schema migration is required.
+Provider errors must not be reclassified as evidence of delisting or as
+proof that company metadata is permanently missing. No automatic retry
+policy or quota accounting was changed.
+
+Offline inspection of DPD's already saved new attempt (1768):
+```bash
+py -c 'import json; p="docs/probe/company/batch/DPD-000000001768.json"; d=json.load(open(p,encoding="utf-8")); print(json.dumps(d.get("routes",{}).get("company_info",{}),indent=2))'
+```
+
+No existing saved report can be reconstructed to include the metadata
+discarded by earlier adapter versions. Only after studying the old
+exception class and local installed library source should another
+*targeted* metered retry be considered. Do not retry all 12 errors.

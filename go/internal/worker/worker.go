@@ -23,10 +23,22 @@ const defaultTimeout = 45 * time.Second
 // supervisor may replace this but must retain bounded concurrent workers.
 var workerSlots = make(chan struct{}, 1)
 
+// ErrorDiagnostic contains only structured provider metadata. It is never
+// a vendor message, traceback or arbitrary HTTP response payload.
+type ErrorDiagnostic struct {
+    Code string `json:"code,omitempty"`
+    Kind string `json:"kind,omitempty"`
+    Route string `json:"route,omitempty"`
+    Provider string `json:"provider,omitempty"`
+    HTTPStatus *int `json:"http_status,omitempty"`
+    Retryable *bool `json:"retryable,omitempty"`
+}
+
 type Response struct {
 	ID    string          `json:"id"`
 	OK    bool            `json:"ok"`
 	Data  json.RawMessage `json:"data"`
+    Diagnostic *ErrorDiagnostic `json:"diagnostic,omitempty"`
 	Error *struct {
 		Type    string `json:"type"`
 		Message string `json:"message"`
