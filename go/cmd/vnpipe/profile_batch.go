@@ -50,59 +50,7 @@ func profileExitStatus(resp worker.Response, err error)string{
     return profileSafeCause(resp.Error.Type)
 }
 
-var profileSymbolRe=regexp.MustCompile(`^[A-Z0-9]{1,12}package main
-
-import (
-    "context"
-    "database/sql"
-    "encoding/json"
-    "errors"
-    "flag"
-    "fmt"
-    "os"
-    "path/filepath"
-    "regexp"
-    "strings"
-    "time"
-
-    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/config"
-    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/ingest"
-    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/live"
-    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/quota"
-    "github.com/Kashumir-Kaiser/VN-Signal/go/internal/worker"
-)
-
-var safeProfileCause=regexp.MustCompile(`^[A-Za-z][A-Za-z0-9_]{0,79}$`)
-func profileSafeCause(cause string)string{
-    if safeProfileCause.MatchString(cause){return cause}
-    return "WorkerFailure"
-}
-func profileExitStatus(resp worker.Response, err error)string{
-    if err!=nil{
-        if errors.Is(err,context.DeadlineExceeded){return "WorkerTimeout"}
-        if errors.Is(err,context.Canceled){return "WorkerCancelled"}
-        if errors.Is(err,quota.ErrExhausted){return "QuotaExhausted"}
-        return "WorkerInvocationError"
-    }
-    if resp.OK{return ""}
-    if resp.Error==nil{return "WorkerProtocolError"}
-    if resp.Error.Cause!="" && resp.Error.Cause!="UnknownAdapterError" {
-        // Preserve known systemic categories for stop/continue decisions.
-        // Newly surfaced third-party exception class names are diagnostic,
-        // not automatically trusted as a reason to bypass the circuit.
-        cause:=profileSafeCause(resp.Error.Cause)
-        switch cause {
-        case "EntitlementError","RateLimitedError","ModuleNotFoundError","ImportError",
-            "DataUnavailableError","InputError","ValueError","AttributeError","TypeError",
-            "KeyError","IndexError","RuntimeError","ConnectionError","TimeoutError",
-            "HTTPError","RequestException","DataSourceError":
-            return cause
-        }
-    }
-    return profileSafeCause(resp.Error.Type)
-}
-
-)
+var profileSymbolRe=regexp.MustCompile("^[A-Z0-9]{1,12}$")
 
 // An explicit symbol filter never broadens the eligible retry states.
 // Invalid, duplicate or currently ineligible symbols fail BEFORE quotas
