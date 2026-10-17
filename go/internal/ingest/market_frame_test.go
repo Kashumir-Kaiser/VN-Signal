@@ -14,8 +14,8 @@ func TestAnalyzeMarketBarsZeroVolumeAndTradedAnomaly(t *testing.T) {
     ]`,4)
     got,err:=AnalyzeMarketBars("ABR",src)
     if err!=nil{t.Fatal(err)}
-    if got.SourceRows!=4 || got.Bars.Count!=1 || got.NonTrading!=2 || got.InvalidTraded!=1 ||
-        len(got.Issues)!=3 || got.Issues[0].Category!="NO_TRADE" ||
+    if got.SourceRows!=4 || got.Bars.Count!=1 || got.ZeroVolume!=2 || got.InvalidTraded!=1 ||
+        len(got.Issues)!=3 || got.Issues[0].Category!="ZERO_VOLUME_UNVERIFIED" ||
         got.Issues[1].Category!="INVALID_OHLC" || got.Issues[1].Date!="2019-01-14" ||
         got.FirstDate!="2019-01-10" || got.LastDate!="2019-01-15" {
         t.Fatalf("unreconciled classifications: %+v",got)
@@ -28,7 +28,7 @@ func TestAnalyzeMarketBarsZeroVolumeAndTradedAnomaly(t *testing.T) {
 func TestAnalyzeMarketBarsNoTradeOnlyAndRejectsUnreliableFrameShape(t *testing.T){
     valid:=payload(`[{"time":"2019-01-10","open":0,"high":0,"low":0,"close":0,"volume":0}]`,1)
     r,err:=AnalyzeMarketBars("ACE",valid)
-    if err!=nil||r.Bars.Count!=0||r.NonTrading!=1||r.InvalidTraded!=0{t.Fatalf("%+v %v",r,err)}
+    if err!=nil||r.Bars.Count!=0||r.ZeroVolume!=1||r.InvalidTraded!=0{t.Fatalf("%+v %v",r,err)}
     for _,bad:=range [][]byte{
         []byte(strings.Replace(string(valid),`"count":1`,`"count":2`,1)),
         payload(`[{"time":"2019-01-10","open":1,"high":1,"low":1,"close":1,"volume":100},

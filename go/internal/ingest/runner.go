@@ -55,7 +55,7 @@ type Runner struct {
 
 type RunSummary struct {
 	Skipped, Committed, Blocked int
-	Partial, NonTrading, InvalidTraded int
+	Partial, ZeroVolume, InvalidTraded int
 	BlockedPreview []string
 }
 
@@ -160,7 +160,7 @@ func (r *Runner) RunBarsBackfill(ctx context.Context, jobs []BackfillJob, source
 			SHA256:hex.EncodeToString(sha[:]),Raw:append(json.RawMessage(nil),reply.Data...),Bars:assessment.Bars}
 		state, err := r.Store.CommitMarketLanding(ctx, MarketLanding{Landing:landing,Frame:assessment})
 		if err != nil {return sum,fmt.Errorf("transactional market landing failed: %w",err)}
-		sum.NonTrading += assessment.NonTrading
+		sum.ZeroVolume += assessment.ZeroVolume
 		sum.InvalidTraded += assessment.InvalidTraded
 		switch state {
 		case "PARTIAL":

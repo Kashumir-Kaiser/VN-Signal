@@ -216,7 +216,7 @@ func TestMarketArchiveOfflineRecoveryPreservesInvalidRowsAndQuota(t *testing.T) 
         "SELECT count(*) FROM raw.landings":1,
         "SELECT count(*) FROM core.bars_daily":1,
         "SELECT count(*) FROM ops.bar_quality_issues":2,
-        "SELECT count(*) FROM ops.bar_quality_issues WHERE category='NO_TRADE'":1,
+        "SELECT count(*) FROM ops.bar_quality_issues WHERE category='ZERO_VOLUME_UNVERIFIED'":1,
         "SELECT count(*) FROM ops.bar_quality_issues WHERE category='INVALID_OHLC'":1,
         "SELECT count(*) FROM ops.ingest_jobs WHERE state='PARTIAL'":1,
         "SELECT count(*) FROM ops.api_reservations":1,
@@ -270,4 +270,97 @@ func TestLegacyUnarchivedRequeueIsAuditedAndDoesNotRefundQuota(t *testing.T) {
             t.Fatalf("audit quota mismatch %s got=%d want=%d err=%v",query,n,want,err)
         }
     }
+}
+
+func TestLifecycleZeroVolumeNeverImpliedListed(t *testing.T) {
+    db:=pgTestDB(t)
+    clearDB(t,db)
+    ctx:=context.Background()
+    _=ctx
+    _,err:=db.Exec(`INSERT INTO core.symbols(symbol,exchange,first_seen_at,last_seen_at)
+        VALUES('LC1','UPCOM',now(),now())`)
+    if err!=nil{t.Fatal(err)}
+    source:=[]byte(`{"official_notice":"first-ever public trade and dated status intervals","example_fixture":true}`)
+    originalDigest:=checksum(source)
+    var landingID int64
+    err=db.QueryRow(`INSERT INTO raw.landings
+        (ingest_id,source,route,fetched_at,symbol,payload,payload_sha256,payload_bytes)
+        VALUES('00000000-0000-0000-0000-000000000071','official',
+               'security_lifecycle_notice',now(),'LC1',$1::jsonb,$2,$3)
+        RETURNING landing_id`,string(source),originalDigest,source).Scan(&landingID)
+    if err!=nil{t.Fatal(err)}
+    var jobID int64
+    err=db.QueryRow(`INSERT INTO ops.ingest_jobs
+        (idempotency_key,route,symbol,source,date_from,date_to,state)
+        VALUES('equity_ohlcv:LC1:vci:2018-01-01:2020-04-15',
+          'equity_ohlcv','LC1','vci','2018-01-01','2020-04-15','PENDING')
+        RETURNING job_id`).Scan(&jobID)
+    if err!=nil{t.Fatal(err)}
+    dates:=[]string{"2018-01-15","2020-01-15","2020-02-15","2020-03-15","2020-04-15"}
+    for i,date:=range dates{
+        _,err=db.Exec(`INSERT INTO ops.bar_quality_issues
+            (job_id,landing_id,source_row,trade_date,category,reason)
+            VALUES($1,$2,$3,$4::date,'ZERO_VOLUME_UNVERIFIED','zero source volume')`,
+            jobID,landingID,i,date)
+        if err!=nil{t.Fatal(err)}
+    }
+    var unknown int
+    err=db.QueryRow(`SELECT count(*) FROM ops.zero_volume_lifecycle_status
+        WHERE derived_lifecycle_status='LISTING_STATUS_UNVERIFIED'`).Scan(&unknown)
+    if err!=nil||unknown!=5{t.Fatalf("premature tradability inference: %d %v",unknown,err)}
+    var symbolID int64
+    if err=db.QueryRow(`SELECT symbol_id FROM core.symbols WHERE symbol='LC1'`).Scan(&symbolID);err!=nil{
+        t.Fatal(err)
+    }
+    insert:=func(kind,start,end string){
+        t.Helper()
+        _,err=db.Exec(`INSERT INTO core.security_lifecycle_evidence
+            (symbol_id,exchange,evidence_type,date_from,date_to,source_landing_id,source_url,source_document_date)
+            VALUES ($1,'UPCOM',$2,$3::date,$4::date,$5,
+             'https://www.hnx.vn/en-gb/co-phieu.html','2020-01-01')`,
+             symbolID,kind,start,end,landingID)
+        if err!=nil{t.Fatalf("insert %s: %v",kind,err)}
+    }
+    insert("FIRST_EVER_PUBLIC_TRADE","2020-01-01","2020-01-01")
+    insert("TRADE_ELIGIBLE","2020-01-01","2020-01-31")
+    insert("TRADING_SUSPENDED","2020-02-01","2020-02-29")
+    insert("DELISTED","2020-03-01","2020-03-31")
+    expected:=[]string{"BEFORE_FIRST_PUBLIC_TRADE","VERIFIED_ELIGIBLE_NO_MATCH",
+        "VERIFIED_SUSPENDED","VERIFIED_DELISTED","LISTING_STATUS_UNVERIFIED"}
+    rows,err:=db.Query(`SELECT derived_lifecycle_status
+        FROM ops.zero_volume_lifecycle_status ORDER BY trade_date`)
+    if err!=nil{t.Fatal(err)}
+    got:=[]string{}
+    for rows.Next(){
+        var status string
+        if err=rows.Scan(&status);err!=nil{rows.Close();t.Fatal(err)}
+        got=append(got,status)
+    }
+    if err=rows.Err();err!=nil{t.Fatal(err)}
+    rows.Close()
+    if len(got)!=len(expected){t.Fatalf("status coverage %+v",got)}
+    for i,v:=range expected{if got[i]!=v {t.Fatalf("%s => %s, want %s",dates[i],got[i],v)}}
+    insert("TRADE_ELIGIBLE","2020-02-10","2020-02-20")
+    var conflicting string
+    err=db.QueryRow(`SELECT derived_lifecycle_status FROM ops.zero_volume_lifecycle_status
+        WHERE trade_date='2020-02-15'`).Scan(&conflicting)
+    if err!=nil||conflicting!="CONFLICTING_EVIDENCE"{
+        t.Fatalf("contradictory trading windows silently accepted: %s %v",conflicting,err)
+    }
+    if _,err=db.Exec(`UPDATE core.security_lifecycle_evidence SET date_from='2000-01-01'
+        WHERE symbol_id=$1`,symbolID);err==nil{
+        t.Fatal("source lifecycle evidence was mutable")
+    }
+    _,err=db.Exec(`INSERT INTO raw.landings
+        (ingest_id,source,route,fetched_at,symbol,payload,payload_sha256,payload_bytes)
+        VALUES('00000000-0000-0000-0000-000000000072','official',
+               'security_lifecycle_notice',now(),'LC1',$1::jsonb,$2,$3)`,
+        string(source),"0000000000000000000000000000000000000000000000000000000000000000",source)
+    if err!=nil{t.Fatal(err)}
+    _,err=db.Exec(`INSERT INTO core.security_lifecycle_evidence
+        (symbol_id,exchange,evidence_type,date_from,date_to,source_landing_id,source_url,source_document_date)
+        SELECT $1,'UPCOM','TRADING_SUSPENDED','2020-04-01','2020-04-30',
+               max(landing_id),'https://www.hnx.vn/en-gb/co-phieu.html','2020-01-01'
+        FROM raw.landings`,symbolID)
+    if err==nil{t.Fatal("tampered archived evidence digest accepted")}
 }

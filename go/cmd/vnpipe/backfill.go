@@ -160,7 +160,7 @@ func runBackfill(args []string) error {
 		},
 	}
 	summary, err := runner.RunBarsBackfill(ctx, plan.Planned, *source)
-	fmt.Printf("Backfill: snapshot=%s universe=%d completed_before=%d committed=%d partial_now=%d no_trade_rows=%d invalid_traded_rows=%d quarantined_frames=%d skipped=%d blocked_before=%d partial_before=%d leased=%d deferred=%d quarantine_preview=%q (serving snapshot untouched)\n",
-		universe.AsOf, universe.Total, universe.Completed, summary.Committed, summary.Partial, summary.NonTrading, summary.InvalidTraded, summary.Blocked, summary.Skipped, universe.Blocked, universe.Partial, universe.Leased, len(plan.Deferred), summary.BlockedPreview)
+	fmt.Printf("Backfill: snapshot=%s universe=%d completed_before=%d committed=%d partial_now=%d zero_volume_unverified_rows=%d invalid_traded_rows=%d quarantined_frames=%d skipped=%d blocked_before=%d partial_before=%d leased=%d deferred=%d quarantine_preview=%q (serving snapshot untouched)\n",
+		universe.AsOf, universe.Total, universe.Completed, summary.Committed, summary.Partial, summary.ZeroVolume, summary.InvalidTraded, summary.Blocked, summary.Skipped, universe.Blocked, universe.Partial, universe.Leased, len(plan.Deferred), summary.BlockedPreview)
 	return err
 }

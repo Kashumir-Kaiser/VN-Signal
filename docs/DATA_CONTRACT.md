@@ -13,3 +13,7 @@ Go's DQ gate treats zero and negative prices, high < low, negative volume, dupli
 ## Market-aware historical frame classification (migration 005)
 
 See [OHLCV quality contract](MARKET_BAR_QUALITY.md). `ops.bar_quality_issues` accounts for no-trade and source-defective daily observations, while all source bytes remain in `raw.landings`. `ops.ingest_jobs.state=PARTIAL` is not equivalent to historical completeness. Legacy `core.bars_daily.v=0` rows are explicitly marked `is_traded=false`; production features and any trading fills must exclude them. No zero-volume prices are treated as executable trades and no source OHLC values are repaired silently.
+
+## Historical listing status is not implied by zero volume
+
+Migration 007 reclassifies zero reported vendor volume as `ZERO_VOLUME_UNVERIFIED`. It adds a provenance-linked lifecycle evidence registry and an eligibility view that defaults to `LISTING_STATUS_UNVERIFIED`. Current symbol membership does not establish past availability; no unverified zero-volume observation may become a liquidity, suspension, or pre-IPO feature. See [lifecycle evidence](LIFECYCLE_EVIDENCE.md).

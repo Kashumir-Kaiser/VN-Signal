@@ -20,14 +20,14 @@ type BarIssue struct {
     Reason string
 }
 
-// MarketFrame separates actual traded OHLC from non-trading/reference-only
+// MarketFrame separates actual traded OHLC from zero-volume/eligibility-unverified
 // observations and vendor contradictions. Every source record is accounted for.
 // It does not invent prices, forward-fill, or adjust source values.
 type MarketFrame struct {
     Bars BarsResult
     Issues []BarIssue
     SourceRows int
-    NonTrading int
+    ZeroVolume int
     InvalidTraded int
     FirstDate string
     LastDate string
@@ -106,8 +106,8 @@ func AnalyzeMarketBars(symbol string, raw []byte) (MarketFrame, error) {
             continue
         }
         if volume == 0 {
-            issue("NO_TRADE","zero executed volume; source OHLC not a matched trade")
-            result.NonTrading++
+            issue("ZERO_VOLUME_UNVERIFIED","zero source volume; listing eligibility unverified")
+            result.ZeroVolume++
             continue
         }
         prices := [4]float64{}

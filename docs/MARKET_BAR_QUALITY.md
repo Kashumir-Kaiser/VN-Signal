@@ -28,7 +28,7 @@ must be modeled separately. Never 'fix' highs/lows by swapping or clipping.
 **Every metered successful vendor response is archived verbatim** with
 SHA-256. The new \`AnalyzeMarketBars\` accounts for each input row:
 - **TRADED:** volume > 0 and valid OHLC: store verbatim in \`core.bars_daily\`.
-- **NO_TRADE:** volume = 0: archive and record in \`ops.bar_quality_issues\`;
+- **ZERO_VOLUME_UNVERIFIED:** volume = 0: archive and record in \`ops.bar_quality_issues\`;
   do not interpret historical O/H/L/C as matched trades or forward-fill.
 - **INVALID_OHLC/INVALID_PRICE/INVALID_VOLUME:** skip only this session
   from canonical traded bars; record exact row index/date/category/reason.
@@ -87,3 +87,7 @@ go -C go run -mod=mod -tags postgres ./cmd/vnpipe requeue-unarchived --symbol AB
 ```
 
 Later, **only with the user's explicit authorization**, the regular `backfill --active` will fetch those entries through the existing durable quota guard and classify returned records under the new market-aware rules. The original failed API calls remain counted and visible in `ops.api_reservations`; no one should edit those records manually.
+
+## Historical eligibility correction (migration 007)
+
+A zero-volume observation does NOT prove a company was publicly listed or eligible to trade. All earlier `NO_TRADE` ledger entries are reclassified as `ZERO_VOLUME_UNVERIFIED` without changing raw bytes, historical data, ingestion jobs, or quotas. `ops.zero_volume_lifecycle_status` remains `LISTING_STATUS_UNVERIFIED` until independently sourced first-ever trading dates and venue-specific eligibility/suspension/delisting intervals are recorded. See [lifecycle evidence](LIFECYCLE_EVIDENCE.md). In particular, the earliest OHLCV date and current exchange listing date must not be substituted for first-ever public trading date.
