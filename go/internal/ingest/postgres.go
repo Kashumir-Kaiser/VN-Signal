@@ -137,7 +137,7 @@ func (p *PostgresStore) Completed(ctx context.Context, jobID string) (bool, erro
 		return false, errors.New("database missing")
 	}
 	var completed bool
-	err := p.DB.QueryRowContext(ctx, `SELECT state='COMPLETED' FROM ops.ingest_jobs WHERE idempotency_key=$1`, jobID).Scan(&completed)
+	err := p.DB.QueryRowContext(ctx, `SELECT state IN ('COMPLETED','PARTIAL') FROM ops.ingest_jobs WHERE idempotency_key=$1`, jobID).Scan(&completed)
 	if errors.Is(err, sql.ErrNoRows) {
 		return false, nil
 	}
@@ -212,7 +212,7 @@ func (p *PostgresStore) ReserveAttempt(ctx context.Context, job BackfillJob, key
 	if storedSymbol != job.Symbol || storedSource != source || storedStart != job.Start || storedEnd != job.End {
 		return zero, errors.New("job idempotency key collides with different parameters")
 	}
-	if state == "COMPLETED" {
+	if state == "COMPLETED" || state == "PARTIAL" {
 		return zero, ErrJobCompleted
 	}
 	if state == "BLOCKED" {

@@ -21,6 +21,7 @@ type UniverseSelection struct {
 	AsOf      string   `json:"as_of"`
 	Total     int      `json:"total"`
 	Completed int      `json:"completed"`
+	Partial   int      `json:"partial"`
 	Blocked   int      `json:"blocked"`
 	Leased    int      `json:"leased"`
 	Pending   []string `json:"pending"`
@@ -151,6 +152,8 @@ func LoadVerifiedBackfillUniverse(ctx context.Context, db *sql.DB, now time.Time
 		switch state {
 		case "COMPLETED":
 			result.Completed++
+		case "PARTIAL":
+			result.Partial++
 		case "BLOCKED":
 			result.Blocked++
 		case "RESERVED", "RUNNING":
@@ -173,7 +176,7 @@ func LoadVerifiedBackfillUniverse(ctx context.Context, db *sql.DB, now time.Time
 	if err := rows.Close(); err != nil {
 		return UniverseSelection{}, err
 	}
-	if rowIndex != len(listed) || result.Total != result.Completed+result.Blocked+result.Leased+len(result.Pending) {
+	if rowIndex != len(listed) || result.Total != result.Completed+result.Partial+result.Blocked+result.Leased+len(result.Pending) {
 		return UniverseSelection{}, fmt.Errorf("%w: inconsistent queue counts", ErrUnverifiedUniverse)
 	}
 	if err := tx.Commit(); err != nil {

@@ -145,3 +145,7 @@ Previously blocked jobs stay blocked and **are not retried automatically**.
 Investigate their archived source frames before adding a separately reviewed
 recovery procedure. Never hand-edit job states or remove the bad bar to turn
 an invalid history into a verified one.
+
+### Source-aware row-level OHLCV ingestion
+
+Migration `005_market_bar_quality.sql` and `AnalyzeMarketBars` distinguish zero-volume reference observations from traded bars and per-session vendor contradictions. Positive-volume valid candles are retained; rejected sessions are auditable in `ops.bar_quality_issues`; `PARTIAL` histories are never mislabeled complete. Archived quarantines can be reprocessed offline with `vnpipe reprocess-archived --from ... --to ... --source vci` and no new provider quota. See [market bar quality contract](docs/MARKET_BAR_QUALITY.md). Do not run live backfill before the migration and local database verification.

@@ -40,6 +40,7 @@ type LandingStore interface {
 	// CommitLanding must transactionally persist a landing, its canonical bars,
 	// and mark the job complete. It must be idempotent on JobID.
 	CommitLanding(context.Context, Landing) error
+	CommitMarketLanding(context.Context, MarketLanding) (string,error)
 }
 
 type Runner struct {
@@ -54,6 +55,7 @@ type Runner struct {
 
 type RunSummary struct {
 	Skipped, Committed, Blocked int
+	Partial, NonTrading, InvalidTraded int
 	BlockedPreview []string
 }
 
@@ -141,29 +143,38 @@ func (r *Runner) RunBarsBackfill(ctx context.Context, jobs []BackfillJob, source
 			}
 			return sum, fmt.Errorf("vendor route failed: %s", reply.Error.Type)
 		}
-		bars, err := NormalizeBars(job.Symbol, reply.Data)
+
+		assessment, err := AnalyzeMarketBars(job.Symbol, reply.Data)
 		if err != nil {
 			reason := "InvalidFrame: " + strings.TrimPrefix(err.Error(), ErrInvalidFrame.Error()+": ")
-			if e := quarantine(jobID, job.Symbol, reason, reply.Data); e != nil {
-				return sum, e
-			}
+			if e := quarantine(jobID, job.Symbol, reason, reply.Data); e != nil {return sum, e}
 			continue
 		}
-		// The provider must honor both bounds, even if its raw frame is otherwise valid.
-		if bars.FirstDate < job.Start || bars.LastDate > job.End {
-			reason := fmt.Sprintf("OutsideRequestedRange: first=%s last=%s", bars.FirstDate, bars.LastDate)
-			if e := quarantine(jobID, job.Symbol, reason, reply.Data); e != nil {
-				return sum, e
-			}
+		if assessment.FirstDate < job.Start || assessment.LastDate > job.End {
+			reason := fmt.Sprintf("OutsideRequestedRange: first=%s last=%s",assessment.FirstDate,assessment.LastDate)
+			if e := quarantine(jobID, job.Symbol, reason, reply.Data);e != nil {return sum,e}
 			continue
 		}
 		sha := sha256.Sum256(reply.Data)
-		landing := Landing{JobID: jobID, Source: source, FetchedAt: r.Now().UTC(), SHA256: hex.EncodeToString(sha[:]), Raw: append(json.RawMessage(nil), reply.Data...), Bars: bars}
-		if err := r.Store.CommitLanding(ctx, landing); err != nil {
-			return sum, fmt.Errorf("transactional landing failed: %w", err)
+		landing := Landing{JobID:jobID,Source:source,FetchedAt:r.Now().UTC(),
+			SHA256:hex.EncodeToString(sha[:]),Raw:append(json.RawMessage(nil),reply.Data...),Bars:assessment.Bars}
+		state, err := r.Store.CommitMarketLanding(ctx, MarketLanding{Landing:landing,Frame:assessment})
+		if err != nil {return sum,fmt.Errorf("transactional market landing failed: %w",err)}
+		sum.NonTrading += assessment.NonTrading
+		sum.InvalidTraded += assessment.InvalidTraded
+		switch state {
+		case "PARTIAL":
+			sum.Partial++
+			invalidStreak++
+		case "COMPLETED":
+			sum.Committed++
+			invalidStreak = 0
+		default:
+			return sum,fmt.Errorf("unexpected market state %s",state)
 		}
-		sum.Committed++
-		invalidStreak = 0
+		if invalidStreak >= 10 {
+			return sum,fmt.Errorf("%w: ten consecutive partially invalid histories",ErrExcessiveInvalidFrames)
+		}
 	}
 	return sum, nil
 }

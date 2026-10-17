@@ -31,6 +31,7 @@ Usage:
   vnpipe preview-backfill --probe FILE --symbols FILE --from DATE --to DATE --days N
   vnpipe import-listings --probe FILE [--min-symbols N] (offline Postgres import)
   vnpipe backfill-status --from DATE --to DATE [--source vci] (read-only)
+  vnpipe reprocess-archived --from DATE --to DATE --source vci (offline no-quota)
   vnpipe backfill --active --probe FILE --from DATE --to DATE --days N
   vnpipe migrate [--dir sql/migrations] (Postgres-tagged build)
   vnpipe version
@@ -486,6 +487,8 @@ func run(args []string) error {
 		return runImportListings(args[1:])
 	case "backfill-status":
 		return runBackfillStatus(args[1:])
+	case "reprocess-archived":
+		return runReprocessArchived(args[1:])
 	case "backfill":
 		return runBackfill(args[1:])
 	case "preview-backfill":

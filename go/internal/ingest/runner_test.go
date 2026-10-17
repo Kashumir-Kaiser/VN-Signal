@@ -63,6 +63,11 @@ func (s *memoryStore) QuarantineFrame(_ context.Context, key, _, reason string, 
 	s.attempts[key] = "BLOCKED"
 	return nil
 }
+func (s *memoryStore) CommitMarketLanding(ctx context.Context, item MarketLanding) (string,error) {
+    if err:=s.CommitLanding(ctx,item.Landing);err!=nil{return "",err}
+    if item.Frame.InvalidTraded>0{return "PARTIAL",nil}
+    return "COMPLETED",nil
+}
 func (s *memoryStore) Completed(_ context.Context, key string) (bool, error) {
 	if s.failLookup {
 		return false, errors.New("database down")
@@ -84,7 +89,7 @@ func TestRunnerQuotaAndIdempotency(t *testing.T) {
 	f, _ := live.New(p, func(_ context.Context, job map[string]any) (worker.Response, error) {
 		calls++
 		id, _ := job["id"].(string)
-		return worker.Response{ID: id, OK: true, Data: json.RawMessage(payload("["+one+"]", 1))}, nil
+		return worker.Response{ID: id, OK: true, Data: json.RawMessage(payload("["+two+"]", 1))}, nil
 	})
 	s := &memoryStore{done: map[string]Landing{}}
 	r := Runner{Gateway: f, Store: s, Now: func() time.Time { return time.Date(2026, 10, 16, 12, 0, 0, 0, time.UTC) }}
@@ -211,11 +216,11 @@ func TestRunnerQuarantinesIsolatedCorruptionAndContinues(t *testing.T) {
 		jobs = append(jobs, BackfillJob{Route: "equity_ohlcv", Symbol: symbol, Start: "2026-10-15", End: "2026-10-16"})
 	}
 	summary, err := r.RunBarsBackfill(context.Background(), jobs, "vci")
-	if err != nil || summary.Blocked != 2 || summary.Committed != 2 || calls != 4 ||
-		len(s.quarantined) != 2 || len(s.done) != 2 || p.Remaining() != 1 {
+	if err != nil || summary.Partial != 2 || summary.Committed != 2 || calls != 4 ||
+		len(s.quarantined) != 0 || len(s.done) != 4 || p.Remaining() != 1 {
 		t.Fatalf("summary=%+v err=%v calls=%d", summary, err, calls)
 	}
-	if len(summary.BlockedPreview) != 2 || s.reasons["equity_ohlcv:AAA:vci:2026-10-15:2026-10-16"] == "" {
+	if summary.InvalidTraded != 2 {
 		t.Fatalf("missing quarantine diagnostic: %+v", summary)
 	}
 }
@@ -225,7 +230,7 @@ func TestRunnerStopsSystemicCorruption(t *testing.T) {
 	calls := 0
 	g, _ := live.New(p, func(_ context.Context, job map[string]any) (worker.Response, error) {
 		calls++
-		return worker.Response{ID: job["id"].(string), OK: true, Data: json.RawMessage(payload(`[{"time":"2026-10-15","open":0,"high":105,"low":99,"close":103,"volume":100}]`, 1))}, nil
+		return worker.Response{ID: job["id"].(string), OK: true, Data: json.RawMessage(`{"bad":true}`)}, nil
 	})
 	s := &memoryStore{done: map[string]Landing{}}
 	r := Runner{Gateway: g, Store: s, Now: time.Now}

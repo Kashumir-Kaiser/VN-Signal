@@ -9,3 +9,7 @@ All `raw` landings are append-only, with `ingest_id` (UUID), `fetched_at` (times
 Go's DQ gate treats zero and negative prices, high < low, negative volume, duplicate symbol/date rows, invalid ISO session dates, and missing fields as blocking. Exchange price jumps require a separate adjustment/corporate-action review; do not mechanically delete genuine corporate actions.
 
 `core.listing_snapshots` holds complete observations of currently listed HOSE/HNX/UPCOM membership by trade date. If a vendor listing frame includes rows labeled `DELISTED`, keep those rows in the complete raw landing but do not assign an exchange or insert them as active symbols; their former exchange is not established by that field. Previously observed symbols that disappear from the current exchange rows remain in `core.symbols` as inactive. `industry` stores ICB level-two codes from vnstock v5 `icb_code_lv2` (not descriptive sector names). Unknown or partial membership frames must not update the universe.
+
+## Market-aware historical frame classification (migration 005)
+
+See [OHLCV quality contract](MARKET_BAR_QUALITY.md). `ops.bar_quality_issues` accounts for no-trade and source-defective daily observations, while all source bytes remain in `raw.landings`. `ops.ingest_jobs.state=PARTIAL` is not equivalent to historical completeness. Legacy `core.bars_daily.v=0` rows are explicitly marked `is_traded=false`; production features and any trading fills must exclude them. No zero-volume prices are treated as executable trades and no source OHLC values are repaired silently.

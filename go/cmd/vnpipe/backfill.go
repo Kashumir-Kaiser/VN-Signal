@@ -71,8 +71,8 @@ func runBackfill(args []string) error {
 		return fmt.Errorf("verified PostgreSQL universe: %w", err)
 	}
 	if len(universe.Pending) == 0 {
-		fmt.Printf("No eligible backfill jobs: snapshot=%s total=%d completed=%d blocked=%d leased=%d\n",
-			universe.AsOf, universe.Total, universe.Completed, universe.Blocked, universe.Leased)
+		fmt.Printf("No eligible backfill jobs: snapshot=%s total=%d completed=%d partial=%d blocked=%d leased=%d\n",
+			universe.AsOf, universe.Total, universe.Completed, universe.Partial, universe.Blocked, universe.Leased)
 		return nil
 	}
 	// Passive status/usage (no market-data route) is the only source for a new
@@ -160,7 +160,7 @@ func runBackfill(args []string) error {
 		},
 	}
 	summary, err := runner.RunBarsBackfill(ctx, plan.Planned, *source)
-	fmt.Printf("Backfill: snapshot=%s universe=%d completed_before=%d committed=%d quarantined_now=%d skipped=%d blocked_before=%d leased=%d deferred=%d quarantine_preview=%q (serving snapshot untouched)\n",
-		universe.AsOf, universe.Total, universe.Completed, summary.Committed, summary.Blocked, summary.Skipped, universe.Blocked, universe.Leased, len(plan.Deferred), summary.BlockedPreview)
+	fmt.Printf("Backfill: snapshot=%s universe=%d completed_before=%d committed=%d partial_now=%d no_trade_rows=%d invalid_traded_rows=%d quarantined_frames=%d skipped=%d blocked_before=%d partial_before=%d leased=%d deferred=%d quarantine_preview=%q (serving snapshot untouched)\n",
+		universe.AsOf, universe.Total, universe.Completed, summary.Committed, summary.Partial, summary.NonTrading, summary.InvalidTraded, summary.Blocked, summary.Skipped, universe.Blocked, universe.Partial, universe.Leased, len(plan.Deferred), summary.BlockedPreview)
 	return err
 }
