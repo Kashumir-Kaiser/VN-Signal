@@ -149,3 +149,5 @@ an invalid history into a verified one.
 ### Source-aware row-level OHLCV ingestion
 
 Migration `005_market_bar_quality.sql` and `AnalyzeMarketBars` distinguish zero-volume reference observations from traded bars and per-session vendor contradictions. Positive-volume valid candles are retained; rejected sessions are auditable in `ops.bar_quality_issues`; `PARTIAL` histories are never mislabeled complete. Archived quarantines can be reprocessed offline with `vnpipe reprocess-archived --from ... --to ... --source vci` and no new provider quota. See [market bar quality contract](docs/MARKET_BAR_QUALITY.md). Do not run live backfill before the migration and local database verification.
+
+Previously blocked A32/ABC-style jobs without any saved raw frame can be explicitly requeued (not refetched) offline using `vnpipe requeue-unarchived --symbol SYMBOL --from DATE --to DATE --source vci` after migration 006. It writes an immutable requeue audit, preserves the original quota reservation, and leaves actual vendor requests to a separately authorized `backfill --active`. See [quality contract](docs/MARKET_BAR_QUALITY.md).

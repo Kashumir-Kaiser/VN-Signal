@@ -234,3 +234,40 @@ func TestMarketArchiveOfflineRecoveryPreservesInvalidRowsAndQuota(t *testing.T) 
         t.Fatal("replayed already recovered frame")
     }
 }
+
+func TestLegacyUnarchivedRequeueIsAuditedAndDoesNotRefundQuota(t *testing.T) {
+    db:=pgTestDB(t)
+    clearDB(t,db)
+    s,_:=NewPostgresStore(db)
+    installVerifiedQuota(t,s,3)
+    _,err:=db.Exec(`INSERT INTO core.symbols(symbol,exchange,first_seen_at,last_seen_at)
+        VALUES ('A32','UPCOM',now(),now())`)
+    if err!=nil{t.Fatal(err)}
+    ctx:=context.Background()
+    job:=BackfillJob{Route:"equity_ohlcv",Symbol:"A32",Start:"2018-10-01",End:"2026-10-16"}
+    key:="equity_ohlcv:A32:vci:2018-10-01:2026-10-16"
+    if _,err=s.ReserveAttempt(ctx,job,key,"vci",time.Now());err!=nil{t.Fatal(err)}
+    if err=s.MarkDispatch(ctx,key);err!=nil{t.Fatal(err)}
+    if err=s.MarkOutcome(ctx,key,"SUCCEEDED","");err!=nil{t.Fatal(err)}
+    if err=s.BlockInvalid(ctx,key,"InvalidFrame");err!=nil{t.Fatal(err)}
+    if err=s.RequeueUnarchivedLegacy(ctx,"A32",job.Start,job.End,"vci");err!=nil{t.Fatal(err)}
+    var state string
+    if err=db.QueryRow(`SELECT state FROM ops.ingest_jobs WHERE idempotency_key=$1`,key).Scan(&state);err!=nil||state!="PENDING"{
+        t.Fatalf("wrong post-requeue state %s: %v",state,err)
+    }
+    if err=s.RequeueUnarchivedLegacy(ctx,"A32",job.Start,job.End,"vci");err==nil{
+        t.Fatal("duplicate requeue accepted")
+    }
+    if _,err=s.ReserveAttempt(ctx,job,key,"vci",time.Now());err!=nil{t.Fatalf("not safely retryable: %v",err)}
+    for query,want:=range map[string]int{
+        "SELECT count(*) FROM ops.ingest_requeue_audit":1,
+        "SELECT count(*) FROM ops.api_reservations":2,
+        "SELECT attempts FROM ops.ingest_jobs WHERE symbol='A32'":2,
+        "SELECT spent FROM ops.quota_guard WHERE singleton=true":2,
+    }{
+        var n int
+        if err=db.QueryRow(query).Scan(&n);err!=nil||n!=want {
+            t.Fatalf("audit quota mismatch %s got=%d want=%d err=%v",query,n,want,err)
+        }
+    }
+}

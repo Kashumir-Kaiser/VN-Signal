@@ -73,3 +73,17 @@ source-recovered; do not mark them complete without fetching verified data.
 Do not run historical live backfill again merely to validate this change.
 The pipeline remains research-only, with no desktop recommendation or
 backtest result.
+
+## Audited legacy requeue for A32 and ABC
+
+Old blocked jobs without `landed_id` do not have saved vendor frames, so offline source recovery is impossible. Migration 006 creates `ops.ingest_requeue_audit` for explicitly authorized retries. The command accepts **only** a verified active stock's exact blocked historical job, `InvalidFrame` cause and **no archived landing**. It records the old attempt number and reason, then changes BLOCKED to PENDING. It does not execute vnstock, refund spent quota or bypass the normal live gateway.
+
+From repo root, after migrations and offline recovery, and while the listing snapshot is still within seven days:
+
+```bash
+export VNPIPE_DISABLE_LIVE=1
+go -C go run -mod=mod -tags postgres ./cmd/vnpipe requeue-unarchived --symbol A32 --from 2018-10-01 --to 2026-10-16 --source vci
+go -C go run -mod=mod -tags postgres ./cmd/vnpipe requeue-unarchived --symbol ABC --from 2018-10-01 --to 2026-10-16 --source vci
+```
+
+Later, **only with the user's explicit authorization**, the regular `backfill --active` will fetch those entries through the existing durable quota guard and classify returned records under the new market-aware rules. The original failed API calls remain counted and visible in `ops.api_reservations`; no one should edit those records manually.
