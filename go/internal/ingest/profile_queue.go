@@ -86,7 +86,8 @@ func (p *PostgresStore) UnfinishedProfileAttempts(ctx context.Context)([]Profile
       FROM ops.company_profile_attempts a
       JOIN ops.company_profile_jobs j USING(security_id)
       JOIN core.security_master m USING(security_id)
-      WHERE a.status='RESERVED' AND j.state='IN_FLIGHT'
+      WHERE (a.status='RESERVED' AND j.state='IN_FLIGHT')
+         OR (a.status='ERROR' AND j.state='ERROR')
       ORDER BY a.attempt_id`)
     if err!=nil{return nil,err}
     defer rows.Close()

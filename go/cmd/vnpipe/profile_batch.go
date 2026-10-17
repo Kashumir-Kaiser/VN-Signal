@@ -114,6 +114,10 @@ func recoverProfileAttempts(ctx context.Context,store *ingest.PostgresStore)(int
     for _,a:=range attempts{
         status,err:=profileResultFromReport(ctx,store,a.ReportPath,a.Symbol)
         if err!=nil{
+            // A previously failed import can be fixed by new parser code.
+            // Re-examine its saved source without spending another API call,
+            // but do not turn the prior ERROR into an UNKNOWN failure.
+            if a.State=="ERROR"{continue}
             if errors.Is(err,os.ErrNotExist){
                 if e:=store.EndProfileCall(ctx,a.ID,"UNKNOWN","InterruptedWithoutSavedResponse");e!=nil{return restored,e}
                 continue
@@ -121,7 +125,11 @@ func recoverProfileAttempts(ctx context.Context,store *ingest.PostgresStore)(int
             if e:=store.EndProfileCall(ctx,a.ID,"UNKNOWN","UnverifiedSavedResponse");e!=nil{return restored,e}
             continue
         }
-        if err=store.EndProfileCall(ctx,a.ID,status,"");err!=nil{return restored,err}
+        if a.State!="ERROR"{
+            if err=store.EndProfileCall(ctx,a.ID,status,"");err!=nil{return restored,err}
+        }
+        // A saved response from a former import error has now been safely
+        // projected into raw/core. SeedProfileQueue reconciles its state.
         restored++
     }
     return restored,nil

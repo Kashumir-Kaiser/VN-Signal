@@ -98,3 +98,13 @@ report, and are forbidden when `VNPIPE_DISABLE_LIVE=1`. Failed runs
 preserve their persisted attempt log; the next invocation resumes with
 remaining securities, without resetting imported work. `--max-calls`
 counts actual reserved attempts, not securities marked skipped.
+
+### Offline recovery of earlier import errors
+
+The next batch invocation also examines saved source reports from attempts
+in `ERROR` state, not just interrupted `IN_FLIGHT` attempts. A previously
+failed provider request is **not** repeated merely because the importer
+was broken: if the original saved success frame validates under the
+current code, it is imported offline and the job is reconciled to
+`IMPORTED`/`MISSING_DATE`. Invalid/error route frames remain `ERROR`
+and require explicit `--retry-errors` to consume another quota unit.
