@@ -158,3 +158,44 @@ func TestReservationWaitIsActuallyAwaited(t *testing.T) {
 		t.Fatal("second call not executed")
 	}
 }
+
+// TestCompanyInfoRoutePassesThroughMeteredGateway catches a wiring regression:
+// the CLI and Python worker may expose an operation while the Go gateway
+// rejects it BEFORE a worker invocation (WorkerConfigurationError, 0 ms).
+func TestCompanyInfoRoutePassesThroughMeteredGateway(t *testing.T) {
+    t.Setenv("VNPIPE_DISABLE_LIVE","0")
+    p,err:=quota.NewPacer(60,1)
+    if err!=nil{t.Fatal(err)}
+    calls:=0
+    g,err:=New(p,func(_ context.Context,req map[string]any)(worker.Response,error){
+        calls++
+        if req["op"]!="company_info" || req["symbol"]!="ABR" {
+            t.Fatalf("unexpected company request: %+v",req)
+        }
+        return worker.Response{ID:"profile-1",OK:true,Data:[]byte(`{"count":1,"columns":["symbol","listing_date"],"rows":[{"symbol":"ABR","listing_date":"2019-01-01"}]}`)},nil
+    })
+    if err!=nil{t.Fatal(err)}
+    g.sleep=func(context.Context,time.Duration)error{return nil}
+    resp,err:=g.Call(context.Background(),map[string]any{"op":"company_info","symbol":"ABR","id":"profile-1"})
+    if err!=nil||!resp.OK||calls!=1||p.Remaining()!=0 {
+        t.Fatalf("company_info blocked or unmetered: response=%+v err=%v calls=%d remaining=%d",
+            resp,err,calls,p.Remaining())
+    }
+    _,err=g.Call(context.Background(),map[string]any{"op":"company_info","symbol":"ABR","id":"profile-2"})
+    if !errors.Is(err,quota.ErrExhausted) || calls!=1 {
+        t.Fatalf("company info bypassed quota: err=%v calls=%d",err,calls)
+    }
+}
+
+func TestCompanyInfoRouteBlockedWhenLiveDisabled(t *testing.T) {
+    t.Setenv("VNPIPE_DISABLE_LIVE","1")
+    p,_:=quota.NewPacer(60,1)
+    g,_:=New(p,func(context.Context,map[string]any)(worker.Response,error){
+        t.Fatal("disabled company_info invoked worker")
+        return worker.Response{},nil
+    })
+    _,err:=g.Call(context.Background(),map[string]any{"op":"company_info","symbol":"ABR"})
+    if !errors.Is(err,ErrDisabled) || p.Remaining()!=1 {
+        t.Fatalf("offline company route leaked quota: err=%v remaining=%d",err,p.Remaining())
+    }
+}

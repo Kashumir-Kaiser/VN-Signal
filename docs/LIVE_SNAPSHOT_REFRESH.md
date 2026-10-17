@@ -81,3 +81,16 @@ as primary-source evidence with actual publication timestamps.
 
 This remains **Phase 1 ingestion/provenance**. Phase 2 PIT joins, Phase 3
 backtests and Phase 4–6 recommendations/app/scheduler remain separate.
+
+## 2026-10-17 company_info route registration defect
+
+The first ABR company-profile attempt saved a failed probe with
+`error_type=WorkerConfigurationError` and `duration_ms=0`. Inspection
+showed that `go/internal/live/live.go` omitted `company_info` from the
+Go live gateway's route allowlist even though the CLI and Python worker
+supported that operation. Consequently, the gateway refused the request
+before invoking the Python worker. The registered route has now been
+enabled and tested with injected fake workers, one-call quota exhaustion,
+and offline-mode rejection. The original failed probe contains **no
+company frame**, so it cannot be imported; one new explicit profile
+request is required on the registered workstation to obtain genuine data.
