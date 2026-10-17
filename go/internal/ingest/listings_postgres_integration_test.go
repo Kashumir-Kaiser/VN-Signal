@@ -144,9 +144,9 @@ func TestSecurityMasterReplayRejectsMutatedObservationFields(t *testing.T) {
     snap,err:=ParseListingProbe(listingIntegrationFixture("2026-10-16",20),3)
     if err!=nil{t.Fatal(err)}
     if _,err=store.ImportListingSnapshot(ctx,snap);err!=nil{t.Fatal(err)}
-    if _,err=db.Exec(`UPDATE core.security_observations
+    corruptSecurityObservationForTest(t,db,`UPDATE core.security_observations
         SET legal_name='forged', short_name='tampered'
-        WHERE provider_row_index=0`);err!=nil{t.Fatal(err)}
+        WHERE provider_row_index=0`)
     if _,err=store.RebuildSecurityMaster(ctx);err==nil{
         t.Fatal("source master replay accepted mutable observation metadata")
     }
@@ -167,10 +167,28 @@ func TestSecurityMasterReplayRejectsSwappedObservedClassification(t *testing.T) 
     if _,err=store.ImportListingSnapshot(ctx,snap);err!=nil{t.Fatal(err)}
     // Same unique key, but false category/exchange, should not disappear
     // behind the projection's ON CONFLICT DO NOTHING.
-    if _,err=db.Exec(`UPDATE core.security_observations
+    corruptSecurityObservationForTest(t,db,`UPDATE core.security_observations
         SET category='PROVIDER_DELISTED_UNDATED',exchange=NULL
-        WHERE provider_row_index=0`);err!=nil{t.Fatal(err)}
+        WHERE provider_row_index=0`)
     if _,err=store.RebuildSecurityMaster(ctx);err==nil{
         t.Fatal("source master replay accepted falsified trading category")
     }
+}
+
+// Simulate privileged storage corruption without changing the production
+// append-only contract. DDL and the mutation occur in one transaction; the
+// trigger is re-enabled before commit, including for subsequent tests.
+func corruptSecurityObservationForTest(t *testing.T,db *sql.DB,update string) {
+    t.Helper()
+    tx,err:=db.BeginTx(context.Background(),nil)
+    if err!=nil{t.Fatal(err)}
+    defer tx.Rollback()
+    for _,statement:=range []string{
+        "ALTER TABLE core.security_observations DISABLE TRIGGER security_observation_immutable",
+        update,
+        "ALTER TABLE core.security_observations ENABLE TRIGGER security_observation_immutable",
+    }{
+        if _,err=tx.Exec(statement);err!=nil{t.Fatalf("simulate privileged corruption: %v",err)}
+    }
+    if err=tx.Commit();err!=nil{t.Fatal(err)}
 }
