@@ -39,6 +39,14 @@ func profileExitStatus(resp worker.Response, err error)string{
     return profileSafeCause(resp.Error.Type)
 }
 
+// Each worker call has its own timeout. The batch's five-hour aggregate
+// deadline must never replace the subprocess's normal bounded lifetime.
+func profileWorkerCall(ctx context.Context,request map[string]any)(worker.Response,error){
+    requestCtx,cancel:=context.WithTimeout(ctx,60*time.Second)
+    defer cancel()
+    return worker.Invoke(requestCtx,worker.Python(),worker.ScriptPath(),request)
+}
+
 // Source frames are archived BEFORE the importer or queue status is updated.
 // The stored file path is reserved in PostgreSQL ahead of the actual call.
 // No network interaction occurs when processing previously archived files.
@@ -210,7 +218,7 @@ func runProfileBatch(args []string)(retErr error){
     // Passive CLI usage is FREE of market-data calls, and reading it
     // confirms authenticated tier, absolute daily/monthly quota and RPM.
     quotaSnap,err:=observeAbsoluteQuota(ctx,*days,func(ctx context.Context,req map[string]any)(worker.Response,error){
-        return worker.Invoke(ctx,worker.Python(),worker.ScriptPath(),req)
+        return profileWorkerCall(ctx,req)
     })
     if err!=nil{summary.LastErrorType="QuotaPreflight";return err}
     budget,err:=quota.Budget(quotaSnap.DailyRemaining,quotaSnap.MonthlyRemaining,*days)
@@ -222,12 +230,12 @@ func runProfileBatch(args []string)(retErr error){
     pacer,err:=quota.NewPacer(quotaSnap.VerifiedRPM,budget)
     if err!=nil{return err}
     gateway,err:=live.New(pacer,func(ctx context.Context,req map[string]any)(worker.Response,error){
-        return worker.Invoke(ctx,worker.Python(),worker.ScriptPath(),req)
+        return profileWorkerCall(ctx,req)
     })
     if err!=nil{return err}
     quotaReader:=func(ctx context.Context)(ingest.QuotaSnapshot,error){
         return observeAbsoluteQuota(ctx,*days,func(ctx context.Context,req map[string]any)(worker.Response,error){
-            return worker.Invoke(ctx,worker.Python(),worker.ScriptPath(),req)
+            return profileWorkerCall(ctx,req)
         })
     }
     count:=min(len(eligible),*maxCalls,budget)
@@ -262,18 +270,20 @@ func runProfileBatch(args []string)(retErr error){
             if e=store.EndProfileCall(ctx,attempt.ID,"ERROR",reason);e!=nil{return e}
             summary.Errors++
             summary.LastErrorType=reason
-            if reason=="RateLimitedError"||reason=="EntitlementError"{
+            if reason!="DataUnavailableError" && reason!="InputError" {
                 return fmt.Errorf("provider blocked %s with %s; saved evidence %s",symbol,reason,attempt.ReportPath)
             }
             continue
         }
         status,importErr:=profileResultFromReport(ctx,store,attempt.ReportPath,symbol)
         if importErr!=nil{
-            // Keep an explicit, independently inspectable source file.
+            // A schema/import regression affects every remaining symbol.
+            // Stop rather than burn the whole verified API allowance.
             if e=store.EndProfileCall(ctx,attempt.ID,"ERROR","ProfileValidationOrImport");e!=nil{return e}
             summary.Errors++
             summary.LastErrorType="ProfileValidationOrImport"
-            continue
+            return fmt.Errorf("profile %s validation/import failed; archived at %s: %w",
+                symbol,attempt.ReportPath,importErr)
         }
         if e=store.EndProfileCall(ctx,attempt.ID,status,"");e!=nil{return e}
         if status=="MISSING_DATE"{summary.MissingDate++}else{summary.Imported++}

@@ -188,8 +188,8 @@ func (p *PostgresStore) EndProfileCall(ctx context.Context,id int64,status,reaso
     var landingID any
     if status=="IMPORTED"||status=="MISSING_DATE" {
         var id int64
-        var date sql.NullTime
-        err=tx.QueryRowContext(ctx,`SELECT p.landing_id,p.reported_listing_date
+        var date sql.NullString
+        err=tx.QueryRowContext(ctx,`SELECT p.landing_id,p.reported_listing_date::text
           FROM core.company_profile_observations p WHERE p.security_id=$1
           ORDER BY p.observed_at DESC,p.profile_id DESC LIMIT 1`,
           securityID).Scan(&id,&date)
