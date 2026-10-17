@@ -167,8 +167,8 @@ func TestBackfillDefersLegacyInvalidFrameWithoutWriting(t *testing.T){
     _,err=db.ExecContext(ctx,`INSERT INTO ops.ingest_jobs
       (idempotency_key,route,symbol,source,date_from,date_to,state,attempts,last_error_type)
       VALUES
-      ('equity_ohlcv:X000:vci:2018-10-01:'||$1,'equity_ohlcv','X000','vci','2018-10-01',$1,'PENDING',1,'InvalidFrame'),
-      ('equity_ohlcv:X001:vci:2018-10-01:'||$1,'equity_ohlcv','X001','vci','2018-10-01',$1,'PENDING',1,'InvalidFrame: bad candle')`,today)
+      ('equity_ohlcv:X000:vci:2018-10-01:'||$1,'equity_ohlcv','X000','vci','2018-10-01',$1::date,'PENDING',1,'InvalidFrame'),
+      ('equity_ohlcv:X001:vci:2018-10-01:'||$1,'equity_ohlcv','X001','vci','2018-10-01',$1::date,'PENDING',1,'InvalidFrame: bad candle')`,today)
     if err!=nil{t.Fatal(err)}
     normal,err:=LoadVerifiedBackfillUniverse(ctx,db,now,"2018-10-01",today,"vci")
     if err!=nil{t.Fatal(err)}
