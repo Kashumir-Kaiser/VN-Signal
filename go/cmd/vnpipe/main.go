@@ -384,6 +384,25 @@ func run(args []string) error {
 		if _, err := config.Load(configPath()); err != nil {
 			return fmt.Errorf("invalid config: %w", err)
 		}
+        ignored,err:=loadIgnoredSymbols()
+        if err!=nil{return err}
+        if *active{
+            retained:=make([]map[string]any,0,len(requests))
+            excluded:=0
+            for _,req:=range requests{
+                op,_:=req["op"].(string)
+                symbol,_:=req["symbol"].(string)
+                if (op=="company_info"||op=="equity_ohlcv")&&ignored[symbol]{
+                    excluded++
+                    continue
+                }
+                retained=append(retained,req)
+            }
+            if excluded>0{fmt.Printf("Probe: skipped %d ignored tickers\n",excluded)}
+            requests=retained
+            if len(requests)==0{return nil}
+        }
+
 		if *active && os.Getenv("VNPIPE_DISABLE_LIVE") == "1" {
 			return live.ErrDisabled
 		}
@@ -620,6 +639,9 @@ func run(args []string) error {
 		if err := json.Unmarshal(raw, &symbols); err != nil {
 			return err
 		}
+		ignored,err:=loadIgnoredSymbols()
+		if err!=nil{return err}
+		symbols,_=filterIgnoredSymbols(symbols,ignored)
 		p, err := ingest.PlanBackfill(probe, *days, *start, *end, symbols, nil)
 		if err != nil {
 			return err

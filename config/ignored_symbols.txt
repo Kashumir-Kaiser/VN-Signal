@@ -1,0 +1,13 @@
+# Exclude from future per-symbol VCI market-data calls; never delete historical records.
+BPW
+CT5
+DKH
+DPD
+HGA
+HGC
+IPH
+MXC
+PYU
+T12
+TAC
+TS5

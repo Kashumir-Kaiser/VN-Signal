@@ -41,6 +41,8 @@ func runBackfill(args []string) error {
 	if _, err := config.Load(configPath()); err != nil {
 		return err
 	}
+	ignored,err:=loadIgnoredSymbols()
+	if err!=nil{return err}
 	saved, err := os.ReadFile(*reportFile)
 	if err != nil {
 		return err
@@ -68,9 +70,12 @@ func runBackfill(args []string) error {
 	// are removed BEFORE the call budget is applied, avoiding repeat starvation.
 	universe, err := ingest.LoadVerifiedBackfillUniverse(ctx, db, time.Now(), *start, *end, *source)
 	if err != nil {
-		return fmt.Errorf("verified PostgreSQL universe: %w", err)
-	}
-	if len(universe.Pending) == 0 {
+        return fmt.Errorf("verified PostgreSQL universe: %w", err)
+    }
+    var excluded int
+    universe.Pending,excluded=filterIgnoredSymbols(universe.Pending,ignored)
+    if excluded>0{fmt.Printf("Backfill: %d user-ignored tickers excluded before quota planning\n",excluded)}
+    if len(universe.Pending) == 0 {
 		fmt.Printf("No eligible backfill jobs: snapshot=%s total=%d completed=%d partial=%d blocked=%d leased=%d\n",
 			universe.AsOf, universe.Total, universe.Completed, universe.Partial, universe.Blocked, universe.Leased)
 		return nil

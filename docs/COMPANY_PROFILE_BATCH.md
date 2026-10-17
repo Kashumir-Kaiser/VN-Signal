@@ -288,3 +288,8 @@ No existing saved report can be reconstructed to include the metadata
 discarded by earlier adapter versions. Only after studying the old
 exception class and local installed library source should another
 *targeted* metered retry be considered. Do not retry all 12 errors.
+
+
+## Persistent user-excluded symbols
+
+The file config/ignored_symbols.txt contains the 12 tickers excluded from all future per-symbol active profile collection, OHLCV backfill, preview-backfill and active company-info probes. Collectors skip these before quota reservation, even with --retry-errors or --retry-unknown. A missing or invalid file blocks a collector instead of spending calls. Remove a ticker's line to permit future explicitly authorized collection. No SQL data, historical bars, listing universe or error evidence is deleted or relabelled. Raw equity-list snapshots must remain complete for integrity and survivorship analysis.

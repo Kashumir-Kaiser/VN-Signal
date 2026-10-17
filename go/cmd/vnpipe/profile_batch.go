@@ -323,6 +323,15 @@ func runProfileBatch(args []string)(retErr error){
     if err!=nil{return err}
     if os.Getenv("VNPIPE_DISABLE_LIVE")=="1"{return live.ErrDisabled}
     if _,err:=config.Load(configPath());err!=nil{return err}
+    ignored,err:=loadIgnoredSymbols()
+    if err!=nil{return err}
+    if chosen!=nil {
+        for sym:=range chosen{if ignored[sym]{delete(chosen,sym)}}
+        if len(chosen)==0 {
+            fmt.Fprintln(os.Stdout,"Profile batch: all requested symbols ignored; 0 API calls")
+            return nil
+        }
+    }
     absOut,err:=filepath.Abs(*out)
     if err!=nil{return err}
     if err:=os.MkdirAll(absOut,0700);err!=nil{return err}
@@ -357,7 +366,9 @@ func runProfileBatch(args []string)(retErr error){
     if err!=nil{return err}
     summary:=ingest.ProfileBatchSummary{Candidates:len(candidates),MaxCalls:*maxCalls}
     eligible:=make([]string,0,len(candidates))
+    ignoredCount:=0
     for _,r:=range candidates{
+        if ignored[r.Symbol]{ignoredCount++;continue}
         switch r.State{
         case "PENDING":eligible=append(eligible,r.Symbol)
         case "ERROR":
@@ -382,8 +393,8 @@ func runProfileBatch(args []string)(retErr error){
         fmt.Fprintf(os.Stdout,"Recovered saved profiles: %d\n",restored)
         _=json.NewEncoder(os.Stdout).Encode(summary)
     }()
-    fmt.Fprintf(os.Stdout,"Profile batch: %d securities, %d pending/retryable, %d already archived, %d skipped errors, %d skipped unknowns; recovered=%d\n",
-        len(candidates),len(eligible),summary.SkippedExisting,summary.SkippedErrors,summary.SkippedUnknown,restored)
+    fmt.Fprintf(os.Stdout,"Profile batch: %d securities, %d pending/retryable, %d already archived, %d skipped errors, %d skipped unknowns, %d ignored; recovered=%d\n",
+        len(candidates),len(eligible),summary.SkippedExisting,summary.SkippedErrors,summary.SkippedUnknown,ignoredCount,restored)
     if len(eligible)==0{return nil}
     fmt.Fprintln(os.Stdout,"Profile batch: checking registered vnstock allowance (no market-data call)")
     // Passive CLI usage is FREE of market-data calls, and reading it

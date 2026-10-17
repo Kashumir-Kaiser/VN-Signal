@@ -54,6 +54,12 @@ func runRefreshCompanyInfo(args []string) error {
     if !*active || *days<1 || *days>31 || *symbol=="" || len(f.Args())!=0 {
         return errors.New("refresh-company-info requires --active --trading-days 1..31 --symbol TICKER")
     }
+    ignored,err:=loadIgnoredSymbols()
+    if err!=nil{return err}
+    if ignored[*symbol]{
+        fmt.Printf("Company profile: %s ignored (0 calls)\n",*symbol)
+        return nil
+    }
     folder:=filepath.Join(*out,time.Now().UTC().Format("20060102T150405.000000000Z"))
     if err:=os.MkdirAll(folder,0700);err!=nil{return err}
     if err:=run([]string{"probe","--active","--routes","company_info",
