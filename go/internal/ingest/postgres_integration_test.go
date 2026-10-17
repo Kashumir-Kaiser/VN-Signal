@@ -38,7 +38,7 @@ func pgTestDB(t *testing.T) *sql.DB {
 }
 func clearDB(t *testing.T, db *sql.DB) {
 	t.Helper()
-	_, e := db.Exec(`TRUNCATE ops.api_reservations,ops.ingest_jobs,raw.landings,core.bars_daily,core.listing_snapshots,core.symbols,ops.quota_guard RESTART IDENTITY CASCADE`)
+	_, e := db.Exec(`TRUNCATE ops.api_reservations,ops.ingest_jobs,raw.landings,core.bars_daily,core.listing_snapshots,core.symbols,ops.quota_guard,core.security_master,core.security_observations RESTART IDENTITY CASCADE`)
 	if e != nil {
 		t.Fatal(e)
 	}

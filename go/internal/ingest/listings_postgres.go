@@ -122,8 +122,9 @@ func (p *PostgresStore) ImportListingSnapshot(ctx context.Context, snap ListingS
 	if err != nil {
 		return ListingImportSummary{}, err
 	}
-	_, err = tx.ExecContext(ctx, `INSERT INTO raw.landings(ingest_id,source,route,fetched_at,symbol,payload,payload_sha256,payload_bytes)
- VALUES($1::uuid,'vci','equity_list',$2,NULL,$3::jsonb,$4,$5)`, ingestID, snap.CollectedAt, string(snap.Frame), snap.SHA256, []byte(snap.Frame))
+	var masterLandingID int64
+	err = tx.QueryRowContext(ctx, `INSERT INTO raw.landings(ingest_id,source,route,fetched_at,symbol,payload,payload_sha256,payload_bytes)
+ VALUES($1::uuid,'vci','equity_list',$2,NULL,$3::jsonb,$4,$5) RETURNING landing_id`, ingestID, snap.CollectedAt, string(snap.Frame), snap.SHA256, []byte(snap.Frame)).Scan(&masterLandingID)
 	if err != nil {
 		return ListingImportSummary{}, fmt.Errorf("raw listing landing: %w", err)
 	}
@@ -151,6 +152,11 @@ func (p *PostgresStore) ImportListingSnapshot(ctx context.Context, snap ListingS
 		if err != nil {
 			return ListingImportSummary{}, fmt.Errorf("snapshot %s: %w", row.Symbol, err)
 		}
+	}
+	// Preserve ALL provider security categories from this same metered call,
+	// including DELISTED, without adding them to the active OHLCV universe.
+	if _, _, _, err = syncSecurityLandingTx(ctx, tx, masterLandingID); err != nil {
+		return ListingImportSummary{}, fmt.Errorf("transactional securities master: %w", err)
 	}
 	if err = tx.Commit(); err != nil {
 		return ListingImportSummary{}, err

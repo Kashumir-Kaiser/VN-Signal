@@ -5,6 +5,7 @@ package ingest
 import (
 	"bytes"
 	"context"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"testing"
@@ -83,4 +84,54 @@ func TestListingSnapshotTransactionIdempotencyAndDelisting(t *testing.T) {
 	if _, e = store.ImportListingSnapshot(ctx, day2); e == nil {
 		t.Fatal("accepted tampered snapshot")
 	}
+}
+
+// Historical securities master must preserve provider DELISTED rows without
+// inventing a past exchange, date of delisting, or active tradability.
+func TestSecuritiesMasterPreservesAllObservedSymbols(t *testing.T) {
+    db:=pgTestDB(t)
+    clearDB(t,db)
+    store,_:=NewPostgresStore(db)
+    ctx:=context.Background()
+    snap,err:=ParseListingProbe(listingIntegrationFixture("2026-10-16",20),3)
+    if err!=nil{t.Fatal(err)}
+    if _,err=store.ImportListingSnapshot(ctx,snap);err!=nil{t.Fatal(err)}
+    for query,want:=range map[string]int{
+        "SELECT count(*) FROM core.security_master":21,
+        "SELECT count(*) FROM core.security_observations":21,
+        "SELECT count(*) FROM core.security_observed_days":21,
+        "SELECT count(*) FROM core.security_observations WHERE category='EXCHANGE_LISTED'":20,
+        "SELECT count(*) FROM core.security_observations WHERE category='PROVIDER_DELISTED_UNDATED'":1,
+        "SELECT count(*) FROM core.symbols":20,
+        "SELECT count(*) FROM core.listing_snapshots":20,
+        "SELECT count(*) FROM ops.api_reservations":0,
+    }{
+        var n int
+        if err=db.QueryRow(query).Scan(&n);err!=nil||n!=want {
+            t.Fatalf("%s count=%d expected=%d: %v",query,n,want,err)
+        }
+    }
+    var oldCategory string
+    var oldExchange sql.NullString
+    if err=db.QueryRow(`SELECT category,exchange FROM core.security_observed_sessions
+        WHERE symbol='OLD000'`).Scan(&oldCategory,&oldExchange);err!=nil {
+        t.Fatal(err)
+    }
+    if oldCategory!="PROVIDER_DELISTED_UNDATED"||oldExchange.Valid{
+        t.Fatalf("invented historical listing for OLD000: %s %v",oldCategory,oldExchange)
+    }
+    summary,err:=store.RebuildSecurityMaster(ctx)
+    if err!=nil||summary.Frames!=1||summary.ObservationsAdded!=0 {
+        t.Fatalf("replay not idempotent: %+v %v",summary,err)
+    }
+    _,err=db.Exec(`UPDATE raw.landings SET payload_bytes='{}'::bytea
+        WHERE route='equity_list'`)
+    if err!=nil{t.Fatal(err)}
+    if _,err=store.RebuildSecurityMaster(ctx);err==nil{
+        t.Fatal("tampered raw listing data accepted")
+    }
+    var still int
+    if err=db.QueryRow(`SELECT count(*) FROM core.security_observations`).Scan(&still);err!=nil||still!=21 {
+        t.Fatalf("tamper changed observed history %d %v",still,err)
+    }
 }
