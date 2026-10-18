@@ -11,10 +11,16 @@ func TestValidate(t *testing.T) {
 	if err := Validate([]Bar{good()}); err != nil {
 		t.Fatal(err)
 	}
+	auctionOutsideContinuousRange := good()
+	auctionOutsideContinuousRange.Open = 98
+	auctionOutsideContinuousRange.Close = 98.5
+	if err := Validate([]Bar{auctionOutsideContinuousRange}); err != nil {
+		t.Fatalf("accepted traded bar with auction prices outside continuous-session extrema: %v", err)
+	}
 	b := good()
 	b.High = 98
-	if err := Validate([]Bar{b}); err == nil {
-		t.Fatal("bad OHLC accepted")
+	if err := Validate([]Bar{b}); err == nil || !strings.Contains(err.Error(), "high below low") {
+		t.Fatalf("accepted inverted high/low: %v", err)
 	}
 	b = good()
 	b.Volume = -1

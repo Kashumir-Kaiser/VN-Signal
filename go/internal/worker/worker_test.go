@@ -137,6 +137,25 @@ func TestSecretsNotInherited(t *testing.T) {
 	}
 }
 
+func TestVNStockHomeIsInheritedWithoutForwardingOtherSecrets(t *testing.T) {
+	stateDir := t.TempDir()
+	t.Setenv("VNSTOCK_HOME", stateDir)
+	t.Setenv("OTHER_SECRET_SENTINEL", "must-never-leak")
+	got := map[string]string{}
+	for _, entry := range safeEnv() {
+		key, value, ok := strings.Cut(entry, "=")
+		if ok {
+			got[strings.ToUpper(key)] = value
+		}
+	}
+	if got["VNSTOCK_HOME"] != stateDir {
+		t.Fatalf("VNSTOCK_HOME not forwarded: %q", got["VNSTOCK_HOME"])
+	}
+	if _, ok := got["OTHER_SECRET_SENTINEL"]; ok {
+		t.Fatal("unrelated secret environment was forwarded")
+	}
+}
+
 func TestSingleWorkerProcessAtATime(t *testing.T) {
 	py := python(t)
 	script := fake(t, "import json,time\ntime.sleep(.25)\nprint(json.dumps({'id':'q1','ok':True,'data':{}}))\n")

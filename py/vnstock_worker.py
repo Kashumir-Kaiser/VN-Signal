@@ -49,12 +49,16 @@ def _frame(df: Any) -> dict[str, Any]:
     if not hasattr(df, "to_dict") or not hasattr(df, "columns"):
         raise TypeError("Expected pandas DataFrame from vnstock")
     rows = df.to_dict(orient="records")
+    provenance_keys = {
+        "source", "route", "access_domain", "access_protocol", "access_method",
+        "source_name", "organisation", "tool",
+    }
     return {
         "columns": [str(c) for c in df.columns],
         "count": len(rows),
         "rows": _safe(rows),
         "attributes": _safe({k: v for k, v in df.attrs.items()
-                             if k in ("source", "route") or k.startswith("tier_cap_")}),
+                             if k in provenance_keys or k.startswith("tier_cap_")}),
     }
 
 
@@ -92,6 +96,7 @@ def _fetch(job: dict[str, Any]) -> dict[str, Any]:
     allowed_sources = {
         "equity_list": {"vci"}, "company_info": {"vci"}, "market_calendar": set(),
         "equity_ohlcv": {"vci", "kbs", "vnd", "mas", "asean"},
+        "equity_trade_history": {"vci"},
         "index_ohlcv": {"vci", "kbs"},
         "income_statement": {"vci", "kbs", "mas"},
         "balance_sheet": {"vci", "kbs", "mas"},
@@ -117,7 +122,24 @@ def _fetch(job: dict[str, Any]) -> dict[str, Any]:
             raise ValueError("start after end")
         asset = (Market().equity(val) if op == "equity_ohlcv"
                  else Market().index(val))
+        raw_prices = job.get("raw_prices", False)
+        if type(raw_prices) is not bool:
+            raise ValueError("raw_prices must be boolean")
+        if raw_prices:
+            opts["floating"] = None
         return _frame(asset.ohlcv(start=start, end=end, interval="1D", **opts))
+    if op == "equity_trade_history":
+        val = _symbol(job)
+        start, end = job.get("start"), job.get("end")
+        if not isinstance(start, str) or not isinstance(end, str):
+            raise ValueError("start and end ISO dates are required")
+        begin = dt.date.fromisoformat(start)
+        finish = dt.date.fromisoformat(end)
+        if begin > finish:
+            raise ValueError("start after end")
+        if source != "vci":
+            raise ValueError("trade history requires source=vci")
+        return _frame(Market().equity(val).trade_history(start=start, end=end, source=source))
     if op in ("income_statement", "balance_sheet", "cash_flow"):
         val = _symbol(job)
         period = job.get("period", "quarter")
@@ -173,7 +195,7 @@ def dispatch(job: dict[str, Any]) -> dict[str, Any]:
                     result["routes"][route] = {
                         "available": False, "error_type": type(ex).__name__}
         return result
-    allowed = {"equity_list", "company_info", "market_calendar", "equity_ohlcv", "index_ohlcv",
+    allowed = {"equity_list", "company_info", "market_calendar", "equity_ohlcv", "equity_trade_history", "index_ohlcv",
                "income_statement", "balance_sheet", "cash_flow"}
     if op not in allowed:
         raise ValueError("unknown operation")
@@ -264,7 +286,7 @@ def main() -> None:
             output = {"id": job.get("id") if isinstance(job, dict) else None,
                       "ok": False, "error": {
                           "type": cls,
-                          "message": str(ex)[:280],
+                          "message": "adapter operation failed",
                           "cause": cause,
                       }}
             diagnostic = _safe_failure_diagnostic(ex)

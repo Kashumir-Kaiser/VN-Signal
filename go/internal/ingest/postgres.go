@@ -148,7 +148,7 @@ func (p *PostgresStore) Completed(ctx context.Context, jobID string) (bool, erro
 // Unknown, expired, spent or cross-date limits block before dispatch.
 func (p *PostgresStore) ReserveAttempt(ctx context.Context, job BackfillJob, key, source string, at time.Time) (time.Time, error) {
 	zero := time.Time{}
-	if p == nil || p.DB == nil || job.Route != "equity_ohlcv" || source == "" ||
+	if p == nil || p.DB == nil || (job.Route != "equity_ohlcv" && !(job.Route == "index_ohlcv" && job.Symbol == "VNINDEX" && (source == "kbs" || source == "vci"))) || source == "" ||
 		key == "" || job.Symbol == "" || job.Start > job.End || job.Start == "" || job.End == "" {
 		return zero, errors.New("invalid database reservation request")
 	}
@@ -193,8 +193,8 @@ func (p *PostgresStore) ReserveAttempt(ctx context.Context, job BackfillJob, key
 		return zero, ErrNoQuotaSnapshot
 	}
 	_, err = tx.ExecContext(ctx, `INSERT INTO ops.ingest_jobs(idempotency_key,route,symbol,source,date_from,date_to)
-        VALUES($1,'equity_ohlcv',$2,$3,$4::date,$5::date)
-        ON CONFLICT(idempotency_key) DO NOTHING`, key, job.Symbol, source, job.Start, job.End)
+		VALUES($1,$2,$3,$4,$5::date,$6::date)
+		ON CONFLICT(idempotency_key) DO NOTHING`, key, job.Route, job.Symbol, source, job.Start, job.End)
 	if err != nil {
 		return zero, err
 	}
@@ -202,14 +202,14 @@ func (p *PostgresStore) ReserveAttempt(ctx context.Context, job BackfillJob, key
 	var state string
 	var attempts int
 	var updated time.Time
-	var storedSymbol, storedSource, storedStart, storedEnd string
-	err = tx.QueryRowContext(ctx, `SELECT job_id,state,attempts,updated_at,symbol,source,date_from::text,date_to::text
+	var storedRoute, storedSymbol, storedSource, storedStart, storedEnd string
+	err = tx.QueryRowContext(ctx, `SELECT job_id,state,attempts,updated_at,route,symbol,source,date_from::text,date_to::text
         FROM ops.ingest_jobs WHERE idempotency_key=$1 FOR UPDATE`, key).
-		Scan(&id, &state, &attempts, &updated, &storedSymbol, &storedSource, &storedStart, &storedEnd)
+		Scan(&id, &state, &attempts, &updated, &storedRoute, &storedSymbol, &storedSource, &storedStart, &storedEnd)
 	if err != nil {
 		return zero, err
 	}
-	if storedSymbol != job.Symbol || storedSource != source || storedStart != job.Start || storedEnd != job.End {
+	if storedRoute != job.Route || storedSymbol != job.Symbol || storedSource != source || storedStart != job.Start || storedEnd != job.End {
 		return zero, errors.New("job idempotency key collides with different parameters")
 	}
 	if state == "COMPLETED" || state == "PARTIAL" {
@@ -387,13 +387,14 @@ func (p *PostgresStore) CommitLanding(ctx context.Context, land Landing) error {
 	}
 	for _, bar := range land.Bars.Rows {
 		_, err = tx.ExecContext(ctx, `INSERT INTO core.bars_daily(symbol_id,trade_date,o,h,l,c,v,adj_basis,source,ingest_id,fetched_at)
-           VALUES($1,$2::date,$3,$4,$5,$6,$7,'unknown',$8,$9::uuid,$10)
+		   VALUES($1,$2::date,$3,$4,$5,$6,$7,$8,$9,$10::uuid,$11)
            ON CONFLICT (symbol_id,trade_date) DO UPDATE SET
              o=EXCLUDED.o,h=EXCLUDED.h,l=EXCLUDED.l,c=EXCLUDED.c,v=EXCLUDED.v,
              adj_basis=EXCLUDED.adj_basis,source=EXCLUDED.source,
              ingest_id=EXCLUDED.ingest_id,fetched_at=EXCLUDED.fetched_at
            WHERE core.bars_daily.fetched_at <= EXCLUDED.fetched_at`,
-			symbolID, bar.Date, bar.Open, bar.High, bar.Low, bar.Close, bar.Volume, land.Source, idstr, land.FetchedAt)
+			symbolID, bar.Date, bar.Open, bar.High, bar.Low, bar.Close, bar.Volume,
+			priceAdjustmentBasis(land.Source), land.Source, idstr, land.FetchedAt)
 		if err != nil {
 			return fmt.Errorf("upsert %s/%s: %w", symbol, bar.Date, err)
 		}
@@ -432,6 +433,7 @@ func (p *PostgresStore) BlockInvalid(ctx context.Context, key, reason string) er
 	}
 	return nil
 }
+
 // QuarantineFrame retains the exact successful vendor response, even if some
 // bars are invalid. It never inserts into core.bars_daily. The state transition
 // and raw-byte archival share one transaction, so a DB failure stops the run.

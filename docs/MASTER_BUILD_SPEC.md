@@ -1,6 +1,6 @@
 # VN-Signal — Master Build Prompt
 
-*A single-user Vietnamese equity research and suggestion system · vnstock free tier · Rust + Go core · PostgreSQL for wrangling, SQLite for serving*
+*A single-user Vietnamese equity research and suggestion system · vnstock Community tier · Rust + Go core · PostgreSQL for wrangling, SQLite for serving*
 
 *Prepared 16 October 2026. Statements about vnstock reflect its v5 documentation on that date. The Phase-0 capability probe (§2) overrides any statement here that the installed library contradicts.*
 
@@ -24,11 +24,11 @@ You are a principal engineer building the system below end to end. Follow these 
 
 **Status of outputs.** Research output, not investment advice (vnstock itself disclaims advice). Every screen that shows a suggestion also shows model health and uncertainty.
 
-## 2. Binding constraints of the vnstock free tier
+## 2. Binding constraints of the vnstock Community tier
 
-The user operates on the free tier. These constraints are the primary design driver, because each one removes an option that a paid tier would allow.
+The user operates with a Community API key. The vnstock library's internal `status()['tier']` value is `free` for this user-facing Community tier. These constraints are the primary design driver, because each one removes an option that a sponsored tier would allow.
 
-| Constraint | Documented free-tier fact (Oct 2026) | Design consequence |
+| Constraint | Documented Community-tier fact (Oct 2026) | Design consequence |
 | --- | --- | --- |
 | Request rate | Read `limits.per_minute` from the exact local usage report; an unauthenticated Guest sample on 2026-10-16 reported 10 req/min. Community rate must be verified from the registered account's report. | Register the Community key (`vnstock register`). Go owns a token bucket set to 85% of the reported rate, capped at 60 req/min. |
 | Shared quota | Hourly, daily and monthly buckets, shared across devices and libraries; daily bucket resets 00:00 Vietnam time, monthly on the 1st. JSON usage may expose exact `limits` and `used` counts even when human-readable output shows percentages. | Derive remaining calls only from exact limits minus used; percentage-only reports block. A quota ledger and daily call budget (formula below). Backfills are resumable and may span several days. |
@@ -76,12 +76,12 @@ Each language is chosen for the one job it does best. Throughput is not the bind
 | Intraday 1-minute (Phase 2) | Intraday OHLCV route | 1 minute | 180 days, then forward | Daily, top 100 liquid names | Realised variance, VWAP gap, closing-auction share, stored as daily aggregates |
 | Cross-asset (optional) | FX, commodities, global indices if entitled | Daily | Per probe | Daily | Exogenous features, lagged one session; silently disabled on `EntitlementError` |
 
-What is deliberately **not** used: Sponsor-only ratio and note endpoints, news and analyst feeds, and any scraped source outside vnstock.
+What is deliberately **not** used: Sponsor-only ratio and note endpoints, news and analyst feeds, and unaudited or unapproved external feeds. Under the user's recorded historical-source approval in `docs/DECISIONS.md`, an audited alternate source may fill historical coverage where VCI is missing or invalid. Keep each provider's OHLCV in its own source-keyed series; VCI remains the preferred daily refresh route. Do not splice providers or adjustment bases into one ticker history without a validated adjustment bridge.
 
 ### 4.2 Universe and call tiering
 
 - **Listed universe:** all equities on HOSE, HNX and UPCoM (on the order of 1,500; record the probe count). Daily bars are backfilled once for all of them, because liquidity ranking requires history.
-- **Investable universe (default N = 400):** top 400 by median 20-session traded value, with hysteresis (enter at rank ≤ 400, leave at rank > 500), at least 250 sessions listed, and 20-session average traded value of at least 5 billion VND (configurable). Models, recommendations and statements cover this set only.
+- **Investable universe (default N = 400):** top 400 by median 20-session `traded_value_proxy_vnd`, with hysteresis (enter at rank ≤ 400, leave at rank > 500), at least 250 sessions listed, and 20-session average proxy of at least 5 billion VND (configurable). The proxy is `close × reported volume × 1,000` VND because vnstock reports prices in thousand VND. It is a derived adjusted-close-based estimate, not source-reported or executed turnover; keep `traded_value` unchanged and never present the proxy as execution capacity. Models and research features may use the proxy with its provenance retained; recommendations and order sizing remain disabled until later-phase execution-quality checks approve their use.
 - **Tier A (daily):** the investable set, one history call per symbol over the last 5 sessions (about 400 calls, roughly 7 minutes at 60 req/min and 20 minutes at 20 req/min), plus about 10 index calls.
 - **Tier B (weekly, round-robin):** the remaining listed symbols, used only for breadth statistics and universe re-ranking.
 - **Volume estimate:** 400 symbols × \~2,000 sessions ≈ 0.8 million labelled rows (≈ 3.2 million if the full listed universe were used). Everything fits in memory on a laptop; no distributed tooling is permitted.
@@ -104,7 +104,7 @@ What is deliberately **not** used: Sponsor-only ratio and note endpoints, news a
 
 Schemas: `raw` (append-only landings), `core` (typed, adjusted, deduplicated), `feat` (features and labels), `ml` (runs, models, folds, predictions, recommendations, backtests), `ops` (pipeline runs, step runs, API-call ledger, quality results).
 
-Key tables: `core.symbols`, `core.listing_snapshots`, `core.bars_daily(symbol_id, trade_date, o, h, l, c, v, value, adj_basis)` with primary key `(symbol_id, trade_date)`, `core.index_bars`, `core.fundamentals_pit`, `core.calendar`, `feat.features_daily` (wide, one row per symbol-date, versioned by `feature_set_hash`), `feat.labels_daily`, `ml.runs`, `ml.models`, `ml.predictions`, `ml.recommendations`, `ops.api_calls`.
+Key tables: `core.symbols`, `core.listing_snapshots`, `core.bars_daily(symbol_id, trade_date, o, h, l, c, v, traded_value, adj_basis)` with primary key `(symbol_id, trade_date)`, and view `core.bars_daily_with_proxy` exposing the derived `traded_value_proxy_vnd`. `traded_value` holds only source-reported data; the view's proxy is not executed turnover. Other tables include `core.index_bars`, `core.fundamentals_pit`, `core.calendar`, `feat.features_daily` (wide, one row per symbol-date, versioned by `feature_set_hash`), `feat.labels_daily`, `ml.runs`, `ml.models`, `ml.predictions`, `ml.recommendations`, `ops.api_calls`.
 
 Operating profile for one user: no replication, no connection pooler, `shared_buffers` ≈ 25% of RAM, generous `work_mem`, `synchronous_commit = off` during bulk loads only, BRIN or B-tree on date columns, no partitioning at this size. Numbered SQL migrations are applied by `vnpipe migrate`. Backups: `pg_dump` weekly, 8 rolling copies. The SQLite snapshot is disposable and always rebuildable.
 
@@ -160,7 +160,7 @@ Gradient-boosted trees (LightGBM) are the primary learner, because daily cross-s
 
 ### 7.3 Fundamental overlay model B
 
-Because the free tier exposes only 8 periods of abridged statements, the fundamental history in the training window is short, and a model that sees fundamentals as null for older rows could learn "missing ⇒ earlier era", which is a time proxy and not an economic signal. Therefore model B is trained **separately**, only on dates where the fundamental features are available point-in-time, and it enters the composite only when `n_pit_quarters ≥ 6` and its own walk-forward IC is positive; `w_B` is bounded to \[0, 0.5\]. The weight grows automatically as the point-in-time archive deepens.
+Because the Community tier exposes only 8 periods of abridged statements, the fundamental history in the training window is short, and a model that sees fundamentals as null for older rows could learn "missing ⇒ earlier era", which is a time proxy and not an economic signal. Therefore model B is trained **separately**, only on dates where the fundamental features are available point-in-time, and it enters the composite only when `n_pit_quarters ≥ 6` and its own walk-forward IC is positive; `w_B` is bounded to \[0, 0.5\]. The weight grows automatically as the point-in-time archive deepens.
 
 ### 7.4 Validation
 
@@ -188,8 +188,8 @@ A challenger replaces the champion only if (a) its rank IC over the last 12 mont
 **Portfolio construction.** Long-only. Maximise `αᵀw − λ·wᵀΣw − κ·cost(w, w_prev)` subject to the constraints below, with Σ from Ledoit–Wolf shrinkage on 250 sessions, solved by `clarabel`; if infeasible, fall back to volatility-scaled rank weights.
 
 - Positions 10 to 15 by default; maximum weight 12%; maximum ICB-industry weight 35%.
-- Liquidity: order value ≤ 5% of 20-session average traded value; exclude symbols below the liquidity floor.
-- Tradability: exclude names at the ceiling on the signal day (a buy cannot fill), listed under 250 sessions, or on the user's manual blacklist (the free tier has no feed for trading-status warnings).
+- Liquidity: use `traded_value_proxy_vnd` only as a research estimate for universe ranking/features. Order-capacity and live recommendations stay disabled until a source of executed turnover or broker-grade liquidity is validated; the proxy is not fill capacity. Exclude symbols below the configured proxy floor from research universes.
+- Tradability: exclude names at the ceiling on the signal day (a buy cannot fill), listed under 250 sessions, or on the user's manual blacklist (the Community tier has no feed for trading-status warnings).
 - Rebalance every 5 sessions by default, with a turnover penalty; "no action" is a valid output.
 - Exposure overlay: if VNINDEX is below its 200-session average and breadth is under 30%, reduce target gross exposure to 50% (configurable heuristic, documented as such); apply the same cap in `DEGRADED` health.
 
@@ -245,7 +245,7 @@ Repository layout: `go/` (`cmd/vnpipe`, `internal/{sched,quota,ingest,dq,export,
 | Phase | Deliverable | Exit criteria |
 | --- | --- | --- |
 | 0 | Probe, schema contracts, config, repository skeleton | Probe report committed; limits read from it; migrations apply cleanly |
-| 1 | Worker, ingestion, quota ledger, Postgres `core`, quality gates, resumable backfill | Full backfill completes within quota; gates fail correctly on injected faults |
+| 1 | Worker, ingestion, quota ledger, Postgres `core`, quality gates, resumable backfill | Every in-scope symbol has a complete, audited history from VCI or an approved source-keyed alternate within its available history and quota; explicit exclusions are recorded; gates fail correctly on injected faults |
 | 2 | SQL features, labels, point-in-time fundamentals archive | Leakage test and feature-parity test green; null-rate report produced |
 | 3 | Trainer, purged walk-forward, calibration, promotion gate, backtester | At least 36 months of out-of-sample blocks reported honestly; reproducible re-run |
 | 4 | Snapshot exporter, in-process inference, recommendation engine | Live/precomputed parity within 1e-6; latency budgets met |

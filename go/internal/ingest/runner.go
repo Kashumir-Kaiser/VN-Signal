@@ -40,7 +40,9 @@ type LandingStore interface {
 	// CommitLanding must transactionally persist a landing, its canonical bars,
 	// and mark the job complete. It must be idempotent on JobID.
 	CommitLanding(context.Context, Landing) error
-	CommitMarketLanding(context.Context, MarketLanding) (string,error)
+	CommitMarketLanding(context.Context, MarketLanding) (string, error)
+	CommitIndexLanding(context.Context, IndexLanding) error
+	QuarantineIndexFrame(context.Context, string, string, string, json.RawMessage) error
 }
 
 type Runner struct {
@@ -54,9 +56,9 @@ type Runner struct {
 }
 
 type RunSummary struct {
-	Skipped, Committed, Blocked int
+	Skipped, Committed, Blocked        int
 	Partial, ZeroVolume, InvalidTraded int
-	BlockedPreview []string
+	BlockedPreview                     []string
 }
 
 // ErrExcessiveInvalidFrames is a systemic-source circuit breaker. Individual
@@ -144,22 +146,28 @@ func (r *Runner) RunBarsBackfill(ctx context.Context, jobs []BackfillJob, source
 			return sum, fmt.Errorf("vendor route failed: %s", reply.Error.Type)
 		}
 
-		assessment, err := AnalyzeMarketBars(job.Symbol, reply.Data)
+		assessment, err := AnalyzeMarketBarsForSource(job.Symbol, source, reply.Data)
 		if err != nil {
 			reason := "InvalidFrame: " + strings.TrimPrefix(err.Error(), ErrInvalidFrame.Error()+": ")
-			if e := quarantine(jobID, job.Symbol, reason, reply.Data); e != nil {return sum, e}
+			if e := quarantine(jobID, job.Symbol, reason, reply.Data); e != nil {
+				return sum, e
+			}
 			continue
 		}
 		if assessment.FirstDate < job.Start || assessment.LastDate > job.End {
-			reason := fmt.Sprintf("OutsideRequestedRange: first=%s last=%s",assessment.FirstDate,assessment.LastDate)
-			if e := quarantine(jobID, job.Symbol, reason, reply.Data);e != nil {return sum,e}
+			reason := fmt.Sprintf("OutsideRequestedRange: first=%s last=%s", assessment.FirstDate, assessment.LastDate)
+			if e := quarantine(jobID, job.Symbol, reason, reply.Data); e != nil {
+				return sum, e
+			}
 			continue
 		}
 		sha := sha256.Sum256(reply.Data)
-		landing := Landing{JobID:jobID,Source:source,FetchedAt:r.Now().UTC(),
-			SHA256:hex.EncodeToString(sha[:]),Raw:append(json.RawMessage(nil),reply.Data...),Bars:assessment.Bars}
-		state, err := r.Store.CommitMarketLanding(ctx, MarketLanding{Landing:landing,Frame:assessment})
-		if err != nil {return sum,fmt.Errorf("transactional market landing failed: %w",err)}
+		landing := Landing{JobID: jobID, Source: source, FetchedAt: r.Now().UTC(),
+			SHA256: hex.EncodeToString(sha[:]), Raw: append(json.RawMessage(nil), reply.Data...), Bars: assessment.Bars}
+		state, err := r.Store.CommitMarketLanding(ctx, MarketLanding{Landing: landing, Frame: assessment})
+		if err != nil {
+			return sum, fmt.Errorf("transactional market landing failed: %w", err)
+		}
 		sum.ZeroVolume += assessment.ZeroVolume
 		sum.InvalidTraded += assessment.InvalidTraded
 		switch state {
@@ -170,10 +178,91 @@ func (r *Runner) RunBarsBackfill(ctx context.Context, jobs []BackfillJob, source
 			sum.Committed++
 			invalidStreak = 0
 		default:
-			return sum,fmt.Errorf("unexpected market state %s",state)
+			return sum, fmt.Errorf("unexpected market state %s", state)
 		}
 		if invalidStreak >= 10 {
-			return sum,fmt.Errorf("%w: ten consecutive partially invalid histories",ErrExcessiveInvalidFrames)
+			return sum, fmt.Errorf("%w: ten consecutive partially invalid histories", ErrExcessiveInvalidFrames)
+		}
+	}
+	return sum, nil
+}
+
+// RunIndexBackfill accepts only VNINDEX and a source validated by a fresh,
+// active probe. Every request and result retains its provider attribution.
+func (r *Runner) RunIndexBackfill(ctx context.Context, jobs []BackfillJob) (RunSummary, error) {
+	var sum RunSummary
+	if r == nil || r.Gateway == nil || r.Store == nil || r.Now == nil {
+		return sum, errors.New("runner not configured")
+	}
+	for _, job := range jobs {
+		source := job.Source
+		if source == "" {
+			source = "kbs"
+		}
+		if job.Route != "index_ohlcv" || job.Symbol != "VNINDEX" || job.Start == "" || job.End == "" || job.Start > job.End {
+			return sum, errors.New("unsupported index backfill job: only VNINDEX daily bars are supported")
+		}
+		if source != "kbs" && source != "vci" {
+			return sum, errors.New("unsupported index backfill source")
+		}
+		key := fmt.Sprintf("index_ohlcv:%s:%s:%s:%s", job.Symbol, source, job.Start, job.End)
+		done, err := r.Store.Completed(ctx, key)
+		if err != nil {
+			return sum, fmt.Errorf("completion lookup (fail closed): %w", err)
+		}
+		if done {
+			sum.Skipped++
+			continue
+		}
+		if r.BeforeCall != nil {
+			if err := r.BeforeCall(ctx); err != nil {
+				return sum, fmt.Errorf("pre-call quota verification: %w", err)
+			}
+		}
+		reply, err := r.Gateway.CallRecorded(ctx, map[string]any{"id": key, "op": "index_ohlcv", "symbol": "VNINDEX", "source": source, "start": job.Start, "end": job.End}, live.CallAudit{
+			Reserve: func(ctx context.Context, at time.Time) (time.Time, error) {
+				return r.Store.ReserveAttempt(ctx, job, key, source, at)
+			},
+			Dispatch: func(ctx context.Context) error { return r.Store.MarkDispatch(ctx, key) },
+			Finish: func(ctx context.Context, outcome, reason string) error {
+				return r.Store.MarkOutcome(ctx, key, outcome, reason)
+			},
+		})
+		if err != nil {
+			return sum, fmt.Errorf("gateway: %w", err)
+		}
+		if reply.ID != key {
+			_ = r.Store.BlockInvalid(ctx, key, "ResponseIDMismatch")
+			return sum, errors.New("vendor response ID mismatch")
+		}
+		if !reply.OK {
+			if reply.Error == nil {
+				return sum, errors.New("vendor error without type")
+			}
+			return sum, fmt.Errorf("vendor route failed: %s", reply.Error.Type)
+		}
+		frame, err := AnalyzeIndexBarsForSource("VNINDEX", source, reply.Data)
+		if err != nil {
+			reason := "InvalidFrame: " + err.Error()
+			if len(reason) > 120 {
+				reason = reason[:120]
+			}
+			if qerr := r.Store.QuarantineIndexFrame(ctx, key, source, reason, reply.Data); qerr != nil {
+				return sum, errors.Join(fmt.Errorf("invalid index frame: %w", err), qerr)
+			}
+			return sum, fmt.Errorf("invalid index frame quarantined: %w", err)
+		}
+		if frame.FirstDate < job.Start || frame.LastDate > job.End {
+			if qerr := r.Store.QuarantineIndexFrame(ctx, key, source, "OutsideRequestedRange", reply.Data); qerr != nil {
+				return sum, qerr
+			}
+			return sum, errors.New("index frame outside requested range; raw frame quarantined")
+		}
+		sum.Committed++
+		sha := sha256.Sum256(reply.Data)
+		if err := r.Store.CommitIndexLanding(ctx, IndexLanding{JobID: key, Symbol: "VNINDEX", Source: source, FetchedAt: r.Now().UTC(), SHA256: hex.EncodeToString(sha[:]), Raw: append(json.RawMessage(nil), reply.Data...), Frame: frame}); err != nil {
+			sum.Committed--
+			return sum, fmt.Errorf("transactional index landing failed: %w", err)
 		}
 	}
 	return sum, nil

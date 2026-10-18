@@ -4,11 +4,11 @@ set -euo pipefail
 export PGOPTIONS='-c TimeZone=UTC'
 for pass in 1 2; do
     for migration in sql/migrations/[0-9]*.sql; do
-        psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 -f "$migration"
+        psql -X -v ON_ERROR_STOP=1 -f "$migration" "$DATABASE_URL"
     done
 done
-psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 -f tests/sql/schema_assertions.sql
-if psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 <<'SQL'
+psql -X -v ON_ERROR_STOP=1 -f tests/sql/schema_assertions.sql "$DATABASE_URL"
+if psql -X -v ON_ERROR_STOP=1 "$DATABASE_URL" <<'SQL'
 BEGIN;
 CREATE TABLE ops.fault_rollback(id integer);
 SELECT 1/0;
@@ -18,9 +18,9 @@ then
     echo 'fault injection unexpectedly succeeded' >&2
     exit 1
 fi
-psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 -Atc "SELECT CASE WHEN to_regclass('ops.fault_rollback') IS NULL THEN 'rollback-ok' ELSE 'bad' END" | grep -qx rollback-ok
+psql -X -v ON_ERROR_STOP=1 -Atc "SELECT CASE WHEN to_regclass('ops.fault_rollback') IS NULL THEN 'rollback-ok' ELSE 'bad' END" "$DATABASE_URL" | grep -qx rollback-ok
 # A connection failure must be detected rather than silently regarded as migrated.
-if PGCONNECT_TIMEOUT=1 psql 'postgresql://127.0.0.1:1/nonexistent' -X -v ON_ERROR_STOP=1 -c 'SELECT 1' >/dev/null 2>&1; then
+if PGCONNECT_TIMEOUT=1 psql -X -v ON_ERROR_STOP=1 -c 'SELECT 1' 'postgresql://127.0.0.1:1/nonexistent' >/dev/null 2>&1; then
     echo 'unreachable Postgres unexpectedly passed' >&2
     exit 1
 fi

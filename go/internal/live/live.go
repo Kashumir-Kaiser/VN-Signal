@@ -40,7 +40,7 @@ func wait(ctx context.Context, d time.Duration) error {
 	}
 }
 
-var routes = map[string]bool{"equity_list": true, "company_info": true, "market_calendar": true, "equity_ohlcv": true, "index_ohlcv": true, "income_statement": true, "balance_sheet": true, "cash_flow": true}
+var routes = map[string]bool{"equity_list": true, "company_info": true, "market_calendar": true, "equity_ohlcv": true, "equity_trade_history": true, "index_ohlcv": true, "income_statement": true, "balance_sheet": true, "cash_flow": true}
 var ErrDisabled = errors.New("live market calls disabled in this environment")
 
 func (g *Gateway) preflight(ctx context.Context, job map[string]any) error {

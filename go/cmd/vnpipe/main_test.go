@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-    "encoding/json"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -79,6 +79,7 @@ func TestSelectProbeRequests(t *testing.T) {
 	}{
 		{name: "all by default", want: []string{"equity_list", "equity_ohlcv", "index_ohlcv", "income_statement", "balance_sheet", "cash_flow", "market_calendar"}},
 		{name: "one route", routes: "equity_list", want: []string{"equity_list"}},
+		{name: "opt-in extended route", routes: "equity_trade_history", want: []string{"equity_trade_history"}},
 		{name: "trim and canonical order", routes: "market_calendar, equity_list", want: []string{"equity_list", "market_calendar"}},
 		{name: "unknown route", routes: "not_a_route", wantError: true},
 		{name: "duplicate route", routes: "equity_list,equity_list", wantError: true},
@@ -100,6 +101,57 @@ func TestSelectProbeRequests(t *testing.T) {
 				if route := request["op"]; route != tt.want[i] {
 					t.Fatalf("route[%d] = %v, want %q", i, route, tt.want[i])
 				}
+			}
+		})
+	}
+}
+
+func TestSetProbeIndexSource(t *testing.T) {
+	tests := []struct {
+		name    string
+		routes  []map[string]any
+		source  string
+		wantErr bool
+	}{
+		{name: "VCI selected", routes: []map[string]any{{"op": "index_ohlcv"}}, source: "vci"},
+		{name: "KBS selected", routes: []map[string]any{{"op": "index_ohlcv"}}, source: "kbs"},
+		{name: "unsupported source", routes: []map[string]any{{"op": "index_ohlcv"}}, source: "mas", wantErr: true},
+		{name: "source without index route", routes: []map[string]any{{"op": "income_statement"}}, source: "vci", wantErr: true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := setProbeIndexSource(tt.routes, tt.source)
+			if (err != nil) != tt.wantErr {
+				t.Fatalf("setProbeIndexSource() error = %v, wantErr %v", err, tt.wantErr)
+			}
+			if err == nil && tt.routes[0]["source"] != tt.source {
+				t.Fatalf("source = %v, want %q", tt.routes[0]["source"], tt.source)
+			}
+		})
+	}
+}
+
+func TestSetProbeDateRange(t *testing.T) {
+	tests := []struct {
+		name    string
+		start   string
+		end     string
+		wantErr bool
+	}{
+		{name: "valid historical range", start: "2018-10-18", end: "2019-12-31"},
+		{name: "missing end", start: "2018-10-18", wantErr: true},
+		{name: "invalid start", start: "2018/10/18", end: "2019-12-31", wantErr: true},
+		{name: "reversed", start: "2020-01-01", end: "2019-12-31", wantErr: true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			requests := []map[string]any{{"op": "index_ohlcv"}}
+			err := setProbeDateRange(requests, tt.start, tt.end)
+			if (err != nil) != tt.wantErr {
+				t.Fatalf("setProbeDateRange() error = %v, wantErr %v", err, tt.wantErr)
+			}
+			if err == nil && (requests[0]["start"] != tt.start || requests[0]["end"] != tt.end) {
+				t.Fatalf("range set to %v..%v, want %s..%s", requests[0]["start"], requests[0]["end"], tt.start, tt.end)
 			}
 		})
 	}
@@ -179,18 +231,23 @@ func TestProbeFailureDetailsExitCodeIsSafe(t *testing.T) {
 }
 
 func TestCompanyProbeRouteErrorPreservesSafeDiagnostics(t *testing.T) {
-    cases:=[]struct{payload string;want string}{
-        {`{"company_info":{"available":false,"error_type":"AdapterError","error_cause":"AttributeError"}}`,"AttributeError"},
-        {`{"company_info":{"available":false,"count":0,"error_type":"EmptyCompanyInfo"}}`,"EmptyCompanyInfo"},
-        {`{"company_info":{"available":false,"error_type":"InvalidCompanyInfoFrame"}}`,"InvalidCompanyInfoFrame"},
-        {`{"company_info":{"available":true,"count":1}}`,""},
-    }
-    for _,c:=range cases{
-        err:=companyProbeRouteError(json.RawMessage(c.payload))
-        if c.want=="" {
-            if err!=nil{t.Fatalf("valid route rejected: %v",err)}
-        }else if err==nil||!strings.Contains(err.Error(),c.want){
-            t.Fatalf("route error lost %q: %v",c.want,err)
-        }
-    }
+	cases := []struct {
+		payload string
+		want    string
+	}{
+		{`{"company_info":{"available":false,"error_type":"AdapterError","error_cause":"AttributeError"}}`, "AttributeError"},
+		{`{"company_info":{"available":false,"count":0,"error_type":"EmptyCompanyInfo"}}`, "EmptyCompanyInfo"},
+		{`{"company_info":{"available":false,"error_type":"InvalidCompanyInfoFrame"}}`, "InvalidCompanyInfoFrame"},
+		{`{"company_info":{"available":true,"count":1}}`, ""},
+	}
+	for _, c := range cases {
+		err := companyProbeRouteError(json.RawMessage(c.payload))
+		if c.want == "" {
+			if err != nil {
+				t.Fatalf("valid route rejected: %v", err)
+			}
+		} else if err == nil || !strings.Contains(err.Error(), c.want) {
+			t.Fatalf("route error lost %q: %v", c.want, err)
+		}
+	}
 }

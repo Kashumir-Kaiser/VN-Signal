@@ -8,7 +8,10 @@ import (
 )
 
 func payload(rows string, count int) []byte {
-	return []byte(`{"columns":["time","open","high","low","close","volume"],"count":` + jsonNumber(count) + `,"rows":` + rows + `}`)
+	return payloadWithAttribution(rows, count, `{"source":"vci"}`)
+}
+func payloadWithAttribution(rows string, count int, attribution string) []byte {
+	return []byte(`{"columns":["time","open","high","low","close","volume"],"count":` + jsonNumber(count) + `,"rows":` + rows + `,"attributes":` + attribution + `}`)
 }
 func jsonNumber(n int) string { b, _ := json.Marshal(n); return string(b) }
 

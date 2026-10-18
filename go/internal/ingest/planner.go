@@ -16,6 +16,7 @@ var ErrUnverified = errors.New("backfill plan requires successful active capabil
 type BackfillJob struct {
 	Route  string `json:"route"`
 	Symbol string `json:"symbol"`
+	Source string `json:"source,omitempty"`
 	Start  string `json:"start"`
 	End    string `json:"end"`
 	Tier   string `json:"tier"`

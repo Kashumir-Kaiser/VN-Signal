@@ -25,9 +25,11 @@ func TestGateHappyAndFaults(t *testing.T) {
 		{"zero_expected", func(i *GateInput) { i.Expected = time.Time{} }, "session"},
 		{"stale", func(i *GateInput) { i.LatestBySymbol["FPT"] = i.Expected.Add(-time.Hour) }, "stale"},
 		{"duplicate", func(i *GateInput) { i.Bars = append(i.Bars, good()) }, "duplicate"},
+		{"zero_price", func(i *GateInput) { i.Bars[0].Close = 0 }, "close price is nonpositive or nonfinite"},
+		{"inverted_ohlc", func(i *GateInput) { i.Bars[0].High = i.Bars[0].Low - 1 }, "high below low"},
+		{"negative_volume", func(i *GateInput) { i.Bars[0].Volume = -1 }, "negative or nonfinite volume"},
 		{"rowdrop", func(i *GateInput) { i.CurrentCount = 94 }, "row count"},
 		{"crosssource", func(i *GateInput) { i.CrossSources = []SourceClose{{"FPT", "2026-10-15", 100, 100.51}} }, "cross-source"},
-		{"corporate", func(i *GateInput) { i.Actions = []ActionCheck{{"FPT", "HOSE", 100, 108, false}} }, "corporate"},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -40,6 +42,25 @@ func TestGateHappyAndFaults(t *testing.T) {
 		})
 	}
 }
+
+func TestSuspectedActionWarnsAndQuarantines(t *testing.T) {
+	i := input()
+	i.Actions = []ActionCheck{{"FPT", "HOSE", 100, 108, false}}
+	r, err := Gate(i)
+	if err != nil || !strings.Contains(strings.Join(r.Warnings, " "), "suspected unadjusted corporate action FPT") {
+		t.Fatalf("suspected action should warn, report=%+v err=%v", r, err)
+	}
+	if strings.Join(r.Quarantined, ",") != "FPT" {
+		t.Fatalf("suspected action was not quarantined: %+v", r.Quarantined)
+	}
+
+	i.Actions[0].ListingDay = true
+	r, err = Gate(i)
+	if err != nil || len(r.Warnings) != 0 || len(r.Quarantined) != 0 {
+		t.Fatalf("verified listing day should be exempt: report=%+v err=%v", r, err)
+	}
+}
+
 func TestThresholdBoundaries(t *testing.T) {
 	i := input()
 	i.PreviousCount = 100

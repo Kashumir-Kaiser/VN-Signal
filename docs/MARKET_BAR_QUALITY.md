@@ -1,27 +1,61 @@
 # Market-aware OHLCV ingestion (Phase 1)
 
-## Source evidence, not a one-tick shortcut
+## Vietnamese session prices and intraday extrema
 
-2026-10-17 forensic output identified **177** inconsistent VCI candles in six
-archived frames: ABI 6, ABR 101, ABT 1, ACE 64, ACG 4, ACL 1. Of these,
-**161** had volume zero (ABI 5, ABR 97, ACE 59), and **16** had positive volume.
-Most zero-volume contradictions are repeated source rows. Differences up to
-1.98 thousand VND / over 1000 bps cannot be waved away as ordinary 2-decimal
-rounding.
+Updated 2026-10-18 after checking the HOSE trading rules and quote-field
+definitions. The previous validator incorrectly required the high/low extrema
+to contain the reported open and close.
 
-vnstock v5 reports adjusted historical equity prices in thousands of VND;
+On HOSE, the opening price is set in the opening call auction (ATO), continuous
+matching runs separately, and the closing price is set by the closing call
+auction (ATC). HOSE's quote-field guide defines the high and low as the highest
+and lowest executions in the continuous-matching session. An ATO or ATC price
+can therefore fall outside that intraday range: `low > open`, `low > close`,
+`high < open`, and `high < close` can all be legitimate observations. This is
+not a price-band or tick-size issue.
+
+The official HOSE rules document the separate ATO, continuous-matching, and
+ATC sessions and define the closing price as the final board-lot execution.
+The quote-field explanation explicitly assigns high/low to continuous matches:
+- https://staticfile.hsx.vn/Uploads/News/437a3bc734a845fc853283b0c627a593/20250429_20250429%20-%20HOSE%20-%20Quy%20dinh%20giao%20dich%20dang%20website%20HOSE.pdf
+- https://estock.duytan.edu.vn/kien-thuc-dau-tu/kien-thuc-chung-khoan/bai-3-huong-dan-doc-bang-gia-truc-tuyen-tai-hose-70.html
+
+Do not generalize one provider's field scope to every venue. HNX's guide
+distinguishes periodic and continuous matching on its listed-stock market and
+continuous matching plus put-through on UPCoM. SSI's streaming contract also
+identifies ATO, LO, ATC, and put-through as separate sessions; FiinGroup's
+UPCoM contract separately defines opening, highest/lowest, and total-volume
+fields. These source contracts describe fields from different matching scopes,
+so the robust cross-source ordering check remains `high >= low`. Keep an
+open/close containment check disabled unless the exact source contract says
+those fields include the same execution phases.
+- https://owa.hnx.vn/ftp/PORTALNEW/PUBLICFACTBOOK_FA/20190911/HNX%20Guide%20to%20trading%20stocks.pdf
+- https://guide.ssi.com.vn/ssi-products/fastconnect-data/du-lieu-streaming
+- https://datafeed.fiingroup.vn/api-giao-dich/co-phieu/co-phieu/upcom-stock-v2
+
+For a traded daily bar, validate each O/H/L/C as positive and finite, require
+`high >= low`, and require nonnegative finite volume. Migration 019 applies that
+same high/low-only ordering rule at the PostgreSQL boundary. Do not require the open or
+close to lie between high and low unless a source explicitly guarantees that
+all four fields cover the same session phases. Preserve provider values;
+never swap, clip, or synthesize highs/lows.
+
+Vnstock v5 reports adjusted historical equity prices in thousands of VND;
 a reported daily bar at 07:00+07:00 is a dated observation, not evidence of
-an executed trade if its volume is zero. Verified documentation:
+an executed trade if its volume is zero. VCI and KBS can also use different
+historical adjustment bases. Verified documentation:
 - https://www.vnstocks.com/docs/vnstock/thi-truong-market
 - https://www.vnstocks.com/docs/vnstock/tham-khao/data-sources
 - https://upcom.hnx.vn/vi-vn/hoi-dap.html
 - https://www.vfs.com.vn/en/securities-services-for-individual-customers/regulations-on-trading-floors/instructions-upcom
 
-An actual traded candle must satisfy positive finite O/H/L/C,
-\`high >= max(open,close)\`, \`low <= min(open,close)\`, and nonnegative volume.
-The exchange's 7/10/15% daily bands do not override those inequalities;
-reference prices, negotiated trading, price adjustments and no-trade sessions
-must be modeled separately. Never 'fix' highs/lows by swapping or clipping.
+The 2024 FPT cash-dividend cross-check matches VCI/DNSE OHLC closes to
+VNDIRECT's separate adjusted-price fields; VNDIRECT ordinary OHLC remains
+unadjusted. The stored `adj_basis` therefore describes price columns only.
+Adjustment timing is not stored, so these restated historical prices are not
+point-in-time safe by this label alone. See
+`docs/probe/phase1-adjustment/README.md` for action notices, source rows, and
+payload hashes.
 
 ## Durable quality contract
 
@@ -51,8 +85,11 @@ Phase 2 point-in-time, suspension and adjusted-price checks pass.
 
 ## Offline source-backed recovery
 
-To reprocess archived blocked VCI frames after migration 005, use the
-**original exact date range** and source:
+To reclassify already landed VCI frames under a corrected OHLC validator,
+including partial quarantine landings, apply migrations 018 and 019 and use each
+**original exact date range** and source. The CLI selects PARTIAL frames; malformed
+BLOCKED frames remain blocked unless a separate verified recovery path can parse
+their archived response:
 
 \`\`\`bash
 go -C go run -mod=mod -tags postgres ./cmd/vnpipe migrate --dir ../sql/migrations

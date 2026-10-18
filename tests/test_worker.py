@@ -36,6 +36,24 @@ class WorkerTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             worker._symbol({"symbol": "FPT; rm /"})
 
+    def test_frame_preserves_provider_identity_allowlist(self):
+        class Frame:
+            columns = ["time", "close"]
+            attrs = {
+                "source": "vci", "route": "equity_ohlcv",
+                "source_name": "Provider VCI", "organisation": "Provider One",
+                "access_domain": "example.invalid", "private_token": "must-not-leak",
+            }
+
+            def to_dict(self, orient):
+                self.asserted_orient = orient
+                return [{"time": "2026-10-16", "close": 100.0}]
+
+        data = worker._frame(Frame())
+        self.assertEqual(data["attributes"]["source"], "vci")
+        self.assertEqual(data["attributes"]["organisation"], "Provider One")
+        self.assertNotIn("private_token", data["attributes"])
+
 
 # Integration tests for main() and subprocess failures: offline by construction.
 import io
@@ -161,6 +179,81 @@ class LocalCLITests(unittest.TestCase):
         self.assertEqual(received["source"], "kbs")
         self.assertEqual(received["interval"], "1D")
 
+    def test_raw_prices_passes_floating_none_through_jsonl(self):
+        received = {}
+        class FakeFrame:
+            columns = ["time", "close"]
+            attrs = {"source": "vci"}
+            def to_dict(self, orient):
+                return [{"time": "2026-10-16", "close": 100}]
+        class FakeEquity:
+            def ohlcv(self, **kwargs):
+                received.update(kwargs)
+                return FakeFrame()
+        class FakeMarket:
+            def equity(self, symbol):
+                return FakeEquity()
+        module = types.SimpleNamespace(Market=FakeMarket, Fundamental=lambda: None, Reference=lambda: None)
+        with patch.dict(sys.modules, {"vnstock": module}), patch.dict(worker.os.environ, {"VNPIPE_DISABLE_LIVE": "0"}):
+            payload = json.dumps({"id":"raw-probe", "op":"equity_ohlcv", "symbol":"FPT",
+                                  "start":"2026-10-16", "end":"2026-10-16", "source":"vci",
+                                  "raw_prices":True}) + "\n"
+            stdin = types.SimpleNamespace(buffer=io.BytesIO(payload.encode()))
+            stdout, stderr = io.StringIO(), io.StringIO()
+            with patch.object(worker.sys, "stdin", stdin), patch.object(worker.sys, "stdout", stdout), \
+                    patch.object(worker.sys, "stderr", stderr):
+                worker.main()
+        frames = [json.loads(line) for line in stdout.getvalue().splitlines()]
+        self.assertEqual(len(frames), 1)
+        self.assertTrue(frames[0]["ok"])
+        self.assertIsNone(received["floating"])
+        self.assertEqual(received["source"], "vci")
+
+    def test_trade_history_routes_vci_dates_to_documented_method(self):
+        received = {}
+        class FakeFrame:
+            columns = ["trading_date", "total_value"]
+            attrs = {"source": "vci", "route": "market.equity.trade_history"}
+            def to_dict(self, orient):
+                self.asserted_orient = orient
+                return [{"trading_date": "2026-10-16", "total_value": 123456.0}]
+        frame = FakeFrame()
+        class FakeEquity:
+            def trade_history(self, **kwargs):
+                received.update(kwargs)
+                return frame
+        class FakeMarket:
+            def equity(self, symbol):
+                received["symbol"] = symbol
+                return FakeEquity()
+        module = types.SimpleNamespace(Market=FakeMarket, Fundamental=lambda: None, Reference=lambda: None)
+        with patch.dict(sys.modules, {"vnstock": module}), patch.dict(worker.os.environ, {"VNPIPE_DISABLE_LIVE": "0"}):
+            out = worker._fetch({"op":"equity_trade_history", "symbol":"FPT", "start":"2026-10-16",
+                                 "end":"2026-10-16", "source":"vci"})
+        self.assertEqual(out["count"], 1)
+        self.assertEqual(out["rows"][0]["total_value"], 123456.0)
+        self.assertEqual(received, {"symbol":"FPT", "start":"2026-10-16", "end":"2026-10-16", "source":"vci"})
+
+    def test_default_ohlcv_does_not_override_floating(self):
+        received = {}
+        class FakeFrame:
+            columns = ["time"]
+            attrs = {}
+            def to_dict(self, orient):
+                return [{"time":"2026-10-16"}]
+        class FakeEquity:
+            def ohlcv(self, **kwargs):
+                received.update(kwargs)
+                return FakeFrame()
+        class FakeMarket:
+            def equity(self, symbol):
+                return FakeEquity()
+        module = types.SimpleNamespace(Market=FakeMarket, Fundamental=lambda: None, Reference=lambda: None)
+        with patch.dict(sys.modules, {"vnstock": module}), patch.dict(worker.os.environ, {"VNPIPE_DISABLE_LIVE": "0"}):
+            worker._fetch({"op":"equity_ohlcv", "symbol":"FPT", "start":"2026-10-16",
+                           "end":"2026-10-16", "source":"vci"})
+        self.assertNotIn("floating", received)
+
     def test_active_probe_is_never_unmetered(self):
         with self.assertRaisesRegex(ValueError, "metered"):
             worker.dispatch({"op":"probe", "active":True})
@@ -267,6 +360,8 @@ class VendorMetadataDiagnosticsTests(unittest.TestCase):
             "route": "reference.company.info", "provider": "vci",
             "http_status": 404, "retryable": False
         })
+        self.assertEqual(result["error"]["message"], "adapter operation failed")
+        self.assertNotIn("private.token", json.dumps(result))
         self.assertNotIn("private.token", json.dumps(result["diagnostic"]))
 
     def test_bad_vendor_metadata_is_omitted(self):

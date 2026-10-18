@@ -81,7 +81,7 @@ func Gate(in GateInput) (GateReport, error) {
 		}
 		if !a.ListingDay && math.Abs(a.Current/a.Previous-1) > limit+1e-12 {
 			r.Quarantined = append(r.Quarantined, a.Symbol)
-			r.Blocking = append(r.Blocking, "suspected unadjusted corporate action "+a.Symbol)
+			r.Warnings = append(r.Warnings, "suspected unadjusted corporate action "+a.Symbol)
 		}
 	}
 	for _, d := range in.Drift {

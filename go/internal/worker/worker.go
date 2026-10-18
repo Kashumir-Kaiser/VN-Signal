@@ -26,23 +26,23 @@ var workerSlots = make(chan struct{}, 1)
 // ErrorDiagnostic contains only structured provider metadata. It is never
 // a vendor message, traceback or arbitrary HTTP response payload.
 type ErrorDiagnostic struct {
-    Code string `json:"code,omitempty"`
-    Kind string `json:"kind,omitempty"`
-    Route string `json:"route,omitempty"`
-    Provider string `json:"provider,omitempty"`
-    HTTPStatus *int `json:"http_status,omitempty"`
-    Retryable *bool `json:"retryable,omitempty"`
+	Code       string `json:"code,omitempty"`
+	Kind       string `json:"kind,omitempty"`
+	Route      string `json:"route,omitempty"`
+	Provider   string `json:"provider,omitempty"`
+	HTTPStatus *int   `json:"http_status,omitempty"`
+	Retryable  *bool  `json:"retryable,omitempty"`
 }
 
 type Response struct {
-	ID    string          `json:"id"`
-	OK    bool            `json:"ok"`
-	Data  json.RawMessage `json:"data"`
-    Diagnostic *ErrorDiagnostic `json:"diagnostic,omitempty"`
-	Error *struct {
+	ID         string           `json:"id"`
+	OK         bool             `json:"ok"`
+	Data       json.RawMessage  `json:"data"`
+	Diagnostic *ErrorDiagnostic `json:"diagnostic,omitempty"`
+	Error      *struct {
 		Type    string `json:"type"`
 		Message string `json:"message"`
-        Cause   string `json:"cause,omitempty"`
+		Cause   string `json:"cause,omitempty"`
 	} `json:"error"`
 }
 
@@ -215,6 +215,7 @@ func safeEnv() []string {
 		"PATH": true, "HOME": true, "USERPROFILE": true, "APPDATA": true, "LOCALAPPDATA": true,
 		"SYSTEMROOT": true, "WINDIR": true, "TMP": true, "TEMP": true, "TMPDIR": true,
 		"LANG": true, "LC_ALL": true, "VIRTUAL_ENV": true, "VNPIPE_DISABLE_LIVE": true,
+		"VNSTOCK_HOME":  true,
 		"SSL_CERT_FILE": true, "REQUESTS_CA_BUNDLE": true, "TZ": true,
 	}
 	var env []string

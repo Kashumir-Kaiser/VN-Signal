@@ -1,4 +1,4 @@
-# Exclude from future per-symbol VCI market-data calls; never delete historical records.
+# Exclude from future per-symbol active collection calls; never delete historical records.
 BPW
 CT5
 DKH
@@ -11,3 +11,5 @@ PYU
 T12
 TAC
 TS5
+# User-excluded: no positive executed volume observed in UTT's audited first year.
+UTT

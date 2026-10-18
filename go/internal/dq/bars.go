@@ -44,19 +44,10 @@ func Validate(rows []Bar) error {
 				return fmt.Errorf("row %d date %s: %s price is nonpositive or nonfinite", i, b.Date, item.name)
 			}
 		}
-		for _, check := range []struct {
-			bad    bool
-			reason string
-		}{
-			{b.High < b.Low, "high below low"},
-			{b.High < b.Open, "high below open"},
-			{b.High < b.Close, "high below close"},
-			{b.Low > b.Open, "low above open"},
-			{b.Low > b.Close, "low above close"},
-		} {
-			if check.bad {
-				return fmt.Errorf("row %d date %s: %s", i, b.Date, check.reason)
-			}
+		// Vietnamese feeds may derive open/close from call auctions and high/low
+		// from continuous matching, so the extrema need not enclose O/C.
+		if b.High < b.Low {
+			return fmt.Errorf("row %d date %s: high below low", i, b.Date)
 		}
 		if b.Volume < 0 || math.IsNaN(b.Volume) || math.IsInf(b.Volume, 0) {
 			return fmt.Errorf("row %d date %s: negative or nonfinite volume", i, b.Date)

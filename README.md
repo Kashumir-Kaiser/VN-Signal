@@ -24,7 +24,8 @@ go -C go run ./cmd/vnpipe --help
 On Linux, replace `.venv/Scripts/python.exe` with `.venv/bin/python`, and `.venv\\Scripts\\vnstock.exe` with `.venv/bin/vnstock`. For Python code on Windows, `py -3.12` can be used; the CLI invokes the configured interpreter directly.
 
 ```powershell
-$env:VNPIPE_PYTHON = ".venv/Scripts/python.exe"
+$env:VNPIPE_PYTHON = (Resolve-Path .venv\Scripts\python.exe).Path
+$env:VNSTOCK_HOME = (Resolve-Path (Join-Path $env:USERPROFILE '.vnstock')).Path
 go -C go run ./cmd/vnpipe probe
 # Active probe consumes your *local* free-tier allowance, opt in explicitly:
 go -C go run ./cmd/vnpipe probe --active --trading-days 12
@@ -37,7 +38,7 @@ In Git Bash, point Go tests and the CLI at the venv interpreter with:
 export VNPIPE_PYTHON="$(cygpath -aw "$PWD/.venv/Scripts/python.exe")"
 ```
 
-`probe` writes a date-stamped report to `docs/probe/` locally. Without `--active`, it checks the installed tier and quota policy but does not request market data. The active probe checks one sample for each supported route (listings, equity/index OHLCV, three statements and market calendar), records actual columns and limitations, and never treats missing data as success. Use `--routes equity_list` to retry only the listing route after a partial probe. Reports include safe error categories, route durations, numeric worker exit codes, and safe worker cause labels where available, without worker stderr. **It refuses live calls unless `vnstock --json status` reports an authenticated `free`/`community` account and `vnstock --json usage` provides exact `limits.per_day` / `limits.per_month`, `used.day` / `used.month`, and `limits.per_minute` values.** Remaining counts are computed as limit minus used; percentages alone, Guest accounts and unknown fields fail closed. A durable API reservation ledger is implemented for explicit backfill, but real account entitlements and database transactions still require local verification. **Do not use GitHub-hosted runners for live vnstock calls.**
+`VNPIPE_PYTHON` should resolve to an absolute path before running `go -C go`, because Go runs the worker from the `go/` directory. Set `VNSTOCK_HOME` to the authenticated state directory shown by `vnstock env`; otherwise the worker may find a different, unauthenticated project-local state after `go -C go` changes directories. The example uses the default profile directory under `%USERPROFILE%`. `probe` writes a date-stamped report to `docs/probe/` locally. Without `--active`, it checks the installed tier and quota policy but does not request market data. The active probe checks one sample for each supported route (listings, equity/index OHLCV, three statements and market calendar), records actual columns and limitations, and never treats missing data as success. Use `--routes equity_list` to retry only the listing route after a partial probe. Reports include safe error categories, route durations, numeric worker exit codes, and safe worker cause labels where available, without worker stderr. **It refuses live calls unless the local CLI reports an authenticated `free`/`community` account and exact `limits.per_day` / `limits.per_month`, `used.day` / `used.month`, and `limits.per_minute` values.** On Windows, inspect them with `& .venv\Scripts\vnstock.exe --json status` and `& .venv\Scripts\vnstock.exe --json usage`. Remaining counts are computed as limit minus used; percentages alone, Guest accounts and unknown fields fail closed. A durable API reservation ledger is implemented for explicit backfill, but real account entitlements and database transactions still require local verification. **Do not use GitHub-hosted runners for live vnstock calls.**
 
 ## Next gates
 

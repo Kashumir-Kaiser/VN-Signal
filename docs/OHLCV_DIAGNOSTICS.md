@@ -1,9 +1,8 @@
 # Historical OHLCV: exchange rules, source representation, and diagnosis
 
-Updated 2026-10-17 after the registered-machine VCI backfill returned
-six independent inconsistent-candle exceptions across ten more attempted
-histories (four committed; six quarantined). This is **not** evidence that
-Vietnamese exchanges permit contradictory OHLC values.
+Updated 2026-10-18 after checking HOSE's trading rules and quote-field
+definitions. The earlier diagnostic incorrectly called auction prices outside
+the continuous-session high/low range inconsistent OHLC.
 
 ## Confirmed facts, with primary/reference sources
 
@@ -14,10 +13,13 @@ Vietnamese exchanges permit contradictory OHLC values.
   to backward-adjusted OHLCV comparisons.
   - https://www.ssi.com.vn/en/individual-customer/transaction-regulation-on-hsx
   - https://support.vndirect.com.vn/hc/en-us/articles/360002241873-Trading-regulations-at-HNX-Hanoi-Stock-Exchange
-- Opening/closing auctions, continuous matching and put-through trading are
-  distinct trade mechanisms. Feed field definitions must be checked before
-  treating auction/negotiated prices as identical to continuous-session highs.
-  - https://www.ssi.com.vn/en/individual-customer/transaction-regulation-on-hsx
+- HOSE sets opening and closing prices in separate call auctions and runs
+  continuous matching in separate sessions. Its quote-field guide defines
+  high/low from continuous-session executions; an auction price can sit outside
+  that range. The official HOSE rule records the session timetable and closing
+  price method; the field definition is corroborated by the quote guide.
+  - https://staticfile.hsx.vn/Uploads/News/437a3bc734a845fc853283b0c627a593/20250429_20250429%20-%20HOSE%20-%20Quy%20dinh%20giao%20dich%20dang%20website%20HOSE.pdf
+  - https://estock.duytan.edu.vn/kien-thuc-dau-tu/kien-thuc-chung-khoan/bai-3-huong-dan-doc-bang-gia-truc-tuyen-tai-hose-70.html
 - vnstock v5 `Market().equity(...).ohlcv(...,source="vci")` returns daily
   timestamps at 07:00 Vietnam time, prices in **thousands of VND**, and
   prices adjusted for corporate actions. The `floating` argument defaults
@@ -30,14 +32,13 @@ Vietnamese exchanges permit contradictory OHLC values.
 
 ## What the current failures actually establish
 
-Each exception identifies a row failing `high >= max(open,close)` or
-`low <= min(open,close)`. Those inequalities remain necessary for
-conventional consistent-basis OHLC bars, regardless of Vietnamese price bands
-or daily tick size. A *uniform* positive adjustment factor and monotone
-rounding cannot reverse these inequalities. The failures could represent
-source-specific field definitions, inconsistent adjustments, or bad source
-rows; the logs alone cannot distinguish them. Do **not** declare a tolerance
-of one exchange tick: old adjusted prices are not on today's exchange tick grid.
+The earlier exception counts identified rows where open or close was outside
+the continuous-session high/low range. Under the documented HOSE field
+semantics, that condition is valid and must not create `INVALID_OHLC` findings.
+`high < low` remains a true extrema inversion; nonpositive/nonfinite prices,
+negative/nonfinite volume, duplicate dates, and malformed frames remain
+rejectable. Do **not** apply current exchange tick-size checks to adjusted
+historical prices.
 
 The current pipeline's granularity is wrong for 8 years of history: one
 suspect daily observation quarantines the entire symbol. That is an operational
@@ -90,7 +91,7 @@ requires `backfill --retry-legacy-invalid`.
 account quota budget; the default is 20. The deferred plan includes the
 remaining unattempted jobs. Preserve the original requested history
 range (2018-10-01 to 2026-10-16), or a different range creates distinct
-jobs and can use fresh quota again. Existing 12 user-excluded tickers
+jobs and can use fresh quota again. Existing 13 user-excluded tickers
 remain excluded from per-symbol live calls.
 
 Run locally with a fresh active equity_ohlcv probe report (one metered

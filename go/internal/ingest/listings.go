@@ -176,8 +176,8 @@ func ParseListingProbe(raw []byte, minSymbols int) (ListingSnapshot, error) {
 		AsOf: observed.In(vntz).Format("2006-01-02"), CollectedAt: observed.UTC(), Source: "vci",
 		MinSymbols: minSymbols, ProviderRows: frameMeta.Count,
 		ExcludedDelisted: frameMeta.Count - len(listings),
-		Frame: append(json.RawMessage(nil), report.ListingFrame...),
-		SHA256: hex.EncodeToString(sum[:]), Listings: listings,
+		Frame:            append(json.RawMessage(nil), report.ListingFrame...),
+		SHA256:           hex.EncodeToString(sum[:]), Listings: listings,
 	}, nil
 }
 

@@ -23,7 +23,7 @@ func TestSplitterPreservesPLpgSQLAndQuotedSemicolons(t *testing.T) {
 	}
 }
 func TestSplitActualMigrations(t *testing.T) {
-	for _, name := range []string{"001_init.sql", "002_ingest_state.sql", "003_quota_guard.sql"} {
+	for _, name := range []string{"001_init.sql", "002_ingest_state.sql", "003_quota_guard.sql", "016_raw_landings_append_only.sql", "018_bar_quality_reprocess_audit.sql", "019_vietnam_auction_ohlc.sql"} {
 		data, err := os.ReadFile(filepath.Join("..", "..", "..", "sql", "migrations", name))
 		if err != nil {
 			t.Fatal(err)

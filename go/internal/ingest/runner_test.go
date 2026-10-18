@@ -13,11 +13,11 @@ import (
 )
 
 type memoryStore struct {
-	done                   map[string]Landing
+	done                                   map[string]Landing
 	failLookup, failCommit, failQuarantine bool
-	attempts               map[string]string
-	quarantined            map[string]json.RawMessage
-	reasons                map[string]string
+	attempts                               map[string]string
+	quarantined                            map[string]json.RawMessage
+	reasons                                map[string]string
 }
 
 func (s *memoryStore) ReserveAttempt(_ context.Context, _ BackfillJob, key, _ string, at time.Time) (time.Time, error) {
@@ -63,10 +63,34 @@ func (s *memoryStore) QuarantineFrame(_ context.Context, key, _, reason string, 
 	s.attempts[key] = "BLOCKED"
 	return nil
 }
-func (s *memoryStore) CommitMarketLanding(ctx context.Context, item MarketLanding) (string,error) {
-    if err:=s.CommitLanding(ctx,item.Landing);err!=nil{return "",err}
-    if item.Frame.InvalidTraded>0{return "PARTIAL",nil}
-    return "COMPLETED",nil
+func (s *memoryStore) CommitMarketLanding(ctx context.Context, item MarketLanding) (string, error) {
+	if err := s.CommitLanding(ctx, item.Landing); err != nil {
+		return "", err
+	}
+	if item.Frame.InvalidTraded > 0 {
+		return "PARTIAL", nil
+	}
+	return "COMPLETED", nil
+}
+func (s *memoryStore) CommitIndexLanding(_ context.Context, item IndexLanding) error {
+	if s.failCommit {
+		return errors.New("commit failed")
+	}
+	if s.done == nil {
+		s.done = map[string]Landing{}
+	}
+	s.done[item.JobID] = Landing{JobID: item.JobID, Source: item.Source, FetchedAt: item.FetchedAt, SHA256: item.SHA256, Raw: item.Raw}
+	return nil
+}
+func (s *memoryStore) QuarantineIndexFrame(_ context.Context, key, _, reason string, raw json.RawMessage) error {
+	if s.quarantined == nil {
+		s.quarantined = map[string]json.RawMessage{}
+		s.reasons = map[string]string{}
+	}
+	s.quarantined[key] = append(json.RawMessage(nil), raw...)
+	s.reasons[key] = reason
+	s.attempts[key] = "BLOCKED"
+	return nil
 }
 func (s *memoryStore) Completed(_ context.Context, key string) (bool, error) {
 	if s.failLookup {
@@ -122,7 +146,7 @@ func TestRunnerFailsClosedOnStorageFaults(t *testing.T) {
 					return worker.Response{ID: j["id"].(string), OK: false, Error: &struct {
 						Type    string `json:"type"`
 						Message string `json:"message"`
-                        Cause string `json:"cause,omitempty"`
+						Cause   string `json:"cause,omitempty"`
 					}{Type: "RateLimitedError"}}, nil
 				}
 				data := payload("["+one+"]", 1)

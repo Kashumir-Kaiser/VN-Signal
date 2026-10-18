@@ -27,6 +27,7 @@ func usage() {
 Usage:
   vnpipe probe [--active --trading-days N] [--routes route,...] [--out DIR]
   vnpipe probe --active --trading-days N --routes company_info --symbol TICKER --out DIR
+  vnpipe probe-ohlcv --active --symbol TICKER --source vci|kbs --from DATE --to DATE [--raw-prices] [--out DIR]
   vnpipe budget --daily N --monthly N --days N --rpm N
   vnpipe validate-bars --input FILE --symbol TICKER
   vnpipe preview-backfill --probe FILE --symbols FILE --from DATE --to DATE --days N
@@ -41,6 +42,14 @@ Usage:
   vnpipe reprocess-archived --from DATE --to DATE --source vci (offline no-quota)
   vnpipe requeue-unarchived --symbol SYMBOL --from DATE --to DATE --source vci (audited offline opt-in)
   vnpipe backfill --active --probe FILE --from DATE --to DATE --days N
+  vnpipe dq-run --date YYYY-MM-DD (Postgres-backed, offline quality gate)
+  vnpipe tier-a-build --date YYYY-MM-DD (offline, evidence-gated membership build)
+  vnpipe select-dq-cross-source --date YYYY-MM-DD (offline, selects 30 replay-verified VCI/KBS or VCI/VNDIRECT pairs)
+  vnpipe backfill-index --active --probe FILE --from DATE --to DATE --days N (one-call VNINDEX/KBS backfill)
+  vnpipe ingest-kbs-cross-source --active --from DATE --to DATE --days N [--max-calls N] (audited raw-only KBS equity comparison, max 30)
+  vnpipe ingest-kbs-invalid-history --active --from DATE --to DATE --days N [--max-calls N] (audited raw-only KBS histories for partial VCI symbols)
+  vnpipe backfill-dnse --active --from DATE --to DATE [--symbols ABC,VCB] [--max-calls N] [--pace 500ms] (audited alternate-source historical OHLCV)
+  vnpipe backfill-vndirect --active --from DATE --to DATE [--symbols ABC,VCB] [--max-calls N] [--pace 500ms] [--shard-index N --shard-count N] (audited alternate-source historical OHLCV)
   vnpipe migrate [--dir sql/migrations] (Postgres-tagged build)
   vnpipe version
 Active probe requires verified absolute vnstock usage and tier status.
@@ -100,6 +109,15 @@ func selectProbeRequests(requests []map[string]any, routeNames string) ([]map[st
 			delete(selected, route)
 		}
 	}
+	if selected["equity_trade_history"] {
+		end := time.Now()
+		start := end.AddDate(0, 0, -7)
+		filtered = append(filtered, map[string]any{
+			"op": "equity_trade_history", "symbol": "FPT", "source": "vci",
+			"start": start.Format("2006-01-02"), "end": end.Format("2006-01-02"),
+		})
+		delete(selected, "equity_trade_history")
+	}
 	if len(selected) != 0 {
 		for route := range selected {
 			return nil, fmt.Errorf("unsupported probe route %q", route)
@@ -109,6 +127,45 @@ func selectProbeRequests(requests []map[string]any, routeNames string) ([]map[st
 		return nil, errors.New("--routes must select at least one route")
 	}
 	return filtered, nil
+}
+
+func setProbeIndexSource(requests []map[string]any, source string) error {
+	if source != "kbs" && source != "vci" {
+		return errors.New("--index-source must be kbs or vci")
+	}
+	for _, request := range requests {
+		if request["op"] == "index_ohlcv" {
+			request["source"] = source
+			return nil
+		}
+	}
+	return errors.New("--index-source requires index_ohlcv in --routes")
+}
+
+func setProbeDateRange(requests []map[string]any, start, end string) error {
+	if start == "" || end == "" {
+		return errors.New("--from and --to must be supplied together")
+	}
+	from, err := time.Parse("2006-01-02", start)
+	if err != nil {
+		return errors.New("--from must be an ISO date")
+	}
+	to, err := time.Parse("2006-01-02", end)
+	if err != nil || from.After(to) {
+		return errors.New("--to must be an ISO date on or after --from")
+	}
+	found := false
+	for _, request := range requests {
+		op, _ := request["op"].(string)
+		if op == "equity_ohlcv" || op == "index_ohlcv" {
+			request["start"], request["end"] = start, end
+			found = true
+		}
+	}
+	if !found {
+		return errors.New("--from and --to require equity_ohlcv or index_ohlcv in --routes")
+	}
+	return nil
 }
 
 // probeFailureType exposes only stable, non-sensitive categories. In
@@ -302,22 +359,28 @@ func probeFailureDetails(err error) map[string]any {
 // Check a saved route summary without disclosing provider exception messages,
 // account usage, local paths, or authentication details.
 func companyProbeRouteError(routes json.RawMessage) error {
-    var report map[string]json.RawMessage
-    if err:=json.Unmarshal(routes,&report);err!=nil{return fmt.Errorf("company_info route summary invalid: %w",err)}
-    body,ok:=report["company_info"]
-    if !ok{return errors.New("company_info route missing from saved active probe")}
-    var state struct {
-        Available bool `json:"available"`
-        Count int `json:"count"`
-        ErrorType string `json:"error_type"`
-        ErrorCause string `json:"error_cause"`
-    }
-    if err:=json.Unmarshal(body,&state);err!=nil{return fmt.Errorf("company_info route status invalid: %w",err)}
-    if !state.Available || state.Count!=1 {
-        return fmt.Errorf("company_info route unavailable: error_type=%s cause=%s count=%d",
-            state.ErrorType,state.ErrorCause,state.Count)
-    }
-    return nil
+	var report map[string]json.RawMessage
+	if err := json.Unmarshal(routes, &report); err != nil {
+		return fmt.Errorf("company_info route summary invalid: %w", err)
+	}
+	body, ok := report["company_info"]
+	if !ok {
+		return errors.New("company_info route missing from saved active probe")
+	}
+	var state struct {
+		Available  bool   `json:"available"`
+		Count      int    `json:"count"`
+		ErrorType  string `json:"error_type"`
+		ErrorCause string `json:"error_cause"`
+	}
+	if err := json.Unmarshal(body, &state); err != nil {
+		return fmt.Errorf("company_info route status invalid: %w", err)
+	}
+	if !state.Available || state.Count != 1 {
+		return fmt.Errorf("company_info route unavailable: error_type=%s cause=%s count=%d",
+			state.ErrorType, state.ErrorCause, state.Count)
+	}
+	return nil
 }
 
 func run(args []string) error {
@@ -337,6 +400,9 @@ func run(args []string) error {
 		active := f.Bool("active", false, "opt in to metered vnstock route calls")
 		remainingDays := f.Int("trading-days", 0, "remaining trading days in this month, mandatory for active probe")
 		routeNames := f.String("routes", "", "comma-separated routes to probe (active only; default: all)")
+		indexSource := f.String("index-source", "", "index_ohlcv provider for a selected probe: kbs or vci")
+		probeStart := f.String("from", "", "start ISO date for selected equity_ohlcv/index_ohlcv probes")
+		probeEnd := f.String("to", "", "end ISO date for selected equity_ohlcv/index_ohlcv probes")
 		companySymbol := f.String("symbol", "", "company_info only: ticker whose profile to inspect")
 		out := f.String("out", filepath.Join("..", "docs", "probe"), "report directory")
 		if err := f.Parse(args[1:]); err != nil {
@@ -359,49 +425,73 @@ func run(args []string) error {
 		}
 		var requests []map[string]any
 		if *active {
-            if strings.TrimSpace(*routeNames) == "company_info" {
-                sym := strings.ToUpper(strings.TrimSpace(*companySymbol))
-                if len(sym) < 1 || len(sym) > 12 || sym != *companySymbol {
-                    return errors.New("--routes company_info requires --symbol UPPERCASE_TICKER")
-                }
-                for _, ch := range sym {
-                    if !(ch >= 'A' && ch <= 'Z' || ch >= '0' && ch <= '9') {
-                        return errors.New("invalid company_info ticker")
-                    }
-                }
-                requests = []map[string]any{{"op":"company_info","symbol":sym,"source":"vci"}}
-            } else {
-                if *companySymbol != "" {
-                    return errors.New("--symbol only applies to --routes company_info")
-                }
-                selected, err := selectProbeRequests(probeRequests(time.Now().Format("2006-01-02")), *routeNames)
-                if err != nil {return err}
-                requests = selected
-            }
-        } else if *companySymbol != "" {
-            return errors.New("--symbol requires an active company_info probe")
-        }
+			if strings.TrimSpace(*routeNames) == "company_info" {
+				sym := strings.ToUpper(strings.TrimSpace(*companySymbol))
+				if len(sym) < 1 || len(sym) > 12 || sym != *companySymbol {
+					return errors.New("--routes company_info requires --symbol UPPERCASE_TICKER")
+				}
+				for _, ch := range sym {
+					if !(ch >= 'A' && ch <= 'Z' || ch >= '0' && ch <= '9') {
+						return errors.New("invalid company_info ticker")
+					}
+				}
+				requests = []map[string]any{{"op": "company_info", "symbol": sym, "source": "vci"}}
+			} else {
+				if *companySymbol != "" {
+					return errors.New("--symbol only applies to --routes company_info")
+				}
+				selected, err := selectProbeRequests(probeRequests(time.Now().Format("2006-01-02")), *routeNames)
+				if err != nil {
+					return err
+				}
+				requests = selected
+			}
+		} else if *companySymbol != "" {
+			return errors.New("--symbol requires an active company_info probe")
+		}
+		if *probeStart != "" || *probeEnd != "" {
+			if !*active {
+				return errors.New("--from and --to require an active history probe")
+			}
+			if err := setProbeDateRange(requests, *probeStart, *probeEnd); err != nil {
+				return err
+			}
+		}
+		if *indexSource != "" {
+			if !*active {
+				return errors.New("--index-source requires an active index_ohlcv probe")
+			}
+			if err := setProbeIndexSource(requests, *indexSource); err != nil {
+				return err
+			}
+		}
 		if _, err := config.Load(configPath()); err != nil {
 			return fmt.Errorf("invalid config: %w", err)
 		}
-        ignored,err:=loadIgnoredSymbols()
-        if err!=nil{return err}
-        if *active{
-            retained:=make([]map[string]any,0,len(requests))
-            excluded:=0
-            for _,req:=range requests{
-                op,_:=req["op"].(string)
-                symbol,_:=req["symbol"].(string)
-                if (op=="company_info"||op=="equity_ohlcv")&&ignored[symbol]{
-                    excluded++
-                    continue
-                }
-                retained=append(retained,req)
-            }
-            if excluded>0{fmt.Printf("Probe: skipped %d ignored tickers\n",excluded)}
-            requests=retained
-            if len(requests)==0{return nil}
-        }
+		ignored, err := loadIgnoredSymbols()
+		if err != nil {
+			return err
+		}
+		if *active {
+			retained := make([]map[string]any, 0, len(requests))
+			excluded := 0
+			for _, req := range requests {
+				op, _ := req["op"].(string)
+				symbol, _ := req["symbol"].(string)
+				if (op == "company_info" || op == "equity_ohlcv") && ignored[symbol] {
+					excluded++
+					continue
+				}
+				retained = append(retained, req)
+			}
+			if excluded > 0 {
+				fmt.Printf("Probe: skipped %d ignored tickers\n", excluded)
+			}
+			requests = retained
+			if len(requests) == 0 {
+				return nil
+			}
+		}
 
 		if *active && os.Getenv("VNPIPE_DISABLE_LIVE") == "1" {
 			return live.ErrDisabled
@@ -464,8 +554,10 @@ func run(args []string) error {
 					continue
 				}
 				if !resp.OK {
-                    details:=map[string]any{"available":false,"error_type":resp.Error.Type,"duration_ms":elapsed}
-                    if resp.Error.Cause!="" { details["error_cause"]=resp.Error.Cause }
+					details := map[string]any{"available": false, "error_type": resp.Error.Type, "duration_ms": elapsed}
+					if resp.Error.Cause != "" {
+						details["error_cause"] = resp.Error.Cause
+					}
 					summary[op] = details
 					continue
 				}
@@ -475,21 +567,21 @@ func run(args []string) error {
 					Rows       []map[string]any `json:"rows"`
 					Attributes map[string]any   `json:"attributes"`
 				}
-                // Retain successful provider data even if downstream frame
-                // validation later fails. No extra vendor request is required
-                // to investigate source shapes on the registered machine.
-                if op=="company_info" {
-                    report["company_info_frame"]=append(json.RawMessage(nil),resp.Data...)
-                    symbolJSON,_:=json.Marshal(job["symbol"].(string))
-                    report["company_info_symbol"]=symbolJSON
-                }
+				// Retain successful provider data even if downstream frame
+				// validation later fails. No extra vendor request is required
+				// to investigate source shapes on the registered machine.
+				if op == "company_info" {
+					report["company_info_frame"] = append(json.RawMessage(nil), resp.Data...)
+					symbolJSON, _ := json.Marshal(job["symbol"].(string))
+					report["company_info_symbol"] = symbolJSON
+				}
 				if e := json.Unmarshal(resp.Data, &payload); e != nil {
 					summary[op] = map[string]any{"available": false, "error_type": "InvalidRouteFrame", "duration_ms": elapsed}
 					continue
 				}
 				dates := make([]string, 0, len(payload.Rows))
 				for _, row := range payload.Rows {
-					for _, key := range []string{"time", "date"} {
+					for _, key := range []string{"time", "date", "trading_date"} {
 						if s, ok := row[key].(string); ok && s != "" {
 							dates = append(dates, s)
 							break
@@ -510,32 +602,35 @@ func run(args []string) error {
 				if op == "equity_list" && payload.Count > 0 {
 					report["listing_frame"] = append(json.RawMessage(nil), resp.Data...)
 				}
-                if op == "company_info" {
-                    symbol := job["symbol"].(string)
-                    matched := false
-                    if payload.Count==1 && len(payload.Rows)==1 {
-                        v,ok:=payload.Rows[0]["symbol"].(string)
-                        matched=ok && strings.EqualFold(v,symbol)
-                    }
-                    hasDateColumn:=false
-                    for _,column:=range payload.Columns {
-                        if column=="listing_date" {hasDateColumn=true;break}
-                    }
-                    if !matched || !hasDateColumn {
-                        summary[op] = map[string]any{"available":false,"error_type":"InvalidCompanyInfoFrame","duration_ms":elapsed}
-                        continue
-                    }
-                    // The original frame and requested symbol were already
-                    // retained before validation for offline inspection.
-                }
+				if op == "company_info" {
+					symbol := job["symbol"].(string)
+					matched := false
+					if payload.Count == 1 && len(payload.Rows) == 1 {
+						v, ok := payload.Rows[0]["symbol"].(string)
+						matched = ok && strings.EqualFold(v, symbol)
+					}
+					hasDateColumn := false
+					for _, column := range payload.Columns {
+						if column == "listing_date" {
+							hasDateColumn = true
+							break
+						}
+					}
+					if !matched || !hasDateColumn {
+						summary[op] = map[string]any{"available": false, "error_type": "InvalidCompanyInfoFrame", "duration_ms": elapsed}
+						continue
+					}
+					// The original frame and requested symbol were already
+					// retained before validation for offline inspection.
+				}
 
-                details:=map[string]any{"available":payload.Count>0,
-                    "count":payload.Count,"columns":payload.Columns,
-                    "first_observed_date":first,"last_observed_date":last,
-                    "attributes":payload.Attributes,"duration_ms":elapsed}
-                if op=="company_info" && payload.Count==0 {
-                    details["error_type"]="EmptyCompanyInfo"
-                }
+				details := map[string]any{"available": payload.Count > 0,
+					"count": payload.Count, "columns": payload.Columns,
+					"first_observed_date": first, "last_observed_date": last,
+					"attributes": payload.Attributes, "duration_ms": elapsed}
+				if op == "company_info" && payload.Count == 0 {
+					details["error_type"] = "EmptyCompanyInfo"
+				}
 				summary[op] = details
 			}
 			report["active"] = json.RawMessage("true")
@@ -561,12 +656,14 @@ func run(args []string) error {
 			return err
 		}
 		fmt.Printf("Probe report: %s (active=%v). Does NOT certify entitlements.\n", name, *active)
-        if *active && len(requests)==1 && requests[0]["op"]=="company_info" {
-            if routeErr:=companyProbeRouteError(report["routes"]);routeErr!=nil {
-                return fmt.Errorf("%w; saved report=%s",routeErr,name)
-            }
-        }
+		if *active && len(requests) == 1 && requests[0]["op"] == "company_info" {
+			if routeErr := companyProbeRouteError(report["routes"]); routeErr != nil {
+				return fmt.Errorf("%w; saved report=%s", routeErr, name)
+			}
+		}
 		return nil
+	case "probe-ohlcv":
+		return runProbeOHLCV(args[1:])
 	case "migrate":
 		f := flag.NewFlagSet("migrate", flag.ContinueOnError)
 		dir := f.String("dir", "sql/migrations", "numbered migrations folder")
@@ -589,6 +686,22 @@ func run(args []string) error {
 		}
 		fmt.Printf("PostgreSQL migrations applied: %d (existing checked by SHA-256)\n", count)
 		return nil
+	case "dq-run":
+		return runDQGate(args[1:])
+	case "tier-a-build":
+		return runTierABuild(args[1:])
+	case "select-dq-cross-source":
+		return runSelectDQCrossSource(args[1:])
+	case "backfill-index":
+		return runIndexBackfill(args[1:])
+	case "ingest-kbs-cross-source":
+		return runKBSCrossSource(args[1:])
+	case "ingest-kbs-invalid-history":
+		return runKBSInvalidHistory(args[1:])
+	case "backfill-dnse":
+		return runDNSEBackfill(args[1:])
+	case "backfill-vndirect":
+		return runVNDIRECTBackfill(args[1:])
 	case "import-listings":
 		return runImportListings(args[1:])
 	case "refresh-listings":
@@ -639,9 +752,11 @@ func run(args []string) error {
 		if err := json.Unmarshal(raw, &symbols); err != nil {
 			return err
 		}
-		ignored,err:=loadIgnoredSymbols()
-		if err!=nil{return err}
-		symbols,_=filterIgnoredSymbols(symbols,ignored)
+		ignored, err := loadIgnoredSymbols()
+		if err != nil {
+			return err
+		}
+		symbols, _ = filterIgnoredSymbols(symbols, ignored)
 		p, err := ingest.PlanBackfill(probe, *days, *start, *end, symbols, nil)
 		if err != nil {
 			return err
