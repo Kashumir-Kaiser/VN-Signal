@@ -10,6 +10,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
+	"net/http"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -19,6 +20,7 @@ import (
 	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/live"
 	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/migrate"
 	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/quota"
+	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/vndirect"
 	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/worker"
 	_ "github.com/jackc/pgx/v5/stdlib"
 )
@@ -182,6 +184,51 @@ func TestPostgresIngestionTransactionAndResume(t *testing.T) {
 		t.Fatalf("resume=%+v err=%v calls=%d", again, err, calls)
 	}
 }
+
+func TestPostgresVNDIRECTCommitPersistsReferenceInputs(t *testing.T) {
+	requireVNSignalTestDatabase(t)
+	db := pgTestDB(t)
+	clearDB(t, db)
+	store, err := NewPostgresStore(db)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err = db.Exec(`INSERT INTO core.symbols(symbol,exchange,first_seen_at,last_seen_at)
+		VALUES('TSTVND','UPCOM',now(),now())`); err != nil {
+		t.Fatal(err)
+	}
+	const requestURL = "https://api-finfo.vndirect.com.vn/v4/stock_prices?fixture=1"
+	call, err := store.BeginExternalMarketCall(context.Background(), "vndirect", "TSTVND", "2024-01-02", "2024-01-02", requestURL, false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	raw := []byte(`{"currentPage":1,"size":5000,"totalElements":1,"totalPages":1,"data":[{"code":"TSTVND","date":"2024-01-02","open":9.2,"high":9.3,"low":9.1,"close":9.2,"basicPrice":9.1,"average":9.2,"floor":" upcom ","adOpen":8.1,"adHigh":8.2,"adLow":8.0,"adClose":8.1,"nmVolume":0,"ptVolume":1200}]}`)
+	rows, err := vndirect.ParseHistory(raw, "TSTVND", "2024-01-02", "2024-01-02")
+	if err != nil {
+		t.Fatal(err)
+	}
+	summary, err := store.CommitVNDIRECTHistory(context.Background(), call, time.Now(), vndirect.History{
+		Rows: rows, Raw: raw, RequestURL: requestURL, HTTPStatus: http.StatusOK,
+	})
+	if err != nil || summary.Rows != 1 || summary.NoTrade != 1 || summary.Invalid != 0 {
+		t.Fatalf("summary=%+v err=%v", summary, err)
+	}
+	var referencePrice, averagePrice float64
+	var exchangeCode string
+	var isTraded bool
+	err = db.QueryRow(`SELECT basic_price,average_price,exchange_code,is_traded
+		FROM core.bars_daily_sources WHERE source='vndirect' AND trade_date='2024-01-02' AND symbol_id=(
+			SELECT symbol_id FROM core.symbols WHERE symbol='TSTVND')`).
+		Scan(&referencePrice, &averagePrice, &exchangeCode, &isTraded)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if referencePrice != 9.1 || averagePrice != 9.2 || exchangeCode != "UPCOM" || isTraded {
+		t.Fatalf("reference inputs were not persisted: basic=%v average=%v exchange=%q traded=%v",
+			referencePrice, averagePrice, exchangeCode, isTraded)
+	}
+}
+
 func TestPostgresDurableQuotaAndRollback(t *testing.T) {
 	db := pgTestDB(t)
 	clearDB(t, db)

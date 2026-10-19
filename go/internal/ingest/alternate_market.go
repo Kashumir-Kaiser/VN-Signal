@@ -459,19 +459,30 @@ func (p *PostgresStore) CommitVNDIRECTHistory(ctx context.Context, call External
 			adjustmentVintage = fetchedAt
 		}
 		isTraded := volume > 0
+		var referencePrice, averagePrice, exchangeCode any
+		if row.ReferencePrice != nil {
+			referencePrice = *row.ReferencePrice
+		}
+		if row.AveragePrice != nil {
+			averagePrice = *row.AveragePrice
+		}
+		if row.ExchangeCode != "" {
+			exchangeCode = row.ExchangeCode
+		}
 		_, err = tx.ExecContext(ctx, `INSERT INTO core.bars_daily_sources
 			(symbol_id,trade_date,source,o,h,l,c,v,adj_basis,is_traded,landing_id,source_row,ingest_id,fetched_at,
-			 adjusted_o,adjusted_h,adjusted_l,adjusted_c,adjustment_vintage_at)
-			VALUES($1,$2::date,$3,$4,$5,$6,$7,$8,'unadjusted',$9,$10,$11,$12::uuid,$13,$14,$15,$16,$17,$18)
+			 adjusted_o,adjusted_h,adjusted_l,adjusted_c,adjustment_vintage_at,basic_price,average_price,exchange_code)
+			VALUES($1,$2::date,$3,$4,$5,$6,$7,$8,'unadjusted',$9,$10,$11,$12::uuid,$13,$14,$15,$16,$17,$18,$19,$20,$21)
 			ON CONFLICT(symbol_id,trade_date,source) DO UPDATE SET
 			o=EXCLUDED.o,h=EXCLUDED.h,l=EXCLUDED.l,c=EXCLUDED.c,v=EXCLUDED.v,adj_basis=EXCLUDED.adj_basis,
 			is_traded=EXCLUDED.is_traded,landing_id=EXCLUDED.landing_id,source_row=EXCLUDED.source_row,
 			ingest_id=EXCLUDED.ingest_id,fetched_at=EXCLUDED.fetched_at,
 			adjusted_o=EXCLUDED.adjusted_o,adjusted_h=EXCLUDED.adjusted_h,adjusted_l=EXCLUDED.adjusted_l,
-			adjusted_c=EXCLUDED.adjusted_c,adjustment_vintage_at=EXCLUDED.adjustment_vintage_at
+			adjusted_c=EXCLUDED.adjusted_c,adjustment_vintage_at=EXCLUDED.adjustment_vintage_at,
+			basic_price=EXCLUDED.basic_price,average_price=EXCLUDED.average_price,exchange_code=EXCLUDED.exchange_code
 			WHERE core.bars_daily_sources.fetched_at<=EXCLUDED.fetched_at`,
 			symbolID, row.Date, call.Source, *row.Open, *row.High, *row.Low, *row.Close, volume, isTraded, landingID, row.SourceRow, ingestID, fetchedAt,
-			adjustedO, adjustedH, adjustedL, adjustedC, adjustmentVintage)
+			adjustedO, adjustedH, adjustedL, adjustedC, adjustmentVintage, referencePrice, averagePrice, exchangeCode)
 		if err != nil {
 			return summary, err
 		}

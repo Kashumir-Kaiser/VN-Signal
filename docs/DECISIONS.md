@@ -492,5 +492,13 @@ The implementation introduces an offline-tested `LandingStore` boundary instead 
 ## 2026-10-19 — distinguish raw VNDIRECT fields from Phase 2 adjusted prices
 
 - Keep `core.bars_daily_sources.o/h/l/c` and `adj_basis='unadjusted'` as the truthful raw-source representation. Keep VNDIRECT's separate `ad*` snapshot and `adjustment_vintage_at` intact; do not overwrite or relabel raw history.
-- Phase 2 must read `core.vndirect_bars_as_of(symbol_id, as_of_date)` or the market-wide overload, and assert `price_basis='adjusted_as_of'`. For a forward label, read both endpoints from one query as of the label end. The source's raw `unadjusted` label is not the model series' basis.
+- Phase 2 must read `core.vndirect_bars_as_of(symbol_id, as_of_date)` or the market-wide overload, and assert `price_basis='adjusted_as_of_reference'`. For a forward label, read both endpoints from one query as of the label end. The source's raw `unadjusted` label is not the model series' basis.
 - The 2026-10-19 registered-database query returned 2,844,435 adjusted-as-of rows for all 1,518 in-scope symbols, including 1,021,077 zero-volume rows marked `is_traded=false`. No in-scope row was removed because VCI/DNSE prices differed; the 248-row raw/model difference is solely UTT's explicit user-approved scope exclusion. Event-level checks for PRC, FPT, and AGG are recorded in `docs/probe/phase2-adjustment/README.md`.
+
+## 2026-10-19 — resolve the 2019-01-02 VNDIRECT reference gap
+
+- Keep all 684 affected VNDIRECT bars in the Phase 2 history. Their source `basicPrice=0` values remain unchanged; migration 030 records a separate, evidence-linked reference factor in `core.vndirect_reference_adjustment_overrides`.
+- The VSDC rights-exercise calendar for 2019-01-03 lists DSN's cash dividend, HCB's cash dividend, and FTV/PCN shareholder meetings. DSN is the only reference-price action in the current VNDIRECT symbol universe; HCB is absent from `core.symbols`.
+- For DSN, the official VSD notice records VND 3,600/share and a 2019-01-03 record date. Its prior close 62.9 thousand VND gives a 59.3 reference and a `59.3/62.9` ratio. The valid 58.5 close and 3,860-share volume remain intact. The other 683 affected in-scope symbol/dates are documented `NO_ACTION` factors of 1.0; the 23 zero-volume UPCoM observations remain in the series.
+- The exact row counts, venue classification, source links, and snapshot-rounding cross-check are in `docs/probe/phase2-adjustment/2019-01-02-reference-resolution.md`. Do not filter unresolved price rows from Phase 2; the factor audit must be complete before model features use the as-of series.
+- Evidence: [VSDC record-date calendar](https://vsdc.vn/en/lich-giao-dich?date=03%2F01%2F2019&tab=LICH_THQ), [VSDC DSN notice](https://vsdc.vn/en/ad/125616), and [DSN ex-right reference calculation](https://cophieu68.vn/quote/event_calc.php?id=dsn).

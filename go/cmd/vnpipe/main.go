@@ -673,7 +673,8 @@ func run(args []string) error {
 		if len(f.Args()) != 0 {
 			return errors.New("unexpected migration arguments")
 		}
-		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
+		// Historical source backfills can touch millions of archived observations.
+		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Minute)
 		defer cancel()
 		db, err := openPostgres(ctx, os.Getenv("DATABASE_URL"))
 		if err != nil {
