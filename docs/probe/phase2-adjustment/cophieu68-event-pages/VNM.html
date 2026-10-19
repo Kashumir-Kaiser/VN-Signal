@@ -1,0 +1,1352 @@
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="google-signin-client_id" content="654849931255-ih074eactp9a01969m3et8i16vuai71r.apps.googleusercontent.com">
+<meta name="google-site-verification" content="MOqJliEGOjPuN6S6rRC_ivdy9sgJpQ_K0Sads9VpcTQ" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+<link href="https://cophieu68.vn/css/colorbox.css" rel="stylesheet" type="text/css" media="screen"  />
+<link href="https://cophieu68.vn/css/screen.css" rel="stylesheet" type="text/css" media="screen"  />
+<link href="https://cophieu68.vn/css/mobile.css" rel="stylesheet" type="text/css" media="screen"  />
+
+<script  src="https://cophieu68.vn/js/fontawesome.js" data-auto-replace-svg="nest"></script>
+<script src="https://cophieu68.vn/js/jquery.min.js" type="text/javascript"></script>
+<script src="https://cophieu68.vn/js/jquery-ui.js"></script>
+<script src="https://cophieu68.vn/js/jquery.touchSwipe.js"></script>
+<script src="https://cophieu68.vn/js/jquery.colorbox-min.js"></script>
+<script src="https://cophieu68.vn/js/common.js" type="text/javascript"></script>
+<script src="https://cophieu68.vn/js/iconify.min.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+  var WEBROOT = 'https://cophieu68.vn';
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ETJEDHQR2R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ETJEDHQR2R');
+</script>
+<!-- Google ads -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4497614833474292"
+crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div id="over_header" style="height:35px; border-bottom:0px solid #CCC; width:100%;">
+  <div class="logo flex" style="float:left;"><a href="https://cophieu68.vn/index.php"><img src="https://cophieu68.vn/images/logo_wap.gif" alt="Trang chủ" /></a></div>
+
+  <div class="flex_row" style="float:right; margin-right:10px; height:100%;">
+    <div id="user_menu" class="flex">
+      <div style="padding:0 10px; cursor:pointer;" onclick="showList('user_list')">
+        <i class="fa-regular fa-user"></i>       </div>
+      <div id="user_list" style="padding:10px; border:1px solid #CCC; z-index:10; background:#fff; top:35px; position:absolute; display:none;">
+                <div style="padding:5px;"> <a href="https://cophieu68.vn/account/login.php"> <i class="fa fa-sign-in fa-lg"></i> ĐĂNG NHẬP </a> </div>
+              </div>
+    </div>
+
+    <div class="stockname_search" class="flex" style="float:left; height:35px; margin-right: 35px; padding:0">
+      <div style="height:100%; width:100%">
+                  <form action="" method="get" style="margin:0; padding:0">
+          <input name="id" id="id" value="vnm" placeholder="Mã CK" autocomplete="off" type="text" class="textbox_dark" style="width:100%; height:100%; text-transform: uppercase; text-align:center" />
+          <input type="submit" name="stockname_search" style="display: none;" />
+        </form>
+      </div>
+    </div>
+    <div class="search_result" style="position:fixed; z-index: 1000000; background:#FFF; min-height:30px; display:none; top: 35px;  right: 0; border: 3px solid #CCC; border-radius: 5px;"></div>
+      <div id="menu_overtop" style="position: fixed; top: 5px; right: 5px; z-index: 1; opacity: 0.9">
+      <a href="javascript:void(0)" onclick="$('#menu_overtop_list').show();" style="color:#666"><i class="fa fa-list-ul fa-2x"></i></a>
+      <div id="menu_overtop_list" class="div_curve div_curve_autohide" style="display: none; position: fixed; top: 5px; right: 1px; z-index: 1; width: 200px">
+          <div onclick="$('#menu_overtop_list').hide()" style="position: absolute; top:0; right:0; padding:0px 3px; font-weight: bold; cursor: pointer;">
+              <i class="fa fa-times fa-2x" style="color:#ff0000" title="Đóng"></i>
+          </div>
+          <ul class="ul_list_item" style="margin-top:0px">
+              <li><a href="https://cophieu68.vn/index.php"><i class="fa fa-home fa-lg"></i> &nbsp; Trang chủ</a></li>
+              <li><a href="https://cophieu68.vn/stockonline.php"><i class="fa fa-list-alt fa-lg"></i> &nbsp; Bảng giao dịch trực tuyến</a></li>
+              <li><a href="https://cophieu68.vn/chartold/chart.php?id=^vnindex"><i class="fa fa-line-chart fa-lg"></i> &nbsp; Biểu đồ PHIÊN BẢN CŨ</a></li>
+              <li><a href="https://cophieu68.vn/chart/chart.php?id=^vnindex"><i class="fa fa-line-chart fa-lg"></i> &nbsp; Biểu đồ phân tích kỹ thuật</a></li>
+
+              <li style="padding:0; border-top:2px solid #999"></li>
+              <li><a href="#https://cophieu68.vn/investment_basic_indexes.php"><i class="fa fa-star-half-o fa-lg"></i> &nbsp; Sức mạnh chỉ số cơ bản</a></li>
+              <li><a href="#https://cophieu68.vn/company_financial.php"><i class="fa fa-balance-scale fa-lg"></i> &nbsp; So sánh báo cáo tài chính</a></li>
+              <li><a href="#https://cophieu68.vn/market_vn.php"><i class="fa fa-percent fa-lg"></i> &nbsp; Chỉ số thị trường</a></li>
+              <li><a href="#https://cophieu68.vn/events.php"><i class="fa fa-calendar fa-lg"></i> &nbsp; Cổ tức - Lịch sự kiện</a></li>
+              <li style="padding:0; border-top:2px solid #999"></li>
+              <li><a href="#https://cophieu68.vn/advanced_statistic.php"><i class="fa fa-tachometer fa-lg"></i> &nbsp; Thống kê nâng cao</a></li>
+              <li><a href="#https://cophieu68.vn/plan_income.php"><i class="fa fa-money fa-lg"></i> &nbsp; Kế hoạch kinh doanh</a></li>
+              <li><a href="https://cophieu68.vn/stats/stats.php"><i class="fa fa-hourglass-end fa-lg"></i> &nbsp; Đáy cổ phiếu</a></li>
+              <li><a href="https://cophieu68.vn/stats/volume_buzz.php"><i class="fa fa-sort-numeric-asc fa-lg"></i> &nbsp; Đột biến khối lượng</a></li>
+          </ul>
+      </div>
+  </div>
+  </div>
+</div>
+<div class="menu_header overflow" style="background-color:#666;">
+  <ul>
+    <li><a href="https://cophieu68.vn/stats/stats.php" class=" ">Thống Kê</a></li>
+    <li><a href="https://cophieu68.vn/market/markets.php" class=" ">Công ty niêm yết</a></li>
+    <li><a href="https://cophieu68.vn/category/category_index.php" class=" ">Nhóm Ngành</a></li>
+    <li><a href="https://cophieu68.vn/signal/filter_financial.php" class=" ">Bộ lọc</a></li>
+    <li><a href="https://cophieu68.vn/event/events.php" class=" ">Lịch Sự Kiện</a></li>
+    <li><a href="https://cophieu68.vn/chart/index.php" class=" ">Biểu đồ</a></li>
+    <li><a href="https://cophieu68.vn/download/index.php" class=" ">Dữ liệu AMIBROKER / METASTOCK / MT4</a></li>
+    <li><a href="#https://cophieu68.vn/document/index.php" class=" ">Góc Chia sẻ kiến thức</a></li>
+  </ul>
+</div>
+<div class="margin_wrap">
+	
+	<div class="flex_m_col_d_row">
+	  <div>
+	  	<h1>CTCP Sữa Việt Nam<span style="color:#787b86">&nbsp;(vnm)</span></h1>
+	  	<span class="break"></span>
+
+	  	<div class="flex_row">
+	  		<div id="stockname_close" class="pricedown" style="font-size:25px; font-weight:bold; padding-right:14px;">57.50</div>
+	  		<div id="stockname_price_change" class="pricedown" style="font-size:25px; padding-right:14px;">-0.30</div>
+	  		<div id="stockname_percent_change" class="pricedown" style="font-size:25px;">(-0.52%)</div>
+	  	</div>
+	  </div>
+		<div class="seperate min_768"></div>
+		<div class="break max_768"></div>
+	</div>
+
+	<span class="break2"></span>
+
+	<div class="menu_quote overflow">
+		<a class="" href="https://cophieu68.vn/quote/summary.php?id=vnm">Tổng quan</a><a class="" href="https://cophieu68.vn/chart/chart.php?id=vnm">Biểu đồ</a><a class="" href="https://cophieu68.vn/quote/history.php?id=vnm">Giá lịch sử</a><a class="" href="https://cophieu68.vn/quote/profile.php?id=vnm">Thông tin</a><a class="" href="https://cophieu68.vn/quote/financial.php?id=vnm">Báo cáo tài chính</a><a class="active" href="https://cophieu68.vn/quote/event.php?id=vnm">Lịch sự kiện</a>	</div>
+</div>
+
+
+<div style="clear:both; margin-top:20px; padding-left:20px">
+	<div class="overflow">
+		<a class="b_button b_grey" style="font-weight:100" href="event.php?id=vnm">&check; Lịch sự kiện</a>
+		<a class="b_button b_blue" style="font-weight:100" href="event_calc_volume.php?id=vnm">Công thức tính khối lượng</a>
+		<a class="b_button b_blue" style="font-weight:100" href="event_calc.php?id=vnm">Công thức tính Ngày GDKHQ</a>
+	</div>
+	<h1>Lịch sự kiện - VNM</h1>
+
+	<table width="100%" cellpadding="4" cellspacing="0" bgcolor="#E2EFFE">
+		<tr class="tr_header">
+			<td width="120">Sự kiện</td>
+			<td width="100" align="right">Ngày GDKHQ</td>
+			<td width="100" align="center">Cổ tức/Quyền</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">26/06/2026			<br />
+			17/07/2026			</td>
+			<td align="center">
+			18.50%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1850 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 2/2025 bằng tiền, 1,800 đồng/CP</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">16/10/2025			<br />
+			24/10/2025			</td>
+			<td align="center">
+			25%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 1/2025 bằng tiền, 2,500 đồng/CP</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">14/05/2025			<br />
+			23/05/2025			</td>
+			<td align="center">
+			20%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2000 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 3/2024 bằng tiền, 2,000 đồng/CP</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">26/12/2024			<br />
+			28/02/2025			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 2/2024 bằng tiền, 500 đồng/CP</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">24/09/2024			<br />
+			24/10/2024			</td>
+			<td align="center">
+			9.50%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>950 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 4/2023 bằng tiền, 950 đồng/CP</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">15/03/2024			<br />
+			26/04/2024			</td>
+			<td align="center">
+			9%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>900 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 3/2023 bằng tiền, 900 đồng/CP</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">27/12/2023			<br />
+			28/02/2024			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 2/2023 bằng tiền, 500 đồng/CP</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">03/08/2023			<br />
+			05/10/2023			</td>
+			<td align="center">
+			15%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 1/2023 bằng tiền, 1,500 đồng/CP</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">22/12/2022			<br />
+			28/02/2023			</td>
+			<td align="center">
+			14%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1400 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 2/2022 bằng tiền, 1,400 đồng/CP</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">06/07/2022			<br />
+			19/08/2022			</td>
+			<td align="center">
+			15%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 1/2022 bằng tiền, 1,500 đồng/CP</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">10/01/2022			<br />
+			25/02/2022			</td>
+			<td align="center">
+			14%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1400 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 2/2021 bằng tiền, 1,400 đồng/CP</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">07/09/2021			<br />
+			30/09/2021			</td>
+			<td align="center">
+			15%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 1/2021 bằng tiền, 1,500 đồng/CP</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">07/06/2021			<br />
+			30/06/2021			</td>
+			<td align="center">
+			11%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1100 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 3/2020 bằng tiền, 1,100 đồng/CP</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">05/01/2021			<br />
+			26/02/2021			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 2/2020 bằng tiền, 1,000 đồng/CP</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">29/09/2020			<br />
+			15/10/2020			</td>
+			<td align="center">
+			20%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2000 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 1/2020 bằng tiền, 2,000 đồng/CP</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">29/09/2020			<br />
+			05/10/2020			</td>
+			<td align="center">
+			5/1			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 348,337,559 (69907)<br><strong>Cổ phiếu sau phát hành:</strong> 2,089,955,445<br/>			<br />
+			Thưởng cổ phiếu, tỷ lệ 5:1<br />
+<br />
+05/10/2020 ## VNM: Đã phát hành 348.267.652 cp thưởng</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">29/06/2020			<br />
+			15/07/2020			</td>
+			<td align="center">
+			15%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức đợt 3/2019 bằng tiền, 1,500 đồng/CP</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">26/12/2019			<br />
+			28/02/2020			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức đợt 2/2019 bằng tiền, 1,000 đồng/CP</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">16/09/2019			<br />
+			26/09/2019			</td>
+			<td align="center">
+			20%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2000 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức đợt 1/2019 bằng tiền, 2,000 đồng/CP</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">05/06/2019			<br />
+			26/06/2019			</td>
+			<td align="center">
+			15%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức đợt 3/2018 bằng tiền, 1,500 đồng/CP</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">27/12/2018			<br />
+			28/02/2019			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c &#273;&#7907;t 2/2018 b&#7857;ng ti&#7873;n, 1,000 &#273;&#7891;ng/CP</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">05/09/2018			<br />
+			26/09/2018			</td>
+			<td align="center">
+			20%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2000 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c &#273;&#7907;t 1/2018 b&#7857;ng ti&#7873;n, 2,000 &#273;&#7891;ng/CP</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">05/09/2018			<br />
+			27/09/2018			</td>
+			<td align="center">
+			5/1			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 290,290,686 (56322)<br><strong>Cổ phiếu sau phát hành:</strong> 1,741,687,793<br/>			<br />
+			Thưởng cổ phiếu, tỷ lệ 5:1</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">05/06/2018			<br />
+			26/06/2018			</td>
+			<td align="center">
+			15%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 2/2017 bằng tiền, 1,500 đồng/CP<br />
+<p>Sở Giao dịch Chứng khoán Tp.HCM thông báo về ngày đăng ký cuối cùng thanh toán cổ tức còn lại năm 2017 bằng tiền của Công ty Cổ phần Sữa Việt Nam (mã CK: VNM) như sau:</p></td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">28/12/2017			<br />
+			30/03/2018			</td>
+			<td align="center">
+			15%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 1/2017 bằng tiền, 1,500 đồng/CP<br />
+<p>Sở Giao dịch Chứng khoán TP.HCM thông báo về ngày đăng ký cuối cùng&nbsp;tạm ứng cổ tức bổ sung đợt 1 năm 2017 bằng tiền mặt của&nbsp;Công ty Cổ phần Sữa Việt Nam (mã CK: VNM) như sau:</p></td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">14/08/2017			<br />
+			31/08/2017			</td>
+			<td align="center">
+			20%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2000 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 1/2017 bằng tiền, 2,000 đồng/CP<br />
+<p>Sở Giao dịch Chứng khoán Thành phố Hồ Chí Minh thông báo về ngày đăng ký cuối cùng&nbsp;trả cổ tức đợt 1 năm 2017 bằng tiền mặt của&nbsp;Công ty Cổ phần Sữa Việt Nam (mã CK: VNM) như sau:</p></td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">04/05/2017			<br />
+			22/05/2017			</td>
+			<td align="center">
+			20%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2000 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 2/2016 bằng tiền, 2,000 đồng/CP<br />
+<p>Sở Giao dịch Chứng khoán Thành phố Hồ Chí Minh thông báo về ngày đăng ký cuối cùng trả cổ tức đợt 2 năm 2016 bằng tiền mặt (mã CK: VNM) như sau:</p></td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">19/08/2016			<br />
+			31/08/2016			</td>
+			<td align="center">
+			40%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>4000 đồng/cổ phiếu</strong><br>			<br />
+			T&#7841;m &#7913;ng c&#7893; t&#7913;c &#273;&#7907;t 1/2016 b&#7857;ng ti&#7873;n. 4.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 22/08/2016</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">19/08/2016			<br />
+			20/09/2016			</td>
+			<td align="center">
+			5/1			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 241,909,985 (6480)<br><strong>Cổ phiếu sau phát hành:</strong> 1,451,453,429<br/>			<br />
+			Phát hành cổ phiếu để tăng vốn cổ phần từ nguồn vốn chủ sở hữu:. tỷ lệ 5:1<br />Ngày đăng ký cuối cùng: 22/08/2016<br />
+<br />
+---<br />
+<br />
+<br />
+VNM: 20.9.2016, giao dịch 241.903.505 cp niêm yết bổ sung (09/09/2016 17:01)<br />
+VNM: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 1.451.453.429 cp (30/08/2016 13:39)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">06/08/2016			<br />
+			06/08/2016			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> -316,110<br>			<br />
+			Ban co phieu quy</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">05/08/2016			<br />
+			05/08/2016			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 8,887,731<br>			<br />
+			VNM: 5.8.2016, niêm yết bổ sung 8.887.731 cp<br />
+<br />
+- Tổng số lượng chứng khoán sau khi thay đổi niêm yết: 1.209.549.924 cổ phiếu (Một tỷ hai trăm lẻ chín triệu năm trăm bốn mươi chín nghìn chín trăm hai mươi bốn cổ phiếu)<br />
+- Tổng giá trị chứng khoán niêm yết sau khi thay đổi đăng ký niêm yết (theo mệnh giá): 12.095.499.240.000 đồng (Mười hai nghìn không trăm chín mươi lăm tỷ bốn trăm chín mươi chín triệu hai trăm bốn mươi nghìn đồng)<br />
+- Ngày thay đổi niêm yết có hiệu lực: 05/08/2016<br />
+- Lý do thay đổi niêm yết: Cổ phiếu phát hành cho Cán bộ công nhân viên theo<br />
+chương trình lựa chọn cho người lao động của Công ty.</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">03/06/2016			<br />
+			16/06/2016			</td>
+			<td align="center">
+			20%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2000 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c &#273;&#7907;t 2/2015 b&#7857;ng ti&#7873;n. 2.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 06/06/2016</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">05/08/2015			<br />
+			04/09/2015			</td>
+			<td align="center">
+			40%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>4000 đồng/cổ phiếu</strong><br>			<br />
+			T&#7841;m &#7913;ng c&#7893; t&#7913;c &#273;&#7907;t 1 n&#259;m 2015 b&#7857;ng ti&#7873;n m&#7863;t. 4.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 07/08/2015</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">05/08/2015			<br />
+			15/09/2015			</td>
+			<td align="center">
+			5/1			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 200,065,058 (44264)<br><strong>Cổ phiếu sau phát hành:</strong> 1,200,346,083<br/>			<br />
+			Phát hành cổ phiếu để tăng vốn cổ phần từ nguồn vốn chủ sở hữu. tỷ lệ 5:1<br />Ngày đăng ký cuối cùng: 07/08/2015<br />
+<br />
+--<br />
+<br />
+VNM: 15.9.2015, giao dịch 200.020.794 cp niêm yết bổ sung (09/09/2015 09:23)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">12/06/2015			<br />
+			26/06/2015			</td>
+			<td align="center">
+			20%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2000 đồng/cổ phiếu</strong><br>			<br />
+			VNM: Ngày đăng ký cuối cùng chi trả cổ tức đợt 2 năm 2014 bằng tiền mặt</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">13/08/2014			<br />
+			05/09/2014			</td>
+			<td align="center">
+			20%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2000 đồng/cổ phiếu</strong><br>			<br />
+			T&#7841;m &#7913;ng c&#7893; t&#7913;c &#273;&#7907;t 1/2014 b&#7857;ng ti&#7873;n m&#7863;t. 2.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 15/08/2014</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">13/08/2014			<br />
+			22/09/2014			</td>
+			<td align="center">
+			5/1			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 166,727,937 (42334)<br><strong>Cổ phiếu sau phát hành:</strong> 1,000,325,289<br/>			<br />
+			Phát hành cổ phiếu để tăng vốn cổ phần từ nguồn vốn chủ sở hữu. tỷ lệ 5:1<br />Ngày đăng ký cuối cùng: 15/08/2014<br />
+--<br />
+<br />
+VNM: 22.9.2014, niêm yết bổ sung 166.685.603 cổ phiếu (18/09/2014 17:24)<br />
+<br />
+-         Số lượng chứng khoán trước khi thay đổi niêm yết: 833.955.796 cổ phiếu ( Tám trăm ba mươi ba triệu chín trăm năm mươi lăm ngàn bảy trăm chín mươi sáu cổ phiếu)<br />
+<br />
+<br />
+-         Tổng số lượng chứng khoán sau khi thay đổi niêm yết: 1.000.641.399 cổ phiếu ( Một tỷ sáu trăm bốn mươi mốt ngàn ba trăm chín mươi chín cổ phiếu)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">13/05/2014			<br />
+			30/05/2014			</td>
+			<td align="center">
+			20%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2000 đồng/cổ phiếu</strong><br>			<br />
+			Thanh to&#225;n c&#7893; t&#7913;c &#273;&#7907;t 3 n&#259;m 2013 b&#7857;ng ti&#7873;n m&#7863;t. 2.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 15/05/2014</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">16/12/2013			<br />
+			03/01/2014			</td>
+			<td align="center">
+			8%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>800 đồng/cổ phiếu</strong><br>			<br />
+			T&#7841;m &#7913;ng th&#234;m c&#7893; t&#7913;c n&#259;m 2013 b&#7857;ng ti&#7873;n m&#7863;t 800đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 18/12/2013</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">20/08/2013			<br />
+			06/09/2013			</td>
+			<td align="center">
+			20%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2000 đồng/cổ phiếu</strong><br>			<br />
+			T&#7841;m &#7913;ng c&#7893; t&#7913;c b&#7857;ng ti&#7873;n m&#7863;t &#273;&#7907;t 1/2013 2.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 22/08/2013</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">14/06/2013			<br />
+			28/06/2013			</td>
+			<td align="center">
+			18%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1800 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c b&#7857;ng ti&#7873;n m&#7863;t &#273;&#7907;t 2/2012 1.800đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 18/06/2013</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">19/12/2012			<br />
+			25/01/2013			</td>
+			<td align="center">
+			2/1			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 277,899,322 (58280)<br><strong>Cổ phiếu sau phát hành:</strong> 833,639,686<br/>			<br />
+			Phát hành cổ phiếu để tăng vốn cổ phần từ nguồn vốn chủ sở hữu tỷ lệ 2:1<br />Ngày đăng ký cuối cùng: 21/12/2012<br />
+-----------<br />
+VNM: 25/01, giao dịch 277.841.042 cổ phiếu phát hành thêm (21/01/2013 18:26)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">21/08/2012			<br />
+			06/09/2012			</td>
+			<td align="center">
+			20%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2000 đồng/cổ phiếu</strong><br>			<br />
+			T&#7841;m &#7913;ng c&#7893; t&#7913;c &#273;&#7907;t 1 n&#259;m 2012 2.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 23/08/2012</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">06/04/2012			<br />
+			25/04/2012			</td>
+			<td align="center">
+			20%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2000 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c &#273;&#7907;t 2 n&#259;m 2011 c&#7911;a b&#7857;ng ti&#7873;n 2.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 10/04/2012</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">22/02/2012			<br />
+			22/02/2012			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 18,100<br>			<br />
+			đã mua 18100 cp quỹ??</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">21/02/2012			<br />
+			21/02/2012			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 186,590<br>			<br />
+			VNM: Đã mua 50.870 dịch cổ phiếu quỹ<br />
+Thời gian thực hiện 21/2/2012<br />
+Tổng số cp quỹ hiện có: 298.010</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">29/11/2011			<br />
+			30/12/2011			</td>
+			<td align="center">
+			2/1			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 185,357,065 (67861)<br><strong>Cổ phiếu sau phát hành:</strong> 556,003,334<br/>			<br />
+			Trả cổ phiếu thưởng cho cổ đông hiện hữu tỷ lệ 2:1<br />
+Ngày đăng ký cuối cùng: 01/12/2011<br />
+---------<br />
+<br />
+VNM: 30/12 - giao dịch 185.289.204 cổ phiếu phát hành thêm (23/12/2011 16:08)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">13/09/2011			<br />
+			30/09/2011			</td>
+			<td align="center">
+			20%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2000 đồng/cổ phiếu</strong><br>			<br />
+			Tạm ứng cổ tức đợt 1 năm 2011 bằng tiền 2.000đồng/cổ phiếu<br />
+Ngày đăng ký cuối cùng: 15/09/2011</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">25/08/2011			<br />
+			25/08/2011			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 7,530<br>			<br />
+			VNM: Đã mua 7.530 cổ phiếu quỹ<br />
+số lượng cp đăng ký mua:7.530<br />
+số lượng cp quỹ hiện có: 111.420 cổ phiếu<br />
+thời gian thực hiện 23/08/2011 đến 25/08/2011</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành nội bộ</td>
+			<td align="right">01/07/2011			<br />
+			01/07/2011			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 14,254,910<br>			<br />
+			VNM: 1/7 - Giao dịch 14.254.910 cổ phiếu phát hành thêm<br />
+<br />
+-Ngày niêm yết có hiệu lực: 27/6/2011<br />
+-Ngày chính thức giao dịch: 01/07/2011<br />
+HSX</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">06/06/2011			<br />
+			06/06/2011			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 8,700<br>			<br />
+			VNM: Đã mua 8.700 cổ phiếu quỹ<br />
+SỐ cổ phiếu quỹ sau khi thực hiện: 103.890<br />
+Thời gian thực hiện:06/06/2011</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">13/05/2011			<br />
+			13/05/2011			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 21,420<br>			<br />
+			VNM: Đã mua 21.420 cổ phiếu quỹ<br />
+-Thời gian thực hiện 13/05/2011<br />
+-SỐ cp63 phiếu quỹ sau khi giao dịch: 95.190 cp</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">09/04/2011			<br />
+			09/04/2011			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 7,750<br>			<br />
+			VNM: Đã mua 7.750 cổ phiếu quỹ (08/04/2011 13:48)<br />
+<br />
+Số lượng cổ phiếu hiện có: 73.770</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành nội bộ</td>
+			<td align="right">08/04/2011			<br />
+			08/04/2011			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 3,498,520<br>			<br />
+			VNM: 08/04 - Giao dịch 3.498.520 cổ phiếu phát hành thêm<br />
+<br />
+Ngày 01/04/2011, Sở giao dịch chứng khoán Tp.HCM đã có thông báo số 365/2011/TB-SGDHCM về việc niêm yết và giao dịch bổ sung cổ phiếu của Công ty cổ phần Sữa Việt Nam (mã CK: VNM) như sau:<br />
+Số lượng: 3.498.520 cổ phiếu(Ba triệu bốn trăm chín mươi tám ngàn năm trăm hai mươicổ phiếu)<br />
+Đây là số cổ phiếuphát hành cho cán bộ công nhân viên. Số cổ phiếu này hiện đang trong thời gian hạn chế chuyển nhượng.</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">11/03/2011			<br />
+			11/03/2011			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 1,806,820<br>			<br />
+			Niêm yết và giao dịch cổ phiếu phát hành thêm trên HOSE<br />
+Ngày 07/03/2011, Sở giao dịch chứng khoán Tp.HCM đã có Thông báo số 231/2011/TB-SGDHCM về việc niêm yết và giao dịch bổ sung cổ phiếu của Công ty Cổ phần Sữa Việt Nam (MCK: VNM). <br />
+<br />
+Số lượng: 1.806.820 cổ phiếu (Một triệu tám trăm lẻ sáungàn tám trăm hai mươi cổ phiếu) <br />
+Đâylà số cổ phiếu phát hành cho cán bộ công nhân viên năm 2010. <br />
+Tổng giá trị Chứng khoán niêm yết: 18.068.200.000 đồng (Mười tám tỷ không trăm sáu mươi tám triệu hai trăm ngàn đồng) <br />
+Ngày niêm yết có hiệu lực: 02/03/2010 <br />
+Ngày chính thức giao dịch: 11/03/2011.</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">24/12/2010			<br />
+			24/12/2010			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 28,870<br>			<br />
+			Số lượng đăng ký mua lại: 4.480 cổ phiếu<br />
+Số lượng đã thực hiện: 4.480 cổ phiếu<br />
+Thời gian thực hiện: Ngày 24/12/2010<br />
+Số lượng cổ phiếu quỹ hiện có: 66.020 cổ phiếu</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">13/08/2010			<br />
+			31/08/2010			</td>
+			<td align="center">
+			30%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>3000 đồng/cổ phiếu</strong><br>			<br />
+			Tạm ứng cổ tức đợt 1 năm 2010 bằng tiền 3.000đồng/cổ phiếu<br />
+Ngày đăng ký cuối cùng: 17/08/2010</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">08/04/2010			<br />
+			27/04/2010			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức bằng tiền bổ sung sau 6 năm cổ phần hóa 1.000đồng/cổ phiếu<br />
+Ngày đăng ký cuối cùng: 12/04/2010</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">25/02/2010			<br />
+			26/03/2010			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			C. t.c ..t 2/2009, 1.000 ./cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">18/09/2009			<br />
+			21/10/2009			</td>
+			<td align="center">
+			1/1			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 175,624,990 (21830)<br><strong>Cổ phiếu sau phát hành:</strong> 351,228,150<br/>			<br />
+			VNM: Phát hành CP thưởng tỷ lệ 1:1, ngày GDKHQ 18/9/2009<br />
+Số lượng cổ phiếu thưởng dự kiến phát hành : 175.640.310 cp<br />
+(-21830)<br />
+<br />
+03:47 PM   VNM: 21/10-Chính thức giao dịch 175.624.990 cổ phiếu phát hành thêm  (HOSE)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">17/09/2009			<br />
+			17/09/2009			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 21,830<br>			<br />
+			đã mua 28130 cổ phiếu quỹ</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">03/09/2009			<br />
+			03/09/2009			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 15,320<br>			<br />
+			VNM: Đã mua 15.320 cổ phiếu quỹ<br />
+<br />
+<br />
+Công ty Cổ phần Sữa Việt Nam (mã CK: VNM) thông báo kết quả mua cổ phiếu của cán bộ công nhân viên nghỉ việc làm cổ phiếu quỹ với nội dung như sau:<br />
+<br />
+Số lượng cổ phiếu quỹ đăng ký mua : 15.320 CP.<br />
+Số lượng cổ phiếu quỹ đã mua: 15.320 CP.<br />
+Số lượng cổ phiếu quỹ sở hữu sau khi giao dịch: 15.320 CP.<br />
+Thời gian thực hiện giao dịch: 3/9/2009</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">20/07/2009			<br />
+			05/08/2009			</td>
+			<td align="center">
+			20%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2000 đồng/cổ phiếu</strong><br>			<br />
+			Cổ tức đợt 1/2009, 2.000 đ/cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành nội bộ</td>
+			<td align="right">10/07/2009			<br />
+			10/07/2009			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 364,640<br>			<br />
+			Niêm yết và giao dịch cổ phiếu phát hành thêm<br />
+Sở Giao dịch Chứng khoán TP.HCM thông báo về việc niêm yết và giao dịch bổ sung cổ phiếu của Công ty Cổ phần Sữa Việt Nam (MCK: VNM).<br />
+<br />
+<br />
+Loại chứng khoán: Cổ phiếu phổ thông<br />
+<br />
+Số lượng: 364.640 cổ phiếu (ba trăm sáu mươi bốn nghìn sáu trăm bốn mươi cổ phiếu). Đây là số cổ phiếu phát hành cho cán bộ công nhân viên<br />
+<br />
+Tổng giá trị Chứng khoán niêm yết: 3.646.400.000 đồng (ba tỷ sáu trăm bốn mươi sáu triệu bốn trăm ngàn đồng).<br />
+<br />
+Ngày niêm yết có hiệu lực: 02/07/2009<br />
+<br />
+Ngày chính thức giao dịch: 10/07/2009.</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">26/11/2008			<br />
+			15/12/2008			</td>
+			<td align="center">
+			19%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1900 đồng/cổ phiếu</strong><br>			<br />
+			Cổ tức đợt 2/2008, 1.900 đ/cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">18/08/2008			<br />
+			05/09/2008			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức đợt 1/2008, 1000 đồng/cổ phiếu</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">17/04/2008			<br />
+			09/05/2008			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Cổ tức đợt 2/2007, 1.000 đ/cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">27/06/2007			<br />
+			16/07/2007			</td>
+			<td align="center">
+			19%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1900 đồng/cổ phiếu</strong><br>			<br />
+			Cổ tức đợt 1/2007, 1.900 đ/cp</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">31/01/2007			<br />
+			15/02/2007			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Cổ tức đợt 2/2006, 1.000 đ/cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành hiện hữu</td>
+			<td align="right">31/01/2007			<br />
+			04/05/2007			</td>
+			<td align="center">
+			20/1<br />(giá: 10,000)			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 8,347,500<br><strong>Cổ phiếu sau phát hành:</strong> 175,297,500<br/>			<br />
+			2. Phát hành thêm 8.347.500CP cho CĐ hiện tại theo phương thức phát hành quyền mua cho các CĐ hiện tại với tỷ lệ 20:1 <br />
+<br />
+08:41 AM   VNM: TB ngày 4/5 là ngày GD chính thức 8.325.670 cổ phiếu phát hành thêm  (HOSE)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">15/11/2006			<br />
+			30/01/2007			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 7,950,000<br>			<br />
+			30/1-Chính thức giao dịch 7,95 triệu cổ phiếu phát hành thêm<br />
+========================<br />
+Ngày 15/11/2006, Chủ tịch UBCKNN cấp Giấy chứng nhận số 66/UBCK-DKPH chấp thuận cho CTCP Sữa Việt Nam (Vinamilk) phát hành thêm 18.050.475 cổ phiếu để đầu tư, mở rộng HĐ SXKD và tái cơ cấu tài chính Công ty (tổng lượng vốn cần huy động: 665.454.750.000 đồng), chia thành 3 giai đoạn như sau:<br />
+<br />
+Giai đoạn 1: Phát hành riêng lẻ 7.950.000 cổ phiếu cho nhà đầu tư lớn theo hình thức chào giá cạnh tranh với giá bảo lãnh phát hành là 71.000 đồng/cổ phiếu trong vòng 90 ngày kể từ ngày Vinamilk được cấp giấy chứng nhận đăng ký phát hành.<br />
+Địa điểm nhận đăng ký mua cổ phiếu: Chi nhánh CTCP Chứng khoán Bảo Việt – 11 Nguyễn Công Trứ, Quận 1, Tp. HCM;<br />
+Tên, địa chỉ tổ chức bảo lãnh phát hành: CTCP Chứng khoán Bảo Việt: Trụ sở: 94 Bà Triệu, Quận Hoàn Kiếm, Hà Nội; Chi nhánh: 11 Nguyễn Công Trứ, Quận 1, Tp. HCM<br />
+Giai đoạn 2: Phát hành 8.347.500 cổ phiếu cho cổ đông hiện tại theo phương thức phát hành quyền mua (tỷ lệ thực hiện quyền 20: 1) với giá phát hành là 10.000 đồng/cổ phiếu. Thời gian dự kiến phát hành: trong năm 2007.<br />
+Giai đoạn 3: Phát hành 1.752.975 cổ phiếu cho cán bộ, nhân viên chủ chốt với giá phát hành là 10.000 đồng/cổ phiếu. Thời gian dự kiến phát hành: trong năm 2007.</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">28/06/2006			<br />
+			14/07/2006			</td>
+			<td align="center">
+			9%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>900 đồng/cổ phiếu</strong><br>			<br />
+			Cổ tức đợt 1/2006, 900 đ/cp</td>
+		</tr>
+		</table>
+</div>
+<div id="footers_cp" style="clear:both; text-align: right; width: 100%; background: #F2f2f2; margin-top:20px; border-top:3px solid #333; font-family:HongHaHep; font-size:14px">
+  <div style="padding:10px">
+    <a href="https://cophieu68.vn/privacy.php" style="color:#000">Chính sách bảo mật</a>
+    |
+    <a href="https://cophieu68.vn/terms.php" style="color:#000">Điều khoản sử dụng</a>
+    |
+    <a href="https://cophieu68.vn/contact.php" style="color:#000">Liên lạc</a>
+  </div>
+</div>
+</body>
+</html>
+
+<script>
+setTimeout(function(){$('.auto-prose-wrapper').remove();}, 2*1000);
+</script>
+<script>
+var a_board = {"hour":"07:50:02","entryid":"56","stcid":"1","date":"2026-10-19","stockname":"vnm","open":"57.80","close":"57.50","price_fixed":"57.50","volume":"1450100","value":"0.00","price_change":"-0.30","percent_change":"-0.52","gm3":"57.30","klm3":"5400","gm2":"57.40","klm2":"9000","gm1":"57.50","klm1":"23100","gb1":"57.60","klb1":"12400","gb2":"57.70","klb2":"1800","gb3":"57.80","klb3":"1200","ceiling":"61.80","floor":"53.80","price_open":"57.90","price_highest":"58.10","price_lowest":"57.50","current_volume":"97800","foreigner_buy_volume":"116650","foreigner_sell_volume":"449200","volume_deal":"0","volume_atc":"0","benefit":""};
+console.log(a_board);
+var d = new Date();
+var _hour = d.getHours();
+
+function addCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function changeAffectedValue(_key, _new_value, prefix=''){
+	if (typeof( a_board[_key]) == 'undefined' || a_board== null){
+		return;
+	}
+
+	if( parseFloat(a_board['close']) == 0 ) return;
+	//if( parseInt(_new_value) == 0 ) _new_value = '';
+
+	var _old_value = a_board[_key];
+	if( _new_value != _old_value ){
+		var _class = '';
+
+    if(_key == 'volume'){
+      _class = '';
+    }
+		else if( _new_value == a_board['ceiling']) 	_class = 'price_ceiling';
+		else if( _new_value == a_board['floor']) _class = 'price_floor';
+		else if( _new_value > a_board['open']) _class = 'priceup';
+		else if( _new_value < a_board['open']) _class = 'pricedown';
+    else if( _new_value == a_board['open']) _class = 'price';
+
+		// change new value into buffer
+		a_board[_key] = _new_value;
+
+		var _id = prefix + _key;
+		addAffected(_id, _new_value, _class);
+	}
+}
+</script>
+<script>
+function getAffectedStock(obj){
+			var total = obj.length;
+			if ( total > 0 ){
+				var gm3 = obj[1];
+				var klm3 =  obj[2];
+				var gm2 = obj[3];
+				var klm2 =  obj[4];
+				var gm1 = obj[5];
+				var klm1 =  obj[6];
+
+				if( (parseInt(gm1) == 0  || gm1=='') && parseInt(klm1) > 0 ){
+					if( _hour < 12 ) 	gm1 = 'ATO';
+					else gm1 = 'ATC';
+					gm1 = gm1.toUpperCase();
+					current_volume = '';
+				}
+
+				var _close = parseFloat(obj[7]);
+				if( parseFloat(_close) == 0 ) return;
+				var _open = parseFloat(obj[26]);
+				var volume = obj[8];
+				volume = volume.replace(/,/g, "");
+				var price_change = _close - _open;
+				var percent_change = ( _close - _open )/_open*100;
+				percent_change = percent_change.toFixed(2);
+				price_change = price_change.toFixed(2);
+
+				var gb1 = obj[11];
+				var klb1 = obj[12];
+				var gb2 = obj[13];
+				var klb2 = obj[14];
+				var gb3 = obj[15];
+				var klb3 = obj[16];
+
+				if(  (parseInt(gb1) == 0 || gb1=='')  && parseInt(klb1) > 0  ){
+					if( _hour < 12 ) 	gb1 = 'ATO';
+					else gb1 = 'ATC';
+					gb1 = gb1.toUpperCase();
+				}
+
+				var price_open = obj[17];
+				var price_highest = obj[18];
+				var price_lowest = obj[19];
+
+				var value = (obj[27]);
+				var foreigner_buy_volume = obj[21];
+				var foreigner_buy_sell = obj[22];
+
+				changeAffectedValue('close', _close, 'stockname_');
+				changeAffectedValue('price_change', price_change, 'stockname_');
+				percent_change = '(' + percent_change + '%)';
+				changeAffectedValue('percent_change', percent_change, 'stockname_');
+				changeAffectedValue('volume', addCommas(volume), 'stockname_');
+				changeAffectedValue('price_highest', price_highest, 'stockname_');
+				changeAffectedValue('price_lowest', price_lowest, 'stockname_');
+				changeAffectedValue('foreigner_buy_volume', foreigner_buy_volume);
+				changeAffectedValue('foreigner_buy_sell', foreigner_buy_sell);
+
+				changeAffectedValue('gm3', gm3, 'stockname_');
+				changeAffectedValue('klm3', klm3, 'stockname_');
+				changeAffectedValue('gm2', gm2, 'stockname_');
+				changeAffectedValue('klm2', klm2, 'stockname_');
+				changeAffectedValue('gm1', gm1, 'stockname_');
+				changeAffectedValue('klm1', klm1, 'stockname_');
+
+				changeAffectedValue('gb1', gb1, 'stockname_');
+				changeAffectedValue('klb1', klb1, 'stockname_');
+				changeAffectedValue('gb2', gb2, 'stockname_');
+				changeAffectedValue('klb2', klb2, 'stockname_');
+				changeAffectedValue('gb3', gb3, 'stockname_');
+				changeAffectedValue('klb3', klb3, 'stockname_');
+			}
+}
+function addAffected(sid, svalue, sclass){
+    var $content = $( '#' + sid );
+		$content.css('background','#ffff00');
+    //$content.html(svalue);
+    setTimeout("addAffected2('" +  sid + "', '" + svalue + "', '" + sclass + "')", 1*1000);
+}
+function addAffected2(sid, svalue, sclass){
+    var $content = $( '#' + sid );
+		$content.css('background','#ffffcc');
+
+    $content.html( svalue );
+    setTimeout("removeAffected('" +  sid + "')", 1*1000);
+}
+
+function removeAffected(sid){
+    var $content = $( '#' + sid );
+		$content.css('background','');
+}
+</script>
+
+<script src="https://cophieu68.vn:7772/socket.io/socket.io.js"></script>
+
+<script>
+var d = new Date();
+var __hour = parseInt(d.getHours());
+var socket = io.connect('https://cophieu68.vn:7772');
+var _stockname = 'vnm';
+
+function requestInfoStock(){
+  socket.emit('stockname', _stockname);
+  socket.on('stockname_info', function(info) {
+      if( info != "" ){
+        var array_data = info.split("|");
+        if( array_data[0] == _stockname ){
+          getAffectedStock(array_data);
+        }
+      }
+  });
+}
+if( typeof(io) === 'object' ){
+  requestInfoStock();
+  if( __hour >= 9 && __hour < 15 ){
+    setInterval("requestInfoStock()", 3*1000);
+  }
+}
+</script>
+

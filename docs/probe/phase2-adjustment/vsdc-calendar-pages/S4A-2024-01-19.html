@@ -1,0 +1,53 @@
+<div class="table-portal">
+    <table id="tblLichTHQ">
+        <thead>
+            <tr>
+                <th style="width:50px">STT</th>
+                <th style="width:100px" data-sort="NgayDkcc">Ng&#xE0;y &#x110;KCC</th>
+                <th style="width:100px" data-sort="StockCode">M&#xE3; CK</th>
+                <th style="width:140px" data-sort="IsinCode">M&#xE3; ISIN</th>
+                <th style="width:250px" data-sort="Title">Ti&#xEA;u &#x111;&#x1EC1;</th>
+                <th style="width:100px" data-sort="StockTypeName">Lo&#x1EA1;i ch&#x1EE9;ng kho&#xE1;n</th>
+                <th style="width:100px" data-sort="MarketName">Th&#x1ECB; tr&#x1B0;&#x1EDD;ng</th>
+                <th style="width:150px" data-sort="ManagementAreaName">N&#x1A1;i qu&#x1EA3;n l&#xFD;</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td style="text-align:center">1</td>
+                    <td>19/01/2024</td>
+                    <td>S4A</td>
+                    <td>VN000000S4A5</td>
+                    <td><a class="link-main" href="/ad/166502">S4A: Chi tr&#x1EA3; t&#x1EA1;m &#x1EE9;ng c&#x1ED5; t&#x1EE9;c (&#x111;&#x1EE3;t 2) n&#x103;m 2023 b&#x1EB1;ng ti&#x1EC1;n</a></td>
+                    <td>C&#x1ED5; phi&#x1EBF;u</td>
+                    <td>HOSE</td>
+                    <td>Tru&#x323; s&#x1A1;&#x309; chi&#x301;nh</td>
+                </tr>
+                <tr>
+                    <td style="text-align:center">2</td>
+                    <td>28/03/2024</td>
+                    <td>S4A</td>
+                    <td>VN000000S4A5</td>
+                    <td><a class="link-main" href="/ad/168453">S4A: Tham d&#x1EF1; &#x110;&#x1EA1;i h&#x1ED9;i &#x111;&#x1ED3;ng c&#x1ED5; &#x111;&#xF4;ng th&#x1B0;&#x1EDD;ng ni&#xEA;n n&#x103;m 2024</a></td>
+                    <td>C&#x1ED5; phi&#x1EBF;u</td>
+                    <td>HOSE</td>
+                    <td>Tru&#x323; s&#x1A1;&#x309; chi&#x301;nh</td>
+                </tr>
+
+        </tbody>
+    </table>
+</div>
+<div class="text-right"><div class='paging'><div id='d_page'><div><div id='d_total_rec'>Hiển thị:  1 - 2 / 2 bản ghi </div></div><div id='d_number_of_page'></div></div></div></div>
+
+<script>
+    $(function () {
+        $("#tblLichTHQ th[data-sort]").on("click", function () {
+            SortTable($(this).attr("data-sort"), function () {
+                if (!!window.tablLichTHQ) {
+                    tablLichTHQ(1);
+                }
+            });
+        });
+        ChangeIconSortTable();
+    });
+</script>

@@ -3,12 +3,22 @@ DECLARE
     sid bigint;
     dividend_sid bigint;
     upcom_sid bigint;
+    carry_sid bigint;
+    segment_sid bigint;
+    model_bar_sid bigint;
     no_action_sid bigint;
     event_sid bigint;
     normalized_previous_close double precision;
     adjustment_ratio double precision;
     resolution_kind text;
     row_count integer;
+    segment_count integer;
+    segment_old_close double precision;
+    segment_new_close double precision;
+    model_open double precision;
+    model_high double precision;
+    model_low double precision;
+    model_close double precision;
     partial_snapshot_rejected boolean := false;
 BEGIN
     SELECT symbol_id INTO sid FROM core.symbols WHERE symbol='TSTADJ';
@@ -29,6 +39,37 @@ BEGIN
     IF row_count <> 2 OR abs(normalized_previous_close-99)>0.000001 THEN
         RAISE EXCEPTION 'as-of history failed to apply reference-price adjustment through the requested date: rows %, prior close %',
             row_count,normalized_previous_close;
+    END IF;
+
+    SELECT symbol_id INTO model_bar_sid FROM core.symbols WHERE symbol='TSTBAR';
+    IF model_bar_sid IS NULL THEN RAISE EXCEPTION 'model-bar override fixture symbol is missing'; END IF;
+    INSERT INTO core.vndirect_model_bar_overrides
+        (symbol_id,trade_date,source,model_o,model_h,model_l,model_c,
+         evidence_url,evidence_sha256,secondary_evidence_url,
+         secondary_evidence_sha256,evidence_note)
+    VALUES
+        (model_bar_sid,'2024-01-02','vndirect',12,12.2,11.8,12.1,
+         'https://example.invalid/test-model-bar','aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+         'https://example.invalid/test-action','bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+         'Synthetic test-only model OHLC override.');
+    SELECT count(*),max(o) FILTER (WHERE trade_date='2024-01-02'),
+           max(h) FILTER (WHERE trade_date='2024-01-02'),
+           max(l) FILTER (WHERE trade_date='2024-01-02'),
+           max(c) FILTER (WHERE trade_date='2024-01-02')
+      INTO row_count,model_open,model_high,model_low,model_close
+    FROM core.vndirect_bars_as_of(model_bar_sid,'2024-01-03');
+    IF row_count<>2 OR abs(model_open-12)>0.000001 OR abs(model_high-12.2)>0.000001
+       OR abs(model_low-11.8)>0.000001 OR abs(model_close-12.1)>0.000001 THEN
+        RAISE EXCEPTION 'as-of ML series did not apply the evidence-linked model OHLC override: rows %, OHLC %/%/%/%',
+            row_count,model_open,model_high,model_low,model_close;
+    END IF;
+    IF NOT EXISTS (
+        SELECT 1 FROM core.bars_daily_sources
+        WHERE symbol_id=model_bar_sid AND trade_date='2024-01-02'
+          AND source='vndirect' AND o=10 AND h=10.2 AND l=9.9 AND c=10
+          AND v=1000 AND is_traded AND landing_id IS NOT NULL
+    ) THEN
+        RAISE EXCEPTION 'model OHLC correction rewrote the raw source bar or its volume/lineage';
     END IF;
 
     SELECT symbol_id INTO dividend_sid FROM core.symbols WHERE symbol='TSTDIV';
@@ -69,6 +110,45 @@ BEGIN
     WHERE symbol_id=upcom_sid AND trade_date='2024-01-03';
     IF adjustment_ratio IS NULL OR abs(adjustment_ratio-1)>0.000001 THEN
         RAISE EXCEPTION 'zero-volume UPCoM day created a false corporate-action factor: got %',adjustment_ratio;
+    END IF;
+
+    SELECT symbol_id INTO carry_sid FROM core.symbols WHERE symbol='TSTCARRY';
+    IF carry_sid IS NULL THEN RAISE EXCEPTION 'VNDIRECT UPCoM carry fixture symbol is missing'; END IF;
+    SELECT count(*),max(c) FILTER (WHERE trade_date='2024-01-02')
+      INTO row_count,normalized_previous_close
+    FROM core.vndirect_bars_as_of(carry_sid,'2024-01-08');
+    IF row_count<>5 OR abs(normalized_previous_close-5)>0.000001 THEN
+        RAISE EXCEPTION 'UPCoM action factor was not carried once across zero-volume sessions: rows %, adjusted prior close %',
+            row_count,normalized_previous_close;
+    END IF;
+    IF (SELECT reference_adjustment_ratio FROM core.vndirect_reference_adjustments
+        WHERE symbol_id=carry_sid AND trade_date='2024-01-03') IS DISTINCT FROM 0.5::double precision
+       OR EXISTS (
+        SELECT 1 FROM core.vndirect_reference_adjustments
+        WHERE symbol_id=carry_sid AND trade_date IN ('2024-01-04','2024-01-05','2024-01-08')
+          AND (reference_adjustment_ratio IS NULL OR abs(reference_adjustment_ratio-1)>0.000001)
+       ) THEN
+        RAISE EXCEPTION 'UPCoM no-match carry repeated or lost the one-time reference adjustment';
+    END IF;
+
+    SELECT symbol_id INTO segment_sid FROM core.symbols WHERE symbol='TSTSEG';
+    IF segment_sid IS NULL THEN RAISE EXCEPTION 'VNDIRECT episode fixture symbol is missing'; END IF;
+    SELECT count(*),count(DISTINCT episode_start_date),
+           max(c) FILTER (WHERE trade_date='2024-01-02'),
+           max(c) FILTER (WHERE trade_date='2024-01-05')
+      INTO row_count,segment_count,segment_old_close,segment_new_close
+    FROM core.vndirect_bars_as_of_with_episodes(segment_sid,'2024-01-08');
+    IF row_count<>4 OR segment_count<>2 OR abs(segment_old_close-50)>0.000001
+       OR abs(segment_new_close-20)>0.000001
+       OR NOT EXISTS (
+           SELECT 1 FROM core.vndirect_bars_as_of_with_episodes(segment_sid,'2024-01-08')
+           WHERE trade_date='2024-01-02' AND episode_start_date='2024-01-02'
+       ) OR NOT EXISTS (
+           SELECT 1 FROM core.vndirect_bars_as_of_with_episodes(segment_sid,'2024-01-08')
+           WHERE trade_date='2024-01-05' AND episode_start_date='2024-01-05'
+       ) THEN
+        RAISE EXCEPTION 'delist/relist episode boundary failed to preserve independent price bases: rows %, episodes %, old %, new %',
+            row_count,segment_count,segment_old_close,segment_new_close;
     END IF;
 
     SELECT symbol_id INTO no_action_sid FROM core.symbols WHERE symbol='TSTREF';

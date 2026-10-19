@@ -1,0 +1,994 @@
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="google-signin-client_id" content="654849931255-ih074eactp9a01969m3et8i16vuai71r.apps.googleusercontent.com">
+<meta name="google-site-verification" content="MOqJliEGOjPuN6S6rRC_ivdy9sgJpQ_K0Sads9VpcTQ" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+<link href="https://cophieu68.vn/css/colorbox.css" rel="stylesheet" type="text/css" media="screen"  />
+<link href="https://cophieu68.vn/css/screen.css" rel="stylesheet" type="text/css" media="screen"  />
+<link href="https://cophieu68.vn/css/mobile.css" rel="stylesheet" type="text/css" media="screen"  />
+
+<script  src="https://cophieu68.vn/js/fontawesome.js" data-auto-replace-svg="nest"></script>
+<script src="https://cophieu68.vn/js/jquery.min.js" type="text/javascript"></script>
+<script src="https://cophieu68.vn/js/jquery-ui.js"></script>
+<script src="https://cophieu68.vn/js/jquery.touchSwipe.js"></script>
+<script src="https://cophieu68.vn/js/jquery.colorbox-min.js"></script>
+<script src="https://cophieu68.vn/js/common.js" type="text/javascript"></script>
+<script src="https://cophieu68.vn/js/iconify.min.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+  var WEBROOT = 'https://cophieu68.vn';
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ETJEDHQR2R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ETJEDHQR2R');
+</script>
+<!-- Google ads -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4497614833474292"
+crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div id="over_header" style="height:35px; border-bottom:0px solid #CCC; width:100%;">
+  <div class="logo flex" style="float:left;"><a href="https://cophieu68.vn/index.php"><img src="https://cophieu68.vn/images/logo_wap.gif" alt="Trang chủ" /></a></div>
+
+  <div class="flex_row" style="float:right; margin-right:10px; height:100%;">
+    <div id="user_menu" class="flex">
+      <div style="padding:0 10px; cursor:pointer;" onclick="showList('user_list')">
+        <i class="fa-regular fa-user"></i>       </div>
+      <div id="user_list" style="padding:10px; border:1px solid #CCC; z-index:10; background:#fff; top:35px; position:absolute; display:none;">
+                <div style="padding:5px;"> <a href="https://cophieu68.vn/account/login.php"> <i class="fa fa-sign-in fa-lg"></i> ĐĂNG NHẬP </a> </div>
+              </div>
+    </div>
+
+    <div class="stockname_search" class="flex" style="float:left; height:35px; margin-right: 35px; padding:0">
+      <div style="height:100%; width:100%">
+                  <form action="" method="get" style="margin:0; padding:0">
+          <input name="id" id="id" value="acb" placeholder="Mã CK" autocomplete="off" type="text" class="textbox_dark" style="width:100%; height:100%; text-transform: uppercase; text-align:center" />
+          <input type="submit" name="stockname_search" style="display: none;" />
+        </form>
+      </div>
+    </div>
+    <div class="search_result" style="position:fixed; z-index: 1000000; background:#FFF; min-height:30px; display:none; top: 35px;  right: 0; border: 3px solid #CCC; border-radius: 5px;"></div>
+      <div id="menu_overtop" style="position: fixed; top: 5px; right: 5px; z-index: 1; opacity: 0.9">
+      <a href="javascript:void(0)" onclick="$('#menu_overtop_list').show();" style="color:#666"><i class="fa fa-list-ul fa-2x"></i></a>
+      <div id="menu_overtop_list" class="div_curve div_curve_autohide" style="display: none; position: fixed; top: 5px; right: 1px; z-index: 1; width: 200px">
+          <div onclick="$('#menu_overtop_list').hide()" style="position: absolute; top:0; right:0; padding:0px 3px; font-weight: bold; cursor: pointer;">
+              <i class="fa fa-times fa-2x" style="color:#ff0000" title="Đóng"></i>
+          </div>
+          <ul class="ul_list_item" style="margin-top:0px">
+              <li><a href="https://cophieu68.vn/index.php"><i class="fa fa-home fa-lg"></i> &nbsp; Trang chủ</a></li>
+              <li><a href="https://cophieu68.vn/stockonline.php"><i class="fa fa-list-alt fa-lg"></i> &nbsp; Bảng giao dịch trực tuyến</a></li>
+              <li><a href="https://cophieu68.vn/chartold/chart.php?id=^vnindex"><i class="fa fa-line-chart fa-lg"></i> &nbsp; Biểu đồ PHIÊN BẢN CŨ</a></li>
+              <li><a href="https://cophieu68.vn/chart/chart.php?id=^vnindex"><i class="fa fa-line-chart fa-lg"></i> &nbsp; Biểu đồ phân tích kỹ thuật</a></li>
+
+              <li style="padding:0; border-top:2px solid #999"></li>
+              <li><a href="#https://cophieu68.vn/investment_basic_indexes.php"><i class="fa fa-star-half-o fa-lg"></i> &nbsp; Sức mạnh chỉ số cơ bản</a></li>
+              <li><a href="#https://cophieu68.vn/company_financial.php"><i class="fa fa-balance-scale fa-lg"></i> &nbsp; So sánh báo cáo tài chính</a></li>
+              <li><a href="#https://cophieu68.vn/market_vn.php"><i class="fa fa-percent fa-lg"></i> &nbsp; Chỉ số thị trường</a></li>
+              <li><a href="#https://cophieu68.vn/events.php"><i class="fa fa-calendar fa-lg"></i> &nbsp; Cổ tức - Lịch sự kiện</a></li>
+              <li style="padding:0; border-top:2px solid #999"></li>
+              <li><a href="#https://cophieu68.vn/advanced_statistic.php"><i class="fa fa-tachometer fa-lg"></i> &nbsp; Thống kê nâng cao</a></li>
+              <li><a href="#https://cophieu68.vn/plan_income.php"><i class="fa fa-money fa-lg"></i> &nbsp; Kế hoạch kinh doanh</a></li>
+              <li><a href="https://cophieu68.vn/stats/stats.php"><i class="fa fa-hourglass-end fa-lg"></i> &nbsp; Đáy cổ phiếu</a></li>
+              <li><a href="https://cophieu68.vn/stats/volume_buzz.php"><i class="fa fa-sort-numeric-asc fa-lg"></i> &nbsp; Đột biến khối lượng</a></li>
+          </ul>
+      </div>
+  </div>
+  </div>
+</div>
+<div class="menu_header overflow" style="background-color:#666;">
+  <ul>
+    <li><a href="https://cophieu68.vn/stats/stats.php" class=" ">Thống Kê</a></li>
+    <li><a href="https://cophieu68.vn/market/markets.php" class=" ">Công ty niêm yết</a></li>
+    <li><a href="https://cophieu68.vn/category/category_index.php" class=" ">Nhóm Ngành</a></li>
+    <li><a href="https://cophieu68.vn/signal/filter_financial.php" class=" ">Bộ lọc</a></li>
+    <li><a href="https://cophieu68.vn/event/events.php" class=" ">Lịch Sự Kiện</a></li>
+    <li><a href="https://cophieu68.vn/chart/index.php" class=" ">Biểu đồ</a></li>
+    <li><a href="https://cophieu68.vn/download/index.php" class=" ">Dữ liệu AMIBROKER / METASTOCK / MT4</a></li>
+    <li><a href="#https://cophieu68.vn/document/index.php" class=" ">Góc Chia sẻ kiến thức</a></li>
+  </ul>
+</div>
+<div class="margin_wrap">
+	
+	<div class="flex_m_col_d_row">
+	  <div>
+	  	<h1>Ngân hàng TMCP Á Châu<span style="color:#787b86">&nbsp;(acb)</span></h1>
+	  	<span class="break"></span>
+
+	  	<div class="flex_row">
+	  		<div id="stockname_close" class="pricedown" style="font-size:25px; font-weight:bold; padding-right:14px;">20.25</div>
+	  		<div id="stockname_price_change" class="pricedown" style="font-size:25px; padding-right:14px;">-0.35</div>
+	  		<div id="stockname_percent_change" class="pricedown" style="font-size:25px;">(-1.70%)</div>
+	  	</div>
+	  </div>
+		<div class="seperate min_768"></div>
+		<div class="break max_768"></div>
+	</div>
+
+	<span class="break2"></span>
+
+	<div class="menu_quote overflow">
+		<a class="" href="https://cophieu68.vn/quote/summary.php?id=acb">Tổng quan</a><a class="" href="https://cophieu68.vn/chart/chart.php?id=acb">Biểu đồ</a><a class="" href="https://cophieu68.vn/quote/history.php?id=acb">Giá lịch sử</a><a class="" href="https://cophieu68.vn/quote/profile.php?id=acb">Thông tin</a><a class="" href="https://cophieu68.vn/quote/financial.php?id=acb">Báo cáo tài chính</a><a class="active" href="https://cophieu68.vn/quote/event.php?id=acb">Lịch sự kiện</a>	</div>
+</div>
+
+
+<div style="clear:both; margin-top:20px; padding-left:20px">
+	<div class="overflow">
+		<a class="b_button b_grey" style="font-weight:100" href="event.php?id=acb">&check; Lịch sự kiện</a>
+		<a class="b_button b_blue" style="font-weight:100" href="event_calc_volume.php?id=acb">Công thức tính khối lượng</a>
+		<a class="b_button b_blue" style="font-weight:100" href="event_calc.php?id=acb">Công thức tính Ngày GDKHQ</a>
+	</div>
+	<h1>Lịch sự kiện - ACB</h1>
+
+	<table width="100%" cellpadding="4" cellspacing="0" bgcolor="#E2EFFE">
+		<tr class="tr_header">
+			<td width="120">Sự kiện</td>
+			<td width="100" align="right">Ngày GDKHQ</td>
+			<td width="100" align="center">Cổ tức/Quyền</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">15/06/2026			<br />
+			23/06/2026			</td>
+			<td align="center">
+			7%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>700 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  năm 2025  bằng tiền, 700 đồng/CP</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">15/06/2026			<br />
+			16/06/2026			</td>
+			<td align="center">
+			100/13			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Cổ phiếu trước khi phát hành:</strong> 5,136,656,599<br/><strong>Dự kiến phát hành thêm:</strong> 667,765,358<br><strong>Cổ phiếu dự kiến sau phát hành:</strong> 5,804,421,957<br/>			<br />
+			Trả cổ tức  năm 2025  bằng cổ phiếu, tỷ lệ 100:13</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">23/05/2025			<br />
+			05/06/2025			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  năm 2024  bằng tiền, 1,000 đồng/CP</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">23/05/2025			<br />
+			24/05/2025			</td>
+			<td align="center">
+			100/15			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Cổ phiếu trước khi phát hành:</strong> 4,466,657,912<br/><strong>Dự kiến phát hành thêm:</strong> 669,998,687<br><strong>Cổ phiếu dự kiến sau phát hành:</strong> 5,136,656,599<br/>			<br />
+			Trả cổ tức  năm 2024  bằng cổ phiếu, tỷ lệ 100:15</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">31/05/2024			<br />
+			13/06/2024			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  năm 2023  bằng tiền, 1,000 đồng/CP</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">31/05/2024			<br />
+			26/06/2024			</td>
+			<td align="center">
+			100/15			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 582,607,554<br><strong>Cổ phiếu sau phát hành:</strong> 4,466,657,912<br/>			<br />
+			Trả cổ tức  năm 2023  bằng cổ phiếu, tỷ lệ 100:15<br />
+<br />
+26/06/2024 00:00  ACB: 27.6.2024, niêm yết bổ sung 582.607.554 cp<br />
+06/06/2024 00:00  ACB: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 4.466.657.912 cp</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">01/06/2023			<br />
+			12/06/2023			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  năm 2022  bằng tiền, 1,000 đồng/CP</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">01/06/2023			<br />
+			05/07/2023			</td>
+			<td align="center">
+			100/15			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 506,615,264<br><strong>Cổ phiếu sau phát hành:</strong> 3,884,050,358<br/>			<br />
+			Trả cổ tức  năm 2022  bằng cổ phiếu, tỷ lệ 100:15<br />
+<br />
+05/07/2023 00:00  ACB: 6.7.2023, niêm yết bổ sung 506.615.264 cp<br />
+09/06/2023 13:36  ACB: Đã phát hành 506.615.264 cổ phiếu để trả cổ tức<br />
+07/06/2023 18:09  ACB: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 3.884.050.358 cp</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">02/06/2022			<br />
+			06/07/2022			</td>
+			<td align="center">
+			100/25			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 675,487,019<br><strong>Cổ phiếu sau phát hành:</strong> 3,377,435,094<br/>			<br />
+			Trả cổ tức  năm 2021  bằng cổ phiếu, tỷ lệ 100:25<br />
+<br />
+ACB: 6.7.2022, niêm yết bổ sung 675.487.019 cp (05/07/2022 11:08)<br />
+ACB: Nhắc nhở chậm công bố thông báo thay đổi số lượng cổ phiếu có quyền biểu quyết đang lưu hành (17/06/2022 17:59)<br />
+ACB: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 3.377.435.094 cp (15/06/2022 17:38)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">10/06/2021			<br />
+			09/07/2021			</td>
+			<td align="center">
+			100/25			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 540,389,615<br><strong>Cổ phiếu sau phát hành:</strong> 2,701,948,075<br/>			<br />
+			Trả cổ tức  năm 2020  bằng cổ phiếu, tỷ lệ 100:25<br />
+<br />
+09/07/2021 ## ACB: 12.7.2021, niêm yết bổ sung 540.389.615 cp<br />
+16/06/2021 ## ACB: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 2.701.948.075 cp</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">20/08/2020			<br />
+			28/08/2020			</td>
+			<td align="center">
+			10/3			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 498,821,183<br><strong>Cổ phiếu sau phát hành:</strong> 2,161,558,460<br/>			<br />
+			Trả cổ tức năm 2019 bằng cổ phiếu, tỷ lệ 10:3<br />
+<br />
+ACB: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 2.161.558.460 cp (28/08/2020 08:23)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">10/04/2020			<br />
+			10/04/2020			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> -41,422,608<br>			<br />
+			ACB: Đã bán 6.222.000 cp quỹ (10/04/2020 08:58)<br />
+<br />
+ACB: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 1.662.737.277 cp (10/04/2020 08:58)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">25/07/2019			<br />
+			16/09/2019			</td>
+			<td align="center">
+			10/3			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 374,149,539<br><strong>Cổ phiếu sau phát hành:</strong> 1,621,314,669<br/>			<br />
+			Trả cổ tức bằng cổ phiếu, tỷ lệ 10:3<br />
+<br />
+ACB: Ngày 16/09/2019, giao dịch đầu tiên 374.149.539 cổ phiếu niêm yết bổ sung (11/09/2019 15:04)<br />
+<br />
+<br />
+<br />
+ACB: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 1.656.515.277 cp (08/11/2019 16:43)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">06/09/2018			<br />
+			05/11/2018			</td>
+			<td align="center">
+			100/15			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 162,673,713<br><strong>Cổ phiếu sau phát hành:</strong> 1,247,165,130<br/>			<br />
+			Trả cổ tức  bằng cổ phiếu, tỷ lệ 15%<br />
+<br />
+ACB: Ngày 05/11/2018, giao dịch 162.673.713 cổ phiếu niêm yết bổ sung (01/11/2018 10:19)<br />
+ACB: Chấp thuận niêm yết bổ sung 162.673.713 cổ phiếu (25/10/2018 14:34)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">20/03/2018			<br />
+			04/06/2018			</td>
+			<td align="center">
+			100/10			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 98,590,129<br><strong>Cổ phiếu sau phát hành:</strong> 1,084,491,417<br/>			<br />
+			Trả cổ tức  bằng cổ phiếu, tỷ lệ 10%<br />
+<br />
+<br />
+ACB: Ngày 04/06/2018, giao dịch đầu tiên 98.590.129 cổ phiếu niêm yết bổ sung (30/05/2018 15:54)<br />
+ACB: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 1.084.491.417 cp (29/05/2018 17:04)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">01/12/2016			<br />
+			25/01/2017			</td>
+			<td align="center">
+			10/1			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 89,627,390<br><strong>Cổ phiếu sau phát hành:</strong> 985,901,288<br/>			<br />
+			Trả cổ tức năm 2015 bằng cổ phiếu. tỷ lệ 10:1<br />Ngày đăng ký cuối cùng: 02/12/2017<br />
+<br />
+ACB: Ngày 25/01/2017, ngày giao dịch đầu tiên 89.627.390 cổ phiếu niêm yết bổ sung (19/01/2017 08:41)<br />
+ACB: Thông báo chấp thuận niêm yết bổ sung 89.627.390 cổ phiếu (19/01/2017 08:39)<br />
+ACB: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 985.901.288 cp (23/01/2017 17:40)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">15/05/2015			<br />
+			29/05/2015			</td>
+			<td align="center">
+			7%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>700 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c n&#259;m 2014 b&#7857;ng ti&#7873;n. 700đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 19/05/2015</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành khác</td>
+			<td align="right">16/03/2015			<br />
+			16/03/2015			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 1,203,542<br>			<br />
+			ACB: 16/03/2015, Ngày giao dịch đầu tiên 1.203.542 cổ phiếu niêm yết bổ sung (03/03/2015 00:00)<br />
+<br />
+Tong co phieu niem yet 937,696,506</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">25/01/2015			<br />
+			25/01/2015			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 13,506,613<br>			<br />
+			ACB đã mua 13,5 triệu cổ phiếu quỹ, giá bình quân gần 15.500 đồng<br />
+ACB đã mua 13,5 triệu cổ phiếu quỹ, giá bình quân gần 15.500 đồng<br />
+Dù đăng ký mua tối đa gần 17,5 triệu cổ phiếu quỹ nhưng ACB chỉ mới mua được 13,5 triệu đơn vị do biến động giá của thị trường không phù hợp.<br />
+NHTM cổ phần Á Châu ( ACB) vừa có báo cáo gửi Sở giao dịch chứng khoán Hà Nội kết quả mua cổ phiếu quỹ.<br />
+<br />
+Theo đó, ACB đã không mua hết số cổ phiếu quỹ như đã đăng ký mua trước đó là 17.461.724 cổ phiếu. Số lượng cổ phiếu quỹ ACB đã mua được là 13.506.613 cổ phiếu với giá mua bình quân là 15.490 đồng/ cổ phiếu. >>> ACB sẽ mua tiếp hơn 17 triệu cổ phiếu quỹ<br />
+<br />
+Nguồn vốn để mua lại là 209,54 tỷ đồng, được lấy từ lợi nhuận chưa phân phối năm 2012.<br />
+<br />
+Thời gian thực hiện giao dịch từ ngày 15/12/2014- 25/1/2015. Phương thức thực hiện giao dịch là khớp lệnh và thỏa thuận.<br />
+<br />
+Lý do của việc không mua hết số lượng cổ phiếu quỹ theo báo cáo là do biến động giá của thị trường trong giai đoạn không phù hợp với kỳ vọng của công ty.<br />
+<br />
+Trước khi giao dịch, ACB nắm giữ 27.915.995 cổ phiếu quỹ, tương ứng với 2,98% vốn điều lệ. Sau đợt mua này, lượng cổ phiếu quỹ đạt 41.422.608 cổ phiếu, tương ứng 4,42% vốn điều lệ.<br />
+<br />
+Hiện số cổ phần ACB đang niêm yết là 936.492.964 cổ phần. Với giá đóng cửa phiên giao dịch 15/9 là 15.900 đồng thì vốn hóa thị trường của ACB tương ứng hơn 14 nghìn tỷ đồng.</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">13/05/2014			<br />
+			30/05/2014			</td>
+			<td align="center">
+			7%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>700 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c n&#259;m 2013 b&#7857;ng ti&#7873;n m&#7863;t 700đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 15/05/2014</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">23/04/2014			<br />
+			23/04/2014			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 11,734,864<br>			<br />
+			Ngân hàng ACB đã mua 11,73 triệu cổ phiếu quỹ giá bình quân 16.743 đồng/cổ phiếu<br />
+<br />
+Đăng ký mua lại tối đa 33.859.000 cổ phiếu làm cổ phiếu quỹ nhưng trong khoảng thời gian từ 24/3 đến 23/4 thì ngân hàng này chỉ mới mua được 11.734.864 cổ phiếu quỹ nâng lượng cổ phiếu quỹ nắm giữ lên 27.915.995 cổ phiếu.</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành khác</td>
+			<td align="right">11/09/2013			<br />
+			11/09/2013			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 251,956<br>			<br />
+			-     Số lượng cổ phiếu niêm yết bổ sung: 251.956 cổ phiếu (Hai trăm năm mươi mốt nghìn chín trăm năm mươi sáu cổ phiếu);<br />
+<br />
+-     Tổng số lượng cổ phiếu niêm yết: 936.492.964 cổ phiếu (Chín trăm ba mươi sáu triệu bốn trăm chín mươi hai nghìn chín trăm sáu mươi tư cổ phiếu);</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">04/07/2013			<br />
+			04/07/2013			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 16,181,131<br>			<br />
+			Ngân hàng ACB đã chi 260 tỷ đồng mua 16,18 triệu cổ phiếu quỹ<br />
+<br />
+Tu ngay 2/6/2013 den 4/7/2013</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">17/05/2013			<br />
+			04/06/2013			</td>
+			<td align="center">
+			6.85%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>685 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c n&#259;m 2012 b&#7857;ng ti&#7873;n m&#7863;t 685đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 21/05/2013</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">27/03/2013			<br />
+			27/03/2013			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 391,324<br>			<br />
+			ACB: Chấp thuận được niêm yết bổ sung 391.324 cổ phiếu thưởng (27/03/2013 11:51)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành khác</td>
+			<td align="right">16/01/2012			<br />
+			16/01/2012			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 2,279,294<br>			<br />
+			ACB: 16/01, giao dịch 2.279.294 cp niêm yết bổ sung<br />
+ <br />
+Căn cứ công văn số 144/CV-HĐQT.12 ngày 09/1/2012 của Ngân hàng Thương mại cổ phần Á Châu về ngày giao dịch đầu tiên của cổ phiếu ACB niêm yết bổ sung theo Quyết định số 681/QĐ-SGDHN ngày 30/12/2011, Sở GDCK Hà Nội trân trọng thông báo như sau:<br />
+-Tên chứng khoán: Cổ phiếu Ngân hàng Thương mại cổ phần Á Châu;<br />
+-Loại chứng khoán: Cổ phiếu phổ thông;<br />
+-Mã chứng khoán: ACB;<br />
+-Mệnh giá: 10.000 đồng/cổ phiếu;<br />
+-Số lượng cổ phiếu niêm yết bổ sung: 2.279.294 cổ phiếu(Hai triệu hai trăm bảy mươi chín nghìn hai trăm chín mươi tư cổ phiếu);<br />
+<br />
+-Tổng số lượng cổ phiếu niêm yết: 935.849.684 cổ phiếu(Chín trăm ba mươi lăm triệu tám trăm bốn mươi chín nghìn sáu trăm tám mươi tư cổ phiếu);<br />
+-Ngày giao dịch chính thức: Thứ Hai, ngày 16/1/2012.</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">03/01/2012			<br />
+			18/01/2012			</td>
+			<td align="center">
+			20%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2000 đồng/cổ phiếu</strong><br>			<br />
+			Tạm ứng cổ tức đợt 1 năm 2011 bằng tiền mặt 2.000đồng/cổ phiếu<br />
+Ngày đăng ký cuối cùng: 05/01/2012</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">21/04/2011			<br />
+			12/05/2011			</td>
+			<td align="center">
+			7%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>700 đồng/cổ phiếu</strong><br>			<br />
+			Tạm ứng cổ tức năm 2010 đợt 2 bằng tiền 700đồng/cổ phiếu<br />
+Ngày đăng ký cuối cùng: 25/04/2011</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành hiện hữu</td>
+			<td align="right">26/11/2010			<br />
+			11/03/2011			</td>
+			<td align="center">
+			5/1<br />(giá: 10,000)			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 155,595,065<br><strong>Cổ phiếu sau phát hành:</strong> 933,570,390<br/>			<br />
+			Thực hiện quyền mua cổ phiếu phát hành thêm năm 2010 tỷ lệ 5:1 10.000đồng/cổ phiếu<br />
+Ngày đăng ký cuối cùng: 30/11/2010<br />
+Ngày nộp tiền: 03/12/2010-23/12/2010<br />
+----------------<br />
+- Ngày giao dịch chính thức của cổ phiếu niêm yết bổ sung trên HNX<br />
+- Thông báo của Ngân hàng Thương mại Cổ phần Á Châu (MCK: ACB) về ngày giao dịch đầu tiên của cổ phiếu niêm yết bổ sung theo Quyết định số 93/QĐ-SGDHN ngày 04/03/2011. <br />
+- Số lượng cổ phiếu niêm yết bổ sung: 155.595.065 cổ phiếu<br />
+- Tổng số lượng cổ phiếu niêm yết: 933.570.390 cổ phiếu  <br />
+- Ngày giao dịch chính thức: Thứ Sáu, ngày 11/3/2011.</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">08/11/2010			<br />
+			30/11/2010			</td>
+			<td align="center">
+			17%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1700 đồng/cổ phiếu</strong><br>			<br />
+			Tạm ứng chia cổ tức năm 2010 bằng tiền 1.700đồng/cổ phiếu<br />
+Ngày đăng ký cuối cùng: 10/11/2010</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">04/03/2010			<br />
+			31/03/2010			</td>
+			<td align="center">
+			15%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1500 đồng/cổ phiếu</strong><br>			<br />
+			C. t.c ..t 2/2009, 1.500 ./cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">17/11/2009			<br />
+			29/12/2009			</td>
+			<td align="center">
+			100/1.41			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 10,816,935 (88)<br><strong>Cổ phiếu sau phát hành:</strong> 777,975,325<br/>			<br />
+			Phát hành cổ phiếu thưởng từ quỹ dự trữ bổ sung vốn điều lệ tỷ lệ 100:1.41<br />
+--------------------------<br />
+<br />
+Ngày giao dịch chính thức cổ phiếu niêm yết bổ sung <br />
+Sở Giao dịch Chứng khoán Hà Nội thông báo về ngày giao dịch chính thức của cổ phiếu Ngân hàng TMCP Á Châu (MCK: ACB) niêm yết bổ sung.<br />
+<br />
+<br />
+Tên chứng khoán: Ngân hàng TMCP Á Châu<br />
+<br />
+Mã chứng khoán: ACB<br />
+<br />
+Loại chứng khoán: Cổ phiếu phổ thông<br />
+<br />
+Mệnh giá: 10.000 đồng (Mười nghìn đồng)<br />
+<br />
+Số lượng chứng khoán niêm yết bổ sung: 10.816.847 cổ phiếu <br />
+<br />
+Giá trị chứng khoán niêm yết bổ sung: 108.168.470.000 đồng <br />
+<br />
+Ngày giao dịch chính thức: 29/12/2009.</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">16/10/2009			<br />
+			16/10/2009			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 134,993,100<br>			<br />
+			ACB: 16/10-Chính thức giao dịch bổ sung 134.993.100 cp  (HNX)<br />
+-                Tổng số lượng chứng khoán niêm yết:  767.158.478 cổ phiếu</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">11/06/2009			<br />
+			30/06/2009			</td>
+			<td align="center">
+			9%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>900 đồng/cổ phiếu</strong><br>			<br />
+			Cổ tức đợt 1/2009, 900 đ/cp</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">17/03/2009			<br />
+			03/04/2009			</td>
+			<td align="center">
+			8.80%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>880 đồng/cổ phiếu</strong><br>			<br />
+			Cổ tức đợt 2/2008, 880 đ/cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">04/12/2008			<br />
+			30/12/2008			</td>
+			<td align="center">
+			100/36.636			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 169,500,702 (-3082)<br><strong>Cổ phiếu sau phát hành:</strong> 632,165,378<br/>			<br />
+			- Số cổ phần phát hành: 170.419.684 cổ phần<br />
+<br />
+ACB: 30/12-Giao dịch 169.503.784 cổ phiếu niêm yết bổ sung  (HASTC)<br />
+<br />
+- Tổng số lượng chứng khoán niêm yết: 632.165.378 cổ phiếu</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">13/11/2008			<br />
+			28/11/2008			</td>
+			<td align="center">
+			25%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2500 đồng/cổ phiếu</strong><br>			<br />
+			Cổ tức đợt 1/2008, 2.500 đ/cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">11/09/2008			<br />
+			10/11/2008			</td>
+			<td align="center">
+			100/55			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 144,653,298<br><strong>Cổ phiếu sau phát hành:</strong> 407,659,294<br/>			<br />
+			- Trả cổ tức bằng cổ phiếu, tỷ lệ thực hiện 55%<br />
+---------------<br />
+- Căn cứ công văn số 4170/CV-HĐQT ngày 04/11/2008 của Ngân hàng TMCP Á Châu về ngày giao dịch chính thức của cổ phiếu niêm yết bổ sung<br />
+- Số lượng chứng khoán niêm yết bổ sung: 199.655.598 cổ phiếu<br />
+- Tổng số lượng chứng khoán niêm yết: 462.661.594 cổ phiếu<br />
+- Ngày giao dịch chính thức: 10/11/2008.</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">11/09/2008			<br />
+			10/11/2008			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 55,002,300<br>			<br />
+			Luu ky trai phieu chuyen doi</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành khác</td>
+			<td align="right">14/12/2007			<br />
+			28/12/2007			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 9,995,344<br>			<br />
+			Ngày 14/12/2007, TTGDCK Hà Nội đã có quyết định chấp thuận về nguyên tắc cho Ngân hàng TMCP Á Châu (MCK: ACB) được niêm yết bổ sung cổ phiếu tại TTGDCK Hà Nội với những nội dung sau:<br />
+- Số lượng chứng khoán niêm yết bổ sung : 9.995.344 cổ phiếu  <br />
+- Tổng số chứng khoán niêm yết: 263.005.996 cổ phiếu<br />
+- Ngày giao dịch chính thức: 28/12/2007.<br />
+------------------<br />
+- Tỷ lệ phát hành là: 1.350.000 trái phiếu/263.005.996 cổ phần = 0,5133. Cổ đông sở hữu 1.000 cổ phần sẽ được quyền mua thêm 5,133 trái phiếu chuyển đổi phát hành.</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">23/04/2007			<br />
+			02/07/2007			</td>
+			<td align="center">
+			10/3			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 33,001,397 (1)<br><strong>Cổ phiếu sau phát hành:</strong> 143,006,052<br/>			<br />
+			Trả cổ tức bằng cổ phiếu, tỷ lệ 10:3</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành khác</td>
+			<td align="right">23/04/2007			<br />
+			02/07/2007			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 110,004,600<br>			<br />
+			- Vốn điều lệ: 2.530.106.520.000 đồng<br />
++ Vốn điều lệ trước khi phát hành : 1.100.046.560.000 đồng<br />
++ Vốn tăng thêm: 1.430.059.960.000 đồng<br />
+Trong đó :  <br />
+- Tăng vốn từ chuyển đổi trái phiếu thành cổ phiếu: 1.100.046.000.000 đồng<br />
+- Tăng vốn từ phát hành trả cổ tức bằng cổ phiếu: 330.013.960.000 đồng<br />
+=====<br />
+- Số lượng chứng khoán niêm yết bổ sung: 143.005.996 cổ phiếu<br />
+- Ngày giao dịch chính thức: 02/7/2007</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">10/01/2007			<br />
+			30/01/2007			</td>
+			<td align="center">
+			2%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>200 đồng/cổ phiếu</strong><br>			<br />
+			Cổ tức quý 4/2006, 200 đ/cp</td>
+		</tr>
+		</table>
+</div>
+<div id="footers_cp" style="clear:both; text-align: right; width: 100%; background: #F2f2f2; margin-top:20px; border-top:3px solid #333; font-family:HongHaHep; font-size:14px">
+  <div style="padding:10px">
+    <a href="https://cophieu68.vn/privacy.php" style="color:#000">Chính sách bảo mật</a>
+    |
+    <a href="https://cophieu68.vn/terms.php" style="color:#000">Điều khoản sử dụng</a>
+    |
+    <a href="https://cophieu68.vn/contact.php" style="color:#000">Liên lạc</a>
+  </div>
+</div>
+</body>
+</html>
+
+<script>
+setTimeout(function(){$('.auto-prose-wrapper').remove();}, 2*1000);
+</script>
+<script>
+var a_board = {"hour":"07:50:02","entryid":"59","stcid":"1","date":"2026-10-19","stockname":"acb","open":"20.60","close":"20.25","price_fixed":"20.25","volume":"7276900","value":"0.00","price_change":"-0.35","percent_change":"-1.70","gm3":"20.15","klm3":"299100","gm2":"20.20","klm2":"560700","gm1":"20.25","klm1":"180700","gb1":"20.30","klb1":"30300","gb2":"20.40","klb2":"31400","gb3":"20.45","klb3":"15000","ceiling":"22.00","floor":"19.20","price_open":"20.65","price_highest":"20.70","price_lowest":"20.25","current_volume":"609400","foreigner_buy_volume":"230200","foreigner_sell_volume":"4775955","volume_deal":"0","volume_atc":"0","benefit":""};
+console.log(a_board);
+var d = new Date();
+var _hour = d.getHours();
+
+function addCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function changeAffectedValue(_key, _new_value, prefix=''){
+	if (typeof( a_board[_key]) == 'undefined' || a_board== null){
+		return;
+	}
+
+	if( parseFloat(a_board['close']) == 0 ) return;
+	//if( parseInt(_new_value) == 0 ) _new_value = '';
+
+	var _old_value = a_board[_key];
+	if( _new_value != _old_value ){
+		var _class = '';
+
+    if(_key == 'volume'){
+      _class = '';
+    }
+		else if( _new_value == a_board['ceiling']) 	_class = 'price_ceiling';
+		else if( _new_value == a_board['floor']) _class = 'price_floor';
+		else if( _new_value > a_board['open']) _class = 'priceup';
+		else if( _new_value < a_board['open']) _class = 'pricedown';
+    else if( _new_value == a_board['open']) _class = 'price';
+
+		// change new value into buffer
+		a_board[_key] = _new_value;
+
+		var _id = prefix + _key;
+		addAffected(_id, _new_value, _class);
+	}
+}
+</script>
+<script>
+function getAffectedStock(obj){
+			var total = obj.length;
+			if ( total > 0 ){
+				var gm3 = obj[1];
+				var klm3 =  obj[2];
+				var gm2 = obj[3];
+				var klm2 =  obj[4];
+				var gm1 = obj[5];
+				var klm1 =  obj[6];
+
+				if( (parseInt(gm1) == 0  || gm1=='') && parseInt(klm1) > 0 ){
+					if( _hour < 12 ) 	gm1 = 'ATO';
+					else gm1 = 'ATC';
+					gm1 = gm1.toUpperCase();
+					current_volume = '';
+				}
+
+				var _close = parseFloat(obj[7]);
+				if( parseFloat(_close) == 0 ) return;
+				var _open = parseFloat(obj[26]);
+				var volume = obj[8];
+				volume = volume.replace(/,/g, "");
+				var price_change = _close - _open;
+				var percent_change = ( _close - _open )/_open*100;
+				percent_change = percent_change.toFixed(2);
+				price_change = price_change.toFixed(2);
+
+				var gb1 = obj[11];
+				var klb1 = obj[12];
+				var gb2 = obj[13];
+				var klb2 = obj[14];
+				var gb3 = obj[15];
+				var klb3 = obj[16];
+
+				if(  (parseInt(gb1) == 0 || gb1=='')  && parseInt(klb1) > 0  ){
+					if( _hour < 12 ) 	gb1 = 'ATO';
+					else gb1 = 'ATC';
+					gb1 = gb1.toUpperCase();
+				}
+
+				var price_open = obj[17];
+				var price_highest = obj[18];
+				var price_lowest = obj[19];
+
+				var value = (obj[27]);
+				var foreigner_buy_volume = obj[21];
+				var foreigner_buy_sell = obj[22];
+
+				changeAffectedValue('close', _close, 'stockname_');
+				changeAffectedValue('price_change', price_change, 'stockname_');
+				percent_change = '(' + percent_change + '%)';
+				changeAffectedValue('percent_change', percent_change, 'stockname_');
+				changeAffectedValue('volume', addCommas(volume), 'stockname_');
+				changeAffectedValue('price_highest', price_highest, 'stockname_');
+				changeAffectedValue('price_lowest', price_lowest, 'stockname_');
+				changeAffectedValue('foreigner_buy_volume', foreigner_buy_volume);
+				changeAffectedValue('foreigner_buy_sell', foreigner_buy_sell);
+
+				changeAffectedValue('gm3', gm3, 'stockname_');
+				changeAffectedValue('klm3', klm3, 'stockname_');
+				changeAffectedValue('gm2', gm2, 'stockname_');
+				changeAffectedValue('klm2', klm2, 'stockname_');
+				changeAffectedValue('gm1', gm1, 'stockname_');
+				changeAffectedValue('klm1', klm1, 'stockname_');
+
+				changeAffectedValue('gb1', gb1, 'stockname_');
+				changeAffectedValue('klb1', klb1, 'stockname_');
+				changeAffectedValue('gb2', gb2, 'stockname_');
+				changeAffectedValue('klb2', klb2, 'stockname_');
+				changeAffectedValue('gb3', gb3, 'stockname_');
+				changeAffectedValue('klb3', klb3, 'stockname_');
+			}
+}
+function addAffected(sid, svalue, sclass){
+    var $content = $( '#' + sid );
+		$content.css('background','#ffff00');
+    //$content.html(svalue);
+    setTimeout("addAffected2('" +  sid + "', '" + svalue + "', '" + sclass + "')", 1*1000);
+}
+function addAffected2(sid, svalue, sclass){
+    var $content = $( '#' + sid );
+		$content.css('background','#ffffcc');
+
+    $content.html( svalue );
+    setTimeout("removeAffected('" +  sid + "')", 1*1000);
+}
+
+function removeAffected(sid){
+    var $content = $( '#' + sid );
+		$content.css('background','');
+}
+</script>
+
+<script src="https://cophieu68.vn:7772/socket.io/socket.io.js"></script>
+
+<script>
+var d = new Date();
+var __hour = parseInt(d.getHours());
+var socket = io.connect('https://cophieu68.vn:7772');
+var _stockname = 'acb';
+
+function requestInfoStock(){
+  socket.emit('stockname', _stockname);
+  socket.on('stockname_info', function(info) {
+      if( info != "" ){
+        var array_data = info.split("|");
+        if( array_data[0] == _stockname ){
+          getAffectedStock(array_data);
+        }
+      }
+  });
+}
+if( typeof(io) === 'object' ){
+  requestInfoStock();
+  if( __hour >= 9 && __hour < 15 ){
+    setInterval("requestInfoStock()", 3*1000);
+  }
+}
+</script>
+

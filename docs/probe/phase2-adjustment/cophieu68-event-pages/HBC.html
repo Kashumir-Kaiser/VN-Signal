@@ -1,0 +1,1149 @@
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="google-signin-client_id" content="654849931255-ih074eactp9a01969m3et8i16vuai71r.apps.googleusercontent.com">
+<meta name="google-site-verification" content="MOqJliEGOjPuN6S6rRC_ivdy9sgJpQ_K0Sads9VpcTQ" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+<link href="https://cophieu68.vn/css/colorbox.css" rel="stylesheet" type="text/css" media="screen"  />
+<link href="https://cophieu68.vn/css/screen.css" rel="stylesheet" type="text/css" media="screen"  />
+<link href="https://cophieu68.vn/css/mobile.css" rel="stylesheet" type="text/css" media="screen"  />
+
+<script  src="https://cophieu68.vn/js/fontawesome.js" data-auto-replace-svg="nest"></script>
+<script src="https://cophieu68.vn/js/jquery.min.js" type="text/javascript"></script>
+<script src="https://cophieu68.vn/js/jquery-ui.js"></script>
+<script src="https://cophieu68.vn/js/jquery.touchSwipe.js"></script>
+<script src="https://cophieu68.vn/js/jquery.colorbox-min.js"></script>
+<script src="https://cophieu68.vn/js/common.js" type="text/javascript"></script>
+<script src="https://cophieu68.vn/js/iconify.min.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+  var WEBROOT = 'https://cophieu68.vn';
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ETJEDHQR2R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ETJEDHQR2R');
+</script>
+<!-- Google ads -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4497614833474292"
+crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div id="over_header" style="height:35px; border-bottom:0px solid #CCC; width:100%;">
+  <div class="logo flex" style="float:left;"><a href="https://cophieu68.vn/index.php"><img src="https://cophieu68.vn/images/logo_wap.gif" alt="Trang chủ" /></a></div>
+
+  <div class="flex_row" style="float:right; margin-right:10px; height:100%;">
+    <div id="user_menu" class="flex">
+      <div style="padding:0 10px; cursor:pointer;" onclick="showList('user_list')">
+        <i class="fa-regular fa-user"></i>       </div>
+      <div id="user_list" style="padding:10px; border:1px solid #CCC; z-index:10; background:#fff; top:35px; position:absolute; display:none;">
+                <div style="padding:5px;"> <a href="https://cophieu68.vn/account/login.php"> <i class="fa fa-sign-in fa-lg"></i> ĐĂNG NHẬP </a> </div>
+              </div>
+    </div>
+
+    <div class="stockname_search" class="flex" style="float:left; height:35px; margin-right: 35px; padding:0">
+      <div style="height:100%; width:100%">
+                  <form action="" method="get" style="margin:0; padding:0">
+          <input name="id" id="id" value="hbc" placeholder="Mã CK" autocomplete="off" type="text" class="textbox_dark" style="width:100%; height:100%; text-transform: uppercase; text-align:center" />
+          <input type="submit" name="stockname_search" style="display: none;" />
+        </form>
+      </div>
+    </div>
+    <div class="search_result" style="position:fixed; z-index: 1000000; background:#FFF; min-height:30px; display:none; top: 35px;  right: 0; border: 3px solid #CCC; border-radius: 5px;"></div>
+      <div id="menu_overtop" style="position: fixed; top: 5px; right: 5px; z-index: 1; opacity: 0.9">
+      <a href="javascript:void(0)" onclick="$('#menu_overtop_list').show();" style="color:#666"><i class="fa fa-list-ul fa-2x"></i></a>
+      <div id="menu_overtop_list" class="div_curve div_curve_autohide" style="display: none; position: fixed; top: 5px; right: 1px; z-index: 1; width: 200px">
+          <div onclick="$('#menu_overtop_list').hide()" style="position: absolute; top:0; right:0; padding:0px 3px; font-weight: bold; cursor: pointer;">
+              <i class="fa fa-times fa-2x" style="color:#ff0000" title="Đóng"></i>
+          </div>
+          <ul class="ul_list_item" style="margin-top:0px">
+              <li><a href="https://cophieu68.vn/index.php"><i class="fa fa-home fa-lg"></i> &nbsp; Trang chủ</a></li>
+              <li><a href="https://cophieu68.vn/stockonline.php"><i class="fa fa-list-alt fa-lg"></i> &nbsp; Bảng giao dịch trực tuyến</a></li>
+              <li><a href="https://cophieu68.vn/chartold/chart.php?id=^vnindex"><i class="fa fa-line-chart fa-lg"></i> &nbsp; Biểu đồ PHIÊN BẢN CŨ</a></li>
+              <li><a href="https://cophieu68.vn/chart/chart.php?id=^vnindex"><i class="fa fa-line-chart fa-lg"></i> &nbsp; Biểu đồ phân tích kỹ thuật</a></li>
+
+              <li style="padding:0; border-top:2px solid #999"></li>
+              <li><a href="#https://cophieu68.vn/investment_basic_indexes.php"><i class="fa fa-star-half-o fa-lg"></i> &nbsp; Sức mạnh chỉ số cơ bản</a></li>
+              <li><a href="#https://cophieu68.vn/company_financial.php"><i class="fa fa-balance-scale fa-lg"></i> &nbsp; So sánh báo cáo tài chính</a></li>
+              <li><a href="#https://cophieu68.vn/market_vn.php"><i class="fa fa-percent fa-lg"></i> &nbsp; Chỉ số thị trường</a></li>
+              <li><a href="#https://cophieu68.vn/events.php"><i class="fa fa-calendar fa-lg"></i> &nbsp; Cổ tức - Lịch sự kiện</a></li>
+              <li style="padding:0; border-top:2px solid #999"></li>
+              <li><a href="#https://cophieu68.vn/advanced_statistic.php"><i class="fa fa-tachometer fa-lg"></i> &nbsp; Thống kê nâng cao</a></li>
+              <li><a href="#https://cophieu68.vn/plan_income.php"><i class="fa fa-money fa-lg"></i> &nbsp; Kế hoạch kinh doanh</a></li>
+              <li><a href="https://cophieu68.vn/stats/stats.php"><i class="fa fa-hourglass-end fa-lg"></i> &nbsp; Đáy cổ phiếu</a></li>
+              <li><a href="https://cophieu68.vn/stats/volume_buzz.php"><i class="fa fa-sort-numeric-asc fa-lg"></i> &nbsp; Đột biến khối lượng</a></li>
+          </ul>
+      </div>
+  </div>
+  </div>
+</div>
+<div class="menu_header overflow" style="background-color:#666;">
+  <ul>
+    <li><a href="https://cophieu68.vn/stats/stats.php" class=" ">Thống Kê</a></li>
+    <li><a href="https://cophieu68.vn/market/markets.php" class=" ">Công ty niêm yết</a></li>
+    <li><a href="https://cophieu68.vn/category/category_index.php" class=" ">Nhóm Ngành</a></li>
+    <li><a href="https://cophieu68.vn/signal/filter_financial.php" class=" ">Bộ lọc</a></li>
+    <li><a href="https://cophieu68.vn/event/events.php" class=" ">Lịch Sự Kiện</a></li>
+    <li><a href="https://cophieu68.vn/chart/index.php" class=" ">Biểu đồ</a></li>
+    <li><a href="https://cophieu68.vn/download/index.php" class=" ">Dữ liệu AMIBROKER / METASTOCK / MT4</a></li>
+    <li><a href="#https://cophieu68.vn/document/index.php" class=" ">Góc Chia sẻ kiến thức</a></li>
+  </ul>
+</div>
+<div class="margin_wrap">
+	
+	<div class="flex_m_col_d_row">
+	  <div>
+	  	<h1>CTCP Tập đoàn Xây dựng Hòa Bình<span style="color:#787b86">&nbsp;(hbc)</span></h1>
+	  	<span class="break"></span>
+
+	  	<div class="flex_row">
+	  		<div id="stockname_close" class="price" style="font-size:25px; font-weight:bold; padding-right:14px;">3</div>
+	  		<div id="stockname_price_change" class="price" style="font-size:25px; padding-right:14px;">0</div>
+	  		<div id="stockname_percent_change" class="price" style="font-size:25px;">(0%)</div>
+	  	</div>
+	  </div>
+		<div class="seperate min_768"></div>
+		<div class="break max_768"></div>
+	</div>
+
+	<span class="break2"></span>
+
+	<div class="menu_quote overflow">
+		<a class="" href="https://cophieu68.vn/quote/summary.php?id=hbc">Tổng quan</a><a class="" href="https://cophieu68.vn/chart/chart.php?id=hbc">Biểu đồ</a><a class="" href="https://cophieu68.vn/quote/history.php?id=hbc">Giá lịch sử</a><a class="" href="https://cophieu68.vn/quote/profile.php?id=hbc">Thông tin</a><a class="" href="https://cophieu68.vn/quote/financial.php?id=hbc">Báo cáo tài chính</a><a class="active" href="https://cophieu68.vn/quote/event.php?id=hbc">Lịch sự kiện</a>	</div>
+</div>
+
+
+<div style="clear:both; margin-top:20px; padding-left:20px">
+	<div class="overflow">
+		<a class="b_button b_grey" style="font-weight:100" href="event.php?id=hbc">&check; Lịch sự kiện</a>
+		<a class="b_button b_blue" style="font-weight:100" href="event_calc_volume.php?id=hbc">Công thức tính khối lượng</a>
+		<a class="b_button b_blue" style="font-weight:100" href="event_calc.php?id=hbc">Công thức tính Ngày GDKHQ</a>
+	</div>
+	<h1>Lịch sự kiện - HBC</h1>
+
+	<table width="100%" cellpadding="4" cellspacing="0" bgcolor="#E2EFFE">
+		<tr class="tr_header">
+			<td width="120">Sự kiện</td>
+			<td width="100" align="right">Ngày GDKHQ</td>
+			<td width="100" align="center">Cổ tức/Quyền</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">19/07/2024			<br />
+			19/07/2024			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 73,080,000<br>			<br />
+			19/07/2024 00:00  HBC: 30.6.2025, giao dịch 73.080.000 cp niêm yết bổ sung<br />
+16/07/2024 00:00  HBC: 17.7.2024, niêm yết bổ sung 73.080.000 cp<br />
+01/07/2024 00:00  HBC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 347.213.270 cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành khác</td>
+			<td align="right">03/11/2023			<br />
+			03/11/2023			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 6,291,500<br>			<br />
+			HBC: 3.11.2023, giao dịch 6.291.500 cp niêm yết bổ sung (16/12/2022 17:58)<br />
+<br />
+<br />
+HBC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 274.133.270 cp (04/11/2022 16:19)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">17/10/2022			<br />
+			17/10/2022			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 5,000,000<br>			<br />
+			HBC: Số lượng cổ phiếu có quyền biểu quyết là 267.841.770 cp (17/10/2022 16:40)<br />
+HBC: Đã phân phối 5.000.000 cp trong đợt chào bán cổ phiếu riêng lẻ (17/10/2022 16:37)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">24/08/2022			<br />
+			30/09/2022			</td>
+			<td align="center">
+			3%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>300 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  năm 2021  bằng tiền, 300 đồng/CP</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">24/08/2022			<br />
+			29/09/2022			</td>
+			<td align="center">
+			100/7			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 17,195,805 (8389)<br><strong>Cổ phiếu sau phát hành:</strong> 262,841,770<br/>			<br />
+			Trả cổ tức  năm 2021  bằng cổ phiếu, tỷ lệ 100:7<br />
+<br />
+HBC: 29.9.2022, giao dịch 17.187.416 cp niêm yết bổ sung (22/09/2022 13:57)<br />
+HBC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 262.841.770 cp (30/08/2022 10:50)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành khác</td>
+			<td align="right">04/03/2022			<br />
+			04/03/2022			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 3,238,570<br>			<br />
+			HBC: 4.3.2022, niêm yết bổ sung 3.238.570 cp (03/03/2022 17:22)<br />
+HBC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 245.654.354 cp (24/01/2022 16:07)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">29/09/2021			<br />
+			11/11/2021			</td>
+			<td align="center">
+			20/1			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 11,543,770 (3385)<br><strong>Cổ phiếu sau phát hành:</strong> 242,415,784<br/>			<br />
+			Trả cổ tức  năm 2020  bằng cổ phiếu, tỷ lệ 20:1<br />
+<br />
+11/11/2021 ## HBC: 12.11.2021, niêm yết bổ sung 11.540.386 cp<br />
+16/11/2021 ## HBC: 23.11.2021, giao dịch 11.540.386 cp niêm yết bổ sung<br />
+14/10/2021 ## HBC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 242.415.784 cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">14/12/2020			<br />
+			23/12/2020			</td>
+			<td align="center">
+			3%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>300 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  năm 2019  bằng tiền, 300 đồng/CP</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">12/07/2019			<br />
+			12/07/2019			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 25,000,000<br>			<br />
+			HBC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 230.875.398 cp (13/06/2019 17:43)<br />
+HBC: Đã phát hành 25.000.000 cp riêng lẻ (13/06/2019 17:42)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">14/05/2019			<br />
+			05/07/2019			</td>
+			<td align="center">
+			9%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>900 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức năm 2018 bằng cổ phiếu, tỷ lệ 20:1</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">14/05/2019			<br />
+			10/07/2019			</td>
+			<td align="center">
+			20/1			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 9,803,749 (3328)<br><strong>Cổ phiếu sau phát hành:</strong> 205,875,399<br/>			<br />
+			Trả cổ tức năm 2018 bằng cổ phiếu, tỷ lệ 20:1<br />
+<br />
+HBC: 10.7.2019, niêm yết bổ sung 9.800.421 cp (09/07/2019 14:16)<br />
+HBC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 205.875.398 cp (30/05/2019 13:20)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành khác</td>
+			<td align="right">28/01/2019			<br />
+			28/01/2019			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 1,300,000<br>			<br />
+			HBC: 28.1.2019, giao dịch 1.300.000 cp niêm yết bổ sung (18/01/2019 16:32)<br />
+HBC: 17.1.2019, niêm yết bổ sung 1.300.000 cp (16/01/2019 10:13)<br />
+HBC: Đã phát hành 1.300.000 cp ESOP (05/12/2018 17:22)<br />
+HBC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 196.074.977 cp (05/12/2018 17:21)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">29/05/2018			<br />
+			28/06/2018			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  năm 2017  bằng tiền, 500 đồng/CP<br />
+<p>Sở GDCK TP.HCM thông báo ngày ĐKCC trả cổ tức năm 2017 bằng tiền và cổ phiếu của Công ty Cổ phần Tập đoàn Xây dựng Hòa Bình (mã CK: HBC) như sau:</p></td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">29/05/2018			<br />
+			21/06/2018			</td>
+			<td align="center">
+			100/50			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 64,925,379 (1159)<br><strong>Cổ phiếu sau phát hành:</strong> 194,774,978<br/>			<br />
+			Trả cổ tức  năm 2017  bằng cổ phiếu, tỷ lệ 50%<br />
+<p>Sở GDCK TP.HCM thông báo ngày ĐKCC trả cổ tức năm 2017 bằng tiền và cổ phiếu của Công ty Cổ phần Tập đoàn Xây dựng Hòa Bình (mã CK: HBC) như sau:</p><br />
+<br />
+--<br />
+<br />
+HBC: 21.6.2018, niêm yết bổ sung 64.924.220 cp (20/06/2018 15:22)<br />
+HBC: Em trai ông Lê Quốc Duy - TV.HĐQT đã bán 30.000 cp (12/06/2018 16:41)<br />
+HBC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 194.774.977 cp (07/06/2018 10:40)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">09/11/2017			<br />
+			09/11/2017			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 1,000,000<br>			<br />
+			HBC: 9.11.2017, niêm yết bổ sung 1.000.000 cp (08/11/2017 13:53)<br />
+HBC: Đã phát hành 1.000.000 cp ESOP (19/10/2017 11:19)<br />
+HBC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 129.850.757 cp (19/10/2017 11:18)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">30/06/2017			<br />
+			03/08/2017			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  năm 2016  bằng tiền, 1,000 đồng/CP<br />
+<p>Sở Giao dịch Chứng khoán Thành phố Hồ Chí Minh thông báo về ngày đăng ký cuối cùng trả cổ tức năm 2016 của Công ty Cổ phần Tập đoàn Xây dựng Hòa Bình (mã CK: HBC) như sau:</p></td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">30/06/2017			<br />
+			09/08/2017			</td>
+			<td align="center">
+			100/35			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 33,406,260 (1960)<br><strong>Cổ phiếu sau phát hành:</strong> 128,850,758<br/>			<br />
+			Trả cổ tức  năm 2016  bằng cổ phiếu, tỷ lệ 35%<br />
+<p>Sở Giao dịch Chứng khoán Thành phố Hồ Chí Minh thông báo về ngày đăng ký cuối cùng trả cổ tức năm 2016 của Công ty Cổ phần Tập đoàn Xây dựng Hòa Bình (mã CK: HBC) như sau:</p><br />
+<br />
+HBC: 18.8.2017, giao dịch 33.404.300 cp niêm yết bổ sung (11/08/2017 09:12)<br />
+HBC: 9.8.2017, niêm yết bổ sung 33.404.300 cp (08/08/2017 09:25)<br />
+HBC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 128.850.757 cp (13/07/2017 14:34)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành khác</td>
+			<td align="right">20/01/2017			<br />
+			20/01/2017			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 998,990<br>			<br />
+			HBC: Thay đổi số lượng cổ phiếu đang lưu hành 95.446.457 cp (13/01/2017 13:45)<br />
+HBC: 17/01/2017, niêm yết bổ sung 998.990 cổ phiếu (13/01/2017 00:00)<br />
+HBC: 20/01/2017, giao dịch 998.990 cổ phiếu niêm yết bổ sung (13/01/2017 00:00)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">23/06/2016			<br />
+			02/08/2016			</td>
+			<td align="center">
+			100/15			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 11,333,976<br><strong>Cổ phiếu sau phát hành:</strong> 86,893,813<br/>			<br />
+			Trả cổ tức năm 2015 bằng cổ phiếu. tỷ lệ 100:15<br />Ngày đăng ký cuối cùng: 24/06/2016</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">23/06/2016			<br />
+			02/08/2016			</td>
+			<td align="center">
+			10/1			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 7,555,984 (2329)<br><strong>Cổ phiếu sau phát hành:</strong> 94,447,468<br/>			<br />
+			HBC: 23.6.2016, ngày GDKHQ trả cổ tức năm 2015 (tỷ lệ 100:15), thưởng cp (tỷ lệ 10:1)<br />
+<br />
+--<br />
+<br />
+HBC: 22.7.2016, niêm yết bổ sung 18.887.630 cp (21/07/2016 14:02)<br />
+<br />
+- Tổng số lượng chứng khoán sau khi thay đổi niêm yết: 94.447.467 (Chín mươi bốn triệu bốn trăm bốn mươi bảy nghìn bốn trăm sáu mươi bảy cổ phiếu)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">04/12/2015			<br />
+			04/12/2015			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 981,830<br>			<br />
+			HBC: 4.12.2015, niêm yết bổ sung 981.830 cổ phiếu (03/12/2015 10:47)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">15/07/2015			<br />
+			03/08/2015			</td>
+			<td align="center">
+			15%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1500 đồng/cổ phiếu</strong><br>			<br />
+			Chi tr&#7843; c&#7893; t&#7913;c n&#259;m 2014 b&#7857;ng ti&#7873;n. 1.500đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 17/07/2015</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">15/07/2015			<br />
+			24/08/2015			</td>
+			<td align="center">
+			10/3			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 17,210,570 (1130)<br><strong>Cổ phiếu sau phát hành:</strong> 74,578,007<br/>			<br />
+			Trả cổ phiếu thưởng do thực hiện tăng vốn cổ phần từ nguồn vốn chủ sở hữu. tỷ lệ 10:3<br />Ngày đăng ký cuối cùng: 17/07/2015<br />
+--<br />
+<br />
+HBC: 24.8.2015, niêm yết bổ sung 17.209.440 cp (21/08/2015 10:55)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">01/06/2015			<br />
+			01/06/2015			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> -3,972,490<br>			<br />
+			HBC: Đã bán 3.972.490 cp quỹ</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">24/11/2014			<br />
+			24/11/2014			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 703,590<br>			<br />
+			HBC: 24.11.2014, niêm yết bổ sung 703.590 cổ phiếu<br />
+Ngày 21/11/2014, Sở GDCK Tp.HCM đã có Quyết định số 458/QĐ-SGDHCM chấp thuận cho Công ty Cổ phần Xây dựng và Kinh doanh Địa ốc Hòa Bình được thay đổi niêm yết với nội dung như sau:<br />
+ <br />
+-          Loại chứng khoán:      cổ phiếu phổ thông<br />
+<br />
+-          Mã chứng khoán:       HBC<br />
+<br />
+-          Mệnh giá:                              10.000 đồng/ cổ phiếu<br />
+<br />
+-          Số lượng chứng khoán trước khi thay đổi niêm yết:  56.664.977 cổ phiếu  (Năm mươi sáu triệu sáu trăm sáu mươi bốn ngàn chín trăm bảy mươi bảy  cổ phiếu)<br />
+<br />
+-          Số lượng chứng khoán thay đổi niêm yết:  703.590 cổ phiếu  (Bảy trăm lẻ ba ngàn năm trăm chín mươi cổ phiếu)<br />
+<br />
+-          Giá trị chứng khoán thay đổi niêm yết ( theo mệnh giá):  7.035.900.000 đồng ( Bảy tỷ không trăm ba mươi lăm triệu chín trăm ngàn đồng)<br />
+<br />
+-          Tổng số lượng chứng khoán sau khi thay đổi niêm yết:  57.368.567 cổ phiếu  (Năm mươi bảy triệu ba trăm sáu mươi tám ngàn năm trăm sáu mươi bảy  cổ phiếu)<br />
+<br />
+-          Tổng giá trị niêm yết sau khi thay đổi niêm yết ( theo mệnh giá):  573.685.670.000 đồng ( Năm trăm bảy mươi ba tỷ sáu trăm tám mươi lăm triệu sáu trăm bảy mươi ngàn đồng)<br />
+<br />
+-          Ngày thay đổi niêm yết có hiệu lực:   24/11/2014<br />
+<br />
+-          Lý do thay đổi niêm yết: Phát hành cổ phiếu cho Cán bộ công nhân viên của Công ty Cổ phần Xây dựng và Kinh doanh Địa ốc Hòa Bình<br />
+<br />
+                                                              HSX</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">13/08/2014			<br />
+			25/08/2014			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c n&#259;m 2013 b&#7857;ng ti&#7873;n. 500đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 15/08/2014</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">13/08/2014			<br />
+			15/09/2014			</td>
+			<td align="center">
+			10/1			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 4,790,300 (817)<br><strong>Cổ phiếu sau phát hành:</strong> 52,692,487<br/>			<br />
+			Trả cổ tức năm 2013 bằng cổ phiếu. tỷ lệ 10:1<br />Ngày đăng ký cuối cùng: 15/08/2014<br />
+---<br />
+<br />
+HBC: 15.9.2014, niêm yết bổ sung 4.789.483 cổ phiếu (11/09/2014 15:32)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành khác</td>
+			<td align="right">28/11/2013			<br />
+			28/11/2013			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 294,830<br>			<br />
+			HBC: Niêm yết bổ sung cổ phiếu 294.830 cp<br />
+Ngày niêm yết có hiệu lực: Ngày 28/11/2013</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">14/06/2013			<br />
+			28/06/2013			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c n&#259;m 2012 b&#7857;ng ti&#7873;n 1.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 18/06/2013</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành khác</td>
+			<td align="right">15/05/2013			<br />
+			15/05/2013			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 10,274,530<br>			<br />
+			HBC: 15/5, giao dịch 10.274.530 cổ phiếu phát hành thêm <br />
+     Số lượng: 10.274.530 cổ phiếu (Mười triệu hai trăm bảy mươi bốn ngàn năm trăm ba mươi cổ phiếu)<br />
+    Trong đó:  <br />
+<br />
+    + 274.530 cổ phiếu phát hànhcho cán bộ công nhân viên<br />
+<br />
+    + 10.000.000 cổ phiếu phát hànhriêng lẻ bị hạn chế chuyển nhượng ít nhất 1 năm <br />
+<br />
+    Tổng giá trị chứng khoán niêm yết: 102.745.300.000 đồng (Một trăm lẻ hai tỷ bảy trăm bốn mươi lăm triệu ba trăm ngàn đồng)<br />
+    Ngày niêm yết có hiệu lực: 09/05/2013<br />
+    Ngày chính thức giao dịch: 15/05/2013</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">01/06/2012			<br />
+			10/07/2012			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c b&#7857;ng ti&#7873;n m&#7863;t n&#259;m 2011 1.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 05/06/2012</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">01/06/2012			<br />
+			31/07/2012			</td>
+			<td align="center">
+			1/1			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 16,970,046<br><strong>Cổ phiếu sau phát hành:</strong> 37,333,644<br/>			<br />
+			Thưởng cổ phiếu tỷ lệ 1:1<br />
+Ngày đăng ký cuối cùng: 05/06/2012</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">01/06/2012			<br />
+			31/07/2012			</td>
+			<td align="center">
+			100/20			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 3,394,009 (457)<br><strong>Cổ phiếu sau phát hành:</strong> 20,363,598<br/>			<br />
+			1/ Trả cổ tức bằng tiền mặt năm 2011:<br />
++ Tỷ lệ thực hiện: 10%/mệnh giá (1 cổ phiếu nhận được 1.000 đồng).<br />
++ Thời gian thực hiện: 10/07/2012.<br />
+2/ Trả cổ tức bằng cổ phiếu năm 2011:<br />
++ Tỷ lệ thực hiện: 20% (tương đương 100:20, mỗi cổ đông sở hữu 100 cổ phiếu cũ sẽ được nhận 20 cổ phiếu mới). <br />
+<br />
+----<br />
+---<br />
+HBC: 31/7 - giao dịch 20.363.598 cổ phiếu phát hành thêm (24/07/2012 17:30)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành khác</td>
+			<td align="right">11/05/2012			<br />
+			11/05/2012			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 154,370<br>			<br />
+			HBC: Niêm yết và giao dịch 154.370 cổ phiếu phát hành thêm<br />
+<br />
+Số lượng  : 154.370 cổ phiếu (Một trăm năm mươi bốn nghìn ba trăm bảy mươi cổ phiếu)<br />
+Đây là số cổ phiếu phát hành cho CBCNV của Công ty theo Nghị Quyết Đại hội đồng cổ đông ngày 27/04/2011.<br />
+Tổng giá trị chứng khoán niêm yết: 1.543.700.000 đồng (Một tỷ năm trăm bốn mươi ba triệu bảy trăm nghìn đồng)<br />
+Ngày niêm yết có hiệu lực: 03/05/2012<br />
+Ngày chính thức giao dịch: 11/05/2012</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">26/04/2012			<br />
+			26/04/2012			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 1,972,490<br>			<br />
+			HBC: Đã mua 1.972.940 cổ phiếu quỹ (02/05/2012 10:57)<br />
+Thời gian thực hiện từ 17/02/2012 đến 26/4/2012<br />
+<br />
+Tổng số cp quỹ nắm giữ: 3.972.490</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">04/01/2012			<br />
+			04/01/2012			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 500,000<br>			<br />
+			HBC: Đã mua 500.000 cổ phiếu quỹ<br />
+Thời gian thực hiện từ 29/11/2011 đến 4/1/2012<br />
+Tổng số cp sau khi giao dịch: 2.000.000</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">13/10/2011			<br />
+			28/10/2011			</td>
+			<td align="center">
+			6%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>600 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức đợt 2/2010 bằng tiền 600đồng/cổ phiếu<br />
+Ngày đăng ký cuối cùng: 17/10/2011</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">20/09/2011			<br />
+			20/09/2011			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 1,000,000<br>			<br />
+			HBC: Đã mua 1 triệu cổ phiếu quỹ<br />
+<br />
+Thời gian giao dịch từ 27/6 đến 20/9<br />
+Tổng số cp quỹ: 1.500.500</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">24/02/2011			<br />
+			28/03/2011			</td>
+			<td align="center">
+			100/25			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 4,057,751 (588)<br><strong>Cổ phiếu sau phát hành:</strong> 20,288,166<br/>			<br />
+			HBC<br />
+Công ty Cổ phần Xây dựng và Kinh doanh Địa ốc Hoà Bình (HOSE)<br />
+Giá hiện tại: HBC		31.7	-0.8(-2.46%)			Hồ sơ công ty	 Tra cứu GDCĐ lớn & CĐ nội bộ<br />
+HBC: 24/2 GDKHQ nhận cổ tức bằng cổ phiếu tỷ lệ 25%<br />
+Ngày đăng ký cuối cùng: 28/02/2011. <br />
+<br />
+Trung tâm Lưu ký Chứng khoán Việt Nam thông báo về ngày đăng ký cuối cùng như sau :<br />
+Tổ chức đăng ký: Công ty Cổ phần Xây dựng & Kinh doanh Địa ốc Hoà Bình (HBC)<br />
+Ngày giao dịch không hưởng quyền: 24/2/2011<br />
+Ngày đăng ký cuối cùng: 28/02/2011<br />
+Lý do và mục đích: Tạm ứng cổ tức bằng cổ phiếu đợt 1/2010.<br />
+Tỷ lệ thực hiện: 25% (mỗi cổ đông sở hữu 100 cổ phiếu được nhận thêm cổ tức bằng cổ phiếu là 25 cổ phiếu mới. Số cổ phiếu phát hành thêm trả cổ tức bằng cổ phiếu sẽ được làm tròn xuống đến hàng đơn vị, phần lẻ thập phân (phát sinh nếu có) bị hủy.<br />
+----------------------------------------------------------<br />
+Ngày 22/03/2011, Sở giao dịch chứng khoán Tp.HCM đã có thông báo số 316/2011/TB-SGDHCM về việc niêm yết và giao dịch bổ sung cổ phiếu của Công ty cổ phần Xây dựng và Kinh doanh Địa ốc Hòa Bình (mã CK: HBC) như sau:<br />
+ <br />
+Số lượng: 4.057.163 cổ phiếu( Bốn triệu không trăm năm mươi bảy ngàn một trăm sáu mươi ba cổ phiếu)<br />
+Đây là số cổ phiếu phát hành tạm ứng cổ tức cho cổ đông hiện hữu theo thông báo số 107/2011/TB-SGDHCM ngày 15/2/2011.<br />
+Tổng giá trị Chứng khoán niêm yết: 40.571.630.000 đồng (Bốn mươi tỷ năm trăm bảy mươi mốt triệu sáu trăm ba mươi ngàn đồng)<br />
+Ngày niêm yết có hiệu lực: 22/03/2011<br />
+Ngày chính thức giao dịch: 28/03/2011</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">07/07/2010			<br />
+			05/08/2010			</td>
+			<td align="center">
+			12%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1200 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức bằng tiền mặt năm 2009 1.200đồng/cổ phiếu<br />
+Ngày đăng ký cuối cùng: 09/07/2010</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">07/07/2010			<br />
+			24/09/2010			</td>
+			<td align="center">
+			10/1			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 1,461,954<br><strong>Cổ phiếu sau phát hành:</strong> 16,081,494<br/>			<br />
+			Trả cổ tức bằng cổ phiếu năm 2009 tỷ lệ 10:1<br />
+Ngày đăng ký cuối cùng: 09/07/2010<br />
++ Số cổ phiếu dự kiến phát hành: 1.461.954 cổ phiếu<br />
+<br />
+HBC: 24/9-Chính thức giao dịch 1.611.463 cp phát hành thêm  (HOSE)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành khác</td>
+			<td align="right">07/07/2010			<br />
+			24/09/2010			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 149,509<br>			<br />
+			149,509???</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">05/03/2010			<br />
+			05/03/2010			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 500,000<br>			<br />
+			HBC: Đã mua lại 500.000 cổ phiếu làm cổ phiếu quỹ<br />
+<br />
+Thời gian giao dịch: từ ngày 29/12/2009 đến 05/3/2010.</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">24/07/2008			<br />
+			22/08/2008			</td>
+			<td align="center">
+			100/12			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 1,620,000 (460)<br><strong>Cổ phiếu sau phát hành:</strong> 15,119,540<br/>			<br />
+			Trả cổ tức 2007 bằng cổ phiếu, tỷ lệ 12%<br />
+=====================<br />
+ HBC: 22/8-Chính thức giao dịch 1.619.540 cổ phiếu phát hành thêm  (HOSE)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành hiện hữu</td>
+			<td align="right">01/11/2007			<br />
+			09/01/2008			</td>
+			<td align="center">
+			10/1<br />(giá: 20,000)			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 1,000,000<br><strong>Cổ phiếu sau phát hành:</strong> 11,000,000<br/>			<br />
+			Phát hành thêm cổ phiếu giai đoạn 2, tỷ lệ 10:1, 20000đ/CP<br />
+==========================<br />
+HBC: 9/1-Chính thức giao dịch 3,5 triệu cổ phiếu phát hành thêm  (HOSE)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành nội bộ</td>
+			<td align="right">01/11/2007			<br />
+			09/01/2008			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 1,000,000<br>			<br />
+			Chào bán cho nhà đầu tư chiến lược: 1.000.000 cổ phiếu</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">01/11/2007			<br />
+			09/01/2008			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 1,500,000<br>			<br />
+			Bán đấu giá ra công chúng: 1.500.000 cổ phiếu</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">12/10/2007			<br />
+			12/10/2007			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> -55,900<br>			<br />
+			Đến hết ngày 12/10/2007, CTCP Xây dựng và Kinh doanh Địa ốc Hòa Bình đã hoàn tất việc bán cổ phiếu quỹ với số lượng 56.219 cổ phiếu .<br />
+(319)??????????</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">27/07/2007			<br />
+			25/09/2007			</td>
+			<td align="center">
+			12/1			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 465,341<br><strong>Cổ phiếu sau phát hành:</strong> 6,607,840<br/>			<br />
+			Phát hành cổ phiếu thưởng, tỷ lệ 12:1<br />
+==============================<br />
+Cụ thể, HBC sẽ chào bán 7.860.010 CP<br />
+phát hành 465.341 CP thưởng cho cổ đông hiện hữu theo tỉ lệ 12:1; <br />
+=======================<br />
+HBC: 25/9 - Giao dịch 4.360.010 cổ phiếu phát hành thêm  (HOSE)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">27/07/2007			<br />
+			25/09/2007			</td>
+			<td align="center">
+			10/1			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 558,409<br><strong>Cổ phiếu sau phát hành:</strong> 6,142,499<br/>			<br />
+			trong đó đợt 1 trả cổ tức bằng CP với khối lượng 558.409 CP;</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành hiện hữu</td>
+			<td align="right">27/07/2007			<br />
+			25/09/2007			</td>
+			<td align="center">
+			5/1<br />(giá: 20,000)			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 1,116,818<br><strong>Cổ phiếu sau phát hành:</strong> 7,724,658<br/>			<br />
+			chào bán 1.116.818 CP cho cổ đông hiện hữu theo tỉ lệ 5:1</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành chiến lược</td>
+			<td align="right">27/07/2007			<br />
+			25/09/2007			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 2,219,442<br>			<br />
+			chào bán 2.219.442 CP cho NĐT chiến lược</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">04/04/2007			<br />
+			04/04/2007			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 55,900<br>			<br />
+			HBC: Được phép mua lại 55.900 cổ phiếu làm cổ phiếu ngân quỹ<br />
+Thời gian thực hiện: 90 ngày kể từ ngày 04/01/2007.</td>
+		</tr>
+		</table>
+</div>
+<div id="footers_cp" style="clear:both; text-align: right; width: 100%; background: #F2f2f2; margin-top:20px; border-top:3px solid #333; font-family:HongHaHep; font-size:14px">
+  <div style="padding:10px">
+    <a href="https://cophieu68.vn/privacy.php" style="color:#000">Chính sách bảo mật</a>
+    |
+    <a href="https://cophieu68.vn/terms.php" style="color:#000">Điều khoản sử dụng</a>
+    |
+    <a href="https://cophieu68.vn/contact.php" style="color:#000">Liên lạc</a>
+  </div>
+</div>
+</body>
+</html>
+
+<script>
+setTimeout(function(){$('.auto-prose-wrapper').remove();}, 2*1000);
+</script>
+<script>
+var a_board = {"hour":"07:50:02","entryid":"713","stcid":"3","date":"2026-10-19","stockname":"hbc","open":"3.00","close":"3.00","price_fixed":"3.00","volume":"435000","value":"0.00","price_change":"0.00","percent_change":"0.00","gm3":"2.80","klm3":"267000","gm2":"2.90","klm2":"475100","gm1":"3.00","klm1":"4500","gb1":"3.10","klb1":"578100","gb2":"3.20","klb2":"239900","gb3":"3.30","klb3":"215100","ceiling":"3.40","floor":"2.60","price_open":"3.00","price_highest":"3.10","price_lowest":"2.90","current_volume":"100","foreigner_buy_volume":"0","foreigner_sell_volume":"500","volume_deal":"0","volume_atc":"0","benefit":""};
+console.log(a_board);
+var d = new Date();
+var _hour = d.getHours();
+
+function addCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function changeAffectedValue(_key, _new_value, prefix=''){
+	if (typeof( a_board[_key]) == 'undefined' || a_board== null){
+		return;
+	}
+
+	if( parseFloat(a_board['close']) == 0 ) return;
+	//if( parseInt(_new_value) == 0 ) _new_value = '';
+
+	var _old_value = a_board[_key];
+	if( _new_value != _old_value ){
+		var _class = '';
+
+    if(_key == 'volume'){
+      _class = '';
+    }
+		else if( _new_value == a_board['ceiling']) 	_class = 'price_ceiling';
+		else if( _new_value == a_board['floor']) _class = 'price_floor';
+		else if( _new_value > a_board['open']) _class = 'priceup';
+		else if( _new_value < a_board['open']) _class = 'pricedown';
+    else if( _new_value == a_board['open']) _class = 'price';
+
+		// change new value into buffer
+		a_board[_key] = _new_value;
+
+		var _id = prefix + _key;
+		addAffected(_id, _new_value, _class);
+	}
+}
+</script>
+<script>
+function getAffectedStock(obj){
+			var total = obj.length;
+			if ( total > 0 ){
+				var gm3 = obj[1];
+				var klm3 =  obj[2];
+				var gm2 = obj[3];
+				var klm2 =  obj[4];
+				var gm1 = obj[5];
+				var klm1 =  obj[6];
+
+				if( (parseInt(gm1) == 0  || gm1=='') && parseInt(klm1) > 0 ){
+					if( _hour < 12 ) 	gm1 = 'ATO';
+					else gm1 = 'ATC';
+					gm1 = gm1.toUpperCase();
+					current_volume = '';
+				}
+
+				var _close = parseFloat(obj[7]);
+				if( parseFloat(_close) == 0 ) return;
+				var _open = parseFloat(obj[26]);
+				var volume = obj[8];
+				volume = volume.replace(/,/g, "");
+				var price_change = _close - _open;
+				var percent_change = ( _close - _open )/_open*100;
+				percent_change = percent_change.toFixed(2);
+				price_change = price_change.toFixed(2);
+
+				var gb1 = obj[11];
+				var klb1 = obj[12];
+				var gb2 = obj[13];
+				var klb2 = obj[14];
+				var gb3 = obj[15];
+				var klb3 = obj[16];
+
+				if(  (parseInt(gb1) == 0 || gb1=='')  && parseInt(klb1) > 0  ){
+					if( _hour < 12 ) 	gb1 = 'ATO';
+					else gb1 = 'ATC';
+					gb1 = gb1.toUpperCase();
+				}
+
+				var price_open = obj[17];
+				var price_highest = obj[18];
+				var price_lowest = obj[19];
+
+				var value = (obj[27]);
+				var foreigner_buy_volume = obj[21];
+				var foreigner_buy_sell = obj[22];
+
+				changeAffectedValue('close', _close, 'stockname_');
+				changeAffectedValue('price_change', price_change, 'stockname_');
+				percent_change = '(' + percent_change + '%)';
+				changeAffectedValue('percent_change', percent_change, 'stockname_');
+				changeAffectedValue('volume', addCommas(volume), 'stockname_');
+				changeAffectedValue('price_highest', price_highest, 'stockname_');
+				changeAffectedValue('price_lowest', price_lowest, 'stockname_');
+				changeAffectedValue('foreigner_buy_volume', foreigner_buy_volume);
+				changeAffectedValue('foreigner_buy_sell', foreigner_buy_sell);
+
+				changeAffectedValue('gm3', gm3, 'stockname_');
+				changeAffectedValue('klm3', klm3, 'stockname_');
+				changeAffectedValue('gm2', gm2, 'stockname_');
+				changeAffectedValue('klm2', klm2, 'stockname_');
+				changeAffectedValue('gm1', gm1, 'stockname_');
+				changeAffectedValue('klm1', klm1, 'stockname_');
+
+				changeAffectedValue('gb1', gb1, 'stockname_');
+				changeAffectedValue('klb1', klb1, 'stockname_');
+				changeAffectedValue('gb2', gb2, 'stockname_');
+				changeAffectedValue('klb2', klb2, 'stockname_');
+				changeAffectedValue('gb3', gb3, 'stockname_');
+				changeAffectedValue('klb3', klb3, 'stockname_');
+			}
+}
+function addAffected(sid, svalue, sclass){
+    var $content = $( '#' + sid );
+		$content.css('background','#ffff00');
+    //$content.html(svalue);
+    setTimeout("addAffected2('" +  sid + "', '" + svalue + "', '" + sclass + "')", 1*1000);
+}
+function addAffected2(sid, svalue, sclass){
+    var $content = $( '#' + sid );
+		$content.css('background','#ffffcc');
+
+    $content.html( svalue );
+    setTimeout("removeAffected('" +  sid + "')", 1*1000);
+}
+
+function removeAffected(sid){
+    var $content = $( '#' + sid );
+		$content.css('background','');
+}
+</script>
+
+<script src="https://cophieu68.vn:7772/socket.io/socket.io.js"></script>
+
+<script>
+var d = new Date();
+var __hour = parseInt(d.getHours());
+var socket = io.connect('https://cophieu68.vn:7772');
+var _stockname = 'hbc';
+
+function requestInfoStock(){
+  socket.emit('stockname', _stockname);
+  socket.on('stockname_info', function(info) {
+      if( info != "" ){
+        var array_data = info.split("|");
+        if( array_data[0] == _stockname ){
+          getAffectedStock(array_data);
+        }
+      }
+  });
+}
+if( typeof(io) === 'object' ){
+  requestInfoStock();
+  if( __hour >= 9 && __hour < 15 ){
+    setInterval("requestInfoStock()", 3*1000);
+  }
+}
+</script>
+

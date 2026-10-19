@@ -1,0 +1,879 @@
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="google-signin-client_id" content="654849931255-ih074eactp9a01969m3et8i16vuai71r.apps.googleusercontent.com">
+<meta name="google-site-verification" content="MOqJliEGOjPuN6S6rRC_ivdy9sgJpQ_K0Sads9VpcTQ" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+<link href="https://cophieu68.vn/css/colorbox.css" rel="stylesheet" type="text/css" media="screen"  />
+<link href="https://cophieu68.vn/css/screen.css" rel="stylesheet" type="text/css" media="screen"  />
+<link href="https://cophieu68.vn/css/mobile.css" rel="stylesheet" type="text/css" media="screen"  />
+
+<script  src="https://cophieu68.vn/js/fontawesome.js" data-auto-replace-svg="nest"></script>
+<script src="https://cophieu68.vn/js/jquery.min.js" type="text/javascript"></script>
+<script src="https://cophieu68.vn/js/jquery-ui.js"></script>
+<script src="https://cophieu68.vn/js/jquery.touchSwipe.js"></script>
+<script src="https://cophieu68.vn/js/jquery.colorbox-min.js"></script>
+<script src="https://cophieu68.vn/js/common.js" type="text/javascript"></script>
+<script src="https://cophieu68.vn/js/iconify.min.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+  var WEBROOT = 'https://cophieu68.vn';
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ETJEDHQR2R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ETJEDHQR2R');
+</script>
+<!-- Google ads -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4497614833474292"
+crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div id="over_header" style="height:35px; border-bottom:0px solid #CCC; width:100%;">
+  <div class="logo flex" style="float:left;"><a href="https://cophieu68.vn/index.php"><img src="https://cophieu68.vn/images/logo_wap.gif" alt="Trang chủ" /></a></div>
+
+  <div class="flex_row" style="float:right; margin-right:10px; height:100%;">
+    <div id="user_menu" class="flex">
+      <div style="padding:0 10px; cursor:pointer;" onclick="showList('user_list')">
+        <i class="fa-regular fa-user"></i>       </div>
+      <div id="user_list" style="padding:10px; border:1px solid #CCC; z-index:10; background:#fff; top:35px; position:absolute; display:none;">
+                <div style="padding:5px;"> <a href="https://cophieu68.vn/account/login.php"> <i class="fa fa-sign-in fa-lg"></i> ĐĂNG NHẬP </a> </div>
+              </div>
+    </div>
+
+    <div class="stockname_search" class="flex" style="float:left; height:35px; margin-right: 35px; padding:0">
+      <div style="height:100%; width:100%">
+                  <form action="" method="get" style="margin:0; padding:0">
+          <input name="id" id="id" value="hdc" placeholder="Mã CK" autocomplete="off" type="text" class="textbox_dark" style="width:100%; height:100%; text-transform: uppercase; text-align:center" />
+          <input type="submit" name="stockname_search" style="display: none;" />
+        </form>
+      </div>
+    </div>
+    <div class="search_result" style="position:fixed; z-index: 1000000; background:#FFF; min-height:30px; display:none; top: 35px;  right: 0; border: 3px solid #CCC; border-radius: 5px;"></div>
+      <div id="menu_overtop" style="position: fixed; top: 5px; right: 5px; z-index: 1; opacity: 0.9">
+      <a href="javascript:void(0)" onclick="$('#menu_overtop_list').show();" style="color:#666"><i class="fa fa-list-ul fa-2x"></i></a>
+      <div id="menu_overtop_list" class="div_curve div_curve_autohide" style="display: none; position: fixed; top: 5px; right: 1px; z-index: 1; width: 200px">
+          <div onclick="$('#menu_overtop_list').hide()" style="position: absolute; top:0; right:0; padding:0px 3px; font-weight: bold; cursor: pointer;">
+              <i class="fa fa-times fa-2x" style="color:#ff0000" title="Đóng"></i>
+          </div>
+          <ul class="ul_list_item" style="margin-top:0px">
+              <li><a href="https://cophieu68.vn/index.php"><i class="fa fa-home fa-lg"></i> &nbsp; Trang chủ</a></li>
+              <li><a href="https://cophieu68.vn/stockonline.php"><i class="fa fa-list-alt fa-lg"></i> &nbsp; Bảng giao dịch trực tuyến</a></li>
+              <li><a href="https://cophieu68.vn/chartold/chart.php?id=^vnindex"><i class="fa fa-line-chart fa-lg"></i> &nbsp; Biểu đồ PHIÊN BẢN CŨ</a></li>
+              <li><a href="https://cophieu68.vn/chart/chart.php?id=^vnindex"><i class="fa fa-line-chart fa-lg"></i> &nbsp; Biểu đồ phân tích kỹ thuật</a></li>
+
+              <li style="padding:0; border-top:2px solid #999"></li>
+              <li><a href="#https://cophieu68.vn/investment_basic_indexes.php"><i class="fa fa-star-half-o fa-lg"></i> &nbsp; Sức mạnh chỉ số cơ bản</a></li>
+              <li><a href="#https://cophieu68.vn/company_financial.php"><i class="fa fa-balance-scale fa-lg"></i> &nbsp; So sánh báo cáo tài chính</a></li>
+              <li><a href="#https://cophieu68.vn/market_vn.php"><i class="fa fa-percent fa-lg"></i> &nbsp; Chỉ số thị trường</a></li>
+              <li><a href="#https://cophieu68.vn/events.php"><i class="fa fa-calendar fa-lg"></i> &nbsp; Cổ tức - Lịch sự kiện</a></li>
+              <li style="padding:0; border-top:2px solid #999"></li>
+              <li><a href="#https://cophieu68.vn/advanced_statistic.php"><i class="fa fa-tachometer fa-lg"></i> &nbsp; Thống kê nâng cao</a></li>
+              <li><a href="#https://cophieu68.vn/plan_income.php"><i class="fa fa-money fa-lg"></i> &nbsp; Kế hoạch kinh doanh</a></li>
+              <li><a href="https://cophieu68.vn/stats/stats.php"><i class="fa fa-hourglass-end fa-lg"></i> &nbsp; Đáy cổ phiếu</a></li>
+              <li><a href="https://cophieu68.vn/stats/volume_buzz.php"><i class="fa fa-sort-numeric-asc fa-lg"></i> &nbsp; Đột biến khối lượng</a></li>
+          </ul>
+      </div>
+  </div>
+  </div>
+</div>
+<div class="menu_header overflow" style="background-color:#666;">
+  <ul>
+    <li><a href="https://cophieu68.vn/stats/stats.php" class=" ">Thống Kê</a></li>
+    <li><a href="https://cophieu68.vn/market/markets.php" class=" ">Công ty niêm yết</a></li>
+    <li><a href="https://cophieu68.vn/category/category_index.php" class=" ">Nhóm Ngành</a></li>
+    <li><a href="https://cophieu68.vn/signal/filter_financial.php" class=" ">Bộ lọc</a></li>
+    <li><a href="https://cophieu68.vn/event/events.php" class=" ">Lịch Sự Kiện</a></li>
+    <li><a href="https://cophieu68.vn/chart/index.php" class=" ">Biểu đồ</a></li>
+    <li><a href="https://cophieu68.vn/download/index.php" class=" ">Dữ liệu AMIBROKER / METASTOCK / MT4</a></li>
+    <li><a href="#https://cophieu68.vn/document/index.php" class=" ">Góc Chia sẻ kiến thức</a></li>
+  </ul>
+</div>
+<div class="margin_wrap">
+	
+	<div class="flex_m_col_d_row">
+	  <div>
+	  	<h1>CTCP Phát triển Nhà Bà Rịa - Vũng Tàu<span style="color:#787b86">&nbsp;(hdc)</span></h1>
+	  	<span class="break"></span>
+
+	  	<div class="flex_row">
+	  		<div id="stockname_close" class="price" style="font-size:25px; font-weight:bold; padding-right:14px;">10.35</div>
+	  		<div id="stockname_price_change" class="price" style="font-size:25px; padding-right:14px;">0</div>
+	  		<div id="stockname_percent_change" class="price" style="font-size:25px;">(0%)</div>
+	  	</div>
+	  </div>
+		<div class="seperate min_768"></div>
+		<div class="break max_768"></div>
+	</div>
+
+	<span class="break2"></span>
+
+	<div class="menu_quote overflow">
+		<a class="" href="https://cophieu68.vn/quote/summary.php?id=hdc">Tổng quan</a><a class="" href="https://cophieu68.vn/chart/chart.php?id=hdc">Biểu đồ</a><a class="" href="https://cophieu68.vn/quote/history.php?id=hdc">Giá lịch sử</a><a class="" href="https://cophieu68.vn/quote/profile.php?id=hdc">Thông tin</a><a class="" href="https://cophieu68.vn/quote/financial.php?id=hdc">Báo cáo tài chính</a><a class="active" href="https://cophieu68.vn/quote/event.php?id=hdc">Lịch sự kiện</a>	</div>
+</div>
+
+
+<div style="clear:both; margin-top:20px; padding-left:20px">
+	<div class="overflow">
+		<a class="b_button b_grey" style="font-weight:100" href="event.php?id=hdc">&check; Lịch sự kiện</a>
+		<a class="b_button b_blue" style="font-weight:100" href="event_calc_volume.php?id=hdc">Công thức tính khối lượng</a>
+		<a class="b_button b_blue" style="font-weight:100" href="event_calc.php?id=hdc">Công thức tính Ngày GDKHQ</a>
+	</div>
+	<h1>Lịch sự kiện - HDC</h1>
+
+	<table width="100%" cellpadding="4" cellspacing="0" bgcolor="#E2EFFE">
+		<tr class="tr_header">
+			<td width="120">Sự kiện</td>
+			<td width="100" align="right">Ngày GDKHQ</td>
+			<td width="100" align="center">Cổ tức/Quyền</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">19/06/2026			<br />
+			20/06/2026			</td>
+			<td align="center">
+			100/15			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Cổ phiếu trước khi phát hành:</strong> 199,757,562<br/><strong>Dự kiến phát hành thêm:</strong> 29,963,634<br><strong>Cổ phiếu dự kiến sau phát hành:</strong> 229,721,196<br/>			<br />
+			Trả cổ tức  năm 2025  bằng cổ phiếu, tỷ lệ 100:15</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">11/11/2025			<br />
+			12/11/2025			</td>
+			<td align="center">
+			100/12			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Cổ phiếu trước khi phát hành:</strong> 178,354,966<br/><strong>Dự kiến phát hành thêm:</strong> 21,402,596<br><strong>Cổ phiếu dự kiến sau phát hành:</strong> 199,757,562<br/>			<br />
+			Thưởng cổ phiếu, tỷ lệ 100:12</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">16/09/2024			<br />
+			10/10/2024			</td>
+			<td align="center">
+			100/15			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 23,264,269 (4428)<br><strong>Cổ phiếu sau phát hành:</strong> 178,354,966<br/>			<br />
+			Trả cổ tức  năm 2023  bằng cổ phiếu, tỷ lệ 100:15<br />
+<br />
+10/10/2024 00:00  HDC: 14.10.2024, niêm yết bổ sung 23.259.841 cp<br />
+23/09/2024 00:00  HDC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 178.354.966 cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành hiện hữu</td>
+			<td align="right">26/04/2024			<br />
+			21/06/2024			</td>
+			<td align="center">
+			1000/148<br />(giá: 15,000)			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 19,995,522 (5278)<br><strong>Cổ phiếu sau phát hành:</strong> 155,095,125<br/>			<br />
+			HDC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 155.095.125 cp (21/06/2024 00:00)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">16/06/2023			<br />
+			14/07/2023			</td>
+			<td align="center">
+			100/25			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 27,021,423 (2235)<br><strong>Cổ phiếu sau phát hành:</strong> 135,104,881<br/>			<br />
+			Trả cổ tức  năm 2022  bằng cổ phiếu, tỷ lệ 100:25<br />
+<br />
+14/07/2023 00:00  HDC: 17.7.2023, niêm yết bổ sung 27.019.188 cp<br />
+26/06/2023 00:00  HDC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 135.104.881 cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">21/06/2022			<br />
+			27/06/2022			</td>
+			<td align="center">
+			100/25			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 21,617,416 (1387)<br><strong>Cổ phiếu sau phát hành:</strong> 108,085,693<br/>			<br />
+			Trả cổ tức  năm 2021  bằng cổ phiếu, tỷ lệ 100:25<br />
+<br />
+HDC: Đã phát hành 21.616.029 cổ phiếu để trả cổ tức (27/06/2022 16:40)<br />
+HDC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 108.085.693 cp (27/06/2022 16:39)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">03/11/2021			<br />
+			03/11/2021			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 3,325,376<br>			<br />
+			HDC: 3.11.2021, niêm yết bổ sung 3.325.790 cp (02/11/2021 14:54)<br />
+HDC: Đã phát hành 3.325.790 cp ESOP (30/08/2021 18:05)<br />
+HDC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 86.469.664 cp (30/08/2021 18:02)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">28/06/2021			<br />
+			29/07/2021			</td>
+			<td align="center">
+			100/25			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 16,629,063 (1026)<br><strong>Cổ phiếu sau phát hành:</strong> 83,144,288<br/>			<br />
+			Trả cổ tức  năm 2020  bằng cổ phiếu, tỷ lệ 100:25<br />
+HDC: 29.7.2021, niêm yết bổ sung 16.628.037 cp (27/07/2021 16:36)<br />
+<br />
+<br />
+29/07/2021 ## HDC: 9.8.2021, giao dịch 83,143,874 cp niêm yết bổ sung</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">04/02/2021			<br />
+			04/02/2021			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> -640,829<br>			<br />
+			HDC: Đã bán 640.829 cp quỹ (04/02/2021 16:32)<br />
+HDC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 66.515.837 cp (22/02/2021 16:57)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">28/05/2020			<br />
+			09/07/2020			</td>
+			<td align="center">
+			100/15			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 8,592,604 (1207)<br><strong>Cổ phiếu sau phát hành:</strong> 65,875,422<br/>			<br />
+			Trả cổ tức năm 2019 bằng cổ phiếu, tỷ lệ 100:15<br />
+<br />
+HDC: 9.7.2020, giao dịch 8.591.397 cp niêm yết bổ sung<br />
+<br />
+HDC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 65.875.008 cp (08/06/2020 18:18)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">29/04/2020			<br />
+			29/04/2020			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 640,829<br>			<br />
+			HDC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 57.283.611 cp (29/04/2020 17:38)<br />
+HDC: Đã mua 640.000 cp làm cp quỹ (29/04/2020 17:38)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">05/06/2019			<br />
+			17/07/2019			</td>
+			<td align="center">
+			100/15			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 7,564,752 (71579)<br><strong>Cổ phiếu sau phát hành:</strong> 57,924,854<br/>			<br />
+			Trả cổ tức bằng cổ phiếu, tỷ lệ 100:15<br />
+<br />
+HDC: 17.7.2019, giao dịch 7.493.173 cp niêm yết bổ sung (10/07/2019 17:05)<br />
+HDC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 57.923.611 cp (26/06/2019 17:04)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">05/06/2019			<br />
+			05/06/2019			</td>
+			<td align="center">
+			7%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>700 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức bằng cổ phiếu, tỷ lệ 100:15</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">27/06/2018			<br />
+			02/08/2018			</td>
+			<td align="center">
+			100/12			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 5,409,509 (57071)<br><strong>Cổ phiếu sau phát hành:</strong> 50,431,681<br/>			<br />
+			Trả cổ tức  năm 2017  bằng cổ phiếu, tỷ lệ 100:12<br />
+<p>Sở Giao dịch Chứng khoán Thành phố Hồ Chí Minh thông báo ngày ĐKCC phát hành cổ phiếu để trả vổ tức năm 2017 của Công ty Cổ phần Phát triển nhà Bà Rịa – Vũng Tàu (mã CK: HDC) như sau:</p><br />
+<br />
+--<br />
+<br />
+HDC: 2.8.2018, niêm yết bổ sung 5.352.341 cp (01/08/2018 11:18)<br />
+HDC: Đính chính báo cáo kết quả phát hành cổ phiếu để trả cổ tức năm 2017 (10/07/2018 17:36)<br />
+HDC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 49.954.487 cp (06/07/2018 17:32)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">15/06/2017			<br />
+			17/07/2017			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  năm 2016  bằng tiền, 1,000 đồng/CP<br />
+<p>Sở Giao dịch Chứng khoán Thành phố Hồ Chí Minh thông báo về ngày đăng ký cuối cùng trả cổ tức năm 2016 bằng tiền&nbsp;của Công ty Cổ phần Phát triển nhà Bà Rịa – Vũng Tàu&nbsp;(mã CK: HDC)&nbsp;như sau:</p></td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">01/12/2016			<br />
+			09/01/2017			</td>
+			<td align="center">
+			100/10			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 4,111,344 (145544)<br><strong>Cổ phiếu sau phát hành:</strong> 45,079,243<br/>			<br />
+			Phát hành cổ phiếu trả cổ tức năm 2015. tỷ lệ 100:10<br />Ngày đăng ký cuối cùng: 02/12/2016<br />
+<br />
+HDC: 17/01/2017, giao dịch 3.965.727 cổ phiếu niêm yết bổ sung (06/01/2017 16:40)<br />
+HDC: 09/01/2017, niêm yết bổ sung 3.965.727 cổ phiếu (06/01/2017 08:48)<br />
+HDC: Đính chính thông báo thay đổi số lượng cổ phiếu đang lưu hành (16/12/2016 08:52)<br />
+HDC: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 43.622.527 cp (13/12/2016 17:31)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">26/11/2015			<br />
+			24/12/2015			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c n&#259;m 2014 b&#7857;ng ti&#7873;n. 500đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 30/11/2015</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">17/12/2014			<br />
+			26/01/2015			</td>
+			<td align="center">
+			100/35			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 9,593,409 (1168)<br><strong>Cổ phiếu sau phát hành:</strong> 41,113,443<br/>			<br />
+			Phát hành cổ phiếu để tăng vốn điều lệ từ nguồn vốn chủ sở hữu. tỷ lệ 100:35<br />Ngày đăng ký cuối cùng: 19/12/2014<br />
+<br />
+--<br />
+<br />
+HDC: 26.1.2015, niêm yết bổ sung 13.703.458 cổ phiếu<br />
+<br />
+-          Tổng số lượng chứng khoán sau khi thay đổi niêm yết: 41.113.199 cổ phiếu (Bốn mươi mốt triệu một trăm mười ba nghìn một trăm chín mươi chín cổ phiếu)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">17/12/2014			<br />
+			26/01/2015			</td>
+			<td align="center">
+			100/15			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 4,111,461<br><strong>Cổ phiếu sau phát hành:</strong> 31,521,202<br/>			<br />
+			                           Cổ tức bằng Cổ phiếu, tỷ lệ 100:15</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">02/10/2014			<br />
+			02/10/2014			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> -500,489<br>			<br />
+			HDC: Đã bán 500.000 cp quỹ<br />
+<br />
+Thoi gian thuc hien 12/9/2014 den 2/10/2014<br />
+<br />
+So cp quy con lai: 1529</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">06/02/2014			<br />
+			28/02/2014			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c n&#259;m 2012 b&#7857;ng ti&#7873;n 1.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 10/02/2014</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">06/06/2012			<br />
+			24/07/2012			</td>
+			<td align="center">
+			100/15			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 3,509,912 (73)<br><strong>Cổ phiếu sau phát hành:</strong> 26,909,252<br/>			<br />
+			Trả cổ tức đợt 2 năm 2011 bằng cổ phiếu tỷ lệ 100:15<br />Ngày đăng ký cuối cùng: 08/06/2012<br />
+----<br />
+HDC: 24/7 - Giao dịch 3.509.839 cổ phiếu phát hành thêm (13/07/2012 17:30)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">14/03/2012			<br />
+			16/05/2012			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			T&#7841;m &#7913;ng c&#7893; t&#7913;c &#273;&#7907;t 1 n&#259;m 2011 b&#7857;ng ti&#7873;n 1.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 16/03/2012</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">16/05/2011			<br />
+			20/06/2011			</td>
+			<td align="center">
+			100/20			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 3,899,902<br><strong>Cổ phiếu sau phát hành:</strong> 23,399,413<br/>			<br />
+			Trả cổ tức đợt 02 năm 2010 bằng cổ phiếu tỷ lệ 100:20<br />
+Ngày đăng ký cuối cùng: 18/05/2011<br />
+--------------------------<br />
+HDC: Giao dịch 3.899.902 cổ phiếu phát hành thêm<br />
+Ngày niêm yết có hiệu lực: 20/06/2011<br />
+Ngày chính thức giao dịch: 28/06/2011</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">24/12/2010			<br />
+			24/12/2010			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 500,489<br>			<br />
+			Số lượng cổ phiếu quỹ nắm giữ trước khi giao dịch: 489 đơn vị<br />
+<br />
+Số lượng cổ phiếu quỹ đã mua: 500.000 đơn vị.<br />
+<br />
+Số lượng cổ phiếu quỹ nắm giữ sau giao dịch: 500.489 đơn vị<br />
+<br />
+Giao dịch thực hiện bằng phương thức khớp lệnh từ 1/11/2010 đến 24/12/2010.</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành khác</td>
+			<td align="right">15/10/2010			<br />
+			15/10/2010			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 4,524,270<br>			<br />
+			HDC: Kết quả chào bán cổ phiếu riêng lẻ <br />
+HDC: Chấp thuận niêm yết bổ sung 4.524.270 cp   (HOSE)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">26/08/2010			<br />
+			15/09/2010			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức đợt 1 năm 2010 bằng tiền cho cổ đông hiện hữu 1.000đồng/cổ phiếu<br />
+Ngày đăng ký cuối cùng: 30/08/2010</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">16/04/2010			<br />
+			20/05/2010			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức đợt 2 năm 2009 bằng tiền mặt 1.000đồng/cổ phiếu<br />
+Ngày đăng ký cuối cùng: 20/04/2010</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">16/04/2010			<br />
+			28/06/2010			</td>
+			<td align="center">
+			10/1			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 1,079,739 (530)<br><strong>Cổ phiếu sau phát hành:</strong> 15,475,730<br/>			<br />
+			Trả cổ tức đợt 2 năm 2009 bằng cổ phiếu tỷ lệ 10:1<br />
+- Trả cổ tức đợt 02/2009 bằng cổ phiếu: 1.079.739 cổ phiếu<br />
+<br />
+ HDC: 28/6-Chính thức giao dịch 4.678.339 cp phát hành thêm <br />
+# Đây là số cổ phiếu được phát hành thêm từ việc trả cổ tức đợt 02/2009 bằng cổ phiếu với tỷ lệ 10% và thưởng cổ phiếu cho cổ đông hiện hữu với tỷ lệ với tỷ lệ 3:1</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">16/04/2010			<br />
+			28/06/2010			</td>
+			<td align="center">
+			3/1			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 3,599,130<br><strong>Cổ phiếu sau phát hành:</strong> 14,396,521<br/>			<br />
+			Thưởng cổ phiếu cho cổ đông hiện hữu tỷ lệ 3:1<br />
+- Thưởng cổ phiếu cho cổ đông hiện hữu: 3.599.130 cổ phiếu</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">12/11/2009			<br />
+			05/02/2010			</td>
+			<td align="center">
+			10/1			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 812,800<br><strong>Cổ phiếu sau phát hành:</strong> 8,940,800<br/>			<br />
+			Trả cổ tức đợt 1 năm 2009 bằng cổ phiếu tỷ lệ 10:1<br />
+Du kien phat hanh: 812,800<br />
+ HDC: 22/2-Giao dịch 2.669.391 cổ phiếu phát hành thêm</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành hiện hữu</td>
+			<td align="right">12/11/2009			<br />
+			05/02/2010			</td>
+			<td align="center">
+			100/22.87<br />(giá: 20,000)			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 1,858,874 (2283)<br><strong>Cổ phiếu sau phát hành:</strong> 10,797,391<br/>			<br />
+			Chào bán cổ phiếu cho cổ đông hiện hữu tỷ lệ 100 : 22.87 20.000đồng/cổ phiếu<br />
+Du kien phat hanh: 1,859,200</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">02/09/2009			<br />
+			02/09/2009			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> -201,130<br>			<br />
+			HDC: Đã bán 201.130 cổ phiếu quỹ</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">18/05/2009			<br />
+			10/06/2009			</td>
+			<td align="center">
+			1%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>100 đồng/cổ phiếu</strong><br>			<br />
+			Cổ tức đợt 2/2008, 100 đ/cp</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">10/12/2008			<br />
+			26/12/2008			</td>
+			<td align="center">
+			18%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1800 đồng/cổ phiếu</strong><br>			<br />
+			Cổ tức đợt 1/2008, 1.800 đ/cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">05/11/2008			<br />
+			05/11/2008			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 109,050<br>			<br />
+			Theo đó, HDC đã mua xong 109.050 cổ phiếu làm cổ phiếu quỹ trong tổng số 200.000 cổ phiếu đăng ký mua nâng số cổ phiếu quỹ lên 201.130 cổ phiếu.</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">14/03/2008			<br />
+			29/04/2008			</td>
+			<td align="center">
+			18%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1800 đồng/cổ phiếu</strong><br>			<br />
+			Cổ tức năm 2007, 1.800 đ/cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">08/10/2007			<br />
+			08/10/2007			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 92,080<br>			<br />
+			92.080</td>
+		</tr>
+		</table>
+</div>
+<div id="footers_cp" style="clear:both; text-align: right; width: 100%; background: #F2f2f2; margin-top:20px; border-top:3px solid #333; font-family:HongHaHep; font-size:14px">
+  <div style="padding:10px">
+    <a href="https://cophieu68.vn/privacy.php" style="color:#000">Chính sách bảo mật</a>
+    |
+    <a href="https://cophieu68.vn/terms.php" style="color:#000">Điều khoản sử dụng</a>
+    |
+    <a href="https://cophieu68.vn/contact.php" style="color:#000">Liên lạc</a>
+  </div>
+</div>
+</body>
+</html>
+
+<script>
+setTimeout(function(){$('.auto-prose-wrapper').remove();}, 2*1000);
+</script>
+<script>
+var a_board = {"hour":"07:50:02","entryid":"74","stcid":"1","date":"2026-10-19","stockname":"hdc","open":"10.35","close":"10.35","price_fixed":"10.35","volume":"688500","value":"0.00","price_change":"0.00","percent_change":"0.00","gm3":"10.20","klm3":"25200","gm2":"10.25","klm2":"38700","gm1":"10.30","klm1":"62900","gb1":"10.35","klb1":"4200","gb2":"10.40","klb2":"1800","gb3":"10.45","klb3":"37200","ceiling":"11.05","floor":"9.63","price_open":"10.50","price_highest":"10.55","price_lowest":"10.35","current_volume":"56500","foreigner_buy_volume":"5300","foreigner_sell_volume":"78400","volume_deal":"0","volume_atc":"0","benefit":""};
+console.log(a_board);
+var d = new Date();
+var _hour = d.getHours();
+
+function addCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function changeAffectedValue(_key, _new_value, prefix=''){
+	if (typeof( a_board[_key]) == 'undefined' || a_board== null){
+		return;
+	}
+
+	if( parseFloat(a_board['close']) == 0 ) return;
+	//if( parseInt(_new_value) == 0 ) _new_value = '';
+
+	var _old_value = a_board[_key];
+	if( _new_value != _old_value ){
+		var _class = '';
+
+    if(_key == 'volume'){
+      _class = '';
+    }
+		else if( _new_value == a_board['ceiling']) 	_class = 'price_ceiling';
+		else if( _new_value == a_board['floor']) _class = 'price_floor';
+		else if( _new_value > a_board['open']) _class = 'priceup';
+		else if( _new_value < a_board['open']) _class = 'pricedown';
+    else if( _new_value == a_board['open']) _class = 'price';
+
+		// change new value into buffer
+		a_board[_key] = _new_value;
+
+		var _id = prefix + _key;
+		addAffected(_id, _new_value, _class);
+	}
+}
+</script>
+<script>
+function getAffectedStock(obj){
+			var total = obj.length;
+			if ( total > 0 ){
+				var gm3 = obj[1];
+				var klm3 =  obj[2];
+				var gm2 = obj[3];
+				var klm2 =  obj[4];
+				var gm1 = obj[5];
+				var klm1 =  obj[6];
+
+				if( (parseInt(gm1) == 0  || gm1=='') && parseInt(klm1) > 0 ){
+					if( _hour < 12 ) 	gm1 = 'ATO';
+					else gm1 = 'ATC';
+					gm1 = gm1.toUpperCase();
+					current_volume = '';
+				}
+
+				var _close = parseFloat(obj[7]);
+				if( parseFloat(_close) == 0 ) return;
+				var _open = parseFloat(obj[26]);
+				var volume = obj[8];
+				volume = volume.replace(/,/g, "");
+				var price_change = _close - _open;
+				var percent_change = ( _close - _open )/_open*100;
+				percent_change = percent_change.toFixed(2);
+				price_change = price_change.toFixed(2);
+
+				var gb1 = obj[11];
+				var klb1 = obj[12];
+				var gb2 = obj[13];
+				var klb2 = obj[14];
+				var gb3 = obj[15];
+				var klb3 = obj[16];
+
+				if(  (parseInt(gb1) == 0 || gb1=='')  && parseInt(klb1) > 0  ){
+					if( _hour < 12 ) 	gb1 = 'ATO';
+					else gb1 = 'ATC';
+					gb1 = gb1.toUpperCase();
+				}
+
+				var price_open = obj[17];
+				var price_highest = obj[18];
+				var price_lowest = obj[19];
+
+				var value = (obj[27]);
+				var foreigner_buy_volume = obj[21];
+				var foreigner_buy_sell = obj[22];
+
+				changeAffectedValue('close', _close, 'stockname_');
+				changeAffectedValue('price_change', price_change, 'stockname_');
+				percent_change = '(' + percent_change + '%)';
+				changeAffectedValue('percent_change', percent_change, 'stockname_');
+				changeAffectedValue('volume', addCommas(volume), 'stockname_');
+				changeAffectedValue('price_highest', price_highest, 'stockname_');
+				changeAffectedValue('price_lowest', price_lowest, 'stockname_');
+				changeAffectedValue('foreigner_buy_volume', foreigner_buy_volume);
+				changeAffectedValue('foreigner_buy_sell', foreigner_buy_sell);
+
+				changeAffectedValue('gm3', gm3, 'stockname_');
+				changeAffectedValue('klm3', klm3, 'stockname_');
+				changeAffectedValue('gm2', gm2, 'stockname_');
+				changeAffectedValue('klm2', klm2, 'stockname_');
+				changeAffectedValue('gm1', gm1, 'stockname_');
+				changeAffectedValue('klm1', klm1, 'stockname_');
+
+				changeAffectedValue('gb1', gb1, 'stockname_');
+				changeAffectedValue('klb1', klb1, 'stockname_');
+				changeAffectedValue('gb2', gb2, 'stockname_');
+				changeAffectedValue('klb2', klb2, 'stockname_');
+				changeAffectedValue('gb3', gb3, 'stockname_');
+				changeAffectedValue('klb3', klb3, 'stockname_');
+			}
+}
+function addAffected(sid, svalue, sclass){
+    var $content = $( '#' + sid );
+		$content.css('background','#ffff00');
+    //$content.html(svalue);
+    setTimeout("addAffected2('" +  sid + "', '" + svalue + "', '" + sclass + "')", 1*1000);
+}
+function addAffected2(sid, svalue, sclass){
+    var $content = $( '#' + sid );
+		$content.css('background','#ffffcc');
+
+    $content.html( svalue );
+    setTimeout("removeAffected('" +  sid + "')", 1*1000);
+}
+
+function removeAffected(sid){
+    var $content = $( '#' + sid );
+		$content.css('background','');
+}
+</script>
+
+<script src="https://cophieu68.vn:7772/socket.io/socket.io.js"></script>
+
+<script>
+var d = new Date();
+var __hour = parseInt(d.getHours());
+var socket = io.connect('https://cophieu68.vn:7772');
+var _stockname = 'hdc';
+
+function requestInfoStock(){
+  socket.emit('stockname', _stockname);
+  socket.on('stockname_info', function(info) {
+      if( info != "" ){
+        var array_data = info.split("|");
+        if( array_data[0] == _stockname ){
+          getAffectedStock(array_data);
+        }
+      }
+  });
+}
+if( typeof(io) === 'object' ){
+  requestInfoStock();
+  if( __hour >= 9 && __hour < 15 ){
+    setInterval("requestInfoStock()", 3*1000);
+  }
+}
+</script>
+

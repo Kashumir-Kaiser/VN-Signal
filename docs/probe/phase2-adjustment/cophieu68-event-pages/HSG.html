@@ -1,0 +1,986 @@
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="google-signin-client_id" content="654849931255-ih074eactp9a01969m3et8i16vuai71r.apps.googleusercontent.com">
+<meta name="google-site-verification" content="MOqJliEGOjPuN6S6rRC_ivdy9sgJpQ_K0Sads9VpcTQ" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+<link href="https://cophieu68.vn/css/colorbox.css" rel="stylesheet" type="text/css" media="screen"  />
+<link href="https://cophieu68.vn/css/screen.css" rel="stylesheet" type="text/css" media="screen"  />
+<link href="https://cophieu68.vn/css/mobile.css" rel="stylesheet" type="text/css" media="screen"  />
+
+<script  src="https://cophieu68.vn/js/fontawesome.js" data-auto-replace-svg="nest"></script>
+<script src="https://cophieu68.vn/js/jquery.min.js" type="text/javascript"></script>
+<script src="https://cophieu68.vn/js/jquery-ui.js"></script>
+<script src="https://cophieu68.vn/js/jquery.touchSwipe.js"></script>
+<script src="https://cophieu68.vn/js/jquery.colorbox-min.js"></script>
+<script src="https://cophieu68.vn/js/common.js" type="text/javascript"></script>
+<script src="https://cophieu68.vn/js/iconify.min.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+  var WEBROOT = 'https://cophieu68.vn';
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ETJEDHQR2R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ETJEDHQR2R');
+</script>
+<!-- Google ads -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4497614833474292"
+crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div id="over_header" style="height:35px; border-bottom:0px solid #CCC; width:100%;">
+  <div class="logo flex" style="float:left;"><a href="https://cophieu68.vn/index.php"><img src="https://cophieu68.vn/images/logo_wap.gif" alt="Trang chủ" /></a></div>
+
+  <div class="flex_row" style="float:right; margin-right:10px; height:100%;">
+    <div id="user_menu" class="flex">
+      <div style="padding:0 10px; cursor:pointer;" onclick="showList('user_list')">
+        <i class="fa-regular fa-user"></i>       </div>
+      <div id="user_list" style="padding:10px; border:1px solid #CCC; z-index:10; background:#fff; top:35px; position:absolute; display:none;">
+                <div style="padding:5px;"> <a href="https://cophieu68.vn/account/login.php"> <i class="fa fa-sign-in fa-lg"></i> ĐĂNG NHẬP </a> </div>
+              </div>
+    </div>
+
+    <div class="stockname_search" class="flex" style="float:left; height:35px; margin-right: 35px; padding:0">
+      <div style="height:100%; width:100%">
+                  <form action="" method="get" style="margin:0; padding:0">
+          <input name="id" id="id" value="hsg" placeholder="Mã CK" autocomplete="off" type="text" class="textbox_dark" style="width:100%; height:100%; text-transform: uppercase; text-align:center" />
+          <input type="submit" name="stockname_search" style="display: none;" />
+        </form>
+      </div>
+    </div>
+    <div class="search_result" style="position:fixed; z-index: 1000000; background:#FFF; min-height:30px; display:none; top: 35px;  right: 0; border: 3px solid #CCC; border-radius: 5px;"></div>
+      <div id="menu_overtop" style="position: fixed; top: 5px; right: 5px; z-index: 1; opacity: 0.9">
+      <a href="javascript:void(0)" onclick="$('#menu_overtop_list').show();" style="color:#666"><i class="fa fa-list-ul fa-2x"></i></a>
+      <div id="menu_overtop_list" class="div_curve div_curve_autohide" style="display: none; position: fixed; top: 5px; right: 1px; z-index: 1; width: 200px">
+          <div onclick="$('#menu_overtop_list').hide()" style="position: absolute; top:0; right:0; padding:0px 3px; font-weight: bold; cursor: pointer;">
+              <i class="fa fa-times fa-2x" style="color:#ff0000" title="Đóng"></i>
+          </div>
+          <ul class="ul_list_item" style="margin-top:0px">
+              <li><a href="https://cophieu68.vn/index.php"><i class="fa fa-home fa-lg"></i> &nbsp; Trang chủ</a></li>
+              <li><a href="https://cophieu68.vn/stockonline.php"><i class="fa fa-list-alt fa-lg"></i> &nbsp; Bảng giao dịch trực tuyến</a></li>
+              <li><a href="https://cophieu68.vn/chartold/chart.php?id=^vnindex"><i class="fa fa-line-chart fa-lg"></i> &nbsp; Biểu đồ PHIÊN BẢN CŨ</a></li>
+              <li><a href="https://cophieu68.vn/chart/chart.php?id=^vnindex"><i class="fa fa-line-chart fa-lg"></i> &nbsp; Biểu đồ phân tích kỹ thuật</a></li>
+
+              <li style="padding:0; border-top:2px solid #999"></li>
+              <li><a href="#https://cophieu68.vn/investment_basic_indexes.php"><i class="fa fa-star-half-o fa-lg"></i> &nbsp; Sức mạnh chỉ số cơ bản</a></li>
+              <li><a href="#https://cophieu68.vn/company_financial.php"><i class="fa fa-balance-scale fa-lg"></i> &nbsp; So sánh báo cáo tài chính</a></li>
+              <li><a href="#https://cophieu68.vn/market_vn.php"><i class="fa fa-percent fa-lg"></i> &nbsp; Chỉ số thị trường</a></li>
+              <li><a href="#https://cophieu68.vn/events.php"><i class="fa fa-calendar fa-lg"></i> &nbsp; Cổ tức - Lịch sự kiện</a></li>
+              <li style="padding:0; border-top:2px solid #999"></li>
+              <li><a href="#https://cophieu68.vn/advanced_statistic.php"><i class="fa fa-tachometer fa-lg"></i> &nbsp; Thống kê nâng cao</a></li>
+              <li><a href="#https://cophieu68.vn/plan_income.php"><i class="fa fa-money fa-lg"></i> &nbsp; Kế hoạch kinh doanh</a></li>
+              <li><a href="https://cophieu68.vn/stats/stats.php"><i class="fa fa-hourglass-end fa-lg"></i> &nbsp; Đáy cổ phiếu</a></li>
+              <li><a href="https://cophieu68.vn/stats/volume_buzz.php"><i class="fa fa-sort-numeric-asc fa-lg"></i> &nbsp; Đột biến khối lượng</a></li>
+          </ul>
+      </div>
+  </div>
+  </div>
+</div>
+<div class="menu_header overflow" style="background-color:#666;">
+  <ul>
+    <li><a href="https://cophieu68.vn/stats/stats.php" class=" ">Thống Kê</a></li>
+    <li><a href="https://cophieu68.vn/market/markets.php" class=" ">Công ty niêm yết</a></li>
+    <li><a href="https://cophieu68.vn/category/category_index.php" class=" ">Nhóm Ngành</a></li>
+    <li><a href="https://cophieu68.vn/signal/filter_financial.php" class=" ">Bộ lọc</a></li>
+    <li><a href="https://cophieu68.vn/event/events.php" class=" ">Lịch Sự Kiện</a></li>
+    <li><a href="https://cophieu68.vn/chart/index.php" class=" ">Biểu đồ</a></li>
+    <li><a href="https://cophieu68.vn/download/index.php" class=" ">Dữ liệu AMIBROKER / METASTOCK / MT4</a></li>
+    <li><a href="#https://cophieu68.vn/document/index.php" class=" ">Góc Chia sẻ kiến thức</a></li>
+  </ul>
+</div>
+<div class="margin_wrap">
+	
+	<div class="flex_m_col_d_row">
+	  <div>
+	  	<h1>CTCP Tập đoàn Hoa Sen<span style="color:#787b86">&nbsp;(hsg)</span></h1>
+	  	<span class="break"></span>
+
+	  	<div class="flex_row">
+	  		<div id="stockname_close" class="priceup" style="font-size:25px; font-weight:bold; padding-right:14px;">10.45</div>
+	  		<div id="stockname_price_change" class="priceup" style="font-size:25px; padding-right:14px;">0.05</div>
+	  		<div id="stockname_percent_change" class="priceup" style="font-size:25px;">(0.48%)</div>
+	  	</div>
+	  </div>
+		<div class="seperate min_768"></div>
+		<div class="break max_768"></div>
+	</div>
+
+	<span class="break2"></span>
+
+	<div class="menu_quote overflow">
+		<a class="" href="https://cophieu68.vn/quote/summary.php?id=hsg">Tổng quan</a><a class="" href="https://cophieu68.vn/chart/chart.php?id=hsg">Biểu đồ</a><a class="" href="https://cophieu68.vn/quote/history.php?id=hsg">Giá lịch sử</a><a class="" href="https://cophieu68.vn/quote/profile.php?id=hsg">Thông tin</a><a class="" href="https://cophieu68.vn/quote/financial.php?id=hsg">Báo cáo tài chính</a><a class="active" href="https://cophieu68.vn/quote/event.php?id=hsg">Lịch sự kiện</a>	</div>
+</div>
+
+
+<div style="clear:both; margin-top:20px; padding-left:20px">
+	<div class="overflow">
+		<a class="b_button b_grey" style="font-weight:100" href="event.php?id=hsg">&check; Lịch sự kiện</a>
+		<a class="b_button b_blue" style="font-weight:100" href="event_calc_volume.php?id=hsg">Công thức tính khối lượng</a>
+		<a class="b_button b_blue" style="font-weight:100" href="event_calc.php?id=hsg">Công thức tính Ngày GDKHQ</a>
+	</div>
+	<h1>Lịch sự kiện - HSG</h1>
+
+	<table width="100%" cellpadding="4" cellspacing="0" bgcolor="#E2EFFE">
+		<tr class="tr_header">
+			<td width="120">Sự kiện</td>
+			<td width="100" align="right">Ngày GDKHQ</td>
+			<td width="100" align="center">Cổ tức/Quyền</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">04/05/2026			<br />
+			05/05/2026			</td>
+			<td align="center">
+			100/30			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Cổ phiếu trước khi phát hành:</strong> 620,982,309<br/><strong>Dự kiến phát hành thêm:</strong> 186,294,693<br><strong>Cổ phiếu dự kiến sau phát hành:</strong> 807,277,002<br/>			<br />
+			Trả cổ tức  năm 2025  bằng cổ phiếu, tỷ lệ 100:30</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">02/04/2025			<br />
+			28/04/2025			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  năm 2024  bằng tiền, 500 đồng/CP</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">01/11/2024			<br />
+			01/11/2024			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 5,000,000<br>			<br />
+			01/11/2024 00:00  HSG: 4.11.2024, niêm yết bổ sung 5.000.000 cp<br />
+10/10/2024 00:00  HSG: Nghị quyết HĐQT thông qua báo cáo kết quả phát hành cổ phiếu ESOP năm 2024<br />
+10/10/2024 00:00  HSG: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 620.982.309 cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">24/04/2024			<br />
+			10/05/2024			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  năm 2023  bằng tiền, 500 đồng/CP</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">26/06/2023			<br />
+			18/07/2023			</td>
+			<td align="center">
+			100/3			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 17,941,650 (14327)<br><strong>Cổ phiếu sau phát hành:</strong> 615,982,309<br/>			<br />
+			Trả cổ tức  năm 2022  bằng cổ phiếu, tỷ lệ 100:3<br />
+<br />
+18/07/2023 00:00  HSG: 19.7.2023, niêm yết bổ sung 17.927.323 cp<br />
+30/06/2023 00:00  HSG: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 615.982.309 cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">14/09/2022			<br />
+			07/10/2022			</td>
+			<td align="center">
+			100/20			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 99,676,539 (4249)<br><strong>Cổ phiếu sau phát hành:</strong> 598,054,986<br/>			<br />
+			Trả cổ tức  năm 2021  bằng cổ phiếu, tỷ lệ 100:20<br />
+<br />
+HSG: 7.10.2022, niêm yết bổ sung 99.672.290 cp (06/10/2022 10:44)<br />
+HSG: Đã phát hành 99.672.290 cổ phiếu để trả cổ tức (21/09/2022 13:32)<br />
+HSG: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 598.054.986 cp (21/09/2022 13:31)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">15/08/2022			<br />
+			15/08/2022			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 4,900,800<br>			<br />
+			HSG: 15.8.2022, niêm yết bổ sung 4.900.800 cp (12/08/2022 16:33)<br />
+HSG: Đã phát hành 4.900.800 cp ESOP (06/07/2022 16:34)<br />
+HSG: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 498.382.696 cp (06/07/2022 16:33)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành khác</td>
+			<td align="right">12/10/2021			<br />
+			12/10/2021			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 4,400,000<br>			<br />
+			HSG: 12.10.2021, niêm yết bổ sung 4.400.000 cp (11/10/2021 09:15)<br />
+HSG: Đã phát hành 4.400.000 cp ESOP (17/09/2021 18:16)<br />
+HSG: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 493.481.896 cp (17/09/2021 18:16)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">15/06/2021			<br />
+			07/07/2021			</td>
+			<td align="center">
+			100/10			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 44,462,521 (5838)<br><strong>Cổ phiếu sau phát hành:</strong> 489,081,896<br/>			<br />
+			Trả cổ tức  năm 2020  bằng cổ phiếu, tỷ lệ 100:10<br />
+<br />
+07/07/2021 ## HSG: 20.7.2021, giao dịch 44.456.683 cp niêm yết bổ sung<br />
+21/06/2021 ## HSG: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 489.081.896 cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">23/04/2020			<br />
+			19/05/2020			</td>
+			<td align="center">
+			100/5			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 21,173,474 (17750)<br><strong>Cổ phiếu sau phát hành:</strong> 444,625,213<br/>			<br />
+			Trả cổ tức năm 2019 bằng cổ phiếu, tỷ lệ 100:5<br />
+<br />
+HSG: 19.5.2020, niêm yết bổ sung 21.155.724 cp (18/05/2020 12:25)<br />
+HSG: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 444.379.313 cp (05/05/2020 17:45)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">22/04/2019			<br />
+			16/05/2019			</td>
+			<td align="center">
+			100/10			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 38,499,033 (19872)<br><strong>Cổ phiếu sau phát hành:</strong> 423,469,489<br/>			<br />
+			Trả cổ tức năm 2018 bằng cổ phiếu, tỷ lệ 100:10<br />
+<br />
+HSG: 16.5.2019, niêm yết bổ sung 38.479.161 cp (14/05/2019 17:28)<br />
+HSG: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 423.307.989 cp (25/04/2019 17:46)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">31/05/2018			<br />
+			27/06/2018			</td>
+			<td align="center">
+			100/10			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 34,999,668 (6023)<br><strong>Cổ phiếu sau phát hành:</strong> 384,990,328<br/>			<br />
+			Trả cổ tức  năm 2016-2017  bằng cổ phiếu, tỷ lệ 100:10<br />
+<p>Sở GDCK TP.HCM thông báo ngày ĐKCC trả cổ tức năm tài chính 2016-2017 bằng cổ phiếu của Công ty Cổ phần Tập đoàn Hoa Sen (mã CK: HSG) như sau:</p><br />
+<br />
+--<br />
+<br />
+HSG: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 384.933.528 cp (11/07/2018 00:00)<br />
+HSG: 27.6.2018, niêm yết bổ sung 34.993.645 cp (26/06/2018 17:22)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">11/05/2018			<br />
+			29/05/2018			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 2/2016 - 2017 bằng tiền, 500 đồng/CP<br />
+<p><span>Sở Giao dịch Chứng khoán Tp.HCM t</span>hông báo về ngày đăng ký cuối cùng chi trả cổ tức đợt 1 của NĐTC 2016 - 2017 bằng tiền mặt của&nbsp;Công ty Cổ phần Tập đoàn Hoa Sen (mã CK: HSG) như sau:</p></td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">30/03/2018			<br />
+			16/04/2018			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 1/2016 - 2017 bằng tiền, 500 đồng/CP<br />
+<p><span>Sở Giao dịch Chứng khoán Tp.HCM t</span>hông báo về ngày đăng ký cuối cùng chi trả cổ tức đợt 1 của NĐTC 2016 - 2017 bằng tiền mặt của&nbsp;Công ty Cổ phần Tập đoàn Hoa Sen (mã CK: HSG) như sau:</p></td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">29/05/2017			<br />
+			03/07/2017			</td>
+			<td align="center">
+			100/55			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 110,000,000<br><strong>Cổ phiếu sau phát hành:</strong> 349,996,683<br/>			<br />
+			Trả cổ tức  năm 2016  bằng cổ phiếu, tỷ lệ 100:55<br />
+<p>Sở Giao dịch Chứng khoán Thành phố Hồ Chí Minh thông báo về ngày đăng ký cuối cùng trả cổ tức bằng cổ phiếu của NĐTC 2015 - 2016 và phát hành cổ phiếu để tăng vốn cổ phần từ nguồn vốn chủ sở hữu của Công ty Cổ phần Tập đoàn Hoa Sen (mã CK: HSG) như sau:</p></td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">29/05/2017			<br />
+			03/07/2017			</td>
+			<td align="center">
+			100/20			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 40,000,000 (3317)<br><strong>Cổ phiếu sau phát hành:</strong> 239,996,683<br/>			<br />
+			Thực hiện quyền mua cổ phiếu phát hành thêm, tỷ lệ 100:20<br />
+<p>Sở Giao dịch Chứng khoán Thành phố Hồ Chí Minh thông báo về ngày đăng ký cuối cùng trả cổ tức bằng cổ phiếu của NĐTC 2015 - 2016 và phát hành cổ phiếu để tăng vốn cổ phần từ nguồn vốn chủ sở hữu của Công ty Cổ phần Tập đoàn Hoa Sen (mã CK: HSG) như sau:</p><br />
+<br />
+HSG: 3.7.2017, niêm yết bổ sung 149.996.683 cp (30/06/2017 09:03)<br />
+HSG: Đã phát hành 149.996.683 cp trả cổ tức và tăng vốn cp (08/06/2017 17:16)<br />
+HSG: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 349.996.683 cp (08/06/2017 17:15)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">27/04/2017			<br />
+			27/04/2017			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 3,460,171<br>			<br />
+			HSG: 3.5.2017, niêm yết bổ sung 3.460.171 cp (27/04/2017 17:35)<br />
+HSG: Đã phát hành 3.460.171 cp ESOP (12/04/2017 17:32)<br />
+HSG: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 200.000.0000 cp (12/04/2017 14:33)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">27/02/2017			<br />
+			31/03/2017			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c &#273;&#7907;t 1 c&#7911;a N&#272;TC 2015 &#8211; 2016. 1.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 28/02/2017</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">31/05/2016			<br />
+			22/06/2016			</td>
+			<td align="center">
+			10/5			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 65,513,534 (772)<br><strong>Cổ phiếu sau phát hành:</strong> 196,539,829<br/>			<br />
+			Trả cổ tức bằng cổ phiếu đợt 2 niên độ tài chính 2014 – 2015. tỷ lệ 10:5<br />Ngày đăng ký cuối cùng: 01/06/2016<br />
+<br />
+---<br />
+<br />
+HSG: 22.6.2016, niêm yết bổ sung 65.512.762 cổ phiếu (21/06/2016 10:01)<br />
+<br />
+ Số lượng chứng khoán thay đổi đăng ký niêm yết: 65.512.762 cổ phiếu (Sáu mươi lăm triệu năm trăm mười hai nghìn bảy trăm sáu mươi hai cổ phiếu)<br />
+- Giá trị chứng khoán thay đổi đăng ký niêm yết theo mệnh giá: 655.127.620.000 đồng (Sáu trăm năm mươi lăm tỷ một trăm hai mươi bảy triệu sáu trăm hai mươi nghìn đồng)<br />
+- Tổng số lượng chứng khoán sau khi thay đổi đăng ký niêm yết: 196.539.829 cổ phiếu (Một trăm chín mươi sáu triệu năm trăm ba mươi chín nghìn tám trăm hai mươi chín cổ phiếu)<br />
+- Tổng giá trị chứng khoán niêm yết sau khi thay đổi đăng ký niêm yết (theo mệnh giá): 1.965.398.290.000 đồng (Một nghìn chín trăm sáu mươi lăm tỷ ba trăm chín mươi tám triệu hai trăm chín mươi nghìn đồng)<br />
+- Ngày thay đổi đăng ký niêm yết có hiệu lực: 22/06/2016<br />
+- Lý do thay đổi đăng ký niêm yết: Cổ phiếu phát hành để trả cổ tức đợt 2 niên<br />
+độ tài chính 2014-2015 cho cổ đông hiện hữu.</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">14/04/2016			<br />
+			28/04/2016			</td>
+			<td align="center">
+			25%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>2500 đồng/cổ phiếu</strong><br>			<br />
+			Chi tr&#7843; c&#7893; t&#7913;c &#272;&#7907;t 1 ni&#234;n &#273;&#7897; t&#224;i ch&#237;nh 2014 - 2015 b&#7857;ng ti&#7873;n m&#7863;t. 2.500đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 15/04/2016</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">26/11/2015			<br />
+			18/12/2015			</td>
+			<td align="center">
+			10/3			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 30,237,237 (960)<br><strong>Cổ phiếu sau phát hành:</strong> 131,027,067<br/>			<br />
+			Trả cổ tức bằng cổ phiếu đợt 2 của niên độ tài chính 2013-2014. tỷ lệ 10:3<br />Ngày đăng ký cuối cùng: 30/11/2015<br />
+--<br />
+<br />
+HSG: 18.12.2015, niêm yết bổ sung 30.236.277 cổ phiếu (16/12/2015 16:36)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">12/10/2015			<br />
+			12/10/2015			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> -4,477,692<br>			<br />
+			HSG: Đã bán 4.477.692 cp quỹ (12/10/2015 16:03)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">15/06/2015			<br />
+			01/07/2015			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c &#273;&#7907;t 1 ni&#234;n &#273;&#244;&#803; ta&#768;i chi&#769;nh 2013- 2014 b&#7857;ng ti&#7873;n m&#7863;t. 1.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 17/06/2015</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">16/03/2015			<br />
+			27/03/2015			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c &#273;&#7907;t 3 b&#7857;ng ti&#7873;n m&#7863;t c&#7911;a ni&#234;n &#273;&#7897; t&#224;i ch&#237;nh 2012- 2013. 500đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 18/03/2015</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">21/05/2014			<br />
+			03/07/2014			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c &#273;&#7907;t 2 b&#7857;ng ti&#7873;n m&#7863;t c&#7911;a ni&#234;n &#273;&#7897; t&#224;i ch&#237;nh 2012-2013 (&#273;i&#7873;u ch&#7881;nh ng&#224;y th&#7921;c hi&#7879;n) 1.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 23/05/2014</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">22/01/2014			<br />
+			19/02/2014			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c &#273;&#7907;t 1 b&#7857;ng ti&#7873;n m&#7863;t c&#7911;a ni&#234;n &#273;&#7897; t&#224;i ch&#237;nh 2012-2013 1.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 24/01/2014</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">27/08/2013			<br />
+			12/09/2013			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c &#273;&#7907;t 3 b&#7857;ng ti&#7873;n m&#7863;t c&#7911;a ni&#234;n &#273;&#7897; t&#224;i ch&#237;nh 2011-2012 500đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 29/08/2013</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">23/08/2013			<br />
+			23/08/2013			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 618,480<br>			<br />
+			HSG: Đã mua lại 618.480 cổ phiếu làm cổ phiếu quỹ (26/08/2013 15:21)<br />
+<br />
+Thoi gian thuc hien tu 23/7/2013 den 23/8/2013<br />
+<br />
+Tong so cp quy:  4.477.692</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">16/05/2013			<br />
+			20/06/2013			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c &#273;&#7907;t 2 b&#7857;ng ti&#7873;n m&#7863;t 1.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 20/05/2013</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">18/03/2013			<br />
+			18/04/2013			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c &#273;&#7907;t 1 b&#7857;ng ti&#7873;n 1.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 20/03/2013</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">26/11/2012			<br />
+			20/12/2012			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c b&#7857;ng ti&#7873;n m&#7863;t &#273;&#7907;t 4 theo ph&#432;&#417;ng &#225;n g&#7897;p ph&#7847;n c&#7893; t&#7913;c ch&#432;a th&#7921;c hi&#7879;n c&#7911;a N&#272;TC 2009-2010 v&#224; N&#272;TC2010-2011 500đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 28/11/2012</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">07/11/2012			<br />
+			07/11/2012			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 60,000<br>			<br />
+			HSG: Đã mua 60.000 cổ phiếu quỹ<br />
+<br />
+Thoi gian thuc hien tu 7/8/2012 den 7/11/2012<br />
+<br />
+Tong so cp quy: 3.859.212</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">28/09/2012			<br />
+			18/10/2012			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c b&#7857;ng ti&#7873;n &#273;&#7907;t 3 theo Ngh&#7883; quy&#7871;t &#272;H&#272;C&#272; th&#432;&#7901;ng ni&#234;n ng&#224;y 22/3/2012 500đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 02/10/2012</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">25/07/2012			<br />
+			25/07/2012			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 1,071,680<br>			<br />
+			HSG: Đã mua lại 1.071.680 cổ phiếu làm cổ phiếu quỹ (27/07/2012 15:08)<br />
+<br />
+Thoi gian thuc hien tu 25/4/2014 den 25/7/2012<br />
+<br />
+Tong cp quy sau khi mua: 3.799.212</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">27/06/2012			<br />
+			12/07/2012			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c b&#7857;ng ti&#7873;n m&#7863;t &#273;&#7907;t 2 theo ph&#432;&#417;ng &#225;n g&#7897;p ph&#7847;n c&#7893; t&#7913;c ch&#432;a th&#7921;c hi&#7879;n c&#7911;a N&#272;TC 2009-2012 v&#224; N&#272;TC2010-2011 500đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 29/06/2012</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">16/04/2012			<br />
+			16/04/2012			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 707,520<br>			<br />
+			HSG: Đã mua 707.520 cổ phiếu quỹ <br />
+Thời gian thực hiện từ 16/1 đến 16/4/2012<br />
+Tổng số cp quỹ sau khi giao dịch 2.727.532</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">10/04/2012			<br />
+			23/05/2012			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c &#273;&#7907;t 1 b&#7857;ng ti&#7873;n 500đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 12/04/2012</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">16/06/2011			<br />
+			16/06/2011			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 2,020,012<br>			<br />
+			HSG: Đã mua 2 triệu cổ phiếu quỹ<br />
+Số lượng cổ phiếu quỹ nắm giữ trước khi giao dịch: 20.012 đơn vị<br />
+Số lượng cổ phiếu quỹ đăng ký giao dịch mua: 2 triệu cổ phiếu<br />
+Số lượng cổ phiếu quỹ đã giao dịch: 2 triệu cổ phiếu<br />
+Số lượng cổ phiếu quỹ nắm giữ sau khi giao dịch: 2.020.012 cổ phiếu.<br />
+Giao dịch thực hiện từ 16/3 đến 16/6/2011 bằng phương thức khớp lệnh.</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">04/04/2011			<br />
+			20/04/2011			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Tạm ứng cổ tức bằng tiền mặt niên độ tài chính 2009-2010 500đồng/cổ phiếu<br />
+Ngày đăng ký cuối cùng: 06/04/2011</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">28/06/2010			<br />
+			07/09/2010			</td>
+			<td align="center">
+			10/2			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 16,799,200 (4410)<br><strong>Cổ phiếu sau phát hành:</strong> 100,790,790<br/>			<br />
+			Chia cổ tức bằng cổ phiếu niên độ tài chính 2008-2009 tỷ lệ 10:2<br />
+Ngày đăng ký cuối cùng: 30/06/2010<br />
+<br />
+<br />
+HSG: 7/9 Giao dịch chính thức 16.794.790 CP phát hành thêm</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">29/03/2010			<br />
+			01/06/2010			</td>
+			<td align="center">
+			10/1			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 7,000,000<br><strong>Cổ phiếu sau phát hành:</strong> 83,996,000<br/>			<br />
+			Phát hành cổ phiếu thưởng tỷ lệ 10:1<br />
+Ngày đăng ký cuối cùng: 31/03/2010<br />
+<br />
+HSG: 1/6-Chính thức giao dịch 13.996.000 cp phát hành thêm (HOSE)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">29/03/2010			<br />
+			01/06/2010			</td>
+			<td align="center">
+			10/1			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 7,000,000 (4000)<br><strong>Cổ phiếu sau phát hành:</strong> 76,996,000<br/>			<br />
+			Trả cổ tức đợt 3 niên độ tài chính năm 2008 bằng cổ phiếu tỷ lệ 10:1<br />
+Ngày đăng ký cuối cùng: 31/03/2010</td>
+		</tr>
+			<tr class="tr2">
+			<td>Phát hành khác</td>
+			<td align="right">23/03/2010			<br />
+			23/03/2010			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 12,961,500<br>			<br />
+			HSG: Niêm yết bổ sung 12.961.500 cổ phiếu<br />
+SGDCK TP.HCM đã có quyết định chấp thuận cho Công ty Cổ phần Tập đoàn Hoa Sen (mã CK: HSG) được niêm yết bổ sung cổ phiếu phát hành thêm với nội dung như sau:<br />
+Loại chứng khoán: cổ phiếu phổ thông<br />
+Mệnh giá: 10.000 đồng/cổ phiếu<br />
+Số lượng chứng khoán niêm yết bổ sung: 12.961.500 cổ phiếu (Mười hai triệu chín trăm sáu mươi mốt ngàn năm trăm cổ phiếu)<br />
+Tổng giá trị niêm yết bổ sung (theo mệnh giá): 129.615.000.000 đồng (Một trăm hai mươi chín tỷ sáu trăm mười lăm triệu đồng).</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">27/08/2009			<br />
+			30/10/2009			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Cổ tức đợt 2/2008, 1.000 đ/cp</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">20/10/2008			<br />
+			01/12/2008			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Tạm ứng cổ tức đợt 1 năm 2008 1.000 đồng/cổ phiếu<br />
+Ngày đăng ký cuối cùng: 20/10/2008</td>
+		</tr>
+		</table>
+</div>
+<div id="footers_cp" style="clear:both; text-align: right; width: 100%; background: #F2f2f2; margin-top:20px; border-top:3px solid #333; font-family:HongHaHep; font-size:14px">
+  <div style="padding:10px">
+    <a href="https://cophieu68.vn/privacy.php" style="color:#000">Chính sách bảo mật</a>
+    |
+    <a href="https://cophieu68.vn/terms.php" style="color:#000">Điều khoản sử dụng</a>
+    |
+    <a href="https://cophieu68.vn/contact.php" style="color:#000">Liên lạc</a>
+  </div>
+</div>
+</body>
+</html>
+
+<script>
+setTimeout(function(){$('.auto-prose-wrapper').remove();}, 2*1000);
+</script>
+<script>
+var a_board = {"hour":"07:50:02","entryid":"111","stcid":"1","date":"2026-10-19","stockname":"hsg","open":"10.40","close":"10.45","price_fixed":"10.45","volume":"2444500","value":"0.00","price_change":"0.05","percent_change":"0.48","gm3":"10.30","klm3":"105600","gm2":"10.35","klm2":"159500","gm1":"10.40","klm1":"29100","gb1":"10.45","klb1":"150700","gb2":"10.50","klb2":"174800","gb3":"10.55","klb3":"158900","ceiling":"11.10","floor":"9.68","price_open":"10.50","price_highest":"10.50","price_lowest":"10.35","current_volume":"126700","foreigner_buy_volume":"81900","foreigner_sell_volume":"194954","volume_deal":"0","volume_atc":"0","benefit":""};
+console.log(a_board);
+var d = new Date();
+var _hour = d.getHours();
+
+function addCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function changeAffectedValue(_key, _new_value, prefix=''){
+	if (typeof( a_board[_key]) == 'undefined' || a_board== null){
+		return;
+	}
+
+	if( parseFloat(a_board['close']) == 0 ) return;
+	//if( parseInt(_new_value) == 0 ) _new_value = '';
+
+	var _old_value = a_board[_key];
+	if( _new_value != _old_value ){
+		var _class = '';
+
+    if(_key == 'volume'){
+      _class = '';
+    }
+		else if( _new_value == a_board['ceiling']) 	_class = 'price_ceiling';
+		else if( _new_value == a_board['floor']) _class = 'price_floor';
+		else if( _new_value > a_board['open']) _class = 'priceup';
+		else if( _new_value < a_board['open']) _class = 'pricedown';
+    else if( _new_value == a_board['open']) _class = 'price';
+
+		// change new value into buffer
+		a_board[_key] = _new_value;
+
+		var _id = prefix + _key;
+		addAffected(_id, _new_value, _class);
+	}
+}
+</script>
+<script>
+function getAffectedStock(obj){
+			var total = obj.length;
+			if ( total > 0 ){
+				var gm3 = obj[1];
+				var klm3 =  obj[2];
+				var gm2 = obj[3];
+				var klm2 =  obj[4];
+				var gm1 = obj[5];
+				var klm1 =  obj[6];
+
+				if( (parseInt(gm1) == 0  || gm1=='') && parseInt(klm1) > 0 ){
+					if( _hour < 12 ) 	gm1 = 'ATO';
+					else gm1 = 'ATC';
+					gm1 = gm1.toUpperCase();
+					current_volume = '';
+				}
+
+				var _close = parseFloat(obj[7]);
+				if( parseFloat(_close) == 0 ) return;
+				var _open = parseFloat(obj[26]);
+				var volume = obj[8];
+				volume = volume.replace(/,/g, "");
+				var price_change = _close - _open;
+				var percent_change = ( _close - _open )/_open*100;
+				percent_change = percent_change.toFixed(2);
+				price_change = price_change.toFixed(2);
+
+				var gb1 = obj[11];
+				var klb1 = obj[12];
+				var gb2 = obj[13];
+				var klb2 = obj[14];
+				var gb3 = obj[15];
+				var klb3 = obj[16];
+
+				if(  (parseInt(gb1) == 0 || gb1=='')  && parseInt(klb1) > 0  ){
+					if( _hour < 12 ) 	gb1 = 'ATO';
+					else gb1 = 'ATC';
+					gb1 = gb1.toUpperCase();
+				}
+
+				var price_open = obj[17];
+				var price_highest = obj[18];
+				var price_lowest = obj[19];
+
+				var value = (obj[27]);
+				var foreigner_buy_volume = obj[21];
+				var foreigner_buy_sell = obj[22];
+
+				changeAffectedValue('close', _close, 'stockname_');
+				changeAffectedValue('price_change', price_change, 'stockname_');
+				percent_change = '(' + percent_change + '%)';
+				changeAffectedValue('percent_change', percent_change, 'stockname_');
+				changeAffectedValue('volume', addCommas(volume), 'stockname_');
+				changeAffectedValue('price_highest', price_highest, 'stockname_');
+				changeAffectedValue('price_lowest', price_lowest, 'stockname_');
+				changeAffectedValue('foreigner_buy_volume', foreigner_buy_volume);
+				changeAffectedValue('foreigner_buy_sell', foreigner_buy_sell);
+
+				changeAffectedValue('gm3', gm3, 'stockname_');
+				changeAffectedValue('klm3', klm3, 'stockname_');
+				changeAffectedValue('gm2', gm2, 'stockname_');
+				changeAffectedValue('klm2', klm2, 'stockname_');
+				changeAffectedValue('gm1', gm1, 'stockname_');
+				changeAffectedValue('klm1', klm1, 'stockname_');
+
+				changeAffectedValue('gb1', gb1, 'stockname_');
+				changeAffectedValue('klb1', klb1, 'stockname_');
+				changeAffectedValue('gb2', gb2, 'stockname_');
+				changeAffectedValue('klb2', klb2, 'stockname_');
+				changeAffectedValue('gb3', gb3, 'stockname_');
+				changeAffectedValue('klb3', klb3, 'stockname_');
+			}
+}
+function addAffected(sid, svalue, sclass){
+    var $content = $( '#' + sid );
+		$content.css('background','#ffff00');
+    //$content.html(svalue);
+    setTimeout("addAffected2('" +  sid + "', '" + svalue + "', '" + sclass + "')", 1*1000);
+}
+function addAffected2(sid, svalue, sclass){
+    var $content = $( '#' + sid );
+		$content.css('background','#ffffcc');
+
+    $content.html( svalue );
+    setTimeout("removeAffected('" +  sid + "')", 1*1000);
+}
+
+function removeAffected(sid){
+    var $content = $( '#' + sid );
+		$content.css('background','');
+}
+</script>
+
+<script src="https://cophieu68.vn:7772/socket.io/socket.io.js"></script>
+
+<script>
+var d = new Date();
+var __hour = parseInt(d.getHours());
+var socket = io.connect('https://cophieu68.vn:7772');
+var _stockname = 'hsg';
+
+function requestInfoStock(){
+  socket.emit('stockname', _stockname);
+  socket.on('stockname_info', function(info) {
+      if( info != "" ){
+        var array_data = info.split("|");
+        if( array_data[0] == _stockname ){
+          getAffectedStock(array_data);
+        }
+      }
+  });
+}
+if( typeof(io) === 'object' ){
+  requestInfoStock();
+  if( __hour >= 9 && __hour < 15 ){
+    setInterval("requestInfoStock()", 3*1000);
+  }
+}
+</script>
+

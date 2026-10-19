@@ -1,0 +1,673 @@
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="google-signin-client_id" content="654849931255-ih074eactp9a01969m3et8i16vuai71r.apps.googleusercontent.com">
+<meta name="google-site-verification" content="MOqJliEGOjPuN6S6rRC_ivdy9sgJpQ_K0Sads9VpcTQ" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+<link href="https://cophieu68.vn/css/colorbox.css" rel="stylesheet" type="text/css" media="screen"  />
+<link href="https://cophieu68.vn/css/screen.css" rel="stylesheet" type="text/css" media="screen"  />
+<link href="https://cophieu68.vn/css/mobile.css" rel="stylesheet" type="text/css" media="screen"  />
+
+<script  src="https://cophieu68.vn/js/fontawesome.js" data-auto-replace-svg="nest"></script>
+<script src="https://cophieu68.vn/js/jquery.min.js" type="text/javascript"></script>
+<script src="https://cophieu68.vn/js/jquery-ui.js"></script>
+<script src="https://cophieu68.vn/js/jquery.touchSwipe.js"></script>
+<script src="https://cophieu68.vn/js/jquery.colorbox-min.js"></script>
+<script src="https://cophieu68.vn/js/common.js" type="text/javascript"></script>
+<script src="https://cophieu68.vn/js/iconify.min.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+  var WEBROOT = 'https://cophieu68.vn';
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ETJEDHQR2R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ETJEDHQR2R');
+</script>
+<!-- Google ads -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4497614833474292"
+crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div id="over_header" style="height:35px; border-bottom:0px solid #CCC; width:100%;">
+  <div class="logo flex" style="float:left;"><a href="https://cophieu68.vn/index.php"><img src="https://cophieu68.vn/images/logo_wap.gif" alt="Trang chủ" /></a></div>
+
+  <div class="flex_row" style="float:right; margin-right:10px; height:100%;">
+    <div id="user_menu" class="flex">
+      <div style="padding:0 10px; cursor:pointer;" onclick="showList('user_list')">
+        <i class="fa-regular fa-user"></i>       </div>
+      <div id="user_list" style="padding:10px; border:1px solid #CCC; z-index:10; background:#fff; top:35px; position:absolute; display:none;">
+                <div style="padding:5px;"> <a href="https://cophieu68.vn/account/login.php"> <i class="fa fa-sign-in fa-lg"></i> ĐĂNG NHẬP </a> </div>
+              </div>
+    </div>
+
+    <div class="stockname_search" class="flex" style="float:left; height:35px; margin-right: 35px; padding:0">
+      <div style="height:100%; width:100%">
+                  <form action="" method="get" style="margin:0; padding:0">
+          <input name="id" id="id" value="tlh" placeholder="Mã CK" autocomplete="off" type="text" class="textbox_dark" style="width:100%; height:100%; text-transform: uppercase; text-align:center" />
+          <input type="submit" name="stockname_search" style="display: none;" />
+        </form>
+      </div>
+    </div>
+    <div class="search_result" style="position:fixed; z-index: 1000000; background:#FFF; min-height:30px; display:none; top: 35px;  right: 0; border: 3px solid #CCC; border-radius: 5px;"></div>
+      <div id="menu_overtop" style="position: fixed; top: 5px; right: 5px; z-index: 1; opacity: 0.9">
+      <a href="javascript:void(0)" onclick="$('#menu_overtop_list').show();" style="color:#666"><i class="fa fa-list-ul fa-2x"></i></a>
+      <div id="menu_overtop_list" class="div_curve div_curve_autohide" style="display: none; position: fixed; top: 5px; right: 1px; z-index: 1; width: 200px">
+          <div onclick="$('#menu_overtop_list').hide()" style="position: absolute; top:0; right:0; padding:0px 3px; font-weight: bold; cursor: pointer;">
+              <i class="fa fa-times fa-2x" style="color:#ff0000" title="Đóng"></i>
+          </div>
+          <ul class="ul_list_item" style="margin-top:0px">
+              <li><a href="https://cophieu68.vn/index.php"><i class="fa fa-home fa-lg"></i> &nbsp; Trang chủ</a></li>
+              <li><a href="https://cophieu68.vn/stockonline.php"><i class="fa fa-list-alt fa-lg"></i> &nbsp; Bảng giao dịch trực tuyến</a></li>
+              <li><a href="https://cophieu68.vn/chartold/chart.php?id=^vnindex"><i class="fa fa-line-chart fa-lg"></i> &nbsp; Biểu đồ PHIÊN BẢN CŨ</a></li>
+              <li><a href="https://cophieu68.vn/chart/chart.php?id=^vnindex"><i class="fa fa-line-chart fa-lg"></i> &nbsp; Biểu đồ phân tích kỹ thuật</a></li>
+
+              <li style="padding:0; border-top:2px solid #999"></li>
+              <li><a href="#https://cophieu68.vn/investment_basic_indexes.php"><i class="fa fa-star-half-o fa-lg"></i> &nbsp; Sức mạnh chỉ số cơ bản</a></li>
+              <li><a href="#https://cophieu68.vn/company_financial.php"><i class="fa fa-balance-scale fa-lg"></i> &nbsp; So sánh báo cáo tài chính</a></li>
+              <li><a href="#https://cophieu68.vn/market_vn.php"><i class="fa fa-percent fa-lg"></i> &nbsp; Chỉ số thị trường</a></li>
+              <li><a href="#https://cophieu68.vn/events.php"><i class="fa fa-calendar fa-lg"></i> &nbsp; Cổ tức - Lịch sự kiện</a></li>
+              <li style="padding:0; border-top:2px solid #999"></li>
+              <li><a href="#https://cophieu68.vn/advanced_statistic.php"><i class="fa fa-tachometer fa-lg"></i> &nbsp; Thống kê nâng cao</a></li>
+              <li><a href="#https://cophieu68.vn/plan_income.php"><i class="fa fa-money fa-lg"></i> &nbsp; Kế hoạch kinh doanh</a></li>
+              <li><a href="https://cophieu68.vn/stats/stats.php"><i class="fa fa-hourglass-end fa-lg"></i> &nbsp; Đáy cổ phiếu</a></li>
+              <li><a href="https://cophieu68.vn/stats/volume_buzz.php"><i class="fa fa-sort-numeric-asc fa-lg"></i> &nbsp; Đột biến khối lượng</a></li>
+          </ul>
+      </div>
+  </div>
+  </div>
+</div>
+<div class="menu_header overflow" style="background-color:#666;">
+  <ul>
+    <li><a href="https://cophieu68.vn/stats/stats.php" class=" ">Thống Kê</a></li>
+    <li><a href="https://cophieu68.vn/market/markets.php" class=" ">Công ty niêm yết</a></li>
+    <li><a href="https://cophieu68.vn/category/category_index.php" class=" ">Nhóm Ngành</a></li>
+    <li><a href="https://cophieu68.vn/signal/filter_financial.php" class=" ">Bộ lọc</a></li>
+    <li><a href="https://cophieu68.vn/event/events.php" class=" ">Lịch Sự Kiện</a></li>
+    <li><a href="https://cophieu68.vn/chart/index.php" class=" ">Biểu đồ</a></li>
+    <li><a href="https://cophieu68.vn/download/index.php" class=" ">Dữ liệu AMIBROKER / METASTOCK / MT4</a></li>
+    <li><a href="#https://cophieu68.vn/document/index.php" class=" ">Góc Chia sẻ kiến thức</a></li>
+  </ul>
+</div>
+<div class="margin_wrap">
+	
+	<div class="flex_m_col_d_row">
+	  <div>
+	  	<h1>CTCP Tập đoàn Thép Tiến Lên<span style="color:#787b86">&nbsp;(tlh)</span></h1>
+	  	<span class="break"></span>
+
+	  	<div class="flex_row">
+	  		<div id="stockname_close" class="pricedown" style="font-size:25px; font-weight:bold; padding-right:14px;">3.23</div>
+	  		<div id="stockname_price_change" class="pricedown" style="font-size:25px; padding-right:14px;">-0.06</div>
+	  		<div id="stockname_percent_change" class="pricedown" style="font-size:25px;">(-1.82%)</div>
+	  	</div>
+	  </div>
+		<div class="seperate min_768"></div>
+		<div class="break max_768"></div>
+	</div>
+
+	<span class="break2"></span>
+
+	<div class="menu_quote overflow">
+		<a class="" href="https://cophieu68.vn/quote/summary.php?id=tlh">Tổng quan</a><a class="" href="https://cophieu68.vn/chart/chart.php?id=tlh">Biểu đồ</a><a class="" href="https://cophieu68.vn/quote/history.php?id=tlh">Giá lịch sử</a><a class="" href="https://cophieu68.vn/quote/profile.php?id=tlh">Thông tin</a><a class="" href="https://cophieu68.vn/quote/financial.php?id=tlh">Báo cáo tài chính</a><a class="active" href="https://cophieu68.vn/quote/event.php?id=tlh">Lịch sự kiện</a>	</div>
+</div>
+
+
+<div style="clear:both; margin-top:20px; padding-left:20px">
+	<div class="overflow">
+		<a class="b_button b_grey" style="font-weight:100" href="event.php?id=tlh">&check; Lịch sự kiện</a>
+		<a class="b_button b_blue" style="font-weight:100" href="event_calc_volume.php?id=tlh">Công thức tính khối lượng</a>
+		<a class="b_button b_blue" style="font-weight:100" href="event_calc.php?id=tlh">Công thức tính Ngày GDKHQ</a>
+	</div>
+	<h1>Lịch sự kiện - TLH</h1>
+
+	<table width="100%" cellpadding="4" cellspacing="0" bgcolor="#E2EFFE">
+		<tr class="tr_header">
+			<td width="120">Sự kiện</td>
+			<td width="100" align="right">Ngày GDKHQ</td>
+			<td width="100" align="center">Cổ tức/Quyền</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">20/06/2023			<br />
+			25/07/2023			</td>
+			<td align="center">
+			100/10			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 10,211,062 (1666)<br><strong>Cổ phiếu sau phát hành:</strong> 112,320,017<br/>			<br />
+			Trả cổ tức  năm 2021  bằng cổ phiếu, tỷ lệ 100:10<br />
+25/07/2023 00:00  TLH: 26.7.2023, niêm yết bổ sung 10.209.396 cp<br />
+27/06/2023 00:00  TLH: Đã phát hành 10.209.396 cổ phiếu để trả cổ tức năm 2021<br />
+27/06/2023 00:00  TLH: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 112.320.017 cp</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">18/01/2023			<br />
+			10/02/2023			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  năm 2021  bằng tiền, 500 đồng/CP</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">28/10/2021			<br />
+			28/10/2021			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> -1,460,000<br>			<br />
+			28/10/2021 17:47  TLH: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 102.110.621 cp<br />
+28/10/2021 17:47  TLH: Đã bán 1.460.000 cp quỹ</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">24/03/2021			<br />
+			09/04/2021			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  năm 2018  bằng tiền, 500 đồng/CP</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">09/01/2020			<br />
+			21/01/2020			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức đợt 3/2017 bằng tiền, 500 đồng/CP</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">28/06/2018			<br />
+			31/07/2018			</td>
+			<td align="center">
+			100/10			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 9,150,231 (1923)<br><strong>Cổ phiếu sau phát hành:</strong> 100,650,621<br/>			<br />
+			Trả cổ tức  năm 2017  bằng cổ phiếu, tỷ lệ 10%<br />
+<p>Sở Giao dịch Chứng khoán Thành phố Hồ Chí Minh thông báo ngày ĐKCC trả cổ tức bằng cổ phiếu cho cổ đông hiện hữu năm 2017 của Công ty Cổ phần Tập đoàn Thép Tiến Lên (mã CK: TLH) như sau:</p><br />
+<br />
+--<br />
+<br />
+TLH: 31.7.2018, niêm yết bổ sung 9.148.308 cp (27/07/2018 17:21)<br />
+TLH: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 100.650.621 cp (17/07/2018 17:19)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">04/01/2018			<br />
+			09/02/2018			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức  đợt 1/2017 bằng tiền, 500 đồng/CP<br />
+<p>Sở Giao dịch Chứng khoán Thành phố Hồ Chí Minh thông báo về ngày đăng ký cuối cùng tạm ứng cổ tức đợt 1 năm 2017 bằng tiền mặt của&nbsp;Công ty Cổ phần Tập đoàn Thép Tiến Lên (mã CK: TLH) như sau:</p></td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">13/07/2017			<br />
+			30/10/2017			</td>
+			<td align="center">
+			100/10			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 8,318,556 (1807)<br><strong>Cổ phiếu sau phát hành:</strong> 91,502,313<br/>			<br />
+			Trả cổ tức  đợt 2/2016 bằng cổ phiếu, tỷ lệ 10%<br />
+<p>Sở Giao dịch Chứng khoán Thành phố Hồ Chí Minh thông báo về ngày đăng ký cuối cùng trả cổ tức đợt 2 năm 2016 bằng cổ phiếu của Công ty Cổ phần Tập đoàn Thép Tiến Lên (mã CK: TLH) như sau:</p><br />
+<br />
+TLH: 9.11.2017, giao dịch 8.316.749 cp niêm yết bổ sung (02/11/2017 11:02)<br />
+TLH: 30.10.2017, niêm yết bổ sung 8.316.749 cp (26/10/2017 17:37)<br />
+TLH: Số lượng cổ phiếu có quyền biểu quyết đang lưu hành là 91.502.313 cp (05/10/2017 08:54)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">29/12/2016			<br />
+			18/01/2017			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			T&#7841;m &#7913;ng c&#7893; t&#7913;c b&#7857;ng ti&#7873;n n&#259;m 2016 &#273;&#7907;t 1. 1.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 30/12/2016</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">19/11/2015			<br />
+			20/02/2016			</td>
+			<td align="center">
+			100/5			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 3,961,284 (1408)<br><strong>Cổ phiếu sau phát hành:</strong> 83,185,564<br/>			<br />
+			Trả cổ tức bằng cổ phiếu năm 2014. tỷ lệ 100:5<br />Ngày đăng ký cuối cùng: 23/11/2015<br />
+<br />
+--<br />
+<br />
+TLH: 2.2.2016, giao dịch 3.959.876 cổ phiếu niêm yết bổ sung (26/01/2016 15:01)</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">16/07/2015			<br />
+			16/07/2015			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 1,460,000<br>			<br />
+			7. Thai gian thlJc hi~n ill: Tu ngay 17/06/2015 d€n ngay 16/07/2015<br />
+8. S6luQ'Ilg c6 phi€u tru6c khi dang kY giao dich: 0 (khong) c6 phi€u<br />
+9. S6 lUQ'ngc6 phi€u quy hi~n co: 1.460.000 c6 phi€u</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">13/01/2015			<br />
+			29/01/2015			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Tr&#7843; c&#7893; t&#7913;c n&#259;m 2013 b&#7857;ng ti&#7873;n. 1.000đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 15/01/2015</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">26/06/2014			<br />
+			26/06/2014			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> -5,750,930<br>			<br />
+			TLH: Đã bán 3.500.000 cp quỹ (29/04/2014 00:00)<br />
+TLH: Đã bán 2.250.930 cổ phiếu quỹ (26/06/2014 00:00)</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành khác</td>
+			<td align="right">04/04/2013			<br />
+			04/04/2013			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 18,304,155<br>			<br />
+			TLH: 4/4, giao dịch 18.304.155 cổ phiếu phát hành thêm<br />
+Ngày 27/03/2013, Sở Giao dịch Chứng khoán Thành phố Hồ Chí Minh đã có thông báo số 353/2013/TB-SGDHCM về việc niêm yết và giao dịch cổ phiếu phát hành thêm của Công ty cổ phần Tập đoàn Thép Tiến Lên (mã CK: TLH) như sau:<br />
+-        Số lượng:         18.304.155 cổ phiếu ( Mười tám triệu ba trăm lẻ bốn ngàn một trăm năm mươi lăm cổ phiếu)<br />
+Đây là số cổ phiếu phát hành để hoán đổi cổ phiếu (nhận sáp nhập) với cổ phiếu của CTCP Sản xuất và Thương mại Phúc Tiến (PHT).<br />
+-        Tổng giá trị chứng khoán niêm yết: 183.041.550.000 đồng (Một trăm tám mươi ba tỷ không trăm bốn mươi mốt triệu năm trăm năm mươi ngàn đồng)<br />
+-        Ngày niêm yết có hiệu lực: 29/03/2013<br />
+-        Ngày chính thức giao dịch: 04/04/2013</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">18/01/2013			<br />
+			05/02/2013			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			T&#7841;m &#7913;ng c&#7893; t&#7913;c &#273;&#7907;t 1 n&#259;m 2012 b&#7857;ng ti&#7873;n 500đồng/cổ phiếu<br />Ngày đăng ký cuối cùng: 22/01/2013</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">13/11/2012			<br />
+			17/01/2013			</td>
+			<td align="center">
+			100/9			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 4,676,030 (1311)<br><strong>Cổ phiếu sau phát hành:</strong> 56,630,603<br/>			<br />
+			Chia cổ tức năm 2011 bằng cổ phiếu tỷ lệ 100:09<br />Ngày đăng ký cuối cùng: 15/11/2012<br />
+------------<br />
+<br />
+ TLH: 17/1 - giao dịch 4.674.719 cổ phiếu phát hành thêm</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">26/03/2012			<br />
+			26/03/2012			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 800,000<br>			<br />
+			TLH: Đã mua 800.000 cổ phiếu quỹ<br />
+Thời gian thực hiện từ 27/12/2011 đến 26/03/2012<br />
+<br />
+Tổng số cp quỹ sau khi thực hiện: 5.750.930</td>
+		</tr>
+			<tr class="tr1">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">22/11/2011			<br />
+			22/11/2011			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 1,200,000<br>			<br />
+			TLH: Đã mua 1,2 triệu cổ phiếu quỹ<br />
+Thời gian giao dịch từ 22/8 đến 22/11<br />
+<br />
+Tổng cổ phiếu sau khi giao dịch: 4.950.930</td>
+		</tr>
+			<tr class="tr2">
+			<td>Mua cổ phiếu quỹ</td>
+			<td align="right">11/08/2011			<br />
+			11/08/2011			</td>
+			<td align="center">
+						</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>KL cổ phiếu quỹ mua:</strong> 3,750,930<br>			<br />
+			TLH: CTCP Tập đoàn Thép Tiến Lên đã mua 3.750.930 CP làm cổ phiếu quỹ<br />
+Thời gian giao dịch từ 11/05 đến 11/08</td>
+		</tr>
+			<tr class="tr1">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">19/05/2011			<br />
+			23/06/2011			</td>
+			<td align="center">
+			10%			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>1000 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức năm 2010 bằng tiền mặt 1.000đồng/cổ phiếu<br />
+Ngày đăng ký cuối cùng: 23/05/2011</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ phiếu thưởng / Chia tách cổ phiếu</td>
+			<td align="right">07/09/2010			<br />
+			24/02/2011			</td>
+			<td align="center">
+			20/1			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 2,700,000<br><strong>Cổ phiếu sau phát hành:</strong> 56,700,000<br/>			<br />
+			Trả cổ tức bằng cổ phiếu tỷ lệ 20:1<br />
+Ngày đăng ký cuối cùng: 09/09/2010<br />
+-----------<br />
+Niêm yết và giao dịch cổ phiếu phát hành thêm trên HOSE<br />
+Ngày 17/02/2011, Sở Giao dịch Chứng khoán TP.HCM đã có Thông báo số 125/2011/TB-SGDHCM về việc niêm yết và giao dịch cổ phiếu phát hành thêm của Công ty Cổ phần Tập đoàn Thép Tiến Lên (MCK: TLH).<br />
+<br />
+Số lượng: 3.706.814 cổ phiếu (Ba triệu bảy trăm lẻ sáu nghìn tám trăm mười bốn cổ phiếu)<br />
+<br />
+Đây là số cổ phiếu phát hành thêm để trả cổ tức bằng cổ phiếu, phát hành thêm cho cổ đông hiện hữu theo Thông báo số 769/TB-SGDHCM và phát hành riêng lẻ cho CBCNV.<br />
+<br />
+Tổng giá trị chứng khoán niêm yết: 37.068.140.000 đồng (Ba mươi bảy tỷ sáu mươi tám triệu một trăm bốn mươi ngàn đồng) <br />
+<br />
+Ngày niêm yết có hiệu lực: 16/02/2011<br />
+<br />
+Ngày chính thức giao dịch: 24/02/2011.<br />
+(Theo hsx.vn)<br />
+<br />
+Tổng số cổ phiếu niêm yết: 57,706,814</td>
+		</tr>
+			<tr class="tr1">
+			<td>Phát hành hiện hữu</td>
+			<td align="right">07/09/2010			<br />
+			24/02/2011			</td>
+			<td align="center">
+			20/1<br />(giá: 15,000)			</td>
+
+		</tr>
+		<tr class="tr1">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>Phát hành thêm:</strong> 2,700,000 (1693186)<br><strong>Cổ phiếu sau phát hành:</strong> 57,706,814<br/>			<br />
+			Quyền mua cổ phiếu tỷ lệ 20:1 15.000đồng/cổ phiếu<br />
+Ngày đăng ký cuối cùng: 09/09/2010<br />
+Ngày nộp tiền: 23/09/2010-20/10/2010</td>
+		</tr>
+			<tr class="tr2">
+			<td>Cổ tức bằng tiền</td>
+			<td align="right">18/05/2010			<br />
+			21/06/2010			</td>
+			<td align="center">
+			5%			</td>
+
+		</tr>
+		<tr class="tr2">
+			<td colspan="3" style="border-top:1px #CCCCCC dashed">
+			<strong>500 đồng/cổ phiếu</strong><br>			<br />
+			Trả cổ tức đợt 2 năm 2009 bằng tiền 500đồng/cổ phiếu<br />
+Ngày đăng ký cuối cùng: 20/05/2010</td>
+		</tr>
+		</table>
+</div>
+<div id="footers_cp" style="clear:both; text-align: right; width: 100%; background: #F2f2f2; margin-top:20px; border-top:3px solid #333; font-family:HongHaHep; font-size:14px">
+  <div style="padding:10px">
+    <a href="https://cophieu68.vn/privacy.php" style="color:#000">Chính sách bảo mật</a>
+    |
+    <a href="https://cophieu68.vn/terms.php" style="color:#000">Điều khoản sử dụng</a>
+    |
+    <a href="https://cophieu68.vn/contact.php" style="color:#000">Liên lạc</a>
+  </div>
+</div>
+</body>
+</html>
+
+<script>
+setTimeout(function(){$('.auto-prose-wrapper').remove();}, 2*1000);
+</script>
+<script>
+var a_board = {"hour":"07:50:02","entryid":"164","stcid":"1","date":"2026-10-19","stockname":"tlh","open":"3.29","close":"3.23","price_fixed":"3.23","volume":"102000","value":"0.00","price_change":"-0.06","percent_change":"-1.82","gm3":"3.20","klm3":"4900","gm2":"3.21","klm2":"8200","gm1":"3.22","klm1":"7000","gb1":"3.23","klb1":"14500","gb2":"3.24","klb2":"6000","gb3":"3.25","klb3":"2400","ceiling":"3.52","floor":"3.06","price_open":"3.30","price_highest":"3.30","price_lowest":"3.22","current_volume":"1300","foreigner_buy_volume":"0","foreigner_sell_volume":"2400","volume_deal":"0","volume_atc":"0","benefit":""};
+console.log(a_board);
+var d = new Date();
+var _hour = d.getHours();
+
+function addCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function changeAffectedValue(_key, _new_value, prefix=''){
+	if (typeof( a_board[_key]) == 'undefined' || a_board== null){
+		return;
+	}
+
+	if( parseFloat(a_board['close']) == 0 ) return;
+	//if( parseInt(_new_value) == 0 ) _new_value = '';
+
+	var _old_value = a_board[_key];
+	if( _new_value != _old_value ){
+		var _class = '';
+
+    if(_key == 'volume'){
+      _class = '';
+    }
+		else if( _new_value == a_board['ceiling']) 	_class = 'price_ceiling';
+		else if( _new_value == a_board['floor']) _class = 'price_floor';
+		else if( _new_value > a_board['open']) _class = 'priceup';
+		else if( _new_value < a_board['open']) _class = 'pricedown';
+    else if( _new_value == a_board['open']) _class = 'price';
+
+		// change new value into buffer
+		a_board[_key] = _new_value;
+
+		var _id = prefix + _key;
+		addAffected(_id, _new_value, _class);
+	}
+}
+</script>
+<script>
+function getAffectedStock(obj){
+			var total = obj.length;
+			if ( total > 0 ){
+				var gm3 = obj[1];
+				var klm3 =  obj[2];
+				var gm2 = obj[3];
+				var klm2 =  obj[4];
+				var gm1 = obj[5];
+				var klm1 =  obj[6];
+
+				if( (parseInt(gm1) == 0  || gm1=='') && parseInt(klm1) > 0 ){
+					if( _hour < 12 ) 	gm1 = 'ATO';
+					else gm1 = 'ATC';
+					gm1 = gm1.toUpperCase();
+					current_volume = '';
+				}
+
+				var _close = parseFloat(obj[7]);
+				if( parseFloat(_close) == 0 ) return;
+				var _open = parseFloat(obj[26]);
+				var volume = obj[8];
+				volume = volume.replace(/,/g, "");
+				var price_change = _close - _open;
+				var percent_change = ( _close - _open )/_open*100;
+				percent_change = percent_change.toFixed(2);
+				price_change = price_change.toFixed(2);
+
+				var gb1 = obj[11];
+				var klb1 = obj[12];
+				var gb2 = obj[13];
+				var klb2 = obj[14];
+				var gb3 = obj[15];
+				var klb3 = obj[16];
+
+				if(  (parseInt(gb1) == 0 || gb1=='')  && parseInt(klb1) > 0  ){
+					if( _hour < 12 ) 	gb1 = 'ATO';
+					else gb1 = 'ATC';
+					gb1 = gb1.toUpperCase();
+				}
+
+				var price_open = obj[17];
+				var price_highest = obj[18];
+				var price_lowest = obj[19];
+
+				var value = (obj[27]);
+				var foreigner_buy_volume = obj[21];
+				var foreigner_buy_sell = obj[22];
+
+				changeAffectedValue('close', _close, 'stockname_');
+				changeAffectedValue('price_change', price_change, 'stockname_');
+				percent_change = '(' + percent_change + '%)';
+				changeAffectedValue('percent_change', percent_change, 'stockname_');
+				changeAffectedValue('volume', addCommas(volume), 'stockname_');
+				changeAffectedValue('price_highest', price_highest, 'stockname_');
+				changeAffectedValue('price_lowest', price_lowest, 'stockname_');
+				changeAffectedValue('foreigner_buy_volume', foreigner_buy_volume);
+				changeAffectedValue('foreigner_buy_sell', foreigner_buy_sell);
+
+				changeAffectedValue('gm3', gm3, 'stockname_');
+				changeAffectedValue('klm3', klm3, 'stockname_');
+				changeAffectedValue('gm2', gm2, 'stockname_');
+				changeAffectedValue('klm2', klm2, 'stockname_');
+				changeAffectedValue('gm1', gm1, 'stockname_');
+				changeAffectedValue('klm1', klm1, 'stockname_');
+
+				changeAffectedValue('gb1', gb1, 'stockname_');
+				changeAffectedValue('klb1', klb1, 'stockname_');
+				changeAffectedValue('gb2', gb2, 'stockname_');
+				changeAffectedValue('klb2', klb2, 'stockname_');
+				changeAffectedValue('gb3', gb3, 'stockname_');
+				changeAffectedValue('klb3', klb3, 'stockname_');
+			}
+}
+function addAffected(sid, svalue, sclass){
+    var $content = $( '#' + sid );
+		$content.css('background','#ffff00');
+    //$content.html(svalue);
+    setTimeout("addAffected2('" +  sid + "', '" + svalue + "', '" + sclass + "')", 1*1000);
+}
+function addAffected2(sid, svalue, sclass){
+    var $content = $( '#' + sid );
+		$content.css('background','#ffffcc');
+
+    $content.html( svalue );
+    setTimeout("removeAffected('" +  sid + "')", 1*1000);
+}
+
+function removeAffected(sid){
+    var $content = $( '#' + sid );
+		$content.css('background','');
+}
+</script>
+
+<script src="https://cophieu68.vn:7772/socket.io/socket.io.js"></script>
+
+<script>
+var d = new Date();
+var __hour = parseInt(d.getHours());
+var socket = io.connect('https://cophieu68.vn:7772');
+var _stockname = 'tlh';
+
+function requestInfoStock(){
+  socket.emit('stockname', _stockname);
+  socket.on('stockname_info', function(info) {
+      if( info != "" ){
+        var array_data = info.split("|");
+        if( array_data[0] == _stockname ){
+          getAffectedStock(array_data);
+        }
+      }
+  });
+}
+if( typeof(io) === 'object' ){
+  requestInfoStock();
+  if( __hour >= 9 && __hour < 15 ){
+    setInterval("requestInfoStock()", 3*1000);
+  }
+}
+</script>
+

@@ -1,0 +1,460 @@
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="google-signin-client_id" content="654849931255-ih074eactp9a01969m3et8i16vuai71r.apps.googleusercontent.com">
+<meta name="google-site-verification" content="MOqJliEGOjPuN6S6rRC_ivdy9sgJpQ_K0Sads9VpcTQ" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+<link href="https://cophieu68.vn/css/colorbox.css" rel="stylesheet" type="text/css" media="screen"  />
+<link href="https://cophieu68.vn/css/screen.css" rel="stylesheet" type="text/css" media="screen"  />
+<link href="https://cophieu68.vn/css/mobile.css" rel="stylesheet" type="text/css" media="screen"  />
+
+<script  src="https://cophieu68.vn/js/fontawesome.js" data-auto-replace-svg="nest"></script>
+<script src="https://cophieu68.vn/js/jquery.min.js" type="text/javascript"></script>
+<script src="https://cophieu68.vn/js/jquery-ui.js"></script>
+<script src="https://cophieu68.vn/js/jquery.touchSwipe.js"></script>
+<script src="https://cophieu68.vn/js/jquery.colorbox-min.js"></script>
+<script src="https://cophieu68.vn/js/common.js" type="text/javascript"></script>
+<script src="https://cophieu68.vn/js/iconify.min.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+  var WEBROOT = 'https://cophieu68.vn';
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ETJEDHQR2R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ETJEDHQR2R');
+</script>
+<!-- Google ads -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4497614833474292"
+crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div id="over_header" style="height:35px; border-bottom:0px solid #CCC; width:100%;">
+  <div class="logo flex" style="float:left;"><a href="https://cophieu68.vn/index.php"><img src="https://cophieu68.vn/images/logo_wap.gif" alt="Trang chủ" /></a></div>
+
+  <div class="flex_row" style="float:right; margin-right:10px; height:100%;">
+    <div id="user_menu" class="flex">
+      <div style="padding:0 10px; cursor:pointer;" onclick="showList('user_list')">
+        <i class="fa-regular fa-user"></i>       </div>
+      <div id="user_list" style="padding:10px; border:1px solid #CCC; z-index:10; background:#fff; top:35px; position:absolute; display:none;">
+                <div style="padding:5px;"> <a href="https://cophieu68.vn/account/login.php"> <i class="fa fa-sign-in fa-lg"></i> ĐĂNG NHẬP </a> </div>
+              </div>
+    </div>
+
+    <div class="stockname_search" class="flex" style="float:left; height:35px; margin-right: 35px; padding:0">
+      <div style="height:100%; width:100%">
+                  <form action="" method="get" style="margin:0; padding:0">
+          <input name="id" id="id" value="hbc" placeholder="Mã CK" autocomplete="off" type="text" class="textbox_dark" style="width:100%; height:100%; text-transform: uppercase; text-align:center" />
+          <input type="submit" name="stockname_search" style="display: none;" />
+        </form>
+      </div>
+    </div>
+    <div class="search_result" style="position:fixed; z-index: 1000000; background:#FFF; min-height:30px; display:none; top: 35px;  right: 0; border: 3px solid #CCC; border-radius: 5px;"></div>
+      <div id="menu_overtop" style="position: fixed; top: 5px; right: 5px; z-index: 1; opacity: 0.9">
+      <a href="javascript:void(0)" onclick="$('#menu_overtop_list').show();" style="color:#666"><i class="fa fa-list-ul fa-2x"></i></a>
+      <div id="menu_overtop_list" class="div_curve div_curve_autohide" style="display: none; position: fixed; top: 5px; right: 1px; z-index: 1; width: 200px">
+          <div onclick="$('#menu_overtop_list').hide()" style="position: absolute; top:0; right:0; padding:0px 3px; font-weight: bold; cursor: pointer;">
+              <i class="fa fa-times fa-2x" style="color:#ff0000" title="Đóng"></i>
+          </div>
+          <ul class="ul_list_item" style="margin-top:0px">
+              <li><a href="https://cophieu68.vn/index.php"><i class="fa fa-home fa-lg"></i> &nbsp; Trang chủ</a></li>
+              <li><a href="https://cophieu68.vn/stockonline.php"><i class="fa fa-list-alt fa-lg"></i> &nbsp; Bảng giao dịch trực tuyến</a></li>
+              <li><a href="https://cophieu68.vn/chartold/chart.php?id=^vnindex"><i class="fa fa-line-chart fa-lg"></i> &nbsp; Biểu đồ PHIÊN BẢN CŨ</a></li>
+              <li><a href="https://cophieu68.vn/chart/chart.php?id=^vnindex"><i class="fa fa-line-chart fa-lg"></i> &nbsp; Biểu đồ phân tích kỹ thuật</a></li>
+
+              <li style="padding:0; border-top:2px solid #999"></li>
+              <li><a href="#https://cophieu68.vn/investment_basic_indexes.php"><i class="fa fa-star-half-o fa-lg"></i> &nbsp; Sức mạnh chỉ số cơ bản</a></li>
+              <li><a href="#https://cophieu68.vn/company_financial.php"><i class="fa fa-balance-scale fa-lg"></i> &nbsp; So sánh báo cáo tài chính</a></li>
+              <li><a href="#https://cophieu68.vn/market_vn.php"><i class="fa fa-percent fa-lg"></i> &nbsp; Chỉ số thị trường</a></li>
+              <li><a href="#https://cophieu68.vn/events.php"><i class="fa fa-calendar fa-lg"></i> &nbsp; Cổ tức - Lịch sự kiện</a></li>
+              <li style="padding:0; border-top:2px solid #999"></li>
+              <li><a href="#https://cophieu68.vn/advanced_statistic.php"><i class="fa fa-tachometer fa-lg"></i> &nbsp; Thống kê nâng cao</a></li>
+              <li><a href="#https://cophieu68.vn/plan_income.php"><i class="fa fa-money fa-lg"></i> &nbsp; Kế hoạch kinh doanh</a></li>
+              <li><a href="https://cophieu68.vn/stats/stats.php"><i class="fa fa-hourglass-end fa-lg"></i> &nbsp; Đáy cổ phiếu</a></li>
+              <li><a href="https://cophieu68.vn/stats/volume_buzz.php"><i class="fa fa-sort-numeric-asc fa-lg"></i> &nbsp; Đột biến khối lượng</a></li>
+          </ul>
+      </div>
+  </div>
+  </div>
+</div>
+<div class="menu_header overflow" style="background-color:#666;">
+  <ul>
+    <li><a href="https://cophieu68.vn/stats/stats.php" class=" ">Thống Kê</a></li>
+    <li><a href="https://cophieu68.vn/market/markets.php" class=" ">Công ty niêm yết</a></li>
+    <li><a href="https://cophieu68.vn/category/category_index.php" class=" ">Nhóm Ngành</a></li>
+    <li><a href="https://cophieu68.vn/signal/filter_financial.php" class=" ">Bộ lọc</a></li>
+    <li><a href="https://cophieu68.vn/event/events.php" class=" ">Lịch Sự Kiện</a></li>
+    <li><a href="https://cophieu68.vn/chart/index.php" class=" ">Biểu đồ</a></li>
+    <li><a href="https://cophieu68.vn/download/index.php" class=" ">Dữ liệu AMIBROKER / METASTOCK / MT4</a></li>
+    <li><a href="#https://cophieu68.vn/document/index.php" class=" ">Góc Chia sẻ kiến thức</a></li>
+  </ul>
+</div>
+<div class="margin_wrap">
+	
+	<div class="flex_m_col_d_row">
+	  <div>
+	  	<h1>CTCP Tập đoàn Xây dựng Hòa Bình<span style="color:#787b86">&nbsp;(hbc)</span></h1>
+	  	<span class="break"></span>
+
+	  	<div class="flex_row">
+	  		<div id="stockname_close" class="price" style="font-size:25px; font-weight:bold; padding-right:14px;">3</div>
+	  		<div id="stockname_price_change" class="price" style="font-size:25px; padding-right:14px;">0</div>
+	  		<div id="stockname_percent_change" class="price" style="font-size:25px;">(0%)</div>
+	  	</div>
+	  </div>
+		<div class="seperate min_768"></div>
+		<div class="break max_768"></div>
+	</div>
+
+	<span class="break2"></span>
+
+	<div class="menu_quote overflow">
+		<a class="" href="https://cophieu68.vn/quote/summary.php?id=hbc">Tổng quan</a><a class="" href="https://cophieu68.vn/chart/chart.php?id=hbc">Biểu đồ</a><a class="" href="https://cophieu68.vn/quote/history.php?id=hbc">Giá lịch sử</a><a class="" href="https://cophieu68.vn/quote/profile.php?id=hbc">Thông tin</a><a class="" href="https://cophieu68.vn/quote/financial.php?id=hbc">Báo cáo tài chính</a><a class="" href="https://cophieu68.vn/quote/event.php?id=hbc">Lịch sự kiện</a>	</div>
+</div>
+<div style="clear:both; margin-top:20px; padding-left:20px">
+	<div class="overflow">
+		<a class="b_button b_blue" style="font-weight:100" href="event.php?id=hbc">Lịch sự kiện</a>
+		<a class="b_button b_blue" style="font-weight:100" href="event_calc_volume.php?id=hbc">Công thức tính khối lượng</a>
+		<a class="b_button b_grey" style="font-weight:100" href="event_calc.php?id=hbc">&check; Công thức tính Ngày GDKHQ</a>
+	</div>
+		<h1>CÔNG THỨC TÍNH GIÁ ĐIỀU CHỈNH NGÀY GIAO DỊCH KHÔNG HƯỞNG QUYỀN - HBC</h1>
+</div>
+<div class="margin_wrap" style="margin-top:10px;">
+	<div class="flex overflow"><div style="width:100%;">
+	<table id="event_calc" width="100%" cellpadding="10" cellspacing="0" style="position:relative; background:#FFF">
+		<thead>
+			<tr class="tr_header" style="font-weight:bold">
+				<td>Ngày giao dịch KHQ</td>
+				<td>Mô tả công thức</td>
+				<td>Hệ số điều chỉnh (C)<BR/>Hệ số điều chỉnh quy hồi (aC)</td>
+				<td>Giá tham chiếu (O)<BR>Giá đóng cửa phiên trước (LC)</td>
+				<td>Giá khớp cuối ngày</td>
+				<td>Giá điều chỉnh <BR>(quy hồi)</td>
+			</tr>
+		</thead>
+			<tr class="tr1" onmouseover="hoverTR(this)" onmouseout="outTR(this)">
+			<td><span style="">24/08/2022</span></td>
+			<td>
+				Cash 3%<span class="break"></span>Split-Bonus 100/7 (Volume + 7%, Ratio=0.07)<span class="break"></span><span class="break"></span><span style="color:#666">21.65 <em>(LC)</em> - 0.3 <em>(1)</em> <span style="font-weight:bold; font-size:150%">&#47;</span> 1 + 0.07 <em>(2)</em> <span style="font-weight:bold; font-size:font-size:120%">=</span> <strong style="font-size:120%">19.95</strong> <em>(O)</em></span>			</td>
+			<td>
+				<strong style="font-size:120%">1.08504</strong> <em style="color:#666">(C)</em>
+				<br /><em style="color:#666">1.08504 x 1</em><br />
+				 = <strong>1.08504</strong>  <em style="color:#666">(aC)</em>
+			</td>
+			<td>
+				<strong style="font-size:120%">19.95</strong> <em style="color:#666">(O)</em><br />
+				(21.65) <em style="color:#666">(LC)</em><br />
+				C=21.65/19.95			</td>
+			<td><span style="color:#009900; font-weight:bold; font-size:120%">20.30</span><br /><span style="color:#009900;">+0.35<br>+1.74%</span></td>
+			<td><strong>20.30</strong><br /><em style="color:#666;">= <br />20.30 / 1</em></td>
+		</tr>
+			<tr class="tr2" onmouseover="hoverTR(this)" onmouseout="outTR(this)">
+			<td><span style="">29/09/2021</span></td>
+			<td>
+				Split-Bonus 20/1 (Volume + 5%, Ratio=0.05)<span class="break"></span><span class="break"></span><span style="color:#666">15.70 <em>(LC)</em> <span style="font-weight:bold; font-size:150%">&#47;</span> 1 + 0.05 <em>(2)</em> <span style="font-weight:bold; font-size:font-size:120%">=</span> <strong style="font-size:120%">14.95</strong> <em>(O)</em></span>			</td>
+			<td>
+				<strong style="font-size:120%">1.05</strong> <em style="color:#666">(C)</em>
+				<br /><em style="color:#666">1.05 x 1.08504</em><br />
+				 = <strong>1.13929</strong>  <em style="color:#666">(aC)</em>
+			</td>
+			<td>
+				<strong style="font-size:120%">14.95</strong> <em style="color:#666">(O)</em><br />
+				(15.70) <em style="color:#666">(LC)</em><br />
+				C=15.70/14.95			</td>
+			<td><span style="color:#009900; font-weight:bold; font-size:120%">15.90</span><br /><span style="color:#009900;">+0.95<br>+6.34%</span></td>
+			<td><strong>14.65</strong><br /><em style="color:#666;">= <br />15.90 / 1.08504</em></td>
+		</tr>
+			<tr class="tr1" onmouseover="hoverTR(this)" onmouseout="outTR(this)">
+			<td><span style="">14/12/2020</span></td>
+			<td>
+				Cash 3%<span class="break"></span><span class="break"></span><span style="color:#666">14.25 <em>(LC)</em> - 0.3 <em>(1)</em> <span style="font-weight:bold; font-size:font-size:120%">=</span> <strong style="font-size:120%">13.95</strong> <em>(O)</em></span>			</td>
+			<td>
+				<strong style="font-size:120%">1.02151</strong> <em style="color:#666">(C)</em>
+				<br /><em style="color:#666">1.02151 x 1.13929</em><br />
+				 = <strong>1.16379</strong>  <em style="color:#666">(aC)</em>
+			</td>
+			<td>
+				<strong style="font-size:120%">13.95</strong> <em style="color:#666">(O)</em><br />
+				(14.25) <em style="color:#666">(LC)</em><br />
+				C=14.25/13.95			</td>
+			<td><span style="color:#009900; font-weight:bold; font-size:120%">14.35</span><br /><span style="color:#009900;">+0.40<br>+2.87%</span></td>
+			<td><strong>12.60</strong><br /><em style="color:#666;">= <br />14.35 / 1.13929</em></td>
+		</tr>
+			<tr class="tr2" onmouseover="hoverTR(this)" onmouseout="outTR(this)">
+			<td><span style="">14/05/2019</span></td>
+			<td>
+				Cash 9%<span class="break"></span>Split-Bonus 20/1 (Volume + 5%, Ratio=0.05)<span class="break"></span><span class="break"></span><span style="color:#666">16.80 <em>(LC)</em> - 0.9 <em>(1)</em> <span style="font-weight:bold; font-size:150%">&#47;</span> 1 + 0.05 <em>(2)</em> <span style="font-weight:bold; font-size:font-size:120%">=</span> <strong style="font-size:120%">15.14</strong> <em>(O)</em></span>			</td>
+			<td>
+				<strong style="font-size:120%">1.10943</strong> <em style="color:#666">(C)</em>
+				<br /><em style="color:#666">1.10943 x 1.16379</em><br />
+				 = <strong>1.29115</strong>  <em style="color:#666">(aC)</em>
+			</td>
+			<td>
+				<strong style="font-size:120%">15.14</strong> <em style="color:#666">(O)</em><br />
+				(16.80) <em style="color:#666">(LC)</em><br />
+				C=16.80/15.14			</td>
+			<td><span style="color:#009900; font-weight:bold; font-size:120%">16.30</span><br /><span style="color:#009900;">+1.16<br>+7.64%</span></td>
+			<td><strong>14.01</strong><br /><em style="color:#666;">= <br />16.30 / 1.16379</em></td>
+		</tr>
+			<tr class="tr1" onmouseover="hoverTR(this)" onmouseout="outTR(this)">
+			<td><span style="">29/05/2018</span></td>
+			<td>
+				Cash 5%<span class="break"></span>Split-Bonus 100/50 (Volume + 50%, Ratio=0.50)<span class="break"></span><span class="break"></span><span style="color:#666">34.15 <em>(LC)</em> - 0.5 <em>(1)</em> <span style="font-weight:bold; font-size:150%">&#47;</span> 1 + 0.50 <em>(2)</em> <span style="font-weight:bold; font-size:font-size:120%">=</span> <strong style="font-size:120%">22.43</strong> <em>(O)</em></span>			</td>
+			<td>
+				<strong style="font-size:120%">1.52229</strong> <em style="color:#666">(C)</em>
+				<br /><em style="color:#666">1.52229 x 1.29115</em><br />
+				 = <strong>1.9655</strong>  <em style="color:#666">(aC)</em>
+			</td>
+			<td>
+				<strong style="font-size:120%">22.43</strong> <em style="color:#666">(O)</em><br />
+				(34.15) <em style="color:#666">(LC)</em><br />
+				C=34.15/22.43			</td>
+			<td><span style="color:#009900; font-weight:bold; font-size:120%">24</span><br /><span style="color:#009900;">+1.57<br>+6.98%</span></td>
+			<td><strong>18.59</strong><br /><em style="color:#666;">= <br />24 / 1.29115</em></td>
+		</tr>
+			<tr class="tr2" onmouseover="hoverTR(this)" onmouseout="outTR(this)">
+			<td><span style="">30/06/2017</span></td>
+			<td>
+				Cash 10%<span class="break"></span>Split-Bonus 100/35 (Volume + 35%, Ratio=0.35)<span class="break"></span><span class="break"></span><span style="color:#666">65.80 <em>(LC)</em> - 1 <em>(1)</em> <span style="font-weight:bold; font-size:150%">&#47;</span> 1 + 0.35 <em>(2)</em> <span style="font-weight:bold; font-size:font-size:120%">=</span> <strong style="font-size:120%">48</strong> <em>(O)</em></span>			</td>
+			<td>
+				<strong style="font-size:120%">1.37083</strong> <em style="color:#666">(C)</em>
+				<br /><em style="color:#666">1.37083 x 1.9655</em><br />
+				 = <strong>2.69437</strong>  <em style="color:#666">(aC)</em>
+			</td>
+			<td>
+				<strong style="font-size:120%">48.00</strong> <em style="color:#666">(O)</em><br />
+				(65.80) <em style="color:#666">(LC)</em><br />
+				C=65.80/48.00			</td>
+			<td><span style="color:#009900; font-weight:bold; font-size:120%">51.30</span><br /><span style="color:#009900;">+3.30<br>+6.87%</span></td>
+			<td><strong>26.10</strong><br /><em style="color:#666;">= <br />51.30 / 1.96550</em></td>
+		</tr>
+			<tr class="tr1" onmouseover="hoverTR(this)" onmouseout="outTR(this)">
+			<td><span style="">23/06/2016</span></td>
+			<td>
+				Split-Bonus 100/15 (Volume + 15%, Ratio=0.15)<span class="break"></span>Split-Bonus 10/1 (Volume + 10%, Ratio=0.10)<span class="break"></span><span class="break"></span><span style="color:#666">23 <em>(LC)</em> <span style="font-weight:bold; font-size:150%">&#47;</span> 1 + 0.15 <em>(2)</em> + 0.10 <em>(2)</em> <span style="font-weight:bold; font-size:font-size:120%">=</span> <strong style="font-size:120%">18.40</strong> <em>(O)</em></span>			</td>
+			<td>
+				<strong style="font-size:120%">1.25</strong> <em style="color:#666">(C)</em>
+				<br /><em style="color:#666">1.25 x 2.69437</em><br />
+				 = <strong>3.36796</strong>  <em style="color:#666">(aC)</em>
+			</td>
+			<td>
+				<strong style="font-size:120%">18.40</strong> <em style="color:#666">(O)</em><br />
+				(23.00) <em style="color:#666">(LC)</em><br />
+				C=23.00/18.40			</td>
+			<td><span style="color:#009900; font-weight:bold; font-size:120%">19.20</span><br /><span style="color:#009900;">+0.80<br>+4.35%</span></td>
+			<td><strong>7.13</strong><br /><em style="color:#666;">= <br />19.20 / 2.69437</em></td>
+		</tr>
+			<tr class="tr2" onmouseover="hoverTR(this)" onmouseout="outTR(this)">
+			<td><span style="">15/07/2015</span></td>
+			<td>
+				Cash 15%<span class="break"></span>Split-Bonus 10/3 (Volume + 30%, Ratio=0.30)<span class="break"></span><span class="break"></span><span style="color:#666">23.70 <em>(LC)</em> - 1.5 <em>(1)</em> <span style="font-weight:bold; font-size:150%">&#47;</span> 1 + 0.30 <em>(2)</em> <span style="font-weight:bold; font-size:font-size:120%">=</span> <strong style="font-size:120%">17.08</strong> <em>(O)</em></span>			</td>
+			<td>
+				<strong style="font-size:120%">1.38784</strong> <em style="color:#666">(C)</em>
+				<br /><em style="color:#666">1.38784 x 3.36796</em><br />
+				 = <strong>4.67418</strong>  <em style="color:#666">(aC)</em>
+			</td>
+			<td>
+				<strong style="font-size:120%">17.08</strong> <em style="color:#666">(O)</em><br />
+				(23.70) <em style="color:#666">(LC)</em><br />
+				C=23.70/17.08			</td>
+			<td><span style="color:#ff0000; font-weight:bold; font-size:120%">15.90</span><br /><span style="color:#ff0000;">-1.18<br>-6.89%</span></td>
+			<td><strong>4.72</strong><br /><em style="color:#666;">= <br />15.90 / 3.36796</em></td>
+		</tr>
+			<tr class="tr1" onmouseover="hoverTR(this)" onmouseout="outTR(this)">
+			<td><span style="">13/08/2014</span></td>
+			<td>
+				Cash 5%<span class="break"></span>Split-Bonus 10/1 (Volume + 10%, Ratio=0.10)<span class="break"></span><span class="break"></span><span style="color:#666">16.90 <em>(LC)</em> - 0.5 <em>(1)</em> <span style="font-weight:bold; font-size:150%">&#47;</span> 1 + 0.10 <em>(2)</em> <span style="font-weight:bold; font-size:font-size:120%">=</span> <strong style="font-size:120%">14.91</strong> <em>(O)</em></span>			</td>
+			<td>
+				<strong style="font-size:120%">1.13354</strong> <em style="color:#666">(C)</em>
+				<br /><em style="color:#666">1.13354 x 4.67418</em><br />
+				 = <strong>5.29836</strong>  <em style="color:#666">(aC)</em>
+			</td>
+			<td>
+				<strong style="font-size:120%">14.91</strong> <em style="color:#666">(O)</em><br />
+				(16.90) <em style="color:#666">(LC)</em><br />
+				C=16.90/14.91			</td>
+			<td><span style="color:#009900; font-weight:bold; font-size:120%">15.30</span><br /><span style="color:#009900;">+0.39<br>+2.62%</span></td>
+			<td><strong>3.27</strong><br /><em style="color:#666;">= <br />15.30 / 4.67418</em></td>
+		</tr>
+			<tr class="tr2" onmouseover="hoverTR(this)" onmouseout="outTR(this)">
+			<td><span style="">14/06/2013</span></td>
+			<td>
+				Cash 10%<span class="break"></span><span class="break"></span><span style="color:#666">18.10 <em>(LC)</em> - 1 <em>(1)</em> <span style="font-weight:bold; font-size:font-size:120%">=</span> <strong style="font-size:120%">17.10</strong> <em>(O)</em></span>			</td>
+			<td>
+				<strong style="font-size:120%">1.05848</strong> <em style="color:#666">(C)</em>
+				<br /><em style="color:#666">1.05848 x 5.29836</em><br />
+				 = <strong>5.6082</strong>  <em style="color:#666">(aC)</em>
+			</td>
+			<td>
+				<strong style="font-size:120%">17.10</strong> <em style="color:#666">(O)</em><br />
+				(18.10) <em style="color:#666">(LC)</em><br />
+				C=18.10/17.10			</td>
+			<td><span style="color:#009900; font-weight:bold; font-size:120%">17.30</span><br /><span style="color:#009900;">+0.20<br>+1.17%</span></td>
+			<td><strong>3.27</strong><br /><em style="color:#666;">= <br />17.30 / 5.29836</em></td>
+		</tr>
+			<tr class="tr1" onmouseover="hoverTR(this)" onmouseout="outTR(this)">
+			<td><span style="">01/06/2012</span></td>
+			<td>
+				Cash 10%<span class="break"></span>Split-Bonus 1/1 (Volume + 100%, Ratio=1)<span class="break"></span>Split-Bonus 100/20 (Volume + 20%, Ratio=0.20)<span class="break"></span><span class="break"></span><span style="color:#666">35.70 <em>(LC)</em> - 1 <em>(1)</em> <span style="font-weight:bold; font-size:150%">&#47;</span> 1 + 1 <em>(2)</em> + 0.20 <em>(2)</em> <span style="font-weight:bold; font-size:font-size:120%">=</span> <strong style="font-size:120%">15.77</strong> <em>(O)</em></span>			</td>
+			<td>
+				<strong style="font-size:120%">2.2634</strong> <em style="color:#666">(C)</em>
+				<br /><em style="color:#666">2.2634 x 5.6082</em><br />
+				 = <strong>12.6936</strong>  <em style="color:#666">(aC)</em>
+			</td>
+			<td>
+				<strong style="font-size:120%">15.77</strong> <em style="color:#666">(O)</em><br />
+				(35.70) <em style="color:#666">(LC)</em><br />
+				C=35.70/15.77			</td>
+			<td><span style="color:#009900; font-weight:bold; font-size:120%">16.50</span><br /><span style="color:#009900;">+0.73<br>+4.61%</span></td>
+			<td><strong>2.94</strong><br /><em style="color:#666;">= <br />16.50 / 5.60820</em></td>
+		</tr>
+			<tr class="tr2" onmouseover="hoverTR(this)" onmouseout="outTR(this)">
+			<td><span style="">13/10/2011</span></td>
+			<td>
+				Cash 6%<span class="break"></span><span class="break"></span><span style="color:#666">26.40 <em>(LC)</em> - 0.6 <em>(1)</em> <span style="font-weight:bold; font-size:font-size:120%">=</span> <strong style="font-size:120%">25.80</strong> <em>(O)</em></span>			</td>
+			<td>
+				<strong style="font-size:120%">1.02326</strong> <em style="color:#666">(C)</em>
+				<br /><em style="color:#666">1.02326 x 12.6936</em><br />
+				 = <strong>12.9888</strong>  <em style="color:#666">(aC)</em>
+			</td>
+			<td>
+				<strong style="font-size:120%">25.80</strong> <em style="color:#666">(O)</em><br />
+				(26.40) <em style="color:#666">(LC)</em><br />
+				C=26.40/25.80			</td>
+			<td><span style="color:#009900; font-weight:bold; font-size:120%">26</span><br /><span style="color:#009900;">+0.20<br>+0.78%</span></td>
+			<td><strong>2.05</strong><br /><em style="color:#666;">= <br />26 / 12.69360</em></td>
+		</tr>
+			<tr class="tr1" onmouseover="hoverTR(this)" onmouseout="outTR(this)">
+			<td><span style="">24/02/2011</span></td>
+			<td>
+				Split-Bonus 100/25 (Volume + 25%, Ratio=0.25)<span class="break"></span><span class="break"></span><span style="color:#666">38.50 <em>(LC)</em> <span style="font-weight:bold; font-size:150%">&#47;</span> 1 + 0.25 <em>(2)</em> <span style="font-weight:bold; font-size:font-size:120%">=</span> <strong style="font-size:120%">30.80</strong> <em>(O)</em></span>			</td>
+			<td>
+				<strong style="font-size:120%">1.25</strong> <em style="color:#666">(C)</em>
+				<br /><em style="color:#666">1.25 x 12.9888</em><br />
+				 = <strong>16.236</strong>  <em style="color:#666">(aC)</em>
+			</td>
+			<td>
+				<strong style="font-size:120%">30.80</strong> <em style="color:#666">(O)</em><br />
+				(38.50) <em style="color:#666">(LC)</em><br />
+				C=38.50/30.80			</td>
+			<td><span style="color:#ff0000; font-weight:bold; font-size:120%">29.90</span><br /><span style="color:#ff0000;">-0.90<br>-2.92%</span></td>
+			<td><strong>2.30</strong><br /><em style="color:#666;">= <br />29.90 / 12.98880</em></td>
+		</tr>
+			<tr class="tr2" onmouseover="hoverTR(this)" onmouseout="outTR(this)">
+			<td><span style="">07/07/2010</span></td>
+			<td>
+				Cash 12%<span class="break"></span>Split-Bonus 10/1 (Volume + 10%, Ratio=0.10)<span class="break"></span><span class="break"></span><span style="color:#666">38.90 <em>(LC)</em> - 1.2 <em>(1)</em> <span style="font-weight:bold; font-size:150%">&#47;</span> 1 + 0.10 <em>(2)</em> <span style="font-weight:bold; font-size:font-size:120%">=</span> <strong style="font-size:120%">34.27</strong> <em>(O)</em></span>			</td>
+			<td>
+				<strong style="font-size:120%">1.13501</strong> <em style="color:#666">(C)</em>
+				<br /><em style="color:#666">1.13501 x 16.236</em><br />
+				 = <strong>18.4281</strong>  <em style="color:#666">(aC)</em>
+			</td>
+			<td>
+				<strong style="font-size:120%">34.27</strong> <em style="color:#666">(O)</em><br />
+				(38.90) <em style="color:#666">(LC)</em><br />
+				C=38.90/34.27			</td>
+			<td><span style="color:#009900; font-weight:bold; font-size:120%">34.50</span><br /><span style="color:#009900;">+0.23<br>+0.66%</span></td>
+			<td><strong>2.12</strong><br /><em style="color:#666;">= <br />34.50 / 16.23600</em></td>
+		</tr>
+			<tr class="tr1" onmouseover="hoverTR(this)" onmouseout="outTR(this)">
+			<td><span style="">24/07/2008</span></td>
+			<td>
+				Split-Bonus 100/12 (Volume + 12%, Ratio=0.12)<span class="break"></span><span class="break"></span><span style="color:#666">32.30 <em>(LC)</em> <span style="font-weight:bold; font-size:150%">&#47;</span> 1 + 0.12 <em>(2)</em> <span style="font-weight:bold; font-size:font-size:120%">=</span> <strong style="font-size:120%">28.84</strong> <em>(O)</em></span>			</td>
+			<td>
+				<strong style="font-size:120%">1.12</strong> <em style="color:#666">(C)</em>
+				<br /><em style="color:#666">1.12 x 18.4281</em><br />
+				 = <strong>20.6395</strong>  <em style="color:#666">(aC)</em>
+			</td>
+			<td>
+				<strong style="font-size:120%">28.84</strong> <em style="color:#666">(O)</em><br />
+				(32.30) <em style="color:#666">(LC)</em><br />
+				C=32.30/28.84			</td>
+			<td><span style="color:#ff0000; font-weight:bold; font-size:120%">28</span><br /><span style="color:#ff0000;">-0.84<br>-2.91%</span></td>
+			<td><strong>1.52</strong><br /><em style="color:#666;">= <br />28 / 18.42810</em></td>
+		</tr>
+			<tr class="tr2" onmouseover="hoverTR(this)" onmouseout="outTR(this)">
+			<td><span style="">01/11/2007</span></td>
+			<td>
+				Rights 10/1  Price 20 (Volume + 10%, Ratio=0.10)<span class="break"></span><span class="break"></span><span style="color:#666">135 <em>(LC)</em> + 0.10*20 <em>(3)</em> <span style="font-weight:bold; font-size:150%">&#47;</span> 1 + 0.10 <em>(3)</em> <span style="font-weight:bold; font-size:font-size:120%">=</span> <strong style="font-size:120%">124.55</strong> <em>(O)</em></span>			</td>
+			<td>
+				<strong style="font-size:120%">1.08394</strong> <em style="color:#666">(C)</em>
+				<br /><em style="color:#666">1.08394 x 20.6395</em><br />
+				 = <strong>22.372</strong>  <em style="color:#666">(aC)</em>
+			</td>
+			<td>
+				<strong style="font-size:120%">124.55</strong> <em style="color:#666">(O)</em><br />
+				(135.00) <em style="color:#666">(LC)</em><br />
+				C=135.00/124.55			</td>
+			<td><span style="color:#009900; font-weight:bold; font-size:120%">127</span><br /><span style="color:#009900;">+2.45<br>+1.97%</span></td>
+			<td><strong>6.15</strong><br /><em style="color:#666;">= <br />127 / 20.63950</em></td>
+		</tr>
+			<tr class="tr1" onmouseover="hoverTR(this)" onmouseout="outTR(this)">
+			<td><span style="">27/07/2007</span></td>
+			<td>
+				Split-Bonus 12/1 (Volume + 8.33%, Ratio=0.08)<span class="break"></span>Split-Bonus 10/1 (Volume + 10%, Ratio=0.10)<span class="break"></span>Rights 5/1  Price 20 (Volume + 20%, Ratio=0.20)<span class="break"></span><span class="break"></span><span style="color:#666">125 <em>(LC)</em> + 0.20*20 <em>(3)</em> <span style="font-weight:bold; font-size:150%">&#47;</span> 1 + 0.08 <em>(2)</em> + 0.10 <em>(2)</em> + 0.20 <em>(3)</em> <span style="font-weight:bold; font-size:font-size:120%">=</span> <strong style="font-size:120%">93.25</strong> <em>(O)</em></span>			</td>
+			<td>
+				<strong style="font-size:120%">1.34044</strong> <em style="color:#666">(C)</em>
+				<br /><em style="color:#666">1.34044 x 22.372</em><br />
+				 = <strong>29.9883</strong>  <em style="color:#666">(aC)</em>
+			</td>
+			<td>
+				<strong style="font-size:120%">93.25</strong> <em style="color:#666">(O)</em><br />
+				(125.00) <em style="color:#666">(LC)</em><br />
+				C=125.00/93.25			</td>
+			<td><span style="color:#009900; font-weight:bold; font-size:120%">95</span><br /><span style="color:#009900;">+1.75<br>+1.87%</span></td>
+			<td><strong>4.25</strong><br /><em style="color:#666;">= <br />95 / 22.37200</em></td>
+		</tr>
+	</table>
+</div></div>
+</div>
+<script>
+setTimeout("anchorHeaderTable2('event_calc', 0);", 3000);
+</script>
+
+<div style="clear:both; margin-top:20px; padding-left:20px">
+
+	<h2>Công thức, Cách tính Giá Tham Chiếu ngày giao dịch không hưởng quyền:</h2>
+	<br clear="all" /><br clear="all" />
+	<div style="font-size:16px">
+		<div style="float: left; width: 150px; padding-top:25px">Giá tham chiếu =</div>
+		<div style="float: left;">
+			<div style="height:20px">Giá_Đóng_Cửa_Phiên_Trước (LC) &nbsp;&nbsp; +  &nbsp;&nbsp; Tỉ_Lệ_Mua_Cổ_Phiếu_Ưu_Đãi (3) x Giá_Mua_Ưu_Đãi (3) &nbsp;&nbsp; - &nbsp;&nbsp; Cổ_Tức_Tiền_Mặt (1)</div>
+			<div style="height:40px">________________________________________________________________________________________________</div>
+			<div style="height:20px">1 &nbsp;&nbsp; + &nbsp;&nbsp; Tỉ_Lệ_Chia_Cổ_Tức_Bằng_Cổ_Phiếu (2)  &nbsp;&nbsp; + &nbsp;&nbsp; Tỉ_Lệ_Mua_Cổ_Phiếu_Ưu_Đãi (3) </div>
+		</div>
+	</div>
+	<br clear="all" />
+	<br/><br/>
+	<strong>(1)</strong> Cổ Tức Tiền Mặt<br/><br/>
+	<strong>(2)</strong> Cổ Tức Bằng Cổ phiếu, Cổ Phiếu Thưởng<br/><br/>
+	<strong>(3)</strong> Mua Cổ Phiếu Ưu Đãi<br/><br/>
+
+	<strong>(O)</strong> Giá tham chiếu ngày giao dịch không hưởng quyền<br/><br/>
+	<strong>(LC)</strong> Giá đóng cửa phiên trước<br/><br/>
+	<strong>(C)</strong> Hệ số điều chỉnh giá ngày giao dịch không hưởng quyền<br/><br/>
+	<strong>(aC)</strong> Hệ số điều chỉnh giá đã điều chỉnh quy hồi<br/><br/>
+
+</div>
+<div id="footers_cp" style="clear:both; text-align: right; width: 100%; background: #F2f2f2; margin-top:20px; border-top:3px solid #333; font-family:HongHaHep; font-size:14px">
+  <div style="padding:10px">
+    <a href="https://cophieu68.vn/privacy.php" style="color:#000">Chính sách bảo mật</a>
+    |
+    <a href="https://cophieu68.vn/terms.php" style="color:#000">Điều khoản sử dụng</a>
+    |
+    <a href="https://cophieu68.vn/contact.php" style="color:#000">Liên lạc</a>
+  </div>
+</div>
+</body>
+</html>
+
+<script>
+setTimeout(function(){$('.auto-prose-wrapper').remove();}, 2*1000);
+</script>

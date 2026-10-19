@@ -1,0 +1,73 @@
+<div class="table-portal">
+    <table id="tblLichTHQ">
+        <thead>
+            <tr>
+                <th style="width:50px">STT</th>
+                <th style="width:100px" data-sort="NgayDkcc">Ng&#xE0;y &#x110;KCC</th>
+                <th style="width:100px" data-sort="StockCode">M&#xE3; CK</th>
+                <th style="width:140px" data-sort="IsinCode">M&#xE3; ISIN</th>
+                <th style="width:250px" data-sort="Title">Ti&#xEA;u &#x111;&#x1EC1;</th>
+                <th style="width:100px" data-sort="StockTypeName">Lo&#x1EA1;i ch&#x1EE9;ng kho&#xE1;n</th>
+                <th style="width:100px" data-sort="MarketName">Th&#x1ECB; tr&#x1B0;&#x1EDD;ng</th>
+                <th style="width:150px" data-sort="ManagementAreaName">N&#x1A1;i qu&#x1EA3;n l&#xFD;</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td style="text-align:center">1</td>
+                    <td>10/06/2021</td>
+                    <td>CTP</td>
+                    <td>VN000000CTP8</td>
+                    <td><a class="link-main" href="/ad/142071">CTP: Tham d&#x1EF1; &#x110;&#x1EA1;i h&#x1ED9;i &#x111;&#x1ED3;ng c&#x1ED5; &#x111;&#xF4;ng th&#x1B0;&#x1EDD;ng ni&#xEA;n 2021</a></td>
+                    <td>C&#x1ED5; phi&#x1EBF;u</td>
+                    <td>HNX</td>
+                    <td>Chi nha&#x301;nh</td>
+                </tr>
+                <tr>
+                    <td style="text-align:center">2</td>
+                    <td>10/06/2021</td>
+                    <td>CTP</td>
+                    <td>VN000000CTP8</td>
+                    <td><a class="link-main" href="/ad/146158">CTP: H&#x1EE7;y danh s&#xE1;ch ng&#x1B0;&#x1EDD;i s&#x1EDF; h&#x1EEF;u ch&#x1EE9;ng kho&#xE1;n th&#x1EF1;c hi&#x1EC7;n quy&#x1EC1;n</a></td>
+                    <td>C&#x1ED5; phi&#x1EBF;u</td>
+                    <td>HNX</td>
+                    <td>Chi nha&#x301;nh</td>
+                </tr>
+                <tr>
+                    <td style="text-align:center">3</td>
+                    <td>24/06/2021</td>
+                    <td>BCG</td>
+                    <td>VN000000BCG5</td>
+                    <td><a class="link-main" href="/ad/142573">BCG: Tr&#x1EA3; c&#x1ED5; t&#x1EE9;c n&#x103;m 2020 b&#x1EB1;ng ti&#x1EC1;n m&#x1EB7;t v&#xE0; c&#x1ED5; phi&#x1EBF;u</a></td>
+                    <td>C&#x1ED5; phi&#x1EBF;u</td>
+                    <td>HOSE</td>
+                    <td>Chi nha&#x301;nh</td>
+                </tr>
+                <tr>
+                    <td style="text-align:center">4</td>
+                    <td>12/07/2021</td>
+                    <td>KSQ</td>
+                    <td>VN000000KSQ1</td>
+                    <td><a class="link-main" href="/ad/142758">KSQ: T&#x1ED5; ch&#x1EE9;c &#x110;&#x1EA1;i h&#x1ED9;i &#x111;&#x1ED3;ng c&#x1ED5; &#x111;&#xF4;ng b&#x1EA5;t th&#x1B0;&#x1EDD;ng n&#x103;m 2021</a></td>
+                    <td>C&#x1ED5; phi&#x1EBF;u</td>
+                    <td>HNX</td>
+                    <td>Tru&#x323; s&#x1A1;&#x309; chi&#x301;nh</td>
+                </tr>
+
+        </tbody>
+    </table>
+</div>
+<div class="text-right"><div class='paging'><div id='d_page'><div><div id='d_total_rec'>Hiển thị:  1 - 4 / 4 bản ghi </div></div><div id='d_number_of_page'></div></div></div></div>
+
+<script>
+    $(function () {
+        $("#tblLichTHQ th[data-sort]").on("click", function () {
+            SortTable($(this).attr("data-sort"), function () {
+                if (!!window.tablLichTHQ) {
+                    tablLichTHQ(1);
+                }
+            });
+        });
+        ChangeIconSortTable();
+    });
+</script>
