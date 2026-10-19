@@ -18,6 +18,24 @@ Migration 027 adds a set-based overload, `core.vndirect_bars_as_of(as_of_date)`,
 
 For a feature window ending on signal date `D`, query the VNDIRECT function as of `D`. For a forward label ending on `T`, query it once as of `T`, then read both the signal-date and target-date prices from that returned series. This keeps both label endpoints on the same adjustment basis. Zero-volume bars retain `is_traded=false`; they are not treated as executed prices or silently filled.
 
+## Raw source fields versus Phase 2 prices
+
+`core.bars_daily_sources.o/h/l/c` and `adj_basis='unadjusted'` correctly describe the immutable raw VNDIRECT landing. Migration 026 stores VNDIRECT's separate adjusted `ad*` snapshot in `adjusted_o/adjusted_h/adjusted_l/adjusted_c` with its fetch vintage. Phase 2 must read `core.vndirect_bars_as_of(symbol_id, as_of_date)` or the market-wide overload; these functions return `price_basis='adjusted_as_of'`. Do not relabel or overwrite the raw fields.
+
+The registered PostgreSQL database was checked on 2026-10-19 against three distinct cases:
+
+| Check | As-of session | Stored raw close | Latest retrospective adjusted close | Function close |
+| --- | --- | ---: | ---: | ---: |
+| PRC before ex-right | 2023-03-29 | 68.0000 | 10.0100 | 68.0000 |
+| PRC prior session, after VND 35,000 dividend became effective | 2023-03-30 | 68.0000 | 10.0100 | 32.9988 |
+| FPT prior session, after VND 1,000 dividend became effective | 2024-12-02 | 144.3000 | 109.6580 | 143.3043 |
+| FPT ex-right session | 2024-12-02 | 142.2000 | 108.8130 | 142.2000 |
+| AGG first trading day | 2020-01-09 | 30.0000 | 13.8960 | 30.0000 |
+
+These checks show the function removes later retrospective adjustments from the history through the requested date. The PRC dividend is documented by [VSDC](https://vsdc.vn/vi/ad/156913); FPT's VND 1,000 dividend and ex-right session are supported by [VSDC](https://vsdc.vn/en/ad/176881) and the [HOSE-hosted disclosure](https://staticfile.hsx.vn/Uploads/UploadDocuments/2374370/20250514%20-%20CFPT2407%20-%20BCB%20chao%20ban%20bo%20sung%20lan%201.pdf). The [State Securities Commission's AGG listing notice](https://ssc.gov.vn/webcenter/portal/ubck/pages_r/l/chitit?dDocName=APPSSCGOVVN162130344) identifies 2020-01-09 as the first trading day.
+
+The same database check returned 2,844,435 in-scope model rows for 1,518 symbols from 2018-10-01 through 2026-10-16; every row was `adjusted_as_of`. It retained 1,021,077 zero-volume rows with `is_traded=false`. The 248-row difference from the 2,844,683 raw VNDIRECT rows is exactly UTT's explicit, previously approved model-scope exclusion; no row was removed for an unresolved VCI/DNSE price disagreement. Phase 2 feature and label generation is still future work, so this verifies the price input rather than claiming Phase 2 is complete.
+
 ## PRC conflict resolved against public records
 
 CafeF's historical endpoint returned a single PRC row for 2023-03-29. The archived response is [`cafef-prc-2023-03-29.json`](cafef-prc-2023-03-29.json), SHA-256 `87E842F9885D9944401969E95403EEFFA02B974D3D051CDAF7E2065254DB5E7D`. It reports raw open/high/low/close of 65/70/63/68 thousand VND and matched volume 36,000. The same response's adjusted field is 25.62; that field is not used as the ML basis because it does not match the validated current adjustment snapshot.
