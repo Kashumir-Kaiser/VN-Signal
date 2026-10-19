@@ -1,5 +1,5 @@
-// Package vndirect reads source-attributed, unadjusted historical OHLCV from
-// VNDIRECT's public Finfo API.
+// Package vndirect reads source-attributed raw and retrospectively adjusted
+// historical OHLCV from VNDIRECT's public Finfo API.
 package vndirect
 
 import (
@@ -33,6 +33,10 @@ type Bar struct {
 	High           *float64
 	Low            *float64
 	Close          *float64
+	AdjustedOpen   *float64
+	AdjustedHigh   *float64
+	AdjustedLow    *float64
+	AdjustedClose  *float64
 	Volume         *float64 // nmVolume: normal-market volume, matching VCI's reported volume basis.
 	PTVolume       *float64 // Archived for diagnostics; excluded from normal-market volume.
 }
@@ -129,14 +133,18 @@ type wireResponse struct {
 }
 
 type wireBar struct {
-	Code     string   `json:"code"`
-	Date     string   `json:"date"`
-	Open     *float64 `json:"open"`
-	High     *float64 `json:"high"`
-	Low      *float64 `json:"low"`
-	Close    *float64 `json:"close"`
-	NMVolume *float64 `json:"nmVolume"`
-	PTVolume *float64 `json:"ptVolume"`
+	Code          string   `json:"code"`
+	Date          string   `json:"date"`
+	Open          *float64 `json:"open"`
+	High          *float64 `json:"high"`
+	Low           *float64 `json:"low"`
+	Close         *float64 `json:"close"`
+	AdjustedOpen  *float64 `json:"adOpen"`
+	AdjustedHigh  *float64 `json:"adHigh"`
+	AdjustedLow   *float64 `json:"adLow"`
+	AdjustedClose *float64 `json:"adClose"`
+	NMVolume      *float64 `json:"nmVolume"`
+	PTVolume      *float64 `json:"ptVolume"`
 }
 
 func ParseHistory(raw []byte, symbol, start, end string) ([]Bar, error) {
@@ -163,7 +171,8 @@ func ParseHistory(raw []byte, symbol, start, end string) ([]Bar, error) {
 			return nil, fmt.Errorf("VNDIRECT row %d is outside range or not uniquely ordered", i)
 		}
 		previous = date
-		for _, value := range []*float64{item.Open, item.High, item.Low, item.Close} {
+		for _, value := range []*float64{item.Open, item.High, item.Low, item.Close,
+			item.AdjustedOpen, item.AdjustedHigh, item.AdjustedLow, item.AdjustedClose} {
 			if value != nil && (math.IsNaN(*value) || math.IsInf(*value, 0)) {
 				return nil, fmt.Errorf("VNDIRECT row %d has a nonfinite price", i)
 			}
@@ -177,7 +186,9 @@ func ParseHistory(raw []byte, symbol, start, end string) ([]Bar, error) {
 		providerCode := strings.ToUpper(strings.TrimSpace(item.Code))
 		rows = append(rows, Bar{SourceRow: i, Date: date, ProviderCode: providerCode,
 			TickerMismatch: !strings.EqualFold(providerCode, symbol), Open: item.Open, High: item.High,
-			Low: item.Low, Close: item.Close, Volume: item.NMVolume, PTVolume: item.PTVolume})
+			Low: item.Low, Close: item.Close, AdjustedOpen: item.AdjustedOpen,
+			AdjustedHigh: item.AdjustedHigh, AdjustedLow: item.AdjustedLow,
+			AdjustedClose: item.AdjustedClose, Volume: item.NMVolume, PTVolume: item.PTVolume})
 	}
 	counts := make(map[string]int, len(rows))
 	for _, row := range rows {

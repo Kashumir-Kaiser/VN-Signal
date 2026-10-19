@@ -4,10 +4,14 @@ set -euo pipefail
 export PGOPTIONS='-c TimeZone=UTC'
 for pass in 1 2; do
     for migration in sql/migrations/[0-9]*.sql; do
+        if [[ "$pass" == 1 && "$migration" == "sql/migrations/026_vndirect_adjusted_prices.sql" ]]; then
+            psql -X -v ON_ERROR_STOP=1 -f tests/sql/vndirect_adjustment_backfill_fixture.sql "$DATABASE_URL"
+        fi
         psql -X -v ON_ERROR_STOP=1 -f "$migration" "$DATABASE_URL"
     done
 done
 psql -X -v ON_ERROR_STOP=1 -f tests/sql/schema_assertions.sql "$DATABASE_URL"
+psql -X -v ON_ERROR_STOP=1 -f tests/sql/vndirect_adjustment_assertions.sql "$DATABASE_URL"
 if psql -X -v ON_ERROR_STOP=1 "$DATABASE_URL" <<'SQL'
 BEGIN;
 CREATE TABLE ops.fault_rollback(id integer);

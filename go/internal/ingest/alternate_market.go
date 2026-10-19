@@ -442,16 +442,36 @@ func (p *PostgresStore) CommitVNDIRECTHistory(ctx context.Context, call External
 		if !priceOK {
 			continue
 		}
+		var adjustedO, adjustedH, adjustedL, adjustedC any
+		var adjustmentVintage any
+		adjustedPrices := []*float64{row.AdjustedOpen, row.AdjustedHigh, row.AdjustedLow, row.AdjustedClose}
+		adjustedOK := true
+		for _, price := range adjustedPrices {
+			if price == nil || !finitePositive(*price) {
+				adjustedOK = false
+			}
+		}
+		if adjustedOK && *row.AdjustedHigh < *row.AdjustedLow {
+			adjustedOK = false
+		}
+		if adjustedOK {
+			adjustedO, adjustedH, adjustedL, adjustedC = *row.AdjustedOpen, *row.AdjustedHigh, *row.AdjustedLow, *row.AdjustedClose
+			adjustmentVintage = fetchedAt
+		}
 		isTraded := volume > 0
 		_, err = tx.ExecContext(ctx, `INSERT INTO core.bars_daily_sources
-			(symbol_id,trade_date,source,o,h,l,c,v,adj_basis,is_traded,landing_id,source_row,ingest_id,fetched_at)
-			VALUES($1,$2::date,$3,$4,$5,$6,$7,$8,'unadjusted',$9,$10,$11,$12::uuid,$13)
+			(symbol_id,trade_date,source,o,h,l,c,v,adj_basis,is_traded,landing_id,source_row,ingest_id,fetched_at,
+			 adjusted_o,adjusted_h,adjusted_l,adjusted_c,adjustment_vintage_at)
+			VALUES($1,$2::date,$3,$4,$5,$6,$7,$8,'unadjusted',$9,$10,$11,$12::uuid,$13,$14,$15,$16,$17,$18)
 			ON CONFLICT(symbol_id,trade_date,source) DO UPDATE SET
 			o=EXCLUDED.o,h=EXCLUDED.h,l=EXCLUDED.l,c=EXCLUDED.c,v=EXCLUDED.v,adj_basis=EXCLUDED.adj_basis,
 			is_traded=EXCLUDED.is_traded,landing_id=EXCLUDED.landing_id,source_row=EXCLUDED.source_row,
-			ingest_id=EXCLUDED.ingest_id,fetched_at=EXCLUDED.fetched_at
+			ingest_id=EXCLUDED.ingest_id,fetched_at=EXCLUDED.fetched_at,
+			adjusted_o=EXCLUDED.adjusted_o,adjusted_h=EXCLUDED.adjusted_h,adjusted_l=EXCLUDED.adjusted_l,
+			adjusted_c=EXCLUDED.adjusted_c,adjustment_vintage_at=EXCLUDED.adjustment_vintage_at
 			WHERE core.bars_daily_sources.fetched_at<=EXCLUDED.fetched_at`,
-			symbolID, row.Date, call.Source, *row.Open, *row.High, *row.Low, *row.Close, volume, isTraded, landingID, row.SourceRow, ingestID, fetchedAt)
+			symbolID, row.Date, call.Source, *row.Open, *row.High, *row.Low, *row.Close, volume, isTraded, landingID, row.SourceRow, ingestID, fetchedAt,
+			adjustedO, adjustedH, adjustedL, adjustedC, adjustmentVintage)
 		if err != nil {
 			return summary, err
 		}

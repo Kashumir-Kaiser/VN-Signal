@@ -26,7 +26,7 @@ different historical prices after rights events.
 | --- | --- | --- | --- |
 | VCI canonical | 24.24 / 6,399,940 | 24.03 / 6,133,538 | Aligns with the adjusted-price branch for this event; the later FPT cash-dividend check classifies its OHLC prices as adjusted. |
 | DNSE alternate | 24.25 / 6,398,800 | 24.03 / 6,129,900 | Also aligns with the adjusted-price branch for this event; the later FPT cash-dividend check classifies its OHLC prices as adjusted. |
-| VNDIRECT imported fields | 43.80 / 6,398,800 | 33.40 / 6,129,900 | Importer uses ordinary OHLC, not `ad*`; stored basis is `unadjusted`. |
+| VNDIRECT raw fields | 43.80 / 6,398,800 | 33.40 / 6,129,900 | Raw `o/h/l/c` stay unadjusted; the archived responses also provide separate `ad*` values now materialized by migration 026. |
 | CafeF public history | raw 43.80; adjusted 24.25 / 6,398,800 | raw 33.40; adjusted 24.04 / 6,129,900 | Independent raw and adjusted close fields cross-check the event. |
 | EasyStock public JSON | 24.26 / 6,398,800 | 24.04 / 6,129,900 | Appears adjusted for this event; point-in-time basis is undocumented. |
 
@@ -90,16 +90,26 @@ return different adjusted prices after rights events. The compact probe
 reports and their hashes are in
 [`phase1-current-kbs-verify/README.md`](../phase1-current-kbs-verify/README.md).
 
-Together with the 2024 VCI 10:3 bonus-share comparison above and vnstock's
-documentation that equity prices are adjusted for rights, this supports
-`adj_basis='adjusted'` for VCI, DNSE, and the KBS **default OHLC price columns**.
-The local database classifies VCI and DNSE accordingly; its importer preserves
-those labels for new rows. KBS's 495 completed full-range responses remain raw
-landings and have not been materialized in `core.bars_daily_sources`. If those
-default KBS values are added to a source series, store them as `adjusted` and
-keep them keyed to KBS. VNDIRECT remains `unadjusted` because its importer uses
-ordinary OHLC, not separate `ad*` fields. The labels concern prices only; this
-event does not establish a provider-wide volume-adjustment rule.
+VNDIRECT's own DStock price-history page says its adjusted close accounts for
+share splits and cash dividends on ex-right dates and is used in its technical
+chart. HOSE-hosted FPT warrant disclosure identifies 2024-12-02 as the
+ex-right date and gives the underlying reference-price change from 144.300 to
+143.300, matching the VNDIRECT raw close less the VND 1.000/share dividend.
+The archived FPT API row's `adClose` agrees with the dividend-adjusted branch.
+See [VNDIRECT's price-history explanation](https://dstock.vndirect.com.vn/lich-su-gia/VND)
+and the [HOSE-hosted FPT adjustment disclosure](https://staticfile.hsx.vn/Uploads/UploadDocuments/2374370/20250514%20-%20CFPT2407%20-%20BCB%20chao%20ban%20bo%20sung%20lan%201.pdf).
+
+Keep VNDIRECT ordinary OHLC in raw `o/h/l/c` with `adj_basis='unadjusted'`;
+migration 026 stores the provider's separate `ad*` OHLC snapshot and its fetch
+time in dedicated columns. `core.vndirect_bars_as_of` converts that retrospective
+snapshot to the requested historical date basis and fails closed when the rows
+through that date do not share one complete snapshot vintage. Do not write
+adjusted values over raw fields. The function solves the VNDIRECT vintage only;
+VCI, DNSE, and KBS still need their own point-in-time vintage handling before
+cross-source feature joins. KBS's 495 completed full-range responses remain raw
+landings and have not been materialized in `core.bars_daily_sources`. The labels
+concern prices only; this event does not establish a provider-wide
+volume-adjustment rule.
 
 Two earlier exact-date KBS probes timed out. The successful 2026-10-19
 follow-up retrieved the two event dates and saved compact target-row reports.

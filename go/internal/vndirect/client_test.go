@@ -9,13 +9,20 @@ import (
 )
 
 func TestParseHistoryPreservesNormalAndPutThroughVolumeSeparately(t *testing.T) {
-	body := []byte(`{"currentPage":1,"size":5000,"totalElements":1,"totalPages":1,"data":[{"code":"UTT","date":"2026-10-16","open":9.2,"high":9.2,"low":9.2,"close":9.2,"nmVolume":0,"ptVolume":1200}]}`)
+	body := []byte(`{"currentPage":1,"size":5000,"totalElements":1,"totalPages":1,"data":[{"code":"UTT","date":"2026-10-16","open":9.2,"high":9.2,"low":9.2,"close":9.2,"adOpen":8.1,"adHigh":8.1,"adLow":8.1,"adClose":8.1,"nmVolume":0,"ptVolume":1200}]}`)
 	rows, err := ParseHistory(body, "UTT", "2026-10-16", "2026-10-16")
 	if err != nil {
 		t.Fatal(err)
 	}
 	if len(rows) != 1 || rows[0].Volume == nil || *rows[0].Volume != 0 || rows[0].PTVolume == nil || *rows[0].PTVolume != 1200 {
 		t.Fatalf("volume components were not preserved: %+v", rows)
+	}
+	if rows[0].Close == nil || *rows[0].Close != 9.2 ||
+		rows[0].AdjustedOpen == nil || *rows[0].AdjustedOpen != 8.1 ||
+		rows[0].AdjustedHigh == nil || *rows[0].AdjustedHigh != 8.1 ||
+		rows[0].AdjustedLow == nil || *rows[0].AdjustedLow != 8.1 ||
+		rows[0].AdjustedClose == nil || *rows[0].AdjustedClose != 8.1 {
+		t.Fatalf("raw and adjusted OHLC fields were not preserved separately: %+v", rows[0])
 	}
 }
 
