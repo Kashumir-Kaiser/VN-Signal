@@ -7,11 +7,15 @@ for pass in 1 2; do
         if [[ "$pass" == 1 && "$migration" == "sql/migrations/026_vndirect_adjusted_prices.sql" ]]; then
             psql -X -v ON_ERROR_STOP=1 -f tests/sql/vndirect_adjustment_backfill_fixture.sql "$DATABASE_URL"
         fi
+        if [[ "$pass" == 1 && "$migration" == "sql/migrations/033_vndirect_close_tick_price_corrections.sql" ]]; then
+            psql -X -v ON_ERROR_STOP=1 -f tests/sql/vndirect_close_tick_fixture.sql "$DATABASE_URL"
+        fi
         psql -X -v ON_ERROR_STOP=1 -f "$migration" "$DATABASE_URL"
     done
 done
 psql -X -v ON_ERROR_STOP=1 -f tests/sql/schema_assertions.sql "$DATABASE_URL"
 psql -X -v ON_ERROR_STOP=1 -f tests/sql/vndirect_adjustment_assertions.sql "$DATABASE_URL"
+psql -X -v ON_ERROR_STOP=1 -f tests/sql/vndirect_close_tick_assertions.sql "$DATABASE_URL"
 if psql -X -v ON_ERROR_STOP=1 "$DATABASE_URL" <<'SQL'
 BEGIN;
 CREATE TABLE ops.fault_rollback(id integer);

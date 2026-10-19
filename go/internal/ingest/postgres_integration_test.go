@@ -14,6 +14,8 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strconv"
+	"strings"
 	"testing"
 	"time"
 
@@ -57,9 +59,93 @@ func clearDB(t *testing.T, db *sql.DB) {
 	if !ok {
 		t.Fatal("could not locate integration test source for migration reset")
 	}
-	migrationDir := filepath.Join(filepath.Dir(source), "..", "..", "..", "sql", "migrations")
+	projectRoot := filepath.Join(filepath.Dir(source), "..", "..", "..")
+	migrationDir := filepath.Join(projectRoot, "sql", "migrations")
+	beforeCloseTickDir := t.TempDir()
+	entries, e := os.ReadDir(migrationDir)
+	if e != nil {
+		t.Fatal(e)
+	}
+	for _, entry := range entries {
+		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".sql") {
+			continue
+		}
+		prefix := strings.SplitN(entry.Name(), "_", 2)[0]
+		number, parseErr := strconv.Atoi(prefix)
+		if parseErr != nil || number >= 33 {
+			continue
+		}
+		body, readErr := os.ReadFile(filepath.Join(migrationDir, entry.Name()))
+		if readErr != nil {
+			t.Fatal(readErr)
+		}
+		if writeErr := os.WriteFile(filepath.Join(beforeCloseTickDir, entry.Name()), body, 0o600); writeErr != nil {
+			t.Fatal(writeErr)
+		}
+	}
+	if _, e = migrate.Apply(context.Background(), db, beforeCloseTickDir); e != nil {
+		t.Fatalf("apply schema migrations before close-tick fixture: %v", e)
+	}
+	fixturePath := filepath.Join(projectRoot, "tests", "sql", "vndirect_close_tick_fixture.sql")
+	fixture, e := os.ReadFile(fixturePath)
+	if e != nil {
+		t.Fatal(e)
+	}
+	statements, e := migrate.Split(string(fixture))
+	if e != nil {
+		t.Fatalf("parse close-tick fixture: %v", e)
+	}
+	fixtureTx, e := db.BeginTx(context.Background(), nil)
+	if e != nil {
+		t.Fatal(e)
+	}
+	for _, statement := range statements {
+		upper := strings.ToUpper(strings.TrimSpace(statement))
+		if upper == "BEGIN" || upper == "COMMIT" {
+			continue
+		}
+		if _, e = fixtureTx.ExecContext(context.Background(), statement); e != nil {
+			_ = fixtureTx.Rollback()
+			t.Fatalf("load close-tick migration fixture: %v", e)
+		}
+	}
+	if e = fixtureTx.Commit(); e != nil {
+		t.Fatal(e)
+	}
 	if _, e := migrate.Apply(context.Background(), db, migrationDir); e != nil {
-		t.Fatalf("reset disposable integration schema: %v", e)
+		t.Fatalf("apply full migrations with close-tick fixture: %v", e)
+	}
+	cleanupTx, e := db.BeginTx(context.Background(), nil)
+	if e != nil {
+		t.Fatal(e)
+	}
+	const fixtureID = "4a555b3f-3d56-4e99-91ae-aab1d9010333"
+	cleanup := []string{
+		`DELETE FROM core.vndirect_model_bar_overrides m
+		 USING core.bars_daily_sources b,raw.landings l
+		 WHERE m.symbol_id=b.symbol_id AND m.trade_date=b.trade_date AND m.source=b.source
+		   AND b.landing_id=l.landing_id AND l.ingest_id=$1::uuid`,
+		`DELETE FROM core.bars_daily_sources b USING raw.landings l
+		 WHERE b.landing_id=l.landing_id AND l.ingest_id=$1::uuid`,
+		`DELETE FROM core.symbols WHERE symbol IN
+		 ('ILB','DBT','ELC','NLG','LGC','LCG','CRV','CCC','TVS','VIX','GEE','CCI','CTD','HSG','BMP','HPG','TCM','TAL','PAN','GDT')`,
+	}
+	for i, statement := range cleanup {
+		var err error
+		if i == 2 {
+			_, err = cleanupTx.ExecContext(context.Background(), statement)
+		} else {
+			_, err = cleanupTx.ExecContext(context.Background(), statement, fixtureID)
+		}
+		if err != nil {
+			_ = cleanupTx.Rollback()
+			t.Fatalf("remove close-tick migration fixture: %v", err)
+		}
+	}
+	// raw.landings is append-only by design. The unreferenced synthetic landing
+	// stays until the next clearDB call drops the disposable test schema.
+	if e = cleanupTx.Commit(); e != nil {
+		t.Fatal(e)
 	}
 }
 
