@@ -13,7 +13,7 @@ function Save-State {
 function Check-Exit([string]$step) { if($LASTEXITCODE -ne 0){throw "$step failed with exit $LASTEXITCODE"} }
 $result=1
 try {
- $files=@(Get-ChildItem sql/migrations,tests/sql -File -Recurse) + @(Get-Item py/vnstock_worker.py,docs/evidence/phase2/phase2_vci_lineage_full_077_20261024.sql)
+ $files=@(Get-ChildItem sql/migrations,tests/sql -File -Recurse) + @(Get-Item py/vnstock_worker.py,docs/evidence/phase2/phase2_vci_lineage_full_077_20261024.sql,docs/evidence/phase2/phase2_public_execution_full_082_20261024.sql)
  $expected=@($files | ForEach-Object { [ordered]@{path=$_.FullName;sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash} })
  $expected|ConvertTo-Json -Depth 3|Set-Content -LiteralPath ($prefix+'.inputs.json')
  Save-State
@@ -27,7 +27,7 @@ try {
   Start-Sleep -Seconds 30
  }
  foreach($entry in $expected){if((Get-FileHash -LiteralPath $entry.path -Algorithm SHA256).Hash -ne $entry.sha256){throw "queued input changed: $($entry.path)"}}
- $currentFiles=@(Get-ChildItem sql/migrations,tests/sql -File -Recurse) + @(Get-Item py/vnstock_worker.py,docs/evidence/phase2/phase2_vci_lineage_full_077_20261024.sql)
+ $currentFiles=@(Get-ChildItem sql/migrations,tests/sql -File -Recurse) + @(Get-Item py/vnstock_worker.py,docs/evidence/phase2/phase2_vci_lineage_full_077_20261024.sql,docs/evidence/phase2/phase2_public_execution_full_082_20261024.sql)
  if($currentFiles.Count -ne $expected.Count){throw 'queued migration/test file set changed'}
  $credential=Import-Clixml -LiteralPath "C:\Users\HP\VN-Signal\.phase2-runtime\db-credential.xml"
  $env:PGPASSWORD=$credential.GetNetworkCredential().Password
@@ -51,6 +51,11 @@ try {
  Check-Exit 'report migration080'
  & 'C:\Program Files\PostgreSQL\18\bin\psql.exe' -X -v ON_ERROR_STOP=1 -U postgres -d vnsignal_phase2_report_20261019 -f sql/migrations/081_phase2_industry_availability.sql *> ($prefix+'.apply081.log')
  Check-Exit 'report migration081'
+ & 'C:\Program Files\PostgreSQL\18\bin\psql.exe' -X -v ON_ERROR_STOP=1 -U postgres -d vnsignal_phase2_report_20261019 -f sql/migrations/082_phase2_public_execution_tenure.sql *> ($prefix+'.apply082.log')
+ Check-Exit 'report migration082'
+ $state.phase='public_execution_archive';Save-State
+ & 'C:\Program Files\PostgreSQL\18\bin\psql.exe' -X -v ON_ERROR_STOP=1 -U postgres -d vnsignal_phase2_report_20261019 -f docs/evidence/phase2/phase2_public_execution_full_082_20261024.sql *> ($prefix+'.public_execution.log')
+ Check-Exit 'full exact public execution archive'
  $state.phase='lineage_archive';Save-State
  & 'C:\Program Files\PostgreSQL\18\bin\psql.exe' -X -v ON_ERROR_STOP=1 -U postgres -d vnsignal_phase2_report_20261019 -f docs/evidence/phase2/phase2_vci_lineage_full_077_20261024.sql *> ($prefix+'.lineage.log')
  Check-Exit 'full recovered-source lineage archive'

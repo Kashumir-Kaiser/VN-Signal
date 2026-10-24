@@ -96,4 +96,5 @@ psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_cache_reset_assertions.sql "$DATA
 psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_vci_lineage_assertions.sql "$DATABASE_URL"
 psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_vci_recovery_lineage_assertions.sql "$DATABASE_URL"
 psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_listing_tenure_assertions.sql "$DATABASE_URL"
+psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_public_execution_assertions.sql "$DATABASE_URL"
 echo 'Phase 2 SQL migration harness passed.'

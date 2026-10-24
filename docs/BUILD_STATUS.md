@@ -2,18 +2,18 @@
 
 ## Current Phase 2 status
 
-Current execution state: the prior feature wrapper and queued follow-up
-processes disappeared during an execution-host interruption. PostgreSQL confirmed
-no feature backend. Thirteen quarters through 2021-12-31 remain committed,
-totaling 1,100,452 rows; the unfinished transaction rolled back. Stale status
-files were marked process lost. The replacement temporary on-demand Windows task
-`VN-Signal-Phase2-Recovery-20261024` runs outside the execution host process tree.
-Its fourth resume attempt rebuilt all 2,844,435 adjustment cache rows and is
-validating unchanged committed chunks. See the
+Current execution state: the scheduled feature process is live. Sixteen quarters
+through2022-09-30 are committed, totaling1,363,649 rows, with17 quarters pending.
+It is processing2022Q4. See [latest checkpoint](evidence/phase2/phase2_checkpoint_hnx_source_20261024.log).
+The branch candidate68f44cb has fully green offline CI; this is not Phase2
+signoff. Remaining real history, labels, reports, repeatability and qualified
+membership coverage are open. Draft[PR1](https://github.com/Kashumir-Kaiser/VN-Signal/pull/1) is not merged.
+
+Historical recovery: the earlier host interruption preserved13 quarters and
+rolled back the unfinished transaction. The triggerless Windows scheduled task
+now runs outside that host's process tree and resumes input-validated chunks.
+Its local encrypted handoff is Git-excluded. See the
 [current log](evidence/phase2/phase2_v3_078_scheduler_resume4_20261024.log).
-The first scheduled attempt failed before database work when the original
-credential path was unavailable. The retry uses an encrypted user-bound,
-ACL-restricted, Git-excluded handoff file; no plaintext credential is stored.
 Migration 076 passed the fresh two-pass migration harness and required local
 checks. The VCI provenance archive committed 160,116 observations across 135
 symbols before deliberate cancellation to avoid slowing the feature build.
@@ -1053,3 +1053,35 @@ pass, as do Go tests/vet and Python32. See
 The latest checkpoint is 15 committed quarters/1,271,759 rows through 2022-06-30,
 with18 quarters pending and active2022Q3 computation. See
 [checkpoint](evidence/phase2/phase2_build_checkpoint_081_20261024.log).
+
+The in-progress candidate is committed and pushed on `phase2-evidence` at
+`68f44cb60f2f4231df4418365ea8773c6dadc8b5`, with draft
+[PR1](https://github.com/Kashumir-Kaiser/VN-Signal/pull/1). Offline CI run
+40086998005 was queued for that commit. This records dispatch only, not green CI
+or Phase2 completion. Main remains at2caaf4dd31175aa2a6da12f851301ab93a2d3ace.
+
+CI checkpoint: Go race/vet and Python jobs passed on commit68f44cb. The
+PostgreSQL job is running its fresh harness; Rust and tagged integration steps
+remain pending. See [CI checkpoint](evidence/phase2/phase2_candidate_ci_081_20261024.md).
+
+Branch CI is now fully green: run40086998005 completed successfully on exact
+commit68f44cb60f2f4231df4418365ea8773c6dadc8b5. All Go/Python/PostgreSQL/Rust
+jobs passed, including tagged database integration and fixture parity. See
+[final CI snapshot](evidence/phase2/phase2_candidate_ci_081_green_20261024.json).
+This supersedes earlier queued/partial CI observations. Real-data completion and
+main merge remain open; no Phase3 readiness is claimed.
+
+Tenure scope review:080's legal-event route is stronger than the originally
+accepted conservative250-execution lower bound. Native VNDIRECT source rows
+carry dated venue/type fields (including ACB's actual HNX-to-HOSE change), making
+an alternative exact execution-proof route worth implementing and validating.
+It is not yet implemented; do not claim it passes. See
+[scope/source review](evidence/phase2/phase2_tenure_scope_and_execution_evidence_20261024.md).
+
+### Migration 082 local review in progress
+
+The public execution lower-bound route is implemented, with explicit reconstructed event availability and persisted evidence basis. The original consumer fixture omission is fixed; the targeted original suite passed. Added future-notice assertions and the full fresh harness are still running, so 082 is not signed off. SQL source line endings are enforced as LF to fix Windows migration-anchor replay. Go test/vet and Python 32 pass for this worktree. See [082 review](evidence/phase2/phase2_public_execution_082_review_20261024.md).
+
+The latest database checkpoint is 18 committed quarters / 1,542,538 rows through 2023-03-31, with 15 pending. Backend 14332 and scheduler wrapper 13356 were both verified live. See [checkpoint](evidence/phase2/phase2_checkpoint_082_20261024.log). Full feature, label, real-source archive and repeat evidence remain open. Green CI on 68f44cb covers through 081; it does not verify these later changes.
+
+082 local validation update: the complete fresh two-pass migration harness passed, including the new future-notice and persisted-membership tests. Go/vet/Python32 also pass. Real-source qualification and a new CI run remain required.

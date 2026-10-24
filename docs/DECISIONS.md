@@ -1293,3 +1293,39 @@ IDs, availability and original landings are retained in overlay lineage and its
 input manifest. The running V3 price build has no such snapshot lookup and is
 unaffected. Dedicated synthetic cutoff/conflict/hash checks and existing overlay
 assertions pass; full fresh harness remains queued.
+
+## 2026-10-24: branch candidate and evidence byte preservation
+
+A three-day-old zero-byte Git index lock had no active Git owner; it was removed
+after process/mtime verification. All CI-required Rust, SQL, Python, Go and ops
+sources are included in the candidate. Runtime credential state and scratch
+outputs are excluded. Archived evidence uses `-text -whitespace` attributes so
+Git preserves original source line endings and database output padding; source
+whitespace errors were corrected. An original FPT HTML blob was checked against
+the staged raw blob before commit. A local scan found no database password text
+in candidate source/evidence directories.
+
+Commit68f44cb60f2f4231df4418365ea8773c6dadc8b5 was pushed to phase2-evidence and
+draft PR1 opened. The offline workflow is queued; main merge still requires
+complete real-data exit evidence and green CI. No readiness claim is made from
+this dispatch.
+
+## 2026-10-24: correct the tenure proof scope
+
+Review found that080 made a legal admission ledger mandatory beyond the Master
+Spec and the18October sufficient lower-bound decision. Retain its exact/legal
+path and known-conflict protections, but implement an alternative qualified
+execution lower-bound path. >=250 verified positive public-market dates can
+prove the minimum; fewer cannot prove ineligibility. VCI rows lack dated venue
+metadata in this archive; native VNDIRECT rows have code/date/type/floor and
+matched volume, empirically reflecting ACB's historical exchange change. Require
+exact immutable source/canonical checks and an explicit identity/conflict
+contract; never invent publisher guarantees or use unknown source attributes.
+This correction is planned, not yet a successful gate. Full tests, real coverage
+and CI must prove it before Phase2 signoff.
+
+### 2026-10-24 — Public execution minimum tenure evidence
+
+Restore the accepted sufficient >=250 prior public-execution lower bound alongside 080 exact legal episodes. Require intact native VNDIRECT bytes and exact canonical code/date/pointer/raw OHLC/matched volume, STOCK type and dated public venue agreement. Keep fewer-than-250 observations unknown, fence known lifecycle contradictions, and identify the persisted proof basis. Do not promise an ISIN identity absent from the provider contract. Reconstruct public event availability at next local midnight while preserving later capture/observation timestamps; this is not contemporaneously archived vendor-vintage evidence. Final approval requires full synthetic and real-source validation and new green CI. See the 082 review evidence.
+
+Enforce LF for SQL source with .gitattributes: function-body migration anchors must replay identically on Windows and hosted CI.
