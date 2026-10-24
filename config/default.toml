@@ -12,6 +12,8 @@ min_adv20_vnd = 5000000000
 horizons = [5,20]
 entry = "next_open"
 benchmark = "VNINDEX"
+entry_ceiling_weight = 0.0
+multiple_locked_weight = 0.5
 
 [validation]
 min_train_years = 3
@@ -40,5 +42,5 @@ UPCOM = 0.15
 
 [schedule]
 timezone = "Asia/Ho_Chi_Minh"
-daily_trigger = "17:30"
+daily_trigger = "06:00"
 retry_until = "23:00"

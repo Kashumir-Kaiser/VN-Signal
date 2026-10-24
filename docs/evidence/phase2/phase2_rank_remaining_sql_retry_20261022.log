@@ -1,0 +1,188 @@
+BEGIN
+SET
+SET
+CREATE TABLE
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 adjustment cache batch 0 rows 2282, elapsed 00:00:00.147214
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:00.06975
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 sessions 320, elapsed 00:00:04.723715
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:04.638521
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 rank rows 944, elapsed 00:00:01.582391
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 batch 0 spine rows 2240, elapsed 00:00:02.31442
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 batch 0 base rows 2239, elapsed 00:00:03.392834
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 batch 0 feature rows 2239, elapsed 00:00:03.67967
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_targets" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 label targets rows 4478, elapsed 00:00:02.506742
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_latest_exit" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_endpoint_days" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 label endpoint days rows 2232, elapsed 00:00:00.379424
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_endpoint_bounds" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_adjustment_prefix" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 label adjustment prefix rows 2232, elapsed 00:00:02.166475
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_endpoint_bars" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 label endpoint bars rows 2231, elapsed 00:00:01.23631
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_first_bad_factor" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.303509
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_endpoint_targets" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_spans" does not exist, skipping
+DO
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 adjustment cache batch 0 rows 2282, elapsed 00:00:00.377225
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:01.596151
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 sessions 320, elapsed 00:00:10.107072
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:15.092196
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 rank rows 944, elapsed 00:00:04.427626
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 batch 0 spine rows 2240, elapsed 00:00:06.500265
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 batch 0 base rows 2239, elapsed 00:00:08.541511
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 batch 0 feature rows 2239, elapsed 00:00:16.366933
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 label targets rows 4478, elapsed 00:00:01.492685
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 label endpoint days rows 2232, elapsed 00:00:00.52652
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 label adjustment prefix rows 2232, elapsed 00:00:01.079692
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 label endpoint bars rows 2231, elapsed 00:00:00.427738
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.107149
+DO
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 adjustment cache batch 0 rows 2282, elapsed 00:00:01.062179
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:00.338208
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.762355
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:01.252012
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 rank rows 640, elapsed 00:00:02.175134
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 batch 0 spine rows 640, elapsed 00:00:01.156875
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 batch 0 base rows 640, elapsed 00:00:01.539067
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 batch 0 feature rows 640, elapsed 00:00:01.806816
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 label targets rows 1280, elapsed 00:00:00.279335
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 label endpoint days rows 638, elapsed 00:00:00.094286
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 label adjustment prefix rows 2232, elapsed 00:00:00.406922
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 label endpoint bars rows 638, elapsed 00:00:00.190144
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.017301
+DO
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.328964
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.985717
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  Phase 2 rank rows 640, elapsed 00:00:00.351336
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  Phase 2 batch 0 spine rows 640, elapsed 00:00:00.668966
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  Phase 2 batch 0 base rows 640, elapsed 00:00:00.351874
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  Phase 2 batch 0 feature rows 640, elapsed 00:00:02.78925
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  Phase 2 label targets rows 1280, elapsed 00:00:01.046437
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  Phase 2 label endpoint days rows 638, elapsed 00:00:00.282695
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  Phase 2 label adjustment prefix rows 638, elapsed 00:00:00.142862
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  Phase 2 label endpoint bars rows 638, elapsed 00:00:00.195951
+psql:tests/sql/phase2_shared_builder_assertions.sql:344: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.343621
+DO
+ROLLBACK
+BEGIN
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache batch 0 rows 2282, elapsed 00:00:00.526713
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:00.420852
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 sessions 320, elapsed 00:00:01.7953
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.534874
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 rank rows 4, elapsed 00:00:00.271589
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 spine rows 2240, elapsed 00:00:03.781984
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 base rows 7, elapsed 00:00:00.832129
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 feature rows 7, elapsed 00:00:00.857082
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache batch 0 rows 2282, elapsed 00:00:00.24574
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:01.107439
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 sessions 320, elapsed 00:00:06.152625
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.953273
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 rank rows 1, elapsed 00:00:00.279577
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 spine rows 2240, elapsed 00:00:00.240892
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 base rows 7, elapsed 00:00:02.137204
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 feature rows 7, elapsed 00:00:00.269269
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache batch 0 rows 2282, elapsed 00:00:00.030923
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:00.038634
+DO
+ROLLBACK
+BEGIN
+DO
+ROLLBACK
+BEGIN
+psql:tests/sql/phase2_chunk_assertions.sql:97: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_chunk_assertions.sql:97: NOTICE:  Phase 2 adjustment cache batch 0 rows 2282, elapsed 00:00:00.073987
+psql:tests/sql/phase2_chunk_assertions.sql:97: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:03.17231
+psql:tests/sql/phase2_chunk_assertions.sql:97: NOTICE:  Phase 2 price-day hash range 2098-01-06 through 2098-01-06: requested 1, uncovered 1, date planning elapsed 00:00:13.06234
+psql:tests/sql/phase2_chunk_assertions.sql:97: NOTICE:  Phase 2 price-day hash aggregate completed: 1 dates, elapsed 00:00:16.523553
+psql:tests/sql/phase2_chunk_assertions.sql:97: NOTICE:  Phase 2 price-day hash coverage recorded: 1 requested dates, total elapsed 00:00:17.301222
+psql:tests/sql/phase2_chunk_assertions.sql:97: NOTICE:  Phase 2 price-day hash range 2098-01-06 through 2098-01-06: requested 1, uncovered 0, date planning elapsed 00:00:01.604141
+psql:tests/sql/phase2_chunk_assertions.sql:97: NOTICE:  Phase 2 price-day hash coverage recorded: 1 requested dates, total elapsed 00:00:01.604482
+psql:tests/sql/phase2_chunk_assertions.sql:97: NOTICE:  Phase 2 price-day hash range 2098-01-06 through 2098-01-06: requested 1, uncovered 0, date planning elapsed 00:00:02.892563
+psql:tests/sql/phase2_chunk_assertions.sql:97: NOTICE:  Phase 2 price-day hash coverage recorded: 1 requested dates, total elapsed 00:00:02.920852
+psql:tests/sql/phase2_chunk_assertions.sql:97: NOTICE:  Phase 2 price-day hash range 2098-01-06 through 2098-02-04: requested 22, uncovered 21, date planning elapsed 00:00:02.027603
+psql:tests/sql/phase2_chunk_assertions.sql:97: NOTICE:  Phase 2 price-day hash aggregate completed: 21 dates, elapsed 00:00:02.100664
+psql:tests/sql/phase2_chunk_assertions.sql:97: NOTICE:  Phase 2 price-day hash coverage recorded: 22 requested dates, total elapsed 00:00:02.10105
+psql:tests/sql/phase2_chunk_assertions.sql:97: NOTICE:  Phase 2 price-day hash range 2098-01-06 through 2098-02-04: requested 22, uncovered 0, date planning elapsed 00:00:02.968602
+psql:tests/sql/phase2_chunk_assertions.sql:97: NOTICE:  Phase 2 price-day hash coverage recorded: 22 requested dates, total elapsed 00:00:02.969344
+DO
+ROLLBACK

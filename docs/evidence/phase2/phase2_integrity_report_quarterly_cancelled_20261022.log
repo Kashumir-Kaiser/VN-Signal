@@ -1,0 +1,82 @@
+Output format is csv.
+BEGIN
+SET
+SET
+chunk,section,metric,value,details
+2018-10-01/2019-01-01,calendar,noncontiguous_symbol_session_pairs,2,Adjacent observed V3 rows separated by more than one effective session; includes chunk boundary predecessor
+2018-10-01/2019-01-01,calendar,rows_without_effective_session,0,V3 rows whose date is absent from the effective-session calendar
+2018-10-01/2019-01-01,contract,distinct_feature_hashes,1,397fec9c226e5c8d1ad9742ac264bb07f2012f43f71f29fe67499d835444f11c
+2018-10-01/2019-01-01,contract,rows_with_current_feature_hash,82218,Expected hash=397fec9c226e5c8d1ad9742ac264bb07f2012f43f71f29fe67499d835444f11c
+2018-10-01/2019-01-01,coverage,v2_rows,82218,V2 rows in this date chunk
+2018-10-01/2019-01-01,coverage,v3_extra_keys,0,V3 symbol-date keys with no V2 row in this chunk
+2018-10-01/2019-01-01,coverage,v3_missing_v2_keys,0,V2 symbol-date keys with no V3 row in this chunk
+2018-10-01/2019-01-01,coverage,v3_rows,82218,V3 rows in this date chunk
+2018-10-01/2019-01-01,keys,duplicate_key_groups,0,V3 symbol-date groups with more than one row
+2018-10-01/2019-01-01,keys,null_key_rows,0,V3 rows with a NULL symbol or date
+2018-10-01/2019-01-01,ranks,non_null_rank_with_null_input,33405,Non-NULL rank values whose mapped input is NULL
+2018-10-01/2019-01-01,ranks,rank_values_outside_0_1_or_nonfinite,33779,"Non-NULL rank values outside [0,1] or NaN/Infinity"
+2018-10-01/2019-01-01,ranks,source_unverified_industry_rank_non_null,0,Expected zero until point-in-time industry inputs are verified
+2018-10-01/2019-01-01,timing,features:20181001-20181231,failed; rows=NULL; duration_ms=0,build_id=phase2-vci-full-rebuild-20261021; input_sha256=NULL; output_sha256=NULL
+2018-10-01/2019-01-01,timing,features:20181001-20181231,done; rows=82218; duration_ms=63388,build_id=phase2-vci-full-rebuild-20261021; input_sha256=6f6fa331c2c5e7bdc7b44c1789ea540d9651a759ff7c8b26e8d34179a80f6cf9; output_sha256=1714ad2f33f8e4556d422b49dbabf5518d151badfe8a3c2a627d03e576a53622
+2018-10-01/2019-01-01,timing,features:20190101-20191231,done; rows=326456; duration_ms=239729,build_id=phase2-vci-full-rebuild-20261021; input_sha256=fb9386178af617d66be105d5e3ef447bd9a81235fc096998ab224e4d7cb4468a; output_sha256=53400eb95f960f1fc33e44111de1a83ea6eb01495065819d513357cbacd3e60c
+2018-10-01/2019-01-01,timing,features:20200101-20201231,done; rows=341357; duration_ms=367319,build_id=phase2-vci-full-rebuild-20261021; input_sha256=6f8f61b0ccdf80860ef336b57dba80e0aa10b745ee8a86894fbb2ba4bee76211; output_sha256=106451f3190ab1c2c91ef47f83aaac316ed76c9a274f5fd4860bbca6b73861d4
+2018-10-01/2019-01-01,timing,features:20210101-20211231,failed; rows=NULL; duration_ms=0,build_id=phase2-vci-full-rebuild-20261021; input_sha256=NULL; output_sha256=NULL
+2018-10-01/2019-01-01,timing,features:20210101-20211231,done; rows=350421; duration_ms=540145,build_id=phase2-vci-full-rebuild-20261021; input_sha256=0ceee9423f5d89c19016ddbe9df091d2738b83a6d57cd28fb9580ea0fbb7365a; output_sha256=c8b51e4f1e8cd7013dfcb154e9a1c651e5498956973451a0b5298e62f4a31e61
+2018-10-01/2019-01-01,timing,features:20220101-20221231,done; rows=356796; duration_ms=654584,build_id=phase2-vci-full-rebuild-20261021; input_sha256=a98114eebac9590f5343092fddca28b0e5e4d6b6919eccbbdc0e66661cf6e2b4; output_sha256=aec5556c0bec6190400633fdcacf5302108087d8c2e266c3566e12523b771ebd
+2018-10-01/2019-01-01,timing,features:20230101-20231231,done; rows=360359; duration_ms=685739,build_id=phase2-vci-full-rebuild-20261021; input_sha256=859bb4cf989b971587454f2eed843111986a779affab676492c263c78299ab6b; output_sha256=51d544cb9207ea1ee43e9e7b3e7e99f8ca13d188efc2b091d2e7b8c96e71a0a6
+2018-10-01/2019-01-01,timing,features:20240101-20241231,done; rows=365577; duration_ms=802428,build_id=phase2-vci-full-rebuild-20261021; input_sha256=896729c8693f5c3b8e76157f1d0d77a58745276f3558b9c2693b0f4018628e1e; output_sha256=44f635822647e6b628936eb19c3127aae061160f5dfc1bf3fc2dcfffc90ecaea
+2018-10-01/2019-01-01,timing,features:20250101-20251231,done; rows=368961; duration_ms=1017784,build_id=phase2-vci-full-rebuild-20261021; input_sha256=ca7b9ee9d0c9f69275a1b01593ebbba8cd26d8ebbc4041f77d0e7fbcec082176; output_sha256=b9012a4b045fff2a023397f553ec054ee0eb681b82b584a853d745b8f2cc57cb
+2018-10-01/2019-01-01,timing,features:20260101-20261016,failed; rows=NULL; duration_ms=0,build_id=phase2-vci-full-rebuild-20261021; input_sha256=NULL; output_sha256=NULL
+2018-10-01/2019-01-01,timing,features:20260101-20261016,failed; rows=NULL; duration_ms=139501,build_id=phase2-vci-full-rebuild-20261021; input_sha256=ef0633d1a1a651ff33829b81725c4b44b8785ad58c3d17b271fc2380bcd92977; output_sha256=NULL
+2018-10-01/2019-01-01,timing,features:20260101-20261016,done; rows=292290; duration_ms=730650,build_id=phase2-vci-full-rebuild-20261021; input_sha256=ef0633d1a1a651ff33829b81725c4b44b8785ad58c3d17b271fc2380bcd92977; output_sha256=5ff467f883e607634c0630ed5458d569d077a8ee6e967b5d7760a0ff1d0c46b2
+2018-10-01/2019-01-01,timing,labels:20181001-20181231,done; rows=164436; duration_ms=94329,build_id=phase2-vci-full-rebuild-20261021; input_sha256=27b61a3a54faf20b4ec11c3faf842885dfe1f1f2be52738771e79d47c03f4d6d; output_sha256=e21219d0a522b55e2086fe6e805ea94de6d7bf1d1fcf87da9a5da22851aaca58
+2018-10-01/2019-01-01,timing,labels:20181001-20181231,done; rows=164436; duration_ms=135760,build_id=phase2-vci-full-rebuild-20261021; input_sha256=27b61a3a54faf20b4ec11c3faf842885dfe1f1f2be52738771e79d47c03f4d6d; output_sha256=46eafe4da9bcd39db0dbd1d3aee3d89f687d698b0a11a1cd4df66f91e9827cd2
+2018-10-01/2019-01-01,timing,labels:20190101-20191231,done; rows=652912; duration_ms=509946,build_id=phase2-vci-full-rebuild-20261021; input_sha256=84964a58858588edccd3e718f64dfece9074f9b3b6447ac8a1dbf602aeebca24; output_sha256=d61540833d2b3f8ce7aa17476782f22106eabfdca44630ed33f9b04c3cba66dc
+2018-10-01/2019-01-01,timing,labels:20190101-20191231,done; rows=652912; duration_ms=378515,build_id=phase2-vci-full-rebuild-20261021; input_sha256=84964a58858588edccd3e718f64dfece9074f9b3b6447ac8a1dbf602aeebca24; output_sha256=1471ecdbd4ccc79fd410f5f69ea5cb1e3caacde5b5f5d008f829677c8fd720f2
+2018-10-01/2019-01-01,timing,labels:20200101-20201231,done; rows=682714; duration_ms=412190,build_id=phase2-vci-full-rebuild-20261021; input_sha256=6f00b76f7bdfdefcf3a2469fa314b0d5b239b8af1607fb035646ec24e527ebe0; output_sha256=c98b4d22fa8349794c26113477736a9eeed0a0dae32d2f555694f75b5d1bd35e
+2018-10-01/2019-01-01,timing,labels:20210101-20211231,failed; rows=NULL; duration_ms=0,build_id=phase2-vci-full-rebuild-20261021; input_sha256=NULL; output_sha256=NULL
+2018-10-01/2019-01-01,timing,labels:20210101-20211231,done; rows=700842; duration_ms=773272,build_id=phase2-vci-full-rebuild-20261021; input_sha256=03216f5f47fda3c724c7437b801f0b21b7201751a54af3432290cdf8ea8cbaf3; output_sha256=8aef5f67d0187250da24d155a7af377a26689ac2ae4414a1f306a47db4e3b907
+2018-10-01/2019-01-01,timing,labels:20220101-20221231,failed; rows=NULL; duration_ms=0,build_id=phase2-vci-full-rebuild-20261021; input_sha256=NULL; output_sha256=NULL
+COMMIT
+Output format is csv.
+BEGIN
+SET
+SET
+chunk,section,metric,value,details
+2019-01-01/2019-04-01,calendar,noncontiguous_symbol_session_pairs,2,Adjacent observed V3 rows separated by more than one effective session; includes chunk boundary predecessor
+2019-01-01/2019-04-01,calendar,rows_without_effective_session,0,V3 rows whose date is absent from the effective-session calendar
+2019-01-01/2019-04-01,contract,distinct_feature_hashes,1,397fec9c226e5c8d1ad9742ac264bb07f2012f43f71f29fe67499d835444f11c
+2019-01-01/2019-04-01,contract,rows_with_current_feature_hash,74694,Expected hash=397fec9c226e5c8d1ad9742ac264bb07f2012f43f71f29fe67499d835444f11c
+2019-01-01/2019-04-01,coverage,v2_rows,74694,V2 rows in this date chunk
+2019-01-01/2019-04-01,coverage,v3_extra_keys,0,V3 symbol-date keys with no V2 row in this chunk
+2019-01-01/2019-04-01,coverage,v3_missing_v2_keys,0,V2 symbol-date keys with no V3 row in this chunk
+2019-01-01/2019-04-01,coverage,v3_rows,74694,V3 rows in this date chunk
+2019-01-01/2019-04-01,keys,duplicate_key_groups,0,V3 symbol-date groups with more than one row
+2019-01-01/2019-04-01,keys,null_key_rows,0,V3 rows with a NULL symbol or date
+2019-01-01/2019-04-01,ranks,non_null_rank_with_null_input,26580,Non-NULL rank values whose mapped input is NULL
+2019-01-01/2019-04-01,ranks,rank_values_outside_0_1_or_nonfinite,43342,"Non-NULL rank values outside [0,1] or NaN/Infinity"
+2019-01-01/2019-04-01,ranks,source_unverified_industry_rank_non_null,0,Expected zero until point-in-time industry inputs are verified
+COMMIT
+Output format is csv.
+BEGIN
+SET
+SET
+chunk,section,metric,value,details
+2019-04-01/2019-07-01,calendar,noncontiguous_symbol_session_pairs,16,Adjacent observed V3 rows separated by more than one effective session; includes chunk boundary predecessor
+2019-04-01/2019-07-01,calendar,rows_without_effective_session,0,V3 rows whose date is absent from the effective-session calendar
+2019-04-01/2019-07-01,contract,distinct_feature_hashes,1,397fec9c226e5c8d1ad9742ac264bb07f2012f43f71f29fe67499d835444f11c
+2019-04-01/2019-07-01,contract,rows_with_current_feature_hash,79103,Expected hash=397fec9c226e5c8d1ad9742ac264bb07f2012f43f71f29fe67499d835444f11c
+2019-04-01/2019-07-01,coverage,v2_rows,79103,V2 rows in this date chunk
+2019-04-01/2019-07-01,coverage,v3_extra_keys,0,V3 symbol-date keys with no V2 row in this chunk
+2019-04-01/2019-07-01,coverage,v3_missing_v2_keys,0,V2 symbol-date keys with no V3 row in this chunk
+2019-04-01/2019-07-01,coverage,v3_rows,79103,V3 rows in this date chunk
+2019-04-01/2019-07-01,keys,duplicate_key_groups,0,V3 symbol-date groups with more than one row
+2019-04-01/2019-07-01,keys,null_key_rows,0,V3 rows with a NULL symbol or date
+2019-04-01/2019-07-01,ranks,non_null_rank_with_null_input,29219,Non-NULL rank values whose mapped input is NULL
+2019-04-01/2019-07-01,ranks,rank_values_outside_0_1_or_nonfinite,48884,"Non-NULL rank values outside [0,1] or NaN/Infinity"
+2019-04-01/2019-07-01,ranks,source_unverified_industry_rank_non_null,0,Expected zero until point-in-time industry inputs are verified
+COMMIT
+Output format is csv.
+BEGIN
+SET
+SET

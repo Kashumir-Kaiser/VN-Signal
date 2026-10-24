@@ -1,0 +1,23 @@
+\set ON_ERROR_STOP on
+BEGIN;
+SET LOCAL statement_timeout='30min';
+SET LOCAL temp_file_limit='90GB';
+SET LOCAL work_mem='32MB';
+SET LOCAL jit=off;
+SET LOCAL synchronous_commit=off;
+SET LOCAL random_page_cost=1.1;
+SET LOCAL vnpipe.phase2_symbol_batch_size='60';
+SET LOCAL application_name='phase2_e1_cache_warmup';
+
+-- Warm operating-system and PostgreSQL buffers before collecting the measured
+-- 15/30/60-symbol series. The warmup results are overwritten by the second
+-- series in the probe's session-local metrics table.
+SELECT * FROM feat.probe_phase2_adjustment_cache(15);
+SELECT * FROM feat.probe_phase2_adjustment_cache(30);
+SELECT * FROM feat.probe_phase2_adjustment_cache(60);
+
+SELECT * FROM feat.probe_phase2_adjustment_cache(15);
+SELECT * FROM feat.probe_phase2_adjustment_cache(30);
+SELECT * FROM feat.probe_phase2_adjustment_cache(60);
+SELECT feat.assert_phase2_adjustment_cache_scaling();
+ROLLBACK;

@@ -1,0 +1,395 @@
+Timing is on.
+BEGIN
+Time: 0.265 ms
+SET
+Time: 0.118 ms
+SET
+Time: 0.073 ms
+SET
+Time: 0.114 ms
+ begin_phase2_adjustment_rows 
+------------------------------
+                           26
+(1 row)
+
+Time: 778.440 ms
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:10: NOTICE:  Phase 2 adjustment cache initialized for 26 batches of up to 60 symbols
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:02.887023
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 1 rows 115152, elapsed 00:00:01.723408
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 2 rows 111302, elapsed 00:00:01.584975
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 3 rows 113879, elapsed 00:00:01.893109
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 4 rows 114214, elapsed 00:00:01.693536
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 5 rows 114805, elapsed 00:00:01.919395
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 6 rows 112592, elapsed 00:00:01.855951
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 7 rows 116639, elapsed 00:00:01.821174
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 8 rows 106585, elapsed 00:00:01.721273
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 9 rows 111358, elapsed 00:00:02.026213
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 10 rows 106117, elapsed 00:00:01.845717
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 11 rows 113594, elapsed 00:00:01.826089
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 12 rows 112628, elapsed 00:00:02.349481
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 13 rows 113102, elapsed 00:00:02.112157
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 14 rows 113642, elapsed 00:00:02.240636
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 15 rows 111909, elapsed 00:00:03.598234
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 16 rows 111802, elapsed 00:00:02.4776
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 17 rows 115171, elapsed 00:00:02.562025
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 18 rows 115471, elapsed 00:00:02.547187
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 19 rows 112613, elapsed 00:00:02.578578
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 20 rows 109469, elapsed 00:00:03.066456
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 21 rows 114091, elapsed 00:00:02.413868
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 22 rows 110051, elapsed 00:00:02.559658
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 23 rows 112438, elapsed 00:00:02.869311
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 24 rows 115457, elapsed 00:00:02.794924
+DO
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:23: NOTICE:  Phase 2 adjustment cache batch 25 rows 32023, elapsed 00:00:01.21862
+Time: 58196.953 ms (00:58.197)
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:24: NOTICE:  Phase 2 adjustment cache rows 2844435, finalize elapsed 00:00:11.886978
+ finish_phase2_adjustment_rows 
+-------------------------------
+                       2844435
+(1 row)
+
+Time: 11891.639 ms (00:11.892)
+COMMIT
+Time: 6.285 ms
+BEGIN
+Time: 1.459 ms
+SET
+Time: 0.217 ms
+SET
+Time: 0.144 ms
+SET
+Time: 0.076 ms
+Time: 30.542 ms
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 sessions 1001, elapsed 00:00:01.049823
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 market context rows 1001, elapsed 00:00:21.926603
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 rank rows 938, elapsed 00:00:00.06586
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 0 spine rows 50050, elapsed 00:00:00.964714
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 0 base rows 50, elapsed 00:00:00.100072
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 0 feature rows 50, elapsed 00:00:19.47519
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 1 spine rows 50050, elapsed 00:00:13.448529
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 1 base rows 50, elapsed 00:00:00.07502
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 1 feature rows 50, elapsed 00:00:14.731035
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 2 spine rows 50050, elapsed 00:00:14.292479
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 2 base rows 50, elapsed 00:00:00.113448
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 2 feature rows 50, elapsed 00:00:16.098926
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 3 spine rows 50050, elapsed 00:00:17.934686
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 3 base rows 50, elapsed 00:00:00.081614
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 3 feature rows 50, elapsed 00:00:16.404828
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 4 spine rows 50050, elapsed 00:00:19.006445
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 4 base rows 50, elapsed 00:00:00.107447
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 4 feature rows 50, elapsed 00:00:17.446668
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 5 spine rows 50050, elapsed 00:00:19.309374
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 5 base rows 50, elapsed 00:00:00.098409
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 5 feature rows 50, elapsed 00:00:18.034306
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 6 spine rows 50050, elapsed 00:00:16.50055
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 6 base rows 50, elapsed 00:00:00.108203
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 6 feature rows 50, elapsed 00:00:15.125878
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 7 spine rows 50050, elapsed 00:00:11.279418
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 7 base rows 50, elapsed 00:00:00.088432
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 7 feature rows 50, elapsed 00:00:14.914135
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 8 spine rows 50050, elapsed 00:00:12.203955
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 8 base rows 50, elapsed 00:00:00.116718
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 8 feature rows 50, elapsed 00:00:16.442716
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 9 spine rows 50050, elapsed 00:00:16.354185
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 9 base rows 50, elapsed 00:00:00.247124
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 9 feature rows 50, elapsed 00:00:16.120904
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 10 spine rows 50050, elapsed 00:00:17.46882
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 10 base rows 50, elapsed 00:00:00.133167
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 10 feature rows 50, elapsed 00:00:15.946473
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 11 spine rows 50050, elapsed 00:00:16.52359
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 11 base rows 50, elapsed 00:00:00.119728
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 11 feature rows 50, elapsed 00:00:17.95097
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 12 spine rows 50050, elapsed 00:00:17.833299
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 12 base rows 50, elapsed 00:00:00.126368
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 12 feature rows 50, elapsed 00:00:16.720535
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 13 spine rows 50050, elapsed 00:00:17.950073
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 13 base rows 50, elapsed 00:00:00.085321
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 13 feature rows 50, elapsed 00:00:16.166118
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 14 spine rows 50050, elapsed 00:00:17.130224
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 14 base rows 50, elapsed 00:00:00.119881
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 14 feature rows 50, elapsed 00:00:15.593222
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 15 spine rows 50050, elapsed 00:00:14.08625
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 15 base rows 50, elapsed 00:00:00.125708
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 15 feature rows 50, elapsed 00:00:16.075709
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 16 spine rows 50050, elapsed 00:00:11.927519
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 16 base rows 50, elapsed 00:00:00.138688
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 16 feature rows 50, elapsed 00:00:15.924295
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 17 spine rows 50050, elapsed 00:00:12.973722
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 17 base rows 50, elapsed 00:00:00.12604
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 17 feature rows 50, elapsed 00:00:15.275322
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 18 spine rows 50050, elapsed 00:00:12.28597
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 18 base rows 50, elapsed 00:00:00.13555
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 18 feature rows 50, elapsed 00:00:16.639193
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 19 spine rows 50050, elapsed 00:00:17.419613
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 19 base rows 50, elapsed 00:00:00.107449
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 19 feature rows 50, elapsed 00:00:16.687903
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 20 spine rows 50050, elapsed 00:00:15.548198
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 20 base rows 50, elapsed 00:00:00.123232
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 20 feature rows 50, elapsed 00:00:16.709255
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 21 spine rows 50050, elapsed 00:00:14.567022
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 21 base rows 50, elapsed 00:00:00.084004
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 21 feature rows 50, elapsed 00:00:17.236701
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 22 spine rows 50050, elapsed 00:00:12.582123
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 22 base rows 50, elapsed 00:00:00.121308
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 22 feature rows 50, elapsed 00:00:17.761518
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 23 spine rows 50050, elapsed 00:00:16.720378
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 23 base rows 50, elapsed 00:00:00.127031
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 23 feature rows 50, elapsed 00:00:16.895336
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 24 spine rows 50050, elapsed 00:00:18.906027
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 24 base rows 50, elapsed 00:00:00.111993
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 24 feature rows 50, elapsed 00:00:16.058385
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 25 spine rows 50050, elapsed 00:00:15.982137
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 25 base rows 50, elapsed 00:00:00.124374
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 25 feature rows 50, elapsed 00:00:16.13669
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 26 spine rows 50050, elapsed 00:00:14.600955
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 26 base rows 50, elapsed 00:00:00.130565
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 26 feature rows 50, elapsed 00:00:17.114731
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 27 spine rows 50050, elapsed 00:00:16.803098
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 27 base rows 50, elapsed 00:00:00.129025
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 27 feature rows 50, elapsed 00:00:19.089688
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 28 spine rows 39039, elapsed 00:00:13.84553
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 28 base rows 39, elapsed 00:00:00.106386
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:32: NOTICE:  Phase 2 batch 28 feature rows 39, elapsed 00:00:11.219904
+ build_price_features_v3_shared 
+--------------------------------
+                           1439
+(1 row)
+
+Time: 943895.186 ms (15:43.895)
+ phase2_builder_restore_context 
+--------------------------------
+ 
+(1 row)
+
+Time: 3.646 ms
+COMMIT
+Time: 90.968 ms
+BEGIN
+Time: 36.632 ms
+SET
+Time: 8.729 ms
+SET
+Time: 0.245 ms
+SET
+Time: 0.189 ms
+Time: 115.697 ms
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 sessions 1001, elapsed 00:00:00.964371
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 market context rows 1001, elapsed 00:00:22.392886
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 rank rows 949, elapsed 00:00:00.237913
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 0 spine rows 50050, elapsed 00:00:00.885079
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 0 base rows 50, elapsed 00:00:00.065565
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 0 feature rows 50, elapsed 00:00:21.537206
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 1 spine rows 50050, elapsed 00:00:16.276882
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 1 base rows 50, elapsed 00:00:00.117905
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 1 feature rows 50, elapsed 00:00:15.430043
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 2 spine rows 50050, elapsed 00:00:20.10932
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 2 base rows 50, elapsed 00:00:00.142079
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 2 feature rows 50, elapsed 00:00:16.858779
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 3 spine rows 50050, elapsed 00:00:17.007409
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 3 base rows 50, elapsed 00:00:00.135185
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 3 feature rows 50, elapsed 00:00:16.863028
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 4 spine rows 50050, elapsed 00:00:17.125218
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 4 base rows 50, elapsed 00:00:00.135276
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 4 feature rows 50, elapsed 00:00:17.363895
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 5 spine rows 50050, elapsed 00:00:16.297041
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 5 base rows 50, elapsed 00:00:00.141303
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 5 feature rows 50, elapsed 00:00:16.287045
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 6 spine rows 50050, elapsed 00:00:15.778101
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 6 base rows 50, elapsed 00:00:00.124608
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 6 feature rows 50, elapsed 00:00:16.492217
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 7 spine rows 50050, elapsed 00:00:15.328203
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 7 base rows 50, elapsed 00:00:00.123841
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 7 feature rows 50, elapsed 00:00:15.737995
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 8 spine rows 50050, elapsed 00:00:14.586507
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 8 base rows 50, elapsed 00:00:00.114505
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 8 feature rows 50, elapsed 00:00:15.76472
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 9 spine rows 50050, elapsed 00:00:18.707271
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 9 base rows 50, elapsed 00:00:00.129632
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 9 feature rows 50, elapsed 00:00:16.918581
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 10 spine rows 50050, elapsed 00:00:17.570022
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 10 base rows 50, elapsed 00:00:00.131526
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 10 feature rows 50, elapsed 00:00:15.626922
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 11 spine rows 50050, elapsed 00:00:19.047729
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 11 base rows 50, elapsed 00:00:00.130507
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 11 feature rows 50, elapsed 00:00:18.04441
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 12 spine rows 50050, elapsed 00:00:18.019521
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 12 base rows 50, elapsed 00:00:00.120107
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 12 feature rows 50, elapsed 00:00:16.39696
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 13 spine rows 50050, elapsed 00:00:15.8043
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 13 base rows 50, elapsed 00:00:00.12778
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 13 feature rows 50, elapsed 00:00:16.45147
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 14 spine rows 50050, elapsed 00:00:12.150518
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 14 base rows 50, elapsed 00:00:00.122093
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 14 feature rows 50, elapsed 00:00:14.765517
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 15 spine rows 50050, elapsed 00:00:09.213389
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 15 base rows 50, elapsed 00:00:00.084503
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 15 feature rows 50, elapsed 00:00:15.293951
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 16 spine rows 50050, elapsed 00:00:11.666314
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 16 base rows 50, elapsed 00:00:00.126134
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 16 feature rows 50, elapsed 00:00:15.872497
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 17 spine rows 50050, elapsed 00:00:14.071248
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 17 base rows 50, elapsed 00:00:00.107849
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 17 feature rows 50, elapsed 00:00:16.926249
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 18 spine rows 50050, elapsed 00:00:18.155478
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 18 base rows 50, elapsed 00:00:00.11676
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 18 feature rows 50, elapsed 00:00:16.682088
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 19 spine rows 50050, elapsed 00:00:19.131722
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 19 base rows 50, elapsed 00:00:00.097863
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 19 feature rows 50, elapsed 00:00:16.938078
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 20 spine rows 50050, elapsed 00:00:17.238548
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 20 base rows 50, elapsed 00:00:00.087983
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 20 feature rows 50, elapsed 00:00:16.755072
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 21 spine rows 50050, elapsed 00:00:17.204878
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 21 base rows 50, elapsed 00:00:00.116652
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 21 feature rows 50, elapsed 00:00:18.681628
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 22 spine rows 50050, elapsed 00:00:17.081205
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 22 base rows 50, elapsed 00:00:00.108989
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 22 feature rows 50, elapsed 00:00:16.401453
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 23 spine rows 50050, elapsed 00:00:14.572865
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 23 base rows 50, elapsed 00:00:00.15227
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 23 feature rows 50, elapsed 00:00:15.713838
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 24 spine rows 50050, elapsed 00:00:15.454756
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 24 base rows 50, elapsed 00:00:00.136529
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 24 feature rows 50, elapsed 00:00:16.271213
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 25 spine rows 50050, elapsed 00:00:15.992698
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 25 base rows 50, elapsed 00:00:00.103213
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 25 feature rows 50, elapsed 00:00:16.340303
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 26 spine rows 50050, elapsed 00:00:16.856426
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 26 base rows 50, elapsed 00:00:00.111255
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 26 feature rows 50, elapsed 00:00:17.856405
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 27 spine rows 50050, elapsed 00:00:18.726024
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 27 base rows 50, elapsed 00:00:00.132477
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 27 feature rows 50, elapsed 00:00:17.047158
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 28 spine rows 46046, elapsed 00:00:15.695394
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 28 base rows 46, elapsed 00:00:00.128978
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:41: NOTICE:  Phase 2 batch 28 feature rows 46, elapsed 00:00:13.182827
+ build_price_features_v3_shared 
+--------------------------------
+                           1446
+(1 row)
+
+Time: 965610.416 ms (16:05.610)
+ phase2_builder_restore_context 
+--------------------------------
+ 
+(1 row)
+
+Time: 38.113 ms
+COMMIT
+Time: 139.055 ms
+BEGIN
+Time: 61.030 ms
+SET
+Time: 8.585 ms
+SET
+Time: 0.123 ms
+SET
+Time: 0.084 ms
+Time: 96.314 ms
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 sessions 1001, elapsed 00:00:01.451622
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 market context rows 1001, elapsed 00:00:22.782016
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 rank rows 957, elapsed 00:00:00.213323
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 0 spine rows 50050, elapsed 00:00:00.943468
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 0 base rows 50, elapsed 00:00:00.054919
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 0 feature rows 50, elapsed 00:00:19.635167
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 1 spine rows 50050, elapsed 00:00:15.225836
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 1 base rows 50, elapsed 00:00:00.06924
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 1 feature rows 50, elapsed 00:00:15.428016
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 2 spine rows 50050, elapsed 00:00:14.27558
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 2 base rows 50, elapsed 00:00:00.123576
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 2 feature rows 50, elapsed 00:00:16.592991
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 3 spine rows 50050, elapsed 00:00:11.481201
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 3 base rows 50, elapsed 00:00:00.124474
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 3 feature rows 50, elapsed 00:00:16.955931
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 4 spine rows 50050, elapsed 00:00:12.053086
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 4 base rows 50, elapsed 00:00:00.160353
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 4 feature rows 50, elapsed 00:00:16.467041
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 5 spine rows 50050, elapsed 00:00:10.955233
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 5 base rows 50, elapsed 00:00:00.13575
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 5 feature rows 50, elapsed 00:00:17.262314
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 6 spine rows 50050, elapsed 00:00:13.313939
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 6 base rows 50, elapsed 00:00:00.089552
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 6 feature rows 50, elapsed 00:00:15.796042
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 7 spine rows 50050, elapsed 00:00:14.274089
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 7 base rows 50, elapsed 00:00:00.143862
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 7 feature rows 50, elapsed 00:00:17.398742
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 8 spine rows 50050, elapsed 00:00:12.979434
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 8 base rows 50, elapsed 00:00:00.114667
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 8 feature rows 50, elapsed 00:00:18.320687
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 9 spine rows 50050, elapsed 00:00:17.388641
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 9 base rows 50, elapsed 00:00:00.261009
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 9 feature rows 50, elapsed 00:00:17.109692
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 10 spine rows 50050, elapsed 00:00:16.319264
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 10 base rows 50, elapsed 00:00:00.077079
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 10 feature rows 50, elapsed 00:00:16.630963
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 11 spine rows 50050, elapsed 00:00:15.514344
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 11 base rows 50, elapsed 00:00:00.13048
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 11 feature rows 50, elapsed 00:00:18.541492
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 12 spine rows 50050, elapsed 00:00:15.840387
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 12 base rows 50, elapsed 00:00:00.091495
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 12 feature rows 50, elapsed 00:00:17.621722
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 13 spine rows 50050, elapsed 00:00:12.002215
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 13 base rows 50, elapsed 00:00:00.108594
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 13 feature rows 50, elapsed 00:00:16.498921
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 14 spine rows 50050, elapsed 00:00:11.058736
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 14 base rows 50, elapsed 00:00:00.127647
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 14 feature rows 50, elapsed 00:00:16.327897
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 15 spine rows 50050, elapsed 00:00:14.570114
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 15 base rows 50, elapsed 00:00:00.125988
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 15 feature rows 50, elapsed 00:00:17.137633
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 16 spine rows 50050, elapsed 00:00:17.808707
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 16 base rows 50, elapsed 00:00:00.119313
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 16 feature rows 50, elapsed 00:00:17.987341
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 17 spine rows 50050, elapsed 00:00:17.352714
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 17 base rows 50, elapsed 00:00:00.130061
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 17 feature rows 50, elapsed 00:00:16.56821
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 18 spine rows 50050, elapsed 00:00:18.54765
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 18 base rows 50, elapsed 00:00:00.123172
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 18 feature rows 50, elapsed 00:00:17.564511
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 19 spine rows 50050, elapsed 00:00:18.561758
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 19 base rows 50, elapsed 00:00:00.121471
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 19 feature rows 50, elapsed 00:00:16.590707
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 20 spine rows 50050, elapsed 00:00:16.236117
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 20 base rows 50, elapsed 00:00:00.136013
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 20 feature rows 50, elapsed 00:00:17.860521
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 21 spine rows 50050, elapsed 00:00:16.53388
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 21 base rows 50, elapsed 00:00:00.145855
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 21 feature rows 50, elapsed 00:00:18.094017
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 22 spine rows 50050, elapsed 00:00:12.672476
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 22 base rows 50, elapsed 00:00:00.086931
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 22 feature rows 50, elapsed 00:00:16.707533
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 23 spine rows 50050, elapsed 00:00:10.5294
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 23 base rows 50, elapsed 00:00:00.137944
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 23 feature rows 50, elapsed 00:00:17.108519
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 24 spine rows 50050, elapsed 00:00:10.982541
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 24 base rows 50, elapsed 00:00:00.124512
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 24 feature rows 50, elapsed 00:00:17.380474
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 25 spine rows 50050, elapsed 00:00:17.563261
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 25 base rows 50, elapsed 00:00:00.136877
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 25 feature rows 50, elapsed 00:00:16.983667
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 26 spine rows 50050, elapsed 00:00:17.20336
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 26 base rows 50, elapsed 00:00:00.096532
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 26 feature rows 50, elapsed 00:00:18.331414
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 27 spine rows 50050, elapsed 00:00:17.934419
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 27 base rows 50, elapsed 00:00:00.137778
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 27 feature rows 50, elapsed 00:00:17.638423
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 28 spine rows 50050, elapsed 00:00:19.729427
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 28 base rows 50, elapsed 00:00:00.080668
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 28 feature rows 50, elapsed 00:00:17.261
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 29 spine rows 14014, elapsed 00:00:06.900677
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 29 base rows 14, elapsed 00:00:00.06493
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:50: NOTICE:  Phase 2 batch 29 feature rows 14, elapsed 00:00:04.41975
+ build_price_features_v3_shared 
+--------------------------------
+                           1464
+(1 row)
+
+Time: 961057.866 ms (16:01.058)
+ phase2_builder_restore_context 
+--------------------------------
+ 
+(1 row)
+
+Time: 1.828 ms
+COMMIT
+Time: 42.912 ms

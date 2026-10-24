@@ -1,0 +1,66 @@
+\set ON_ERROR_STOP on
+\pset pager off
+\timing on
+SET application_name = 'phase2_hash_aggregate_probe';
+SET work_mem = '64MB';
+SET jit = off;
+
+BEGIN;
+SELECT feat.begin_phase2_adjustment_rows(60);
+SELECT format(
+    'SELECT feat.populate_phase2_adjustment_rows(%s);',
+    batch_no
+)
+FROM (
+    SELECT DISTINCT batch_no
+    FROM pg_temp.phase2_adjustment_symbol_batches
+    ORDER BY batch_no
+) batches
+\gexec
+SELECT feat.finish_phase2_adjustment_rows();
+
+CREATE TEMP TABLE phase2_hash_probe_dates(
+    trade_date date PRIMARY KEY
+) ON COMMIT DROP;
+INSERT INTO pg_temp.phase2_hash_probe_dates(trade_date)
+SELECT trade_date
+FROM core.effective_trading_sessions
+WHERE is_session
+  AND trade_date BETWEEN DATE '2021-03-09' AND DATE '2025-12-31'
+ORDER BY trade_date
+LIMIT 12;
+ANALYZE pg_temp.phase2_hash_probe_dates;
+
+-- Show the plan for the full failed 1,206-date date set without running it.
+CREATE TEMP TABLE phase2_hash_probe_all_dates(
+    trade_date date PRIMARY KEY
+) ON COMMIT DROP;
+INSERT INTO pg_temp.phase2_hash_probe_all_dates(trade_date)
+SELECT trade_date
+FROM core.effective_trading_sessions
+WHERE is_session
+  AND trade_date BETWEEN DATE '2021-03-09' AND DATE '2025-12-31';
+ANALYZE pg_temp.phase2_hash_probe_all_dates;
+
+EXPLAIN (VERBOSE, SETTINGS, COSTS)
+SELECT r.trade_date,
+       ops.phase2_hash_text(
+           string_agg(to_jsonb(r)::text, E'\n' ORDER BY r.symbol_id)
+       )
+FROM pg_temp.phase2_hash_probe_all_dates d
+JOIN pg_temp.phase2_adjustment_rows r ON r.trade_date = d.trade_date
+WHERE r.trade_date BETWEEN DATE '2021-03-09' AND DATE '2025-12-31'
+GROUP BY r.trade_date;
+
+-- Execute the unchanged hash expression for 12 full-universe sessions only.
+EXPLAIN (ANALYZE, BUFFERS, SETTINGS, SUMMARY, TIMING)
+SELECT r.trade_date,
+       ops.phase2_hash_text(
+           string_agg(to_jsonb(r)::text, E'\n' ORDER BY r.symbol_id)
+       )
+FROM pg_temp.phase2_hash_probe_dates d
+JOIN pg_temp.phase2_adjustment_rows r ON r.trade_date = d.trade_date
+WHERE r.trade_date BETWEEN DATE '2021-03-09' AND DATE '2025-12-31'
+GROUP BY r.trade_date;
+
+ROLLBACK;

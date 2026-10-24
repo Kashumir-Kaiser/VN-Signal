@@ -1,0 +1,21 @@
+BEGIN
+CREATE FUNCTION
+COMMIT
+BEGIN
+SET
+NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 973, dates 333, elapsed 00:00:01.539707
+NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 661, dates 340, elapsed 00:00:00.087505
+NOTICE:  Phase 2 adjustment cache rows 1634, finalize elapsed 00:00:00.336349
+SET
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |      1634 |        3347
+(1 row)
+
+ uses_two_batches | has_thirty_symbols | all_loaded 
+------------------+--------------------+------------
+ t                | t                  | t
+(1 row)
+
+ROLLBACK

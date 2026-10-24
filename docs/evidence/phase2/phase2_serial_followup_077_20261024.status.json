@@ -1,0 +1,8 @@
+{
+  "pid": 12540,
+  "process_started_utc": "2026-10-24T05:15:19.3628819Z",
+  "phase": "superseded_before_database_work",
+  "exit_code": null,
+  "updated_utc": "2026-10-24T05:43:30.6446914Z",
+  "reason": "Adding current-V3 fundamental cohort and unknown-industry rank correction; replacement queue will freeze revised inputs."
+}

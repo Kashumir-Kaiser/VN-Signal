@@ -1,0 +1,17 @@
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+psql:sql/migrations/080_phase2_listing_tenure.sql:53: NOTICE:  trigger "security_listing_event_source" for relation "core.security_listing_events" does not exist, skipping
+CREATE TRIGGER
+psql:sql/migrations/080_phase2_listing_tenure.sql:56: NOTICE:  trigger "security_listing_event_append_only" for relation "core.security_listing_events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+psql:sql/migrations/080_phase2_listing_tenure.sql:59: NOTICE:  trigger "security_listing_event_no_truncate" for relation "core.security_listing_events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+COMMENT
+psql:sql/migrations/080_phase2_listing_tenure.sql:145: ERROR:  listing eligibility consumer anchor missing
+CONTEXT:  PL/pgSQL function inline_code_block line 20 at RAISE

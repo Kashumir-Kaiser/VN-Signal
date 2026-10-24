@@ -57,7 +57,7 @@ func (p *PostgresStore) CommitMarketLanding(ctx context.Context, item MarketLand
 	if state != "RUNNING" || source != land.Source || symbol != land.Bars.Symbol || attempts < 1 {
 		return "", errors.New("no matched running vendor request")
 	}
-	if analyzed.FirstDate < start || analyzed.LastDate > end {
+	if analyzed.SourceRows > 0 && (analyzed.FirstDate < start || analyzed.LastDate > end) {
 		return "", errors.New("source frame outside requested range")
 	}
 	var outcome string
@@ -141,7 +141,7 @@ func (p *PostgresStore) applyMarketFrame(ctx context.Context, tx *sql.Tx, jobID,
 // RecoverArchivedFrame rehabilitates only frames that were already fetched,
 // metered and archived. It never performs an API call or refunds quota.
 // Structural faults remain blocked rather than fabricated into valid rows.
-const MarketFrameValidatorVersion = "vn-equity-auction-extrema-v1"
+const MarketFrameValidatorVersion = "vn-equity-auction-extrema-empty-response-v2"
 
 // RecoverArchivedFrame replays immutable, already fetched market frames. It
 // never performs an API call or refunds quota. Partial normal landings are
@@ -189,7 +189,7 @@ func (p *PostgresStore) RecoverArchivedFrame(ctx context.Context, key string) (s
 	if err != nil {
 		return "", err
 	}
-	if analyzed.FirstDate < start || analyzed.LastDate > end {
+	if analyzed.SourceRows > 0 && (analyzed.FirstDate < start || analyzed.LastDate > end) {
 		return "", errors.New("archived frame outside original history range")
 	}
 	var alreadyProcessed bool

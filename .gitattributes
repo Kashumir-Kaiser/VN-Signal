@@ -1,3 +1,7 @@
 docs/probe/phase2-adjustment/*.html -text
 docs/probe/phase2-adjustment/**/*.html -text
 docs/probe/phase2-adjustment/**/*.json -text
+# Archived evidence retains exact captured bytes, including source line endings
+# and database output padding. Formatting checks apply to executable source.
+docs/evidence/** -text -whitespace
+docs/probe/** -text -whitespace

@@ -1,0 +1,50 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.02s
+     Running tests\sql_parity.rs (rust\target\debug\deps\sql_parity-a8e5847f67734581.exe)
+
+running 1 test
+E3 checkpoint: selected 20 deterministic feature rows, elapsed 129.9956ms
+E3 checkpoint: loaded 2494 market rows and index context through 2099-03-17, elapsed 44.2579ms
+E3 checkpoint: starting Polars reference for 2098-01-27
+E3 checkpoint: Polars reference for 2098-01-27 completed, elapsed 87.3591ms
+E3 checkpoint: starting Polars reference for 2098-01-28
+E3 checkpoint: Polars reference for 2098-01-28 completed, elapsed 14.6066ms
+E3 checkpoint: starting Polars reference for 2098-01-30
+E3 checkpoint: Polars reference for 2098-01-30 completed, elapsed 17.7219ms
+E3 checkpoint: starting Polars reference for 2098-02-19
+E3 checkpoint: Polars reference for 2098-02-19 completed, elapsed 23.8665ms
+E3 checkpoint: starting Polars reference for 2099-02-18
+E3 checkpoint: Polars reference for 2099-02-18 completed, elapsed 380.5259ms
+E3 checkpoint: starting Polars reference for 2099-02-09
+E3 checkpoint: Polars reference for 2099-02-09 completed, elapsed 389.7657ms
+E3 checkpoint: starting Polars reference for 2099-02-12
+E3 checkpoint: Polars reference for 2099-02-12 completed, elapsed 314.416ms
+E3 checkpoint: starting Polars reference for 2098-07-14
+E3 checkpoint: Polars reference for 2098-07-14 completed, elapsed 73.753ms
+E3 checkpoint: starting Polars reference for 2098-09-30
+E3 checkpoint: Polars reference for 2098-09-30 completed, elapsed 112.5827ms
+E3 checkpoint: starting Polars reference for 2098-05-19
+E3 checkpoint: Polars reference for 2098-05-19 completed, elapsed 45.0687ms
+E3 checkpoint: starting Polars reference for 2098-09-03
+E3 checkpoint: Polars reference for 2098-09-03 completed, elapsed 118.6765ms
+E3 checkpoint: starting Polars reference for 2098-08-22
+E3 checkpoint: Polars reference for 2098-08-22 completed, elapsed 91.2747ms
+E3 checkpoint: starting Polars reference for 2098-02-13
+E3 checkpoint: Polars reference for 2098-02-13 completed, elapsed 12.8759ms
+E3 checkpoint: starting Polars reference for 2098-12-23
+E3 checkpoint: Polars reference for 2098-12-23 completed, elapsed 161.0607ms
+E3 checkpoint: starting Polars reference for 2099-03-17
+E3 checkpoint: Polars reference for 2099-03-17 completed, elapsed 351.7942ms
+E3 checkpoint: starting Polars reference for 2099-02-02
+E3 checkpoint: Polars reference for 2099-02-02 completed, elapsed 204.9641ms
+E3 checkpoint: starting Polars reference for 2099-01-05
+E3 checkpoint: Polars reference for 2099-01-05 completed, elapsed 206.9659ms
+E3 checkpoint: starting Polars reference for 2098-05-27
+E3 checkpoint: Polars reference for 2098-05-27 completed, elapsed 50.3679ms
+E3 checkpoint: starting Polars reference for 2099-03-11
+E3 checkpoint: Polars reference for 2099-03-11 completed, elapsed 279.1877ms
+E3 checkpoint: starting Polars reference for 2099-03-12
+E3 checkpoint: Polars reference for 2099-03-12 completed, elapsed 319.289ms
+test postgres_features_match_polars_reference_for_twenty_symbol_days ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 4.34s
+

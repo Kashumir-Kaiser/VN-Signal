@@ -1,0 +1,309 @@
+BEGIN
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE FUNCTION
+CREATE TABLE
+DROP TRIGGER
+psql:sql/migrations/001_init.sql:58: NOTICE:  trigger "symbols_canonical_exchange" for relation "core.symbols" does not exist, skipping
+CREATE TRIGGER
+CREATE TABLE
+psql:sql/migrations/001_init.sql:68: NOTICE:  trigger "listing_canonical_exchange" for relation "core.listing_snapshots" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+COMMIT
+BEGIN
+CREATE TABLE
+COMMIT
+BEGIN
+ALTER TABLE
+psql:sql/migrations/004_raw_bytes.sql:8: NOTICE:  constraint "landings_payload_bytes_bound" of relation "landings" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+psql:sql/migrations/005_market_bar_quality.sql:10: NOTICE:  constraint "bars_daily_is_traded_check" of relation "bars_daily" does not exist, skipping
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+ALTER TABLE
+psql:sql/migrations/005_market_bar_quality.sql:20: NOTICE:  trigger "bars_daily_derive_is_traded" for relation "core.bars_daily" does not exist, skipping
+CREATE TABLE
+CREATE INDEX
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+COMMIT
+BEGIN
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+psql:sql/migrations/007_lifecycle_evidence.sql:56: NOTICE:  trigger "security_lifecycle_verify_source" for relation "core.security_lifecycle_evidence" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+psql:sql/migrations/007_lifecycle_evidence.sql:67: NOTICE:  trigger "security_lifecycle_append_only" for relation "core.security_lifecycle_evidence" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE FUNCTION
+psql:sql/migrations/008_historical_security_master.sql:42: NOTICE:  trigger "security_observation_immutable" for relation "core.security_observations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+CREATE VIEW
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+psql:sql/migrations/009_company_profile_observations.sql:32: NOTICE:  trigger "profile_source_verify" for relation "core.company_profile_observations" does not exist, skipping
+CREATE TRIGGER
+CREATE FUNCTION
+psql:sql/migrations/009_company_profile_observations.sql:42: NOTICE:  trigger "profile_append_only" for relation "core.company_profile_observations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE VIEW
+COMMIT
+BEGIN
+CREATE TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+COMMENT
+CREATE TABLE
+COMMENT
+COMMENT
+COMMENT
+CREATE VIEW
+COMMENT
+CREATE TABLE
+COMMIT
+BEGIN
+CREATE FUNCTION
+ record_observed_bar_session 
+-----------------------------
+(0 rows)
+
+CREATE FUNCTION
+psql:sql/migrations/013_observed_bar_calendar.sql:40: NOTICE:  trigger "bars_daily_observed_calendar" for relation "core.bars_daily" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DO
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+CREATE VIEW
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+psql:sql/migrations/016_raw_landings_append_only.sql:12: NOTICE:  trigger "raw_landings_no_row_mutation" for relation "raw.landings" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+psql:sql/migrations/016_raw_landings_append_only.sql:17: NOTICE:  trigger "raw_landings_no_truncate" for relation "raw.landings" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+CREATE VIEW
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+psql:sql/migrations/019_vietnam_auction_ohlc.sql:5: NOTICE:  constraint "bars_daily_high_low_order" of relation "bars_daily" does not exist, skipping
+ALTER TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+psql:sql/migrations/022_ml_bar_eligibility_events.sql:73: NOTICE:  trigger "ml_bar_eligibility_verify_source" for relation "ops.ml_bar_eligibility_events" does not exist, skipping
+CREATE TRIGGER
+CREATE FUNCTION
+psql:sql/migrations/022_ml_bar_eligibility_events.sql:84: NOTICE:  trigger "ml_bar_eligibility_append_only" for relation "ops.ml_bar_eligibility_events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+psql:sql/migrations/023_exchange_daily_bar_evidence.sql:65: NOTICE:  trigger "exchange_daily_bar_evidence_verify_source" for relation "ops.exchange_daily_bar_evidence" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+psql:sql/migrations/023_exchange_daily_bar_evidence.sql:76: NOTICE:  trigger "exchange_daily_bar_evidence_append_only" for relation "ops.exchange_daily_bar_evidence" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+psql:sql/migrations/025_hnx_report_interpretations.sql:60: NOTICE:  trigger "exchange_evidence_interpretation_verify" for relation "ops.exchange_daily_bar_evidence_interpretations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+psql:sql/migrations/025_hnx_report_interpretations.sql:72: NOTICE:  trigger "exchange_evidence_interpretation_append_only" for relation "ops.exchange_daily_bar_evidence_interpretations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+CREATE VIEW
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+INSERT 0 8
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 2
+INSERT 0 3
+INSERT 0 3
+INSERT 0 2
+INSERT 0 2
+INSERT 0 5
+INSERT 0 4
+INSERT 0 2
+INSERT 0 1
+INSERT 0 2
+COMMIT
+BEGIN
+ALTER TABLE
+DO
+UPDATE 23
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+INSERT 0 0
+COMMENT
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+ALTER TABLE
+UPDATE 23
+COMMENT
+COMMENT
+COMMENT
+CREATE VIEW
+COMMENT
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+CREATE VIEW
+COMMENT
+COMMIT

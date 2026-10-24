@@ -1,0 +1,7 @@
+SELECT stage,status,count(*) AS chunks,sum(rows) AS rows,min(date_from) AS first_date,max(date_to) AS last_date
+FROM ops.feature_chunks
+WHERE build_id='phase2-full-20261021'
+GROUP BY stage,status
+ORDER BY stage,status;
+SELECT pid,application_name,state FROM pg_stat_activity
+WHERE datname=current_database() AND application_name='phase2_fundamentals';

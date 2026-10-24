@@ -69,6 +69,27 @@ func TestAnalyzeMarketBarsForSourceRequiresMatchingProviderAttribution(t *testin
 	}
 }
 
+func TestAnalyzeMarketBarsAcceptsExplicitEmptyProviderResponseWithoutCreatingBars(t *testing.T) {
+	raw := payloadWithAttribution("[]", 0, "{\"source\":\"VCI\",\"route\":\"equity_ohlcv\",\"source_name\":\"VCI\"}")
+	frame, err := AnalyzeMarketBarsForSource("BMD", "vci", raw)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if frame.SourceRows != 0 || frame.Bars.Count != 0 || len(frame.Bars.Rows) != 0 ||
+		frame.FirstDate != "" || frame.LastDate != "" || len(frame.Issues) != 0 {
+		t.Fatalf("empty source response created bar evidence: %+v", frame)
+	}
+
+	for _, bad := range [][]byte{
+		[]byte(strings.Replace(string(raw), "\"rows\":[]", "\"rows\":null", 1)),
+		[]byte(strings.Replace(string(raw), "\"count\":0", "\"count\":1", 1)),
+	} {
+		if _, err := AnalyzeMarketBarsForSource("BMD", "vci", bad); err == nil {
+			t.Fatal("accepted an incomplete or inconsistent empty response")
+		}
+	}
+}
+
 func TestPriceAdjustmentBasisIsSourceSpecific(t *testing.T) {
 	for _, tc := range []struct {
 		source string

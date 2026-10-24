@@ -41,7 +41,17 @@ type capability struct {
 // code MUST fetch fresh quotas and route every call through live.Gateway.
 // The preview has no authority to execute calls or reserve real quota.
 func PlanBackfill(report []byte, tradingDays int, start, end string, tierA, tierB []string) (Plan, error) {
+	return PlanBackfillWithOffset(report, tradingDays, start, end, tierA, tierB, 0)
+}
+
+// PlanBackfillWithOffset keeps the normal alphabetical order unless the
+// caller supplies a nonzero round-robin offset. Rotation is applied within
+// each tier, so a lower tier never jumps ahead of Tier A.
+func PlanBackfillWithOffset(report []byte, tradingDays int, start, end string, tierA, tierB []string, offset int) (Plan, error) {
 	var p Plan
+	if offset < 0 {
+		return p, errors.New("backfill rotation offset must not be negative")
+	}
 	var cap capability
 	if err := json.Unmarshal(report, &cap); err != nil || !cap.Active || !cap.Routes["equity_ohlcv"].Available {
 		return p, ErrUnverified
@@ -96,6 +106,13 @@ func PlanBackfill(report []byte, tradingDays int, start, end string, tierA, tier
 			names = append(names, sym)
 		}
 		sort.Strings(names)
+		if len(names) > 0 && offset > 0 {
+			startAt := offset % len(names)
+			rotated := make([]string, 0, len(names))
+			rotated = append(rotated, names[startAt:]...)
+			rotated = append(rotated, names[:startAt]...)
+			names = rotated
+		}
 		for _, sym := range names {
 			job := BackfillJob{Route: "equity_ohlcv", Symbol: sym, Start: start, End: end, Tier: tier.Name}
 			if len(p.Planned) < budget {

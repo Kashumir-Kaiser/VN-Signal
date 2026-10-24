@@ -1,0 +1,64 @@
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:15: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:15: NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.425505
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:15: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.164962
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |         837
+(1 row)
+
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:16: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:16: NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, dates 2008, elapsed 00:00:00.816349
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:16: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.26112
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        1200
+(1 row)
+
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:17: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:17: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:01.728771
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:17: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.550257
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        2375
+(1 row)
+
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:19: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.367844
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:19: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.164028
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |         694
+(1 row)
+
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:20: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:20: NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, dates 2008, elapsed 00:00:00.849387
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:20: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.288675
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        1262
+(1 row)
+
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:21: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:21: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:01.536467
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:21: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.484494
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        2121
+(1 row)
+
+psql:docs/evidence/phase2/phase2_e1_cache_probe_warmup_20261024.psql:22: NOTICE:  Phase 2 adjustment cache scaling exponent 0.863, 15/30/60 timings 694/1262/2121 ms, 1518 symbols in 26 batches of 60 (estimated per-batch 2294.9 ms), projected cache time 0.99 minutes (budget 40 minutes)
+ assert_phase2_adjustment_cache_scaling 
+----------------------------------------
+                     0.8627043424042881
+(1 row)
+
+ROLLBACK

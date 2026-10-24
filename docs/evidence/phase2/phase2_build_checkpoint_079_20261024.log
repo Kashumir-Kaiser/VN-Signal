@@ -1,0 +1,16 @@
+        clock_timestamp        |  pid  | application_name | state  | wait_event_type | wait_event |    query_age    |            query            
+-------------------------------+-------+------------------+--------+-----------------+------------+-----------------+-----------------------------
+ 2026-10-24 17:09:24.986654+07 | 14332 | phase2_features  | active |                 |            | 00:00:32.682426 | DO $phase2_chunk$          +
+                               |       |                  |        |                 |            |                 | DECLARE                    +
+                               |       |                  |        |                 |            |                 |     v_rows bigint;         +
+                               |       |                  |        |                 |            |                 |     v_input_hash text;     +
+                               |       |                  |        |                 |            |                 |     v_output_hash text;    +
+                               |       |                  |        |                 |            |                 |     v_step_run_id bigint;  +
+                               |       |                  |        |                 |            |                 |     v_error text;          +
+                               |       |                  |        |                 |            |                 |     v_existing_status text;+
+                               |       |                  |        |                 |            |                 |     v_existing_h
+(1 row)
+
+ERROR:  relation "ops.phase2_build_chunks" does not exist
+LINE 1: ...row_count) AS rows,max(date_to) AS last_date FROM ops.phase2...
+                                                             ^

@@ -1,0 +1,18 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.02s
+     Running tests\sql_parity.rs (rust\target\debug\deps\sql_parity-a8e5847f67734581.exe)
+
+running 1 test
+
+thread 'postgres_features_match_polars_reference_for_twenty_symbol_days' (13588) panicked at crates\phase2-parity\tests\sql_parity.rs:341:10:
+connect to the disposable PostgreSQL acceptance database: Error { kind: Config, cause: Some("password missing") }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test postgres_features_match_polars_reference_for_twenty_symbol_days ... FAILED
+
+failures:
+
+failures:
+    postgres_features_match_polars_reference_for_twenty_symbol_days
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.20s
+
+error: test failed, to rerun pass `-p vn-signal-phase2-parity --test sql_parity`

@@ -1,0 +1,14 @@
+ pid  | state  | wait_event_type | wait_event |    xact_age     |                                            query                                            
+------+--------+-----------------+------------+-----------------+---------------------------------------------------------------------------------------------
+ 2264 | active |                 |            | 00:00:08.083751 | BEGIN;                                                                                     +
+      |        |                 |            |                 | SET LOCAL statement_timeout='5min';                                                        +
+      |        |                 |            |                 | SET LOCAL work_mem='16MB';                                                                 +
+      |        |                 |            |                 | SET LOCAL jit=off;                                                                         +
+      |        |                 |            |                 | SELECT * FROM ops.repair_phase2_rank_chunk('phase2-rank-repair-055-20261022','2021-11-01','
+(1 row)
+
+ n_live_tup | n_dead_tup | n_tup_upd 
+------------+------------+-----------
+    5674764 |     464966 |   2533048
+(1 row)
+

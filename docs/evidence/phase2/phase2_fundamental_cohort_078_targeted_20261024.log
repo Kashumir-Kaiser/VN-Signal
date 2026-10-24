@@ -1,0 +1,49 @@
+BEGIN
+DO
+COMMENT
+COMMIT
+BEGIN
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 2601, dates 350, elapsed 00:00:00.145897
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.061127
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 sessions 30, elapsed 00:00:00.140121
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 market context rows 30, elapsed 00:00:00.120495
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 rank rows 103, elapsed 00:00:00.037166
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 batch 0 spine rows 240, elapsed 00:00:00.039072
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 batch 0 base rows 238, elapsed 00:00:00.034157
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 batch 0 feature rows 238, elapsed 00:00:00.183926
+ build_price_features_v3 
+-------------------------
+                     238
+(1 row)
+
+DO
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 2601, dates 350, elapsed 00:00:00.11401
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.082233
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  Phase 2 sessions 1, elapsed 00:00:00.051263
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  Phase 2 market context rows 1, elapsed 00:00:00.055022
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  Phase 2 rank rows 8, elapsed 00:00:00.028541
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  Phase 2 batch 0 spine rows 8, elapsed 00:00:00.041463
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  Phase 2 batch 0 base rows 8, elapsed 00:00:00.061787
+psql:tests/sql/fundamental_features_assertions.sql:158: NOTICE:  Phase 2 batch 0 feature rows 8, elapsed 00:00:00.099049
+DO
+ROLLBACK

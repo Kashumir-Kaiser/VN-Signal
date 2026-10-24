@@ -1,0 +1,5 @@
+BEGIN
+CREATE FUNCTION
+CREATE VIEW
+DO
+psql:sql/migrations/044_phase2_vci_inherited_index_features.sql:172: ERROR:  canceling statement due to user request

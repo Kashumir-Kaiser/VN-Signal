@@ -1,0 +1,39 @@
+{
+  "passed": false,
+  "state": "aborted_incomplete_measurement",
+  "database": "vnsignal_phase2_report_20261019",
+  "build_id": "phase2-rank-repair-053-20261022",
+  "completed_repair_samples": [
+    {
+      "sessions": 30,
+      "rank_rows": 45513,
+      "changed_rows": 91026,
+      "seconds": 34.303442,
+      "rollback_verified": true
+    },
+    {
+      "sessions": 60,
+      "rank_rows": 90885,
+      "changed_rows": 181770,
+      "seconds": 151.062488,
+      "rollback_verified": true,
+      "exponent_from_30": 2.138720204902805
+    }
+  ],
+  "partial_120_session_sample": {
+    "completed_chunk": {
+      "date_from": "2026-04-24",
+      "date_to": "2026-05-24",
+      "seconds": 256.770052,
+      "rollback_verified": true
+    },
+    "next_chunk": {
+      "date_from": "2026-05-25",
+      "date_to": "2026-06-24",
+      "state": "cancelled_before_completion"
+    }
+  },
+  "reason": "The 30-to-60 timing exceeded the 1.3 scaling gate, but this probe timed full repair transactions whose rolled-back updates still generated dead tuple versions and contaminated later samples. The rank-stage scaling certificate is invalid; a read-only rank-stage probe is being used instead.",
+  "post_cancel_audit_rows": 0,
+  "other_active_probe_sessions": 0
+}

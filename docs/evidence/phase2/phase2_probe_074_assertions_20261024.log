@@ -1,0 +1,16 @@
+BEGIN
+SET
+SET
+SET
+CREATE TABLE
+COMMENT
+CREATE TABLE
+INSERT 0 90
+INSERT 0 3
+ validate_phase2_cache_samples 
+-------------------------------
+ 
+(1 row)
+
+DO
+ROLLBACK

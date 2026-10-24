@@ -1,0 +1,50 @@
+QUEUE features 20200101-20201231
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+NOTICE:  START features 20200101-20201231
+NOTICE:  Phase 2 adjustment cache rows 2844435, elapsed 00:08:17.756498
+NOTICE:  Phase 2 sessions 567, elapsed 00:08:18.221226
+NOTICE:  Phase 2 market context rows 567, elapsed 00:14:42.54627
+NOTICE:  Phase 2 rank rows 113828, elapsed 00:00:48.766966
+SET
+ERROR:  canceling statement due to statement timeout
+CONTEXT:  SQL statement "INSERT INTO pg_temp.phase2_v3_symbol_batches(symbol_id,batch_no)
+    WITH symbols AS MATERIALIZED (
+        SELECT DISTINCT r.symbol_id
+        FROM pg_temp.phase2_adjustment_rows r
+        JOIN pg_temp.phase2_v3_sessions s USING(trade_date)
+        WHERE r.source='vndirect'
+          AND r.reference_adjustment_ratio>0
+          AND r.reference_adjustment_ratio<'Infinity'::double precision
+    ), selected_symbols AS MATERIALIZED (
+        SELECT symbol_id FROM symbols ORDER BY symbol_id
+        LIMIT COALESCE(v_probe_symbol_limit,2147483647)
+    )
+    SELECT symbol_id,((row_number() OVER(ORDER BY symbol_id)-1)/v_batch_size)::integer
+    FROM selected_symbols"
+PL/pgSQL function feat.build_price_features_v3_internal(date,date) line 185 at SQL statement
+PL/pgSQL function inline_code_block line 10 at assignment
+Exception: C:\Users\HP\VN-Signal\ops\phase2_build.ps1:65
+Line |
+  65 |              throw "psql failed with exit code $exitCode. $details"
+     |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | psql failed with exit code 1. BEGIN SET SET SET SET SET SET SET NOTICE:  START features 20200101-20201231
+     | NOTICE:  Phase 2 adjustment cache rows 2844435, elapsed 00:08:17.756498 NOTICE:  Phase 2 sessions 567, elapsed
+     | 00:08:18.221226 NOTICE:  Phase 2 market context rows 567, elapsed 00:14:42.54627 NOTICE:  Phase 2 rank rows
+     | 113828, elapsed 00:00:48.766966 SET ERROR:  canceling statement due to statement timeout CONTEXT:  SQL statement
+     | "INSERT INTO pg_temp.phase2_v3_symbol_batches(symbol_id,batch_no)     WITH symbols AS MATERIALIZED (        
+     | SELECT DISTINCT r.symbol_id         FROM pg_temp.phase2_adjustment_rows r         JOIN
+     | pg_temp.phase2_v3_sessions s USING(trade_date)         WHERE r.source='vndirect'           AND
+     | r.reference_adjustment_ratio>0           AND r.reference_adjustment_ratio<'Infinity'::double precision     ),
+     | selected_symbols AS MATERIALIZED (         SELECT symbol_id FROM symbols ORDER BY symbol_id         LIMIT
+     | COALESCE(v_probe_symbol_limit,2147483647)     )     SELECT symbol_id,((row_number() OVER(ORDER BY
+     | symbol_id)-1)/v_batch_size)::integer     FROM selected_symbols" PL/pgSQL function
+     | feat.build_price_features_v3_internal(date,date) line 185 at SQL statement PL/pgSQL function inline_code_block
+     | line 10 at assignment
+

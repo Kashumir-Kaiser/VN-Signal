@@ -1,0 +1,71 @@
+Pager usage is off.
+DO
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+ diagnostic_backend_pid 
+------------------------
+                  17668
+(1 row)
+
+ temp_files | temp_bytes_before 
+------------+-------------------
+        539 |       22029228830
+(1 row)
+
+Timing is on.
+psql:docs/evidence/phase2/phase2_e1_cache_probe_workmem32_retry1_20261024.psql:17: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_e1_cache_probe_workmem32_retry1_20261024.psql:17: NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, elapsed 00:00:00.606197
+psql:docs/evidence/phase2/phase2_e1_cache_probe_workmem32_retry1_20261024.psql:17: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.18678
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |        1323
+(1 row)
+
+Time: 1340.419 ms (00:01.340)
+psql:docs/evidence/phase2/phase2_e1_cache_probe_workmem32_retry1_20261024.psql:18: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:docs/evidence/phase2/phase2_e1_cache_probe_workmem32_retry1_20261024.psql:18: NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, elapsed 00:00:01.234956
+psql:docs/evidence/phase2/phase2_e1_cache_probe_workmem32_retry1_20261024.psql:18: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.275878
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        1720
+(1 row)
+
+Time: 1720.593 ms (00:01.721)
+psql:docs/evidence/phase2/phase2_e1_cache_probe_workmem32_retry1_20261024.psql:19: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:docs/evidence/phase2/phase2_e1_cache_probe_workmem32_retry1_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:01.804017
+psql:docs/evidence/phase2/phase2_e1_cache_probe_workmem32_retry1_20261024.psql:19: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.457861
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        2475
+(1 row)
+
+Time: 2475.024 ms (00:02.475)
+psql:docs/evidence/phase2/phase2_e1_cache_probe_workmem32_retry1_20261024.psql:20: NOTICE:  Phase 2 adjustment cache scaling exponent 0.525, 15/30/60 timings 1323/1720/2475 ms, 1518 symbols in 26 batches of 60 (estimated per-batch 2739.4 ms), projected cache time 1.19 minutes (budget 40 minutes)
+ assert_phase2_adjustment_cache_scaling 
+----------------------------------------
+                      0.525019960264874
+(1 row)
+
+Time: 47.763 ms
+ pg_stat_force_next_flush 
+--------------------------
+ 
+(1 row)
+
+Time: 0.712 ms
+ temp_files | temp_bytes_after 
+------------+------------------
+        539 |      22029228830
+(1 row)
+
+Time: 0.580 ms
+ROLLBACK
+Time: 39.876 ms

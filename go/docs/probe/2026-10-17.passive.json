@@ -1,0 +1,49 @@
+{
+  "active": false,
+  "at": "2026-10-17T12:37:09.042915+00:00",
+  "routes": {},
+  "status": {
+    "schema_version": 1,
+    "authenticated": false,
+    "active": true,
+    "tier": "guest",
+    "device_id": "vndev_f1f96a7d759a6901751dc15aa8d7b2c87175182aee7a01c6",
+    "expires_at": null,
+    "cache_until": "2026-10-17T12:42:09.668596800Z",
+    "core_version": "0.7.0",
+    "server_message": null,
+    "server_warning": null,
+    "release": null,
+    "libraries": {
+      "vnstock": "5.0.3",
+      "vnstock-quant": null,
+      "vnstock-news": null,
+      "vnstock-pipeline": null
+    },
+    "older_libraries": {},
+    "python": "3.12.10",
+    "platform": "Windows ",
+    "update_error": "vnstock kh\u00c3\u00b4ng l\u00e1\u00ba\u00a5y \u00c4\u2018\u00c6\u00b0\u00e1\u00bb\u00a3c ch\u00c3\u00adnh s\u00c3\u00a1ch m\u00c3\u00a1y kh\u00c3\u00a1ch hi\u00e1\u00bb\u2021n h\u00c3\u00a0nh t\u00e1\u00bb\u00ab vnstocks.com"
+  },
+  "usage": {
+    "tier": "guest",
+    "authenticated": false,
+    "limits": {
+      "per_minute": 10,
+      "per_hour": 100,
+      "per_day": 300,
+      "per_month": 1000
+    },
+    "limit_source": "policy_v1",
+    "used": {
+      "minute": 0,
+      "hour": 0,
+      "day": 0,
+      "month": 0
+    },
+    "used_by_lib": {},
+    "pending_report": 0,
+    "expires_at": null,
+    "rule": null
+  }
+}

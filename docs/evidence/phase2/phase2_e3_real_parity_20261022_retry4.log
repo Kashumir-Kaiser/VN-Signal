@@ -1,0 +1,24 @@
+   Compiling vn-signal-phase2-parity v0.1.0 (C:\Users\HP\VN-Signal\rust\crates\phase2-parity)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 35.00s
+     Running tests\sql_parity.rs (rust\target\debug\deps\sql_parity-a8e5847f67734581.exe)
+
+running 1 test
+E3 checkpoint: selected 20 deterministic feature rows, elapsed 19.8182166s
+E3 checkpoint: selected source lineage verified, elapsed 318.1827ms
+E3 checkpoint: initializing point-in-time cache batches
+
+thread 'postgres_features_match_polars_reference_for_twenty_symbol_days' (9088) panicked at crates\phase2-parity\tests\sql_parity.rs:405:5:
+assertion `left == right` failed
+  left: 1518
+ right: 26
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test postgres_features_match_polars_reference_for_twenty_symbol_days ... FAILED
+
+failures:
+
+failures:
+    postgres_features_match_polars_reference_for_twenty_symbol_days
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4 filtered out; finished in 25.53s
+
+error: test failed, to rerun pass `-p vn-signal-phase2-parity --test sql_parity`

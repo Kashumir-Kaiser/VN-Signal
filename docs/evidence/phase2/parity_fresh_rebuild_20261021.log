@@ -1,0 +1,19 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.96s
+     Running tests\sql_parity.rs (rust\target\debug\deps\sql_parity-a8e5847f67734581.exe)
+
+running 1 test
+test postgres_features_match_polars_reference_for_twenty_symbol_days has been running for over 60 seconds
+
+thread 'postgres_features_match_polars_reference_for_twenty_symbol_days' (17888) panicked at crates\phase2-parity\tests\sql_parity.rs:501:14:
+materialize the production transaction-local point-in-time price cache once: Error { kind: Db, cause: Some(DbError { severity: "ERROR", parsed_severity: Some(Error), code: SqlState(E57014), message: "canceling statement due to statement timeout", detail: None, hint: None, position: None, where_: Some("SQL statement \"CREATE TEMP TABLE phase2_adjustment_rows ON COMMIT PRESERVE ROWS AS\n    SELECT r.symbol_id,r.trade_date,r.source,r.v,r.is_traded,\n           r.reference_adjustment_ratio,r.episode_start_date,\n           r.model_o,r.model_h,r.model_l,r.model_c,\n           r.adjustment_vintage_at,r.landing_id,r.source_row,r.fetched_at\n    FROM core.vndirect_reference_adjustment_details r\n    WHERE r.source='vndirect'\n      AND NOT EXISTS (\n          SELECT 1 FROM ops.ml_symbol_scope excluded\n          WHERE excluded.symbol_id=r.symbol_id\n            AND excluded.scope_status='EXCLUDED'\n      )\"\nPL/pgSQL function feat.prepare_phase2_adjustment_rows(boolean) line 23 at SQL statement"), schema: None, table: None, column: None, datatype: None, constraint: None, file: Some("postgres.c"), line: Some(3445), routine: Some("ProcessInterrupts") }) }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test postgres_features_match_polars_reference_for_twenty_symbol_days ... FAILED
+
+failures:
+
+failures:
+    postgres_features_match_polars_reference_for_twenty_symbol_days
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2015.05s
+
+error: test failed, to rerun pass `-p vn-signal-phase2-parity --test sql_parity`

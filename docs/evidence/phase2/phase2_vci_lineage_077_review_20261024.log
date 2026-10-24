@@ -1,0 +1,32 @@
+BEGIN
+ALTER TABLE
+psql:sql/migrations/077_phase2_recovered_vci_lineage.sql:4: NOTICE:  column "source_evidence" of relation "phase2_vci_bar_lineage" already exists, skipping
+CREATE INDEX
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+COMMIT
+BEGIN
+SET
+SET
+CREATE TABLE
+DO
+ materialize_phase2_vci_lineage 
+--------------------------------
+                              9
+(1 row)
+
+DO
+UPDATE 1
+ materialize_phase2_vci_lineage 
+--------------------------------
+                              1
+(1 row)
+
+DO
+DO
+ROLLBACK
+BEGIN
+SET
+DO
+ROLLBACK

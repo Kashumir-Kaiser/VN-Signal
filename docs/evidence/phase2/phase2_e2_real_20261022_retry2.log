@@ -1,0 +1,372 @@
+Pager usage is off.
+BEGIN
+SET
+SET
+SET
+DO
+CREATE TABLE
+E2 checkpoint: materializing the immutable full-universe raw adjustment inputs once
+SELECT 2844683
+CREATE INDEX
+ANALYZE
+E2 checkpoint: immutable source ready; starting the three full-market perturbation cases
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 sessions 2009, elapsed 00:00:00.148786
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 market context rows 2009, elapsed 00:00:06.80146
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 rank rows 103680, elapsed 00:00:02.049539
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 batch 0 spine rows 100450, elapsed 00:00:01.352464
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 batch 0 base rows 97567, elapsed 00:00:03.438691
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 batch 0 feature rows 97567, elapsed 00:02:10.440387
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 batch 1 spine rows 20090, elapsed 00:00:00.902047
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 batch 1 base rows 19984, elapsed 00:00:01.275719
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 batch 1 feature rows 19984, elapsed 00:00:22.087121
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  table "phase2_label_targets" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 label targets rows 235102, elapsed 00:00:00.859057
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  table "phase2_label_latest_exit" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  table "phase2_label_endpoint_days" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 label endpoint days rows 117633, elapsed 00:00:00.396545
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  table "phase2_label_endpoint_bounds" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  table "phase2_label_adjustment_prefix" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 label adjustment prefix rows 117499, elapsed 00:00:00.624721
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  table "phase2_label_endpoint_bars" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 label endpoint bars rows 117491, elapsed 00:00:00.374793
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  table "phase2_label_first_bad_factor" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.036163
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  table "phase2_label_endpoint_targets" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  table "phase2_label_spans" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 sessions 2009, elapsed 00:00:00.538851
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 market context rows 2009, elapsed 00:00:07.244298
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 rank rows 103680, elapsed 00:00:02.337075
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 batch 0 spine rows 100450, elapsed 00:00:01.325068
+psql:tests/sql/phase2_e2_real_assertions.sql:429: NOTICE:  Phase 2 batch 0 base rows 97567, elapsed 00:00:02.525815
+psql:tests/sql/phase2_e2_real_assertions.sql:429: ERROR:  canceling statement due to user request
+CONTEXT:  SQL statement "WITH sessions AS MATERIALIZED (
+        SELECT trade_date,session_no FROM pg_temp.phase2_v3_sessions
+    ), spine AS NOT MATERIALIZED (
+        SELECT * FROM pg_temp.phase2_v3_spine
+    ), ema_episode_marks AS MATERIALIZED (
+        SELECT p.*,
+               CASE WHEN p.c IS NOT NULL AND p.episode_key IS DISTINCT FROM
+                         lag(p.episode_key) OVER(PARTITION BY p.symbol_id ORDER BY p.session_no)
+                    THEN 1::bigint ELSE 0::bigint END AS ema_episode_start
+        FROM spine p
+    ), ema_episode_groups AS MATERIALIZED (
+        SELECT p.*,
+               sum(p.ema_episode_start) OVER(PARTITION BY p.symbol_id ORDER BY p.session_no
+                   ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ema_episode
+        FROM ema_episode_marks p
+    ), ema_input_stats AS MATERIALIZED (
+        SELECT p.*,
+               min(p.session_no) FILTER(WHERE p.c IS NOT NULL)
+                   OVER(PARTITION BY p.symbol_id,p.ema_episode) AS first_close_session,
+               count(*) FILTER(WHERE p.is_traded AND p.c IS NOT NULL)
+                   OVER(PARTITION BY p.symbol_id,p.ema_episode ORDER BY p.session_no
+                        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ema_count
+        FROM ema_episode_groups p
+    ), ema_inputs AS MATERIALIZED (
+        SELECT p.*,
+               CASE WHEN p.session_no=p.first_close_session OR p.is_traded THEN p.c END AS ema_input
+        FROM ema_input_stats p
+    ), ema_state AS MATERIALIZED (
+        SELECT p.symbol_id,p.trade_date,p.session_no,p.episode_key,p.ema_episode,p.c,p.is_traded,p.ema_count,
+               feat.ema(p.ema_input,2.0/6) OVER w AS ema5,
+               feat.ema(p.ema_input,2.0/11) OVER w AS ema10,
+               feat.ema(p.ema_input,2.0/21) OVER w AS ema20,
+               feat.ema(p.ema_input,2.0/51) OVER w AS ema50,
+               feat.ema(p.ema_input,2.0/101) OVER w AS ema100,
+               feat.ema(p.ema_input,2.0/201) OVER w AS ema200,
+               feat.ema(p.ema_input,2.0/13) OVER w AS ema12,
+               feat.ema(p.ema_input,2.0/27) OVER w AS ema26
+        FROM ema_inputs p
+        WINDOW w AS (PARTITION BY p.symbol_id,p.ema_episode ORDER BY p.session_no
+                     ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+    ), ema_macd AS MATERIALIZED (
+        SELECT e.*,
+               feat.ema(CASE WHEN e.is_traded AND e.ema_count>=26 THEN e.ema12-e.ema26 END,0.2)
+                   OVER(PARTITION BY e.symbol_id,e.ema_episode ORDER BY e.session_no
+                        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS macd_signal,
+               count(*) FILTER(WHERE e.is_traded AND e.ema_count>=26)
+                   OVER(PARTITION BY e.symbol_id,e.ema_episode ORDER BY e.session_no
+                        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS macd_count
+        FROM ema_state e
+    ), ema_signal AS MATERIALIZED (
+        SELECT e.*,
+               CASE WHEN e.is_traded AND e.ema_count>=5 AND e.ema5>0 THEN e.c/e.ema5-1 END AS ema5_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=10 AND e.ema10>0 THEN e.c/e.ema10-1 END AS ema10_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=20 AND e.ema20>0 THEN e.c/e.ema20-1 END AS ema20_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=50 AND e.ema50>0 THEN e.c/e.ema50-1 END AS ema50_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=100 AND e.ema100>0 THEN e.c/e.ema100-1 END AS ema100_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=200 AND e.ema200>0 THEN e.c/e.ema200-1 END AS ema200_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=26 AND e.macd_count>=9 AND e.c>0
+                    THEN ((e.ema12-e.ema26)-e.macd_signal)/e.c END AS macd_histogram_pct
+        FROM ema_macd e
+    ), prior_price AS MATERIALIZED (
+        SELECT x.*,
+               lag(x.is_traded) OVER w AS prior_is_traded,
+               lag(x.c) OVER w AS prior_c,
+               lag(x.h) OVER w AS prior_h,
+               lag(x.l) OVER w AS prior_l,
+               lag(x.episode_key) OVER w AS prior_episode
+        FROM spine x
+        WINDOW w AS (PARTITION BY x.symbol_id ORDER BY x.session_no)
+    ), price_lags AS MATERIALIZED (
+        SELECT x.*,
+               CASE WHEN x.is_traded AND x.prior_is_traded AND x.episode_key=x.prior_episode AND x.prior_c>0
+                    THEN x.c/x.prior_c-1 END AS daily_return,
+               CASE WHEN x.is_traded AND x.prior_is_traded AND x.episode_key=x.prior_episode AND x.prior_c>0
+                    THEN x.o/x.prior_c-1 END AS open_gap,
+               CASE WHEN x.is_traded AND x.prior_is_traded AND x.episode_key=x.prior_episode
+                    THEN greatest(x.h-x.l,abs(x.h-x.prior_c),abs(x.l-x.prior_c)) END AS true_range,
+               CASE WHEN x.is_traded AND x.prior_is_traded AND x.episode_key=x.prior_episode
+                    THEN greatest(x.h-x.prior_h,0.0) END AS plus_dm,
+               CASE WHEN x.is_traded AND x.prior_is_traded AND x.episode_key=x.prior_episode
+                    THEN greatest(x.prior_l-x.l,0.0) END AS minus_dm
+        FROM prior_price x
+    ), technical AS MATERIALIZED (
+        SELECT p.*,
+               count(p.c) FILTER(WHERE p.is_traded) OVER w5 AS traded5,
+               count(p.c) FILTER(WHERE p.is_traded) OVER w10 AS traded10,
+               count(p.c) FILTER(WHERE p.is_traded) OVER w14_episode AS traded14,
+               max(p.h) FILTER(WHERE p.is_traded) OVER w14_episode AS high14,
+               min(p.l) FILTER(WHERE p.is_traded) OVER w14_episode AS low14,
+               avg(p.true_range) OVER w14 AS tr14,
+               avg(p.plus_dm) OVER w14 AS plus14,
+               avg(p.minus_dm) OVER w14 AS minus14,
+               count(p.true_range) OVER w14 AS tr_count14,
+               count(p.daily_return) OVER w5 AS return_count5,
+               sqrt(avg(power(least(p.daily_return,0.0),2)) OVER w5) AS downside5,
+               sqrt(avg(power(least(p.daily_return,0.0),2)) OVER w60) AS downside60,
+               count(p.daily_return) OVER w60 AS return_count60,
+               avg(p.daily_return) OVER w60 AS mean60,
+               stddev_pop(p.daily_return) OVER w60 AS sd60,
+               avg(power(p.daily_return,2)) OVER w60 AS raw_second60,
+               avg(power(p.daily_return,3)) OVER w60 AS raw_third60,
+               avg(power(p.daily_return,4)) OVER w60 AS raw_fourth60,
+               avg(p.open_gap) OVER w20 AS gap_mean20,
+               stddev_samp(p.open_gap) OVER w20 AS gap_sd20,
+               count(p.open_gap) OVER w20 AS gap_count20
+        FROM price_lags p
+        WINDOW w AS (PARTITION BY p.symbol_id ORDER BY p.session_no),
+               w5 AS (w ROWS BETWEEN 4 PRECEDING AND CURRENT ROW),
+               w10 AS (w ROWS BETWEEN 9 PRECEDING AND CURRENT ROW),
+               w14 AS (w ROWS BETWEEN 13 PRECEDING AND CURRENT ROW),
+               w14_episode AS (PARTITION BY p.symbol_id,p.episode_key ORDER BY p.session_no ROWS BETWEEN 13 PRECEDING AND CURRENT ROW),
+               w20 AS (w ROWS BETWEEN 19 PRECEDING AND CURRENT ROW),
+               w60 AS (w ROWS BETWEEN 59 PRECEDING AND CURRENT ROW)
+    ), directional AS MATERIALIZED (
+        SELECT t.*,
+               CASE WHEN t.tr_count14=14 AND t.tr14>0
+                    THEN 100*abs(t.plus14-t.minus14)/nullif(t.plus14+t.minus14,0) END AS dx14
+        FROM technical t
+    ), adx_calc AS MATERIALIZED (
+        SELECT d.*,
+               avg(d.dx14) OVER(PARTITION BY d.symbol_id ORDER BY d.session_no
+                   ROWS BETWEEN 13 PRECEDING AND CURRENT ROW) AS adx14_sma,
+               count(d.dx14) OVER(PARTITION BY d.symbol_id ORDER BY d.session_no
+                   ROWS BETWEEN 13 PRECEDING AND CURRENT ROW) AS adx_count14,
+               -- Convert the raw moments using this row's 60-return mean. A
+               -- second rolling window over row-specific means would center
+               -- each historical return on a different mean.
+               d.raw_third60-3*d.mean60*d.raw_second60+2*power(d.mean60,3) AS third_moment60,
+               d.raw_fourth60-4*d.mean60*d.raw_third60+6*power(d.mean60,2)*d.raw_second60
+                   -3*power(d.mean60,4) AS fourth_moment60
+        FROM directional d
+    ), index_raw AS MATERIALIZED (
+        SELECT * FROM pg_temp.phase2_v3_index_raw
+    ), market_lagged AS MATERIALIZED (
+        SELECT * FROM pg_temp.phase2_v3_market_lagged
+    ), symbol_market AS MATERIALIZED (
+        SELECT f.symbol_id,f.trade_date,s.session_no,f.ret_1 AS stock_return,
+               lag(i.index_return) OVER(PARTITION BY f.symbol_id ORDER BY s.session_no) AS index_return_lagged,
+               f.return_20s,f.turnover_proxy_vnd,f.realized_vol20,f.gap_open_1d,
+               f.distance_52w_high,f.distance_52w_low
+        FROM features_daily f
+        JOIN sessions s USING(trade_date)
+        JOIN pg_temp.phase2_v3_symbol_batches bs
+          ON bs.symbol_id=f.symbol_id AND bs.batch_no=v_batch.batch_no
+        LEFT JOIN index_raw i ON i.session_no=s.session_no
+        WHERE f.feature_version='phase2-v2'
+    ), stock_market_prefix AS MATERIALIZED (
+        SELECT x.*,
+               count(x.stock_return) OVER w AS stock_count_prefix,
+               count(x.index_return_lagged) OVER w AS market_count_prefix,
+               sum(ln(1+x.stock_return)) OVER w AS stock_log_prefix,
+               sum(ln(1+x.index_return_lagged)) OVER w AS market_log_prefix,
+               count(*) FILTER(WHERE x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL)
+                   OVER w AS pair_count_prefix,
+               sum(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.stock_return ELSE 0 END) OVER w AS stock_sum_prefix,
+               sum(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.index_return_lagged ELSE 0 END) OVER w AS market_sum_prefix,
+               sum(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.stock_return*x.stock_return ELSE 0 END) OVER w AS stock_square_prefix,
+               sum(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.index_return_lagged*x.index_return_lagged ELSE 0 END) OVER w AS market_square_prefix,
+               sum(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.stock_return*x.index_return_lagged ELSE 0 END) OVER w AS cross_product_prefix,
+               count(abs(x.stock_return)/nullif(x.turnover_proxy_vnd,0)) OVER w AS amihud_count_prefix,
+               sum(abs(x.stock_return)/nullif(x.turnover_proxy_vnd,0)) OVER w AS amihud_sum_prefix
+        FROM symbol_market x
+        WINDOW w AS (PARTITION BY x.symbol_id ORDER BY x.session_no
+                     ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+    ), stock_market_prefix_lags AS MATERIALIZED (
+        SELECT p.*,
+               lag(p.stock_count_prefix,21) OVER w AS stock_count_lag21,
+               lag(p.stock_count_prefix,252) OVER w AS stock_count_lag252,
+               lag(p.market_count_prefix,21) OVER w AS market_count_lag21,
+               lag(p.market_count_prefix,252) OVER w AS market_count_lag252,
+               lag(p.stock_log_prefix,21) OVER w AS stock_log_lag21,
+               lag(p.stock_log_prefix,252) OVER w AS stock_log_lag252,
+               lag(p.market_log_prefix,21) OVER w AS market_log_lag21,
+               lag(p.market_log_prefix,252) OVER w AS market_log_lag252,
+               lag(p.pair_count_prefix,60) OVER w AS pair_count_lag60,
+               lag(p.pair_count_prefix,250) OVER w AS pair_count_lag250,
+               lag(p.stock_sum_prefix,60) OVER w AS stock_sum_lag60,
+               lag(p.stock_sum_prefix,250) OVER w AS stock_sum_lag250,
+               lag(p.market_sum_prefix,60) OVER w AS market_sum_lag60,
+               lag(p.market_sum_prefix,250) OVER w AS market_sum_lag250,
+               lag(p.stock_square_prefix,60) OVER w AS stock_square_lag60,
+               lag(p.stock_square_prefix,250) OVER w AS stock_square_lag250,
+               lag(p.market_square_prefix,60) OVER w AS market_square_lag60,
+               lag(p.market_square_prefix,250) OVER w AS market_square_lag250,
+               lag(p.cross_product_prefix,60) OVER w AS cross_product_lag60,
+               lag(p.cross_product_prefix,250) OVER w AS cross_product_lag250,
+               lag(p.stock_count_prefix,20) OVER w AS stock_count_lag20,
+               lag(p.amihud_count_prefix,20) OVER w AS amihud_count_lag20,
+               lag(p.amihud_sum_prefix,20) OVER w AS amihud_sum_lag20
+        FROM stock_market_prefix p
+        WINDOW w AS (PARTITION BY p.symbol_id ORDER BY p.session_no)
+    ), stock_market_differences AS MATERIALIZED (
+        SELECT p.*,
+               coalesce(p.stock_count_lag21,0)-coalesce(p.stock_count_lag252,0) AS stock_n231,
+               coalesce(p.market_count_lag21,0)-coalesce(p.market_count_lag252,0) AS market_n231,
+               coalesce(p.stock_log_lag21,0)-coalesce(p.stock_log_lag252,0) AS stock_log_12_1,
+               coalesce(p.market_log_lag21,0)-coalesce(p.market_log_lag252,0) AS market_log_12_1,
+               p.pair_count_prefix-coalesce(p.pair_count_lag60,0) AS n60,
+               p.pair_count_prefix-coalesce(p.pair_count_lag250,0) AS n250,
+               p.stock_sum_prefix-coalesce(p.stock_sum_lag60,0) AS stock_sum60,
+               p.stock_sum_prefix-coalesce(p.stock_sum_lag250,0) AS stock_sum250,
+               p.market_sum_prefix-coalesce(p.market_sum_lag60,0) AS market_sum60,
+               p.market_sum_prefix-coalesce(p.market_sum_lag250,0) AS market_sum250,
+               p.stock_square_prefix-coalesce(p.stock_square_lag60,0) AS stock_square60,
+               p.stock_square_prefix-coalesce(p.stock_square_lag250,0) AS stock_square250,
+               p.market_square_prefix-coalesce(p.market_square_lag60,0) AS market_square60,
+               p.market_square_prefix-coalesce(p.market_square_lag250,0) AS market_square250,
+               p.cross_product_prefix-coalesce(p.cross_product_lag60,0) AS cross_product60,
+               p.cross_product_prefix-coalesce(p.cross_product_lag250,0) AS cross_product250,
+               p.stock_count_prefix-coalesce(p.stock_count_lag20,0) AS return_n20,
+               (p.amihud_sum_prefix-coalesce(p.amihud_sum_lag20,0)) /
+                    nullif(p.amihud_count_prefix-coalesce(p.amihud_count_lag20,0),0) AS amihud20
+        FROM stock_market_prefix_lags p
+    ), stock_market_beta AS MATERIALIZED (
+        SELECT d.*,
+               CASE WHEN d.n60>1 THEN
+                    (d.cross_product60-d.stock_sum60*d.market_sum60/d.n60) /
+                    nullif(d.market_square60-d.market_sum60*d.market_sum60/d.n60,0) END AS beta60,
+               CASE WHEN d.n60>1 THEN greatest(0::double precision,
+                    (d.stock_square60-d.stock_sum60*d.stock_sum60/d.n60)/(d.n60-1)) END AS stock_var60,
+               CASE WHEN d.n60>1 THEN greatest(0::double precision,
+                    (d.market_square60-d.market_sum60*d.market_sum60/d.n60)/(d.n60-1)) END AS market_var60,
+               CASE WHEN d.n60>1 THEN
+                    (d.cross_product60-d.stock_sum60*d.market_sum60/d.n60)/(d.n60-1) END AS covar60,
+               CASE WHEN d.n250>1 THEN
+                    (d.cross_product250-d.stock_sum250*d.market_sum250/d.n250) /
+                    nullif(d.market_square250-d.market_sum250*d.market_sum250/d.n250,0) END AS beta250,
+               CASE WHEN d.n250>1 THEN greatest(0::double precision,
+                    (d.stock_square250-d.stock_sum250*d.stock_sum250/d.n250)/(d.n250-1)) END AS stock_var250,
+               CASE WHEN d.n250>1 THEN greatest(0::double precision,
+                    (d.market_square250-d.market_sum250*d.market_sum250/d.n250)/(d.n250-1)) END AS market_var250,
+               CASE WHEN d.n250>1 THEN
+                    (d.cross_product250-d.stock_sum250*d.market_sum250/d.n250)/(d.n250-1) END AS covar250
+        FROM stock_market_differences d
+    ), stock_market_windows AS MATERIALIZED (
+        SELECT b.*,lag(b.beta60,21) OVER(PARTITION BY b.symbol_id ORDER BY b.session_no) AS beta60_at_12_1_start
+        FROM stock_market_beta b
+    ), ranks AS MATERIALIZED (
+        SELECT r.* FROM pg_temp.phase2_v3_ranks r
+        JOIN pg_temp.phase2_v3_symbol_batches bs USING(symbol_id)
+        WHERE bs.batch_no=v_batch.batch_no
+    ), stoch AS MATERIALIZED (
+        SELECT t.symbol_id,t.trade_date,t.session_no,t.episode_key,
+               CASE WHEN t.is_traded AND t.traded14=14 AND t.high14>t.low14
+                    THEN 100*(t.c-t.low14)/(t.high14-t.low14) END AS k14
+        FROM technical t
+    ), stochd AS MATERIALIZED (
+        SELECT s.*,
+               avg(s.k14) OVER(PARTITION BY s.symbol_id,s.episode_key ORDER BY s.session_no ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS d3,
+               count(s.k14) OVER(PARTITION BY s.symbol_id,s.episode_key ORDER BY s.session_no ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS n3
+        FROM stoch s
+    )
+    INSERT INTO pg_temp.phase2_v3_computed (
+        symbol_id,trade_date,momentum_12_1s,residual_momentum_12_1s,
+        ema_5_ratio,ema_10_ratio,ema_20_ratio,ema_50_ratio,ema_100_ratio,ema_200_ratio,
+        macd_histogram_pct,adx_14_sma,stochastic_k_14,stochastic_d_3,
+        downside_vol5,downside_vol60,return_skew_pop60,return_excess_kurtosis_pop60,
+        beta_vnindex_60,beta_vnindex_250,idio_vol_vnindex_60,idio_vol_vnindex_250,
+        amihud_proxy_20,gap_mean20,gap_std20,rank_gaussian_return20,
+        rank_gaussian_turnover_proxy,rank_gaussian_realized_vol20,
+        market_advance_minus_decline,market_new_high_minus_low,market_turnover_z20,
+        market_return_dispersion,vnindex_sma50_ratio,vnindex_sma200_ratio,
+        vnindex_drawdown252,vnindex_realized_vol60,quarter_end_proximity_days
+    )
+    SELECT f.symbol_id,f.trade_date,
+           CASE WHEN sm.stock_n231=231 THEN exp(sm.stock_log_12_1)-1 END,
+           CASE WHEN sm.stock_n231=231 AND sm.market_n231=231 AND sm.beta60_at_12_1_start IS NOT NULL
+                THEN (exp(sm.stock_log_12_1)-1)-sm.beta60_at_12_1_start*(exp(sm.market_log_12_1)-1) END,
+           es.ema5_ratio,es.ema10_ratio,es.ema20_ratio,es.ema50_ratio,es.ema100_ratio,es.ema200_ratio,
+           es.macd_histogram_pct,
+           CASE WHEN a.adx_count14=14 THEN a.adx14_sma END,
+           st.k14,
+           CASE WHEN st.n3=3 THEN st.d3 END,
+           CASE WHEN t.return_count5=5 THEN t.downside5 END,
+           CASE WHEN a.return_count60=60 THEN a.downside60 END,
+           CASE WHEN a.return_count60=60 AND a.sd60>0 THEN a.third_moment60/power(a.sd60,3) END,
+           CASE WHEN a.return_count60=60 AND a.sd60>0 THEN a.fourth_moment60/power(a.sd60,4)-3 END,
+           CASE WHEN sm.n60=60 AND sm.market_var60>0 THEN sm.beta60 END,
+           CASE WHEN sm.n250=250 AND sm.market_var250>0 THEN sm.beta250 END,
+           CASE WHEN sm.n60=60 AND sm.market_var60>0
+                THEN sqrt(greatest(0,sm.stock_var60-sm.covar60*sm.covar60/sm.market_var60)) END,
+           CASE WHEN sm.n250=250 AND sm.market_var250>0
+                THEN sqrt(greatest(0,sm.stock_var250-sm.covar250*sm.covar250/sm.market_var250)) END,
+           CASE WHEN sm.return_n20=20 THEN sm.amihud20 END,
+           CASE WHEN t.gap_count20=20 THEN t.gap_mean20 END,
+           CASE WHEN t.gap_count20=20 THEN t.gap_sd20 END,
+           rk.gauss_return20,rk.gauss_turnover,rk.gauss_vol20,
+           ml.advance_minus_decline,ml.new_high_minus_low,ml.turnover_z20,
+           ml.return_dispersion,ml.index_sma50_ratio,ml.index_sma200_ratio,
+           ml.index_drawdown252,ml.vol60,
+           ((date_trunc('quarter',f.trade_date::timestamp)+interval '3 months'-interval '1 day')::date-f.trade_date)::smallint
+    FROM features_daily f
+    JOIN pg_temp.phase2_v3_symbol_batches bs
+      ON bs.symbol_id=f.symbol_id AND bs.batch_no=v_batch.batch_no
+    JOIN sessions s ON s.trade_date=f.trade_date
+    LEFT JOIN ema_signal es ON es.symbol_id=f.symbol_id AND es.trade_date=f.trade_date
+    LEFT JOIN adx_calc a ON a.symbol_id=f.symbol_id AND a.trade_date=f.trade_date
+    LEFT JOIN technical t ON t.symbol_id=f.symbol_id AND t.trade_date=f.trade_date
+    LEFT JOIN stochd st ON st.symbol_id=f.symbol_id AND st.trade_date=f.trade_date
+    LEFT JOIN stock_market_windows sm ON sm.symbol_id=f.symbol_id AND sm.trade_date=f.trade_date
+    LEFT JOIN ranks rk ON rk.symbol_id=f.symbol_id AND rk.trade_date=f.trade_date
+    LEFT JOIN market_lagged ml ON ml.session_no=s.session_no-1
+    WHERE f.feature_version='phase2-v2'
+      AND f.trade_date BETWEEN p_date_from AND p_date_to"
+PL/pgSQL function build_price_features_v3_shared(date,date,bigint[]) line 371 at SQL statement
+PL/pgSQL function feat.build_features_and_labels_scoped(date,date,text,text,text,bigint[]) line 118 at assignment
+SQL statement "SELECT 1 FROM feat.build_features_and_labels_scoped(min_date,max_date,in_b,out_b,ops_b,cohort_ids)"
+PL/pgSQL function inline_code_block line 238 at PERFORM

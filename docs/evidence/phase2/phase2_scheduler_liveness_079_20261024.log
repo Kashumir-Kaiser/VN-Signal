@@ -1,0 +1,27 @@
+2026-10-24T17:06:48.3540947+07:00
+
+TaskName : VN-Signal-Phase2-Recovery-20261024
+State    : Running
+
+
+ProcessId       : 13356
+ParentProcessId : 1920
+Name            : pwsh.exe
+
+{
+  "build_id": "phase2-v3-074-clean-full-20261024",
+  "pid": 13356,
+  "process_started_utc": "2026-10-24T09:57:53.8499239Z",
+  "started_utc": "2026-10-24T09:57:58.0884148Z",
+  "phase": "running",
+  "exit_code": null
+}
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-02232eecb33f4e80b50c112d5b7dc80a.sql:775: NOTICE:  Phase 2 price-day hash range 2018-10-01 through 2020-09-30: requested 501, uncovered 65, date planning elapsed 00:00:00.15145
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-02232eecb33f4e80b50c112d5b7dc80a.sql:775: NOTICE:  Phase 2 price-day hash aggregate completed: 65 dates, elapsed 00:00:03.348869
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-02232eecb33f4e80b50c112d5b7dc80a.sql:775: NOTICE:  Phase 2 price-day hash coverage recorded: 501 requested dates, total elapsed 00:00:03.352196
+Serena process count: 0

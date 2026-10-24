@@ -1,0 +1,28 @@
+   Compiling vn-signal-phase2-parity v0.1.0 (C:\Users\HP\VN-Signal\rust\crates\phase2-parity)
+error[E0308]: mismatched types
+   --> crates\phase2-parity\tests\sql_parity.rs:409:31
+    |
+409 |           let batch_rows: i64 = client
+    |  _________________________---___^
+    | |                         |
+    | |                         expected due to this
+410 | |             .query_one(
+411 | |                 "SELECT feat.populate_phase2_adjustment_rows($1)",
+412 | |                 &[&batch_no],
+413 | |             )
+414 | |             .expect("populate one bounded point-in-time cache batch");
+    | |_____________________________________________________________________^ expected `i64`, found `Row`
+
+error[E0308]: mismatched types
+   --> crates\phase2-parity\tests\sql_parity.rs:420:28
+    |
+420 |       let cached_rows: i64 = client
+    |  ______________________---___^
+    | |                      |
+    | |                      expected due to this
+421 | |         .query_one("SELECT feat.finish_phase2_adjustment_rows()", &[])
+422 | |         .expect("validate and index the complete point-in-time cache");
+    | |______________________________________________________________________^ expected `i64`, found `Row`
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `vn-signal-phase2-parity` (test "sql_parity") due to 2 previous errors

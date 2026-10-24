@@ -1,0 +1,10 @@
+Analyze checkpoint 74; started 2026-10-22T19:41:12.1942226+07:00
+INFO:  analyzing "feat.features_daily"
+INFO:  "features_daily": scanned 30000 of 499009 pages, containing 342748 live rows and 0 dead rows; 30000 rows in sample, 5701145 estimated total rows
+INFO:  finished analyzing table "vnsignal_phase2_report_20261019.feat.features_daily"
+avg read rate: 36.900 MB/s, avg write rate: 0.079 MB/s
+buffer usage: 2440 hits, 29133 reads, 62 dirtied
+WAL usage: 213 records, 57 full page images, 424277 bytes, 0 buffers full
+system usage: CPU: user: 1.65 s, system: 0.17 s, elapsed: 6.16 s
+ANALYZE
+ANALYZE_EXIT_CODE=0; ended=2026-10-22T19:41:18.5303242+07:00

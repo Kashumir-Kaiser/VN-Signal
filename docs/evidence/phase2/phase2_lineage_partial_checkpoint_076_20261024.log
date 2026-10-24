@@ -1,0 +1,15 @@
+ committed_observations | symbols 
+------------------------+---------
+                 160116 |     135
+(1 row)
+
+  pid  | application_name | state  
+-------+------------------+--------
+ 10232 | phase2_features  | active
+(1 row)
+
+ landing_id |          route          |                                    attributes                                    
+------------+-------------------------+----------------------------------------------------------------------------------
+         11 | equity_ohlcv_quarantine | {"route": "market.equity.ohlcv", "source": "vci", "tier_cap_history_days": 2920}
+(1 row)
+

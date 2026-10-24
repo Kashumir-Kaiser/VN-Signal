@@ -1,0 +1,19 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.95s
+     Running tests\sql_parity.rs (rust\target\debug\deps\sql_parity-a8e5847f67734581.exe)
+
+running 1 test
+test postgres_features_match_polars_reference_for_twenty_symbol_days has been running for over 60 seconds
+
+thread 'postgres_features_match_polars_reference_for_twenty_symbol_days' (10716) panicked at crates\phase2-parity\tests\sql_parity.rs:825:41:
+rank_realized_vol20 differs by more than 0.000000001 for 1054 at 2019-04-25: SQL=0.128635346756152, Polars=0.172069825436409
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test postgres_features_match_polars_reference_for_twenty_symbol_days ... FAILED
+
+failures:
+
+failures:
+    postgres_features_match_polars_reference_for_twenty_symbol_days
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 467.62s
+
+error: test failed, to rerun pass `--test sql_parity`

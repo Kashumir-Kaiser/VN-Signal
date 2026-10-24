@@ -1,0 +1,60 @@
+Pager usage is off.
+DO
+BEGIN
+SET
+SET
+SET
+SET
+SET
+                                                                                                                QUERY PLAN                                                                                                                
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=172994.66..172994.67 rows=1 width=8)
+   Output: count(*)
+   CTE eligible_symbols
+     ->  Hash Join  (cost=172647.99..172718.05 rows=1503 width=8)
+           Output: s.symbol_id
+           Inner Unique: true
+           Hash Cond: (s.symbol_id = b.symbol_id)
+           ->  Hash Anti Join  (cost=1.02..50.38 rows=1518 width=8)
+                 Output: s.symbol_id
+                 Hash Cond: (s.symbol_id = x.symbol_id)
+                 ->  Seq Scan on core.symbols s  (cost=0.00..30.19 rows=1519 width=8)
+                       Output: s.symbol_id, s.symbol, s.exchange, s.industry, s.first_seen_at, s.last_seen_at, s.active
+                 ->  Hash  (cost=1.01..1.01 rows=1 width=8)
+                       Output: x.symbol_id
+                       ->  Seq Scan on ops.ml_symbol_scope x  (cost=0.00..1.01 rows=1 width=8)
+                             Output: x.symbol_id
+                             Filter: (x.scope_status = 'EXCLUDED'::text)
+           ->  Hash  (cost=172628.16..172628.16 rows=1504 width=8)
+                 Output: b.symbol_id
+                 ->  HashAggregate  (cost=172613.12..172628.16 rows=1504 width=8)
+                       Output: b.symbol_id
+                       Group Key: b.symbol_id
+                       ->  Index Only Scan using bars_daily_sources_pkey on core.bars_daily_sources b  (cost=0.43..165538.19 rows=2829975 width=8)
+                             Output: b.symbol_id
+                             Index Cond: (b.source = 'vndirect'::text)
+   InitPlan 2
+     ->  Aggregate  (cost=263.83..263.84 rows=1 width=32)
+           Output: array_agg(ranked_symbols.symbol_id ORDER BY ranked_symbols.symbol_id)
+           ->  Sort  (cost=256.32..260.07 rows=1503 width=8)
+                 Output: ranked_symbols.symbol_id
+                 Sort Key: ranked_symbols.symbol_id
+                 ->  Subquery Scan on ranked_symbols  (cost=120.66..177.01 rows=1503 width=8)
+                       Output: ranked_symbols.symbol_id
+                       ->  WindowAgg  (cost=120.66..161.98 rows=1503 width=48)
+                             Output: eligible_symbols.symbol_id, row_number() OVER w1, (md5((eligible_symbols.symbol_id)::text))
+                             Window: w1 AS (ORDER BY (md5((eligible_symbols.symbol_id)::text)), eligible_symbols.symbol_id ROWS UNBOUNDED PRECEDING)
+                             Run Condition: (row_number() OVER w1 <= 60)
+                             ->  Sort  (cost=120.64..124.40 rows=1503 width=40)
+                                   Output: eligible_symbols.symbol_id, (md5((eligible_symbols.symbol_id)::text))
+                                   Sort Key: (md5((eligible_symbols.symbol_id)::text)), eligible_symbols.symbol_id
+                                   ->  CTE Scan on eligible_symbols  (cost=0.00..41.33 rows=1503 width=40)
+                                         Output: eligible_symbols.symbol_id, md5((eligible_symbols.symbol_id)::text)
+   ->  Function Scan on feat.phase2_vndirect_adjustment_details_for_symbols r  (cost=0.25..12.75 rows=5 width=0)
+         Output: r.symbol_id, r.trade_date, r.source, r.v, r.is_traded, r.reference_adjustment_ratio, r.episode_start_date, r.model_o, r.model_h, r.model_l, r.model_c, r.adjustment_vintage_at, r.landing_id, r.source_row, r.fetched_at
+         Function Call: feat.phase2_vndirect_adjustment_details_for_symbols((InitPlan 2).col1)
+         Filter: (r.source = 'vndirect'::text)
+ Settings: work_mem = '32MB', jit = 'off', enable_nestloop = 'off'
+(47 rows)
+
+ROLLBACK

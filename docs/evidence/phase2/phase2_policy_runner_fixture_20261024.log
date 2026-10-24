@@ -1,0 +1,33 @@
+Label policy: entry ceiling=0, multiple locked=0.5
+CHECK labels 20990101-20990102
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-dbb43a9f9ced4965beb56891e30f9328.sql:17: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-dbb43a9f9ced4965beb56891e30f9328.sql:17: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 973, dates 333, elapsed 00:00:05.287942
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-dbb43a9f9ced4965beb56891e30f9328.sql:17: NOTICE:  Phase 2 adjustment cache rows 973, finalize elapsed 00:00:00.497287
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |       973 |       17271
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-dbb43a9f9ced4965beb56891e30f9328.sql:18: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-dbb43a9f9ced4965beb56891e30f9328.sql:18: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 1634, dates 349, elapsed 00:00:00.44255
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-dbb43a9f9ced4965beb56891e30f9328.sql:18: NOTICE:  Phase 2 adjustment cache rows 1634, finalize elapsed 00:00:00.743633
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |      1634 |        1488
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-dbb43a9f9ced4965beb56891e30f9328.sql:19: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-dbb43a9f9ced4965beb56891e30f9328.sql:19: ERROR:  cache scaling probe requested 60 symbols but found 36 in 1 batches
+CONTEXT:  PL/pgSQL function feat.probe_phase2_adjustment_cache(integer) line 17 at RAISE
+FAILURE EVIDENCE C:\Users\HP\VN-Signal\docs\evidence\phase2\phase2_build_policy-070-fixture-20261024.failed.20261024-062153.log

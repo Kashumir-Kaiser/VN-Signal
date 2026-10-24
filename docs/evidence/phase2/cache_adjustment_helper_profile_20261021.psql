@@ -1,0 +1,29 @@
+\set ON_ERROR_STOP on
+\pset pager off
+
+BEGIN READ ONLY;
+SET LOCAL statement_timeout='2min';
+SET LOCAL work_mem='128MB';
+SET LOCAL application_name='phase2_adjustment_helper_profile';
+
+EXPLAIN (ANALYZE,BUFFERS,SETTINGS,SUMMARY)
+SELECT count(*)
+FROM feat.phase2_vndirect_adjustment_details_for_symbols(
+    ARRAY(
+        SELECT s.symbol_id
+        FROM core.symbols s
+        WHERE EXISTS (
+              SELECT 1 FROM core.bars_daily_sources b
+              WHERE b.symbol_id=s.symbol_id AND b.source='vndirect'
+          )
+          AND NOT EXISTS (
+              SELECT 1 FROM ops.ml_symbol_scope excluded
+              WHERE excluded.symbol_id=s.symbol_id
+                AND excluded.scope_status='EXCLUDED'
+          )
+        ORDER BY md5(s.symbol_id::text),s.symbol_id
+        LIMIT 15 OFFSET 15
+    )
+);
+
+ROLLBACK;

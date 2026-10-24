@@ -1,0 +1,30 @@
+Vacuum checkpoint 39; started 2026-10-22T19:13:16.7050223+07:00; database=vnsignal_phase2_report_20261019; target=feat.features_daily
+INFO:  vacuuming "vnsignal_phase2_report_20261019.feat.features_daily"
+INFO:  finished vacuuming "vnsignal_phase2_report_20261019.feat.features_daily": index scans: 1
+pages: 0 removed, 499009 remain, 249934 scanned (50.09% of total), 0 eagerly scanned
+tuples: 360203 removed, 6308536 remain, 0 are dead but not yet removable
+removable cutoff: 65032, which was 0 XIDs old when operation ended
+frozen: 126880 pages from table (25.43% of total) had 837565 tuples frozen
+visibility map: 148844 pages set all-visible, 138665 pages set all-frozen (0 were all-visible)
+index scan needed: 77340 pages from table (15.50% of total) had 409899 dead item identifiers removed
+index "features_daily_pkey": pages: 48898 in total, 0 newly deleted, 0 currently deleted, 0 reusable
+index "features_daily_date_version_idx": pages: 12770 in total, 109 newly deleted, 710 currently deleted, 601 reusable
+avg read rate: 24.469 MB/s, avg write rate: 15.905 MB/s
+buffer usage: 278012 hits, 362804 reads, 235820 dirtied
+WAL usage: 514012 records, 227533 full page images, 1486620957 bytes, 3789 buffers full
+system usage: CPU: user: 4.73 s, system: 4.98 s, elapsed: 115.83 s
+INFO:  vacuuming "vnsignal_phase2_report_20261019.pg_toast.pg_toast_358041"
+INFO:  finished vacuuming "vnsignal_phase2_report_20261019.pg_toast.pg_toast_358041": index scans: 0
+pages: 0 removed, 0 remain, 0 scanned (100.00% of total), 0 eagerly scanned
+tuples: 0 removed, 0 remain, 0 are dead but not yet removable
+removable cutoff: 65032, which was 0 XIDs old when operation ended
+new relfrozenxid: 65032, which is 20 XIDs ahead of previous value
+frozen: 0 pages from table (100.00% of total) had 0 tuples frozen
+visibility map: 0 pages set all-visible, 0 pages set all-frozen (0 were all-visible)
+index scan not needed: 0 pages from table (100.00% of total) had 0 dead item identifiers removed
+avg read rate: 1.080 MB/s, avg write rate: 0.000 MB/s
+buffer usage: 34 hits, 1 reads, 0 dirtied
+WAL usage: 1 records, 0 full page images, 258 bytes, 0 buffers full
+system usage: CPU: user: 0.00 s, system: 0.01 s, elapsed: 0.00 s
+VACUUM
+VACUUM_EXIT_CODE=0; ended=2026-10-22T19:15:12.7404901+07:00

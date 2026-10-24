@@ -1,0 +1,71 @@
+\set ON_ERROR_STOP on
+\set build_id 'phase2-vci-full-rebuild-20261021'
+
+-- All ranges are half-open, non-overlapping, and cover the verified V2/V3
+-- date span through the last reported session. Each included report opens a
+-- read-only transaction and sets statement_timeout=180s and lock_timeout=5s.
+\set chunk_start '2018-10-01'
+\set chunk_end '2019-04-01'
+\set report_ops true
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2019-04-01'
+\set chunk_end '2019-10-01'
+\set report_ops false
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2019-10-01'
+\set chunk_end '2020-04-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2020-04-01'
+\set chunk_end '2020-10-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2020-10-01'
+\set chunk_end '2021-04-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2021-04-01'
+\set chunk_end '2021-10-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2021-10-01'
+\set chunk_end '2022-04-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2022-04-01'
+\set chunk_end '2022-10-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2022-10-01'
+\set chunk_end '2023-04-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2023-04-01'
+\set chunk_end '2023-10-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2023-10-01'
+\set chunk_end '2024-04-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2024-04-01'
+\set chunk_end '2024-10-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2024-10-01'
+\set chunk_end '2025-04-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2025-04-01'
+\set chunk_end '2025-10-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2025-10-01'
+\set chunk_end '2026-04-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2026-04-01'
+\set chunk_end '2026-10-17'
+\ir phase2_integrity_report_chunked.sql

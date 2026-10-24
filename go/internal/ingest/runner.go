@@ -57,6 +57,7 @@ type Runner struct {
 
 type RunSummary struct {
 	Skipped, Committed, Blocked        int
+	EmptyResponses                     int
 	Partial, ZeroVolume, InvalidTraded int
 	BlockedPreview                     []string
 }
@@ -154,12 +155,15 @@ func (r *Runner) RunBarsBackfill(ctx context.Context, jobs []BackfillJob, source
 			}
 			continue
 		}
-		if assessment.FirstDate < job.Start || assessment.LastDate > job.End {
+		if assessment.SourceRows > 0 && (assessment.FirstDate < job.Start || assessment.LastDate > job.End) {
 			reason := fmt.Sprintf("OutsideRequestedRange: first=%s last=%s", assessment.FirstDate, assessment.LastDate)
 			if e := quarantine(jobID, job.Symbol, reason, reply.Data); e != nil {
 				return sum, e
 			}
 			continue
+		}
+		if assessment.SourceRows == 0 {
+			sum.EmptyResponses++
 		}
 		sha := sha256.Sum256(reply.Data)
 		landing := Landing{JobID: jobID, Source: source, FetchedAt: r.Now().UTC(),

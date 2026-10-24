@@ -1,0 +1,7 @@
+Pager usage is off.
+BEGIN
+SET
+SET
+SET
+psql:tests/sql/phase2_e2_real_assertions.sql:20: ERROR:  apply Phase 2 market projection migration 055 before E2
+CONTEXT:  PL/pgSQL function inline_code_block line 10 at RAISE

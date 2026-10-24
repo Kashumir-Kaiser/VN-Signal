@@ -1,0 +1,24 @@
+BEGIN
+CREATE TABLE
+INSERT 0 1
+CREATE FUNCTION
+CREATE FUNCTION
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DO
+COMMIT
+BEGIN
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 2601, dates 350, elapsed 00:00:00.403171
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.09016
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 price-day hash range 2099-01-01 through 2099-02-02: requested 23, uncovered 23, date planning elapsed 00:00:00.823278
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 price-day hash aggregate completed: 23 dates, elapsed 00:00:00.8739
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 price-day hash coverage recorded: 23 requested dates, total elapsed 00:00:00.880849
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 price-day hash range 2099-01-01 through 2099-02-02: requested 23, uncovered 0, date planning elapsed 00:00:01.045271
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 price-day hash coverage recorded: 23 requested dates, total elapsed 00:00:01.046583
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 price-day hash range 2099-01-01 through 2099-02-02: requested 23, uncovered 0, date planning elapsed 00:00:00.478023
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 price-day hash coverage recorded: 23 requested dates, total elapsed 00:00:00.478743
+DO
+ROLLBACK

@@ -1,0 +1,42 @@
+BEGIN
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache batch 0 rows 2282, elapsed 00:00:00.325491
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:00.727572
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.398226
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:01.311258
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 rank rows 4, elapsed 00:00:00.399514
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 spine rows 2240, elapsed 00:00:01.217394
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 base rows 7, elapsed 00:00:00.212251
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 feature rows 7, elapsed 00:00:03.343767
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache batch 0 rows 2282, elapsed 00:00:00.107075
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:00.194175
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.204904
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.818493
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 rank rows 1, elapsed 00:00:00.078989
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 spine rows 2240, elapsed 00:00:00.564836
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 base rows 7, elapsed 00:00:00.112677
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 feature rows 7, elapsed 00:00:02.605075
+psql:tests/sql/phase2_rank_population_assertions.sql:89: ERROR:  new row for relation "features_daily" violates check constraint "features_daily_feature_set_hash_check"
+DETAIL:  Failing row contains (34, 2099-03-27, phase2-v2, stale-test-only, vndirect, adjusted_as_of_reference, 2099-05-01 03:00:00+00, 1, 35, 319, 2099-05-01 03:00:00+00, t, 1000, 0.0027137042062415073, 0.013717421124828544, 0.0027137042062415073, 0.013717421124828544, null, 0.1938610662358642, 0.0054421768707482165, 0.008185538881309684, 0.02781641168289295, 0.4809619238476954, 2.092050209205021, null, 0.1938610662358642, 0.0054421768707482165, 0.0054421768707482165, 0.026388888888888795, 0.08676470588235285, 0.1546875000000001, 0.36851851851851847, 0, 2.0791666666666666, 100, 0.9014482709960444, 0.06573421981221796, 0, 0.002755160741236109, null, 1000, 0.07101449275362315, null, 0.00015284519574617885, 1.1771594755631814e-05, 1, 20.420808480265656, 720000000, 1000, 0.0013568521031208647, 0.0013550135501354532, 0.0013531799729364006, 1, f, 320, 5, 3, 0.015402387370042403, 0.04767580452920139, 3.45809585486069e-06, 0.3333333333333333, null, 0, null, 2026-10-22 07:58:38.950308+00, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null).
+CONTEXT:  SQL statement "UPDATE feat.features_daily SET feature_set_hash='stale-test-only'
+     WHERE feature_version='phase2-v2' AND trade_date=d AND symbol_id=ids[1]"
+PL/pgSQL function inline_code_block line 73 at SQL statement

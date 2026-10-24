@@ -1,0 +1,36 @@
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:12: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:12: NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, elapsed 00:00:00.695724
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:12: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.246372
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |        2180
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:13: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:13: NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, elapsed 00:00:01.198993
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:13: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.242392
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        1598
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:14: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:14: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:03.792675
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:14: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.420557
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        4310
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:15: ERROR:  cache probe timings vary by more than 20% between adjacent samples; re-probe before the full build: 2180, 1598, 4310 ms
+CONTEXT:  PL/pgSQL function feat.assert_phase2_adjustment_cache_scaling() line 30 at RAISE

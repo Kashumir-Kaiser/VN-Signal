@@ -1,0 +1,18 @@
+SET
+SET
+ materialize_phase2_vci_lineage 
+--------------------------------
+                           1426
+(1 row)
+
+     status      | count 
+-----------------+-------
+ EXACT           |  1424
+ MISSING_LANDING |     2
+(2 rows)
+
+ materialize_phase2_vci_lineage 
+--------------------------------
+                              0
+(1 row)
+

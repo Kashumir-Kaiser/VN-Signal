@@ -1,0 +1,207 @@
+BEGIN
+SET
+CREATE TABLE
+CREATE TABLE
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache initialized for 18 batches of up to 2 symbols
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 0 rows 3, elapsed 00:00:00.096051
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 1 rows 640, elapsed 00:00:00.035248
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 2 rows 2, elapsed 00:00:00.01028
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 3 rows 2, elapsed 00:00:00.009851
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 4 rows 2, elapsed 00:00:00.008963
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 5 rows 2, elapsed 00:00:00.014809
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 6 rows 2, elapsed 00:00:00.009665
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 7 rows 3, elapsed 00:00:00.008498
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 8 rows 2, elapsed 00:00:00.009969
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 9 rows 639, elapsed 00:00:00.019305
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 10 rows 6, elapsed 00:00:00.007306
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 11 rows 2, elapsed 00:00:00.006308
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 12 rows 3, elapsed 00:00:00.006926
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 13 rows 4, elapsed 00:00:00.006913
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 14 rows 3, elapsed 00:00:00.009401
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 15 rows 640, elapsed 00:00:00.016332
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 16 rows 324, elapsed 00:00:00.01351
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 17 rows 3, elapsed 00:00:00.012497
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:00.098464
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 sessions 73, elapsed 00:00:00.049683
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 market context rows 73, elapsed 00:00:00.046505
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 rank rows 131, elapsed 00:00:00.037935
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 0 spine rows 146, elapsed 00:00:00.090474
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 0 base rows 146, elapsed 00:00:00.086774
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 0 feature rows 146, elapsed 00:00:00.276318
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 1 spine rows 146, elapsed 00:00:00.201319
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 1 base rows 146, elapsed 00:00:00.127351
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 1 feature rows 146, elapsed 00:00:00.337016
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 2 spine rows 146, elapsed 00:00:00.132385
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 2 base rows 145, elapsed 00:00:00.131435
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 2 feature rows 145, elapsed 00:00:00.270998
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 3 spine rows 73, elapsed 00:00:00.073815
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 3 base rows 73, elapsed 00:00:00.070907
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 3 feature rows 73, elapsed 00:00:00.106983
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache initialized for 18 batches of up to 2 symbols
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 0 rows 3, elapsed 00:00:00.006002
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 1 rows 640, elapsed 00:00:00.021215
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 2 rows 2, elapsed 00:00:00.006338
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 3 rows 2, elapsed 00:00:00.005817
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 4 rows 2, elapsed 00:00:00.007111
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 5 rows 2, elapsed 00:00:00.006656
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 6 rows 2, elapsed 00:00:00.006247
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 7 rows 3, elapsed 00:00:00.006753
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 8 rows 2, elapsed 00:00:00.006807
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 9 rows 639, elapsed 00:00:00.018537
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 10 rows 6, elapsed 00:00:00.006458
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 11 rows 2, elapsed 00:00:00.006624
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 12 rows 3, elapsed 00:00:00.006003
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 13 rows 4, elapsed 00:00:00.00654
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 14 rows 3, elapsed 00:00:00.006221
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 15 rows 640, elapsed 00:00:00.017387
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 16 rows 324, elapsed 00:00:00.012874
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 17 rows 3, elapsed 00:00:00.007041
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:00.054759
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 sessions 73, elapsed 00:00:00.03103
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 market context rows 73, elapsed 00:00:00.121963
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 rank rows 131, elapsed 00:00:00.248049
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 0 spine rows 146, elapsed 00:00:00.094288
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 0 base rows 146, elapsed 00:00:00.058979
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 0 feature rows 146, elapsed 00:00:00.355278
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 1 spine rows 146, elapsed 00:00:00.057567
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 1 base rows 146, elapsed 00:00:00.051664
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 1 feature rows 146, elapsed 00:00:00.139013
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 2 spine rows 146, elapsed 00:00:00.063084
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 2 base rows 145, elapsed 00:00:00.058888
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 2 feature rows 145, elapsed 00:00:00.144001
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 3 spine rows 73, elapsed 00:00:00.038599
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 3 base rows 73, elapsed 00:00:00.059292
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 3 feature rows 73, elapsed 00:00:00.089612
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache initialized for 18 batches of up to 2 symbols
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 0 rows 3, elapsed 00:00:00.011225
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 1 rows 640, elapsed 00:00:00.023247
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 2 rows 2, elapsed 00:00:00.00843
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 3 rows 2, elapsed 00:00:00.006712
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 4 rows 2, elapsed 00:00:00.005101
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 5 rows 2, elapsed 00:00:00.011624
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 6 rows 2, elapsed 00:00:00.007661
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 7 rows 3, elapsed 00:00:00.009363
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 8 rows 2, elapsed 00:00:00.008816
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 9 rows 639, elapsed 00:00:00.032241
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 10 rows 6, elapsed 00:00:00.00705
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 11 rows 2, elapsed 00:00:00.006299
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 12 rows 3, elapsed 00:00:00.00643
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 13 rows 4, elapsed 00:00:00.006025
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 14 rows 3, elapsed 00:00:00.006816
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 15 rows 640, elapsed 00:00:00.017522
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 16 rows 324, elapsed 00:00:00.011995
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 17 rows 3, elapsed 00:00:00.006789
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:00.051445
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache initialized for 18 batches of up to 2 symbols
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 0 rows 3, elapsed 00:00:00.009638
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 1 rows 640, elapsed 00:00:00.030868
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 2 rows 2, elapsed 00:00:00.008109
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 3 rows 2, elapsed 00:00:00.007856
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 4 rows 2, elapsed 00:00:00.008621
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 5 rows 2, elapsed 00:00:00.0079
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 6 rows 2, elapsed 00:00:00.008352
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 7 rows 3, elapsed 00:00:00.009302
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 8 rows 2, elapsed 00:00:00.00783
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 9 rows 639, elapsed 00:00:00.017314
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 10 rows 6, elapsed 00:00:00.006489
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 11 rows 2, elapsed 00:00:00.00728
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 12 rows 3, elapsed 00:00:00.007054
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 13 rows 4, elapsed 00:00:00.009105
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 14 rows 3, elapsed 00:00:00.011815
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 15 rows 640, elapsed 00:00:00.045777
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 16 rows 324, elapsed 00:00:00.016394
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 17 rows 3, elapsed 00:00:00.007648
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:00.053322
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache initialized for 18 batches of up to 2 symbols
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 0 rows 3, elapsed 00:00:00.010933
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 1 rows 640, elapsed 00:00:00.02179
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 2 rows 2, elapsed 00:00:00.009571
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 3 rows 2, elapsed 00:00:00.008681
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 4 rows 2, elapsed 00:00:00.008033
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 5 rows 2, elapsed 00:00:00.005956
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 6 rows 2, elapsed 00:00:00.007586
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 7 rows 3, elapsed 00:00:00.00542
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 8 rows 2, elapsed 00:00:00.00674
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 9 rows 639, elapsed 00:00:00.02205
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 10 rows 6, elapsed 00:00:00.006537
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 11 rows 2, elapsed 00:00:00.009267
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 12 rows 3, elapsed 00:00:00.008697
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 13 rows 4, elapsed 00:00:00.010585
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 14 rows 3, elapsed 00:00:00.009035
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 15 rows 640, elapsed 00:00:00.01746
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 16 rows 324, elapsed 00:00:00.018177
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 17 rows 3, elapsed 00:00:00.00855
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:00.068017
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 sessions 13, elapsed 00:00:00.04647
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 market context rows 13, elapsed 00:00:00.035774
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 rank rows 0, elapsed 00:00:00.02745
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 0 spine rows 26, elapsed 00:00:00.01214
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 0 base rows 26, elapsed 00:00:00.277877
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 0 feature rows 26, elapsed 00:00:00.102866
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 1 spine rows 26, elapsed 00:00:00.046613
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 1 base rows 26, elapsed 00:00:00.030652
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 1 feature rows 26, elapsed 00:00:00.066676
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 2 spine rows 26, elapsed 00:00:00.018133
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 2 base rows 25, elapsed 00:00:00.026931
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 2 feature rows 25, elapsed 00:00:00.060429
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 3 spine rows 13, elapsed 00:00:00.014757
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 3 base rows 13, elapsed 00:00:00.023692
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 batch 3 feature rows 13, elapsed 00:00:00.050126
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache initialized for 18 batches of up to 2 symbols
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 0 rows 3, elapsed 00:00:00.007653
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 1 rows 640, elapsed 00:00:00.01628
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 2 rows 2, elapsed 00:00:00.004626
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 3 rows 2, elapsed 00:00:00.006688
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 4 rows 2, elapsed 00:00:00.006541
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 5 rows 2, elapsed 00:00:00.006528
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 6 rows 2, elapsed 00:00:00.007084
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 7 rows 3, elapsed 00:00:00.007243
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 8 rows 2, elapsed 00:00:00.006939
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 9 rows 639, elapsed 00:00:00.019917
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 10 rows 6, elapsed 00:00:00.007115
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 11 rows 2, elapsed 00:00:00.00647
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 12 rows 3, elapsed 00:00:00.006376
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 13 rows 4, elapsed 00:00:00.007257
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 14 rows 3, elapsed 00:00:00.006186
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 15 rows 640, elapsed 00:00:00.017472
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 16 rows 324, elapsed 00:00:00.014453
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache batch 17 rows 3, elapsed 00:00:00.006776
+psql:tests/sql/phase2_leakage_assertions.sql:239: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:00.049364
+DO
+ROLLBACK

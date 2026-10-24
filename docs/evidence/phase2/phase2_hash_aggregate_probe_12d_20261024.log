@@ -1,0 +1,273 @@
+Pager usage is off.
+Timing is on.
+SET
+Time: 11.372 ms
+SET
+Time: 0.116 ms
+SET
+Time: 0.080 ms
+BEGIN
+Time: 0.067 ms
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:9: NOTICE:  Phase 2 adjustment cache initialized for 26 batches of up to 60 symbols
+ begin_phase2_adjustment_rows 
+------------------------------
+                           26
+(1 row)
+
+Time: 563.249 ms
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          108331
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:04.477057
+Time: 4480.301 ms (00:04.480)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115152
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 1 rows 115152, dates 2008, elapsed 00:00:02.061931
+Time: 2062.327 ms (00:02.062)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111302
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 2 rows 111302, dates 2008, elapsed 00:00:02.886365
+Time: 2886.848 ms (00:02.887)
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 3 rows 113879, dates 2008, elapsed 00:00:02.516441
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113879
+(1 row)
+
+Time: 2516.800 ms (00:02.517)
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 4 rows 114214, dates 2008, elapsed 00:00:02.998329
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114214
+(1 row)
+
+Time: 2999.118 ms (00:02.999)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114805
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 5 rows 114805, dates 2008, elapsed 00:00:03.357742
+Time: 3358.195 ms (00:03.358)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112592
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 6 rows 112592, dates 2008, elapsed 00:00:02.966299
+Time: 2966.735 ms (00:02.967)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          116639
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 7 rows 116639, dates 2008, elapsed 00:00:04.02327
+Time: 4023.713 ms (00:04.024)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106585
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 8 rows 106585, dates 2008, elapsed 00:00:03.171795
+Time: 3172.385 ms (00:03.172)
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 9 rows 111358, dates 2008, elapsed 00:00:02.58658
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111358
+(1 row)
+
+Time: 2587.012 ms (00:02.587)
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 10 rows 106117, dates 2008, elapsed 00:00:02.364968
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106117
+(1 row)
+
+Time: 2365.951 ms (00:02.366)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113594
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 11 rows 113594, dates 2008, elapsed 00:00:03.429512
+Time: 3429.965 ms (00:03.430)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112628
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 12 rows 112628, dates 2008, elapsed 00:00:03.817903
+Time: 3818.265 ms (00:03.818)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113102
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 13 rows 113102, dates 2008, elapsed 00:00:02.888552
+Time: 2888.995 ms (00:02.889)
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 14 rows 113642, dates 2008, elapsed 00:00:03.17529
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113642
+(1 row)
+
+Time: 3175.802 ms (00:03.176)
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 15 rows 111909, dates 2008, elapsed 00:00:04.071361
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111909
+(1 row)
+
+Time: 4071.926 ms (00:04.072)
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 16 rows 111802, dates 2008, elapsed 00:00:03.000323
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111802
+(1 row)
+
+Time: 3000.754 ms (00:03.001)
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 17 rows 115171, dates 2008, elapsed 00:00:03.85665
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115171
+(1 row)
+
+Time: 3857.229 ms (00:03.857)
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 18 rows 115471, dates 2008, elapsed 00:00:03.75446
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115471
+(1 row)
+
+Time: 3754.904 ms (00:03.755)
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 19 rows 112613, dates 2008, elapsed 00:00:03.518642
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112613
+(1 row)
+
+Time: 3519.087 ms (00:03.519)
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 20 rows 109469, dates 2008, elapsed 00:00:03.982899
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          109469
+(1 row)
+
+Time: 3983.365 ms (00:03.983)
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 21 rows 114091, dates 2008, elapsed 00:00:04.11587
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114091
+(1 row)
+
+Time: 4116.345 ms (00:04.116)
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 22 rows 110051, dates 2008, elapsed 00:00:03.552123
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          110051
+(1 row)
+
+Time: 3552.591 ms (00:03.553)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112438
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 23 rows 112438, dates 2008, elapsed 00:00:04.254311
+Time: 4254.800 ms (00:04.255)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115457
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 24 rows 115457, dates 2008, elapsed 00:00:03.926619
+Time: 3927.095 ms (00:03.927)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           32023
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:19: NOTICE:  Phase 2 adjustment cache batch 25 rows 32023, dates 2008, elapsed 00:00:02.138989
+Time: 2139.360 ms (00:02.139)
+Time: 1.806 ms
+ finish_phase2_adjustment_rows 
+-------------------------------
+                       2844435
+(1 row)
+
+Time: 15925.547 ms (00:15.926)
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:20: NOTICE:  Phase 2 adjustment cache rows 2844435, finalize elapsed 00:00:15.894663
+CREATE TABLE
+Time: 49.349 ms
+INSERT 0 12
+Time: 71.847 ms
+ANALYZE
+Time: 1.454 ms
+CREATE TABLE
+Time: 14.627 ms
+INSERT 0 1206
+Time: 22.914 ms
+ANALYZE
+Time: 2.415 ms
+                                                                       QUERY PLAN                                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=77999.22..270275.31 rows=2008 width=36)
+   Output: r.trade_date, ops.phase2_hash_text(string_agg((to_jsonb(r.*))::text, '
+ '::text ORDER BY r.symbol_id))
+   Group Key: r.trade_date
+   ->  Merge Join  (cost=77999.22..256612.11 rows=1050888 width=138)
+         Output: r.trade_date, r.*, r.symbol_id
+         Inner Unique: true
+         Merge Cond: (r.trade_date = d.trade_date)
+         ->  Index Scan using phase2_adjustment_rows_date_symbol_idx on pg_temp.phase2_adjustment_rows r  (cost=0.43..268812.62 rows=1749737 width=138)
+               Output: r.trade_date, r.*, r.symbol_id
+               Index Cond: ((r.trade_date >= '2021-03-09'::date) AND (r.trade_date <= '2025-12-31'::date))
+         ->  Index Only Scan using phase2_hash_probe_all_dates_pkey on pg_temp.phase2_hash_probe_all_dates d  (cost=0.28..52.24 rows=1206 width=4)
+               Output: d.trade_date
+ Settings: work_mem = '64MB', jit = 'off'
+(14 rows)
+
+Time: 104.698 ms
+                                                                                     QUERY PLAN                                                                                      
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=45.21..36070.96 rows=2008 width=36) (actual time=66.894..492.228 rows=12.00 loops=1)
+   Group Key: r.trade_date
+   Buffers: local hit=2 read=16606 written=14
+   ->  Incremental Sort  (cost=45.21..35413.15 rows=10457 width=138) (actual time=22.195..269.287 rows=16687.00 loops=1)
+         Sort Key: r.trade_date, r.symbol_id
+         Presorted Key: r.trade_date
+         Full-sort Groups: 12  Sort Method: quicksort  Average Memory: 36kB  Peak Memory: 36kB
+         Pre-sorted Groups: 12  Sort Method: quicksort  Average Memory: 287kB  Peak Memory: 288kB
+         Buffers: local hit=2 read=16606 written=14
+         ->  Nested Loop  (cost=27.67..35117.80 rows=10457 width=138) (actual time=2.280..258.876 rows=16687.00 loops=1)
+               Buffers: local hit=2 read=16606 written=14
+               ->  Index Only Scan using phase2_hash_probe_dates_pkey on phase2_hash_probe_dates d  (cost=0.14..12.31 rows=12 width=4) (actual time=0.026..0.076 rows=12.00 loops=1)
+                     Heap Fetches: 12
+                     Index Searches: 1
+                     Buffers: local hit=2
+               ->  Bitmap Heap Scan on phase2_adjustment_rows r  (cost=27.54..2916.75 rows=871 width=138) (actual time=0.933..21.368 rows=1390.58 loops=12)
+                     Recheck Cond: ((d.trade_date = trade_date) AND (trade_date >= '2021-03-09'::date) AND (trade_date <= '2025-12-31'::date))
+                     Heap Blocks: exact=16506
+                     Buffers: local read=16606 written=14
+                     ->  Bitmap Index Scan on phase2_adjustment_rows_date_symbol_idx  (cost=0.00..27.32 rows=871 width=0) (actual time=0.736..0.736 rows=1390.58 loops=12)
+                           Index Cond: ((trade_date = d.trade_date) AND (trade_date >= '2021-03-09'::date) AND (trade_date <= '2025-12-31'::date))
+                           Index Searches: 12
+                           Buffers: local read=100
+ Settings: work_mem = '64MB', jit = 'off'
+ Planning:
+   Buffers: shared hit=11, local hit=5
+ Planning Time: 19.113 ms
+ Execution Time: 493.107 ms
+(28 rows)
+
+Time: 514.924 ms
+ROLLBACK
+Time: 171.379 ms

@@ -1,0 +1,18 @@
+BEGIN
+CREATE FUNCTION
+psql:tests/sql/phase2_industry_availability_assertions.sql:4: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_industry_availability_assertions.sql:4: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 2601, dates 350, elapsed 00:00:00.155683
+psql:tests/sql/phase2_industry_availability_assertions.sql:4: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.070748
+psql:tests/sql/phase2_industry_availability_assertions.sql:4: NOTICE:  Phase 2 sessions 2, elapsed 00:00:00.084573
+psql:tests/sql/phase2_industry_availability_assertions.sql:4: NOTICE:  Phase 2 market context rows 2, elapsed 00:00:00.119692
+psql:tests/sql/phase2_industry_availability_assertions.sql:4: NOTICE:  Phase 2 rank rows 13, elapsed 00:00:00.021739
+psql:tests/sql/phase2_industry_availability_assertions.sql:4: NOTICE:  Phase 2 batch 0 spine rows 16, elapsed 00:00:00.019663
+psql:tests/sql/phase2_industry_availability_assertions.sql:4: NOTICE:  Phase 2 batch 0 base rows 15, elapsed 00:00:00.020142
+psql:tests/sql/phase2_industry_availability_assertions.sql:4: NOTICE:  Phase 2 batch 0 feature rows 15, elapsed 00:00:00.119922
+ build_price_features_v3 
+-------------------------
+                      15
+(1 row)
+
+DO
+ROLLBACK

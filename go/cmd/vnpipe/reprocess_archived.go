@@ -44,7 +44,12 @@ func runReprocessArchived(args []string) error {
         SELECT j.idempotency_key FROM ops.ingest_jobs j
         JOIN raw.landings l ON l.landing_id=j.landed_id
         WHERE j.route='equity_ohlcv' AND j.source='vci'
-          AND j.state='PARTIAL' AND l.route IN ('equity_ohlcv','equity_ohlcv_quarantine')
+          AND (
+              (j.state='PARTIAL' AND l.route IN ('equity_ohlcv','equity_ohlcv_quarantine'))
+              OR (j.state='BLOCKED' AND l.route='equity_ohlcv_quarantine'
+                  AND l.payload->'count'='0'::jsonb
+                  AND l.payload->'rows'='[]'::jsonb)
+          )
           AND j.date_from=$1::date AND j.date_to=$2::date
           AND NOT EXISTS (
               SELECT 1 FROM ops.bar_quality_reprocess_audit a

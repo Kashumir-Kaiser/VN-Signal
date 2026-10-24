@@ -1,0 +1,6 @@
+Run 2026-10-22T18:32:08.8415274+07:00; database=vnsignal_phase2_report_20261019; build=phase2-rank-repair-054-20261022; mode=Probe; dates=2018-10-01..2026-10-16
+NOTICE:  PHASE2_RANK_WARMUP|sessions=120|rows=112189
+PROBE rank_stage sessions=30|range=2026-09-07..2026-10-16|rows=27702|seconds=1.878678|read_only=true
+PROBE rank_stage sessions=60|range=2026-07-22..2026-10-16|rows=55690|seconds=1.547499|read_only=true
+PROBE rank_stage sessions=120|range=2026-04-24..2026-10-16|rows=112189|seconds=2.233119|read_only=true
+Read-only rank-stage scaling exponents=-0.279779,0.529122; passed=False; evidence=C:\Users\HP\VN-Signal\docs\evidence\phase2\phase2_rank_probe_phase2-rank-repair-054-20261022.json

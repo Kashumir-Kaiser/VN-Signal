@@ -1,0 +1,30 @@
+INFO:  vacuuming "vnsignal_phase2_report_20261019.feat.features_daily"
+INFO:  launched 1 parallel vacuum worker for index vacuuming (planned: 1)
+INFO:  finished vacuuming "vnsignal_phase2_report_20261019.feat.features_daily": index scans: 1
+pages: 0 removed, 499009 remain, 241222 scanned (48.34% of total), 0 eagerly scanned
+tuples: 460129 removed, 6457030 remain, 0 are dead but not yet removable
+removable cutoff: 64973, which was 0 XIDs old when operation ended
+frozen: 33426 pages from table (6.70% of total) had 324828 tuples frozen
+visibility map: 86445 pages set all-visible, 72120 pages set all-frozen (0 were all-visible)
+index scan needed: 41486 pages from table (8.31% of total) had 460361 dead item identifiers removed
+index "features_daily_pkey": pages: 48738 in total, 0 newly deleted, 0 currently deleted, 0 reusable
+index "features_daily_date_version_idx": pages: 12501 in total, 366 newly deleted, 1134 currently deleted, 768 reusable
+avg read rate: 2.815 MB/s, avg write rate: 1.130 MB/s
+buffer usage: 259251 hits, 330043 reads, 132527 dirtied
+WAL usage: 254410 records, 119160 full page images, 651751887 bytes, 0 buffers full
+system usage: CPU: user: 3.25 s, system: 3.67 s, elapsed: 916.03 s
+INFO:  vacuuming "vnsignal_phase2_report_20261019.pg_toast.pg_toast_358041"
+INFO:  finished vacuuming "vnsignal_phase2_report_20261019.pg_toast.pg_toast_358041": index scans: 0
+pages: 0 removed, 0 remain, 0 scanned (100.00% of total), 0 eagerly scanned
+tuples: 0 removed, 0 remain, 0 are dead but not yet removable
+removable cutoff: 64973, which was 0 XIDs old when operation ended
+new relfrozenxid: 64973, which is 1795 XIDs ahead of previous value
+frozen: 0 pages from table (100.00% of total) had 0 tuples frozen
+visibility map: 0 pages set all-visible, 0 pages set all-frozen (0 were all-visible)
+index scan not needed: 0 pages from table (100.00% of total) had 0 dead item identifiers removed
+avg read rate: 0.085 MB/s, avg write rate: 0.000 MB/s
+buffer usage: 34 hits, 1 reads, 0 dirtied
+WAL usage: 1 records, 0 full page images, 258 bytes, 0 buffers full
+system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.09 s
+INFO:  analyzing "feat.features_daily"
+ERROR:  could not read blocks 131082..131082 in file "base/335957/358041": Invalid argument

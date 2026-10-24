@@ -1,0 +1,42 @@
+BEGIN
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache batch 0 rows 2282, elapsed 00:00:00.442894
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:00.604315
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.611633
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:03.422
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 rank rows 4, elapsed 00:00:00.439816
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 spine rows 2240, elapsed 00:00:00.53173
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 base rows 7, elapsed 00:00:00.682559
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 feature rows 7, elapsed 00:00:05.046034
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache batch 0 rows 2282, elapsed 00:00:00.826644
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:01.847964
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.117997
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.176245
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 rank rows 1, elapsed 00:00:00.194112
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 spine rows 2240, elapsed 00:00:01.857243
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 base rows 7, elapsed 00:00:02.888132
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 batch 0 feature rows 7, elapsed 00:00:03.291595
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache batch 0 rows 2282, elapsed 00:00:00.049431
+psql:tests/sql/phase2_rank_population_assertions.sql:89: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:00.772249
+DO
+ROLLBACK

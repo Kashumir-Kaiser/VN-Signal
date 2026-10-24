@@ -1,0 +1,91 @@
+BEGIN
+CREATE FUNCTION
+DO
+COMMIT
+BEGIN
+SET
+ begin_phase2_adjustment_rows 
+------------------------------
+                            2
+(1 row)
+
+psql:tests/sql/phase2_cache_reset_assertions.sql:4: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 2 symbols
+psql:tests/sql/phase2_cache_reset_assertions.sql:5: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 3, dates 3, elapsed 00:00:00.034589
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               3
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                             640
+(1 row)
+
+psql:tests/sql/phase2_cache_reset_assertions.sql:6: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 640, dates 320, elapsed 00:00:00.026106
+psql:tests/sql/phase2_cache_reset_assertions.sql:7: NOTICE:  Phase 2 adjustment cache rows 643, finalize elapsed 00:00:00.039713
+ finish_phase2_adjustment_rows 
+-------------------------------
+                           643
+(1 row)
+
+psql:tests/sql/phase2_cache_reset_assertions.sql:8: NOTICE:  Phase 2 price-day hash range 2024-01-02 through 2099-03-27: requested 323, uncovered 323, date planning elapsed 00:00:00.067025
+psql:tests/sql/phase2_cache_reset_assertions.sql:8: NOTICE:  Phase 2 price-day hash aggregate completed: 323 dates, elapsed 00:00:00.123264
+ phase2_prepare_price_day_hashes 
+psql:tests/sql/phase2_cache_reset_assertions.sql:8: NOTICE:  Phase 2 price-day hash coverage recorded: 323 requested dates, total elapsed 00:00:00.127033
+---------------------------------
+ 
+(1 row)
+
+DO
+psql:tests/sql/phase2_cache_reset_assertions.sql:15: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 3, dates 3, elapsed 00:00:00.08958
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               3
+(1 row)
+
+DO
+psql:tests/sql/phase2_cache_reset_assertions.sql:23: NOTICE:  relation "phase2_adjustment_rows_symbol_date_idx" already exists, skipping
+psql:tests/sql/phase2_cache_reset_assertions.sql:23: NOTICE:  relation "phase2_adjustment_rows_date_symbol_idx" already exists, skipping
+ finish_phase2_adjustment_rows 
+-------------------------------
+                           643
+(1 row)
+
+psql:tests/sql/phase2_cache_reset_assertions.sql:23: NOTICE:  Phase 2 adjustment cache rows 643, finalize elapsed 00:00:00.006432
+psql:tests/sql/phase2_cache_reset_assertions.sql:24: NOTICE:  Phase 2 price-day hash range 2024-01-02 through 2099-03-27: requested 323, uncovered 323, date planning elapsed 00:00:00.048011
+psql:tests/sql/phase2_cache_reset_assertions.sql:24: NOTICE:  Phase 2 price-day hash aggregate completed: 323 dates, elapsed 00:00:00.080972
+psql:tests/sql/phase2_cache_reset_assertions.sql:24: NOTICE:  Phase 2 price-day hash coverage recorded: 323 requested dates, total elapsed 00:00:00.082622
+ phase2_prepare_price_day_hashes 
+---------------------------------
+ 
+(1 row)
+
+ begin_phase2_adjustment_rows 
+psql:tests/sql/phase2_cache_reset_assertions.sql:25: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 1 symbols
+------------------------------
+                            1
+(1 row)
+
+DO
+psql:tests/sql/phase2_cache_reset_assertions.sql:34: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 1, dates 1, elapsed 00:00:00.01917
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               1
+(1 row)
+
+ finish_phase2_adjustment_rows 
+psql:tests/sql/phase2_cache_reset_assertions.sql:35: NOTICE:  Phase 2 adjustment cache rows 1, finalize elapsed 00:00:00.030529
+-------------------------------
+                             1
+(1 row)
+
+psql:tests/sql/phase2_cache_reset_assertions.sql:36: NOTICE:  Phase 2 price-day hash range 2026-05-28 through 2026-05-28: requested 1, uncovered 1, date planning elapsed 00:00:00.04132
+psql:tests/sql/phase2_cache_reset_assertions.sql:36: NOTICE:  Phase 2 price-day hash aggregate completed: 1 dates, elapsed 00:00:00.055211
+psql:tests/sql/phase2_cache_reset_assertions.sql:36: NOTICE:  Phase 2 price-day hash coverage recorded: 1 requested dates, total elapsed 00:00:00.055915
+ phase2_prepare_price_day_hashes 
+---------------------------------
+ 
+(1 row)
+
+DO
+ROLLBACK

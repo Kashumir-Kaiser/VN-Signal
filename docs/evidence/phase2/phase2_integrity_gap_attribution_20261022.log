@@ -1,0 +1,10 @@
+Corrected E4 gap-attribution run: 2026-10-22 (Asia/Saigon)
+Target: vnsignal_phase2_report_20261019 (read-only transaction)
+Script: docs/evidence/phase2/phase2_integrity_gap_attribution_20261022.sql
+Output: docs/evidence/phase2/phase2_integrity_gap_attribution_20261022.csv
+Status: psql completed with exit code 0; 221 CSV result rows.
+Classification counts: 219 no daily bars/source archive (1,539 effective sessions); 2 intervals with matching lifecycle and landing tickers; classification reports them as explained.
+Corrected identity lookup joins observations through core.security_master.symbol; lifecycle, bars, and features use core.symbols.symbol_id.
+CTR: 6 sessions, 5 VCI curated rows, 1 session without bar, 0 security observations; lifecycle DELISTED 2022-02-15..2022-02-22.
+PTM: 1,680 sessions without bars, 0 security observations; lifecycle DELISTED 2018-11-28..2025-08-21 and trade eligibility resumes 2025-08-22.
+

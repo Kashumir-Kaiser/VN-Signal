@@ -1,0 +1,41 @@
+{
+  "database": "vnsignal_phase2_report_20261019",
+  "build_id": "phase2-rank-repair-054-20261022",
+  "definition_sha256": "4fcaa73bcfdd9181ed2d4bd8377aa01a3cfcd32e2af32a71e13e25a0e4f4c9ff",
+  "transaction_scope": "read_only_rank_stage",
+  "state": "failed",
+  "warmup_sessions": 120,
+  "work_mem_mb": 16,
+  "statement_timeout_minutes": 5,
+  "io_concurrency": 0,
+  "parallel_query_workers": 0,
+  "measured_at": "2026-10-22T11:32:24.4003639Z",
+  "measurements": [
+    {
+      "sessions": 30,
+      "date_from": "2026-09-07",
+      "date_to": "2026-10-16",
+      "elapsed_seconds": 1.878678,
+      "rank_rows": 27702
+    },
+    {
+      "sessions": 60,
+      "date_from": "2026-07-22",
+      "date_to": "2026-10-16",
+      "elapsed_seconds": 1.547499,
+      "rank_rows": 55690
+    },
+    {
+      "sessions": 120,
+      "date_from": "2026-04-24",
+      "date_to": "2026-10-16",
+      "elapsed_seconds": 2.233119,
+      "rank_rows": 112189
+    }
+  ],
+  "exponents": [
+    -0.27977933700586227,
+    0.5291216553820461
+  ],
+  "passed": false
+}

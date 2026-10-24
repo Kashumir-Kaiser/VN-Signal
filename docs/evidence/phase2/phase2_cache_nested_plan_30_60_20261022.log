@@ -1,0 +1,475 @@
+LOAD
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+WARNING:  there is no transaction in progress
+ count 
+-------
+ 53205
+(1 row)
+
+ count  
+--------
+ 108331
+(1 row)
+
+ROLLBACK
+
+--- PostgreSQL auto_explain server log excerpt ---
+	            r_1.override_evidence_url,
+	
+	            r_1.override_secondary_evidence_url,
+	
+	            r_1.override_evidence_note,
+	
+	                CASE
+	
+	                    WHEN r_1.exchange_code = 'HOSE'::text AND r_1.reference_baseline < 10::double precision THEN 0.005::double precision
+	
+	                    WHEN r_1.exchange_code = 'HOSE'::text AND r_1.reference_baseline < 50::double precision THEN 0.025::double precision
+	
+	                    ELSE 0.05::double precision
+	
+	                END AS half_tick
+	
+	           FROM reference_basis r_1
+	
+	        )
+	
+	 SELECT symbol_id,
+	    trade_date,
+	    source,
+	    v,
+	    is_traded,
+	    
+	    COALESCE(override_ratio,
+	
+	        CASE
+	
+	            WHEN episode_row_number = 1 THEN 1::double precision
+	
+	            WHEN exchange_code IS NULL OR (exchange_code <> ALL (ARRAY['HOSE'::text, 'HNX'::text, 'UPCOM'::text])) THEN NULL::double precision
+	
+	            WHEN basic_price > 0::double precision AND reference_baseline > 0::double precision THEN
+	
+	            CASE
+	
+	                WHEN abs(basic_price - reference_baseline) <= (half_tick + 0.000000001::double precision) THEN 1::double precision
+	
+	                ELSE basic_price / reference_baseline
+	
+	            END
+	
+	            WHEN v = 0::double precision AND c = prior_close AND NOT adjusted_c IS DISTINCT FROM prior_adjusted_close THEN 1::double precision
+	
+	            ELSE NULL::double precision
+	
+	        END) AS reference_adjustment_ratio,
+	
+	    episode_start_date,
+	    model_o,
+	
+	    model_h,
+	
+	    model_l,
+	
+	    model_c,
+	
+	    adjustment_vintage_at,
+	    landing_id,
+	    source_row,
+	    fetched_at
+	   FROM reference_tolerance r;
+	; ROLLBACK;
+2026-10-22 08:08:05 +07 LOG:  checkpoint starting: time
+2026-10-22 08:08:05 +07 LOG:  checkpoint complete: wrote 3 buffers (0.0%), wrote 0 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.470 s, sync=0.022 s, total=0.541 s; sync files=3, longest=0.017 s, average=0.007 s; distance=13 kB, estimate=227659 kB; lsn=1A/FB89F730, redo lsn=1A/FB89F6D8
+2026-10-22 08:09:03 +07 ERROR:  cache scaling exponent 1.404 exceeds 1.3; inspect the sampled plan and re-probe
+2026-10-22 08:09:03 +07 CONTEXT:  PL/pgSQL function feat.assert_phase2_adjustment_cache_scaling() line 37 at RAISE
+2026-10-22 08:09:03 +07 STATEMENT:  SELECT feat.assert_phase2_adjustment_cache_scaling();
+2026-10-22 08:11:46 +07 ERROR:  syntax error at or near "\" at character 490
+2026-10-22 08:11:46 +07 STATEMENT:  LOAD 'auto_explain';
+	SET auto_explain.log_min_duration=0;
+	SET auto_explain.log_analyze=on;
+	SET auto_explain.log_buffers=on;
+	SET auto_explain.log_verbose=on;
+	SET auto_explain.log_nested_statements=on;
+	SET auto_explain.log_format='text';
+	SET statement_timeout='5min';
+	SET work_mem='128MB';
+	SET jit=off;
+	SET enable_nestloop=off;
+	BEGIN;
+	SELECT feat.begin_phase2_adjustment_rows(15,15);
+	SELECT array_agg(symbol_id ORDER BY symbol_id) AS symbol_ids
+	FROM pg_temp.phase2_adjustment_symbol_batches \gset
+	SELECT count(*) FROM feat.phase2_vndirect_adjustment_details_for_symbols(:'symbol_ids'::bigint[]);
+	ROLLBACK;
+	SELECT pg_current_logfile();
+	SELECT pg_read_file(pg_current_logfile(), GREATEST(0, pg_stat_file(pg_current_logfile()).size-250000), 250000);
+2026-10-22 08:12:28 +07 LOG:  duration: 332.406 ms  plan:
+	Query Text: LOAD 'auto_explain';
+	SET auto_explain.log_min_duration=0;
+	SET auto_explain.log_analyze=on;
+	SET auto_explain.log_buffers=on;
+	SET auto_explain.log_verbose=on;
+	SET auto_explain.log_nested_statements=on;
+	SET auto_explain.log_format='text';
+	SET statement_timeout='5min';
+	SET work_mem='128MB';
+	SET jit=off;
+	SET enable_nestloop=off;
+	SELECT count(*) FROM feat.phase2_vndirect_adjustment_details_for_symbols(ARRAY[138,168,236,348,363,381,433,610,833,899,1164,1195,1283,1329,1457]::bigint[]);
+	Aggregate  (cost=70167.91..70167.92 rows=1 width=8) (actual time=332.385..332.392 rows=1.00 loops=1)
+	  Output: count(*)
+	  Buffers: shared hit=907
+	  ->  CTE Scan on ordered o  (cost=70167.85..70167.89 rows=2 width=125) (actual time=218.907..330.547 rows=23765.00 loops=1)
+	        Output: NULL::bigint, NULL::date, NULL::text, NULL::double precision, NULL::boolean, NULL::double precision, NULL::date, NULL::double precision, NULL::double precision, NULL::double precision, NULL::double precision, NULL::timestamp with time zone, NULL::bigint, NULL::integer, NULL::timestamp with time zone
+	        Storage: Memory  Maximum Storage: 7683kB
+	        Buffers: shared hit=907
+	        CTE source_rows
+	          ->  WindowAgg  (cost=67262.56..68332.67 rows=26770 width=371) (actual time=112.366..161.278 rows=23765.00 loops=1)
+	                Output: b.symbol_id, b.trade_date, b.source, b.o, b.h, b.l, b.c, b.v, b.adj_basis, b.is_traded, b.landing_id, b.source_row, b.ingest_id, b.fetched_at, b.adjusted_o, b.adjusted_h, b.adjusted_l, b.adjusted_c, b.adjustment_vintage_at, b.basic_price, b.average_price, b.exchange_code, COALESCE(m.model_o, b.o), COALESCE(m.model_h, b.h), COALESCE(m.model_l, b.l), COALESCE(m.model_c, b.c), m.evidence_url, m.evidence_sha256, m.secondary_evidence_url, m.secondary_evidence_sha256, m.evidence_note, (row_number() OVER w1), min(b.trade_date) OVER w2
+	                Window: w2 AS (PARTITION BY b.symbol_id)
+	                Storage: Memory  Maximum Storage: 456kB
+	                Buffers: shared hit=905
+	                ->  WindowAgg  (cost=67261.88..67931.12 rows=26770 width=367) (actual time=108.272..137.170 rows=23765.00 loops=1)
+	                      Output: b.symbol_id, b.trade_date, b.source, b.o, b.h, b.l, b.c, b.v, b.adj_basis, b.is_traded, b.landing_id, b.source_row, b.ingest_id, b.fetched_at, b.adjusted_o, b.adjusted_h, b.adjusted_l, b.adjusted_c, b.adjustment_vintage_at, b.basic_price, b.average_price, b.exchange_code, m.model_o, m.model_h, m.model_l, m.model_c, m.evidence_url, m.evidence_sha256, m.secondary_evidence_url, m.secondary_evidence_sha256, m.evidence_note, row_number() OVER w1
+	                      Window: w1 AS (PARTITION BY b.symbol_id ORDER BY b.trade_date ROWS UNBOUNDED PRECEDING)
+	                      Storage: Memory  Maximum Storage: 18kB
+	                      Buffers: shared hit=905
+	                      ->  Merge Left Join  (cost=67261.85..67462.65 rows=26770 width=359) (actual time=108.260..118.108 rows=23765.00 loops=1)
+	                            Output: b.symbol_id, b.trade_date, b.source, b.o, b.h, b.l, b.c, b.v, b.adj_basis, b.is_traded, b.landing_id, b.source_row, b.ingest_id, b.fetched_at, b.adjusted_o, b.adjusted_h, b.adjusted_l, b.adjusted_c, b.adjustment_vintage_at, b.basic_price, b.average_price, b.exchange_code, m.model_o, m.model_h, m.model_l, m.model_c, m.evidence_url, m.evidence_sha256, m.secondary_evidence_url, m.secondary_evidence_sha256, m.evidence_note
+	                            Inner Unique: true
+	                            Merge Cond: ((b.symbol_id = m.symbol_id) AND (b.trade_date = m.trade_date))
+	                            Buffers: shared hit=905
+	                            ->  Sort  (cost=67258.53..67325.45 rows=26770 width=167) (actual time=107.099..108.122 rows=23765.00 loops=1)
+	                                  Output: b.symbol_id, b.trade_date, b.source, b.o, b.h, b.l, b.c, b.v, b.adj_basis, b.is_traded, b.landing_id, b.source_row, b.ingest_id, b.fetched_at, b.adjusted_o, b.adjusted_h, b.adjusted_l, b.adjusted_c, b.adjustment_vintage_at, b.basic_price, b.average_price, b.exchange_code
+	                                  Sort Key: b.symbol_id, b.trade_date
+	                                  Sort Method: quicksort  Memory: 5410kB
+	                                  Buffers: shared hit=902
+	                                  ->  Bitmap Heap Scan on core.bars_daily_sources b  (cost=1444.27..65289.82 rows=26770 width=167) (actual time=63.665..97.588 rows=23765.00 loops=1)
+	                                        Output: b.symbol_id, b.trade_date, b.source, b.o, b.h, b.l, b.c, b.v, b.adj_basis, b.is_traded, b.landing_id, b.source_row, b.ingest_id, b.fetched_at, b.adjusted_o, b.adjusted_h, b.adjusted_l, b.adjusted_c, b.adjustment_vintage_at, b.basic_price, b.average_price, b.exchange_code
+	                                        Recheck Cond: ((b.symbol_id = ANY ('{138,168,236,348,363,381,433,610,833,899,1164,1195,1283,1329,1457}'::bigint[])) AND (b.source = 'vndirect'::text))
+	                                        Heap Blocks: exact=642
+	                                        Buffers: shared hit=902
+	                                        ->  Bitmap Index Scan on bars_daily_sources_pkey  (cost=0.00..1437.54 rows=26770 width=0) (actual time=62.597..62.597 rows=23765.00 loops=1)
+	                                              Index Cond: ((b.symbol_id = ANY ('{138,168,236,348,363,381,433,610,833,899,1164,1195,1283,1329,1457}'::bigint[])) AND (b.source = 'vndirect'::text))
+	                                              Index Searches: 15
+	                                              Buffers: shared hit=260
+	                            ->  Sort  (cost=3.32..3.33 rows=1 width=236) (actual time=1.146..1.155 rows=25.00 loops=1)
+	                                  Output: m.model_o, m.model_h, m.model_l, m.model_c, m.evidence_url, m.evidence_sha256, m.secondary_evidence_url, m.secondary_evidence_sha256, m.evidence_note, m.symbol_id, m.trade_date, m.source
+	                                  Sort Key: m.symbol_id, m.trade_date
+	                                  Sort Method: quicksort  Memory: 43kB
+	                                  Buffers: shared hit=3
+	                                  ->  Seq Scan on core.vndirect_model_bar_overrides m  (cost=0.00..3.31 rows=1 width=236) (actual time=1.038..1.112 rows=25.00 loops=1)
+	                                        Output: m.model_o, m.model_h, m.model_l, m.model_c, m.evidence_url, m.evidence_sha256, m.secondary_evidence_url, m.secondary_evidence_sha256, m.evidence_note, m.symbol_id, m.trade_date, m.source
+	                                        Filter: (m.source = 'vndirect'::text)
+	                                        Buffers: shared hit=3
+	        CTE ordered
+	          ->  WindowAgg  (cost=1490.21..1835.17 rows=2 width=529) (actual time=218.903..304.746 rows=23765.00 loops=1)
+	                Output: o_1.symbol_id, o_1.trade_date, o_1.source, o_1.o, o_1.h, o_1.l, o_1.c, o_1.v, o_1.adj_basis, o_1.is_traded, o_1.landing_id, o_1.source_row, o_1.ingest_id, o_1.fetched_at, o_1.adjusted_o, o_1.adjusted_h, o_1.adjusted_l, o_1.adjusted_c, o_1.adjustment_vintage_at, o_1.basic_price, o_1.average_price, o_1.exchange_code, o_1.model_o, o_1.model_h, o_1.model_l, o_1.model_c, o_1.model_bar_evidence_url, o_1.model_bar_evidence_sha256, o_1.model_bar_secondary_evidence_url, o_1.model_bar_secondary_evidence_sha256, o_1.model_bar_evidence_note, o_1.source_sequence, o_1.first_trade_date, a.episode_start_date, lag(o_1.c) OVER w, lag(o_1.basic_price) OVER w, lag(o_1.average_price) OVER w, lag(o_1.v) OVER w, lag(o_1.adjusted_c) OVER w, sum(CASE WHEN (o_1.v > '0'::double precision) THEN '1'::bigint ELSE '0'::bigint END) OVER w, row_number() OVER w
+	                Window: w AS (PARTITION BY o_1.symbol_id, a.episode_start_date ORDER BY o_1.trade_date)
+	                Storage: Memory  Maximum Storage: 18kB
+	                Buffers: shared hit=907
+	                ->  Incremental Sort  (cost=1490.21..1835.10 rows=2 width=449) (actual time=218.876..252.320 rows=23765.00 loops=1)
+	                      Output: o_1.symbol_id, o_1.trade_date, a.episode_start_date, o_1.source, o_1.o, o_1.h, o_1.l, o_1.c, o_1.v, o_1.adj_basis, o_1.is_traded, o_1.landing_id, o_1.source_row, o_1.ingest_id, o_1.fetched_at, o_1.adjusted_o, o_1.adjusted_h, o_1.adjusted_l, o_1.adjusted_c, o_1.adjustment_vintage_at, o_1.basic_price, o_1.average_price, o_1.exchange_code, o_1.model_o, o_1.model_h, o_1.model_l, o_1.model_c, o_1.model_bar_evidence_url, o_1.model_bar_evidence_sha256, o_1.model_bar_secondary_evidence_url, o_1.model_bar_secondary_evidence_sha256, o_1.model_bar_evidence_note, o_1.source_sequence, o_1.first_trade_date
+	                      Sort Key: o_1.symbol_id, a.episode_start_date, o_1.trade_date
+	                      Presorted Key: o_1.symbol_id
+	                      Full-sort Groups: 15  Sort Method: quicksort  Average Memory: 41kB  Peak Memory: 41kB
+	                      Pre-sorted Groups: 15  Sort Method: quicksort  Average Memory: 566kB  Peak Memory: 567kB
+	                      Buffers: shared hit=907
+	                      ->  Merge Join  (cost=1145.38..1835.01 rows=1 width=449) (actual time=216.629..239.175 rows=23765.00 loops=1)
+	                            Output: o_1.symbol_id, o_1.trade_date, a.episode_start_date, o_1.source, o_1.o, o_1.h, o_1.l, o_1.c, o_1.v, o_1.adj_basis, o_1.is_traded, o_1.landing_id, o_1.source_row, o_1.ingest_id, o_1.fetched_at, o_1.adjusted_o, o_1.adjusted_h, o_1.adjusted_l, o_1.adjusted_c, o_1.adjustment_vintage_at, o_1.basic_price, o_1.average_price, o_1.exchange_code, o_1.model_o, o_1.model_h, o_1.model_l, o_1.model_c, o_1.model_bar_evidence_url, o_1.model_bar_evidence_sha256, o_1.model_bar_secondary_evidence_url, o_1.model_bar_secondary_evidence_sha256, o_1.model_bar_evidence_note, o_1.source_sequence, o_1.first_trade_date
+	                            Merge Cond: ((o_1.symbol_id = a.symbol_id) AND (o_1.trade_date = a.trade_date))
+	                            Join Filter: (o_1.source_sequence = a.source_sequence)
+	                            Buffers: shared hit=907
+	                            ->  CTE Scan on source_rows o_1  (cost=0.00..535.40 rows=26770 width=445) (actual time=112.369..114.646 rows=23765.00 loops=1)
+	                                  Output: o_1.symbol_id, o_1.trade_date, o_1.source, o_1.o, o_1.h, o_1.l, o_1.c, o_1.v, o_1.adj_basis, o_1.is_traded, o_1.landing_id, o_1.source_row, o_1.ingest_id, o_1.fetched_at, o_1.adjusted_o, o_1.adjusted_h, o_1.adjusted_l, o_1.adjusted_c, o_1.adjustment_vintage_at, o_1.basic_price, o_1.average_price, o_1.exchange_code, o_1.model_o, o_1.model_h, o_1.model_l, o_1.model_c, o_1.model_bar_evidence_url, o_1.model_bar_evidence_sha256, o_1.model_bar_secondary_evidence_url, o_1.model_bar_secondary_evidence_sha256, o_1.model_bar_evidence_note, o_1.source_sequence, o_1.first_trade_date
+	                                  Storage: Memory  Maximum Storage: 6384kB
+	                                  Buffers: shared hit=905
+	                            ->  Sort  (cost=1145.38..1152.07 rows=2677 width=24) (actual time=104.249..107.131 rows=23765.00 loops=1)
+	                                  Output: a.episode_start_date, a.symbol_id, a.trade_date, a.source_sequence
+	                                  Sort Key: a.symbol_id, a.trade_date
+	                                  Sort Method: quicksort  Memory: 1882kB
+	                                  Buffers: shared hit=2
+	                                  ->  Subquery Scan on a  (cost=939.44..992.98 rows=2677 width=24) (actual time=85.024..92.562 rows=23765.00 loops=1)
+	                                        Output: a.episode_start_date, a.symbol_id, a.trade_date, a.source_sequence
+	                                        Buffers: shared hit=2
+	                                        ->  HashAggregate  (cost=939.44..966.21 rows=2677 width=28) (actual time=85.023..90.363 rows=23765.00 loops=1)
+	                                              Output: o_2.symbol_id, o_2.trade_date, o_2.source_sequence, COALESCE(max(e.date_from), o_2.first_trade_date), o_2.first_trade_date
+	                                              Group Key: o_2.symbol_id, o_2.trade_date, o_2.source_sequence, o_2.first_trade_date
+	                                              Batches: 1  Memory Usage: 2585kB
+	                                              Buffers: shared hit=2
+	                                              ->  Merge Left Join  (cost=2.15..604.81 rows=26770 width=28) (actual time=0.154..76.081 rows=23765.00 loops=1)
+	                                                    Output: o_2.symbol_id, o_2.trade_date, o_2.source_sequence, o_2.first_trade_date, e.date_from
+	                                                    Merge Cond: (o_2.symbol_id = e.symbol_id)
+	                                                    Join Filter: (e.date_from <= o_2.trade_date)
+	                                                    Buffers: shared hit=2
+	                                                    ->  CTE Scan on source_rows o_2  (cost=0.00..535.40 rows=26770 width=24) (actual time=0.001..68.487 rows=23765.00 loops=1)
+	                                                          Output: o_2.symbol_id, o_2.trade_date, o_2.source, o_2.o, o_2.h, o_2.l, o_2.c, o_2.v, o_2.adj_basis, o_2.is_traded, o_2.landing_id, o_2.source_row, o_2.ingest_id, o_2.fetched_at, o_2.adjusted_o, o_2.adjusted_h, o_2.adjusted_l, o_2.adjusted_c, o_2.adjustment_vintage_at, o_2.basic_price, o_2.average_price, o_2.exchange_code, o_2.model_o, o_2.model_h, o_2.model_l, o_2.model_c, o_2.model_bar_evidence_url, o_2.model_bar_evidence_sha256, o_2.model_bar_secondary_evidence_url, o_2.model_bar_secondary_evidence_sha256, o_2.model_bar_evidence_note, o_2.source_sequence, o_2.first_trade_date
+	                                                          Storage: Memory  Maximum Storage: 6384kB
+	                                                    ->  Materialize  (cost=2.15..2.17 rows=1 width=12) (actual time=0.152..0.156 rows=1.00 loops=1)
+	                                                          Output: e.symbol_id, e.date_from
+	                                                          Storage: Memory  Maximum Storage: 17kB
+	                                                          Buffers: shared hit=2
+	                                                          ->  Unique  (cost=2.15..2.16 rows=1 width=12) (actual time=0.067..0.071 rows=1.00 loops=1)
+	                                                                Output: e.symbol_id, e.date_from
+	                                                                Buffers: shared hit=2
+	                                                                ->  Sort  (cost=2.15..2.16 rows=1 width=12) (actual time=0.067..0.069 rows=1.00 loops=1)
+	                                                                      Output: e.symbol_id, e.date_from
+	                                                                      Sort Key: e.symbol_id, e.date_from
+	                                                                      Sort Method: quicksort  Memory: 25kB
+	                                                                      Buffers: shared hit=2
+	                                                                      ->  Hash Semi Join  (cost=1.07..2.14 rows=1 width=12) (actual time=0.063..0.065 rows=1.00 loops=1)
+	                                                                            Output: e.symbol_id, e.date_from
+	                                                                            Hash Cond: (e.symbol_id = d.symbol_id)
+	                                                                            Join Filter: (d.date_to < e.date_from)
+	                                                                            Rows Removed by Join Filter: 1
+	                                                                            Buffers: shared hit=2
+	                                                                            ->  Seq Scan on core.security_lifecycle_evidence e  (cost=0.00..1.06 rows=1 width=12) (actual time=0.033..0.034 rows=3.00 loops=1)
+	                                                                                  Output: e.evidence_id, e.symbol_id, e.exchange, e.evidence_type, e.date_from, e.date_to, e.source_landing_id, e.source_url, e.source_document_date, e.first_observed_at, e.recorded_at
+	                                                                                  Filter: (e.evidence_type = 'TRADE_ELIGIBLE'::text)
+	                                                                                  Rows Removed by Filter: 2
+	                                                                                  Buffers: shared hit=1
+	                                                                            ->  Hash  (cost=1.06..1.06 rows=1 width=12) (actual time=0.014..0.015 rows=2.00 loops=1)
+	                                                                                  Output: d.symbol_id, d.date_to
+	                                                                                  Buckets: 1024  Batches: 1  Memory Usage: 9kB
+	                                                                                  Buffers: shared hit=1
+	                                                                                  ->  Seq Scan on core.security_lifecycle_evidence d  (cost=0.00..1.06 rows=1 width=12) (actual time=0.008..0.010 rows=2.00 loops=1)
+	                                                                                        Output: d.symbol_id, d.date_to
+	                                                                                        Filter: ((d.date_to IS NOT NULL) AND (d.evidence_type = 'DELISTED'::text))
+	                                                                                        Rows Removed by Filter: 3
+	                                                                                        Buffers: shared hit=1
+2026-10-22 08:13:05 +07 LOG:  checkpoint starting: time
+2026-10-22 08:13:19 +07 LOG:  checkpoint complete: wrote 103 buffers (0.6%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=12.273 s, sync=0.897 s, total=13.217 s; sync files=58, longest=0.285 s, average=0.016 s; distance=1154 kB, estimate=205009 kB; lsn=1A/FB9D6C98, redo lsn=1A/FB9BFF90
+2026-10-22 08:13:34 +07 ERROR:  cache scaling exponent 1.825 exceeds 1.3; inspect the sampled plan and re-probe
+2026-10-22 08:13:34 +07 CONTEXT:  PL/pgSQL function feat.assert_phase2_adjustment_cache_scaling() line 37 at RAISE
+2026-10-22 08:13:34 +07 STATEMENT:  SELECT feat.assert_phase2_adjustment_cache_scaling();
+2026-10-22 08:14:16 +07 LOG:  duration: 629.779 ms  plan:
+	Query Text: LOAD 'auto_explain';
+	SET auto_explain.log_min_duration=0;
+	SET auto_explain.log_analyze=on;
+	SET auto_explain.log_buffers=on;
+	SET auto_explain.log_verbose=off;
+	SET auto_explain.log_nested_statements=on;
+	SET auto_explain.log_format='text';
+	SET statement_timeout='5min';
+	SET work_mem='128MB';
+	SET jit=off;
+	SET enable_nestloop=off;
+	SELECT count(*) FROM feat.phase2_vndirect_adjustment_details_for_symbols(ARRAY[27,63,134,138,168,195,236,245,252,339,348,363,381,433,461,550,610,833,841,890,899,1019,1024,1089,1164,1195,1283,1329,1457,1467]::bigint[]);
+	SELECT count(*) FROM feat.phase2_vndirect_adjustment_details_for_symbols(ARRAY[27,60,63,126,134,138,158,163,168,180,195,221,236,245,249,252,269,278,310,339,348,363,367,381,384,433,461,498,521,550,580,594,595,610,629,689,713,744,762,833,841,889,890,896,899,933,1019,1021,1024,1077,1089,1164,1195,1283,1329,1338,1428,1457,1460,1467]::bigint[]);
+	ROLLBACK;
+	Aggregate  (cost=108242.92..108242.93 rows=1 width=8) (actual time=629.742..629.755 rows=1.00 loops=1)
+	  Buffers: shared hit=2013
+	  ->  CTE Scan on ordered o  (cost=108242.85..108242.89 rows=2 width=125) (actual time=321.541..624.886 rows=53205.00 loops=1)
+	        Storage: Memory  Maximum Storage: 17139kB
+	        Buffers: shared hit=2013
+	        CTE source_rows
+	          ->  WindowAgg  (cost=102407.29..104547.48 rows=53540 width=371) (actual time=93.077..198.921 rows=53205.00 loops=1)
+	                Window: w2 AS (PARTITION BY b.symbol_id)
+	                Storage: Memory  Maximum Storage: 456kB
+	                Buffers: shared hit=2011
+	                ->  WindowAgg  (cost=102405.89..103744.38 rows=53540 width=367) (actual time=89.258..149.224 rows=53205.00 loops=1)
+	                      Window: w1 AS (PARTITION BY b.symbol_id ORDER BY b.trade_date ROWS UNBOUNDED PRECEDING)
+	                      Storage: Memory  Maximum Storage: 18kB
+	                      Buffers: shared hit=2011
+	                      ->  Merge Left Join  (cost=102405.86..102807.43 rows=53540 width=359) (actual time=89.246..109.807 rows=53205.00 loops=1)
+	                            Merge Cond: ((b.symbol_id = m.symbol_id) AND (b.trade_date = m.trade_date))
+	                            Buffers: shared hit=2011
+	                            ->  Sort  (cost=102402.54..102536.39 rows=53540 width=167) (actual time=89.047..91.308 rows=53205.00 loops=1)
+	                                  Sort Key: b.symbol_id, b.trade_date
+	                                  Sort Method: quicksort  Memory: 11928kB
+	                                  Buffers: shared hit=2008
+	                                  ->  Bitmap Heap Scan on bars_daily_sources b  (cost=2880.53..98197.42 rows=53540 width=167) (actual time=53.618..70.299 rows=53205.00 loops=1)
+	                                        Recheck Cond: ((symbol_id = ANY ('{27,63,134,138,168,195,236,245,252,339,348,363,381,433,461,550,610,833,841,890,899,1019,1024,1089,1164,1195,1283,1329,1457,1467}'::bigint[])) AND (source = 'vndirect'::text))
+	                                        Heap Blocks: exact=1433
+	                                        Buffers: shared hit=2008
+	                                        ->  Bitmap Index Scan on bars_daily_sources_pkey  (cost=0.00..2867.07 rows=53540 width=0) (actual time=53.341..53.341 rows=53205.00 loops=1)
+	                                              Index Cond: ((symbol_id = ANY ('{27,63,134,138,168,195,236,245,252,339,348,363,381,433,461,550,610,833,841,890,899,1019,1024,1089,1164,1195,1283,1329,1457,1467}'::bigint[])) AND (source = 'vndirect'::text))
+	                                              Index Searches: 30
+	                                              Buffers: shared hit=575
+	                            ->  Sort  (cost=3.32..3.33 rows=1 width=236) (actual time=0.181..0.189 rows=25.00 loops=1)
+	                                  Sort Key: m.symbol_id, m.trade_date
+	                                  Sort Method: quicksort  Memory: 43kB
+	                                  Buffers: shared hit=3
+	                                  ->  Seq Scan on vndirect_model_bar_overrides m  (cost=0.00..3.31 rows=1 width=236) (actual time=0.086..0.146 rows=25.00 loops=1)
+	                                        Filter: (source = 'vndirect'::text)
+	                                        Buffers: shared hit=3
+	        CTE ordered
+	          ->  WindowAgg  (cost=3005.30..3695.37 rows=2 width=529) (actual time=321.536..556.091 rows=53205.00 loops=1)
+	                Window: w AS (PARTITION BY o_1.symbol_id, a.episode_start_date ORDER BY o_1.trade_date)
+	                Storage: Memory  Maximum Storage: 18kB
+	                Buffers: shared hit=2013
+	                ->  Incremental Sort  (cost=3005.30..3695.30 rows=2 width=449) (actual time=321.097..411.499 rows=53205.00 loops=1)
+	                      Sort Key: o_1.symbol_id, a.episode_start_date, o_1.trade_date
+	                      Presorted Key: o_1.symbol_id
+	                      Full-sort Groups: 30  Sort Method: quicksort  Average Memory: 41kB  Peak Memory: 41kB
+	                      Pre-sorted Groups: 30  Sort Method: quicksort  Average Memory: 566kB  Peak Memory: 567kB
+	                      Buffers: shared hit=2013
+	                      ->  Merge Join  (cost=2315.36..3695.21 rows=1 width=449) (actual time=317.532..376.607 rows=53205.00 loops=1)
+	                            Merge Cond: ((o_1.symbol_id = a.symbol_id) AND (o_1.trade_date = a.trade_date))
+	                            Join Filter: (o_1.source_sequence = a.source_sequence)
+	                            Buffers: shared hit=2013
+	                            ->  CTE Scan on source_rows o_1  (cost=0.00..1070.80 rows=53540 width=445) (actual time=93.080..99.132 rows=53205.00 loops=1)
+	                                  Storage: Memory  Maximum Storage: 14230kB
+	                                  Buffers: shared hit=2011
+	                            ->  Sort  (cost=2315.36..2328.75 rows=5354 width=24) (actual time=224.443..231.429 rows=53205.00 loops=1)
+	                                  Sort Key: a.symbol_id, a.trade_date
+	                                  Sort Method: quicksort  Memory: 4030kB
+	                                  Buffers: shared hit=2
+	                                  ->  Subquery Scan on a  (cost=1876.70..1983.78 rows=5354 width=24) (actual time=181.618..199.261 rows=53205.00 loops=1)
+	                                        Buffers: shared hit=2
+	                                        ->  HashAggregate  (cost=1876.70..1930.24 rows=5354 width=28) (actual time=181.617..194.400 rows=53205.00 loops=1)
+	                                              Group Key: o_2.symbol_id, o_2.trade_date, o_2.source_sequence, o_2.first_trade_date
+	                                              Batches: 1  Memory Usage: 5145kB
+	                                              Buffers: shared hit=2
+	                                              ->  Merge Left Join  (cost=2.15..1207.45 rows=53540 width=28) (actual time=0.080..161.729 rows=53205.00 loops=1)
+	                                                    Merge Cond: (o_2.symbol_id = e.symbol_id)
+	                                                    Join Filter: (e.date_from <= o_2.trade_date)
+	                                                    Buffers: shared hit=2
+	                                                    ->  CTE Scan on source_rows o_2  (cost=0.00..1070.80 rows=53540 width=24) (actual time=0.001..145.945 rows=53205.00 loops=1)
+	                                                          Storage: Memory  Maximum Storage: 14230kB
+	                                                    ->  Materialize  (cost=2.15..2.17 rows=1 width=12) (actual time=0.077..0.082 rows=1.00 loops=1)
+	                                                          Storage: Memory  Maximum Storage: 17kB
+	                                                          Buffers: shared hit=2
+	                                                          ->  Unique  (cost=2.15..2.16 rows=1 width=12) (actual time=0.075..0.079 rows=1.00 loops=1)
+	                                                                Buffers: shared hit=2
+	                                                                ->  Sort  (cost=2.15..2.16 rows=1 width=12) (actual time=0.074..0.077 rows=1.00 loops=1)
+	                                                                      Sort Key: e.symbol_id, e.date_from
+	                                                                      Sort Method: quicksort  Memory: 25kB
+	                                                                      Buffers: shared hit=2
+	                                                                      ->  Hash Semi Join  (cost=1.07..2.14 rows=1 width=12) (actual time=0.066..0.069 rows=1.00 loops=1)
+	                                                                            Hash Cond: (e.symbol_id = d.symbol_id)
+	                                                                            Join Filter: (d.date_to < e.date_from)
+	                                                                            Rows Removed by Join Filter: 1
+	                                                                            Buffers: shared hit=2
+	                                                                            ->  Seq Scan on security_lifecycle_evidence e  (cost=0.00..1.06 rows=1 width=12) (actual time=0.031..0.032 rows=3.00 loops=1)
+	                                                                                  Filter: (evidence_type = 'TRADE_ELIGIBLE'::text)
+	                                                                                  Rows Removed by Filter: 2
+	                                                                                  Buffers: shared hit=1
+	                                                                            ->  Hash  (cost=1.06..1.06 rows=1 width=12) (actual time=0.017..0.018 rows=2.00 loops=1)
+	                                                                                  Buckets: 1024  Batches: 1  Memory Usage: 9kB
+	                                                                                  Buffers: shared hit=1
+	                                                                                  ->  Seq Scan on security_lifecycle_evidence d  (cost=0.00..1.06 rows=1 width=12) (actual time=0.007..0.008 rows=2.00 loops=1)
+	                                                                                        Filter: ((date_to IS NOT NULL) AND (evidence_type = 'DELISTED'::text))
+	                                                                                        Rows Removed by Filter: 3
+	                                                                                        Buffers: shared hit=1
+2026-10-22 08:14:17 +07 LOG:  duration: 1294.150 ms  plan:
+	Query Text: LOAD 'auto_explain';
+	SET auto_explain.log_min_duration=0;
+	SET auto_explain.log_analyze=on;
+	SET auto_explain.log_buffers=on;
+	SET auto_explain.log_verbose=off;
+	SET auto_explain.log_nested_statements=on;
+	SET auto_explain.log_format='text';
+	SET statement_timeout='5min';
+	SET work_mem='128MB';
+	SET jit=off;
+	SET enable_nestloop=off;
+	SELECT count(*) FROM feat.phase2_vndirect_adjustment_details_for_symbols(ARRAY[27,63,134,138,168,195,236,245,252,339,348,363,381,433,461,550,610,833,841,890,899,1019,1024,1089,1164,1195,1283,1329,1457,1467]::bigint[]);
+	SELECT count(*) FROM feat.phase2_vndirect_adjustment_details_for_symbols(ARRAY[27,60,63,126,134,138,158,163,168,180,195,221,236,245,249,252,269,278,310,339,348,363,367,381,384,433,461,498,521,550,580,594,595,610,629,689,713,744,762,833,841,889,890,896,899,933,1019,1021,1024,1077,1089,1164,1195,1283,1329,1338,1428,1457,1460,1467]::bigint[]);
+	ROLLBACK;
+	Aggregate  (cost=150232.54..150232.55 rows=1 width=8) (actual time=1294.133..1294.141 rows=1.00 loops=1)
+	  Buffers: shared hit=4072
+	  ->  CTE Scan on ordered o  (cost=150232.48..150232.52 rows=2 width=125) (actual time=741.748..1284.864 rows=108331.00 loops=1)
+	        Storage: Memory  Maximum Storage: 34876kB
+	        Buffers: shared hit=4072
+	        CTE source_rows
+	          ->  WindowAgg  (cost=137775.55..142321.39 rows=113721 width=371) (actual time=110.843..406.975 rows=108331.00 loops=1)
+	                Window: w2 AS (PARTITION BY b.symbol_id)
+	                Storage: Memory  Maximum Storage: 456kB
+	                Buffers: shared hit=4070
+	                ->  WindowAgg  (cost=137772.55..140615.57 rows=113721 width=367) (actual time=104.346..266.726 rows=108331.00 loops=1)
+	                      Window: w1 AS (PARTITION BY b.symbol_id ORDER BY b.trade_date ROWS UNBOUNDED PRECEDING)
+	                      Storage: Memory  Maximum Storage: 18kB
+	                      Buffers: shared hit=4070
+	                      ->  Merge Left Join  (cost=137772.53..138625.45 rows=113721 width=359) (actual time=104.339..159.547 rows=108331.00 loops=1)
+	                            Merge Cond: ((b.symbol_id = m.symbol_id) AND (b.trade_date = m.trade_date))
+	                            Buffers: shared hit=4070
+	                            ->  Sort  (cost=137769.20..138053.51 rows=113721 width=167) (actual time=104.234..109.866 rows=108331.00 loops=1)
+	                                  Sort Key: b.symbol_id, b.trade_date
+	                                  Sort Method: quicksort  Memory: 24231kB
+	                                  Buffers: shared hit=4067
+	                                  ->  Bitmap Heap Scan on bars_daily_sources b  (cost=6072.93..128219.40 rows=113721 width=167) (actual time=34.319..51.605 rows=108331.00 loops=1)
+	                                        Recheck Cond: ((symbol_id = ANY ('{27,60,63,126,134,138,158,163,168,180,195,221,236,245,249,252,269,278,310,339,348,363,367,381,384,433,461,498,521,550,580,594,595,610,629,689,713,744,762,833,841,889,890,896,899,933,1019,1021,1024,1077,1089,1164,1195,1283,1329,1338,1428,1457,1460,1467}'::bigint[])) AND (source = 'vndirect'::text))
+	                                        Heap Blocks: exact=2911
+	                                        Buffers: shared hit=4067
+	                                        ->  Bitmap Index Scan on bars_daily_sources_pkey  (cost=0.00..6044.35 rows=113721 width=0) (actual time=33.974..33.974 rows=108331.00 loops=1)
+	                                              Index Cond: ((symbol_id = ANY ('{27,60,63,126,134,138,158,163,168,180,195,221,236,245,249,252,269,278,310,339,348,363,367,381,384,433,461,498,521,550,580,594,595,610,629,689,713,744,762,833,841,889,890,896,899,933,1019,1021,1024,1077,1089,1164,1195,1283,1329,1338,1428,1457,1460,1467}'::bigint[])) AND (source = 'vndirect'::text))
+	                                              Index Searches: 58
+	                                              Buffers: shared hit=1156
+	                            ->  Sort  (cost=3.32..3.33 rows=1 width=236) (actual time=0.097..0.106 rows=25.00 loops=1)
+	                                  Sort Key: m.symbol_id, m.trade_date
+	                                  Sort Method: quicksort  Memory: 43kB
+	                                  Buffers: shared hit=3
+	                                  ->  Seq Scan on vndirect_model_bar_overrides m  (cost=0.00..3.31 rows=1 width=236) (actual time=0.040..0.057 rows=25.00 loops=1)
+	                                        Filter: (source = 'vndirect'::text)
+	                                        Buffers: shared hit=3
+	        CTE ordered
+	          ->  WindowAgg  (cost=6444.10..7911.09 rows=2 width=529) (actual time=741.743..1158.824 rows=108331.00 loops=1)
+	                Window: w AS (PARTITION BY o_1.symbol_id, a.episode_start_date ORDER BY o_1.trade_date)
+	                Storage: Memory  Maximum Storage: 18kB
+	                Buffers: shared hit=4072
+	                ->  Incremental Sort  (cost=6444.10..7911.02 rows=2 width=449) (actual time=741.715..904.510 rows=108331.00 loops=1)
+	                      Sort Key: o_1.symbol_id, a.episode_start_date, o_1.trade_date
+	                      Presorted Key: o_1.symbol_id
+	                      Full-sort Groups: 60  Sort Method: quicksort  Average Memory: 41kB  Peak Memory: 41kB
+	                      Pre-sorted Groups: 60  Sort Method: quicksort  Average Memory: 566kB  Peak Memory: 567kB
+	                      Buffers: shared hit=4072
+	                      ->  Merge Join  (cost=4977.26..7910.93 rows=2 width=449) (actual time=734.473..843.980 rows=108331.00 loops=1)
+	                            Merge Cond: ((o_1.symbol_id = a.symbol_id) AND (o_1.trade_date = a.trade_date))
+	                            Join Filter: (o_1.source_sequence = a.source_sequence)
+	                            Buffers: shared hit=4072
+	                            ->  CTE Scan on source_rows o_1  (cost=0.00..2274.42 rows=113721 width=445) (actual time=110.846..121.574 rows=108331.00 loops=1)
+	                                  Storage: Memory  Maximum Storage: 28954kB
+	                                  Buffers: shared hit=4070
+	                            ->  Sort  (cost=4977.26..5005.69 rows=11372 width=24) (actual time=623.615..639.588 rows=108331.00 loops=1)
+	                                  Sort Key: a.symbol_id, a.trade_date
+	                                  Sort Method: quicksort  Memory: 8151kB
+	                                  Buffers: shared hit=2
+	                                  ->  Subquery Scan on a  (cost=3983.74..4211.18 rows=11372 width=24) (actual time=504.605..546.638 rows=108331.00 loops=1)
+	                                        Buffers: shared hit=2
+	                                        ->  HashAggregate  (cost=3983.74..4097.46 rows=11372 width=28) (actual time=504.603..536.263 rows=108331.00 loops=1)
+	                                              Group Key: o_2.symbol_id, o_2.trade_date, o_2.source_sequence, o_2.first_trade_date
+	                                              Batches: 1  Memory Usage: 12313kB
+	                                              Buffers: shared hit=2
+	                                              ->  Merge Left Join  (cost=2.15..2562.22 rows=113721 width=28) (actual time=0.064..444.448 rows=108331.00 loops=1)
+	                                                    Merge Cond: (o_2.symbol_id = e.symbol_id)
+	                                                    Join Filter: (e.date_from <= o_2.trade_date)
+	                                                    Buffers: shared hit=2
+	                                                    ->  CTE Scan on source_rows o_2  (cost=0.00..2274.42 rows=113721 width=24) (actual time=0.001..401.363 rows=108331.00 loops=1)
+	                                                          Storage: Memory  Maximum Storage: 28954kB
+	                                                    ->  Materialize  (cost=2.15..2.17 rows=1 width=12) (actual time=0.060..0.064 rows=1.00 loops=1)
+	                                                          Storage: Memory  Maximum Storage: 17kB
+	                                                          Buffers: shared hit=2
+	                                                          ->  Unique  (cost=2.15..2.16 rows=1 width=12) (actual time=0.056..0.059 rows=1.00 loops=1)
+	                                                                Buffers: shared hit=2
+	                                                                ->  Sort  (cost=2.15..2.16 rows=1 width=12) (actual time=0.055..0.057 rows=1.00 loops=1)
+	                                                                      Sort Key: e.symbol_id, e.date_from
+	                                                                      Sort Method: quicksort  Memory: 25kB
+	                                                                      Buffers: shared hit=2
+	                                                                      ->  Hash Semi Join  (cost=1.07..2.14 rows=1 width=12) (actual time=0.049..0.051 rows=1.00 loops=1)
+	                                                                            Hash Cond: (e.symbol_id = d.symbol_id)
+	                                                                            Join Filter: (d.date_to < e.date_from)
+	                                                                            Rows Removed by Join Filter: 1
+	                                                                            Buffers: shared hit=2
+	                                                                            ->  Seq Scan on security_lifecycle_evidence e  (cost=0.00..1.06 rows=1 width=12) (actual time=0.025..0.026 rows=3.00 loops=1)
+	                                                                                  Filter: (evidence_type = 'TRADE_ELIGIBLE'::text)
+	                                                                                  Rows Removed by Filter: 2
+	                                                                                  Buffers: shared hit=1
+	                                                                            ->  Hash  (cost=1.06..1.06 rows=1 width=12) (actual time=0.013..0.014 rows=2.00 loops=1)
+	                                                                                  Buckets: 1024  Batches: 1  Memory Usage: 9kB
+	                                                                                  Buffers: shared hit=1
+	                                                                                  ->  Seq Scan on security_lifecycle_evidence d  (cost=0.00..1.06 rows=1 width=12) (actual time=0.008..0.010 rows=2.00 loops=1)
+	                                                                                        Filter: ((date_to IS NOT NULL) AND (evidence_type = 'DELISTED'::text))
+	                                                                                        Rows Removed by Filter: 3
+	                                                                                        Buffers: shared hit=1
+2026-10-22 08:14:17 +07 WARNING:  there is no transaction in progress

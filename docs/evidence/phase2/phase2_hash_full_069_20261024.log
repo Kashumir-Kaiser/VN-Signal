@@ -1,0 +1,216 @@
+Pager usage is off.
+Timing is on.
+SET
+Time: 0.622 ms
+SET
+Time: 0.114 ms
+SET
+Time: 0.070 ms
+SET
+Time: 0.084 ms
+DO
+Time: 31.558 ms
+BEGIN
+Time: 0.178 ms
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:15: NOTICE:  Phase 2 adjustment cache initialized for 26 batches of up to 60 symbols
+ begin_phase2_adjustment_rows 
+------------------------------
+                           26
+(1 row)
+
+Time: 2898.693 ms (00:02.899)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          108331
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:03.630141
+Time: 3634.028 ms (00:03.634)
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 115152, dates 2008, elapsed 00:00:03.242582
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115152
+(1 row)
+
+Time: 3243.065 ms (00:03.243)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111302
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 111302, dates 2008, elapsed 00:00:03.306197
+Time: 3315.028 ms (00:03.315)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113879
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 113879, dates 2008, elapsed 00:00:02.195169
+Time: 2195.514 ms (00:02.196)
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 4 rows 114214, dates 2008, elapsed 00:00:03.905287
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114214
+(1 row)
+
+Time: 3905.679 ms (00:03.906)
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 5 rows 114805, dates 2008, elapsed 00:00:03.263875
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114805
+(1 row)
+
+Time: 3264.395 ms (00:03.264)
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 6 rows 112592, dates 2008, elapsed 00:00:03.028552
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112592
+(1 row)
+
+Time: 3028.949 ms (00:03.029)
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 7 rows 116639, dates 2008, elapsed 00:00:03.523189
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          116639
+(1 row)
+
+Time: 3523.565 ms (00:03.524)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106585
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 8 rows 106585, dates 2008, elapsed 00:00:06.057916
+Time: 6058.344 ms (00:06.058)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111358
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 9 rows 111358, dates 2008, elapsed 00:00:05.417735
+Time: 5419.452 ms (00:05.419)
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 10 rows 106117, dates 2008, elapsed 00:00:06.15429
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106117
+(1 row)
+
+Time: 6180.411 ms (00:06.180)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113594
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 11 rows 113594, dates 2008, elapsed 00:00:09.074474
+Time: 9075.346 ms (00:09.075)
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 12 rows 112628, dates 2008, elapsed 00:00:03.230161
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112628
+(1 row)
+
+Time: 3230.728 ms (00:03.231)
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 13 rows 113102, dates 2008, elapsed 00:00:07.419218
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113102
+(1 row)
+
+Time: 7420.003 ms (00:07.420)
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 14 rows 113642, dates 2008, elapsed 00:00:03.799112
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113642
+(1 row)
+
+Time: 3799.592 ms (00:03.800)
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 15 rows 111909, dates 2008, elapsed 00:00:03.39204
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111909
+(1 row)
+
+Time: 3393.273 ms (00:03.393)
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 16 rows 111802, dates 2008, elapsed 00:00:11.391392
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111802
+(1 row)
+
+Time: 11403.748 ms (00:11.404)
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 17 rows 115171, dates 2008, elapsed 00:00:19.252556
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115171
+(1 row)
+
+Time: 19295.424 ms (00:19.295)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115471
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 18 rows 115471, dates 2008, elapsed 00:00:20.917719
+Time: 20933.413 ms (00:20.933)
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 19 rows 112613, dates 2008, elapsed 00:00:15.88737
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112613
+(1 row)
+
+Time: 16195.873 ms (00:16.196)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          109469
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 20 rows 109469, dates 2008, elapsed 00:00:32.839675
+Time: 32871.316 ms (00:32.871)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114091
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 21 rows 114091, dates 2008, elapsed 00:00:31.711797
+Time: 31813.250 ms (00:31.813)
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 22 rows 110051, dates 2008, elapsed 00:00:56.179758
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          110051
+(1 row)
+
+Time: 56180.305 ms (00:56.180)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112438
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: NOTICE:  Phase 2 date-local adjustment cache batch 23 rows 112438, dates 2008, elapsed 00:03:30.87
+Time: 210920.227 ms (03:30.920)
+psql:docs/evidence/phase2/phase2_hash_full_069_20261024.psql:25: ERROR:  canceling statement due to user request
+CONTEXT:  SQL statement "WITH inserted_rows AS (
+        INSERT INTO pg_temp.phase2_adjustment_rows(
+            symbol_id,trade_date,source,v,is_traded,reference_adjustment_ratio,
+            episode_start_date,model_o,model_h,model_l,model_c,
+            adjustment_vintage_at,landing_id,source_row,fetched_at
+        )
+        SELECT r.symbol_id,r.trade_date,r.source,r.v,r.is_traded,
+               r.reference_adjustment_ratio,r.episode_start_date,
+               r.model_o,r.model_h,r.model_l,r.model_c,
+               r.adjustment_vintage_at,r.landing_id,r.source_row,r.fetched_at
+        FROM feat.phase2_vndirect_adjustment_details_for_symbols(v_symbol_ids) r
+        ORDER BY r.trade_date, r.symbol_id
+        RETURNING trade_date
+    ), recorded_dates AS (
+        INSERT INTO pg_temp.phase2_adjustment_batch_dates(batch_no,trade_date)
+        SELECT p_batch_no,trade_date
+        FROM inserted_rows
+        GROUP BY trade_date
+        ON CONFLICT(batch_no,trade_date) DO NOTHING
+        RETURNING trade_date
+    )
+    SELECT (SELECT count(*) FROM inserted_rows),
+           (SELECT count(*) FROM recorded_dates)"
+PL/pgSQL function feat.populate_phase2_adjustment_rows(integer) line 63 at SQL statement
+Time: 217984.227 ms (03:37.984)
+Time: 2.608 ms

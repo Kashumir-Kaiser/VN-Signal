@@ -1,0 +1,80 @@
+BEGIN
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "momentum_12_1s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "residual_momentum_12_1s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "ema_5_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "ema_10_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "ema_20_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "ema_50_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "ema_100_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "ema_200_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "macd_histogram_pct" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "adx_14_sma" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "stochastic_k_14" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "stochastic_d_3" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "downside_vol5" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "downside_vol60" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "return_skew_pop60" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "return_excess_kurtosis_pop60" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "beta_vnindex_60" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "beta_vnindex_250" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "idio_vol_vnindex_60" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "idio_vol_vnindex_250" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "correlation_vn30_60" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "amihud_proxy_20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "gap_mean20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "gap_std20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "rank_gaussian_return20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "rank_gaussian_turnover_proxy" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "rank_gaussian_realized_vol20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "rank_gaussian_momentum20_industry" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "market_advance_minus_decline" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "market_new_high_minus_low" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "market_turnover_z20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "market_return_dispersion" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "vnindex_sma50_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "vnindex_sma200_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "vnindex_drawdown252" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "vnindex_realized_vol60" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "quarter_end_proximity_days" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "turnover_listed_shares" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "limit_up_hit" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "limit_down_hit" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "limit_up_streak" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "limit_down_streak" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "distance_to_price_limit" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "sessions_to_tet" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "sessions_from_tet" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "intraday_realized_variance" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "intraday_vwap_gap" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "intraday_closing_auction_share" of relation "features_daily" already exists, skipping
+ALTER TABLE
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+COMMENT
+CREATE FUNCTION
+psql:sql/migrations/037_phase2_price_features.sql:128: NOTICE:  function feat.prepare_phase2_adjustment_rows() does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+DO
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+DO
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMIT

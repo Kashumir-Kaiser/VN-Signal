@@ -1,0 +1,587 @@
+Build ID: phase2-e1-v3-067-20261024-quarterly
+Stage: features
+Date range: 2020-01-01 through 2026-10-16
+Failure recorded at: 2026-10-24 03:50:12 +07:00
+
+psql failed with exit code 3. BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:16: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:16: NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.635514
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:16: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.194297
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |        1878
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:17: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:17: NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, dates 2008, elapsed 00:00:01.598753
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:17: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.257785
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        2100
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:18: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:18: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:01.861261
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:18: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.413421
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        2409
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:19: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:19: NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.334161
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:19: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.153709
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |         576
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:20: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:20: NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, dates 2008, elapsed 00:00:00.938631
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:20: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.265581
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        1303
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:21: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:21: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:01.799904
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:21: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.453871
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        2339
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:22: NOTICE:  Phase 2 adjustment cache scaling exponent 1.178, 15/30/60 timings 576/1303/2339 ms, 1518 symbols in 26 batches of 60 (estimated per-batch 2947.6 ms), projected cache time 1.28 minutes (budget 40 minutes)
+ assert_phase2_adjustment_cache_scaling 
+----------------------------------------
+                     1.1776963671258223
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:23: NOTICE:  Phase 2 adjustment cache initialized for 26 batches of up to 60 symbols
+ begin_phase2_adjustment_rows 
+------------------------------
+                           26
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          108331
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:02.143937
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115152
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 1 rows 115152, dates 2008, elapsed 00:00:02.809025
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 2 rows 111302, dates 2008, elapsed 00:00:03.534217
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111302
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113879
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 3 rows 113879, dates 2008, elapsed 00:00:04.140302
+ populate_phase2_adjustment_rows 
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 4 rows 114214, dates 2008, elapsed 00:00:02.623035
+---------------------------------
+                          114214
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 5 rows 114805, dates 2008, elapsed 00:00:03.301746
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114805
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112592
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 6 rows 112592, dates 2008, elapsed 00:00:03.460343
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          116639
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 7 rows 116639, dates 2008, elapsed 00:00:02.38668
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 8 rows 106585, dates 2008, elapsed 00:00:02.856969
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106585
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111358
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 9 rows 111358, dates 2008, elapsed 00:00:02.676165
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106117
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 10 rows 106117, dates 2008, elapsed 00:00:02.270668
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113594
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 11 rows 113594, dates 2008, elapsed 00:00:02.2365
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112628
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 12 rows 112628, dates 2008, elapsed 00:00:02.291498
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113102
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 13 rows 113102, dates 2008, elapsed 00:00:02.372894
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113642
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 14 rows 113642, dates 2008, elapsed 00:00:03.01674
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111909
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 15 rows 111909, dates 2008, elapsed 00:00:03.178317
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111802
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 16 rows 111802, dates 2008, elapsed 00:00:02.230234
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115171
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 17 rows 115171, dates 2008, elapsed 00:00:02.903263
+ populate_phase2_adjustment_rows 
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 18 rows 115471, dates 2008, elapsed 00:00:04.198014
+---------------------------------
+                          115471
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112613
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 19 rows 112613, dates 2008, elapsed 00:00:04.55316
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          109469
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 20 rows 109469, dates 2008, elapsed 00:00:04.923401
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114091
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 21 rows 114091, dates 2008, elapsed 00:00:03.692621
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          110051
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 22 rows 110051, dates 2008, elapsed 00:00:04.017284
+ populate_phase2_adjustment_rows 
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 23 rows 112438, dates 2008, elapsed 00:00:03.394728
+---------------------------------
+                          112438
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115457
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 24 rows 115457, dates 2008, elapsed 00:00:03.924762
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           32023
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:28: NOTICE:  Phase 2 adjustment cache batch 25 rows 32023, dates 2008, elapsed 00:00:02.358622
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:29: NOTICE:  Phase 2 adjustment cache rows 2844435, finalize elapsed 00:00:16.3668
+ finish_phase2_adjustment_rows 
+-------------------------------
+                       2844435
+(1 row)
+
+COMMIT
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:109: NOTICE:  Phase 2 price-day hash range 2018-10-01 through 2020-03-31: requested 374, uncovered 374, date planning elapsed 00:00:00.356157
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:109: NOTICE:  Phase 2 price-day hash aggregate completed: 374 dates, elapsed 00:01:36.364273
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:109: NOTICE:  Phase 2 price-day hash coverage recorded: 374 requested dates, total elapsed 00:01:36.379564
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:109: NOTICE:  START features 20200101-20200331
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:109: NOTICE:  Phase 2 sessions 374, elapsed 00:00:05.456487
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:109: NOTICE:  Phase 2 market context rows 374, elapsed 00:02:24.011092
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:109: NOTICE:  Phase 2 rank rows 41881, elapsed 00:00:12.940613
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:109: NOTICE:  Phase 2 batch 0 spine rows 22440, elapsed 00:00:08.515718
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:109: NOTICE:  Phase 2 batch 0 base rows 3481, elapsed 00:00:00.386999
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-e0337c3d8fe744a2a9fbf98ef0affc46.sql:109: ERROR:  canceling statement due to user request
+CONTEXT:  SQL statement "WITH sessions AS MATERIALIZED (
+        SELECT trade_date,session_no FROM pg_temp.phase2_v3_sessions
+    ), spine AS NOT MATERIALIZED (
+        SELECT * FROM pg_temp.phase2_v3_spine
+    ), ema_episode_marks AS MATERIALIZED (
+        SELECT p.*,
+               CASE WHEN p.c IS NOT NULL AND p.episode_key IS DISTINCT FROM
+                         lag(p.episode_key) OVER(PARTITION BY p.symbol_id ORDER BY p.session_no)
+                    THEN 1::bigint ELSE 0::bigint END AS ema_episode_start
+        FROM spine p
+    ), ema_episode_groups AS MATERIALIZED (
+        SELECT p.*,
+               sum(p.ema_episode_start) OVER(PARTITION BY p.symbol_id ORDER BY p.session_no
+                   ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ema_episode
+        FROM ema_episode_marks p
+    ), ema_input_stats AS MATERIALIZED (
+        SELECT p.*,
+               min(p.session_no) FILTER(WHERE p.c IS NOT NULL)
+                   OVER(PARTITION BY p.symbol_id,p.ema_episode) AS first_close_session,
+               count(*) FILTER(WHERE p.is_traded AND p.c IS NOT NULL)
+                   OVER(PARTITION BY p.symbol_id,p.ema_episode ORDER BY p.session_no
+                        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ema_count
+        FROM ema_episode_groups p
+    ), ema_inputs AS MATERIALIZED (
+        SELECT p.*,
+               CASE WHEN p.session_no=p.first_close_session OR p.is_traded THEN p.c END AS ema_input
+        FROM ema_input_stats p
+    ), ema_state AS MATERIALIZED (
+        SELECT p.symbol_id,p.trade_date,p.session_no,p.episode_key,p.ema_episode,p.c,p.is_traded,p.ema_count,
+               feat.ema(p.ema_input,2.0/6) OVER w AS ema5,
+               feat.ema(p.ema_input,2.0/11) OVER w AS ema10,
+               feat.ema(p.ema_input,2.0/21) OVER w AS ema20,
+               feat.ema(p.ema_input,2.0/51) OVER w AS ema50,
+               feat.ema(p.ema_input,2.0/101) OVER w AS ema100,
+               feat.ema(p.ema_input,2.0/201) OVER w AS ema200,
+               feat.ema(p.ema_input,2.0/13) OVER w AS ema12,
+               feat.ema(p.ema_input,2.0/27) OVER w AS ema26
+        FROM ema_inputs p
+        WINDOW w AS (PARTITION BY p.symbol_id,p.ema_episode ORDER BY p.session_no
+                     ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+    ), ema_macd AS MATERIALIZED (
+        SELECT e.*,
+               feat.ema(CASE WHEN e.is_traded AND e.ema_count>=26 THEN e.ema12-e.ema26 END,0.2)
+                   OVER(PARTITION BY e.symbol_id,e.ema_episode ORDER BY e.session_no
+                        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS macd_signal,
+               count(*) FILTER(WHERE e.is_traded AND e.ema_count>=26)
+                   OVER(PARTITION BY e.symbol_id,e.ema_episode ORDER BY e.session_no
+                        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS macd_count
+        FROM ema_state e
+    ), ema_signal AS MATERIALIZED (
+        SELECT e.*,
+               CASE WHEN e.is_traded AND e.ema_count>=5 AND e.ema5>0 THEN e.c/e.ema5-1 END AS ema5_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=10 AND e.ema10>0 THEN e.c/e.ema10-1 END AS ema10_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=20 AND e.ema20>0 THEN e.c/e.ema20-1 END AS ema20_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=50 AND e.ema50>0 THEN e.c/e.ema50-1 END AS ema50_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=100 AND e.ema100>0 THEN e.c/e.ema100-1 END AS ema100_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=200 AND e.ema200>0 THEN e.c/e.ema200-1 END AS ema200_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=26 AND e.macd_count>=9 AND e.c>0
+                    THEN ((e.ema12-e.ema26)-e.macd_signal)/e.c END AS macd_histogram_pct
+        FROM ema_macd e
+    ), prior_price AS MATERIALIZED (
+        SELECT x.*,
+               lag(x.is_traded) OVER w AS prior_is_traded,
+               lag(x.c) OVER w AS prior_c,
+               lag(x.h) OVER w AS prior_h,
+               lag(x.l) OVER w AS prior_l,
+               lag(x.episode_key) OVER w AS prior_episode
+        FROM spine x
+        WINDOW w AS (PARTITION BY x.symbol_id ORDER BY x.session_no)
+    ), price_lags AS MATERIALIZED (
+        SELECT x.*,
+               CASE WHEN x.is_traded AND x.prior_is_traded AND x.episode_key=x.prior_episode AND x.prior_c>0
+                    THEN x.c/x.prior_c-1 END AS daily_return,
+               CASE WHEN x.is_traded AND x.prior_is_traded AND x.episode_key=x.prior_episode AND x.prior_c>0
+                    THEN x.o/x.prior_c-1 END AS open_gap,
+               CASE WHEN x.is_traded AND x.prior_is_traded AND x.episode_key=x.prior_episode
+                    THEN greatest(x.h-x.l,abs(x.h-x.prior_c),abs(x.l-x.prior_c)) END AS true_range,
+               CASE WHEN x.is_traded AND x.prior_is_traded AND x.episode_key=x.prior_episode
+                    THEN greatest(x.h-x.prior_h,0.0) END AS plus_dm,
+               CASE WHEN x.is_traded AND x.prior_is_traded AND x.episode_key=x.prior_episode
+                    THEN greatest(x.prior_l-x.l,0.0) END AS minus_dm
+        FROM prior_price x
+    ), technical AS MATERIALIZED (
+        SELECT p.*,
+               count(p.c) FILTER(WHERE p.is_traded) OVER w5 AS traded5,
+               count(p.c) FILTER(WHERE p.is_traded) OVER w10 AS traded10,
+               count(p.c) FILTER(WHERE p.is_traded) OVER w14_episode AS traded14,
+               max(p.h) FILTER(WHERE p.is_traded) OVER w14_episode AS high14,
+               min(p.l) FILTER(WHERE p.is_traded) OVER w14_episode AS low14,
+               avg(p.true_range) OVER w14 AS tr14,
+               avg(p.plus_dm) OVER w14 AS plus14,
+               avg(p.minus_dm) OVER w14 AS minus14,
+               count(p.true_range) OVER w14 AS tr_count14,
+               count(p.daily_return) OVER w5 AS return_count5,
+               sqrt(avg(power(least(p.daily_return,0.0),2)) OVER w5) AS downside5,
+               sqrt(avg(power(least(p.daily_return,0.0),2)) OVER w60) AS downside60,
+               count(p.daily_return) OVER w60 AS return_count60,
+               avg(p.daily_return) OVER w60 AS mean60,
+               stddev_pop(p.daily_return) OVER w60 AS sd60,
+               avg(power(p.daily_return,2)) OVER w60 AS raw_second60,
+               avg(power(p.daily_return,3)) OVER w60 AS raw_third60,
+               avg(power(p.daily_return,4)) OVER w60 AS raw_fourth60,
+               avg(p.open_gap) OVER w20 AS gap_mean20,
+               stddev_samp(p.open_gap) OVER w20 AS gap_sd20,
+               count(p.open_gap) OVER w20 AS gap_count20
+        FROM price_lags p
+        WINDOW w AS (PARTITION BY p.symbol_id ORDER BY p.session_no),
+               w5 AS (w ROWS BETWEEN 4 PRECEDING AND CURRENT ROW),
+               w10 AS (w ROWS BETWEEN 9 PRECEDING AND CURRENT ROW),
+               w14 AS (w ROWS BETWEEN 13 PRECEDING AND CURRENT ROW),
+               w14_episode AS (PARTITION BY p.symbol_id,p.episode_key ORDER BY p.session_no ROWS BETWEEN 13 PRECEDING AND CURRENT ROW),
+               w20 AS (w ROWS BETWEEN 19 PRECEDING AND CURRENT ROW),
+               w60 AS (w ROWS BETWEEN 59 PRECEDING AND CURRENT ROW)
+    ), directional AS MATERIALIZED (
+        SELECT t.*,
+               CASE WHEN t.tr_count14=14 AND t.tr14>0
+                    THEN 100*abs(t.plus14-t.minus14)/nullif(t.plus14+t.minus14,0) END AS dx14
+        FROM technical t
+    ), adx_calc AS MATERIALIZED (
+        SELECT d.*,
+               avg(d.dx14) OVER(PARTITION BY d.symbol_id ORDER BY d.session_no
+                   ROWS BETWEEN 13 PRECEDING AND CURRENT ROW) AS adx14_sma,
+               count(d.dx14) OVER(PARTITION BY d.symbol_id ORDER BY d.session_no
+                   ROWS BETWEEN 13 PRECEDING AND CURRENT ROW) AS adx_count14,
+               -- Convert the raw moments using this row's 60-return mean. A
+               -- second rolling window over row-specific means would center
+               -- each historical return on a different mean.
+               d.raw_third60-3*d.mean60*d.raw_second60+2*power(d.mean60,3) AS third_moment60,
+               d.raw_fourth60-4*d.mean60*d.raw_third60+6*power(d.mean60,2)*d.raw_second60
+                   -3*power(d.mean60,4) AS fourth_moment60
+        FROM directional d
+    ), index_raw AS MATERIALIZED (
+        SELECT * FROM pg_temp.phase2_v3_index_raw
+    ), market_lagged AS MATERIALIZED (
+        SELECT * FROM pg_temp.phase2_v3_market_lagged
+    ), symbol_market AS MATERIALIZED (
+        SELECT f.symbol_id,f.trade_date,s.session_no,f.ret_1 AS stock_return,
+               lag(i.index_return) OVER(PARTITION BY f.symbol_id ORDER BY s.session_no) AS index_return_lagged,
+               f.return_20s,f.turnover_proxy_vnd,f.realized_vol20,f.gap_open_1d,
+               f.distance_52w_high,f.distance_52w_low
+        FROM features_daily f
+        JOIN sessions s USING(trade_date)
+        JOIN pg_temp.phase2_v3_symbol_batches bs
+          ON bs.symbol_id=f.symbol_id AND bs.batch_no=v_batch.batch_no
+        LEFT JOIN index_raw i ON i.session_no=s.session_no
+        WHERE f.feature_version='phase2-v2'
+    ), stock_market_prefix AS MATERIALIZED (
+        SELECT x.*,
+               count(x.stock_return) OVER w AS stock_count_prefix,
+               count(x.index_return_lagged) OVER w AS market_count_prefix,
+               sum(ln(1+x.stock_return)) OVER w AS stock_log_prefix,
+               sum(ln(1+x.index_return_lagged)) OVER w AS market_log_prefix,
+               count(*) FILTER(WHERE x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL)
+                   OVER w AS pair_count_prefix,
+               sum(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.stock_return ELSE 0 END) OVER w AS stock_sum_prefix,
+               sum(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.index_return_lagged ELSE 0 END) OVER w AS market_sum_prefix,
+               sum(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.stock_return*x.stock_return ELSE 0 END) OVER w AS stock_square_prefix,
+               sum(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.index_return_lagged*x.index_return_lagged ELSE 0 END) OVER w AS market_square_prefix,
+               sum(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.stock_return*x.index_return_lagged ELSE 0 END) OVER w AS cross_product_prefix,
+               count(abs(x.stock_return)/nullif(x.turnover_proxy_vnd,0)) OVER w AS amihud_count_prefix,
+               sum(abs(x.stock_return)/nullif(x.turnover_proxy_vnd,0)) OVER w AS amihud_sum_prefix,
+               -- stable_pair_moments_v1: local Welford moments avoid subtracting
+               -- long cumulative prefixes when the residual variance is small.
+               count(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                          THEN 1 END) OVER w60 AS pair_count60_rolling,
+               var_samp(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                             THEN x.stock_return END) OVER w60 AS stock_var60_rolling,
+               var_samp(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                             THEN x.index_return_lagged END) OVER w60 AS market_var60_rolling,
+               covar_samp(
+                   CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.stock_return END,
+                   CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.index_return_lagged END
+               ) OVER w60 AS covar60_rolling,
+               count(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                          THEN 1 END) OVER w250 AS pair_count250_rolling,
+               var_samp(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                             THEN x.stock_return END) OVER w250 AS stock_var250_rolling,
+               var_samp(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                             THEN x.index_return_lagged END) OVER w250 AS market_var250_rolling,
+               covar_samp(
+                   CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.stock_return END,
+                   CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.index_return_lagged END
+               ) OVER w250 AS covar250_rolling
+        FROM symbol_market x
+        WINDOW base_w AS (PARTITION BY x.symbol_id ORDER BY x.session_no),
+              w AS (base_w ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW),
+              w60 AS (base_w ROWS BETWEEN 59 PRECEDING AND CURRENT ROW),
+              w250 AS (base_w ROWS BETWEEN 249 PRECEDING AND CURRENT ROW)
+    ), stock_market_prefix_lags AS MATERIALIZED (
+        SELECT p.*,
+               lag(p.stock_count_prefix,21) OVER w AS stock_count_lag21,
+               lag(p.stock_count_prefix,252) OVER w AS stock_count_lag252,
+               lag(p.market_count_prefix,21) OVER w AS market_count_lag21,
+               lag(p.market_count_prefix,252) OVER w AS market_count_lag252,
+               lag(p.stock_log_prefix,21) OVER w AS stock_log_lag21,
+               lag(p.stock_log_prefix,252) OVER w AS stock_log_lag252,
+               lag(p.market_log_prefix,21) OVER w AS market_log_lag21,
+               lag(p.market_log_prefix,252) OVER w AS market_log_lag252,
+               lag(p.pair_count_prefix,60) OVER w AS pair_count_lag60,
+               lag(p.pair_count_prefix,250) OVER w AS pair_count_lag250,
+               lag(p.stock_sum_prefix,60) OVER w AS stock_sum_lag60,
+               lag(p.stock_sum_prefix,250) OVER w AS stock_sum_lag250,
+               lag(p.market_sum_prefix,60) OVER w AS market_sum_lag60,
+               lag(p.market_sum_prefix,250) OVER w AS market_sum_lag250,
+               lag(p.stock_square_prefix,60) OVER w AS stock_square_lag60,
+               lag(p.stock_square_prefix,250) OVER w AS stock_square_lag250,
+               lag(p.market_square_prefix,60) OVER w AS market_square_lag60,
+               lag(p.market_square_prefix,250) OVER w AS market_square_lag250,
+               lag(p.cross_product_prefix,60) OVER w AS cross_product_lag60,
+               lag(p.cross_product_prefix,250) OVER w AS cross_product_lag250,
+               lag(p.stock_count_prefix,20) OVER w AS stock_count_lag20,
+               lag(p.amihud_count_prefix,20) OVER w AS amihud_count_lag20,
+               lag(p.amihud_sum_prefix,20) OVER w AS amihud_sum_lag20
+        FROM stock_market_prefix p
+        WINDOW w AS (PARTITION BY p.symbol_id ORDER BY p.session_no)
+    ), stock_market_differences AS MATERIALIZED (
+        SELECT p.*,
+               coalesce(p.stock_count_lag21,0)-coalesce(p.stock_count_lag252,0) AS stock_n231,
+               coalesce(p.market_count_lag21,0)-coalesce(p.market_count_lag252,0) AS market_n231,
+               coalesce(p.stock_log_lag21,0)-coalesce(p.stock_log_lag252,0) AS stock_log_12_1,
+               coalesce(p.market_log_lag21,0)-coalesce(p.market_log_lag252,0) AS market_log_12_1,
+                p.pair_count60_rolling AS n60,
+                p.pair_count250_rolling AS n250,
+               p.stock_sum_prefix-coalesce(p.stock_sum_lag60,0) AS stock_sum60,
+               p.stock_sum_prefix-coalesce(p.stock_sum_lag250,0) AS stock_sum250,
+               p.market_sum_prefix-coalesce(p.market_sum_lag60,0) AS market_sum60,
+               p.market_sum_prefix-coalesce(p.market_sum_lag250,0) AS market_sum250,
+               p.stock_square_prefix-coalesce(p.stock_square_lag60,0) AS stock_square60,
+               p.stock_square_prefix-coalesce(p.stock_square_lag250,0) AS stock_square250,
+               p.market_square_prefix-coalesce(p.market_square_lag60,0) AS market_square60,
+               p.market_square_prefix-coalesce(p.market_square_lag250,0) AS market_square250,
+               p.cross_product_prefix-coalesce(p.cross_product_lag60,0) AS cross_product60,
+               p.cross_product_prefix-coalesce(p.cross_product_lag250,0) AS cross_product250,
+               p.stock_count_prefix-coalesce(p.stock_count_lag20,0) AS return_n20,
+               (p.amihud_sum_prefix-coalesce(p.amihud_sum_lag20,0)) /
+                    nullif(p.amihud_count_prefix-coalesce(p.amihud_count_lag20,0),0) AS amihud20
+        FROM stock_market_prefix_lags p
+    ), stock_market_beta AS MATERIALIZED (
+        SELECT d.*,
+               CASE WHEN d.n60>1 THEN d.covar60_rolling/nullif(d.market_var60_rolling,0) END AS beta60,
+               CASE WHEN d.n60>1 THEN greatest(0::double precision,d.stock_var60_rolling) END AS stock_var60,
+               CASE WHEN d.n60>1 THEN greatest(0::double precision,d.market_var60_rolling) END AS market_var60,
+               CASE WHEN d.n60>1 THEN d.covar60_rolling END AS covar60,
+               CASE WHEN d.n250>1 THEN d.covar250_rolling/nullif(d.market_var250_rolling,0) END AS beta250,
+               CASE WHEN d.n250>1 THEN greatest(0::double precision,d.stock_var250_rolling) END AS stock_var250,
+               CASE WHEN d.n250>1 THEN greatest(0::double precision,d.market_var250_rolling) END AS market_var250,
+               CASE WHEN d.n250>1 THEN d.covar250_rolling END AS covar250
+        FROM stock_market_differences d
+    ), stock_market_windows AS MATERIALIZED (
+        SELECT b.*,lag(b.beta60,21) OVER(PARTITION BY b.symbol_id ORDER BY b.session_no) AS beta60_at_12_1_start
+        FROM stock_market_beta b
+    ), ranks AS MATERIALIZED (
+        SELECT r.* FROM pg_temp.phase2_v3_ranks r
+        JOIN pg_temp.phase2_v3_symbol_batches bs USING(symbol_id)
+        WHERE bs.batch_no=v_batch.batch_no
+    ), stoch AS MATERIALIZED (
+        SELECT t.symbol_id,t.trade_date,t.session_no,t.episode_key,
+               CASE WHEN t.is_traded AND t.traded14=14 AND t.high14>t.low14
+                    THEN 100*(t.c-t.low14)/(t.high14-t.low14) END AS k14
+        FROM technical t
+    ), stochd AS MATERIALIZED (
+        SELECT s.*,
+               avg(s.k14) OVER(PARTITION BY s.symbol_id,s.episode_key ORDER BY s.session_no ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS d3,
+               count(s.k14) OVER(PARTITION BY s.symbol_id,s.episode_key ORDER BY s.session_no ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS n3
+        FROM stoch s
+    )
+    INSERT INTO pg_temp.phase2_v3_computed (
+        symbol_id,trade_date,momentum_12_1s,residual_momentum_12_1s,
+        ema_5_ratio,ema_10_ratio,ema_20_ratio,ema_50_ratio,ema_100_ratio,ema_200_ratio,
+        macd_histogram_pct,adx_14_sma,stochastic_k_14,stochastic_d_3,
+        downside_vol5,downside_vol60,return_skew_pop60,return_excess_kurtosis_pop60,
+        beta_vnindex_60,beta_vnindex_250,idio_vol_vnindex_60,idio_vol_vnindex_250,
+        amihud_proxy_20,gap_mean20,gap_std20,rank_gaussian_return20,
+        rank_gaussian_turnover_proxy,rank_gaussian_realized_vol20,
+        market_advance_minus_decline,market_new_high_minus_low,market_turnover_z20,
+        market_return_dispersion,vnindex_sma50_ratio,vnindex_sma200_ratio,
+        vnindex_drawdown252,vnindex_realized_vol60,quarter_end_proximity_days
+    )
+    SELECT f.symbol_id,f.trade_date,
+           CASE WHEN sm.stock_n231=231 THEN exp(sm.stock_log_12_1)-1 END,
+           CASE WHEN sm.stock_n231=231 AND sm.market_n231=231 AND sm.beta60_at_12_1_start IS NOT NULL
+                THEN (exp(sm.stock_log_12_1)-1)-sm.beta60_at_12_1_start*(exp(sm.market_log_12_1)-1) END,
+           es.ema5_ratio,es.ema10_ratio,es.ema20_ratio,es.ema50_ratio,es.ema100_ratio,es.ema200_ratio,
+           es.macd_histogram_pct,
+           CASE WHEN a.adx_count14=14 THEN a.adx14_sma END,
+           st.k14,
+           CASE WHEN st.n3=3 THEN st.d3 END,
+           CASE WHEN t.return_count5=5 THEN t.downside5 END,
+           CASE WHEN a.return_count60=60 THEN a.downside60 END,
+           CASE WHEN a.return_count60=60 AND a.sd60>0 THEN a.third_moment60/power(a.sd60,3) END,
+           CASE WHEN a.return_count60=60 AND a.sd60>0 THEN a.fourth_moment60/power(a.sd60,4)-3 END,
+           CASE WHEN sm.n60=60 AND sm.market_var60>0 THEN sm.beta60 END,
+           CASE WHEN sm.n250=250 AND sm.market_var250>0 THEN sm.beta250 END,
+           CASE WHEN sm.n60=60 AND sm.market_var60>0
+                THEN sqrt(greatest(0,sm.stock_var60-sm.covar60*sm.covar60/sm.market_var60)) END,
+           CASE WHEN sm.n250=250 AND sm.market_var250>0
+                THEN sqrt(greatest(0,sm.stock_var250-sm.covar250*sm.covar250/sm.market_var250)) END,
+           CASE WHEN sm.return_n20=20 THEN sm.amihud20 END,
+           CASE WHEN t.gap_count20=20 THEN t.gap_mean20 END,
+           CASE WHEN t.gap_count20=20 THEN t.gap_sd20 END,
+           rk.gauss_return20,rk.gauss_turnover,rk.gauss_vol20,
+           ml.advance_minus_decline,ml.new_high_minus_low,ml.turnover_z20,
+           ml.return_dispersion,ml.index_sma50_ratio,ml.index_sma200_ratio,
+           ml.index_drawdown252,ml.vol60,
+           ((date_trunc('quarter',f.trade_date::timestamp)+interval '3 months'-interval '1 day')::date-f.trade_date)::smallint
+    FROM features_daily f
+    JOIN pg_temp.phase2_v3_symbol_batches bs
+      ON bs.symbol_id=f.symbol_id AND bs.batch_no=v_batch.batch_no
+    JOIN sessions s ON s.trade_date=f.trade_date
+    LEFT JOIN ema_signal es ON es.symbol_id=f.symbol_id AND es.trade_date=f.trade_date
+    LEFT JOIN adx_calc a ON a.symbol_id=f.symbol_id AND a.trade_date=f.trade_date
+    LEFT JOIN technical t ON t.symbol_id=f.symbol_id AND t.trade_date=f.trade_date
+    LEFT JOIN stochd st ON st.symbol_id=f.symbol_id AND st.trade_date=f.trade_date
+    LEFT JOIN stock_market_windows sm ON sm.symbol_id=f.symbol_id AND sm.trade_date=f.trade_date
+    LEFT JOIN ranks rk ON rk.symbol_id=f.symbol_id AND rk.trade_date=f.trade_date
+    LEFT JOIN market_lagged ml ON ml.session_no=s.session_no-1
+    WHERE f.feature_version='phase2-v2'
+      AND f.trade_date BETWEEN p_date_from AND p_date_to"
+PL/pgSQL function build_price_features_v3_shared(date,date,bigint[]) line 399 at SQL statement
+PL/pgSQL function feat.build_price_features_v3_internal(date,date) line 5 at assignment
+PL/pgSQL function inline_code_block line 47 at assignment

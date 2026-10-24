@@ -1,0 +1,5 @@
+Pager usage is off.
+BEGIN
+CREATE TABLE
+psql:docs/evidence/phase2/hnx_upcom_transfer_sources_20261024/import_hnx_upcom_transfer_landings_reportclone.sql:34: ERROR:  invalid input syntax for type date: ""
+CONTEXT:  COPY hnx_upcom_stage, line 3, column document_date: ""

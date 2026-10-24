@@ -1,0 +1,98 @@
+Pager usage is off.
+DO
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:27: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:27: NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.548723
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:27: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.170633
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |        1236
+(1 row)
+
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:28: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:28: NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, dates 2008, elapsed 00:00:01.340655
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:28: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.379085
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        1913
+(1 row)
+
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:29: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:29: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:01.731351
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:29: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.407178
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        2270
+(1 row)
+
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:30: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:30: NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.314096
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:30: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.153169
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |         566
+(1 row)
+
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:31: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:31: NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, dates 2008, elapsed 00:00:00.757173
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:31: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.264133
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        1136
+(1 row)
+
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:32: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:01.523805
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:32: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.569917
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        2197
+(1 row)
+
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:35: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:35: NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.313334
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:35: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.145806
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |         566
+(1 row)
+
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:36: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:36: NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, dates 2008, elapsed 00:00:00.78344
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:36: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.271354
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        1134
+(1 row)
+
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:37: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:37: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:01.773728
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        2786
+(1 row)
+
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:37: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.448982
+psql:docs/evidence/phase2/phase2_cache_scale_retry_64mb_20261024.psql:38: NOTICE:  Phase 2 adjustment cache scaling exponent 1.297, 15/30/60 timings 566/1134/2786 ms, 1518 symbols in 26 batches of 60 (estimated per-batch 3416.3 ms), projected cache time 1.48 minutes (budget 40 minutes)
+ assert_phase2_adjustment_cache_scaling 
+----------------------------------------
+                      1.296774617659024
+(1 row)
+
+ temp_files | temp_bytes  
+------------+-------------
+        778 | 30762551730
+(1 row)
+
+ROLLBACK
+TEMP_STATS_BEFORE=778|30762551730 TEMP_STATS_AFTER=778|30762551730
