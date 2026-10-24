@@ -1,0 +1,136 @@
+\set ON_ERROR_STOP on
+\set build_id 'phase2-vci-full-rebuild-20261021'
+
+-- Half-year aggregation timed out at 180s. These quarterly half-open ranges
+-- are bounded, non-overlapping, and cover 2018-10-01 through 2026-10-16.
+-- Every included report runs in its own read-only transaction with the same
+-- statement and lock timeouts. Ops timing/build evidence is emitted once.
+\set chunk_start '2018-10-01'
+\set chunk_end '2019-01-01'
+\set report_ops true
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2019-01-01'
+\set chunk_end '2019-04-01'
+\set report_ops false
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2019-04-01'
+\set chunk_end '2019-07-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2019-07-01'
+\set chunk_end '2019-10-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2019-10-01'
+\set chunk_end '2020-01-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2020-01-01'
+\set chunk_end '2020-04-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2020-04-01'
+\set chunk_end '2020-07-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2020-07-01'
+\set chunk_end '2020-10-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2020-10-01'
+\set chunk_end '2021-01-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2021-01-01'
+\set chunk_end '2021-04-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2021-04-01'
+\set chunk_end '2021-07-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2021-07-01'
+\set chunk_end '2021-10-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2021-10-01'
+\set chunk_end '2022-01-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2022-01-01'
+\set chunk_end '2022-04-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2022-04-01'
+\set chunk_end '2022-07-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2022-07-01'
+\set chunk_end '2022-10-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2022-10-01'
+\set chunk_end '2023-01-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2023-01-01'
+\set chunk_end '2023-04-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2023-04-01'
+\set chunk_end '2023-07-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2023-07-01'
+\set chunk_end '2023-10-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2023-10-01'
+\set chunk_end '2024-01-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2024-01-01'
+\set chunk_end '2024-04-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2024-04-01'
+\set chunk_end '2024-07-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2024-07-01'
+\set chunk_end '2024-10-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2024-10-01'
+\set chunk_end '2025-01-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2025-01-01'
+\set chunk_end '2025-04-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2025-04-01'
+\set chunk_end '2025-07-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2025-07-01'
+\set chunk_end '2025-10-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2025-10-01'
+\set chunk_end '2026-01-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2026-01-01'
+\set chunk_end '2026-04-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2026-04-01'
+\set chunk_end '2026-07-01'
+\ir phase2_integrity_report_chunked.sql
+
+\set chunk_start '2026-07-01'
+\set chunk_end '2026-10-17'
+\ir phase2_integrity_report_chunked.sql

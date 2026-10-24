@@ -1,0 +1,118 @@
+CHECK features 20181001-20181231
+CHECK features 20190101-20190331
+CHECK features 20190401-20190630
+CHECK features 20190701-20190930
+CHECK features 20191001-20191231
+CHECK features 20200101-20200331
+CHECK features 20200401-20200630
+CHECK features 20200701-20200930
+CHECK features 20201001-20201231
+CHECK features 20210101-20210331
+CHECK features 20210401-20210630
+CHECK features 20210701-20210930
+CHECK features 20211001-20211231
+CHECK features 20220101-20220331
+CHECK features 20220401-20220630
+CHECK features 20220701-20220930
+CHECK features 20221001-20221231
+CHECK features 20230101-20230331
+CHECK features 20230401-20230630
+CHECK features 20230701-20230930
+CHECK features 20231001-20231231
+CHECK features 20240101-20240331
+CHECK features 20240401-20240630
+CHECK features 20240701-20240930
+CHECK features 20241001-20241231
+CHECK features 20250101-20250331
+CHECK features 20250401-20250630
+CHECK features 20250701-20250930
+CHECK features 20251001-20251231
+CHECK features 20260101-20260331
+CHECK features 20260401-20260630
+CHECK features 20260701-20260930
+CHECK features 20261001-20261016
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:17: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:17: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.537996
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:17: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.138694
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |         821
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:18: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:18: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.521727
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:18: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.720774
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:18: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.280494
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:18: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:18: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:18: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        1640
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:19: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:19: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.522141
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:19: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.445854
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:19: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.525671
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:19: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.453499
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:19: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.380495
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:19: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:19: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:19: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        2626
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:20: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:20: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.330353
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:20: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.132099
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:20: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:20: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:20: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |         552
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:21: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:21: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.39065
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:21: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.520005
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:21: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.696197
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:21: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:21: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:21: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        1718
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:22: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:22: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.389858
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:22: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.423868
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:22: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.419474
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:22: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.363676
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:22: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.367488
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:22: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:22: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:22: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        2115
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0f3bf25d93f44559bff74f265f0ed673.sql:23: ERROR:  cache scaling exponent 1.638 exceeds 1.3; inspect the sampled plan and re-probe
+CONTEXT:  PL/pgSQL function feat.assert_phase2_adjustment_cache_scaling() line 37 at RAISE
+FAILURE EVIDENCE C:\Users\HP\VN-Signal\docs\evidence\phase2\phase2_build_phase2-v3-073-isolated-full-20261024.failed.20261024-084526.log

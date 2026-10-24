@@ -133,6 +133,34 @@ func TestRunnerQuotaAndIdempotency(t *testing.T) {
 		t.Fatalf("resume %+v %v", sum, e)
 	}
 }
+
+func TestRunnerCommitsAttributedEmptyResponseWithoutSyntheticBars(t *testing.T) {
+	t.Setenv("VNPIPE_DISABLE_LIVE", "0")
+	pacer, _ := quota.NewPacer(60000, 4)
+	calls := 0
+	gateway, _ := live.New(pacer, func(_ context.Context, job map[string]any) (worker.Response, error) {
+		calls++
+		id := job["id"].(string)
+		raw := payloadWithAttribution("[]", 0, "{\"source\":\"VCI\",\"route\":\"equity_ohlcv\"}")
+		return worker.Response{ID: id, OK: true, Data: json.RawMessage(raw)}, nil
+	})
+	store := &memoryStore{done: map[string]Landing{}}
+	runner := Runner{Gateway: gateway, Store: store, Now: time.Now}
+	jobs := make([]BackfillJob, 0, 4)
+	for _, symbol := range []string{"BMD", "BMF", "BMG", "BMH"} {
+		jobs = append(jobs, BackfillJob{Route: "equity_ohlcv", Symbol: symbol, Start: "2026-10-05", End: "2026-10-19"})
+	}
+	summary, err := runner.RunBarsBackfill(context.Background(), jobs, "vci")
+	if err != nil || summary.Committed != 4 || summary.EmptyResponses != 4 ||
+		summary.Blocked != 0 || calls != 4 || len(store.done) != 4 {
+		t.Fatalf("summary=%+v err=%v calls=%d landings=%d", summary, err, calls, len(store.done))
+	}
+	for _, landing := range store.done {
+		if landing.Bars.Count != 0 || len(landing.Bars.Rows) != 0 || string(landing.Raw) == "" {
+			t.Fatalf("empty response synthesized a bar or lost its raw landing: %+v", landing)
+		}
+	}
+}
 func TestRunnerFailsClosedOnStorageFaults(t *testing.T) {
 	t.Setenv("VNPIPE_DISABLE_LIVE", "0")
 	job := BackfillJob{Route: "equity_ohlcv", Symbol: "FPT", Start: "2026-10-15", End: "2026-10-16"}

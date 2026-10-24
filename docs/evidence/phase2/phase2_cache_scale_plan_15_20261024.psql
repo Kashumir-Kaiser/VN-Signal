@@ -1,0 +1,40 @@
+\set ON_ERROR_STOP on
+\pset pager off
+
+-- Required plan capture after the runner's adjacent 15->30 cache exponent
+-- marginally exceeded 1.3. The entire temporary insert is rolled back.
+DO $$
+BEGIN
+    IF current_database()<>'vnsignal_phase2_report_20261019' THEN
+        RAISE EXCEPTION 'cache plan probe is restricted to the disposable report clone; got %',current_database();
+    END IF;
+END $$;
+
+BEGIN ISOLATION LEVEL REPEATABLE READ;
+SET LOCAL statement_timeout='10min';
+SET LOCAL temp_file_limit='90GB';
+SET LOCAL work_mem='32MB';
+SET LOCAL jit=off;
+SET LOCAL synchronous_commit=off;
+SET LOCAL random_page_cost=1.1;
+SET LOCAL enable_nestloop=off;
+SET LOCAL application_name='phase2_probe_cache_plan_15';
+
+SELECT feat.begin_phase2_adjustment_rows(15,15);
+EXPLAIN (ANALYZE,BUFFERS,TIMING,SUMMARY,VERBOSE)
+INSERT INTO pg_temp.phase2_adjustment_rows(
+    symbol_id,trade_date,source,v,is_traded,reference_adjustment_ratio,
+    episode_start_date,model_o,model_h,model_l,model_c,
+    adjustment_vintage_at,landing_id,source_row,fetched_at
+)
+SELECT r.symbol_id,r.trade_date,r.source,r.v,r.is_traded,
+       r.reference_adjustment_ratio,r.episode_start_date,
+       r.model_o,r.model_h,r.model_l,r.model_c,
+       r.adjustment_vintage_at,r.landing_id,r.source_row,r.fetched_at
+FROM feat.phase2_vndirect_adjustment_details_for_symbols(
+    ARRAY(SELECT symbol_id
+          FROM pg_temp.phase2_adjustment_symbol_batches
+          WHERE batch_no=0 ORDER BY symbol_id)
+) r;
+SELECT count(*) AS temp_rows_inserted FROM pg_temp.phase2_adjustment_rows;
+ROLLBACK;

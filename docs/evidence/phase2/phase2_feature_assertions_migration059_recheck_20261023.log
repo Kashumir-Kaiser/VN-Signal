@@ -1,0 +1,116 @@
+BEGIN
+DO
+CREATE TABLE
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 250 symbols
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.068459
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.042361
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.036037
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.069534
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 rank rows 1263, elapsed 00:00:00.054985
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 batch 0 spine rows 2560, elapsed 00:00:00.040195
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 batch 0 base rows 2558, elapsed 00:00:00.086748
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 batch 0 feature rows 2558, elapsed 00:00:00.708631
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache initialized for 18 batches of up to 2 symbols
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 0 rows 3, elapsed 00:00:00.005974
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 1 rows 640, elapsed 00:00:00.013266
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 2 rows 2, elapsed 00:00:00.007498
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 3 rows 321, elapsed 00:00:00.010719
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 4 rows 2, elapsed 00:00:00.006248
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 5 rows 2, elapsed 00:00:00.001757
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 6 rows 2, elapsed 00:00:00.001014
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 7 rows 2, elapsed 00:00:00.001895
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 8 rows 3, elapsed 00:00:00.001869
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 9 rows 320, elapsed 00:00:00.010518
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 10 rows 325, elapsed 00:00:00.005881
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 11 rows 2, elapsed 00:00:00.001466
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 12 rows 3, elapsed 00:00:00.002096
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 13 rows 2, elapsed 00:00:00.001954
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 14 rows 5, elapsed 00:00:00.00159
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 15 rows 321, elapsed 00:00:00.005437
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 16 rows 639, elapsed 00:00:00.008651
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 17 rows 7, elapsed 00:00:00.001054
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.038657
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.060213
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.165506
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 rank rows 1263, elapsed 00:00:00.10961
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 batch 0 spine rows 640, elapsed 00:00:00.054038
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 batch 0 base rows 640, elapsed 00:00:00.089188
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 batch 0 feature rows 640, elapsed 00:00:00.250519
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 batch 1 spine rows 640, elapsed 00:00:00.050522
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 batch 1 base rows 640, elapsed 00:00:00.073899
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 batch 1 feature rows 640, elapsed 00:00:00.256033
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 batch 2 spine rows 640, elapsed 00:00:00.054211
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 batch 2 base rows 638, elapsed 00:00:00.07368
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 batch 2 feature rows 638, elapsed 00:00:00.236679
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 batch 3 spine rows 640, elapsed 00:00:00.043294
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 batch 3 base rows 640, elapsed 00:00:00.069145
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 batch 3 feature rows 640, elapsed 00:00:00.235004
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 50 symbols
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.052969
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.038391
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  table "phase2_label_targets" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label targets rows 16, elapsed 00:00:00.021737
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  table "phase2_label_latest_exit" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  table "phase2_label_endpoint_days" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label endpoint days rows 24, elapsed 00:00:00.018213
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  table "phase2_label_endpoint_bounds" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  table "phase2_label_adjustment_prefix" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label adjustment prefix rows 166, elapsed 00:00:00.043758
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  table "phase2_label_endpoint_bars" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label endpoint bars rows 23, elapsed 00:00:00.012537
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  table "phase2_label_first_bad_factor" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.013196
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  table "phase2_label_endpoint_targets" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  table "phase2_label_spans" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 50 symbols
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.270283
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.038935
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label targets rows 16, elapsed 00:00:00.023293
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label endpoint days rows 24, elapsed 00:00:00.014848
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label adjustment prefix rows 168, elapsed 00:00:00.028838
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label endpoint bars rows 24, elapsed 00:00:00.014907
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.006089
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 50 symbols
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.047019
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.046155
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label targets rows 16, elapsed 00:00:00.021833
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label endpoint days rows 0, elapsed 00:00:00.004577
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label adjustment prefix rows 0, elapsed 00:00:00.008471
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label endpoint bars rows 0, elapsed 00:00:00.006614
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.006007
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 50 symbols
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.038659
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.041015
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label targets rows 32, elapsed 00:00:00.024514
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label endpoint days rows 48, elapsed 00:00:00.01232
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label adjustment prefix rows 176, elapsed 00:00:00.032872
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label endpoint bars rows 48, elapsed 00:00:00.014431
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.005798
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 50 symbols
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.036114
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.042337
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label targets rows 16, elapsed 00:00:00.02148
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label endpoint days rows 24, elapsed 00:00:00.013603
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label adjustment prefix rows 166, elapsed 00:00:00.042483
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label endpoint bars rows 23, elapsed 00:00:00.015649
+psql:tests/sql/phase2_feature_assertions.sql:563: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.007573
+DO
+ROLLBACK

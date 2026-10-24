@@ -1,0 +1,38 @@
+BEGIN
+DO
+COMMIT
+BEGIN
+ begin_phase2_adjustment_rows 
+------------------------------
+                            2
+(1 row)
+
+psql:tests/sql/phase2_cache_first_load_assertions.sql:3: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 2 symbols
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               3
+(1 row)
+
+psql:tests/sql/phase2_cache_first_load_assertions.sql:4: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 3, dates 3, elapsed 00:00:00.05649
+ populate_phase2_adjustment_rows 
+---------------------------------
+                             640
+(1 row)
+
+psql:tests/sql/phase2_cache_first_load_assertions.sql:5: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 640, dates 320, elapsed 00:00:00.015185
+DO
+ populate_phase2_adjustment_rows 
+---------------------------------
+psql:tests/sql/phase2_cache_first_load_assertions.sql:12: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 3, dates 3, elapsed 00:00:00.006458
+                               3
+(1 row)
+
+DO
+ finish_phase2_adjustment_rows 
+-------------------------------
+                           643
+(1 row)
+psql:tests/sql/phase2_cache_first_load_assertions.sql:19: NOTICE:  Phase 2 adjustment cache rows 643, finalize elapsed 00:00:00.039904
+
+DO
+ROLLBACK

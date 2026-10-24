@@ -1,0 +1,38 @@
+Read-only planner alternatives on verified SSD; started 2026-10-22T19:49:31.5027956+07:00
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SELECT 21285
+ALTER TABLE
+ANALYZE
+INSERT 0 9705
+ANALYZE
+SET
+                                                                                                                                                                                            QUERY PLAN                                                                                                                                                                                             
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on features_daily f  (cost=0.43..74377.92 rows=0 width=0)
+   ->  Nested Loop  (cost=0.43..74377.92 rows=28719 width=60)
+         ->  Seq Scan on phase2_rank_repair_expected r  (cost=0.00..553.90 rows=30990 width=50)
+         ->  Index Scan using features_daily_pkey on features_daily f  (cost=0.43..2.37 rows=1 width=115)
+               Index Cond: ((symbol_id = r.symbol_id) AND (trade_date = r.trade_date) AND (feature_version = 'phase2-v3'::text))
+               Filter: ((rank_realized_vol20 IS DISTINCT FROM r.uniform_vol20) OR (rank_gaussian_return20 IS DISTINCT FROM r.gauss_return20) OR (rank_gaussian_turnover_proxy IS DISTINCT FROM r.gauss_turnover) OR (rank_gaussian_realized_vol20 IS DISTINCT FROM r.gauss_vol20) OR (feature_set_hash IS DISTINCT FROM 'f4d61dd5e75ed4df90d90f28234413b9af73541853b650b5327cc0dd8be2deb1'::text))
+(6 rows)
+
+SET
+                                                                                                                                                                                                 QUERY PLAN                                                                                                                                                                                                 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on features_daily f  (cost=1018.75..586056.02 rows=0 width=0)
+   ->  Hash Join  (cost=1018.75..586056.02 rows=28719 width=60)
+         Hash Cond: ((f.symbol_id = r.symbol_id) AND (f.trade_date = r.trade_date))
+         Join Filter: ((f.rank_realized_vol20 IS DISTINCT FROM r.uniform_vol20) OR (f.rank_gaussian_return20 IS DISTINCT FROM r.gauss_return20) OR (f.rank_gaussian_turnover_proxy IS DISTINCT FROM r.gauss_turnover) OR (f.rank_gaussian_realized_vol20 IS DISTINCT FROM r.gauss_vol20) OR (f.feature_set_hash IS DISTINCT FROM 'f4d61dd5e75ed4df90d90f28234413b9af73541853b650b5327cc0dd8be2deb1'::text))
+         ->  Seq Scan on features_daily f  (cost=0.00..570273.31 rows=2798502 width=115)
+               Filter: (feature_version = 'phase2-v3'::text)
+         ->  Hash  (cost=553.90..553.90 rows=30990 width=50)
+               ->  Seq Scan on phase2_rank_repair_expected r  (cost=0.00..553.90 rows=30990 width=50)
+(8 rows)
+
+ROLLBACK
+EXPLAIN_EXIT_CODE=0; ended=2026-10-22T19:49:32.6255838+07:00

@@ -1,0 +1,41 @@
+Build ID: phase2-vci-full-rebuild-20261021
+Stage: labels
+Date range: 2020-01-01 through 2026-10-16
+Failure recorded at: 2026-10-22 08:13:35 +07:00
+
+psql failed with exit code 3. BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-506c9779088841b69614f46f417e5f50.sql:14: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-506c9779088841b69614f46f417e5f50.sql:14: NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, elapsed 00:00:00.699992
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-506c9779088841b69614f46f417e5f50.sql:14: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.251971
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |        1512
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-506c9779088841b69614f46f417e5f50.sql:15: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-506c9779088841b69614f46f417e5f50.sql:15: NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, elapsed 00:00:01.074716
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-506c9779088841b69614f46f417e5f50.sql:15: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.40617
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        1671
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-506c9779088841b69614f46f417e5f50.sql:16: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-506c9779088841b69614f46f417e5f50.sql:16: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:04.653585
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-506c9779088841b69614f46f417e5f50.sql:16: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:01.056585
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        5920
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-506c9779088841b69614f46f417e5f50.sql:17: ERROR:  cache scaling exponent 1.825 exceeds 1.3; inspect the sampled plan and re-probe
+CONTEXT:  PL/pgSQL function feat.assert_phase2_adjustment_cache_scaling() line 37 at RAISE

@@ -1,0 +1,63 @@
+Pager usage is off.
+DO
+LOAD
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+ diagnostic_backend_pid 
+------------------------
+                   3312
+(1 row)
+
+ temp_files | temp_bytes_before 
+------------+-------------------
+        538 |       21996081256
+(1 row)
+
+Timing is on.
+ begin_batches 
+---------------
+             1
+(1 row)
+
+Time: 664.057 ms
+psql:docs/evidence/phase2/phase2_e1_cache_probe_nested_plan_20261024.psql:22: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+ populated_rows 
+----------------
+         108331
+(1 row)
+
+Time: 2988.671 ms (00:02.989)
+psql:docs/evidence/phase2/phase2_e1_cache_probe_nested_plan_20261024.psql:23: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:02.985409
+psql:docs/evidence/phase2/phase2_e1_cache_probe_nested_plan_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.435938
+ finalized_rows 
+----------------
+         108331
+(1 row)
+
+Time: 436.998 ms
+ pg_stat_force_next_flush 
+--------------------------
+ 
+(1 row)
+
+Time: 5.899 ms
+ temp_files | temp_bytes_after 
+------------+------------------
+        538 |      21996081256
+(1 row)
+
+Time: 1.175 ms
+ROLLBACK
+Time: 23.563 ms

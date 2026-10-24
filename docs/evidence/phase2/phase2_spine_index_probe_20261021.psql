@@ -1,0 +1,42 @@
+\set ON_ERROR_STOP on
+BEGIN ISOLATION LEVEL REPEATABLE READ;
+SET LOCAL statement_timeout='30min';
+SET LOCAL temp_file_limit='90GB';
+SET LOCAL work_mem='128MB';
+SET LOCAL jit=off;
+SET LOCAL random_page_cost=1.1;
+SET LOCAL vnpipe.phase2_symbol_batch_size='60';
+SET LOCAL vnpipe.phase2_probe_symbol_limit='60';
+SET LOCAL application_name='phase2_probe_spine_index';
+
+SELECT feat.begin_phase2_adjustment_rows(60,60);
+DELETE FROM pg_temp.phase2_adjustment_symbol_batches;
+INSERT INTO pg_temp.phase2_adjustment_symbol_batches(symbol_id,batch_no)
+SELECT symbol_id,0
+FROM (
+    SELECT DISTINCT f.symbol_id
+    FROM feat.features_daily f
+    WHERE f.feature_version='phase2-v2'
+      AND f.trade_date BETWEEN DATE '2020-01-01' AND DATE '2020-12-31'
+      AND EXISTS (
+          SELECT 1 FROM core.bars_daily_sources b
+          WHERE b.symbol_id=f.symbol_id AND b.source='vndirect'
+      )
+      AND NOT EXISTS (
+          SELECT 1 FROM ops.ml_symbol_scope e
+          WHERE e.symbol_id=f.symbol_id AND e.scope_status='EXCLUDED'
+      )
+    ORDER BY f.symbol_id
+    LIMIT 60
+) selected;
+DO $$
+BEGIN
+    IF (SELECT count(*) FROM pg_temp.phase2_adjustment_symbol_batches)<>60 THEN
+        RAISE EXCEPTION 'spine index probe requires exactly 60 selected V2 symbols';
+    END IF;
+END $$;
+ANALYZE pg_temp.phase2_adjustment_symbol_batches;
+SELECT feat.populate_phase2_adjustment_rows(0);
+SELECT feat.finish_phase2_adjustment_rows();
+SELECT feat.build_price_features_v3_internal(DATE '2020-01-01',DATE '2020-12-31') AS rows_built;
+ROLLBACK;

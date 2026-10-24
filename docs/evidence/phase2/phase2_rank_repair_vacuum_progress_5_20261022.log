@@ -1,0 +1,5 @@
+  pid  |     phase      | heap_blks_total | heap_blks_scanned | heap_blks_vacuumed | index_vacuum_count 
+-------+----------------+-----------------+-------------------+--------------------+--------------------
+ 12148 | vacuuming heap |          499009 |            499009 |             125032 |                  1
+(1 row)
+

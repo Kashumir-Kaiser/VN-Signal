@@ -1,0 +1,29 @@
+Read-only date-scoped UPDATE plan with nested loops disabled; started 2026-10-22T19:49:55.0541422+07:00
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SELECT 21285
+ALTER TABLE
+ANALYZE
+INSERT 0 9705
+ANALYZE
+SET
+                                                                                                                                                                                                 QUERY PLAN                                                                                                                                                                                                 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on features_daily f  (cost=1771.84..99809.82 rows=0 width=0)
+   ->  Hash Join  (cost=1771.84..99809.82 rows=315 width=84)
+         Hash Cond: ((f.symbol_id = r.symbol_id) AND (f.trade_date = r.trade_date))
+         Join Filter: ((f.rank_realized_vol20 IS DISTINCT FROM r.uniform_vol20) OR (f.rank_gaussian_return20 IS DISTINCT FROM r.gauss_return20) OR (f.rank_gaussian_turnover_proxy IS DISTINCT FROM r.gauss_turnover) OR (f.rank_gaussian_realized_vol20 IS DISTINCT FROM r.gauss_vol20) OR (f.feature_set_hash IS DISTINCT FROM 'f4d61dd5e75ed4df90d90f28234413b9af73541853b650b5327cc0dd8be2deb1'::text))
+         ->  Bitmap Heap Scan on features_daily f  (cost=753.09..98629.05 rows=30711 width=115)
+               Recheck Cond: ((trade_date >= '2025-03-01'::date) AND (trade_date <= '2025-03-31'::date) AND (feature_version = 'phase2-v3'::text))
+               ->  Bitmap Index Scan on features_daily_date_version_idx  (cost=0.00..745.42 rows=30711 width=0)
+                     Index Cond: ((trade_date >= '2025-03-01'::date) AND (trade_date <= '2025-03-31'::date) AND (feature_version = 'phase2-v3'::text))
+         ->  Hash  (cost=553.90..553.90 rows=30990 width=50)
+               ->  Seq Scan on phase2_rank_repair_expected r  (cost=0.00..553.90 rows=30990 width=50)
+(10 rows)
+
+ROLLBACK
+EXPLAIN_EXIT_CODE=0; ended=2026-10-22T19:49:58.0144375+07:00

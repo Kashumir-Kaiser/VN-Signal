@@ -91,7 +91,7 @@ func AnalyzeMarketBars(symbol string, raw []byte) (MarketFrame, error) {
 	result.ProviderRoute = strings.TrimSpace(attribution.Route)
 	result.ProviderSourceName = strings.TrimSpace(attribution.SourceName)
 	result.ProviderOrganisation = strings.TrimSpace(attribution.Organisation)
-	if f.Count < 1 || f.Count != len(f.Rows) {
+	if f.Count < 0 || f.Count != len(f.Rows) || f.Rows == nil {
 		return result, fmt.Errorf("%w: missing/invalid source row count", ErrInvalidFrame)
 	}
 	columns := map[string]bool{}

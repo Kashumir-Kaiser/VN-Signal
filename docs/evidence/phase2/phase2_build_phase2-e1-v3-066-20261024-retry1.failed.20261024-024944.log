@@ -1,0 +1,272 @@
+Build ID: phase2-e1-v3-066-20261024-retry1
+Stage: features
+Date range: 2018-10-01 through 2026-10-16
+Failure recorded at: 2026-10-24 02:49:44 +07:00
+
+psql failed with exit code 3. BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:14: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:14: NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.375832
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:14: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.143714
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |         642
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:15: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:15: NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, dates 2008, elapsed 00:00:00.832583
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:15: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.224303
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        1143
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:16: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:16: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:01.971753
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:16: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.407928
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        2478
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:17: NOTICE:  Phase 2 adjustment cache scaling exponent 1.116, 15/30/60 timings 642/1143/2478 ms, 1518 symbols in 26 batches of 60 (estimated per-batch 3017.5 ms), projected cache time 1.31 minutes (budget 40 minutes)
+ assert_phase2_adjustment_cache_scaling 
+----------------------------------------
+                     1.1163507839261235
+(1 row)
+
+ begin_phase2_adjustment_rows 
+------------------------------
+                           26
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:18: NOTICE:  Phase 2 adjustment cache initialized for 26 batches of up to 60 symbols
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          108331
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:01.543048
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 1 rows 115152, dates 2008, elapsed 00:00:02.308542
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115152
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111302
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 2 rows 111302, dates 2008, elapsed 00:00:02.281337
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113879
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 3 rows 113879, dates 2008, elapsed 00:00:04.18037
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114214
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 4 rows 114214, dates 2008, elapsed 00:00:02.937252
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 5 rows 114805, dates 2008, elapsed 00:00:02.312051
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114805
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112592
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 6 rows 112592, dates 2008, elapsed 00:00:01.999266
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          116639
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 7 rows 116639, dates 2008, elapsed 00:00:02.086826
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106585
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 8 rows 106585, dates 2008, elapsed 00:00:02.016536
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111358
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 9 rows 111358, dates 2008, elapsed 00:00:02.135793
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106117
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 10 rows 106117, dates 2008, elapsed 00:00:02.175463
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 11 rows 113594, dates 2008, elapsed 00:00:02.185382
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113594
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112628
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 12 rows 112628, dates 2008, elapsed 00:00:02.091147
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113102
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 13 rows 113102, dates 2008, elapsed 00:00:02.23659
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113642
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 14 rows 113642, dates 2008, elapsed 00:00:02.176482
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111909
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 15 rows 111909, dates 2008, elapsed 00:00:02.42519
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 16 rows 111802, dates 2008, elapsed 00:00:03.400118
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111802
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115171
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 17 rows 115171, dates 2008, elapsed 00:00:04.036242
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115471
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 18 rows 115471, dates 2008, elapsed 00:00:03.68397
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112613
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 19 rows 112613, dates 2008, elapsed 00:00:03.054461
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 20 rows 109469, dates 2008, elapsed 00:00:03.07976
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          109469
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114091
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 21 rows 114091, dates 2008, elapsed 00:00:03.146604
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 22 rows 110051, dates 2008, elapsed 00:00:03.678551
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          110051
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112438
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 23 rows 112438, dates 2008, elapsed 00:00:05.03009
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 24 rows 115457, dates 2008, elapsed 00:00:03.768275
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115457
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           32023
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:23: NOTICE:  Phase 2 adjustment cache batch 25 rows 32023, dates 2008, elapsed 00:00:02.227665
+ finish_phase2_adjustment_rows 
+-------------------------------
+                       2844435
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:24: NOTICE:  Phase 2 adjustment cache rows 2844435, finalize elapsed 00:00:16.010205
+COMMIT
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:104: NOTICE:  Phase 2 price-day hash range 2018-10-01 through 2018-12-31: requested 65, uncovered 65, date planning elapsed 00:00:00.387615
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:104: NOTICE:  Phase 2 price-day hash aggregate completed: 65 dates, elapsed 00:00:17.494724
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:104: NOTICE:  Phase 2 price-day hash coverage recorded: 65 requested dates, total elapsed 00:00:17.5085
+DO
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:104: NOTICE:  SKIP features 20181001-20181231 input unchanged
+COMMIT
+DO
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:193: NOTICE:  Phase 2 price-day hash range 2018-10-01 through 2019-12-31: requested 315, uncovered 250, date planning elapsed 00:00:00.251395
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:193: NOTICE:  Phase 2 price-day hash aggregate completed: 250 dates, elapsed 00:02:28.857508
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:193: NOTICE:  Phase 2 price-day hash coverage recorded: 315 requested dates, total elapsed 00:02:28.897303
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:193: NOTICE:  SKIP features 20190101-20191231 input unchanged
+DO
+COMMIT
+DO
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:282: NOTICE:  Phase 2 price-day hash range 2018-10-01 through 2020-12-31: requested 567, uncovered 252, date planning elapsed 00:00:00.164458
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:282: NOTICE:  Phase 2 price-day hash aggregate completed: 252 dates, elapsed 00:06:22.511722
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:282: NOTICE:  Phase 2 price-day hash coverage recorded: 567 requested dates, total elapsed 00:06:22.524268
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-38e4010ec27644d6b6e1cc2b32aa4aec.sql:282: ERROR:  canceling statement due to user request
+CONTEXT:  SQL function "phase2_hash_text" statement 1
+SQL statement "SELECT coalesce(string_agg(trade_date::text||':'||day_sha256,'' ORDER BY trade_date),'')
+                                 FROM (
+              SELECT f.trade_date,
+                     ops.phase2_hash_text(string_agg(ops.phase2_hash_jsonb(to_jsonb(f)),''
+                                                      ORDER BY f.symbol_id,f.trade_date)) AS day_sha256
+                FROM feat.features_daily f
+               WHERE f.feature_version='phase2-v2'
+                 AND f.trade_date BETWEEN p_date_from AND p_date_to
+               GROUP BY f.trade_date
+          ) v2_days"
+PL/pgSQL function ops.phase2_chunk_input_hash(text,date,date) line 38 at SQL statement
+PL/pgSQL function inline_code_block line 13 at assignment

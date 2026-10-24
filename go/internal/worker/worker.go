@@ -12,6 +12,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"time"
 )
@@ -203,6 +204,9 @@ func ScriptPath() string {
 func Python() string {
 	if v := os.Getenv("VNPIPE_PYTHON"); v != "" {
 		return v
+	}
+	if runtime.GOOS == "windows" {
+		return "python"
 	}
 	return "python3"
 }

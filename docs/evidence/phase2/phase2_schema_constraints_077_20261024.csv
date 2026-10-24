@@ -1,0 +1,884 @@
+schema_name,relation_name,constraint_name,constraint_kind,definition,validated,deferrable,initially_deferred
+core,bars_1m_observations,bars_1m_observations_available_at_not_null,not_null,NOT NULL available_at,t,f,f
+core,bars_1m_observations,bars_1m_observations_bar_start_check,check,"CHECK (date_trunc('minute'::text, bar_start) = bar_start)",t,f,f
+core,bars_1m_observations,bars_1m_observations_bar_start_not_null,not_null,NOT NULL bar_start,t,f,f
+core,bars_1m_observations,bars_1m_observations_c_check,check,CHECK (c > 0::numeric),t,f,f
+core,bars_1m_observations,bars_1m_observations_c_not_null,not_null,NOT NULL c,t,f,f
+core,bars_1m_observations,bars_1m_observations_check,check,"CHECK (h >= GREATEST(o, c) AND l <= LEAST(o, c) AND h >= l)",t,f,f
+core,bars_1m_observations,bars_1m_observations_check1,check,CHECK (available_at = fetched_at),t,f,f
+core,bars_1m_observations,bars_1m_observations_fetched_at_not_null,not_null,NOT NULL fetched_at,t,f,f
+core,bars_1m_observations,bars_1m_observations_h_check,check,CHECK (h > 0::numeric),t,f,f
+core,bars_1m_observations,bars_1m_observations_h_not_null,not_null,NOT NULL h,t,f,f
+core,bars_1m_observations,bars_1m_observations_l_check,check,CHECK (l > 0::numeric),t,f,f
+core,bars_1m_observations,bars_1m_observations_l_not_null,not_null,NOT NULL l,t,f,f
+core,bars_1m_observations,bars_1m_observations_o_check,check,CHECK (o > 0::numeric),t,f,f
+core,bars_1m_observations,bars_1m_observations_o_not_null,not_null,NOT NULL o,t,f,f
+core,bars_1m_observations,bars_1m_observations_observation_id_not_null,not_null,NOT NULL observation_id,t,f,f
+core,bars_1m_observations,bars_1m_observations_pkey,primary_key,PRIMARY KEY (observation_id),t,f,f
+core,bars_1m_observations,bars_1m_observations_raw_landing_id_fkey,foreign_key,FOREIGN KEY (raw_landing_id) REFERENCES raw.landings(landing_id),t,f,f
+core,bars_1m_observations,bars_1m_observations_raw_landing_id_not_null,not_null,NOT NULL raw_landing_id,t,f,f
+core,bars_1m_observations,bars_1m_observations_raw_landing_id_source_row_key,unique,"UNIQUE (raw_landing_id, source_row)",t,f,f
+core,bars_1m_observations,bars_1m_observations_row_payload_check,check,CHECK (jsonb_typeof(row_payload) = 'object'::text),t,f,f
+core,bars_1m_observations,bars_1m_observations_row_payload_not_null,not_null,NOT NULL row_payload,t,f,f
+core,bars_1m_observations,bars_1m_observations_source_check,check,CHECK (source <> ''::text),t,f,f
+core,bars_1m_observations,bars_1m_observations_source_not_null,not_null,NOT NULL source,t,f,f
+core,bars_1m_observations,bars_1m_observations_source_row_check,check,CHECK (source_row >= 0),t,f,f
+core,bars_1m_observations,bars_1m_observations_source_row_not_null,not_null,NOT NULL source_row,t,f,f
+core,bars_1m_observations,bars_1m_observations_symbol_id_fkey,foreign_key,FOREIGN KEY (symbol_id) REFERENCES core.symbols(symbol_id),t,f,f
+core,bars_1m_observations,bars_1m_observations_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+core,bars_1m_observations,bars_1m_observations_symbol_id_source_bar_start_raw_landing_key,unique,"UNIQUE (symbol_id, source, bar_start, raw_landing_id, source_row)",t,f,f
+core,bars_1m_observations,bars_1m_observations_v_check,check,CHECK (v >= 0::numeric),t,f,f
+core,bars_1m_observations,bars_1m_observations_v_not_null,not_null,NOT NULL v,t,f,f
+core,bars_daily,bars_daily_adj_basis_check,check,"CHECK (adj_basis = ANY (ARRAY['unknown'::text, 'adjusted'::text, 'unadjusted'::text]))",t,f,f
+core,bars_daily,bars_daily_adj_basis_not_null,not_null,NOT NULL adj_basis,t,f,f
+core,bars_daily,bars_daily_c_check,check,CHECK (c > 0::double precision),t,f,f
+core,bars_daily,bars_daily_c_not_null,not_null,NOT NULL c,t,f,f
+core,bars_daily,bars_daily_fetched_at_not_null,not_null,NOT NULL fetched_at,t,f,f
+core,bars_daily,bars_daily_h_check,check,CHECK (h > 0::double precision),t,f,f
+core,bars_daily,bars_daily_h_not_null,not_null,NOT NULL h,t,f,f
+core,bars_daily,bars_daily_high_low_order,check,CHECK (h >= l),t,f,f
+core,bars_daily,bars_daily_ingest_id_not_null,not_null,NOT NULL ingest_id,t,f,f
+core,bars_daily,bars_daily_is_traded_check,check,CHECK (is_traded = (v > 0::double precision)),t,f,f
+core,bars_daily,bars_daily_is_traded_not_null,not_null,NOT NULL is_traded,t,f,f
+core,bars_daily,bars_daily_l_check,check,CHECK (l > 0::double precision),t,f,f
+core,bars_daily,bars_daily_l_not_null,not_null,NOT NULL l,t,f,f
+core,bars_daily,bars_daily_o_check,check,CHECK (o > 0::double precision),t,f,f
+core,bars_daily,bars_daily_o_not_null,not_null,NOT NULL o,t,f,f
+core,bars_daily,bars_daily_pkey,primary_key,"PRIMARY KEY (symbol_id, trade_date)",t,f,f
+core,bars_daily,bars_daily_source_not_null,not_null,NOT NULL source,t,f,f
+core,bars_daily,bars_daily_symbol_id_fkey,foreign_key,FOREIGN KEY (symbol_id) REFERENCES core.symbols(symbol_id),t,f,f
+core,bars_daily,bars_daily_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+core,bars_daily,bars_daily_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+core,bars_daily,bars_daily_traded_value_check,check,CHECK (traded_value >= 0::double precision),t,f,f
+core,bars_daily,bars_daily_v_check,check,CHECK (v >= 0::double precision),t,f,f
+core,bars_daily,bars_daily_v_not_null,not_null,NOT NULL v,t,f,f
+core,bars_daily_sources,bars_daily_sources_adj_basis_check,check,"CHECK (adj_basis = ANY (ARRAY['unknown'::text, 'adjusted'::text, 'unadjusted'::text]))",t,f,f
+core,bars_daily_sources,bars_daily_sources_adj_basis_not_null,not_null,NOT NULL adj_basis,t,f,f
+core,bars_daily_sources,bars_daily_sources_adjusted_snapshot_complete,check,CHECK (adjusted_o IS NULL AND adjusted_h IS NULL AND adjusted_l IS NULL AND adjusted_c IS NULL AND adjustment_vintage_at IS NULL OR adjusted_o IS NOT NULL AND adjusted_h IS NOT NULL AND adjusted_l IS NOT NULL AND adjusted_c IS NOT NULL AND adjusted_o > 0::double precision AND adjusted_h > 0::double precision AND adjusted_l > 0::double precision AND adjusted_c > 0::double precision AND adjusted_h >= adjusted_l AND adjustment_vintage_at IS NOT NULL),t,f,f
+core,bars_daily_sources,bars_daily_sources_c_check,check,CHECK (c > 0::double precision),t,f,f
+core,bars_daily_sources,bars_daily_sources_c_not_null,not_null,NOT NULL c,t,f,f
+core,bars_daily_sources,bars_daily_sources_check,check,CHECK (h >= l),t,f,f
+core,bars_daily_sources,bars_daily_sources_check1,check,CHECK (is_traded = (v > 0::double precision)),t,f,f
+core,bars_daily_sources,bars_daily_sources_fetched_at_not_null,not_null,NOT NULL fetched_at,t,f,f
+core,bars_daily_sources,bars_daily_sources_h_check,check,CHECK (h > 0::double precision),t,f,f
+core,bars_daily_sources,bars_daily_sources_h_not_null,not_null,NOT NULL h,t,f,f
+core,bars_daily_sources,bars_daily_sources_ingest_id_not_null,not_null,NOT NULL ingest_id,t,f,f
+core,bars_daily_sources,bars_daily_sources_is_traded_not_null,not_null,NOT NULL is_traded,t,f,f
+core,bars_daily_sources,bars_daily_sources_l_check,check,CHECK (l > 0::double precision),t,f,f
+core,bars_daily_sources,bars_daily_sources_l_not_null,not_null,NOT NULL l,t,f,f
+core,bars_daily_sources,bars_daily_sources_landing_id_fkey,foreign_key,FOREIGN KEY (landing_id) REFERENCES raw.landings(landing_id),t,f,f
+core,bars_daily_sources,bars_daily_sources_landing_id_not_null,not_null,NOT NULL landing_id,t,f,f
+core,bars_daily_sources,bars_daily_sources_landing_id_source_row_key,unique,"UNIQUE (landing_id, source_row)",t,f,f
+core,bars_daily_sources,bars_daily_sources_o_check,check,CHECK (o > 0::double precision),t,f,f
+core,bars_daily_sources,bars_daily_sources_o_not_null,not_null,NOT NULL o,t,f,f
+core,bars_daily_sources,bars_daily_sources_pkey,primary_key,"PRIMARY KEY (symbol_id, trade_date, source)",t,f,f
+core,bars_daily_sources,bars_daily_sources_source_check,check,"CHECK (source = ANY (ARRAY['dnse'::text, 'ssi'::text, 'vndirect'::text]))",t,f,f
+core,bars_daily_sources,bars_daily_sources_source_not_null,not_null,NOT NULL source,t,f,f
+core,bars_daily_sources,bars_daily_sources_source_row_check,check,CHECK (source_row >= 0),t,f,f
+core,bars_daily_sources,bars_daily_sources_source_row_not_null,not_null,NOT NULL source_row,t,f,f
+core,bars_daily_sources,bars_daily_sources_symbol_id_fkey,foreign_key,FOREIGN KEY (symbol_id) REFERENCES core.symbols(symbol_id),t,f,f
+core,bars_daily_sources,bars_daily_sources_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+core,bars_daily_sources,bars_daily_sources_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+core,bars_daily_sources,bars_daily_sources_v_check,check,CHECK (v >= 0::double precision),t,f,f
+core,bars_daily_sources,bars_daily_sources_v_not_null,not_null,NOT NULL v,t,f,f
+core,calendar,calendar_is_session_not_null,not_null,NOT NULL is_session,t,f,f
+core,calendar,calendar_pkey,primary_key,PRIMARY KEY (trade_date),t,f,f
+core,calendar,calendar_source_not_null,not_null,NOT NULL source,t,f,f
+core,calendar,calendar_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+core,calendar_event_observations,calendar_event_observations_available_at_not_null,not_null,NOT NULL available_at,t,f,f
+core,calendar_event_observations,calendar_event_observations_check,check,CHECK (event_end_date IS NULL OR event_end_date >= event_date),t,f,f
+core,calendar_event_observations,calendar_event_observations_check1,check,CHECK (event_type = 'HOLIDAY'::text AND is_trading_day IS NOT NULL OR event_type <> 'HOLIDAY'::text),t,f,f
+core,calendar_event_observations,calendar_event_observations_event_date_not_null,not_null,NOT NULL event_date,t,f,f
+core,calendar_event_observations,calendar_event_observations_event_key_check,check,CHECK (event_key <> ''::text),t,f,f
+core,calendar_event_observations,calendar_event_observations_event_key_not_null,not_null,NOT NULL event_key,t,f,f
+core,calendar_event_observations,calendar_event_observations_event_payload_check,check,CHECK (jsonb_typeof(event_payload) = 'object'::text),t,f,f
+core,calendar_event_observations,calendar_event_observations_event_payload_not_null,not_null,NOT NULL event_payload,t,f,f
+core,calendar_event_observations,calendar_event_observations_event_type_check,check,"CHECK (event_type = ANY (ARRAY['HOLIDAY'::text, 'TET'::text, 'QUARTER_END'::text, 'CORPORATE_EVENT'::text, 'OTHER'::text]))",t,f,f
+core,calendar_event_observations,calendar_event_observations_event_type_not_null,not_null,NOT NULL event_type,t,f,f
+core,calendar_event_observations,calendar_event_observations_fetched_at_not_null,not_null,NOT NULL fetched_at,t,f,f
+core,calendar_event_observations,calendar_event_observations_observation_id_not_null,not_null,NOT NULL observation_id,t,f,f
+core,calendar_event_observations,calendar_event_observations_pkey,primary_key,PRIMARY KEY (observation_id),t,f,f
+core,calendar_event_observations,calendar_event_observations_raw_landing_id_fkey,foreign_key,FOREIGN KEY (raw_landing_id) REFERENCES raw.landings(landing_id),t,f,f
+core,calendar_event_observations,calendar_event_observations_raw_landing_id_not_null,not_null,NOT NULL raw_landing_id,t,f,f
+core,calendar_event_observations,calendar_event_observations_raw_landing_id_source_row_key,unique,"UNIQUE (raw_landing_id, source_row)",t,f,f
+core,calendar_event_observations,calendar_event_observations_row_payload_check,check,CHECK (jsonb_typeof(row_payload) = 'object'::text),t,f,f
+core,calendar_event_observations,calendar_event_observations_row_payload_not_null,not_null,NOT NULL row_payload,t,f,f
+core,calendar_event_observations,calendar_event_observations_source_check,check,CHECK (source <> ''::text),t,f,f
+core,calendar_event_observations,calendar_event_observations_source_not_null,not_null,NOT NULL source,t,f,f
+core,calendar_event_observations,calendar_event_observations_source_row_check,check,CHECK (source_row >= 0),t,f,f
+core,calendar_event_observations,calendar_event_observations_source_row_not_null,not_null,NOT NULL source_row,t,f,f
+core,calendar_overrides,calendar_overrides_is_session_not_null,not_null,NOT NULL is_session,t,f,f
+core,calendar_overrides,calendar_overrides_pkey,primary_key,PRIMARY KEY (trade_date),t,f,f
+core,calendar_overrides,calendar_overrides_reason_not_null,not_null,NOT NULL reason,t,f,f
+core,calendar_overrides,calendar_overrides_recorded_at_not_null,not_null,NOT NULL recorded_at,t,f,f
+core,calendar_overrides,calendar_overrides_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+core,company_profile_observations,company_profile_observation_listing_date_interpretatio_not_null,not_null,NOT NULL listing_date_interpretation,t,f,f
+core,company_profile_observations,company_profile_observations_landing_id_fkey,foreign_key,FOREIGN KEY (landing_id) REFERENCES raw.landings(landing_id),t,f,f
+core,company_profile_observations,company_profile_observations_landing_id_key,unique,UNIQUE (landing_id),t,f,f
+core,company_profile_observations,company_profile_observations_landing_id_not_null,not_null,NOT NULL landing_id,t,f,f
+core,company_profile_observations,company_profile_observations_listing_date_interpretation_check,check,CHECK (listing_date_interpretation = 'PROVIDER_CURRENT_PROFILE_UNVERIFIED'::text),t,f,f
+core,company_profile_observations,company_profile_observations_observed_at_not_null,not_null,NOT NULL observed_at,t,f,f
+core,company_profile_observations,company_profile_observations_pkey,primary_key,PRIMARY KEY (profile_id),t,f,f
+core,company_profile_observations,company_profile_observations_profile_id_not_null,not_null,NOT NULL profile_id,t,f,f
+core,company_profile_observations,company_profile_observations_security_id_fkey,foreign_key,FOREIGN KEY (security_id) REFERENCES core.security_master(security_id),t,f,f
+core,company_profile_observations,company_profile_observations_security_id_not_null,not_null,NOT NULL security_id,t,f,f
+core,company_profile_observations,company_profile_observations_source_check,check,CHECK (source = 'vci'::text),t,f,f
+core,company_profile_observations,company_profile_observations_source_not_null,not_null,NOT NULL source,t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_available_at_not_null,not_null,NOT NULL available_at,t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_check,check,CHECK (limit_up >= limit_down),t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_fetched_at_not_null,not_null,NOT NULL fetched_at,t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_limit_down_check,check,CHECK (limit_down > 0::numeric),t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_limit_down_not_null,not_null,NOT NULL limit_down,t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_limit_up_check,check,CHECK (limit_up > 0::numeric),t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_limit_up_not_null,not_null,NOT NULL limit_up,t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_observation_id_not_null,not_null,NOT NULL observation_id,t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_pkey,primary_key,PRIMARY KEY (observation_id),t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_raw_landing_id_fkey,foreign_key,FOREIGN KEY (raw_landing_id) REFERENCES raw.landings(landing_id),t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_raw_landing_id_not_null,not_null,NOT NULL raw_landing_id,t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_raw_landing_id_source_row_key,unique,"UNIQUE (raw_landing_id, source_row)",t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_row_payload_check,check,CHECK (jsonb_typeof(row_payload) = 'object'::text),t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_row_payload_not_null,not_null,NOT NULL row_payload,t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_source_check,check,CHECK (source <> ''::text),t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_source_not_null,not_null,NOT NULL source,t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_source_row_check,check,CHECK (source_row >= 0),t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_source_row_not_null,not_null,NOT NULL source_row,t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_symbol_id_fkey,foreign_key,FOREIGN KEY (symbol_id) REFERENCES core.symbols(symbol_id),t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+core,daily_price_limit_observations,daily_price_limit_observations_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+core,fundamentals_pit,fundamentals_pit_archive_managed_not_null,not_null,NOT NULL archive_managed,t,f,f
+core,fundamentals_pit,fundamentals_pit_archive_shape,check,"CHECK (NOT archive_managed OR (statement_type = ANY (ARRAY['income_statement'::text, 'balance_sheet'::text, 'cash_flow'::text])) AND ingest_id IS NOT NULL AND fetched_at IS NOT NULL AND row_id IS NOT NULL AND row_id <> ''::text AND line_name IS NOT NULL AND line_name <> ''::text AND line_order IS NOT NULL AND line_level = 1 AND (availability_basis = ANY (ARRAY['assumed_backfill_lag'::text, 'observed_ingestion'::text])) AND availability_is_assumed = (availability_basis = 'assumed_backfill_lag'::text) AND raw_landing_id IS NOT NULL AND row_payload IS NOT NULL AND source_row IS NOT NULL AND source_row >= 0 AND first_seen_at = fetched_at AND last_seen_at IS NOT NULL AND last_seen_at >= first_seen_at AND (availability_basis = 'assumed_backfill_lag'::text AND available_at = ((period_end +
+CASE period_type
+    WHEN 'quarter'::text THEN 45
+    ELSE 100
+END)::timestamp without time zone AT TIME ZONE 'Asia/Ho_Chi_Minh'::text) OR availability_basis = 'observed_ingestion'::text AND available_at = fetched_at)) NOT VALID",f,f,f
+core,fundamentals_pit,fundamentals_pit_available_at_not_null,not_null,NOT NULL available_at,t,f,f
+core,fundamentals_pit,fundamentals_pit_check,check,CHECK (available_at >= (period_end::timestamp without time zone AT TIME ZONE 'Asia/Ho_Chi_Minh'::text)),t,f,f
+core,fundamentals_pit,fundamentals_pit_check1,check,CHECK (last_seen_at IS NULL OR last_seen_at >= first_seen_at),t,f,f
+core,fundamentals_pit,fundamentals_pit_first_seen_at_not_null,not_null,NOT NULL first_seen_at,t,f,f
+core,fundamentals_pit,fundamentals_pit_line_item_not_null,not_null,NOT NULL line_item,t,f,f
+core,fundamentals_pit,fundamentals_pit_payload_not_null,not_null,NOT NULL payload,t,f,f
+core,fundamentals_pit,fundamentals_pit_period_end_not_null,not_null,NOT NULL period_end,t,f,f
+core,fundamentals_pit,fundamentals_pit_period_type_check,check,"CHECK (period_type = ANY (ARRAY['quarter'::text, 'year'::text]))",t,f,f
+core,fundamentals_pit,fundamentals_pit_period_type_not_null,not_null,NOT NULL period_type,t,f,f
+core,fundamentals_pit,fundamentals_pit_pkey,primary_key,PRIMARY KEY (snapshot_id),t,f,f
+core,fundamentals_pit,fundamentals_pit_raw_landing_fk,foreign_key,FOREIGN KEY (raw_landing_id) REFERENCES raw.landings(landing_id) NOT VALID,f,f,f
+core,fundamentals_pit,fundamentals_pit_restated_not_null,not_null,NOT NULL restated,t,f,f
+core,fundamentals_pit,fundamentals_pit_snapshot_id_not_null,not_null,NOT NULL snapshot_id,t,f,f
+core,fundamentals_pit,fundamentals_pit_source_not_null,not_null,NOT NULL source,t,f,f
+core,fundamentals_pit,fundamentals_pit_symbol_id_fkey,foreign_key,FOREIGN KEY (symbol_id) REFERENCES core.symbols(symbol_id),t,f,f
+core,fundamentals_pit,fundamentals_pit_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+core,fundamentals_pit_observations,fundamentals_pit_observations_fetched_at_not_null,not_null,NOT NULL fetched_at,t,f,f
+core,fundamentals_pit_observations,fundamentals_pit_observations_ingest_id_not_null,not_null,NOT NULL ingest_id,t,f,f
+core,fundamentals_pit_observations,fundamentals_pit_observations_observation_id_not_null,not_null,NOT NULL observation_id,t,f,f
+core,fundamentals_pit_observations,fundamentals_pit_observations_pkey,primary_key,PRIMARY KEY (observation_id),t,f,f
+core,fundamentals_pit_observations,fundamentals_pit_observations_raw_landing_id_fkey,foreign_key,FOREIGN KEY (raw_landing_id) REFERENCES raw.landings(landing_id),t,f,f
+core,fundamentals_pit_observations,fundamentals_pit_observations_raw_landing_id_not_null,not_null,NOT NULL raw_landing_id,t,f,f
+core,fundamentals_pit_observations,fundamentals_pit_observations_raw_landing_id_source_row_key,unique,"UNIQUE (raw_landing_id, source_row)",t,f,f
+core,fundamentals_pit_observations,fundamentals_pit_observations_recorded_at_not_null,not_null,NOT NULL recorded_at,t,f,f
+core,fundamentals_pit_observations,fundamentals_pit_observations_row_payload_not_null,not_null,NOT NULL row_payload,t,f,f
+core,fundamentals_pit_observations,fundamentals_pit_observations_snapshot_id_fkey,foreign_key,FOREIGN KEY (snapshot_id) REFERENCES core.fundamentals_pit(snapshot_id),t,f,f
+core,fundamentals_pit_observations,fundamentals_pit_observations_snapshot_id_not_null,not_null,NOT NULL snapshot_id,t,f,f
+core,fundamentals_pit_observations,fundamentals_pit_observations_source_not_null,not_null,NOT NULL source,t,f,f
+core,fundamentals_pit_observations,fundamentals_pit_observations_source_row_check,check,CHECK (source_row >= 0),t,f,f
+core,fundamentals_pit_observations,fundamentals_pit_observations_source_row_not_null,not_null,NOT NULL source_row,t,f,f
+core,index_bars,index_bars_c_check,check,CHECK (c > 0::double precision),t,f,f
+core,index_bars,index_bars_c_not_null,not_null,NOT NULL c,t,f,f
+core,index_bars,index_bars_fetched_at_not_null,not_null,NOT NULL fetched_at,t,f,f
+core,index_bars,index_bars_h_check,check,CHECK (h > 0::double precision),t,f,f
+core,index_bars,index_bars_h_not_null,not_null,NOT NULL h,t,f,f
+core,index_bars,index_bars_index_symbol_not_null,not_null,NOT NULL index_symbol,t,f,f
+core,index_bars,index_bars_ingest_id_not_null,not_null,NOT NULL ingest_id,t,f,f
+core,index_bars,index_bars_l_check,check,CHECK (l > 0::double precision),t,f,f
+core,index_bars,index_bars_l_not_null,not_null,NOT NULL l,t,f,f
+core,index_bars,index_bars_o_check,check,CHECK (o > 0::double precision),t,f,f
+core,index_bars,index_bars_o_not_null,not_null,NOT NULL o,t,f,f
+core,index_bars,index_bars_pkey,primary_key,"PRIMARY KEY (index_symbol, trade_date, source)",t,f,f
+core,index_bars,index_bars_source_not_null,not_null,NOT NULL source,t,f,f
+core,index_bars,index_bars_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+core,index_bars,index_bars_v_check,check,CHECK (v >= 0::double precision),t,f,f
+core,listed_share_observations,listed_share_observations_available_at_not_null,not_null,NOT NULL available_at,t,f,f
+core,listed_share_observations,listed_share_observations_fetched_at_not_null,not_null,NOT NULL fetched_at,t,f,f
+core,listed_share_observations,listed_share_observations_listed_shares_check,check,CHECK (listed_shares > 0::numeric),t,f,f
+core,listed_share_observations,listed_share_observations_listed_shares_not_null,not_null,NOT NULL listed_shares,t,f,f
+core,listed_share_observations,listed_share_observations_observation_id_not_null,not_null,NOT NULL observation_id,t,f,f
+core,listed_share_observations,listed_share_observations_pkey,primary_key,PRIMARY KEY (observation_id),t,f,f
+core,listed_share_observations,listed_share_observations_raw_landing_id_fkey,foreign_key,FOREIGN KEY (raw_landing_id) REFERENCES raw.landings(landing_id),t,f,f
+core,listed_share_observations,listed_share_observations_raw_landing_id_not_null,not_null,NOT NULL raw_landing_id,t,f,f
+core,listed_share_observations,listed_share_observations_raw_landing_id_source_row_key,unique,"UNIQUE (raw_landing_id, source_row)",t,f,f
+core,listed_share_observations,listed_share_observations_row_payload_check,check,CHECK (jsonb_typeof(row_payload) = 'object'::text),t,f,f
+core,listed_share_observations,listed_share_observations_row_payload_not_null,not_null,NOT NULL row_payload,t,f,f
+core,listed_share_observations,listed_share_observations_source_check,check,CHECK (source <> ''::text),t,f,f
+core,listed_share_observations,listed_share_observations_source_not_null,not_null,NOT NULL source,t,f,f
+core,listed_share_observations,listed_share_observations_source_row_check,check,CHECK (source_row >= 0),t,f,f
+core,listed_share_observations,listed_share_observations_source_row_not_null,not_null,NOT NULL source_row,t,f,f
+core,listed_share_observations,listed_share_observations_symbol_id_fkey,foreign_key,FOREIGN KEY (symbol_id) REFERENCES core.symbols(symbol_id),t,f,f
+core,listed_share_observations,listed_share_observations_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+core,listed_share_observations,listed_share_observations_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+core,listing_snapshots,listing_snapshots_exchange_check,check,"CHECK (exchange = ANY (ARRAY['HOSE'::text, 'HNX'::text, 'UPCOM'::text]))",t,f,f
+core,listing_snapshots,listing_snapshots_exchange_not_null,not_null,NOT NULL exchange,t,f,f
+core,listing_snapshots,listing_snapshots_pkey,primary_key,"PRIMARY KEY (snapshot_date, symbol_id)",t,f,f
+core,listing_snapshots,listing_snapshots_snapshot_date_not_null,not_null,NOT NULL snapshot_date,t,f,f
+core,listing_snapshots,listing_snapshots_symbol_id_fkey,foreign_key,FOREIGN KEY (symbol_id) REFERENCES core.symbols(symbol_id),t,f,f
+core,listing_snapshots,listing_snapshots_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_check,check,CHECK (date_to IS NULL OR date_from <= date_to),t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_check1,check,CHECK (evidence_type <> 'FIRST_EVER_PUBLIC_TRADE'::text OR date_to = date_from),t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_check2,check,CHECK (evidence_type = 'FIRST_EVER_PUBLIC_TRADE'::text OR exchange IS NOT NULL),t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_date_from_not_null,not_null,NOT NULL date_from,t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_evidence_id_not_null,not_null,NOT NULL evidence_id,t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_evidence_type_check,check,"CHECK (evidence_type = ANY (ARRAY['FIRST_EVER_PUBLIC_TRADE'::text, 'TRADE_ELIGIBLE'::text, 'TRADING_SUSPENDED'::text, 'DELISTED'::text]))",t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_evidence_type_not_null,not_null,NOT NULL evidence_type,t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_exchange_check,check,"CHECK (exchange = ANY (ARRAY['HOSE'::text, 'HNX'::text, 'UPCOM'::text]))",t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_first_observed_at_not_null,not_null,NOT NULL first_observed_at,t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_pkey,primary_key,PRIMARY KEY (evidence_id),t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_recorded_at_not_null,not_null,NOT NULL recorded_at,t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_source_document_date_not_null,not_null,NOT NULL source_document_date,t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_source_landing_id_fkey,foreign_key,FOREIGN KEY (source_landing_id) REFERENCES raw.landings(landing_id),t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_source_landing_id_not_null,not_null,NOT NULL source_landing_id,t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_source_url_check,check,CHECK (source_url ~ '^https://[^[:space:]]+$'::text),t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_source_url_not_null,not_null,NOT NULL source_url,t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_symbol_id_evidence_type_date_fr_key,unique,"UNIQUE (symbol_id, evidence_type, date_from, source_landing_id)",t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_symbol_id_fkey,foreign_key,FOREIGN KEY (symbol_id) REFERENCES core.symbols(symbol_id),t,f,f
+core,security_lifecycle_evidence,security_lifecycle_evidence_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+core,security_master,security_master_check,check,CHECK (last_observed_at >= first_observed_at),t,f,f
+core,security_master,security_master_first_observed_at_not_null,not_null,NOT NULL first_observed_at,t,f,f
+core,security_master,security_master_last_observed_at_not_null,not_null,NOT NULL last_observed_at,t,f,f
+core,security_master,security_master_pkey,primary_key,PRIMARY KEY (security_id),t,f,f
+core,security_master,security_master_security_id_not_null,not_null,NOT NULL security_id,t,f,f
+core,security_master,security_master_symbol_check,check,"CHECK (symbol ~ '^[A-Z0-9]{1,12}$'::text)",t,f,f
+core,security_master,security_master_symbol_key,unique,UNIQUE (symbol),t,f,f
+core,security_master,security_master_symbol_not_null,not_null,NOT NULL symbol,t,f,f
+core,security_observations,security_observations_category_check,check,"CHECK (category = ANY (ARRAY['EXCHANGE_LISTED'::text, 'PROVIDER_DELISTED_UNDATED'::text]))",t,f,f
+core,security_observations,security_observations_category_not_null,not_null,NOT NULL category,t,f,f
+core,security_observations,security_observations_check,check,CHECK (category = 'EXCHANGE_LISTED'::text AND exchange IS NOT NULL OR category = 'PROVIDER_DELISTED_UNDATED'::text AND exchange IS NULL),t,f,f
+core,security_observations,security_observations_exchange_check,check,"CHECK (exchange = ANY (ARRAY['HOSE'::text, 'HNX'::text, 'UPCOM'::text]))",t,f,f
+core,security_observations,security_observations_landing_id_fkey,foreign_key,FOREIGN KEY (landing_id) REFERENCES raw.landings(landing_id),t,f,f
+core,security_observations,security_observations_landing_id_not_null,not_null,NOT NULL landing_id,t,f,f
+core,security_observations,security_observations_landing_id_provider_row_index_key,unique,"UNIQUE (landing_id, provider_row_index)",t,f,f
+core,security_observations,security_observations_landing_id_security_id_key,unique,"UNIQUE (landing_id, security_id)",t,f,f
+core,security_observations,security_observations_observation_id_not_null,not_null,NOT NULL observation_id,t,f,f
+core,security_observations,security_observations_observed_at_not_null,not_null,NOT NULL observed_at,t,f,f
+core,security_observations,security_observations_observed_on_not_null,not_null,NOT NULL observed_on,t,f,f
+core,security_observations,security_observations_pkey,primary_key,PRIMARY KEY (observation_id),t,f,f
+core,security_observations,security_observations_provider_row_index_check,check,CHECK (provider_row_index >= 0),t,f,f
+core,security_observations,security_observations_provider_row_index_not_null,not_null,NOT NULL provider_row_index,t,f,f
+core,security_observations,security_observations_security_id_fkey,foreign_key,FOREIGN KEY (security_id) REFERENCES core.security_master(security_id),t,f,f
+core,security_observations,security_observations_security_id_not_null,not_null,NOT NULL security_id,t,f,f
+core,security_observations,security_observations_source_check,check,CHECK (source = 'vci'::text),t,f,f
+core,security_observations,security_observations_source_not_null,not_null,NOT NULL source,t,f,f
+core,symbols,symbols_active_not_null,not_null,NOT NULL active,t,f,f
+core,symbols,symbols_exchange_check,check,"CHECK (exchange = ANY (ARRAY['HOSE'::text, 'HNX'::text, 'UPCOM'::text]))",t,f,f
+core,symbols,symbols_exchange_not_null,not_null,NOT NULL exchange,t,f,f
+core,symbols,symbols_first_seen_at_not_null,not_null,NOT NULL first_seen_at,t,f,f
+core,symbols,symbols_last_seen_at_not_null,not_null,NOT NULL last_seen_at,t,f,f
+core,symbols,symbols_pkey,primary_key,PRIMARY KEY (symbol_id),t,f,f
+core,symbols,symbols_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+core,symbols,symbols_symbol_key,unique,UNIQUE (symbol),t,f,f
+core,symbols,symbols_symbol_not_null,not_null,NOT NULL symbol,t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_check,check,"CHECK (model_h >= GREATEST(model_o, model_c))",t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_check1,check,"CHECK (model_l <= LEAST(model_o, model_c))",t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_evidence_note_not_null,not_null,NOT NULL evidence_note,t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_evidence_sha256_check,check,CHECK (evidence_sha256 ~ '^[0-9a-f]{64}$'::text),t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_evidence_sha256_not_null,not_null,NOT NULL evidence_sha256,t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_evidence_url_not_null,not_null,NOT NULL evidence_url,t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_model_c_check,check,CHECK (model_c > 0::double precision AND model_c < 'Infinity'::double precision),t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_model_c_not_null,not_null,NOT NULL model_c,t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_model_h_check,check,CHECK (model_h > 0::double precision AND model_h < 'Infinity'::double precision),t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_model_h_not_null,not_null,NOT NULL model_h,t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_model_l_check,check,CHECK (model_l > 0::double precision AND model_l < 'Infinity'::double precision),t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_model_l_not_null,not_null,NOT NULL model_l,t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_model_o_check,check,CHECK (model_o > 0::double precision AND model_o < 'Infinity'::double precision),t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_model_o_not_null,not_null,NOT NULL model_o,t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_pkey,primary_key,"PRIMARY KEY (symbol_id, trade_date, source)",t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_recorded_at_not_null,not_null,NOT NULL recorded_at,t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_secondary_evidence_sha256_check,check,CHECK (secondary_evidence_sha256 IS NULL OR secondary_evidence_sha256 ~ '^[0-9a-f]{64}$'::text),t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_source_check,check,CHECK (source = 'vndirect'::text),t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_source_not_null,not_null,NOT NULL source,t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_symbol_id_trade_date_source_fkey,foreign_key,"FOREIGN KEY (symbol_id, trade_date, source) REFERENCES core.bars_daily_sources(symbol_id, trade_date, source)",t,f,f
+core,vndirect_model_bar_overrides,vndirect_model_bar_overrides_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+core,vndirect_reference_adjustment_overrides,vndirect_reference_adjustme_reference_adjustment_ratio_not_null,not_null,NOT NULL reference_adjustment_ratio,t,f,f
+core,vndirect_reference_adjustment_overrides,vndirect_reference_adjustment__reference_adjustment_ratio_check,check,CHECK (reference_adjustment_ratio > 0::double precision AND reference_adjustment_ratio < 'Infinity'::double precision),t,f,f
+core,vndirect_reference_adjustment_overrides,vndirect_reference_adjustment__symbol_id_trade_date_source_fkey,foreign_key,"FOREIGN KEY (symbol_id, trade_date, source) REFERENCES core.bars_daily_sources(symbol_id, trade_date, source)",t,f,f
+core,vndirect_reference_adjustment_overrides,vndirect_reference_adjustment_override_resolution_kind_not_null,not_null,NOT NULL resolution_kind,t,f,f
+core,vndirect_reference_adjustment_overrides,vndirect_reference_adjustment_overrides_check,check,CHECK (resolution_kind = 'NO_ACTION'::text AND reference_adjustment_ratio = 1::double precision OR resolution_kind = 'CORPORATE_ACTION'::text AND reference_adjustment_ratio <> 1::double precision),t,f,f
+core,vndirect_reference_adjustment_overrides,vndirect_reference_adjustment_overrides_evidence_note_not_null,not_null,NOT NULL evidence_note,t,f,f
+core,vndirect_reference_adjustment_overrides,vndirect_reference_adjustment_overrides_evidence_url_not_null,not_null,NOT NULL evidence_url,t,f,f
+core,vndirect_reference_adjustment_overrides,vndirect_reference_adjustment_overrides_pkey,primary_key,"PRIMARY KEY (symbol_id, trade_date, source)",t,f,f
+core,vndirect_reference_adjustment_overrides,vndirect_reference_adjustment_overrides_recorded_at_not_null,not_null,NOT NULL recorded_at,t,f,f
+core,vndirect_reference_adjustment_overrides,vndirect_reference_adjustment_overrides_resolution_kind_check,check,"CHECK (resolution_kind = ANY (ARRAY['NO_ACTION'::text, 'CORPORATE_ACTION'::text]))",t,f,f
+core,vndirect_reference_adjustment_overrides,vndirect_reference_adjustment_overrides_source_check,check,CHECK (source = 'vndirect'::text),t,f,f
+core,vndirect_reference_adjustment_overrides,vndirect_reference_adjustment_overrides_source_not_null,not_null,NOT NULL source,t,f,f
+core,vndirect_reference_adjustment_overrides,vndirect_reference_adjustment_overrides_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+core,vndirect_reference_adjustment_overrides,vndirect_reference_adjustment_overrides_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+feat,features_daily,features_daily_as_of_factor_check,check,CHECK (as_of_factor IS NULL OR as_of_factor > 0::double precision AND as_of_factor < 'Infinity'::double precision),t,f,f
+feat,features_daily,features_daily_bar_landing_id_fkey,foreign_key,FOREIGN KEY (bar_landing_id) REFERENCES raw.landings(landing_id),t,f,f
+feat,features_daily,features_daily_bar_source_row_check,check,CHECK (bar_source_row IS NULL OR bar_source_row >= 0),t,f,f
+feat,features_daily,features_daily_built_at_not_null,not_null,NOT NULL built_at,t,f,f
+feat,features_daily,features_daily_feature_set_hash_check,check,CHECK (feature_set_hash ~ '^[0-9a-f]{64}$'::text),t,f,f
+feat,features_daily,features_daily_feature_set_hash_not_null,not_null,NOT NULL feature_set_hash,t,f,f
+feat,features_daily,features_daily_feature_version_not_null,not_null,NOT NULL feature_version,t,f,f
+feat,features_daily,features_daily_is_traded_not_null,not_null,NOT NULL is_traded,t,f,f
+feat,features_daily,features_daily_pkey,primary_key,"PRIMARY KEY (symbol_id, trade_date, feature_version)",t,f,f
+feat,features_daily,features_daily_price_basis_check,check,CHECK (price_basis = 'adjusted_as_of_reference'::text),t,f,f
+feat,features_daily,features_daily_price_basis_not_null,not_null,NOT NULL price_basis,t,f,f
+feat,features_daily,features_daily_source_check,check,CHECK (source = 'vndirect'::text),t,f,f
+feat,features_daily,features_daily_source_not_null,not_null,NOT NULL source,t,f,f
+feat,features_daily,features_daily_symbol_id_fkey,foreign_key,FOREIGN KEY (symbol_id) REFERENCES core.symbols(symbol_id),t,f,f
+feat,features_daily,features_daily_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+feat,features_daily,features_daily_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+feat,features_daily,features_daily_volume_check,check,CHECK (volume >= 0::double precision),t,f,f
+feat,features_daily,features_daily_volume_not_null,not_null,NOT NULL volume,t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_built_at_not_null,not_null,NOT NULL built_at,t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_feature_version_not_null,not_null,NOT NULL feature_version,t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_listed_share_observation_id_fkey,foreign_key,FOREIGN KEY (listed_share_observation_id) REFERENCES core.listed_share_observations(observation_id),t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_listed_shares_check,check,CHECK (listed_shares IS NULL OR listed_shares > 0::numeric),t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_mapping_hash_check,check,CHECK (mapping_hash ~ '^[0-9a-f]{64}$'::text),t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_mapping_hash_not_null,not_null,NOT NULL mapping_hash,t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_pit_quarter_count_check,check,CHECK (pit_quarter_count >= 0),t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_pit_quarter_count_not_null,not_null,NOT NULL pit_quarter_count,t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_pit_snapshot_ids_not_null,not_null,NOT NULL pit_snapshot_ids,t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_pkey,primary_key,"PRIMARY KEY (symbol_id, trade_date, feature_version, mapping_hash)",t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_price_landing_id_fkey,foreign_key,FOREIGN KEY (price_landing_id) REFERENCES raw.landings(landing_id),t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_price_source_row_check,check,CHECK (price_source_row IS NULL OR price_source_row >= 0),t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_raw_landing_ids_not_null,not_null,NOT NULL raw_landing_ids,t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_source_check,check,CHECK (source = 'vci'::text),t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_source_not_null,not_null,NOT NULL source,t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_symbol_id_fkey,foreign_key,FOREIGN KEY (symbol_id) REFERENCES core.symbols(symbol_id),t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+feat,fundamental_features_daily,fundamental_features_daily_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+feat,fundamental_industry_class_map,fundamental_industry_class_map_industry_check,check,CHECK (industry <> ''::text),t,f,f
+feat,fundamental_industry_class_map,fundamental_industry_class_map_industry_class_check,check,"CHECK (industry_class = ANY (ARRAY['BANK'::text, 'OTHER'::text]))",t,f,f
+feat,fundamental_industry_class_map,fundamental_industry_class_map_industry_class_not_null,not_null,NOT NULL industry_class,t,f,f
+feat,fundamental_industry_class_map,fundamental_industry_class_map_industry_not_null,not_null,NOT NULL industry,t,f,f
+feat,fundamental_industry_class_map,fundamental_industry_class_map_mapping_version_check,check,CHECK (mapping_version <> ''::text),t,f,f
+feat,fundamental_industry_class_map,fundamental_industry_class_map_mapping_version_not_null,not_null,NOT NULL mapping_version,t,f,f
+feat,fundamental_industry_class_map,fundamental_industry_class_map_pkey,primary_key,PRIMARY KEY (industry),t,f,f
+feat,fundamental_line_item_map,fundamental_line_item_map_active_not_null,not_null,NOT NULL active,t,f,f
+feat,fundamental_line_item_map,fundamental_line_item_map_check,check,"CHECK ((feature_key = ANY (ARRAY['revenue'::text, 'gross_profit'::text, 'operating_profit'::text, 'net_profit'::text, 'bank_interest_income'::text, 'bank_interest_expense'::text, 'bank_net_interest_income'::text, 'bank_net_profit'::text])) AND statement_type = 'income_statement'::text OR (feature_key = ANY (ARRAY['total_assets'::text, 'total_liabilities'::text, 'equity'::text, 'bank_total_assets'::text, 'bank_equity'::text])) AND statement_type = 'balance_sheet'::text OR feature_key = 'operating_cash_flow'::text AND statement_type = 'cash_flow'::text)",t,f,f
+feat,fundamental_line_item_map,fundamental_line_item_map_feature_key_check,check,"CHECK (feature_key = ANY (ARRAY['revenue'::text, 'gross_profit'::text, 'operating_profit'::text, 'net_profit'::text, 'total_assets'::text, 'total_liabilities'::text, 'equity'::text, 'operating_cash_flow'::text, 'bank_interest_income'::text, 'bank_interest_expense'::text, 'bank_net_interest_income'::text, 'bank_net_profit'::text, 'bank_total_assets'::text, 'bank_equity'::text]))",t,f,f
+feat,fundamental_line_item_map,fundamental_line_item_map_feature_key_not_null,not_null,NOT NULL feature_key,t,f,f
+feat,fundamental_line_item_map,fundamental_line_item_map_mapping_scope_check,check,"CHECK (mapping_scope = ANY (ARRAY['ALL'::text, 'BANK'::text]))",t,f,f
+feat,fundamental_line_item_map,fundamental_line_item_map_mapping_scope_not_null,not_null,NOT NULL mapping_scope,t,f,f
+feat,fundamental_line_item_map,fundamental_line_item_map_mapping_version_check,check,CHECK (mapping_version <> ''::text),t,f,f
+feat,fundamental_line_item_map,fundamental_line_item_map_mapping_version_not_null,not_null,NOT NULL mapping_version,t,f,f
+feat,fundamental_line_item_map,fundamental_line_item_map_pkey,primary_key,"PRIMARY KEY (source, statement_type, row_id, mapping_scope, mapping_version)",t,f,f
+feat,fundamental_line_item_map,fundamental_line_item_map_row_id_check,check,CHECK (row_id <> ''::text),t,f,f
+feat,fundamental_line_item_map,fundamental_line_item_map_row_id_not_null,not_null,NOT NULL row_id,t,f,f
+feat,fundamental_line_item_map,fundamental_line_item_map_source_check,check,CHECK (source = 'vci'::text),t,f,f
+feat,fundamental_line_item_map,fundamental_line_item_map_source_not_null,not_null,NOT NULL source,t,f,f
+feat,fundamental_line_item_map,fundamental_line_item_map_statement_type_check,check,"CHECK (statement_type = ANY (ARRAY['income_statement'::text, 'balance_sheet'::text, 'cash_flow'::text]))",t,f,f
+feat,fundamental_line_item_map,fundamental_line_item_map_statement_type_not_null,not_null,NOT NULL statement_type,t,f,f
+feat,fundamental_line_item_map,fundamental_line_item_map_value_multiplier_check,check,CHECK (value_multiplier > 0::numeric),t,f,f
+feat,fundamental_line_item_map,fundamental_line_item_map_value_multiplier_not_null,not_null,NOT NULL value_multiplier,t,f,f
+feat,labels_daily,labels_daily_check,check,CHECK ((label_status = 'READY'::text) = (stock_return IS NOT NULL AND vnindex_return IS NOT NULL AND excess_return IS NOT NULL)),t,f,f
+feat,labels_daily,labels_daily_computed_at_not_null,not_null,NOT NULL computed_at,t,f,f
+feat,labels_daily,labels_daily_entry_landing_id_fkey,foreign_key,FOREIGN KEY (entry_landing_id) REFERENCES raw.landings(landing_id),t,f,f
+feat,labels_daily,labels_daily_exit_landing_id_fkey,foreign_key,FOREIGN KEY (exit_landing_id) REFERENCES raw.landings(landing_id),t,f,f
+feat,labels_daily,labels_daily_feature_set_hash_check,check,CHECK (feature_set_hash ~ '^[0-9a-f]{64}$'::text),t,f,f
+feat,labels_daily,labels_daily_feature_set_hash_not_null,not_null,NOT NULL feature_set_hash,t,f,f
+feat,labels_daily,labels_daily_horizon_sessions_check,check,"CHECK (horizon_sessions = ANY (ARRAY[5, 20]))",t,f,f
+feat,labels_daily,labels_daily_horizon_sessions_not_null,not_null,NOT NULL horizon_sessions,t,f,f
+feat,labels_daily,labels_daily_label_status_check,check,"CHECK (label_status = ANY (ARRAY['READY'::text, 'MISSING_SESSION'::text, 'INSUFFICIENT_SESSIONS'::text, 'MISSING_ENTRY'::text, 'MISSING_EXIT'::text, 'SUSPENDED_ENTRY'::text, 'SUSPENDED_EXIT'::text, 'EPISODE_CHANGED'::text, 'MISSING_BENCHMARK'::text, 'UNRESOLVED_ADJUSTMENT'::text]))",t,f,f
+feat,labels_daily,labels_daily_label_status_not_null,not_null,NOT NULL label_status,t,f,f
+feat,labels_daily,labels_daily_label_version_not_null,not_null,NOT NULL label_version,t,f,f
+feat,labels_daily,labels_daily_pkey,primary_key,"PRIMARY KEY (symbol_id, signal_date, horizon_sessions, label_version)",t,f,f
+feat,labels_daily,labels_daily_price_basis_check,check,CHECK (price_basis = 'adjusted_as_of_exit'::text),t,f,f
+feat,labels_daily,labels_daily_price_basis_not_null,not_null,NOT NULL price_basis,t,f,f
+feat,labels_daily,labels_daily_signal_date_not_null,not_null,NOT NULL signal_date,t,f,f
+feat,labels_daily,labels_daily_symbol_id_fkey,foreign_key,FOREIGN KEY (symbol_id) REFERENCES core.symbols(symbol_id),t,f,f
+feat,labels_daily,labels_daily_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_built_at_not_null,not_null,NOT NULL built_at,t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_check,check,CHECK (winsorized_excess_p01 <= winsorized_excess_p99),t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_check1,check,CHECK (winsorized_excess_return >= winsorized_excess_p01 AND winsorized_excess_return <= winsorized_excess_p99),t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_check2,check,CHECK ((liquidity_tier IS NULL) = (tier_uniform_rank IS NULL)),t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_check3,check,CHECK ((target_rank_in_tier IS NULL) = (target_uniform_rank IS NULL)),t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_execution_weight_check,check,CHECK (execution_weight IS NULL OR execution_weight >= 0::double precision AND execution_weight <= 1::double precision),t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_feature_set_hash_check,check,CHECK (feature_set_hash ~ '^[0-9a-f]{64}$'::text),t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_feature_set_hash_not_null,not_null,NOT NULL feature_set_hash,t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_horizon_sessions_check,check,"CHECK (horizon_sessions = ANY (ARRAY[5, 20]))",t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_horizon_sessions_not_null,not_null,NOT NULL horizon_sessions,t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_is_investable_member_not_null,not_null,NOT NULL is_investable_member,t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_label_version_not_null,not_null,NOT NULL label_version,t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_liquidity_tier_check,check,"CHECK (liquidity_tier = ANY (ARRAY['L1'::text, 'L2'::text, 'L3'::text]))",t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_membership_gate_status_check,check,"CHECK (membership_gate_status = ANY (ARRAY['ELIGIBLE'::text, 'INELIGIBLE'::text, 'INDETERMINATE'::text]))",t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_membership_gate_status_not_null,not_null,NOT NULL membership_gate_status,t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_pkey,primary_key,"PRIMARY KEY (symbol_id, signal_date, horizon_sessions, label_version)",t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_raw_excess_return_not_null,not_null,NOT NULL raw_excess_return,t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_signal_date_not_null,not_null,NOT NULL signal_date,t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_symbol_id_fkey,foreign_key,FOREIGN KEY (symbol_id) REFERENCES core.symbols(symbol_id),t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_target_tier_count_check,check,CHECK (target_tier_count IS NULL OR target_tier_count > 0),t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_target_uniform_rank_check,check,CHECK (target_uniform_rank IS NULL OR target_uniform_rank > 0::double precision AND target_uniform_rank < 1::double precision),t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_tier_uniform_rank_check,check,CHECK (tier_uniform_rank IS NULL OR tier_uniform_rank > 0::double precision AND tier_uniform_rank < 1::double precision),t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_winsorized_excess_p01_not_null,not_null,NOT NULL winsorized_excess_p01,t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_winsorized_excess_p99_not_null,not_null,NOT NULL winsorized_excess_p99,t,f,f
+feat,phase2_label_targets_v3,phase2_label_targets_v3_winsorized_excess_return_not_null,not_null,NOT NULL winsorized_excess_return,t,f,f
+feat,phase2_liquidity_tiers_v3,phase2_liquidity_tiers_v3_check,check,CHECK ((liquidity_tier IS NULL) = (tier_uniform_rank IS NULL)),t,f,f
+feat,phase2_liquidity_tiers_v3,phase2_liquidity_tiers_v3_feature_set_hash_check,check,CHECK (feature_set_hash ~ '^[0-9a-f]{64}$'::text),t,f,f
+feat,phase2_liquidity_tiers_v3,phase2_liquidity_tiers_v3_feature_set_hash_not_null,not_null,NOT NULL feature_set_hash,t,f,f
+feat,phase2_liquidity_tiers_v3,phase2_liquidity_tiers_v3_is_investable_member_not_null,not_null,NOT NULL is_investable_member,t,f,f
+feat,phase2_liquidity_tiers_v3,phase2_liquidity_tiers_v3_liquidity_tier_check,check,"CHECK (liquidity_tier = ANY (ARRAY['L1'::text, 'L2'::text, 'L3'::text]))",t,f,f
+feat,phase2_liquidity_tiers_v3,phase2_liquidity_tiers_v3_membership_gate_status_check,check,"CHECK (membership_gate_status = ANY (ARRAY['ELIGIBLE'::text, 'INELIGIBLE'::text, 'INDETERMINATE'::text]))",t,f,f
+feat,phase2_liquidity_tiers_v3,phase2_liquidity_tiers_v3_membership_gate_status_not_null,not_null,NOT NULL membership_gate_status,t,f,f
+feat,phase2_liquidity_tiers_v3,phase2_liquidity_tiers_v3_pkey,primary_key,"PRIMARY KEY (symbol_id, trade_date)",t,f,f
+feat,phase2_liquidity_tiers_v3,phase2_liquidity_tiers_v3_symbol_id_fkey,foreign_key,FOREIGN KEY (symbol_id) REFERENCES core.symbols(symbol_id),t,f,f
+feat,phase2_liquidity_tiers_v3,phase2_liquidity_tiers_v3_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+feat,phase2_liquidity_tiers_v3,phase2_liquidity_tiers_v3_tier_uniform_rank_check,check,CHECK (tier_uniform_rank IS NULL OR tier_uniform_rank > 0::double precision AND tier_uniform_rank < 1::double precision),t,f,f
+feat,phase2_liquidity_tiers_v3,phase2_liquidity_tiers_v3_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+ops,alternate_bar_quality_issues,alternate_bar_quality_issues_category_check,check,CHECK (length(category) >= 1 AND length(category) <= 64),t,f,f
+ops,alternate_bar_quality_issues,alternate_bar_quality_issues_category_not_null,not_null,NOT NULL category,t,f,f
+ops,alternate_bar_quality_issues,alternate_bar_quality_issues_issue_id_not_null,not_null,NOT NULL issue_id,t,f,f
+ops,alternate_bar_quality_issues,alternate_bar_quality_issues_job_id_fkey,foreign_key,FOREIGN KEY (job_id) REFERENCES ops.ingest_jobs(job_id),t,f,f
+ops,alternate_bar_quality_issues,alternate_bar_quality_issues_job_id_not_null,not_null,NOT NULL job_id,t,f,f
+ops,alternate_bar_quality_issues,alternate_bar_quality_issues_landing_id_fkey,foreign_key,FOREIGN KEY (landing_id) REFERENCES raw.landings(landing_id),t,f,f
+ops,alternate_bar_quality_issues,alternate_bar_quality_issues_landing_id_not_null,not_null,NOT NULL landing_id,t,f,f
+ops,alternate_bar_quality_issues,alternate_bar_quality_issues_observed_at_not_null,not_null,NOT NULL observed_at,t,f,f
+ops,alternate_bar_quality_issues,alternate_bar_quality_issues_pkey,primary_key,PRIMARY KEY (issue_id),t,f,f
+ops,alternate_bar_quality_issues,alternate_bar_quality_issues_reason_check,check,CHECK (length(reason) >= 1 AND length(reason) <= 240),t,f,f
+ops,alternate_bar_quality_issues,alternate_bar_quality_issues_reason_not_null,not_null,NOT NULL reason,t,f,f
+ops,alternate_bar_quality_issues,alternate_bar_quality_issues_source_row_check,check,CHECK (source_row >= 0),t,f,f
+ops,alternate_bar_quality_issues,alternate_bar_quality_issues_source_row_not_null,not_null,NOT NULL source_row,t,f,f
+ops,alternate_bar_quality_issues,alternate_bar_quality_issues_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+ops,api_calls,api_calls_attempted_at_not_null,not_null,NOT NULL attempted_at,t,f,f
+ops,api_calls,api_calls_call_id_not_null,not_null,NOT NULL call_id,t,f,f
+ops,api_calls,api_calls_outcome_not_null,not_null,NOT NULL outcome,t,f,f
+ops,api_calls,api_calls_pkey,primary_key,PRIMARY KEY (call_id),t,f,f
+ops,api_calls,api_calls_route_not_null,not_null,NOT NULL route,t,f,f
+ops,api_calls,api_calls_run_id_fkey,foreign_key,FOREIGN KEY (run_id) REFERENCES ops.pipeline_runs(run_id),t,f,f
+ops,api_reservations,api_reservations_attempt_no_check,check,CHECK (attempt_no >= 1),t,f,f
+ops,api_reservations,api_reservations_attempt_no_not_null,not_null,NOT NULL attempt_no,t,f,f
+ops,api_reservations,api_reservations_check,check,CHECK (not_before >= reserved_at),t,f,f
+ops,api_reservations,api_reservations_job_id_attempt_no_key,unique,"UNIQUE (job_id, attempt_no)",t,f,f
+ops,api_reservations,api_reservations_job_id_fkey,foreign_key,FOREIGN KEY (job_id) REFERENCES ops.ingest_jobs(job_id),t,f,f
+ops,api_reservations,api_reservations_job_id_not_null,not_null,NOT NULL job_id,t,f,f
+ops,api_reservations,api_reservations_not_before_not_null,not_null,NOT NULL not_before,t,f,f
+ops,api_reservations,api_reservations_outcome_check,check,"CHECK (outcome = ANY (ARRAY['RESERVED'::text, 'SENT'::text, 'SUCCEEDED'::text, 'FAILED'::text, 'RATE_LIMITED'::text, 'CANCELLED'::text]))",t,f,f
+ops,api_reservations,api_reservations_outcome_not_null,not_null,NOT NULL outcome,t,f,f
+ops,api_reservations,api_reservations_pkey,primary_key,PRIMARY KEY (reservation_id),t,f,f
+ops,api_reservations,api_reservations_reservation_id_not_null,not_null,NOT NULL reservation_id,t,f,f
+ops,api_reservations,api_reservations_reserved_at_not_null,not_null,NOT NULL reserved_at,t,f,f
+ops,bar_quality_issues,bar_quality_issues_category_check,check,"CHECK (category = ANY (ARRAY['ZERO_VOLUME_UNVERIFIED'::text, 'INVALID_OHLC'::text, 'INVALID_PRICE'::text, 'INVALID_VOLUME'::text]))",t,f,f
+ops,bar_quality_issues,bar_quality_issues_category_not_null,not_null,NOT NULL category,t,f,f
+ops,bar_quality_issues,bar_quality_issues_issue_id_not_null,not_null,NOT NULL issue_id,t,f,f
+ops,bar_quality_issues,bar_quality_issues_job_id_fkey,foreign_key,FOREIGN KEY (job_id) REFERENCES ops.ingest_jobs(job_id),t,f,f
+ops,bar_quality_issues,bar_quality_issues_job_id_not_null,not_null,NOT NULL job_id,t,f,f
+ops,bar_quality_issues,bar_quality_issues_landing_id_fkey,foreign_key,FOREIGN KEY (landing_id) REFERENCES raw.landings(landing_id),t,f,f
+ops,bar_quality_issues,bar_quality_issues_landing_id_not_null,not_null,NOT NULL landing_id,t,f,f
+ops,bar_quality_issues,bar_quality_issues_landing_id_source_row_key,unique,"UNIQUE (landing_id, source_row)",t,f,f
+ops,bar_quality_issues,bar_quality_issues_observed_at_not_null,not_null,NOT NULL observed_at,t,f,f
+ops,bar_quality_issues,bar_quality_issues_pkey,primary_key,PRIMARY KEY (issue_id),t,f,f
+ops,bar_quality_issues,bar_quality_issues_reason_check,check,CHECK (length(reason) >= 1 AND length(reason) <= 120),t,f,f
+ops,bar_quality_issues,bar_quality_issues_reason_not_null,not_null,NOT NULL reason,t,f,f
+ops,bar_quality_issues,bar_quality_issues_source_row_check,check,CHECK (source_row >= 0),t,f,f
+ops,bar_quality_issues,bar_quality_issues_source_row_not_null,not_null,NOT NULL source_row,t,f,f
+ops,bar_quality_issues,bar_quality_issues_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_audit_id_not_null,not_null,NOT NULL audit_id,t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_job_id_fkey,foreign_key,FOREIGN KEY (job_id) REFERENCES ops.ingest_jobs(job_id),t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_job_id_not_null,not_null,NOT NULL job_id,t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_landing_id_fkey,foreign_key,FOREIGN KEY (landing_id) REFERENCES raw.landings(landing_id),t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_landing_id_not_null,not_null,NOT NULL landing_id,t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_landing_id_validator_version_key,unique,"UNIQUE (landing_id, validator_version)",t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_pkey,primary_key,PRIMARY KEY (audit_id),t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_previous_issue_count_check,check,CHECK (previous_issue_count >= 0),t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_previous_issue_count_not_null,not_null,NOT NULL previous_issue_count,t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_previous_state_check,check,"CHECK (previous_state = ANY (ARRAY['BLOCKED'::text, 'PARTIAL'::text]))",t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_previous_state_not_null,not_null,NOT NULL previous_state,t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_reprocessed_at_not_null,not_null,NOT NULL reprocessed_at,t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_resulting_issue_count_check,check,CHECK (resulting_issue_count >= 0),t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_resulting_issue_count_not_null,not_null,NOT NULL resulting_issue_count,t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_resulting_state_check,check,"CHECK (resulting_state = ANY (ARRAY['COMPLETED'::text, 'PARTIAL'::text]))",t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_resulting_state_not_null,not_null,NOT NULL resulting_state,t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_validator_version_check,check,CHECK (length(validator_version) >= 1 AND length(validator_version) <= 64),t,f,f
+ops,bar_quality_reprocess_audit,bar_quality_reprocess_audit_validator_version_not_null,not_null,NOT NULL validator_version,t,f,f
+ops,company_profile_attempts,company_profile_attempts_attempt_id_not_null,not_null,NOT NULL attempt_id,t,f,f
+ops,company_profile_attempts,company_profile_attempts_check,check,CHECK (finished_at IS NULL OR finished_at >= reserved_at),t,f,f
+ops,company_profile_attempts,company_profile_attempts_error_type_check,check,"CHECK (length(COALESCE(error_type, ''::text)) <= 120)",t,f,f
+ops,company_profile_attempts,company_profile_attempts_landing_id_fkey,foreign_key,FOREIGN KEY (landing_id) REFERENCES raw.landings(landing_id),t,f,f
+ops,company_profile_attempts,company_profile_attempts_not_before_not_null,not_null,NOT NULL not_before,t,f,f
+ops,company_profile_attempts,company_profile_attempts_pkey,primary_key,PRIMARY KEY (attempt_id),t,f,f
+ops,company_profile_attempts,company_profile_attempts_report_path_check,check,CHECK (length(report_path) >= 1 AND length(report_path) <= 1024),t,f,f
+ops,company_profile_attempts,company_profile_attempts_report_path_not_null,not_null,NOT NULL report_path,t,f,f
+ops,company_profile_attempts,company_profile_attempts_reserved_at_not_null,not_null,NOT NULL reserved_at,t,f,f
+ops,company_profile_attempts,company_profile_attempts_security_id_fkey,foreign_key,FOREIGN KEY (security_id) REFERENCES core.security_master(security_id),t,f,f
+ops,company_profile_attempts,company_profile_attempts_security_id_not_null,not_null,NOT NULL security_id,t,f,f
+ops,company_profile_attempts,company_profile_attempts_status_check,check,"CHECK (status = ANY (ARRAY['RESERVED'::text, 'IMPORTED'::text, 'MISSING_DATE'::text, 'ERROR'::text, 'UNKNOWN'::text]))",t,f,f
+ops,company_profile_attempts,company_profile_attempts_status_not_null,not_null,NOT NULL status,t,f,f
+ops,company_profile_batch_runs,company_profile_batch_runs_attempted_not_null,not_null,NOT NULL attempted,t,f,f
+ops,company_profile_batch_runs,company_profile_batch_runs_batch_id_not_null,not_null,NOT NULL batch_id,t,f,f
+ops,company_profile_batch_runs,company_profile_batch_runs_deferred_not_null,not_null,NOT NULL deferred,t,f,f
+ops,company_profile_batch_runs,company_profile_batch_runs_errors_not_null,not_null,NOT NULL errors,t,f,f
+ops,company_profile_batch_runs,company_profile_batch_runs_imported_not_null,not_null,NOT NULL imported,t,f,f
+ops,company_profile_batch_runs,company_profile_batch_runs_last_error_type_check,check,"CHECK (length(COALESCE(last_error_type, ''::text)) <= 120)",t,f,f
+ops,company_profile_batch_runs,company_profile_batch_runs_max_calls_check,check,CHECK (max_calls >= 1 AND max_calls <= 100000),t,f,f
+ops,company_profile_batch_runs,company_profile_batch_runs_max_calls_not_null,not_null,NOT NULL max_calls,t,f,f
+ops,company_profile_batch_runs,company_profile_batch_runs_missing_date_not_null,not_null,NOT NULL missing_date,t,f,f
+ops,company_profile_batch_runs,company_profile_batch_runs_pkey,primary_key,PRIMARY KEY (batch_id),t,f,f
+ops,company_profile_batch_runs,company_profile_batch_runs_skipped_errors_not_null,not_null,NOT NULL skipped_errors,t,f,f
+ops,company_profile_batch_runs,company_profile_batch_runs_skipped_existing_not_null,not_null,NOT NULL skipped_existing,t,f,f
+ops,company_profile_batch_runs,company_profile_batch_runs_skipped_unknown_not_null,not_null,NOT NULL skipped_unknown,t,f,f
+ops,company_profile_batch_runs,company_profile_batch_runs_started_at_not_null,not_null,NOT NULL started_at,t,f,f
+ops,company_profile_call_audit,company_profile_call_audit_attempt_id_fkey,foreign_key,FOREIGN KEY (attempt_id) REFERENCES ops.company_profile_attempts(attempt_id),t,f,f
+ops,company_profile_call_audit,company_profile_call_audit_attempt_id_not_null,not_null,NOT NULL attempt_id,t,f,f
+ops,company_profile_call_audit,company_profile_call_audit_check,check,CHECK (dispatched_at IS NULL OR dispatched_at >= reserved_at),t,f,f
+ops,company_profile_call_audit,company_profile_call_audit_check1,check,CHECK (finished_at IS NULL OR finished_at >= reserved_at),t,f,f
+ops,company_profile_call_audit,company_profile_call_audit_check2,check,"CHECK ((status = ANY (ARRAY['RESERVED'::text, 'DISPATCHED'::text])) = (finished_at IS NULL))",t,f,f
+ops,company_profile_call_audit,company_profile_call_audit_check3,check,"CHECK ((status <> ALL (ARRAY['SUCCEEDED'::text, 'FAILED'::text, 'RATE_LIMITED'::text])) OR dispatched_at IS NOT NULL)",t,f,f
+ops,company_profile_call_audit,company_profile_call_audit_not_before_not_null,not_null,NOT NULL not_before,t,f,f
+ops,company_profile_call_audit,company_profile_call_audit_pkey,primary_key,PRIMARY KEY (attempt_id),t,f,f
+ops,company_profile_call_audit,company_profile_call_audit_reason_check,check,"CHECK (length(COALESCE(reason, ''::text)) <= 120)",t,f,f
+ops,company_profile_call_audit,company_profile_call_audit_reserved_at_not_null,not_null,NOT NULL reserved_at,t,f,f
+ops,company_profile_call_audit,company_profile_call_audit_status_check,check,"CHECK (status = ANY (ARRAY['RESERVED'::text, 'DISPATCHED'::text, 'SUCCEEDED'::text, 'FAILED'::text, 'RATE_LIMITED'::text, 'CANCELLED'::text]))",t,f,f
+ops,company_profile_call_audit,company_profile_call_audit_status_not_null,not_null,NOT NULL status,t,f,f
+ops,company_profile_jobs,company_profile_jobs_attempts_check,check,CHECK (attempts >= 0),t,f,f
+ops,company_profile_jobs,company_profile_jobs_attempts_not_null,not_null,NOT NULL attempts,t,f,f
+ops,company_profile_jobs,company_profile_jobs_last_error_type_check,check,"CHECK (length(COALESCE(last_error_type, ''::text)) <= 120)",t,f,f
+ops,company_profile_jobs,company_profile_jobs_pkey,primary_key,PRIMARY KEY (security_id),t,f,f
+ops,company_profile_jobs,company_profile_jobs_security_id_fkey,foreign_key,FOREIGN KEY (security_id) REFERENCES core.security_master(security_id),t,f,f
+ops,company_profile_jobs,company_profile_jobs_security_id_not_null,not_null,NOT NULL security_id,t,f,f
+ops,company_profile_jobs,company_profile_jobs_state_check,check,"CHECK (state = ANY (ARRAY['PENDING'::text, 'IN_FLIGHT'::text, 'IMPORTED'::text, 'MISSING_DATE'::text, 'ERROR'::text, 'UNKNOWN'::text]))",t,f,f
+ops,company_profile_jobs,company_profile_jobs_state_not_null,not_null,NOT NULL state,t,f,f
+ops,company_profile_jobs,company_profile_jobs_updated_at_not_null,not_null,NOT NULL updated_at,t,f,f
+ops,dq_cross_source_samples,dq_cross_source_lineage_complete,check,CHECK (primary_landing_id IS NULL AND primary_source_row IS NULL AND secondary_landing_id IS NULL AND secondary_source_row IS NULL OR primary_landing_id IS NOT NULL AND primary_source_row IS NOT NULL AND primary_source_row >= 0 AND secondary_landing_id IS NOT NULL AND secondary_source_row IS NOT NULL AND secondary_source_row >= 0 AND primary_landing_id <> secondary_landing_id),t,f,f
+ops,dq_cross_source_samples,dq_cross_source_samples_check,check,CHECK (lower(primary_source) <> lower(secondary_source)),t,f,f
+ops,dq_cross_source_samples,dq_cross_source_samples_pkey,primary_key,"PRIMARY KEY (trade_date, symbol)",t,f,f
+ops,dq_cross_source_samples,dq_cross_source_samples_primary_close_not_null,not_null,NOT NULL primary_close,t,f,f
+ops,dq_cross_source_samples,dq_cross_source_samples_primary_landing_id_fkey,foreign_key,FOREIGN KEY (primary_landing_id) REFERENCES raw.landings(landing_id),t,f,f
+ops,dq_cross_source_samples,dq_cross_source_samples_primary_source_check,check,CHECK (length(btrim(primary_source)) > 0),t,f,f
+ops,dq_cross_source_samples,dq_cross_source_samples_primary_source_not_null,not_null,NOT NULL primary_source,t,f,f
+ops,dq_cross_source_samples,dq_cross_source_samples_secondary_close_not_null,not_null,NOT NULL secondary_close,t,f,f
+ops,dq_cross_source_samples,dq_cross_source_samples_secondary_landing_id_fkey,foreign_key,FOREIGN KEY (secondary_landing_id) REFERENCES raw.landings(landing_id),t,f,f
+ops,dq_cross_source_samples,dq_cross_source_samples_secondary_source_check,check,CHECK (length(btrim(secondary_source)) > 0),t,f,f
+ops,dq_cross_source_samples,dq_cross_source_samples_secondary_source_not_null,not_null,NOT NULL secondary_source,t,f,f
+ops,dq_cross_source_samples,dq_cross_source_samples_selected_for_gate_not_null,not_null,NOT NULL selected_for_gate,t,f,f
+ops,dq_cross_source_samples,dq_cross_source_samples_symbol_not_null,not_null,NOT NULL symbol,t,f,f
+ops,dq_cross_source_samples,dq_cross_source_samples_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+ops,dq_gate_results,dq_gate_results_pkey,primary_key,PRIMARY KEY (run_id),t,f,f
+ops,dq_gate_results,dq_gate_results_recorded_at_not_null,not_null,NOT NULL recorded_at,t,f,f
+ops,dq_gate_results,dq_gate_results_report_not_null,not_null,NOT NULL report,t,f,f
+ops,dq_gate_results,dq_gate_results_run_id_fkey,foreign_key,FOREIGN KEY (run_id) REFERENCES ops.pipeline_runs(run_id),t,f,f
+ops,dq_gate_results,dq_gate_results_run_id_not_null,not_null,NOT NULL run_id,t,f,f
+ops,dq_gate_results,dq_gate_results_status_check,check,"CHECK (status = ANY (ARRAY['PASSED'::text, 'FAILED'::text, 'STALE'::text]))",t,f,f
+ops,dq_gate_results,dq_gate_results_status_not_null,not_null,NOT NULL status,t,f,f
+ops,dq_gate_results,dq_gate_results_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+ops,dq_tier_a_symbols,dq_tier_a_symbols_pkey,primary_key,"PRIMARY KEY (trade_date, symbol_id)",t,f,f
+ops,dq_tier_a_symbols,dq_tier_a_symbols_symbol_id_fkey,foreign_key,FOREIGN KEY (symbol_id) REFERENCES core.symbols(symbol_id),t,f,f
+ops,dq_tier_a_symbols,dq_tier_a_symbols_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+ops,dq_tier_a_symbols,dq_tier_a_symbols_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_buy_order_count_check,check,CHECK (buy_order_count >= 0),t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_buy_order_count_not_null,not_null,NOT NULL buy_order_count,t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_buy_order_volume_check,check,CHECK (buy_order_volume >= 0::numeric),t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_buy_order_volume_not_null,not_null,NOT NULL buy_order_volume,t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_evidence_id_not_null,not_null,NOT NULL evidence_id,t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_landing_id_fkey,foreign_key,FOREIGN KEY (landing_id) REFERENCES raw.landings(landing_id),t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_landing_id_not_null,not_null,NOT NULL landing_id,t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_landing_id_source_row_key,unique,"UNIQUE (landing_id, source_row)",t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_market_check,check,"CHECK (market = ANY (ARRAY['HNX'::text, 'UPCOM'::text]))",t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_market_not_null,not_null,NOT NULL market,t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_observed_at_not_null,not_null,NOT NULL observed_at,t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_pkey,primary_key,PRIMARY KEY (evidence_id),t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_sell_order_count_check,check,CHECK (sell_order_count >= 0),t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_sell_order_count_not_null,not_null,NOT NULL sell_order_count,t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_sell_order_volume_check,check,CHECK (sell_order_volume >= 0::numeric),t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_sell_order_volume_not_null,not_null,NOT NULL sell_order_volume,t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_source_check,check,CHECK (source = 'hnx'::text),t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_source_not_null,not_null,NOT NULL source,t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_source_row_check,check,CHECK (source_row >= 0),t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_source_row_not_null,not_null,NOT NULL source_row,t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_source_url_check,check,CHECK (source_url ~ '^https://(www\.)?hnx\.vn/[^[:space:]]+$'::text),t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_source_url_not_null,not_null,NOT NULL source_url,t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_symbol_id_fkey,foreign_key,FOREIGN KEY (symbol_id) REFERENCES core.symbols(symbol_id),t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_total_matched_value_vnd_check,check,CHECK (total_matched_value_vnd >= 0::numeric),t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_total_matched_value_vnd_not_null,not_null,NOT NULL total_matched_value_vnd,t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_total_matched_volume_check,check,CHECK (total_matched_volume >= 0::numeric),t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_total_matched_volume_not_null,not_null,NOT NULL total_matched_volume,t,f,f
+ops,exchange_daily_bar_evidence,exchange_daily_bar_evidence_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_in_total_matched_value_vnd_not_null,not_null,NOT NULL total_matched_value_vnd,t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_in_total_negotiated_value_vnd_check,check,CHECK (total_negotiated_value_vnd >= 0::numeric),t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_in_total_negotiated_volume_not_null,not_null,NOT NULL total_negotiated_volume,t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_int_total_market_value_vnd_not_null,not_null,NOT NULL total_market_value_vnd,t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_inte_evidence_id_parser_version_key,unique,"UNIQUE (evidence_id, parser_version)",t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_inter_total_matched_value_vnd_check,check,CHECK (total_matched_value_vnd >= 0::numeric),t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_inter_total_matched_volume_not_null,not_null,NOT NULL total_matched_volume,t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_inter_total_negotiated_volume_check,check,CHECK (total_negotiated_volume >= 0::numeric),t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_interp_interpretation_note_not_null,not_null,NOT NULL interpretation_note,t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_interp_total_market_value_vnd_check,check,CHECK (total_market_value_vnd >= 0::numeric),t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_interp_total_market_volume_not_null,not_null,NOT NULL total_market_volume,t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_interpre_interpretation_id_not_null,not_null,NOT NULL interpretation_id,t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_interpre_total_matched_volume_check,check,CHECK (total_matched_volume >= 0::numeric),t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_interpret_interpretation_note_check,check,CHECK (length(btrim(interpretation_note)) > 0),t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_interpret_source_field_map_not_null,not_null,NOT NULL source_field_map,t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_interpret_total_market_volume_check,check,CHECK (total_market_volume >= 0::numeric),t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_interpretat_interpreted_at_not_null,not_null,NOT NULL interpreted_at,t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_interpretat_parser_version_not_null,not_null,NOT NULL parser_version,t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_interpretati_source_field_map_check,check,CHECK (jsonb_typeof(source_field_map) = 'object'::text),t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_interpretation_evidence_id_not_null,not_null,NOT NULL evidence_id,t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_interpretation_parser_version_check,check,CHECK (length(parser_version) >= 1 AND length(parser_version) <= 80),t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_interpretations_check,check,CHECK ((total_matched_volume + total_negotiated_volume) = total_market_volume),t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_interpretations_check1,check,CHECK ((total_matched_value_vnd + total_negotiated_value_vnd) = total_market_value_vnd),t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_interpretations_evidence_id_fkey,foreign_key,FOREIGN KEY (evidence_id) REFERENCES ops.exchange_daily_bar_evidence(evidence_id),t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_interpretations_pkey,primary_key,PRIMARY KEY (interpretation_id),t,f,f
+ops,exchange_daily_bar_evidence_interpretations,exchange_daily_bar_evidence_total_negotiated_value_vnd_not_null,not_null,NOT NULL total_negotiated_value_vnd,t,f,f
+ops,external_market_calls,external_market_calls_attempt_no_check,check,CHECK (attempt_no >= 1),t,f,f
+ops,external_market_calls,external_market_calls_attempt_no_not_null,not_null,NOT NULL attempt_no,t,f,f
+ops,external_market_calls,external_market_calls_call_id_not_null,not_null,NOT NULL call_id,t,f,f
+ops,external_market_calls,external_market_calls_check,check,CHECK (finished_at IS NULL OR finished_at >= started_at),t,f,f
+ops,external_market_calls,external_market_calls_check1,check,CHECK ((outcome = 'STARTED'::text) = (finished_at IS NULL)),t,f,f
+ops,external_market_calls,external_market_calls_http_status_check,check,CHECK (http_status IS NULL OR http_status >= 100 AND http_status <= 599),t,f,f
+ops,external_market_calls,external_market_calls_job_id_attempt_no_key,unique,"UNIQUE (job_id, attempt_no)",t,f,f
+ops,external_market_calls,external_market_calls_job_id_fkey,foreign_key,FOREIGN KEY (job_id) REFERENCES ops.ingest_jobs(job_id),t,f,f
+ops,external_market_calls,external_market_calls_job_id_not_null,not_null,NOT NULL job_id,t,f,f
+ops,external_market_calls,external_market_calls_landing_id_fkey,foreign_key,FOREIGN KEY (landing_id) REFERENCES raw.landings(landing_id),t,f,f
+ops,external_market_calls,external_market_calls_outcome_check,check,"CHECK (outcome = ANY (ARRAY['STARTED'::text, 'SUCCEEDED'::text, 'EMPTY'::text, 'FAILED'::text, 'RATE_LIMITED'::text]))",t,f,f
+ops,external_market_calls,external_market_calls_outcome_not_null,not_null,NOT NULL outcome,t,f,f
+ops,external_market_calls,external_market_calls_pkey,primary_key,PRIMARY KEY (call_id),t,f,f
+ops,external_market_calls,external_market_calls_request_url_check,check,CHECK (length(request_url) >= 1 AND length(request_url) <= 2048),t,f,f
+ops,external_market_calls,external_market_calls_request_url_not_null,not_null,NOT NULL request_url,t,f,f
+ops,external_market_calls,external_market_calls_response_sha256_check,check,CHECK (response_sha256 IS NULL OR length(response_sha256) = 64),t,f,f
+ops,external_market_calls,external_market_calls_route_check,check,CHECK (route = 'equity_ohlcv'::text),t,f,f
+ops,external_market_calls,external_market_calls_route_not_null,not_null,NOT NULL route,t,f,f
+ops,external_market_calls,external_market_calls_row_count_check,check,CHECK (row_count IS NULL OR row_count >= 0),t,f,f
+ops,external_market_calls,external_market_calls_source_check,check,"CHECK (source = ANY (ARRAY['dnse'::text, 'ssi'::text, 'vndirect'::text]))",t,f,f
+ops,external_market_calls,external_market_calls_source_not_null,not_null,NOT NULL source,t,f,f
+ops,external_market_calls,external_market_calls_started_at_not_null,not_null,NOT NULL started_at,t,f,f
+ops,external_market_calls,external_market_calls_symbol_not_null,not_null,NOT NULL symbol,t,f,f
+ops,feature_chunks,feature_chunks_build_id_not_null,not_null,NOT NULL build_id,t,f,f
+ops,feature_chunks,feature_chunks_check,check,CHECK (date_from <= date_to),t,f,f
+ops,feature_chunks,feature_chunks_check1,check,"CHECK ((status <> ALL (ARRAY['done'::text, 'failed'::text])) OR finished_at IS NOT NULL)",t,f,f
+ops,feature_chunks,feature_chunks_check2,check,CHECK (status <> 'running'::text OR finished_at IS NULL),t,f,f
+ops,feature_chunks,feature_chunks_chunk_key_not_null,not_null,NOT NULL chunk_key,t,f,f
+ops,feature_chunks,feature_chunks_date_from_not_null,not_null,NOT NULL date_from,t,f,f
+ops,feature_chunks,feature_chunks_date_to_not_null,not_null,NOT NULL date_to,t,f,f
+ops,feature_chunks,feature_chunks_input_sha256_check,check,CHECK (input_sha256 IS NULL OR input_sha256 ~ '^[0-9a-f]{64}$'::text),t,f,f
+ops,feature_chunks,feature_chunks_output_sha256_check,check,CHECK (output_sha256 IS NULL OR output_sha256 ~ '^[0-9a-f]{64}$'::text),t,f,f
+ops,feature_chunks,feature_chunks_pkey,primary_key,"PRIMARY KEY (build_id, stage, chunk_key)",t,f,f
+ops,feature_chunks,feature_chunks_rows_check,check,CHECK (rows IS NULL OR rows >= 0),t,f,f
+ops,feature_chunks,feature_chunks_stage_check,check,"CHECK (stage = ANY (ARRAY['features'::text, 'labels'::text, 'fundamentals'::text]))",t,f,f
+ops,feature_chunks,feature_chunks_stage_not_null,not_null,NOT NULL stage,t,f,f
+ops,feature_chunks,feature_chunks_status_check,check,"CHECK (status = ANY (ARRAY['pending'::text, 'running'::text, 'done'::text, 'failed'::text]))",t,f,f
+ops,feature_chunks,feature_chunks_status_not_null,not_null,NOT NULL status,t,f,f
+ops,ingest_jobs,ingest_jobs_attempts_check,check,CHECK (attempts >= 0),t,f,f
+ops,ingest_jobs,ingest_jobs_attempts_not_null,not_null,NOT NULL attempts,t,f,f
+ops,ingest_jobs,ingest_jobs_check,check,CHECK (date_from IS NULL OR date_to IS NULL OR date_from <= date_to),t,f,f
+ops,ingest_jobs,ingest_jobs_check1,check,CHECK (state <> 'COMPLETED'::text OR landed_id IS NOT NULL),t,f,f
+ops,ingest_jobs,ingest_jobs_created_at_not_null,not_null,NOT NULL created_at,t,f,f
+ops,ingest_jobs,ingest_jobs_idempotency_key_check,check,CHECK (length(idempotency_key) >= 8),t,f,f
+ops,ingest_jobs,ingest_jobs_idempotency_key_key,unique,UNIQUE (idempotency_key),t,f,f
+ops,ingest_jobs,ingest_jobs_idempotency_key_not_null,not_null,NOT NULL idempotency_key,t,f,f
+ops,ingest_jobs,ingest_jobs_job_id_not_null,not_null,NOT NULL job_id,t,f,f
+ops,ingest_jobs,ingest_jobs_landed_id_fkey,foreign_key,FOREIGN KEY (landed_id) REFERENCES raw.landings(landing_id),t,f,f
+ops,ingest_jobs,ingest_jobs_pkey,primary_key,PRIMARY KEY (job_id),t,f,f
+ops,ingest_jobs,ingest_jobs_route_check,check,"CHECK (route = ANY (ARRAY['equity_list'::text, 'equity_ohlcv'::text, 'index_ohlcv'::text, 'income_statement'::text, 'balance_sheet'::text, 'cash_flow'::text, 'market_calendar'::text]))",t,f,f
+ops,ingest_jobs,ingest_jobs_route_not_null,not_null,NOT NULL route,t,f,f
+ops,ingest_jobs,ingest_jobs_source_not_null,not_null,NOT NULL source,t,f,f
+ops,ingest_jobs,ingest_jobs_state_check,check,"CHECK (state = ANY (ARRAY['PENDING'::text, 'RESERVED'::text, 'RUNNING'::text, 'COMPLETED'::text, 'PARTIAL'::text, 'BLOCKED'::text]))",t,f,f
+ops,ingest_jobs,ingest_jobs_state_not_null,not_null,NOT NULL state,t,f,f
+ops,ingest_jobs,ingest_jobs_updated_at_not_null,not_null,NOT NULL updated_at,t,f,f
+ops,ingest_requeue_audit,ingest_requeue_audit_audit_id_not_null,not_null,NOT NULL audit_id,t,f,f
+ops,ingest_requeue_audit,ingest_requeue_audit_created_at_not_null,not_null,NOT NULL created_at,t,f,f
+ops,ingest_requeue_audit,ingest_requeue_audit_job_id_fkey,foreign_key,FOREIGN KEY (job_id) REFERENCES ops.ingest_jobs(job_id),t,f,f
+ops,ingest_requeue_audit,ingest_requeue_audit_job_id_not_null,not_null,NOT NULL job_id,t,f,f
+ops,ingest_requeue_audit,ingest_requeue_audit_job_id_prior_attempt_key,unique,"UNIQUE (job_id, prior_attempt)",t,f,f
+ops,ingest_requeue_audit,ingest_requeue_audit_pkey,primary_key,PRIMARY KEY (audit_id),t,f,f
+ops,ingest_requeue_audit,ingest_requeue_audit_prior_attempt_check,check,CHECK (prior_attempt >= 1),t,f,f
+ops,ingest_requeue_audit,ingest_requeue_audit_prior_attempt_not_null,not_null,NOT NULL prior_attempt,t,f,f
+ops,ingest_requeue_audit,ingest_requeue_audit_prior_error_type_not_null,not_null,NOT NULL prior_error_type,t,f,f
+ops,ingest_requeue_audit,ingest_requeue_audit_reason_check,check,CHECK (reason = 'UNARCHIVED_LEGACY_FRAME'::text),t,f,f
+ops,ingest_requeue_audit,ingest_requeue_audit_reason_not_null,not_null,NOT NULL reason,t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_decision_check,check,"CHECK (decision = ANY (ARRAY['EXCLUDE'::text, 'ALLOW'::text]))",t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_decision_not_null,not_null,NOT NULL decision,t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_event_id_not_null,not_null,NOT NULL event_id,t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_evidence_id_fkey,foreign_key,FOREIGN KEY (evidence_id) REFERENCES core.security_lifecycle_evidence(evidence_id),t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_evidence_id_not_null,not_null,NOT NULL evidence_id,t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_pkey,primary_key,PRIMARY KEY (event_id),t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_raw_landing_id_fkey,foreign_key,FOREIGN KEY (raw_landing_id) REFERENCES raw.landings(landing_id),t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_raw_landing_id_not_null,not_null,NOT NULL raw_landing_id,t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_reason_check,check,CHECK (length(reason) >= 1 AND length(reason) <= 500),t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_reason_not_null,not_null,NOT NULL reason,t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_recorded_at_not_null,not_null,NOT NULL recorded_at,t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_source_check,check,"CHECK (source = ANY (ARRAY['vci'::text, 'dnse'::text, 'ssi'::text, 'vndirect'::text]))",t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_source_not_null,not_null,NOT NULL source,t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_source_row_check,check,CHECK (source_row >= 0),t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_source_row_not_null,not_null,NOT NULL source_row,t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_source_symbol_id_trade_date_decis_key,unique,"UNIQUE (source, symbol_id, trade_date, decision, evidence_id, raw_landing_id, source_row)",t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_symbol_id_fkey,foreign_key,FOREIGN KEY (symbol_id) REFERENCES core.symbols(symbol_id),t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+ops,ml_bar_eligibility_events,ml_bar_eligibility_events_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+ops,ml_symbol_scope,ml_symbol_scope_decision_ref_not_null,not_null,NOT NULL decision_ref,t,f,f
+ops,ml_symbol_scope,ml_symbol_scope_pkey,primary_key,PRIMARY KEY (symbol_id),t,f,f
+ops,ml_symbol_scope,ml_symbol_scope_recorded_at_not_null,not_null,NOT NULL recorded_at,t,f,f
+ops,ml_symbol_scope,ml_symbol_scope_scope_reason_not_null,not_null,NOT NULL scope_reason,t,f,f
+ops,ml_symbol_scope,ml_symbol_scope_scope_status_check,check,"CHECK (scope_status = ANY (ARRAY['INCLUDED'::text, 'EXCLUDED'::text]))",t,f,f
+ops,ml_symbol_scope,ml_symbol_scope_scope_status_not_null,not_null,NOT NULL scope_status,t,f,f
+ops,ml_symbol_scope,ml_symbol_scope_symbol_id_fkey,foreign_key,FOREIGN KEY (symbol_id) REFERENCES core.symbols(symbol_id),t,f,f
+ops,ml_symbol_scope,ml_symbol_scope_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+ops,phase2_execution_weight_defaults,phase2_execution_weight_default_multiple_locked_weight_not_null,not_null,NOT NULL multiple_locked_weight,t,f,f
+ops,phase2_execution_weight_defaults,phase2_execution_weight_defaults_entry_ceiling_weight_check,check,CHECK (entry_ceiling_weight >= 0::double precision AND entry_ceiling_weight <= 1::double precision),t,f,f
+ops,phase2_execution_weight_defaults,phase2_execution_weight_defaults_entry_ceiling_weight_not_null,not_null,NOT NULL entry_ceiling_weight,t,f,f
+ops,phase2_execution_weight_defaults,phase2_execution_weight_defaults_multiple_locked_weight_check,check,CHECK (multiple_locked_weight >= 0::double precision AND multiple_locked_weight <= 1::double precision),t,f,f
+ops,phase2_execution_weight_defaults,phase2_execution_weight_defaults_pkey,primary_key,PRIMARY KEY (policy_version),t,f,f
+ops,phase2_execution_weight_defaults,phase2_execution_weight_defaults_policy_version_check,check,CHECK (policy_version = 1),t,f,f
+ops,phase2_execution_weight_defaults,phase2_execution_weight_defaults_policy_version_not_null,not_null,NOT NULL policy_version,t,f,f
+ops,phase2_label_target_chunk_runs,phase2_label_target_chunk_runs_build_id_not_null,not_null,NOT NULL build_id,t,f,f
+ops,phase2_label_target_chunk_runs,phase2_label_target_chunk_runs_check,check,CHECK (date_from <= date_to),t,f,f
+ops,phase2_label_target_chunk_runs,phase2_label_target_chunk_runs_check1,check,CHECK ((status = 'done'::text) = (finished_at IS NOT NULL)),t,f,f
+ops,phase2_label_target_chunk_runs,phase2_label_target_chunk_runs_check2,check,CHECK (status <> 'done'::text OR output_hash IS NOT NULL AND rows IS NOT NULL),t,f,f
+ops,phase2_label_target_chunk_runs,phase2_label_target_chunk_runs_chunk_key_not_null,not_null,NOT NULL chunk_key,t,f,f
+ops,phase2_label_target_chunk_runs,phase2_label_target_chunk_runs_date_from_not_null,not_null,NOT NULL date_from,t,f,f
+ops,phase2_label_target_chunk_runs,phase2_label_target_chunk_runs_date_to_not_null,not_null,NOT NULL date_to,t,f,f
+ops,phase2_label_target_chunk_runs,phase2_label_target_chunk_runs_input_hash_check,check,CHECK (input_hash ~ '^[0-9a-f]{64}$'::text),t,f,f
+ops,phase2_label_target_chunk_runs,phase2_label_target_chunk_runs_input_hash_not_null,not_null,NOT NULL input_hash,t,f,f
+ops,phase2_label_target_chunk_runs,phase2_label_target_chunk_runs_output_hash_check,check,CHECK (output_hash IS NULL OR output_hash ~ '^[0-9a-f]{64}$'::text),t,f,f
+ops,phase2_label_target_chunk_runs,phase2_label_target_chunk_runs_pkey,primary_key,PRIMARY KEY (run_id),t,f,f
+ops,phase2_label_target_chunk_runs,phase2_label_target_chunk_runs_rows_check,check,CHECK (rows IS NULL OR rows >= 0),t,f,f
+ops,phase2_label_target_chunk_runs,phase2_label_target_chunk_runs_run_id_not_null,not_null,NOT NULL run_id,t,f,f
+ops,phase2_label_target_chunk_runs,phase2_label_target_chunk_runs_started_at_not_null,not_null,NOT NULL started_at,t,f,f
+ops,phase2_label_target_chunk_runs,phase2_label_target_chunk_runs_status_check,check,"CHECK (status = ANY (ARRAY['running'::text, 'done'::text]))",t,f,f
+ops,phase2_label_target_chunk_runs,phase2_label_target_chunk_runs_status_not_null,not_null,NOT NULL status,t,f,f
+ops,phase2_rank_repair_attempts,phase2_rank_repair_attempts_attempt_id_not_null,not_null,NOT NULL attempt_id,t,f,f
+ops,phase2_rank_repair_attempts,phase2_rank_repair_attempts_attempt_not_null,not_null,NOT NULL attempt,t,f,f
+ops,phase2_rank_repair_attempts,phase2_rank_repair_attempts_build_id_date_from_date_to_atte_key,unique,"UNIQUE (build_id, date_from, date_to, attempt)",t,f,f
+ops,phase2_rank_repair_attempts,phase2_rank_repair_attempts_build_id_date_from_date_to_fkey,foreign_key,"FOREIGN KEY (build_id, date_from, date_to) REFERENCES ops.phase2_rank_repairs(build_id, date_from, date_to)",t,f,f
+ops,phase2_rank_repair_attempts,phase2_rank_repair_attempts_build_id_not_null,not_null,NOT NULL build_id,t,f,f
+ops,phase2_rank_repair_attempts,phase2_rank_repair_attempts_changed_rows_not_null,not_null,NOT NULL changed_rows,t,f,f
+ops,phase2_rank_repair_attempts,phase2_rank_repair_attempts_date_from_not_null,not_null,NOT NULL date_from,t,f,f
+ops,phase2_rank_repair_attempts,phase2_rank_repair_attempts_date_to_not_null,not_null,NOT NULL date_to,t,f,f
+ops,phase2_rank_repair_attempts,phase2_rank_repair_attempts_finished_at_not_null,not_null,NOT NULL finished_at,t,f,f
+ops,phase2_rank_repair_attempts,phase2_rank_repair_attempts_input_sha256_not_null,not_null,NOT NULL input_sha256,t,f,f
+ops,phase2_rank_repair_attempts,phase2_rank_repair_attempts_nonrank_sha256_not_null,not_null,NOT NULL nonrank_sha256,t,f,f
+ops,phase2_rank_repair_attempts,phase2_rank_repair_attempts_output_sha256_not_null,not_null,NOT NULL output_sha256,t,f,f
+ops,phase2_rank_repair_attempts,phase2_rank_repair_attempts_pkey,primary_key,PRIMARY KEY (attempt_id),t,f,f
+ops,phase2_rank_repair_attempts,phase2_rank_repair_attempts_started_at_not_null,not_null,NOT NULL started_at,t,f,f
+ops,phase2_rank_repairs,phase2_rank_repairs_attempts_check,check,CHECK (attempts > 0),t,f,f
+ops,phase2_rank_repairs,phase2_rank_repairs_attempts_not_null,not_null,NOT NULL attempts,t,f,f
+ops,phase2_rank_repairs,phase2_rank_repairs_build_id_check,check,"CHECK (build_id ~ '^[A-Za-z0-9._-]{1,100}$'::text)",t,f,f
+ops,phase2_rank_repairs,phase2_rank_repairs_build_id_not_null,not_null,NOT NULL build_id,t,f,f
+ops,phase2_rank_repairs,phase2_rank_repairs_changed_rows_check,check,CHECK (changed_rows >= 0),t,f,f
+ops,phase2_rank_repairs,phase2_rank_repairs_check,check,CHECK (date_to >= date_from AND (date_to - date_from) <= 30),t,f,f
+ops,phase2_rank_repairs,phase2_rank_repairs_check1,check,CHECK (finished_at >= started_at),t,f,f
+ops,phase2_rank_repairs,phase2_rank_repairs_check2,check,CHECK (status <> 'done'::text OR v2_rows IS NOT NULL AND v2_rows > 0 AND v3_rows IS NOT NULL AND v3_rows = v2_rows AND changed_rows IS NOT NULL AND changed_rows <= (v2_rows + v3_rows) AND first_input_sha256 IS NOT NULL AND first_input_sha256 ~ '^[0-9a-f]{64}$'::text AND output_sha256 IS NOT NULL AND output_sha256 ~ '^[0-9a-f]{64}$'::text AND nonrank_sha256 IS NOT NULL AND nonrank_sha256 ~ '^[0-9a-f]{64}$'::text),t,f,f
+ops,phase2_rank_repairs,phase2_rank_repairs_date_from_not_null,not_null,NOT NULL date_from,t,f,f
+ops,phase2_rank_repairs,phase2_rank_repairs_date_to_not_null,not_null,NOT NULL date_to,t,f,f
+ops,phase2_rank_repairs,phase2_rank_repairs_finished_at_not_null,not_null,NOT NULL finished_at,t,f,f
+ops,phase2_rank_repairs,phase2_rank_repairs_pkey,primary_key,"PRIMARY KEY (build_id, date_from, date_to)",t,f,f
+ops,phase2_rank_repairs,phase2_rank_repairs_started_at_not_null,not_null,NOT NULL started_at,t,f,f
+ops,phase2_rank_repairs,phase2_rank_repairs_status_check,check,"CHECK (status = ANY (ARRAY['done'::text, 'failed'::text]))",t,f,f
+ops,phase2_rank_repairs,phase2_rank_repairs_status_not_null,not_null,NOT NULL status,t,f,f
+ops,phase2_rank_repairs,phase2_rank_repairs_v2_rows_check,check,CHECK (v2_rows >= 0),t,f,f
+ops,phase2_rank_repairs,phase2_rank_repairs_v3_rows_check,check,CHECK (v3_rows >= 0),t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_attempts_check,check,CHECK (attempts >= 0),t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_attempts_not_null,not_null,NOT NULL attempts,t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_build_id_fkey,foreign_key,FOREIGN KEY (build_id) REFERENCES ops.phase2_vci_backfill_runs(build_id),t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_build_id_not_null,not_null,NOT NULL build_id,t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_changed_rows_check,check,CHECK (changed_rows IS NULL OR changed_rows >= 0),t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_check,check,CHECK (date_from <= date_to),t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_check1,check,"CHECK ((status = ANY (ARRAY['pending'::text, 'running'::text])) = (finished_at IS NULL))",t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_check2,check,CHECK (status <> 'done'::text OR output_sha256 IS NOT NULL),t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_context_sha256_check,check,CHECK (context_sha256 ~ '^[0-9a-f]{64}$'::text),t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_context_sha256_not_null,not_null,NOT NULL context_sha256,t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_date_from_not_null,not_null,NOT NULL date_from,t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_date_to_not_null,not_null,NOT NULL date_to,t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_output_sha256_check,check,CHECK (output_sha256 IS NULL OR output_sha256 ~ '^[0-9a-f]{64}$'::text),t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_pkey,primary_key,"PRIMARY KEY (build_id, date_from, date_to)",t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_rows_check,check,CHECK (rows IS NULL OR rows >= 0),t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_started_at_not_null,not_null,NOT NULL started_at,t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_status_check,check,"CHECK (status = ANY (ARRAY['pending'::text, 'running'::text, 'done'::text, 'failed'::text]))",t,f,f
+ops,phase2_vci_backfill_chunks,phase2_vci_backfill_chunks_status_not_null,not_null,NOT NULL status,t,f,f
+ops,phase2_vci_backfill_context,phase2_vci_backfill_context_build_id_fkey,foreign_key,FOREIGN KEY (build_id) REFERENCES ops.phase2_vci_backfill_runs(build_id),t,f,f
+ops,phase2_vci_backfill_context,phase2_vci_backfill_context_build_id_not_null,not_null,NOT NULL build_id,t,f,f
+ops,phase2_vci_backfill_context,phase2_vci_backfill_context_build_id_session_no_key,unique,"UNIQUE (build_id, session_no)",t,f,f
+ops,phase2_vci_backfill_context,phase2_vci_backfill_context_pkey,primary_key,"PRIMARY KEY (build_id, trade_date)",t,f,f
+ops,phase2_vci_backfill_context,phase2_vci_backfill_context_session_no_not_null,not_null,NOT NULL session_no,t,f,f
+ops,phase2_vci_backfill_context,phase2_vci_backfill_context_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+ops,phase2_vci_backfill_runs,phase2_vci_backfill_runs_build_id_not_null,not_null,NOT NULL build_id,t,f,f
+ops,phase2_vci_backfill_runs,phase2_vci_backfill_runs_check,check,CHECK ((status = 'complete'::text) = (completed_at IS NOT NULL)),t,f,f
+ops,phase2_vci_backfill_runs,phase2_vci_backfill_runs_check1,check,CHECK (status = 'building'::text OR target_from IS NOT NULL AND target_to IS NOT NULL AND target_from <= target_to AND chunk_days IS NOT NULL AND expected_chunks IS NOT NULL),t,f,f
+ops,phase2_vci_backfill_runs,phase2_vci_backfill_runs_chunk_days_check,check,CHECK (chunk_days IS NULL OR chunk_days >= 1 AND chunk_days <= 30),t,f,f
+ops,phase2_vci_backfill_runs,phase2_vci_backfill_runs_context_rows_check,check,CHECK (context_rows >= 0),t,f,f
+ops,phase2_vci_backfill_runs,phase2_vci_backfill_runs_context_rows_not_null,not_null,NOT NULL context_rows,t,f,f
+ops,phase2_vci_backfill_runs,phase2_vci_backfill_runs_context_sha256_check,check,CHECK (context_sha256 IS NULL OR context_sha256 ~ '^[0-9a-f]{64}$'::text),t,f,f
+ops,phase2_vci_backfill_runs,phase2_vci_backfill_runs_created_at_not_null,not_null,NOT NULL created_at,t,f,f
+ops,phase2_vci_backfill_runs,phase2_vci_backfill_runs_expected_chunks_check,check,CHECK (expected_chunks IS NULL OR expected_chunks > 0),t,f,f
+ops,phase2_vci_backfill_runs,phase2_vci_backfill_runs_pkey,primary_key,PRIMARY KEY (build_id),t,f,f
+ops,phase2_vci_backfill_runs,phase2_vci_backfill_runs_status_check,check,"CHECK (status = ANY (ARRAY['building'::text, 'prepared'::text, 'complete'::text]))",t,f,f
+ops,phase2_vci_backfill_runs,phase2_vci_backfill_runs_status_not_null,not_null,NOT NULL status,t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_algorithm_version_not_null,not_null,NOT NULL algorithm_version,t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_canonical_sha256_check,check,CHECK (canonical_sha256 ~ '^[0-9a-f]{64}$'::text),t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_canonical_sha256_not_null,not_null,NOT NULL canonical_sha256,t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_canonical_snapshot_not_null,not_null,NOT NULL canonical_snapshot,t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_check,check,CHECK (status = 'EXACT'::text AND exact_matches = 1 AND landing_id IS NOT NULL AND source_ordinal_1based IS NOT NULL AND source_ordinal_1based >= 1 AND source_fetched_at IS NOT NULL OR status <> 'EXACT'::text AND landing_id IS NULL AND source_ordinal_1based IS NULL AND source_fetched_at IS NULL),t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_check1,check,CHECK (status <> 'AMBIGUOUS'::text OR exact_matches > 1),t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_check2,check,"CHECK ((status <> ALL (ARRAY['UNMATCHED'::text, 'MISSING_LANDING'::text])) OR exact_matches = 0)",t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_exact_matches_check,check,CHECK (exact_matches >= 0),t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_exact_matches_not_null,not_null,NOT NULL exact_matches,t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_input_sha256_check,check,CHECK (input_sha256 ~ '^[0-9a-f]{64}$'::text),t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_input_sha256_not_null,not_null,NOT NULL input_sha256,t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_landing_id_fkey,foreign_key,FOREIGN KEY (landing_id) REFERENCES raw.landings(landing_id),t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_observation_id_not_null,not_null,NOT NULL observation_id,t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_observed_at_not_null,not_null,NOT NULL observed_at,t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_pkey,primary_key,PRIMARY KEY (observation_id),t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_status_check,check,"CHECK (status = ANY (ARRAY['EXACT'::text, 'UNMATCHED'::text, 'AMBIGUOUS'::text, 'MISSING_LANDING'::text, 'CHECKSUM_INVALID'::text, 'PAYLOAD_MISMATCH'::text, 'MALFORMED'::text]))",t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_status_not_null,not_null,NOT NULL status,t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_symbol_id_not_null,not_null,NOT NULL symbol_id,t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_symbol_id_trade_date_algorithm_versi_key,unique,"UNIQUE (symbol_id, trade_date, algorithm_version, input_sha256)",t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_symbol_id_trade_date_fkey,foreign_key,"FOREIGN KEY (symbol_id, trade_date) REFERENCES core.bars_daily(symbol_id, trade_date)",t,f,f
+ops,phase2_vci_bar_lineage,phase2_vci_bar_lineage_trade_date_not_null,not_null,NOT NULL trade_date,t,f,f
+ops,phase2_vci_lineage_batches,phase2_vci_lineage_batches_algorithm_version_not_null,not_null,NOT NULL algorithm_version,t,f,f
+ops,phase2_vci_lineage_batches,phase2_vci_lineage_batches_bar_count_check,check,CHECK (bar_count >= 0),t,f,f
+ops,phase2_vci_lineage_batches,phase2_vci_lineage_batches_bar_count_not_null,not_null,NOT NULL bar_count,t,f,f
+ops,phase2_vci_lineage_batches,phase2_vci_lineage_batches_batch_id_not_null,not_null,NOT NULL batch_id,t,f,f
+ops,phase2_vci_lineage_batches,phase2_vci_lineage_batches_check,check,CHECK (exact_count >= 0 AND exact_count <= bar_count),t,f,f
+ops,phase2_vci_lineage_batches,phase2_vci_lineage_batches_check1,check,CHECK (inserted_count >= 0 AND inserted_count <= bar_count),t,f,f
+ops,phase2_vci_lineage_batches,phase2_vci_lineage_batches_completed_at_not_null,not_null,NOT NULL completed_at,t,f,f
+ops,phase2_vci_lineage_batches,phase2_vci_lineage_batches_exact_count_not_null,not_null,NOT NULL exact_count,t,f,f
+ops,phase2_vci_lineage_batches,phase2_vci_lineage_batches_input_sha256_check,check,CHECK (input_sha256 ~ '^[0-9a-f]{64}$'::text),t,f,f
+ops,phase2_vci_lineage_batches,phase2_vci_lineage_batches_input_sha256_not_null,not_null,NOT NULL input_sha256,t,f,f
+ops,phase2_vci_lineage_batches,phase2_vci_lineage_batches_inserted_count_not_null,not_null,NOT NULL inserted_count,t,f,f
+ops,phase2_vci_lineage_batches,phase2_vci_lineage_batches_pkey,primary_key,PRIMARY KEY (batch_id),t,f,f
+ops,phase2_vci_lineage_batches,phase2_vci_lineage_batches_symbol_ids_not_null,not_null,NOT NULL symbol_ids,t,f,f
+ops,pipeline_runs,pipeline_runs_created_at_not_null,not_null,NOT NULL created_at,t,f,f
+ops,pipeline_runs,pipeline_runs_idempotency_key_key,unique,UNIQUE (idempotency_key),t,f,f
+ops,pipeline_runs,pipeline_runs_idempotency_key_not_null,not_null,NOT NULL idempotency_key,t,f,f
+ops,pipeline_runs,pipeline_runs_pkey,primary_key,PRIMARY KEY (run_id),t,f,f
+ops,pipeline_runs,pipeline_runs_run_id_not_null,not_null,NOT NULL run_id,t,f,f
+ops,pipeline_runs,pipeline_runs_status_check,check,"CHECK (status = ANY (ARRAY['RUNNING'::text, 'PASSED'::text, 'FAILED'::text, 'STALE'::text]))",t,f,f
+ops,pipeline_runs,pipeline_runs_status_not_null,not_null,NOT NULL status,t,f,f
+ops,pipeline_runs,pipeline_runs_step_not_null,not_null,NOT NULL step,t,f,f
+ops,quota_guard,quota_guard_call_budget_check,check,CHECK (call_budget >= 0),t,f,f
+ops,quota_guard,quota_guard_call_budget_not_null,not_null,NOT NULL call_budget,t,f,f
+ops,quota_guard,quota_guard_check,check,CHECK (spent >= 0 AND spent <= call_budget),t,f,f
+ops,quota_guard,quota_guard_check1,check,CHECK (expires_at > verified_at AND expires_at <= (verified_at + '00:10:00'::interval)),t,f,f
+ops,quota_guard,quota_guard_day_key_not_null,not_null,NOT NULL day_key,t,f,f
+ops,quota_guard,quota_guard_expires_at_not_null,not_null,NOT NULL expires_at,t,f,f
+ops,quota_guard,quota_guard_min_spacing_ms_check,check,CHECK (min_spacing_ms >= 1000),t,f,f
+ops,quota_guard,quota_guard_min_spacing_ms_not_null,not_null,NOT NULL min_spacing_ms,t,f,f
+ops,quota_guard,quota_guard_pkey,primary_key,PRIMARY KEY (singleton),t,f,f
+ops,quota_guard,quota_guard_singleton_check,check,CHECK (singleton),t,f,f
+ops,quota_guard,quota_guard_singleton_not_null,not_null,NOT NULL singleton,t,f,f
+ops,quota_guard,quota_guard_spent_not_null,not_null,NOT NULL spent,t,f,f
+ops,quota_guard,quota_guard_verified_at_not_null,not_null,NOT NULL verified_at,t,f,f
+ops,step_runs,step_runs_build_id_not_null,not_null,NOT NULL build_id,t,f,f
+ops,step_runs,step_runs_build_id_stage_chunk_key_fkey,foreign_key,"FOREIGN KEY (build_id, stage, chunk_key) REFERENCES ops.feature_chunks(build_id, stage, chunk_key)",t,f,f
+ops,step_runs,step_runs_check,check,CHECK ((status = 'running'::text) = (finished_at IS NULL)),t,f,f
+ops,step_runs,step_runs_chunk_key_not_null,not_null,NOT NULL chunk_key,t,f,f
+ops,step_runs,step_runs_duration_ms_check,check,CHECK (duration_ms IS NULL OR duration_ms >= 0),t,f,f
+ops,step_runs,step_runs_input_sha256_check,check,CHECK (input_sha256 IS NULL OR input_sha256 ~ '^[0-9a-f]{64}$'::text),t,f,f
+ops,step_runs,step_runs_output_sha256_check,check,CHECK (output_sha256 IS NULL OR output_sha256 ~ '^[0-9a-f]{64}$'::text),t,f,f
+ops,step_runs,step_runs_pkey,primary_key,PRIMARY KEY (step_run_id),t,f,f
+ops,step_runs,step_runs_rows_check,check,CHECK (rows IS NULL OR rows >= 0),t,f,f
+ops,step_runs,step_runs_stage_check,check,"CHECK (stage = ANY (ARRAY['features'::text, 'labels'::text, 'fundamentals'::text]))",t,f,f
+ops,step_runs,step_runs_stage_not_null,not_null,NOT NULL stage,t,f,f
+ops,step_runs,step_runs_started_at_not_null,not_null,NOT NULL started_at,t,f,f
+ops,step_runs,step_runs_status_check,check,"CHECK (status = ANY (ARRAY['running'::text, 'done'::text, 'failed'::text]))",t,f,f
+ops,step_runs,step_runs_status_not_null,not_null,NOT NULL status,t,f,f
+ops,step_runs,step_runs_step_run_id_not_null,not_null,NOT NULL step_run_id,t,f,f
+raw,landings,landings_fetched_at_not_null,not_null,NOT NULL fetched_at,t,f,f
+raw,landings,landings_ingest_id_not_null,not_null,NOT NULL ingest_id,t,f,f
+raw,landings,landings_landing_id_not_null,not_null,NOT NULL landing_id,t,f,f
+raw,landings,landings_payload_bytes_bound,check,CHECK (payload_bytes IS NULL OR octet_length(payload_bytes) >= 2 AND octet_length(payload_bytes) <= 10485760),t,f,f
+raw,landings,landings_payload_not_null,not_null,NOT NULL payload,t,f,f
+raw,landings,landings_payload_sha256_check,check,CHECK (length(payload_sha256) = 64),t,f,f
+raw,landings,landings_payload_sha256_not_null,not_null,NOT NULL payload_sha256,t,f,f
+raw,landings,landings_pkey,primary_key,PRIMARY KEY (landing_id),t,f,f
+raw,landings,landings_route_not_null,not_null,NOT NULL route,t,f,f
+raw,landings,landings_source_not_null,not_null,NOT NULL source,t,f,f

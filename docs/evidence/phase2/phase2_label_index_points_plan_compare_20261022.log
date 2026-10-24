@@ -1,0 +1,117 @@
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SELECT 713592
+ANALYZE
+ target_rows 
+-------------
+      713592
+(1 row)
+
+                                                                                QUERY PLAN                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=45993.63..45993.64 rows=1 width=8) (actual time=2681.325..2681.335 rows=1.00 loops=1)
+   Output: count(*)
+   Buffers: shared hit=29 read=29, local read=4608
+   ->  HashAggregate  (cost=29937.81..37073.73 rows=713592 width=38) (actual time=2675.660..2681.185 rows=498.00 loops=1)
+         Output: t.signal_date, t.horizon_sessions, t.entry_date, t.exit_date, ie.trade_date, ix.trade_date, ie.o, ix.c
+         Group Key: t.signal_date, t.horizon_sessions, t.entry_date, t.exit_date, ie.trade_date, ix.trade_date, ie.o, ix.c
+         Batches: 1  Memory Usage: 16449kB
+         Buffers: shared hit=29 read=29, local read=4608
+         ->  Hash Left Join  (cost=167.72..15665.97 rows=713592 width=38) (actual time=17.251..1459.262 rows=713592.00 loops=1)
+               Output: t.signal_date, t.horizon_sessions, t.entry_date, t.exit_date, ie.trade_date, ix.trade_date, ie.o, ix.c
+               Inner Unique: true
+               Hash Cond: (t.exit_date = ix.trade_date)
+               Buffers: shared hit=29 read=29, local read=4608
+               ->  Hash Left Join  (cost=83.86..13704.94 rows=713592 width=26) (actual time=12.046..897.038 rows=713592.00 loops=1)
+                     Output: t.signal_date, t.horizon_sessions, t.entry_date, t.exit_date, ie.trade_date, ie.o
+                     Inner Unique: true
+                     Hash Cond: (t.entry_date = ie.trade_date)
+                     Buffers: shared read=29, local read=4608
+                     ->  Seq Scan on pg_temp.phase2_probe_label_targets t  (cost=0.00..11743.92 rows=713592 width=14) (actual time=0.264..210.368 rows=713592.00 loops=1)
+                           Output: t.symbol_id, t.signal_date, t.entry_date, t.exit_date, t.horizon_sessions
+                           Buffers: local read=4608
+                     ->  Hash  (cost=58.92..58.92 rows=1995 width=12) (actual time=11.709..11.711 rows=1995.00 loops=1)
+                           Output: ie.trade_date, ie.o
+                           Buckets: 2048  Batches: 1  Memory Usage: 110kB
+                           Buffers: shared read=29
+                           ->  Seq Scan on core.index_bars ie  (cost=0.00..58.92 rows=1995 width=12) (actual time=2.911..8.369 rows=1995.00 loops=1)
+                                 Output: ie.trade_date, ie.o
+                                 Filter: ((ie.index_symbol = 'VNINDEX'::text) AND (ie.source = 'vci'::text))
+                                 Buffers: shared read=29
+               ->  Hash  (cost=58.92..58.92 rows=1995 width=12) (actual time=5.139..5.140 rows=1995.00 loops=1)
+                     Output: ix.trade_date, ix.c
+                     Buckets: 2048  Batches: 1  Memory Usage: 110kB
+                     Buffers: shared hit=29
+                     ->  Seq Scan on core.index_bars ix  (cost=0.00..58.92 rows=1995 width=12) (actual time=0.061..3.024 rows=1995.00 loops=1)
+                           Output: ix.trade_date, ix.c
+                           Filter: ((ix.index_symbol = 'VNINDEX'::text) AND (ix.source = 'vci'::text))
+                           Buffers: shared hit=29
+ Planning:
+   Buffers: shared hit=71 read=16
+ Planning Time: 62.246 ms
+ Execution Time: 2712.840 ms
+(41 rows)
+
+                                                                                                                     QUERY PLAN                                                                                                                      
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=23169.35..23169.36 rows=1 width=8) (actual time=1185.809..1185.813 rows=1.00 loops=1)
+   Output: count(*)
+   Buffers: shared hit=58, local read=4608
+   CTE label_date_pairs
+     ->  HashAggregate  (cost=18879.84..19593.43 rows=71359 width=14) (actual time=1178.231..1179.122 rows=498.00 loops=1)
+           Output: phase2_probe_label_targets.signal_date, phase2_probe_label_targets.horizon_sessions, phase2_probe_label_targets.entry_date, phase2_probe_label_targets.exit_date
+           Group Key: phase2_probe_label_targets.signal_date, phase2_probe_label_targets.horizon_sessions, phase2_probe_label_targets.entry_date, phase2_probe_label_targets.exit_date
+           Batches: 1  Memory Usage: 2089kB
+           Buffers: local read=4608
+           ->  Seq Scan on pg_temp.phase2_probe_label_targets  (cost=0.00..11743.92 rows=713592 width=14) (actual time=0.146..221.522 rows=713592.00 loops=1)
+                 Output: phase2_probe_label_targets.symbol_id, phase2_probe_label_targets.signal_date, phase2_probe_label_targets.entry_date, phase2_probe_label_targets.exit_date, phase2_probe_label_targets.horizon_sessions
+                 Buffers: local read=4608
+   CTE index_points
+     ->  Hash Left Join  (cost=167.72..1970.34 rows=71359 width=38) (actual time=1183.103..1185.224 rows=498.00 loops=1)
+           Output: d.signal_date, d.horizon_sessions, d.entry_date, d.exit_date, ie.trade_date, ix.trade_date, ie.o, ix.c
+           Inner Unique: true
+           Hash Cond: (d.exit_date = ix.trade_date)
+           Buffers: shared hit=58, local read=4608
+           ->  Hash Left Join  (cost=83.86..1698.76 rows=71359 width=26) (actual time=1180.686..1182.395 rows=498.00 loops=1)
+                 Output: d.signal_date, d.horizon_sessions, d.entry_date, d.exit_date, ie.trade_date, ie.o
+                 Inner Unique: true
+                 Hash Cond: (d.entry_date = ie.trade_date)
+                 Buffers: shared hit=29, local read=4608
+                 ->  CTE Scan on label_date_pairs d  (cost=0.00..1427.18 rows=71359 width=14) (actual time=1178.236..1179.467 rows=498.00 loops=1)
+                       Output: d.signal_date, d.horizon_sessions, d.entry_date, d.exit_date
+                       Storage: Memory  Maximum Storage: 36kB
+                       Buffers: local read=4608
+                 ->  Hash  (cost=58.92..58.92 rows=1995 width=12) (actual time=2.413..2.414 rows=1995.00 loops=1)
+                       Output: ie.trade_date, ie.o
+                       Buckets: 2048  Batches: 1  Memory Usage: 110kB
+                       Buffers: shared hit=29
+                       ->  Seq Scan on core.index_bars ie  (cost=0.00..58.92 rows=1995 width=12) (actual time=0.045..1.488 rows=1995.00 loops=1)
+                             Output: ie.trade_date, ie.o
+                             Filter: ((ie.index_symbol = 'VNINDEX'::text) AND (ie.source = 'vci'::text))
+                             Buffers: shared hit=29
+           ->  Hash  (cost=58.92..58.92 rows=1995 width=12) (actual time=2.388..2.389 rows=1995.00 loops=1)
+                 Output: ix.trade_date, ix.c
+                 Buckets: 2048  Batches: 1  Memory Usage: 110kB
+                 Buffers: shared hit=29
+                 ->  Seq Scan on core.index_bars ix  (cost=0.00..58.92 rows=1995 width=12) (actual time=0.032..1.583 rows=1995.00 loops=1)
+                       Output: ix.trade_date, ix.c
+                       Filter: ((ix.index_symbol = 'VNINDEX'::text) AND (ix.source = 'vci'::text))
+                       Buffers: shared hit=29
+   ->  CTE Scan on index_points  (cost=0.00..1427.18 rows=71359 width=0) (actual time=1183.117..1185.697 rows=498.00 loops=1)
+         Output: index_points.signal_date, index_points.horizon_sessions, index_points.entry_date, index_points.exit_date, index_points.index_entry_date, index_points.index_exit_date, index_points.index_entry_open, index_points.index_exit_close
+         Storage: Memory  Maximum Storage: 48kB
+         Buffers: shared hit=58, local read=4608
+ Planning Time: 2.825 ms
+ Execution Time: 1189.400 ms
+(49 rows)
+
+ old_rows | new_rows | old_only | new_only 
+----------+----------+----------+----------
+      498 |      498 |        0 |        0
+(1 row)
+
+ROLLBACK

@@ -1,0 +1,37 @@
+BEGIN
+SET
+SET
+SET
+NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+SET
+NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, elapsed 00:00:07.029676
+ begin_phase2_adjustment_rows 
+------------------------------
+                            1
+(1 row)
+
+NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.173248
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           23765
+(1 row)
+
+NOTICE:  Phase 2 price-day hash range 2020-01-01 through 2021-02-01: requested 273, uncovered 273, date planning elapsed 00:00:00.075997
+NOTICE:  Phase 2 price-day hash aggregate completed: 273 dates, elapsed 00:00:00.194814
+NOTICE:  Phase 2 price-day hash coverage recorded: 273 requested dates, total elapsed 00:00:00.199639
+ finish_phase2_adjustment_rows 
+-------------------------------
+                         23765
+(1 row)
+
+ phase2_prepare_price_day_hashes 
+---------------------------------
+ 
+(1 row)
+
+ hashed_days | first_hash_date | last_hash_date 
+-------------+-----------------+----------------
+         273 | 2020-01-02      | 2021-02-01
+(1 row)
+
+ROLLBACK

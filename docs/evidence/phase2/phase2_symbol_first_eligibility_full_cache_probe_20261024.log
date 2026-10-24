@@ -1,0 +1,382 @@
+Pager usage is off.
+DO
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:25: NOTICE:  Phase 2 adjustment cache initialized for 26 batches of up to 60 symbols
+ begin_phase2_adjustment_rows 
+------------------------------
+                           26
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          108331
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:03.867436
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115152
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 1 rows 115152, dates 2008, elapsed 00:00:02.826358
+ populate_phase2_adjustment_rows 
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 2 rows 111302, dates 2008, elapsed 00:00:02.418773
+---------------------------------
+                          111302
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113879
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 3 rows 113879, dates 2008, elapsed 00:00:04.153369
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114214
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 4 rows 114214, dates 2008, elapsed 00:00:02.802101
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114805
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 5 rows 114805, dates 2008, elapsed 00:00:02.964597
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112592
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 6 rows 112592, dates 2008, elapsed 00:00:02.917213
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          116639
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 7 rows 116639, dates 2008, elapsed 00:00:03.499246
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106585
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 8 rows 106585, dates 2008, elapsed 00:00:03.65569
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111358
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 9 rows 111358, dates 2008, elapsed 00:00:03.117333
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106117
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 10 rows 106117, dates 2008, elapsed 00:00:02.710568
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113594
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 11 rows 113594, dates 2008, elapsed 00:00:02.310444
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 12 rows 112628, dates 2008, elapsed 00:00:02.583914
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112628
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113102
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 13 rows 113102, dates 2008, elapsed 00:00:03.832373
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113642
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 14 rows 113642, dates 2008, elapsed 00:00:02.590178
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 15 rows 111909, dates 2008, elapsed 00:00:02.450228
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111909
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111802
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 16 rows 111802, dates 2008, elapsed 00:00:02.556426
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115171
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 17 rows 115171, dates 2008, elapsed 00:00:05.046846
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115471
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 18 rows 115471, dates 2008, elapsed 00:00:05.31521
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112613
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 19 rows 112613, dates 2008, elapsed 00:00:04.748353
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          109469
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 20 rows 109469, dates 2008, elapsed 00:00:04.318915
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114091
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 21 rows 114091, dates 2008, elapsed 00:00:04.264908
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          110051
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 22 rows 110051, dates 2008, elapsed 00:00:03.384893
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112438
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 23 rows 112438, dates 2008, elapsed 00:00:03.673682
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115457
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 24 rows 115457, dates 2008, elapsed 00:00:04.087531
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           32023
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:32: NOTICE:  Phase 2 adjustment cache batch 25 rows 32023, dates 2008, elapsed 00:00:02.438236
+ finish_phase2_adjustment_rows 
+-------------------------------
+                       2844435
+(1 row)
+
+psql:docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql:33: NOTICE:  Phase 2 adjustment cache rows 2844435, finalize elapsed 00:00:15.316842
+SELECT 374
+CREATE INDEX
+ANALYZE
+ELIGIBILITY SCALE 15 INPUT SYMBOLS
+                                                                                                         QUERY PLAN                                                                                                          
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=207.39..207.40 rows=1 width=8) (actual time=55.534..55.540 rows=1.00 loops=1)
+   Buffers: shared hit=672 read=123 dirtied=28, local hit=81 read=31
+   CTE requested_symbols
+     ->  Limit  (cost=0.43..54.43 rows=15 width=8) (actual time=3.351..45.592 rows=15.00 loops=1)
+           Buffers: shared hit=672 read=123 dirtied=28
+           ->  Unique  (cost=0.43..5421.99 rows=1506 width=8) (actual time=3.349..45.584 rows=15.00 loops=1)
+                 Buffers: shared hit=672 read=123 dirtied=28
+                 ->  Index Only Scan using features_daily_pkey on features_daily f  (cost=0.43..5212.84 rows=83660 width=8) (actual time=3.348..45.476 rows=778.00 loops=1)
+                       Index Cond: ((trade_date >= '2020-01-01'::date) AND (trade_date <= '2020-03-31'::date) AND (feature_version = 'phase2-v2'::text))
+                       Heap Fetches: 158
+                       Index Searches: 23
+                       Buffers: shared hit=672 read=123 dirtied=28
+   CTE eligible_symbols
+     ->  Nested Loop  (cost=1.35..152.62 rows=15 width=8) (actual time=4.536..55.501 rows=15.00 loops=1)
+           Buffers: shared hit=672 read=123 dirtied=28, local hit=81 read=31
+           ->  CTE Scan on requested_symbols c  (cost=0.00..0.30 rows=15 width=8) (actual time=3.352..45.607 rows=15.00 loops=1)
+                 Storage: Memory  Maximum Storage: 17kB
+                 Buffers: shared hit=672 read=123 dirtied=28
+           ->  Limit  (cost=1.35..10.13 rows=1 width=8) (actual time=0.657..0.657 rows=1.00 loops=15)
+                 Buffers: local hit=81 read=31
+                 InitPlan 3
+                   ->  Result  (cost=0.31..0.32 rows=1 width=4) (actual time=0.030..0.031 rows=1.00 loops=1)
+                         Buffers: local hit=3
+                         InitPlan 2
+                           ->  Limit  (cost=0.27..0.31 rows=1 width=4) (actual time=0.028..0.029 rows=1.00 loops=1)
+                                 Buffers: local hit=3
+                                 ->  Index Only Scan using phase2_v3_sessions_date_idx on phase2_v3_sessions  (cost=0.27..15.32 rows=374 width=4) (actual time=0.028..0.028 rows=1.00 loops=1)
+                                       Index Cond: (trade_date IS NOT NULL)
+                                       Heap Fetches: 1
+                                       Index Searches: 1
+                                       Buffers: local hit=3
+                 InitPlan 5
+                   ->  Result  (cost=0.31..0.32 rows=1 width=4) (actual time=0.013..0.014 rows=1.00 loops=1)
+                         Buffers: local hit=3
+                         InitPlan 4
+                           ->  Limit  (cost=0.27..0.31 rows=1 width=4) (actual time=0.012..0.013 rows=1.00 loops=1)
+                                 Buffers: local hit=3
+                                 ->  Index Only Scan Backward using phase2_v3_sessions_date_idx on phase2_v3_sessions phase2_v3_sessions_1  (cost=0.27..15.32 rows=374 width=4) (actual time=0.012..0.012 rows=1.00 loops=1)
+                                       Index Cond: (trade_date IS NOT NULL)
+                                       Heap Fetches: 1
+                                       Index Searches: 1
+                                       Buffers: local hit=3
+                 ->  Merge Join  (cost=0.70..18.28 rows=2 width=8) (actual time=0.655..0.655 rows=1.00 loops=15)
+                       Merge Cond: (r.trade_date = s.trade_date)
+                       Buffers: local hit=81 read=31
+                       ->  Index Scan using phase2_adjustment_rows_symbol_date_idx on phase2_adjustment_rows r  (cost=0.43..11.70 rows=9 width=4) (actual time=0.635..0.635 rows=1.00 loops=15)
+                             Index Cond: ((symbol_id = c.symbol_id) AND (trade_date >= (InitPlan 3).col1) AND (trade_date <= (InitPlan 5).col1))
+                             Filter: ((reference_adjustment_ratio > '0'::double precision) AND (reference_adjustment_ratio < 'Infinity'::double precision) AND (source = 'vndirect'::text))
+                             Index Searches: 15
+                             Buffers: local hit=29 read=31
+                       ->  Index Only Scan using phase2_v3_sessions_date_idx on phase2_v3_sessions s  (cost=0.27..14.38 rows=374 width=4) (actual time=0.010..0.013 rows=26.33 loops=15)
+                             Heap Fetches: 395
+                             Index Searches: 15
+                             Buffers: local hit=46
+   ->  CTE Scan on eligible_symbols  (cost=0.00..0.30 rows=15 width=0) (actual time=4.538..55.521 rows=15.00 loops=1)
+         Storage: Memory  Maximum Storage: 17kB
+         Buffers: shared hit=672 read=123 dirtied=28, local hit=81 read=31
+ Planning:
+   Buffers: shared hit=62 read=8, local hit=3 read=8
+ Planning Time: 44.079 ms
+ Execution Time: 56.064 ms
+(61 rows)
+
+ELIGIBILITY SCALE 30 INPUT SYMBOLS
+                                                                                                         QUERY PLAN                                                                                                          
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=414.36..414.37 rows=1 width=8) (actual time=87.627..87.635 rows=1.00 loops=1)
+   Buffers: shared hit=1525 read=93 dirtied=12, local hit=188 read=31
+   CTE requested_symbols
+     ->  Limit  (cost=0.43..108.43 rows=30 width=8) (actual time=0.096..68.110 rows=30.00 loops=1)
+           Buffers: shared hit=1525 read=93 dirtied=12
+           ->  Unique  (cost=0.43..5421.99 rows=1506 width=8) (actual time=0.095..68.097 rows=30.00 loops=1)
+                 Buffers: shared hit=1525 read=93 dirtied=12
+                 ->  Index Only Scan using features_daily_pkey on features_daily f  (cost=0.43..5212.84 rows=83660 width=8) (actual time=0.093..67.820 rows=1653.00 loops=1)
+                       Index Cond: ((trade_date >= '2020-01-01'::date) AND (trade_date <= '2020-03-31'::date) AND (feature_version = 'phase2-v2'::text))
+                       Heap Fetches: 298
+                       Index Searches: 41
+                       Buffers: shared hit=1525 read=93 dirtied=12
+   CTE eligible_symbols
+     ->  Nested Loop  (cost=1.35..305.25 rows=30 width=8) (actual time=0.163..87.534 rows=30.00 loops=1)
+           Buffers: shared hit=1525 read=93 dirtied=12, local hit=188 read=31
+           ->  CTE Scan on requested_symbols c  (cost=0.00..0.60 rows=30 width=8) (actual time=0.096..68.143 rows=30.00 loops=1)
+                 Storage: Memory  Maximum Storage: 17kB
+                 Buffers: shared hit=1525 read=93 dirtied=12
+           ->  Limit  (cost=1.35..10.13 rows=1 width=8) (actual time=0.643..0.643 rows=1.00 loops=30)
+                 Buffers: local hit=188 read=31
+                 InitPlan 3
+                   ->  Result  (cost=0.31..0.32 rows=1 width=4) (actual time=0.017..0.017 rows=1.00 loops=1)
+                         Buffers: local hit=3
+                         InitPlan 2
+                           ->  Limit  (cost=0.27..0.31 rows=1 width=4) (actual time=0.015..0.016 rows=1.00 loops=1)
+                                 Buffers: local hit=3
+                                 ->  Index Only Scan using phase2_v3_sessions_date_idx on phase2_v3_sessions  (cost=0.27..15.32 rows=374 width=4) (actual time=0.015..0.015 rows=1.00 loops=1)
+                                       Index Cond: (trade_date IS NOT NULL)
+                                       Heap Fetches: 1
+                                       Index Searches: 1
+                                       Buffers: local hit=3
+                 InitPlan 5
+                   ->  Result  (cost=0.31..0.32 rows=1 width=4) (actual time=0.004..0.005 rows=1.00 loops=1)
+                         Buffers: local hit=3
+                         InitPlan 4
+                           ->  Limit  (cost=0.27..0.31 rows=1 width=4) (actual time=0.003..0.004 rows=1.00 loops=1)
+                                 Buffers: local hit=3
+                                 ->  Index Only Scan Backward using phase2_v3_sessions_date_idx on phase2_v3_sessions phase2_v3_sessions_1  (cost=0.27..15.32 rows=374 width=4) (actual time=0.003..0.003 rows=1.00 loops=1)
+                                       Index Cond: (trade_date IS NOT NULL)
+                                       Heap Fetches: 1
+                                       Index Searches: 1
+                                       Buffers: local hit=3
+                 ->  Merge Join  (cost=0.70..18.28 rows=2 width=8) (actual time=0.641..0.641 rows=1.00 loops=30)
+                       Merge Cond: (r.trade_date = s.trade_date)
+                       Buffers: local hit=188 read=31
+                       ->  Index Scan using phase2_adjustment_rows_symbol_date_idx on phase2_adjustment_rows r  (cost=0.43..11.70 rows=9 width=4) (actual time=0.620..0.620 rows=1.00 loops=30)
+                             Index Cond: ((symbol_id = c.symbol_id) AND (trade_date >= (InitPlan 3).col1) AND (trade_date <= (InitPlan 5).col1))
+                             Filter: ((reference_adjustment_ratio > '0'::double precision) AND (reference_adjustment_ratio < 'Infinity'::double precision) AND (source = 'vndirect'::text))
+                             Index Searches: 30
+                             Buffers: local hit=89 read=31
+                       ->  Index Only Scan using phase2_v3_sessions_date_idx on phase2_v3_sessions s  (cost=0.27..14.38 rows=374 width=4) (actual time=0.011..0.015 rows=34.70 loops=30)
+                             Heap Fetches: 1041
+                             Index Searches: 30
+                             Buffers: local hit=93
+   ->  CTE Scan on eligible_symbols  (cost=0.00..0.60 rows=30 width=0) (actual time=0.165..87.599 rows=30.00 loops=1)
+         Storage: Memory  Maximum Storage: 17kB
+         Buffers: shared hit=1525 read=93 dirtied=12, local hit=188 read=31
+ Planning:
+   Buffers: local hit=10
+ Planning Time: 0.950 ms
+ Execution Time: 87.732 ms
+(61 rows)
+
+ELIGIBILITY SCALE 60 INPUT SYMBOLS
+                                                                                                         QUERY PLAN                                                                                                          
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=828.28..828.29 rows=1 width=8) (actual time=160.672..160.677 rows=1.00 loops=1)
+   Buffers: shared hit=3137 read=207 dirtied=30, local hit=370 read=59
+   CTE requested_symbols
+     ->  Limit  (cost=0.43..216.43 rows=60 width=8) (actual time=0.049..131.322 rows=60.00 loops=1)
+           Buffers: shared hit=3137 read=207 dirtied=30
+           ->  Unique  (cost=0.43..5421.99 rows=1506 width=8) (actual time=0.049..131.298 rows=60.00 loops=1)
+                 Buffers: shared hit=3137 read=207 dirtied=30
+                 ->  Index Only Scan using features_daily_pkey on features_daily f  (cost=0.43..5212.84 rows=83660 width=8) (actual time=0.048..130.812 rows=3423.00 loops=1)
+                       Index Cond: ((trade_date >= '2020-01-01'::date) AND (trade_date <= '2020-03-31'::date) AND (feature_version = 'phase2-v2'::text))
+                       Heap Fetches: 605
+                       Index Searches: 77
+                       Buffers: shared hit=3137 read=207 dirtied=30
+   CTE eligible_symbols
+     ->  Nested Loop  (cost=1.35..610.50 rows=60 width=8) (actual time=0.110..160.552 rows=60.00 loops=1)
+           Buffers: shared hit=3137 read=207 dirtied=30, local hit=370 read=59
+           ->  CTE Scan on requested_symbols c  (cost=0.00..1.20 rows=60 width=8) (actual time=0.050..131.387 rows=60.00 loops=1)
+                 Storage: Memory  Maximum Storage: 18kB
+                 Buffers: shared hit=3137 read=207 dirtied=30
+           ->  Limit  (cost=1.35..10.13 rows=1 width=8) (actual time=0.484..0.484 rows=1.00 loops=60)
+                 Buffers: local hit=370 read=59
+                 InitPlan 3
+                   ->  Result  (cost=0.31..0.32 rows=1 width=4) (actual time=0.018..0.019 rows=1.00 loops=1)
+                         Buffers: local hit=3
+                         InitPlan 2
+                           ->  Limit  (cost=0.27..0.31 rows=1 width=4) (actual time=0.016..0.017 rows=1.00 loops=1)
+                                 Buffers: local hit=3
+                                 ->  Index Only Scan using phase2_v3_sessions_date_idx on phase2_v3_sessions  (cost=0.27..15.32 rows=374 width=4) (actual time=0.014..0.015 rows=1.00 loops=1)
+                                       Index Cond: (trade_date IS NOT NULL)
+                                       Heap Fetches: 1
+                                       Index Searches: 1
+                                       Buffers: local hit=3
+                 InitPlan 5
+                   ->  Result  (cost=0.31..0.32 rows=1 width=4) (actual time=0.007..0.008 rows=1.00 loops=1)
+                         Buffers: local hit=3
+                         InitPlan 4
+                           ->  Limit  (cost=0.27..0.31 rows=1 width=4) (actual time=0.004..0.005 rows=1.00 loops=1)
+                                 Buffers: local hit=3
+                                 ->  Index Only Scan Backward using phase2_v3_sessions_date_idx on phase2_v3_sessions phase2_v3_sessions_1  (cost=0.27..15.32 rows=374 width=4) (actual time=0.004..0.004 rows=1.00 loops=1)
+                                       Index Cond: (trade_date IS NOT NULL)
+                                       Heap Fetches: 1
+                                       Index Searches: 1
+                                       Buffers: local hit=3
+                 ->  Merge Join  (cost=0.70..18.28 rows=2 width=8) (actual time=0.482..0.482 rows=1.00 loops=60)
+                       Merge Cond: (r.trade_date = s.trade_date)
+                       Buffers: local hit=370 read=59
+                       ->  Index Scan using phase2_adjustment_rows_symbol_date_idx on phase2_adjustment_rows r  (cost=0.43..11.70 rows=9 width=4) (actual time=0.465..0.465 rows=1.00 loops=60)
+                             Index Cond: ((symbol_id = c.symbol_id) AND (trade_date >= (InitPlan 3).col1) AND (trade_date <= (InitPlan 5).col1))
+                             Filter: ((reference_adjustment_ratio > '0'::double precision) AND (reference_adjustment_ratio < 'Infinity'::double precision) AND (source = 'vndirect'::text))
+                             Index Searches: 60
+                             Buffers: local hit=181 read=59
+                       ->  Index Only Scan using phase2_v3_sessions_date_idx on phase2_v3_sessions s  (cost=0.27..14.38 rows=374 width=4) (actual time=0.010..0.013 rows=20.65 loops=60)
+                             Heap Fetches: 1239
+                             Index Searches: 60
+                             Buffers: local hit=183
+   ->  CTE Scan on eligible_symbols  (cost=0.00..1.20 rows=60 width=0) (actual time=0.111..160.629 rows=60.00 loops=1)
+         Storage: Memory  Maximum Storage: 18kB
+         Buffers: shared hit=3137 read=207 dirtied=30, local hit=370 read=59
+ Planning:
+   Buffers: local hit=10
+ Planning Time: 0.626 ms
+ Execution Time: 160.823 ms
+(61 rows)
+
+ROLLBACK

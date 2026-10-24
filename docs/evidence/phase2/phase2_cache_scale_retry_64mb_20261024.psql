@@ -1,0 +1,40 @@
+\set ON_ERROR_STOP on
+\pset pager off
+
+-- Repeat the runner's exact cache-scale preflight at 64 MB after EXPLAIN
+-- identified a 33 MB work-table spill in the 60-symbol adjustment query.
+-- All price-cache and probe data are temporary and the transaction rolls back.
+DO $$
+BEGIN
+    IF current_database()<>'vnsignal_phase2_report_20261019' THEN
+        RAISE EXCEPTION 'cache re-probe is restricted to the disposable report clone; got %',current_database();
+    END IF;
+END $$;
+
+BEGIN ISOLATION LEVEL REPEATABLE READ;
+SET LOCAL statement_timeout='10min';
+SET LOCAL temp_file_limit='90GB';
+SET LOCAL work_mem='64MB';
+SET LOCAL jit=off;
+SET LOCAL synchronous_commit=off;
+SET LOCAL random_page_cost=1.1;
+SET LOCAL log_temp_files=0;
+SET LOCAL vnpipe.phase2_symbol_batch_size='60';
+SET LOCAL vnpipe.phase2_cache_time_budget_minutes='40';
+SET LOCAL application_name='phase2_cache_scale_retry64';
+
+-- Warm cached plans and local buffers exactly as the runner does.
+SELECT * FROM feat.probe_phase2_adjustment_cache(15);
+SELECT * FROM feat.probe_phase2_adjustment_cache(30);
+SELECT * FROM feat.probe_phase2_adjustment_cache(60);
+SELECT * FROM feat.probe_phase2_adjustment_cache(15);
+SELECT * FROM feat.probe_phase2_adjustment_cache(30);
+SELECT * FROM feat.probe_phase2_adjustment_cache(60);
+
+-- Measured series consumed by the unchanged production scaling assertion.
+SELECT * FROM feat.probe_phase2_adjustment_cache(15);
+SELECT * FROM feat.probe_phase2_adjustment_cache(30);
+SELECT * FROM feat.probe_phase2_adjustment_cache(60);
+SELECT feat.assert_phase2_adjustment_cache_scaling();
+SELECT temp_files,temp_bytes FROM pg_stat_database WHERE datname=current_database();
+ROLLBACK;

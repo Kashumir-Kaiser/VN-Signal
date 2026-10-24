@@ -1,0 +1,47 @@
+Pager usage is off.
+DO
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:docs/evidence/phase2/phase2_cache_scale_plan_15_20261024.psql:23: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+ begin_phase2_adjustment_rows 
+------------------------------
+                            1
+(1 row)
+
+                                                                                                                QUERY PLAN                                                                                                                
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Insert on pg_temp.phase2_adjustment_rows  (cost=1.77..11.77 rows=0 width=0) (actual time=627.001..627.003 rows=0.00 loops=1)
+   Buffers: shared hit=1662 read=27, local hit=24628 dirtied=433 written=436
+   InitPlan 1
+     ->  Sort  (cost=1.48..1.52 rows=15 width=8) (actual time=0.030..0.032 rows=15.00 loops=1)
+           Output: phase2_adjustment_symbol_batches.symbol_id
+           Sort Key: phase2_adjustment_symbol_batches.symbol_id
+           Sort Method: quicksort  Memory: 25kB
+           Buffers: local hit=1
+           ->  Seq Scan on pg_temp.phase2_adjustment_symbol_batches  (cost=0.00..1.19 rows=15 width=8) (actual time=0.019..0.021 rows=15.00 loops=1)
+                 Output: phase2_adjustment_symbol_batches.symbol_id
+                 Filter: (phase2_adjustment_symbol_batches.batch_no = 0)
+                 Buffers: local hit=1
+   ->  Function Scan on feat.phase2_vndirect_adjustment_details_for_symbols r  (cost=0.25..10.25 rows=1000 width=125) (actual time=587.930..589.851 rows=23765.00 loops=1)
+         Output: r.symbol_id, r.trade_date, r.source, r.v, r.is_traded, r.reference_adjustment_ratio, r.episode_start_date, r.model_o, r.model_h, r.model_l, r.model_c, r.adjustment_vintage_at, r.landing_id, r.source_row, r.fetched_at
+         Function Call: feat.phase2_vndirect_adjustment_details_for_symbols((InitPlan 1).col1)
+         Buffers: shared hit=1662 read=27, local hit=1
+ Planning:
+   Buffers: shared hit=3
+ Planning Time: 0.146 ms
+ Execution Time: 628.222 ms
+(20 rows)
+
+ temp_rows_inserted 
+--------------------
+              23765
+(1 row)
+
+ROLLBACK

@@ -1,0 +1,279 @@
+{
+  "commit": "68f44cb60f2f4231df4418365ea8773c6dadc8b5",
+  "runs": {
+    "workflow_runs": [
+      {
+        "id": 40086998005,
+        "name": "offline-tests",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 158,
+        "jobs_url": "https://api.github.com/repos/Kashumir-Kaiser/VN-Signal/actions/runs/40086998005/jobs",
+        "logs_url": "https://api.github.com/repos/Kashumir-Kaiser/VN-Signal/actions/runs/40086998005/logs",
+        "workflow_id": 386445387
+      }
+    ]
+  },
+  "jobs": {
+    "jobs": [
+      {
+        "id": 120851867930,
+        "name": "postgres",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 40086998005,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Initialize containers",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run sudo apt-get update && sudo apt-get install -y postgresql-client",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run bash tests/sql/test_migration.sh",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Run cargo fmt --manifest-path rust/Cargo.toml --all -- --check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Run cargo clippy --manifest-path rust/Cargo.toml --workspace --all-targets -- -D warnings",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Run cargo test --manifest-path rust/Cargo.toml --workspace",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Run psql \"$DATABASE_URL\" -X -v ON_ERROR_STOP=1 -f sql/diagnostics/ohlcv_quarantine.sql",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Run actions/setup-go@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Run go -C go mod download",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Run go -C go run -mod=mod -tags postgres ./cmd/vnpipe migrate --dir ../sql/migrations",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Run go -C go run -mod=mod -tags postgres ./cmd/vnpipe migrate --dir ../sql/migrations",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Run go -C go test -mod=mod -race -tags \"postgres postgres_integration\" -p 1 ./... -count=1",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Post Run actions/setup-go@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 28
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 29
+          },
+          {
+            "name": "Stop containers",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 30
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 31
+          }
+        ]
+      },
+      {
+        "id": 120851868100,
+        "name": "python",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 40086998005,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run python -m unittest discover -s tests -v",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run python -m py_compile py/vnstock_worker.py",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run python -c \"import tomllib; tomllib.load(open('config/default.toml', 'rb'))\"",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Post Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          }
+        ]
+      },
+      {
+        "id": 120851868108,
+        "name": "go",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 40086998005,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-go@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run go -C go test -race ./...",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run go -C go vet ./...",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Post Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Post Run actions/setup-go@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          }
+        ]
+      }
+    ]
+  }
+}

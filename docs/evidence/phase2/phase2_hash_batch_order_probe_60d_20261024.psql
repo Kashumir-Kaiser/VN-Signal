@@ -1,0 +1,135 @@
+\set ON_ERROR_STOP on
+\pset pager off
+\timing on
+DO $guard$ BEGIN
+    IF current_database() <> 'vnsignal_phase2_report_20261019' THEN
+        RAISE EXCEPTION 'wrong database: %', current_database();
+    END IF;
+END $guard$;
+SET application_name = 'phase2_hash_batch_order_probe';
+SET statement_timeout = '15min';
+SET temp_file_limit = '8GB';
+SET work_mem = '64MB';
+SET jit = off;
+
+BEGIN;
+SELECT feat.begin_phase2_adjustment_rows(60);
+SELECT format(
+    'SELECT feat.populate_phase2_adjustment_rows(%s);',
+    batch_no
+)
+FROM (
+    SELECT DISTINCT batch_no
+    FROM pg_temp.phase2_adjustment_symbol_batches
+    ORDER BY batch_no
+) batches
+\gexec
+SELECT feat.finish_phase2_adjustment_rows();
+
+CREATE TEMP TABLE phase2_hash_probe_dates(
+    trade_date date PRIMARY KEY
+) ON COMMIT DROP;
+INSERT INTO pg_temp.phase2_hash_probe_dates(trade_date)
+SELECT trade_date
+FROM core.effective_trading_sessions
+WHERE is_session
+  AND trade_date BETWEEN DATE '2021-03-09' AND DATE '2025-12-31'
+ORDER BY trade_date
+LIMIT 60;
+ANALYZE pg_temp.phase2_hash_probe_dates;
+
+-- Baseline layout and hash semantics.
+EXPLAIN (ANALYZE, BUFFERS, SETTINGS, SUMMARY, TIMING)
+SELECT r.trade_date,
+       ops.phase2_hash_text(
+           string_agg(to_jsonb(r)::text, E'\n' ORDER BY r.symbol_id)
+       )
+FROM pg_temp.phase2_hash_probe_dates d
+JOIN pg_temp.phase2_adjustment_rows r ON r.trade_date = d.trade_date
+WHERE r.trade_date BETWEEN DATE '2021-03-09' AND DATE '2025-12-31'
+GROUP BY r.trade_date;
+CREATE TEMP TABLE phase2_hash_probe_baseline ON COMMIT DROP AS
+SELECT r.trade_date,
+       ops.phase2_hash_text(
+           string_agg(to_jsonb(r)::text, E'\n' ORDER BY r.symbol_id)
+       ) AS day_sha256
+FROM pg_temp.phase2_hash_probe_dates d
+JOIN pg_temp.phase2_adjustment_rows r ON r.trade_date = d.trade_date
+WHERE r.trade_date BETWEEN DATE '2021-03-09' AND DATE '2025-12-31'
+GROUP BY r.trade_date;
+
+-- Replace only the insertion ordering inside this transaction. This simulates
+-- a future migration without leaving a persistent function change on the clone.
+DO $patch$
+DECLARE
+    v_definition text := pg_get_functiondef(
+        'feat.populate_phase2_adjustment_rows(integer)'::regprocedure
+    );
+    v_marker text := 'FROM feat.phase2_vndirect_adjustment_details_for_symbols(v_symbol_ids) r';
+BEGIN
+    IF length(v_definition) - length(replace(v_definition, v_marker, ''))
+       <> length(v_marker) THEN
+        RAISE EXCEPTION 'expected one adjustment-row source marker in the batch loader';
+    END IF;
+    v_definition := replace(
+        v_definition,
+        v_marker,
+        v_marker || E'\n        ORDER BY r.trade_date, r.symbol_id'
+    );
+    EXECUTE v_definition;
+END
+$patch$;
+
+DROP TABLE pg_temp.phase2_adjustment_batch_dates;
+DROP TABLE pg_temp.phase2_adjustment_rows;
+DROP TABLE pg_temp.phase2_adjustment_symbol_batches;
+DROP TABLE pg_temp.phase2_adjustment_cache_state;
+
+SELECT feat.begin_phase2_adjustment_rows(60);
+SELECT format(
+    'SELECT feat.populate_phase2_adjustment_rows(%s);',
+    batch_no
+)
+FROM (
+    SELECT DISTINCT batch_no
+    FROM pg_temp.phase2_adjustment_symbol_batches
+    ORDER BY batch_no
+) batches
+\gexec
+SELECT feat.finish_phase2_adjustment_rows();
+
+-- Compare the same dates with the exact same JSON, delimiter, symbol ordering,
+-- and SHA-256 logic after rows were inserted in date order within each batch.
+EXPLAIN (ANALYZE, BUFFERS, SETTINGS, SUMMARY, TIMING)
+SELECT r.trade_date,
+       ops.phase2_hash_text(
+           string_agg(to_jsonb(r)::text, E'\n' ORDER BY r.symbol_id)
+       )
+FROM pg_temp.phase2_hash_probe_dates d
+JOIN pg_temp.phase2_adjustment_rows r ON r.trade_date = d.trade_date
+WHERE r.trade_date BETWEEN DATE '2021-03-09' AND DATE '2025-12-31'
+GROUP BY r.trade_date;
+CREATE TEMP TABLE phase2_hash_probe_ordered ON COMMIT DROP AS
+SELECT r.trade_date,
+       ops.phase2_hash_text(
+           string_agg(to_jsonb(r)::text, E'\n' ORDER BY r.symbol_id)
+       ) AS day_sha256
+FROM pg_temp.phase2_hash_probe_dates d
+JOIN pg_temp.phase2_adjustment_rows r ON r.trade_date = d.trade_date
+WHERE r.trade_date BETWEEN DATE '2021-03-09' AND DATE '2025-12-31'
+GROUP BY r.trade_date;
+
+SELECT count(*) AS baseline_hash_rows FROM pg_temp.phase2_hash_probe_baseline;
+SELECT count(*) AS ordered_hash_rows FROM pg_temp.phase2_hash_probe_ordered;
+SELECT count(*) AS differing_hash_rows
+FROM (
+    (SELECT * FROM pg_temp.phase2_hash_probe_baseline
+     EXCEPT ALL
+     SELECT * FROM pg_temp.phase2_hash_probe_ordered)
+    UNION ALL
+    (SELECT * FROM pg_temp.phase2_hash_probe_ordered
+     EXCEPT ALL
+     SELECT * FROM pg_temp.phase2_hash_probe_baseline)
+) differences;
+
+ROLLBACK;

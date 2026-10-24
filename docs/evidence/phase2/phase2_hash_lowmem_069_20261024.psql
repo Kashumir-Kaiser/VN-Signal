@@ -1,0 +1,37 @@
+\set ON_ERROR_STOP on
+\pset pager off
+\timing on
+SET application_name = 'phase2_hash_lowmem_069_probe';
+SET statement_timeout = '45s';
+SET work_mem = '8MB';
+SET maintenance_work_mem = '16MB';
+SET jit = off;
+
+DO $guard$ BEGIN
+ IF current_database()<>'vnsignal_phase2_report_20261019' THEN
+  RAISE EXCEPTION 'full hash probe requires the disposable report clone';
+ END IF;
+END $guard$;
+BEGIN;
+SELECT feat.begin_phase2_adjustment_rows(15);
+SELECT format(
+    'SELECT feat.populate_phase2_adjustment_rows(%s);',
+    batch_no
+)
+FROM (
+    SELECT DISTINCT batch_no
+    FROM pg_temp.phase2_adjustment_symbol_batches
+    ORDER BY batch_no
+) batches
+\gexec
+SELECT feat.finish_phase2_adjustment_rows();
+
+SET statement_timeout = '17min';
+SELECT ops.phase2_prepare_price_day_hashes(DATE '2021-03-09',DATE '2025-12-31');
+SELECT count(*) AS hashed_dates FROM pg_temp.phase2_price_day_hashes;
+SELECT count(*) AS covered_dates FROM pg_temp.phase2_price_day_hash_coverage;
+SET statement_timeout = '17min';
+SELECT ops.phase2_prepare_price_day_hashes(DATE '2021-03-09',DATE '2025-12-31');
+ROLLBACK;
+
+

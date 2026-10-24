@@ -1,0 +1,19 @@
+BEGIN
+SET
+SET
+SET
+SET
+NOTICE:  Phase 2 adjustment cache initialized for 6 batches of up to 60 symbols
+SET
+NOTICE:  Phase 2 adjustment cache batch 5 rows 114805, elapsed 00:00:04.019318
+ begin_phase2_adjustment_rows 
+------------------------------
+                            6
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114805
+(1 row)
+
+ROLLBACK

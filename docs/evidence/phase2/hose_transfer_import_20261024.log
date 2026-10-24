@@ -1,0 +1,8 @@
+Pager usage is off.
+BEGIN
+CREATE TABLE
+COPY 14
+CREATE TABLE
+INSERT 0 14
+psql:docs/evidence/phase2/hose_transfer_sources_20261023/import_hose_transfer_landings_reportclone.sql:104: ERROR:  ticker-specific first-HOSE date staging is incomplete or cohort attribution is ambiguous
+CONTEXT:  PL/pgSQL function inline_code_block line 40 at RAISE

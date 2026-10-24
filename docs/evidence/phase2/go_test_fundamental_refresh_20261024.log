@@ -1,0 +1,15 @@
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/cmd/vnpipe	(cached)
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/checkpoint	(cached)
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/config	(cached)
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/dnse	(cached)
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/dq	(cached)
+--- FAIL: TestFundamentalObservedRefreshIsDailyAndBackfillRemainsIdempotent (0.00s)
+    fundamentals_test.go:58: step 0: {Skipped:0 Committed:0 Blocked:0 EmptyResponses:0 Partial:0 ZeroVolume:0 InvalidTraded:0 BlockedPreview:[]} err=fundamental quarantine store unavailable
+FAIL
+FAIL	github.com/Kashumir-Kaiser/VN-Signal/go/internal/ingest	2.690s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/live	(cached)
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/migrate	(cached)
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/quota	(cached)
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/vndirect	(cached)
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/worker	(cached)
+FAIL

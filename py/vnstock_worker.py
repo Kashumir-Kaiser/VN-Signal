@@ -145,7 +145,17 @@ def _fetch(job: dict[str, Any]) -> dict[str, Any]:
         period = job.get("period", "quarter")
         if period not in ("quarter", "year"):
             raise ValueError("invalid statement period")
-        return _frame(getattr(Fundamental().equity(val), op)(period=period, **opts))
+        df = getattr(Fundamental().equity(val), op)(period=period, **opts)
+        provider_symbol = df.attrs.get("symbol")
+        if provider_symbol is not None and (
+                not isinstance(provider_symbol, str) or provider_symbol.strip().upper() != val):
+            raise ValueError("fundamental provider symbol does not match request")
+        frame = _frame(df)
+        # Bind the archive ticker to equity(val), retaining its attribution basis.
+        frame["attributes"].update({"symbol": val, "requested_symbol": val,
+                                    "symbol_basis": "provider_and_request" if provider_symbol is not None else "request",
+                                    "requested_period": period})
+        return frame
     raise ValueError("operation not allowed")
 
 

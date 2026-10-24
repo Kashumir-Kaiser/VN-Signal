@@ -1,0 +1,11 @@
+ status  | count |   sum   |    max     
+---------+-------+---------+------------
+ pending |    15 |         | 2026-10-16
+ done    |    18 | 1542538 | 2023-03-31
+(2 rows)
+
+  pid  | application_name | state  | wait_event_type |     elapsed     
+-------+------------------+--------+-----------------+-----------------
+ 14332 | phase2_features  | active |                 | 00:14:55.354202
+(1 row)
+

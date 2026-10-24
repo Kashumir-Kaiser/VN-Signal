@@ -1,0 +1,43 @@
+BEGIN
+SET
+ begin_phase2_adjustment_rows 
+------------------------------
+                            2
+(1 row)
+
+psql:tests/sql/phase2_cache_reset_assertions.sql:4: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 2 symbols
+ populate_phase2_adjustment_rows 
+psql:tests/sql/phase2_cache_reset_assertions.sql:5: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 3, dates 3, elapsed 00:00:00.067328
+---------------------------------
+                               3
+(1 row)
+
+psql:tests/sql/phase2_cache_reset_assertions.sql:6: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 640, dates 320, elapsed 00:00:00.019421
+ populate_phase2_adjustment_rows 
+---------------------------------
+                             640
+(1 row)
+
+ finish_phase2_adjustment_rows 
+-------------------------------
+                           643
+(1 row)
+
+psql:tests/sql/phase2_cache_reset_assertions.sql:7: NOTICE:  Phase 2 adjustment cache rows 643, finalize elapsed 00:00:00.052249
+psql:tests/sql/phase2_cache_reset_assertions.sql:8: NOTICE:  Phase 2 price-day hash range 2024-01-02 through 2099-03-27: requested 323, uncovered 323, date planning elapsed 00:00:00.08283
+psql:tests/sql/phase2_cache_reset_assertions.sql:8: NOTICE:  Phase 2 price-day hash aggregate completed: 323 dates, elapsed 00:00:00.157742
+psql:tests/sql/phase2_cache_reset_assertions.sql:8: NOTICE:  Phase 2 price-day hash coverage recorded: 323 requested dates, total elapsed 00:00:00.161876
+ phase2_prepare_price_day_hashes 
+---------------------------------
+ 
+(1 row)
+
+DO
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               3
+psql:tests/sql/phase2_cache_reset_assertions.sql:15: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 3, dates 3, elapsed 00:00:00.01861
+(1 row)
+
+psql:tests/sql/phase2_cache_reset_assertions.sql:22: ERROR:  batch refill retained stale price-day hash evidence
+CONTEXT:  PL/pgSQL function inline_code_block line 5 at RAISE

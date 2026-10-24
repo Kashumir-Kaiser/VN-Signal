@@ -1,0 +1,267 @@
+Pager usage is off.
+Timing is on.
+BEGIN
+Time: 0.284 ms
+SET
+Time: 3.352 ms
+SET
+Time: 0.207 ms
+SET
+Time: 0.085 ms
+DO
+Time: 44.671 ms
+CREATE TABLE
+Time: 80.761 ms
+SELECT 2009
+Time: 43.353 ms
+CREATE INDEX
+Time: 17.035 ms
+CREATE INDEX
+Time: 2.974 ms
+ANALYZE
+Time: 41.545 ms
+SELECT 3
+Time: 20.808 ms
+CREATE INDEX
+Time: 3.558 ms
+E2 checkpoint: populating the production adjustment cache in bounded symbol batches
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:55: NOTICE:  Phase 2 adjustment cache initialized for 26 batches of up to 60 symbols
+ begin_phase2_adjustment_rows 
+------------------------------
+                           26
+(1 row)
+
+Time: 828.644 ms
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          108331
+(1 row)
+
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:03.814201
+Time: 3816.910 ms (00:03.817)
+ populate_phase2_adjustment_rows 
+---------------------------------
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 1 rows 115152, elapsed 00:00:02.151261
+                          115152
+(1 row)
+
+Time: 2151.594 ms (00:02.152)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111302
+(1 row)
+
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 2 rows 111302, elapsed 00:00:02.663751
+Time: 2664.104 ms (00:02.664)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 3 rows 113879, elapsed 00:00:02.305354
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113879
+(1 row)
+
+Time: 2305.665 ms (00:02.306)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114214
+(1 row)
+
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 4 rows 114214, elapsed 00:00:02.749807
+Time: 2750.139 ms (00:02.750)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 5 rows 114805, elapsed 00:00:02.57659
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114805
+(1 row)
+
+Time: 2576.950 ms (00:02.577)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 6 rows 112592, elapsed 00:00:02.581011
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112592
+(1 row)
+
+Time: 2581.392 ms (00:02.581)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          116639
+(1 row)
+
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 7 rows 116639, elapsed 00:00:03.769169
+Time: 3769.526 ms (00:03.770)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 8 rows 106585, elapsed 00:00:03.041783
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106585
+(1 row)
+
+Time: 3042.208 ms (00:03.042)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 9 rows 111358, elapsed 00:00:02.251503
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111358
+(1 row)
+
+Time: 2251.915 ms (00:02.252)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 10 rows 106117, elapsed 00:00:02.518381
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106117
+(1 row)
+
+Time: 2518.881 ms (00:02.519)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 11 rows 113594, elapsed 00:00:02.50565
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113594
+(1 row)
+
+Time: 2506.000 ms (00:02.506)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 12 rows 112628, elapsed 00:00:02.366062
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112628
+(1 row)
+
+Time: 2366.412 ms (00:02.366)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 13 rows 113102, elapsed 00:00:02.816789
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113102
+(1 row)
+
+Time: 2817.201 ms (00:02.817)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 14 rows 113642, elapsed 00:00:02.698391
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113642
+(1 row)
+
+Time: 2698.729 ms (00:02.699)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111909
+(1 row)
+
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 15 rows 111909, elapsed 00:00:02.860561
+Time: 2860.925 ms (00:02.861)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 16 rows 111802, elapsed 00:00:03.188681
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111802
+(1 row)
+
+Time: 3189.063 ms (00:03.189)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 17 rows 115171, elapsed 00:00:03.452504
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115171
+(1 row)
+
+Time: 3452.855 ms (00:03.453)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 18 rows 115471, elapsed 00:00:03.122512
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115471
+(1 row)
+
+Time: 3122.919 ms (00:03.123)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 19 rows 112613, elapsed 00:00:03.150153
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112613
+(1 row)
+
+Time: 3150.584 ms (00:03.151)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 20 rows 109469, elapsed 00:00:03.262185
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          109469
+(1 row)
+
+Time: 3262.671 ms (00:03.263)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 21 rows 114091, elapsed 00:00:03.644965
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114091
+(1 row)
+
+Time: 3645.638 ms (00:03.646)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 22 rows 110051, elapsed 00:00:03.569127
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          110051
+(1 row)
+
+Time: 3569.704 ms (00:03.570)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 23 rows 112438, elapsed 00:00:04.870777
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112438
+(1 row)
+
+Time: 4871.231 ms (00:04.871)
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 24 rows 115457, elapsed 00:00:19.767669
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115457
+(1 row)
+
+Time: 19768.113 ms (00:19.768)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           32023
+(1 row)
+
+Time: 23747.952 ms (00:23.748)
+Time: 1.395 ms
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 25 rows 32023, elapsed 00:00:23.747438
+ finish_phase2_adjustment_rows 
+-------------------------------
+                       2844435
+(1 row)
+
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:61: NOTICE:  Phase 2 adjustment cache rows 2844435, finalize elapsed 00:01:44.685552
+Time: 104902.187 ms (01:44.902)
+E2 checkpoint: copying the finalized adjustment cache
+SELECT 2844435
+Time: 9401.145 ms (00:09.401)
+CREATE INDEX
+Time: 18853.340 ms (00:18.853)
+ANALYZE
+Time: 30318.445 ms (00:30.318)
+E2 checkpoint: raw input snapshot is ready
+CREATE TABLE
+Time: 26.355 ms
+CREATE TABLE
+Time: 11.345 ms
+E2 checkpoint: selecting the PIT-stratified 60-symbol cohort
+SELECT 60
+Time: 35298.448 ms (00:35.298)
+CREATE INDEX
+Time: 10.012 ms
+ANALYZE
+Time: 16.069 ms
+E2 checkpoint: cohort selection complete
+E2 checkpoint: validating the immutable current-hash baseline
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_targets" does not exist, skipping
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  Phase 2 label targets rows 235102, elapsed 00:00:01.564984
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_latest_exit" does not exist, skipping
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_endpoint_days" does not exist, skipping
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  Phase 2 label endpoint days rows 117633, elapsed 00:00:00.653541
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_endpoint_bounds" does not exist, skipping
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_adjustment_prefix" does not exist, skipping
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  Phase 2 label adjustment prefix rows 2843189, elapsed 00:04:04.751004
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_endpoint_bars" does not exist, skipping
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  Phase 2 label endpoint bars rows 117491, elapsed 00:00:40.547288
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_first_bad_factor" does not exist, skipping
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:02.202195
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_endpoint_targets" does not exist, skipping
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_spans" does not exist, skipping
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  E2 baseline reused the current-hash 60-symbol feature cohort and rebuilt labels with current hash f4d61dd5e75ed4df90d90f28234413b9af73541853b650b5327cc0dd8be2deb1
+DO
+Time: 579592.079 ms (09:39.592)
+CREATE FUNCTION
+Time: 106.622 ms
+E2 checkpoint: running the independent 40 percent cutoff
+
+Manual cancellation record (2026-10-23 04:55:30 +07:00): E2 cut 40 remained active beyond 16 minutes without producing its checkpoint (the prior completed run measured 08:06). pg_cancel_backend returned true; the client exited 1. Follow-up checks found no active sessions in vnsignal_phase2_report_20261019 and no p2e2_* schemas, so the outer transaction rolled back on disconnect. Baseline hash validation and current-hash label rebuild completed; no cutoff comparison completed. Current-tree E2 result: NOT PASS.

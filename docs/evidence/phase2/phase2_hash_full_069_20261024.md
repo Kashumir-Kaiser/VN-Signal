@@ -1,0 +1,3 @@
+# Full-range 069 probe — interrupted by memory pressure
+
+The disposable report clone loaded through cache batch 23, whose duration rose to 3m30.87s from seconds in the successful 60-date comparison. A contemporaneous host reading showed 145 MiB available RAM. Backend 5836 was active in IO/DataFileRead while loading batch 24; pg_cancel_backend returned true. The full 1,206-date hash aggregate had not started, so this attempt supplies no full-range hash timing or E1 result. Migration 069 remains applied; the diagnostic transaction must roll back on client exit. The captured log is phase2_hash_full_069_20261024.log. No live vnstock route was called.

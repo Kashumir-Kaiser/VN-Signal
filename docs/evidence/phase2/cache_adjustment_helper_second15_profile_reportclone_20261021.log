@@ -1,0 +1,44 @@
+BEGIN
+SET
+SET
+SET
+                                                                                       QUERY PLAN                                                                                       
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=2370.29..2370.30 rows=1 width=8) (actual time=77513.712..77513.721 rows=1.00 loops=1)
+   Buffers: shared hit=65679
+   InitPlan 1
+     ->  Limit  (cost=2357.50..2357.54 rows=15 width=40) (actual time=243.607..243.619 rows=15.00 loops=1)
+           Buffers: shared hit=4877
+           ->  Sort  (cost=2357.46..2361.22 rows=1503 width=40) (actual time=243.601..243.611 rows=30.00 loops=1)
+                 Sort Key: (md5((s.symbol_id)::text)), s.symbol_id
+                 Sort Method: top-N heapsort  Memory: 28kB
+                 Buffers: shared hit=4877
+                 ->  Nested Loop Semi Join  (cost=0.43..2313.07 rows=1503 width=40) (actual time=3.203..240.154 rows=1518.00 loops=1)
+                       Buffers: shared hit=4871
+                       ->  Nested Loop Anti Join  (cost=0.00..53.99 rows=1518 width=8) (actual time=0.132..3.555 rows=1518.00 loops=1)
+                             Join Filter: (excluded.symbol_id = s.symbol_id)
+                             Rows Removed by Join Filter: 1518
+                             Buffers: shared hit=16
+                             ->  Seq Scan on symbols s  (cost=0.00..30.19 rows=1519 width=8) (actual time=0.055..1.815 rows=1519.00 loops=1)
+                                   Buffers: shared hit=15
+                             ->  Materialize  (cost=0.00..1.02 rows=1 width=8) (actual time=0.000..0.000 rows=1.00 loops=1519)
+                                   Storage: Memory  Maximum Storage: 17kB
+                                   Buffers: shared hit=1
+                                   ->  Seq Scan on ml_symbol_scope excluded  (cost=0.00..1.01 rows=1 width=8) (actual time=0.068..0.069 rows=1.00 loops=1)
+                                         Filter: (scope_status = 'EXCLUDED'::text)
+                                         Buffers: shared hit=1
+                       ->  Index Only Scan using bars_daily_sources_pkey on bars_daily_sources b  (cost=0.43..973.36 rows=1882 width=8) (actual time=0.148..0.148 rows=1.00 loops=1518)
+                             Index Cond: ((symbol_id = s.symbol_id) AND (source = 'vndirect'::text))
+                             Heap Fetches: 0
+                             Index Searches: 1518
+                             Buffers: shared hit=4855
+   ->  Function Scan on phase2_vndirect_adjustment_details_for_symbols  (cost=0.25..10.25 rows=1000 width=0) (actual time=77506.301..77510.283 rows=29440.00 loops=1)
+         Buffers: shared hit=65679
+ Settings: work_mem = '128MB'
+ Planning:
+   Buffers: shared hit=275
+ Planning Time: 39.795 ms
+ Execution Time: 77518.071 ms
+(35 rows)
+
+ROLLBACK

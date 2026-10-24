@@ -1,0 +1,247 @@
+CHECK labels 20240101-20241231
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:14: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:14: NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, elapsed 00:00:00.639033
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:14: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.190141
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |        1500
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:15: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:15: NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, elapsed 00:00:01.465532
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:15: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.379805
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        1991
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:16: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:16: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:01.659162
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:16: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.424946
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        2182
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:17: NOTICE:  Phase 2 adjustment cache scaling exponent 0.409, 15/30/60 timings 1500/1991/2182 ms, 1518 symbols in 26 batches of 60 (estimated per-batch 2642.7 ms), projected cache time 1.15 minutes (budget 40 minutes)
+ assert_phase2_adjustment_cache_scaling 
+----------------------------------------
+                    0.40853072033725935
+(1 row)
+
+ begin_phase2_adjustment_rows 
+------------------------------
+                           26
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:18: NOTICE:  Phase 2 adjustment cache initialized for 26 batches of up to 60 symbols
+ populate_phase2_adjustment_rows 
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:01.550611
+---------------------------------
+                          108331
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115152
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 1 rows 115152, elapsed 00:00:02.177853
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111302
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 2 rows 111302, elapsed 00:00:02.403736
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113879
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 3 rows 113879, elapsed 00:00:02.897151
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114214
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 4 rows 114214, elapsed 00:00:03.762307
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114805
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 5 rows 114805, elapsed 00:00:03.701564
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112592
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 6 rows 112592, elapsed 00:00:01.770998
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 7 rows 116639, elapsed 00:00:01.790983
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          116639
+(1 row)
+
+ populate_phase2_adjustment_rows 
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 8 rows 106585, elapsed 00:00:01.77199
+---------------------------------
+                          106585
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111358
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 9 rows 111358, elapsed 00:00:01.795744
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 10 rows 106117, elapsed 00:00:01.871279
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106117
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113594
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 11 rows 113594, elapsed 00:00:01.878297
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112628
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 12 rows 112628, elapsed 00:00:01.880422
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113102
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 13 rows 113102, elapsed 00:00:02.168172
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113642
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 14 rows 113642, elapsed 00:00:02.191797
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111909
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 15 rows 111909, elapsed 00:00:02.481677
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111802
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 16 rows 111802, elapsed 00:00:02.638261
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115171
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 17 rows 115171, elapsed 00:00:03.168038
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115471
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 18 rows 115471, elapsed 00:00:02.752671
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 19 rows 112613, elapsed 00:00:02.636671
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112613
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          109469
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 20 rows 109469, elapsed 00:00:02.242017
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 21 rows 114091, elapsed 00:00:03.564185
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114091
+(1 row)
+
+ populate_phase2_adjustment_rows 
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 22 rows 110051, elapsed 00:00:03.883276
+---------------------------------
+                          110051
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112438
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 23 rows 112438, elapsed 00:00:03.869649
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 24 rows 115457, elapsed 00:00:03.933727
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115457
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:23: NOTICE:  Phase 2 adjustment cache batch 25 rows 32023, elapsed 00:00:02.78992
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           32023
+(1 row)
+
+ finish_phase2_adjustment_rows 
+-------------------------------
+                       2844435
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:24: NOTICE:  Phase 2 adjustment cache rows 2844435, finalize elapsed 00:00:13.663572
+COMMIT
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  Phase 2 price-day hash range 2024-01-01 through 2025-02-06: requested 271, uncovered 271, date planning elapsed 00:00:01.457346
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  Phase 2 price-day hash aggregate completed: 271 dates, elapsed 00:00:14.097725
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  Phase 2 price-day hash coverage recorded: 271 requested dates, total elapsed 00:00:14.103606
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  START labels 20240101-20241231
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  table "phase2_label_targets" does not exist, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  Phase 2 label targets rows 731154, elapsed 00:00:37.817141
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  table "phase2_label_latest_exit" does not exist, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  table "phase2_label_endpoint_days" does not exist, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  Phase 2 label endpoint days rows 395264, elapsed 00:00:01.335955
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  table "phase2_label_endpoint_bounds" does not exist, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  table "phase2_label_adjustment_prefix" does not exist, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  Phase 2 label adjustment prefix rows 395083, elapsed 00:00:03.061187
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  table "phase2_label_endpoint_bars" does not exist, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  Phase 2 label endpoint bars rows 394999, elapsed 00:01:09.767149
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  table "phase2_label_first_bad_factor" does not exist, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  Phase 2 label first bad factor rows 1, elapsed 00:00:03.745429
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  table "phase2_label_endpoint_targets" does not exist, skipping
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-0797ab9c57214900ae744e0e4b92204c.sql:98: NOTICE:  table "phase2_label_spans" does not exist, skipping
+DO
+COMMIT
+DO
+EVIDENCE C:\Users\HP\VN-Signal\docs\evidence\phase2\phase2_build_phase2-vci-labels-rechunk-20261022.log
+DONE  labels 20240101-20241231 rows=731154
+Chunks checked this run: 1
+stage  | status | chunks |  rows   
+--------+--------+--------+---------
+ labels | done   |      4 | 2165464
+(1 row)

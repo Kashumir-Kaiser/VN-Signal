@@ -1,0 +1,155 @@
+build_id,stage,chunk_key,date_from,date_to,status,rows,started_at,finished_at,duration_ms,input_sha256,output_sha256,error
+phase2-full-20261021,labels,20181001-20181231,2018-10-01,2018-12-31,done,164436,2026-10-21 19:10:43.892051+07,2026-10-21 19:12:17.000485+07,93085,8d01ed4f249ca9c749f3ee7d27030fee863b0824d57c93f1abd3320a5458aa1b,dc80a12fd139543703f625037d8522678f6959c3b2290dae68dd841fc4e178ee,
+phase2-full-20261021,labels,20190101-20191231,2019-01-01,2019-12-31,done,652912,2026-10-21 19:13:34.181043+07,2026-10-21 19:20:10.733914+07,396568,51f7b50e6cbdc7b0c5af134a559f5ba6ced03bb65766499e602bd1761d6a4ddf,b3f55a73b45736fc71ba6aca8293ad41c85f9e7139a817c9afd8cfe97e543407,
+phase2-full-20261021,labels,20200101-20201231,2020-01-01,2020-12-31,done,682714,2026-10-21 19:21:10.000701+07,2026-10-21 19:27:50.341729+07,400346,5a86a76d7f9321f60c9adb72ee2fede02858f3cb66e9027cf3f7fc7981388fe3,2fe8063cb0353d26229ef3a823c869e1ac13ddcfe9eafd54c1d7b8d21737ddb3,
+phase2-full-20261021,labels,20210101-20211231,2021-01-01,2021-12-31,done,700842,2026-10-21 19:28:58.622938+07,2026-10-21 19:35:43.080871+07,404455,5169ce88962fc244946c1d6f0e190fe929341156821e49d1efdb2d761a853dd5,874f20f700961a95f61663f50294e37a37c65773ef3054fb4d93720c396916f1,
+phase2-full-20261021,labels,20220101-20221231,2022-01-01,2022-12-31,done,713592,2026-10-21 19:36:47.760828+07,2026-10-21 19:43:49.73086+07,421973,4ae4c03cd804f16701e9f147648dc653198635c44be93719ec611b2457fdce3a,ada2ae40b7806db3b17d8d3d5d61668cc5e636c452fce4c7a2cfa4c13b8e161e,
+phase2-full-20261021,labels,20230101-20231231,2023-01-01,2023-12-31,done,720718,2026-10-21 19:44:58.907406+07,2026-10-21 19:51:23.118237+07,384214,4906da585d8eb7128f26088aa317cb5ed07980d2e96b1b7c83e298a19e19b11a,ed663ed9de25e68431697eaf2d2e8148b9be17e8362098a0e8f165a1b272e04d,
+phase2-full-20261021,labels,20240101-20241231,2024-01-01,2024-12-31,done,731154,2026-10-21 19:52:34.665082+07,2026-10-21 19:58:55.060378+07,380404,550603097663e794e9ee5c24b6508d7f65249a9b0c6f03f1ae6e4b65f6065837,25cf1e8f0e0c8449d5cd5e6b9581dbd27bf572851f49dd035fa325ff47c56bf3,
+phase2-full-20261021,labels,20250101-20251231,2025-01-01,2025-12-31,done,737922,2026-10-21 20:00:04.628041+07,2026-10-21 20:06:40.05668+07,395442,cc526de164b8846bb699cd9117c75769354f0b736b83ec97842f99f25c8cd10e,893e9e05627c9cb477b92c8b7d8eb8f3041454678f9f4e2a32f7d6de5b199f6b,
+phase2-full-20261021,labels,20260101-20261016,2026-01-01,2026-10-16,done,584580,2026-10-21 20:09:34.99936+07,2026-10-21 20:15:39.874675+07,364871,a403ab183aadd8f6b180d41199415b84aefd568e0ba6e9a8d22bb6d8a48a10b7,80d12b946dd80886804b6898222d4fa3931a87e4c7e0d8d65457b25693ba2bd1,
+phase2-vci-full-rebuild-20261021,labels,20181001-20181231,2018-10-01,2018-12-31,done,164436,2026-10-22 05:51:41.048831+07,2026-10-22 05:53:56.828107+07,135760,27b61a3a54faf20b4ec11c3faf842885dfe1f1f2be52738771e79d47c03f4d6d,46eafe4da9bcd39db0dbd1d3aee3d89f687d698b0a11a1cd4df66f91e9827cd2,
+phase2-vci-full-rebuild-20261021,labels,20190101-20191231,2019-01-01,2019-12-31,done,652912,2026-10-22 05:58:56.971965+07,2026-10-22 06:07:26.963822+07,509946,84964a58858588edccd3e718f64dfece9074f9b3b6447ac8a1dbf602aeebca24,d61540833d2b3f8ce7aa17476782f22106eabfdca44630ed33f9b04c3cba66dc,
+phase2-vci-full-rebuild-20261021,labels,20200101-20201231,2020-01-01,2020-12-31,done,682714,2026-10-22 03:55:02.050371+07,2026-10-22 04:01:54.236802+07,412190,6f00b76f7bdfdefcf3a2469fa314b0d5b239b8af1607fb035646ec24e527ebe0,c98b4d22fa8349794c26113477736a9eeed0a0dae32d2f555694f75b5d1bd35e,
+phase2-vci-full-rebuild-20261021,labels,20210101-20211231,2021-01-01,2021-12-31,done,700842,2026-10-22 08:35:50.410409+07,2026-10-22 08:48:43.694681+07,773272,03216f5f47fda3c724c7437b801f0b21b7201751a54af3432290cdf8ea8cbaf3,8aef5f67d0187250da24d155a7af377a26689ac2ae4414a1f306a47db4e3b907,
+phase2-vci-full-rebuild-20261021,labels,20220101-20221231,2022-01-01,2022-12-31,failed,,2026-10-22 09:18:48.986834+07,2026-10-22 09:18:48.986834+07,0,,,"                  WHEN sp.bad_factor_rows > 0 OR sp.factor_log_span IS NULL
+
+                        OR NOT coalesce(sp.one_episode_span, true)
+
+                       THEN 'UNRESOLVED_ADJUSTMENT'
+
+                   WHEN t.entry_episode IS DISTINCT FROM t.exit_episode THEN 'EPISODE_CHANGED'
+
+                   WHEN NOT t.entry_traded OR t.entry_volume <= 0 THEN 'SUSPENDED_ENTRY'
+
+                   WHEN NOT t.exit_traded OR t.exit_volume <= 0 THEN 'SUSPENDED_EXIT'
+
+                   WHEN ip.index_entry_date IS NULL OR ip.index_exit_date IS NULL
+
+                        OR ip.index_entry_open <= 0 OR ip.index_exit_close <= 0
+
+                       THEN 'MISSING_BENCHMARK'
+
+                   ELSE 'READY'
+
+               END AS label_status
+
+          FROM pg_temp.phase2_label_endpoint_targets t
+
+          LEFT JOIN pg_temp.phase2_label_spans sp
+
+            USING (symbol_id, signal_date, horizon_sessions)
+
+          LEFT JOIN pg_temp.phase2_label_first_bad_factor fb
+
+            ON fb.symbol_id = t.symbol_id
+
+          LEFT JOIN index_points ip
+
+            ON ip.signal_date = t.signal_date
+
+           AND ip.horizon_sessions = t.horizon_sessions
+
+    )
+
+    INSERT INTO feat.labels_daily (
+
+        symbol_id, signal_date, horizon_sessions, label_version, feature_set_hash,
+
+        entry_date, exit_date, label_status, stock_return, vnindex_return, excess_return,
+
+        stock_entry_open, stock_exit_close, vnindex_entry_open, vnindex_exit_close,
+
+        price_basis, adjustment_vintage_at, entry_adjustment_vintage_at,
+
+        exit_adjustment_vintage_at, factor_log_span, entry_landing_id, exit_landing_id
+
+    )
+
+    SELECT a.symbol_id, a.signal_date, a.horizon_sessions, v_label, v_feature_hash,
+
+           a.entry_date, a.exit_date, a.label_status,
+
+           CASE WHEN a.label_status = 'READY'
+
+                THEN a.exit_model_close / (a.entry_model_open * exp(a.factor_log_span)) - 1 END,
+
+           CASE WHEN a.label_status = 'READY'
+
+                THEN a.index_exit_close / a.index_entry_open - 1 END,
+
+           CASE WHEN a.label_status = 'READY'
+
+                THEN a.exit_model_close / (a.entry_model_open * exp(a.factor_log_span)) - 1
+
+                     - (a.index_exit_close / a.index_entry_open - 1) END,
+
+           CASE WHEN a.label_status = 'READY'
+
+                THEN a.entry_model_open * exp(a.factor_log_span) END,
+
+           CASE WHEN a.label_status = 'READY' THEN a.exit_model_close END,
+
+           a.index_entry_open, a.index_exit_close, 'adjusted_as_of_exit', a.exit_vintage,
+
+           a.entry_vintage, a.exit_vintage, a.factor_log_span,
+
+           a.entry_landing_id, a.exit_landing_id
+
+      FROM assembled a
+
+    ON CONFLICT (symbol_id, signal_date, horizon_sessions, label_version) DO UPDATE SET
+
+        feature_set_hash = EXCLUDED.feature_set_hash,
+
+        entry_date = EXCLUDED.entry_date,
+
+        exit_date = EXCLUDED.exit_date,
+
+        label_status = EXCLUDED.label_status,
+
+        stock_return = EXCLUDED.stock_return,
+
+        vnindex_return = EXCLUDED.vnindex_return,
+
+        excess_return = EXCLUDED.excess_return,
+
+        stock_entry_open = EXCLUDED.stock_entry_open,
+
+        stock_exit_close = EXCLUDED.stock_exit_close,
+
+        vnindex_entry_open = EXCLUDED.vnindex_entry_open,
+
+        vnindex_exit_close = EXCLUDED.vnindex_exit_close,
+
+        price_basis = EXCLUDED.price_basis,
+
+        adjustment_vintage_at = EXCLUDED.adjustment_vintage_at,
+
+        entry_adjustment_vintage_at = EXCLUDED.entry_adjustment_vintage_at,
+
+        exit_adjustment_vintage_at = EXCLUDED.exit_adjustment_vintage_at,
+
+        factor_log_span = EXCLUDED.factor_log_span,
+
+        entry_landing_id = EXCLUDED.entry_landing_id,
+
+        exit_landing_id = EXCLUDED.exit_landing_id,
+
+        computed_at = now()""
+
+PL/pgSQL function feat.build_labels_set_based(date,date) line 272 at SQL statement
+
+PL/pgSQL function feat.build_labels_internal(date,date) line 3 at RETURN
+
+PL/pgSQL function inline_code_block line 42 at assignment"
+phase2-vci-full-rebuild-20261021,labels,20230101-20231231,2023-01-01,2023-12-31,pending,,,,,,,
+phase2-vci-full-rebuild-20261021,labels,20240101-20241231,2024-01-01,2024-12-31,pending,,,,,,,
+phase2-vci-full-rebuild-20261021,labels,20250101-20251231,2025-01-01,2025-12-31,pending,,,,,,,
+phase2-vci-full-rebuild-20261021,labels,20260101-20261016,2026-01-01,2026-10-16,pending,,,,,,,
+phase2-vci-labels-rechunk-20261022,labels,20220101-20220630,2022-01-01,2022-06-30,done,342614,2026-10-22 10:43:36.389049+07,2026-10-22 10:48:30.604945+07,294205,d39bbc60ccd918de3405196ed309f14d7a3924584025f27a91c8297864b21986,b8ff37e6c7d334e4efec72a04e2216b1a99d8aa2575cbf01e8d73cfd2a91b7c5,
+phase2-vci-labels-rechunk-20261022,labels,20220701-20221231,2022-07-01,2022-12-31,done,370978,2026-10-22 10:54:15.760724+07,2026-10-22 10:58:36.435577+07,260659,7a614a5c1419526e129767d4eae824a9f6927338a3cf5928053aa1d8e173f1dc,71e10ee592342bc4cb70c271754dbd188f18e711b43428ba420d6611fcfe4971,
+phase2-vci-labels-rechunk-20261022,labels,20230101-20231231,2023-01-01,2023-12-31,done,720718,2026-10-22 12:03:33.648226+07,2026-10-22 12:08:09.824775+07,276162,80feb992cbfddd677199567490683c31a5fab8c12ca8214004a6b8c706bdf7ee,3c6d2ad64925d19264287c41c6e2ba805826ac3beac653cd2e6bfeac87bcdf2e,
+phase2-vci-labels-rechunk-20261022,labels,20240101-20241231,2024-01-01,2024-12-31,done,731154,2026-10-22 11:32:52.844926+07,2026-10-22 11:36:57.172279+07,244310,055a8a9c001d64816dbc24f187c304b27f7edddb0ddbadf8d45d95f351069e14,7ea5c21e38503a0a437f189acca3e15d0f0f0449af318c912ea9a0e231a70ea5,
+phase2-vci-labels-rechunk-20261022,labels,20250101-20251231,2025-01-01,2025-12-31,done,737922,2026-10-22 11:41:06.52774+07,2026-10-22 11:45:37.484698+07,270972,75c6657903fdd730e5797846c0d89e2c332129f09799b048fd4bb50eef545a60,8fda1d0342cfb2f3bad64406b677dc0ad816f440619026d4034cb99982f11e48,
+phase2-vci-labels-rechunk-20261022,labels,20260101-20261016,2026-01-01,2026-10-16,done,584580,2026-10-22 11:49:19.158001+07,2026-10-22 11:52:43.673108+07,204499,df254e4d603e32e9b5a1c51ba6190c537751a5869470a379ef1988d56715c262,773ebc9be3c2380c790c9895e8dabbfadaefa4a8c194fcecb3b35980a3aa6f92,

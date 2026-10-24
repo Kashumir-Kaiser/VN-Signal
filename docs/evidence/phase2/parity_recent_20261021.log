@@ -1,0 +1,20 @@
+   Compiling vn-signal-phase2-parity v0.1.0 (C:\Users\HP\VN-Signal\rust\crates\phase2-parity)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 30.70s
+     Running tests\sql_parity.rs (rust\target\debug\deps\sql_parity-a8e5847f67734581.exe)
+
+running 1 test
+test postgres_features_match_polars_reference_for_twenty_symbol_days has been running for over 60 seconds
+
+thread 'postgres_features_match_polars_reference_for_twenty_symbol_days' (3772) panicked at crates\phase2-parity\tests\sql_parity.rs:112:10:
+load all point-in-time effective-session histories in one set-based query: Error { kind: Db, cause: Some(DbError { severity: "ERROR", parsed_severity: Some(Error), code: SqlState(E57014), message: "canceling statement due to user request", detail: None, hint: None, position: None, where_: None, schema: None, table: None, column: None, datatype: None, constraint: None, file: Some("postgres.c"), line: Some(3465), routine: Some("ProcessInterrupts") }) }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test postgres_features_match_polars_reference_for_twenty_symbol_days ... FAILED
+
+failures:
+
+failures:
+    postgres_features_match_polars_reference_for_twenty_symbol_days
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 767.60s
+
+error: test failed, to rerun pass `--test sql_parity`

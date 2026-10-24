@@ -1,0 +1,22 @@
+Timing is on.
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+NOTICE:  Phase 2 adjustment cache rows 2844435, elapsed 00:01:25.373702
+NOTICE:  Phase 2 sessions 567, elapsed 00:01:25.890013
+NOTICE:  Phase 2 market context rows 567, elapsed 00:00:08.607196
+NOTICE:  Phase 2 rank rows 113828, elapsed 00:00:03.721414
+NOTICE:  Phase 2 batch 0 spine rows 8505, elapsed 00:00:00.143389
+NOTICE:  Phase 2 batch 0 feature rows 3341, elapsed 00:01:28.811173
+SET
+ build_price_features_v3_internal 
+----------------------------------
+                             3341
+(1 row)
+
+ROLLBACK
+Time: 188971.060 ms (03:08.971)

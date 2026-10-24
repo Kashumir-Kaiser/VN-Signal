@@ -1,5 +1,265 @@
 # Decisions
 
+## 2026-10-24 — validate symbol-first V3 eligibility and bound recovery to the last 400 sessions
+
+- Migration 068 rewrites only `eligible_symbols` in the shared V3 builder. It
+  preserves the exact VNDIRECT, positive-finite-factor, selected-session
+  predicate and drives it from each requested symbol through the existing
+  `(symbol_id, trade_date)` cache index, stopping at the first eligible row.
+  The fresh two-pass PostgreSQL migration harness passed, including production
+  feature assertions. The migration was also applied to the disposable report
+  clone; the V3 feature-set hash remains
+  `775b9bd502282ebcf15b69f8654189d5b60cb7e072549570698f723c088a021e`.
+- The prior full-cache Q1 run was canceled at the eligibility query after
+  1m53s based on a 60-symbol cache sample. That sample contained only about
+  17.9K matching cache rows, versus 2,844,435 rows in the production-scope
+  cache; its 4.58-second query was not comparable. The cancellation was early
+  relative to a full-scope linear estimate. Record this correction rather than
+  treating that stop as a measured 2x overrun. The new full-cache probe passes:
+  15/30/60-symbol eligibility queries took 56.064/87.732/160.823 ms, with
+  `b=0.760` overall and an index scan per requested symbol. The plans, timings,
+  and probe SQL are in
+  `docs/evidence/phase2/phase2_symbol_first_eligibility_full_cache_probe_20261024.psql/.log`.
+- The known current-hash 2019 feature chunk produced 326,456 rows in 884.2 s.
+  Linear projection for the remaining approximately 2.44 million V2 rows is
+  about 110 minutes, above the recovery budget's approximately 84-minute
+  feature-build allowance (203 minutes remaining at the recovery checkpoint,
+  less the 90-minute downstream reserve and 15-minute margin). Follow the
+  recovery prompt's fallback instead of starting a full-history run: build the
+  full-universe slice of the latest 400 effective sessions, 2025-03-11 through
+  2026-10-16, and label all slice evidence explicitly. Full-history V3, full
+  labels, and full-history E1 remain open for Phase 3.
+- The approximate remaining-time calculation uses the last failed-build log
+  timestamp, 04:18, as the recovery checkpoint. It is a planning estimate, not
+  a completion claim. The selected fallback is bounded and recorded in
+  `docs/evidence/phase2/scaling_probe.md`.
+- The first bounded last-400 build did not enter a feature chunk: the 32 MB
+  cache preflight returned `b=1.304`; a repeat returned `b=1.672`. Keep the
+  threshold unchanged. The 15-symbol plan completed in 628 ms. A nested-plan
+  capture for 60 symbols showed the wide adjustment `ordered` work table spilled
+  4,047 temp blocks (33,147,574 bytes); cache populate/finalize took 2.133/0.514
+  s. Host telemetry was 3.83 GiB total RAM and 0.42 GiB free. Raising the
+  single-session query setting to 64 MB cleared the spill without raising any
+  application guard: the runner-equivalent 15/30/60 probe passed at
+  566/1,134/2,786 ms, `b=1.150` overall, with no increase in PostgreSQL temp
+  counters. Its 1,518-symbol cache projection was 1.48 min. At that checkpoint,
+  the next step was to rerun the bounded build at 64 MB while preserving the
+  1.3 exponent limit. Evidence is in
+  `docs/evidence/phase2/phase2_cache_scale_plan_15_20261024.psql/.log`,
+  `phase2_cache_stage_components_60_20261024.psql/.log`, and
+  `phase2_cache_scale_retry_64mb_20261024.psql/.log`.
+- Follow-up: the 64 MB build preflight passed, loaded 2,844,435 adjustment
+  rows, then exceeded its hash-step checkpoint before any feature SQL ran.
+  The first feature chunk requested 1,206 price dates from 2021-03-09 through
+  2025-12-31. A comparable 374-date hash took 2m43s, so the estimated step was
+  8m43s and the 2x stop point was 17m26s. PostgreSQL still showed the builder
+  backend waiting on `IO:DataFileRead` at 26m49s. Stopping the psql client had
+  not stopped that backend; an explicit `pg_cancel_backend` returned true, and
+  a subsequent targeted activity query found no remaining backend. The runner
+  recorded failure at 05:00:30, while server cleanup completed later. No V3
+  feature statement or output rows were produced by this attempt. Do not rerun
+  the same wide hash step. Replan its exact canonical per-day aggregate and
+  reusable staging, preserve input-hash equivalence, then measure a bounded
+  hash before resuming the last-400 slice. Full-history V3 and current-hash E1
+  remain open. See `docs/evidence/phase2/phase2_last400_hash_overrun_20261024.md`
+  and `phase2_build_phase2-e1-e5-v3-068-20261024-last400.failed.20261024-050030.log`.
+
+## 2026-10-24 — keep E1 scaling guard closed under unstable cache timings
+
+- The full current-hash V3 rebuild was attempted only on disposable clone
+  `vnsignal_phase2_report_20261019`, confirmed as PostgreSQL 18.3 with V2 dates
+  2018-10-01 through 2026-10-16. The run stopped in its adjustment-cache
+  preflight before any feature-builder statement ran; the source, core, V2 and
+  V3 market rows were not changed.
+- The original 128 MB probe recorded 15/30/60 timings of
+  10.560/22.084/7.581 seconds and failed the adjacent-sample stability guard.
+  A rollback-only 128 MB warm-up/recheck then recorded 4.225/4.609/41.475
+  seconds and failed with exponent 3.170. A 32 MB recheck recorded
+  45.899/44.967/13.040 seconds and again failed stability. Keep the existing
+  20% stability and 1.3 scaling thresholds; these inconsistent samples do not
+  establish either passing scale or a reproducible superlinear regression.
+  The commands and complete outputs are in the paired
+  `phase2_e1_cache_probe_*_20261024.psql/.log` files and the failed build log
+  under `docs/evidence/phase2/`.
+- Host evidence recorded 3.83 GiB total RAM with 342–344 MiB available during
+  the follow-up. This makes host pressure plausible, but it does not prove the
+  cause; a separate probe-stage timing/plan capture is required before the
+  full build. Do not infer that lowering `work_mem` fixes the observed
+  variance. The build runner's failure handler also labels the first pending
+  feature chunk failed when a shared preflight fails before a chunk starts;
+  preserve that run record as a preflight failure and do not interpret it as a
+  feature-chunk runtime failure.
+- The isolated 60-symbol run at 32 MB separated initialization (0.664 s),
+  population (2.989 s), and finalization (0.437 s). The captured nested plan
+  returned 108,331 rows, used a hash left join, and read/wrote 4,047 temporary
+  blocks during population. Its estimate for the final join was 2 rows versus
+  108,331 actual rows, so retain this plan as a cardinality-estimation follow-
+  up; it does not show a nested-loop regression. After warming the same data,
+  the standard rollback-only scale assertion passed at 1.323/1.720/2.475
+  seconds with exponent 0.525 and a 1.19-minute projected cache stage. Start
+  the full annual feature chunks at 32 MB on a new build ID, retaining the
+  existing 30-minute statement timeout and per-year checkpoints. The pass is
+  only the cache preflight; E1 remains open until all feature chunks and the
+  refreshed null-rate report are complete.
+- Follow-up recovery checkpoint: the 2018 and 2019 annual chunks completed with
+  82,218 rows in 202.8 s and 326,456 rows in 884.2 s. The annual 2020 chunk was
+  canceled before commit when its third 60-symbol feature batch crossed the
+  recovery checkpoint projection; annual chunks are too large for this host.
+  Migration 067 now records the exact distinct date set during adjustment
+  cache fills, and its fresh PostgreSQL migration harness passed. Date planning
+  fell to 0.164 s for 2020, but hashing historical price rows remains I/O-bound.
+  The attempted standalone prehash for 2018-10-01 through 2019-12-31 was
+  canceled after 16m07s, beyond twice the comparable 6m22s hash step. The
+  quarterly Q1 2020 chunk is recorded failed only because that shared prehash
+  was canceled before the feature statement; no Q1 feature rows committed and
+  later quarters remain pending. Removed the standalone prehash from the
+  runner, retained quarterly chunking, and will retry the first quarter with
+  hashing inside its bounded chunk transaction. Evidence:
+  `phase2_build_phase2-e1-v3-067-20261024-quarterly.failed.20261024-033546.log`,
+  `phase2_e1_cache_probe_warmup_20261024.log`, and the migration harness log in
+  `docs/evidence/phase2/`.
+- Official HNX/issuer sources additionally establish DNM's HNX-to-UPCoM
+  transition (10 missing sessions) and MIC's UPCoM-to-HNX transition (11
+  sessions). The lifecycle packet now supports 17 of 219 continuity intervals
+  (128 sessions); 202 remain unsupported. Keep all 17 as research evidence
+  until exact ticker-matched lifecycle events are imported through the
+  append-only path and real eligibility counts are recomputed. Do not infer
+  suspensions or synthesize bars.
+
+## 2026-10-24 — preserve rank semantics while closing E2
+
+- Replace the three repeated V2 `percent_rank` branches with one narrow
+  long-form rank window and pivot in forward migration 066. Keep separate
+  non-null populations for 20-session return and turnover, and require
+  `return_n20=20` for volatility ranks. The SQL assertion compares exact ranks
+  against independent per-metric windows; do not alter the feature-set hash
+  because output semantics are unchanged. Refresh the E2 projection's shared
+  builder hash guard.
+- The exact branch-schema profile passed at 15/30/60 symbols in 3.02/5.82/12.61
+  seconds, zero temp files/bytes, and `b=1.03` from 15 to 60. The plan computes
+  the rank window once and hashes back to the picked rows. Record adjustment
+  cache preparation separately from V2 builder time.
+- E2 passed at the 40%, 70%, and 95% cutoffs for the same PIT-stratified
+  60-symbol cohort: zero pre-cut feature differences, completed-label
+  differences, and boundary mismatches, with crossing labels and changed
+  future equity/index inputs. The E2 test is rollback-only and uses the
+  disposable report clone. Select its cohort before preparing adjustment
+  inputs, and cache only those 60 symbols; do not change the cohort,
+  perturbations, comparisons, or cutoff requirements.
+- The stored V3 hash guard in E2 now applies after its immutable branch baseline
+  has been rebuilt with the current builder. This keeps the E2 output check
+  strict while allowing the stale stored V3 rows to remain a separately
+  recorded E1 rebuild gap; it does not certify them.
+- The final fresh two-pass migration harness passed with the production-builder
+  recursive SQL golden (320 fixture rows), including exact V2 rank assertions;
+  the complete current E2 run remains rollback-only. Go tests/vet, 29 Python
+  tests, Rust fmt/clippy/workspace tests, and `git diff --check` passed after
+  these edits. The Windows race run still cannot start tests because
+  ThreadSanitizer cannot reserve shadow memory (error 87); hosted CI has not
+  run.
+- E3 passes the recovery prompt's defined scope: 20 current-hash real-data
+  symbol-days passed non-recursive SQL/Rust parity at `1e-9`; a 320-row
+  independent golden exercises every recursive feature currently in
+  production (EMA/MACD) through both Rust and the SQL production builder.
+  Existing RSI/ATR are rolling-window features, V3 ADX is explicitly a simple
+  average, and EWMA variance is absent. Do not add those features solely to
+  expand the golden. Keep the small real `ema_100_ratio` recursive comparison
+  disclosed as a diagnostic; the recovery E3 gate does not require recursive
+  real-data SQL/Rust parity.
+- Phase 2 remains open: refresh E1 after a full current-hash V3 rebuild;
+  reconcile 204 unsupported E4 intervals; complete the current-hash E5
+  repeated-output hash; verify the added PIT label outputs and fundamental
+  coverage; and run hosted CI with `VNPIPE_DISABLE_LIVE=1`. No commit or Phase 2
+  sign-off until those gates pass.
+
+## 2026-10-23 — apply Master Build Spec Phase 2 exit gates and carry recovery findings forward
+
+- The authoritative Phase 2 exit criteria in `docs/MASTER_BUILD_SPEC.md` §13 are a produced null-rate report, a passing leakage test, and passing feature parity. E1's real V3 report exists for the prior `f4d61dd5…` hash, but migration 065 advances the V3 hash; the null-rate report still needs a full current-hash V3 rebuild. E3's non-recursive slice passed at `1e-9` on 20 deterministic, source-attributed real symbol-days across three dates under current hash `775b9bd502282ebcf15b69f8654189d5b60cb7e072549570698f723c088a021e`; only those date partitions, not the full history, were rebuilt. E3 remains incomplete because the independent goldens do not yet cover Wilder RSI, ATR/ADX or EWMA variance, and the SQL fixture does not exercise the production V3 builder end-to-end. The latest current-tree E2 run did not complete its 40% cutoff comparison, so E2 is NOT PASS and Phase 2 is not ready for sign-off. The earlier three-cut E2 log predates migration 058 and is historical only; see the recovery recheck at the top of `docs/BUILD_STATUS.md`.
+- The current-state audit on the disposable report clone found no active PostgreSQL build. V3 contains 2,844,435 rows, of which 4,349 use current hash `775b9bd5…` across only the three E3 sample dates; 2,840,086 still carry pre-065 hash `f4d61dd5…`. The clone has no derived label-target or liquidity-tier tables and no label-target builder function. There is no current V3 job to keep/cancel or estimate; the full-hash rebuild and derived-label build remain open. Evidence: `docs/evidence/phase2/phase2_v3_current_state_20261023.md` and its captured SQL log.
+- A first broader real-data E3 comparison found `ema_100_ratio` differed for symbol 824 on 2023-04-04 (`SQL=0.004010006674335`, Rust `0.004010006740238`). The recovery prompt specifies independent golden checks for recursive EMA/MACD features, so retain the failed log and validate recursive behavior with a 430-row pandas 3.0.1 golden fixture (`tests/golden/phase2_recursive_ema.csv`) exercised by both Rust and PostgreSQL. The non-recursive real-data parity tolerance remains `1e-9`; no claim is made that recursive SQL↔Rust values match on real history.
+- Preserve the recovery prompt's 1 percentage-point E1 flags as diagnostics without changing its structural expectation formula or treating the threshold as an added Master Spec exit gate. Keep the 13 source-unverified fields NULL and retain row-level availability follow-up.
+- E5 current-hash reproducibility is inconclusive: the post-migration-058 2023 label chunk completed once, while its forced repeat was interrupted before a second output hash. Earlier pre-migration-058 hash matches do not satisfy the current recovery gate. E4's report passes row-count, key, session-membership and rank checks, but 219 continuity gaps across 1,539 expected sessions remain unattributed. Do not call them suspensions or synthesize bars. Phase 3 must exclude affected rows from training until the gaps are reconciled or a separate, documented eligibility policy covers them.
+- The point-in-time fundamentals archive and builder exist, but its historical data coverage remains partial; the 13 source-unverified feature inputs remain NULL. These are visible follow-ups for later model eligibility and overlay coverage, not evidence that the three §13 Phase 2 exit tests failed.
+- Migration 065 replaces cancellation-prone prefix subtraction for paired VNINDEX regression moments with rolling `var_samp`/`covar_samp`. Preserve the `1e-9` parity tolerance, require the same non-null stock/index pair population in all moments, and retain both the independent-rank and inherited VNINDEX-return hash tokens. The fresh two-pass PostgreSQL harness, strict synthetic parity test, real non-recursive E3 slice, and EMA/MACD golden checks pass. The full E3 gate remains open because independent golden coverage for other recursive families and production-builder fixture coverage are missing. Go tests/vet, 29 Python tests, Rust fmt/clippy/workspace tests pass; Windows race testing is unavailable because ThreadSanitizer cannot reserve shadow memory (error 87) with UCRT64 GCC. E1, E2, E3, E4 and E5 remain open as recorded in `docs/BUILD_STATUS.md`; do not commit or claim Phase 2 sign-off. The hosted workflow disables live vnstock access with `VNPIPE_DISABLE_LIVE=1`; hosted CI has not run.
+
+## 2026-10-22 — upgrade installed rank definitions and preserve real-evidence integrity
+
+- Runtime inspection of the disposable report clone showed that V2's installed
+  rank expression omits the full-return-count guard now present in the source.
+  Preserve migration history and add migration 053 for existing installations.
+  Require V2 rank/input eligibility consistency after builds and current,
+  rank-consistent V2 inputs before V3 builds. Change feature hashes when changing
+  rank populations; rebuild historical outputs before calling them current.
+- Gaussian ranks use separate non-null populations for each metric, with average
+  tie ordinals and singleton score zero. A missing turnover value must not
+  suppress an otherwise valid momentum or volatility rank. Test disjoint nulls,
+  ties, singleton/empty populations, and stale-input rejection in the production
+  builder and independent Rust reference.
+- E2 cannot use October 2026 listing snapshots at its 2021 first cut. Use the
+  source-row-linked venue on the latest historical VNDIRECT bar dated by the
+  cut; retain venue date/landing/row in evidence and reject unknown latest venues.
+  Keep the existing cohort-size, stratum and bit-identical pre-cut assertions.
+- Real parity selects its 20 observations before hashing source payloads, then
+  requires every selected observation's exact lineage and payload hash to pass.
+  Do not silently filter corrupt samples. This removes the all-history payload
+  scan while retaining the production rebuild and 1e-9 comparison requirement.
+- The canceled real parity attempt, installed-function diagnosis, and pending
+  verification are recorded in
+  `docs/evidence/phase2/phase2_rank_recovery_checkpoint_20261022.md`.
+- Preserve the shared-builder fixture's outer transaction, row-byte equality,
+  labels, boundaries, counts and injection guards, while making its four
+  independent build passes separate statements. The existing 180-second
+  statement limit previously covered their cumulative work inside one `DO`;
+  neither a missing endpoint index nor missing endpoint statistics explains
+  the cancellation. Retain the 180-second setting for each pass. The complete
+  remaining SQL assertion sequence passes after this change. Keep the earlier
+  timed-out full replay recorded as incomplete.
+- Stop the Serena server tree started by this recovery run after its use,
+  including its background language servers. Ignore local vnstock state,
+  Serena state and generated compiler caches so they are not indexed or staged
+  as source changes. No cache or market-data directory was deleted.
+
+## 2026-10-22 — scope the label factor-scan planner and finish label coverage
+
+- Keep the bad-factor validation query's result semantics unchanged and scope `enable_nestloop=off` only around that query. The 2022 plans showed nested-loop scans lasting 181–189 seconds; a rollback-only full-year probe used a sequential scan and hash joins and completed in 1.57 seconds. Migration 051 adds exact anchor checks and the fixture assertion verifies both the scope and restoration order.
+- Capture `ROW_COUNT` immediately after the CTAS and restore `enable_nestloop` afterward. The first patch restored the GUC before reading diagnostics, causing a notice of one from the restore call; the `phase2_label_first_bad_factor` temp table and label results were unaffected. The final 2023 runner log reports zero bad-factor rows.
+- Keep the 2022 annual failure in history, covered by its two successful half-year chunks. Complete the remaining yearly label chunks under `phase2-vci-labels-rechunk-20261022`; the 2023 forced rebuild reproduced the same input and output hashes. See `docs/evidence/phase2/phase2_label_recovery_20261022.md` and `docs/evidence/phase2/phase2_label_chunk_status_20261022.csv`.
+- E5 is now satisfied for the repeated 2023 chunk. E1–E4, PIT-fundamentals coverage, final local checks, and hosted CI remain required; Phase 2 stays open.
+
+## 2026-10-22 — preserve the E1 failure after availability analysis
+
+- Keep the specified E1 one-percentage-point threshold and full-row denominator unchanged. The current 2,844,435-row V3 report has 73/88 measured features outside tolerance, 15 within tolerance, and 13 source-unverified. Corrected VCI fields now pass their comparisons, but this is not enough to pass E1.
+- Record the availability breakdown as root-cause evidence only: 1,021,077 rows are untraded and all have `ret_1` and `close_sma200_ratio` null; additional traded rows also have these fields null. Do not silently redefine the expected-null formula or mark E1 passed. Decide on any eligibility-aware formula only through a documented spec decision after diagnosing the remaining traded-row and feature-specific gaps.
+- The fresh PostgreSQL 18.3 v9 harness passed fixture migrations/assertions, but it does not substitute for real E2–E4 or hosted CI. See `docs/evidence/phase2/null_rates_full_20261022.md` and `docs/evidence/phase2/phase2-migration-harness-v9-20261022.md`.
+- Keep Phase 2 open: E1 fails; real E2 and E3 have no completed result; E4 timed out without metrics; E5 passes for the repeated 2023 label chunk; local Go/Python/Rust/harness checks pass; hosted CI and complete PIT-fundamentals coverage are not evidenced. The current gate table is `docs/evidence/phase2/phase2_gate_status_20261022.md`.
+
+## 2026-10-22 — split the timed-out 2022 label build
+
+- Preserve the original failed annual chunk as failure evidence. Do not mark it done: its `DO` transaction exceeded the 30-minute statement timeout while the final insert was active. The context identifies the active nested SQL command, not the duration attributable to that insert alone.
+- Recover the 2022 output with separate H1 and H2 label chunks under build `phase2-vci-labels-rechunk-20261022`. Both completed on the disposable report clone with 342,614 and 370,978 rows, total 713,592, and recorded input/output hashes. Preserve the durable status in `docs/evidence/phase2/phase2_label_chunk_status_20261022.csv`.
+- Capture nested PostgreSQL plans before treating the split as a diagnosis. The final inserts measured 37.7 s and 31.7 s with zero conflicts. The first-bad-factor scan measured 189.1 s and 181.1 s and returned zero rows; H1's plan shows per-symbol index scans with high local-buffer traffic. Keep that scan as a performance follow-up, not as a proven cause of the annual timeout. Evidence: `docs/evidence/phase2/phase2_labels_2022_autorun_plans_20261022.log` and `docs/evidence/phase2/phase2_labels_2022_split_checkpoint_20261022.md`.
+- At this decision point, continue labels for 2023–2026. The later full-label checkpoint above supersedes that pending status; E1–E4, PIT-fundamentals coverage, final local gates, and hosted CI remain open.
+
+## 2026-10-22 — use set-based V3 symbol eligibility and time-box the real backfill
+
+- The full-history build `phase2-vci-full-rebuild-20261021` saved eight feature chunks through 2025 (2,552,145 rows), then its 2026 chunk reached the temporary symbol-batch population query and was canceled at the 30-minute step limit. The latest build's nine label chunks are pending. The durable status is [`phase2_feature_chunk_state_20261022.csv`](evidence/phase2/phase2_feature_chunk_state_20261022.csv); the failed chunk details are in `docs/evidence/phase2/phase2_build_phase2-vci-full-rebuild-20261021.failed.20261021-235301.log`.
+- Replace per-symbol correlated cache probes with a set-based join driven by the effective-session dates and the temporary cache's `(trade_date, symbol_id)` index. Update migration 037 for fresh databases and add migration 045 for existing databases. The two-pass PostgreSQL 18.3 migration/fixture harness passed; migration 045 also patched the old function on the disposable report clone. Evidence: [`migration harness`](evidence/phase2/phase2-migration-harness-v4-20261022.log) and [`045 upgrade`](evidence/phase2/phase2_apply_045_symbol_eligibility_20261022.log).
+- Migration 044's historical VCI-field backfill was attempted twice on the disposable report clone and canceled, with the longer attempt stopped at 10 minutes. `EXPLAIN` showed a hash join with a sequential scan of about 2.88 million feature rows; the table's total size was 3.55 GB. Cancellation rolled back the transaction. Do not treat the clone as corrected or run E1 against it as final evidence; resume with a bounded backfill plan. No registered database or live vnstock calls were used. Evidence: [`044 retry log`](evidence/phase2/phase2_apply_044_vci_retry_20261022.log); the read-only integrity report also timed out at its five-minute limit.
+- Do not claim the recovery prompt's fallback as complete: the full-universe 400-session slice and 60-symbol real-data subset were not run because corrected VCI fields are not materialized. Phase 2 remains open, not conditionally complete.
+- Keep Phase 2 open. The prior null-rate report is stale and failed its tolerance count; real-data E2/E3, current E1, E4 metrics, E5 repeated-hash evidence, label chunks, PIT fundamentals coverage, and hosted CI are still required. Local Go/Python/Rust gates and the PostgreSQL 18.3 fixture harness passed; details are in `docs/evidence/phase2/phase2_recovery_checkpoint_20261022.md`.
+
+## 2026-10-21 — use the registered VCI history for V3 VNINDEX context
+
+- The disposable full-history report contains 1,995 VNINDEX bars from `vci` and no VNINDEX bars from `vndirect`; the registered VCI history covers the local exchange-calendar sessions from 2018-10-18 through 2026-10-16. V3 feature and V3 label benchmark context must read `core.index_bars.source='vci'` so the available evidence is used. Keep VNDIRECT as the equity price basis and leave the V2 benchmark logic unchanged.
+- The correction changes the V3 feature-set hash and is installed by migration 043 for existing databases. Rebuild V3 features and labels before interpreting outputs created under the former mapping. The two-pass fixture harness passed after the lag positive control was updated to check V3's `vnindex_realized_vol60`, rather than the inherited V2 `vnindex_realized_vol20` field. Evidence: `docs/evidence/phase2/null_rates_full_20261021.md`, `docs/evidence/phase2/vci_migration_harness2_20261021.log`.
+
+## 2026-10-21 — bound the adjusted-price cache in the feature layer
+
+- Preserve `core.vndirect_reference_adjustment_details` unchanged. Migration 042 discovers eligible securities from the one-row-per-security `core.symbols` directory and uses a symbol-indexed `EXISTS` for VNDIRECT history, avoiding the former full scan of all source-bar rows followed by MD5 ranking of distinct symbols. It does not filter on `active`, so delisted names with historical data stay in scope; only explicit `ops.ml_symbol_scope` exclusions are omitted. The cache fills one symbol batch per SQL statement, replaces only the selected batch on retry, and must be finalized before reuse. A readiness row tracks finalization; reuse checks every batch and both valid lookup indexes.
+- Keep one `REPEATABLE READ` transaction across the 15/30/60 probes and all cache batches so concurrent source writes cannot mix snapshots. Each SQL statement remains subject to the configured timeout, and the projected full-universe cache time must fit the 40-minute budget with an adjacent scaling exponent no greater than 1.3. The temporary cache is not durably resumable after session loss; the cache prelude must be rerun.
+- Limit the convenience preparation path to 60 in-scope symbols. A small-fixture fallback still builds when `p_refresh=false` and no cache exists, but a partial cache fails closed and a market-wide direct call must use staged `begin`/`populate` calls through the runner.
+- The updated two-pass fixture replay passed exact parity against the existing adjustment view for 2,282 fixture rows, idempotent batch retry, cache persistence across committed year chunks, feature/leakage/chunk assertions, and the harness rollback/connection checks. It proves fixture mechanics only. It does not establish real-history query-plan pushdown or acceptable full-history time. The first real 15-symbol probe hit the old manifest scan; the corrected code still needs 15/30/60 timings and a representative full-history chunk on the disposable market-history clone. Evidence: `docs/evidence/phase2/phase2_cache_migration_final_pg18_20261021.log`.
+
 1. **Initial commit is an honest bootstrap, not an invented working full stack.** No external market-data credentials are available in the build environment. A real v5 entitlement probe and multi-day quota backfill must happen on the designated user's machine.
 2. **Keep API interaction strictly isolated** inside a single Python adapter (target <400 lines); Go calls a JSON-lines protocol. The adapter never learns model logic, and credentials never travel in the JSON protocol.
 3. **No quota guessing.** The scheduler and future backfill must consume absolute available budgets from real reports or stop. Remaining *percentages* are not interchangeable with remaining API *calls*.
@@ -520,3 +780,552 @@ The implementation introduces an offline-tested `LandingStore` boundary instead 
 - All 374 audit rows remain in the Phase 2 adjusted-as-of series. The full series contains 2,844,435 rows across 1,518 in-scope symbols, including 1,021,077 zero-volume observations. UTT remains the only separately user-approved model-scope exclusion.
 - The source rule is [VNDIRECT's HSX trading guide](https://support.vndirect.com.vn/hc/vi/articles/360002192174-Quy-%C4%91%E1%BB%8Bnh-giao-d%E1%BB%8Bch-t%E1%BA%A1i-s%C3%A0n-HSX), which specifies tick increments of 10 VND below 10,000 VND, 50 VND from 10,000 through 49,950 VND, and 100 VND from 50,000 VND. [SSI's field definitions](https://fc-data.ssi.com.vn/Help/NavigateDataStreamPage) and [HOSE order types](https://staticfile.hsx.vn/Uploads/UploadDocuments/2372213/6.Order%20types.pdf) separately document opening/closing auctions and matched-price extrema.
 - The full dispositions, CafeF response hashes, reproducible collector, and reconciliation script are recorded in `docs/probe/phase2-adjustment/ohlc-discrepancy-audit-20261019/README.md`. The model-series correction is applied through an append-only migration; raw source observations remain available for source audit and refresh.
+
+## 2026-10-19 — run the local VCI market refresh at 06:00
+
+- Use Windows Task Scheduler on the registered machine at 06:00 local time (Asia/Ho_Chi_Minh). VCI is refreshed into the canonical series, and VNDIRECT is refreshed as a separately attributed source series with its existing point-in-time adjustment view. The task also refreshes the current listing snapshot.
+- Every VCI OHLCV request must continue through the existing Go gateway with a fresh absolute quota observation and durable call reservation. A daily round-robin order prevents a capped run from repeatedly favoring alphabetically early symbols. Unknown or percentage-only quota stops the VCI branch; the separately audited VNDIRECT source may still refresh.
+- The task keeps a 14-calendar-day request window to cover the last five sessions across weekends and long closures, writes logs and probe reports under the current user's LocalAppData, and stores the local PostgreSQL credential only in user-bound Windows DPAPI-encrypted form.
+- The task stores VNDIRECT observations separately and does not relabel them as VCI or combine adjustment bases. KBS remains comparison-only for this scheduled refresh.
+- Registering the task starts Phase 6 but does not satisfy its exit criteria. Keep Phase 6 in progress until seven unattended trading-day runs, backup checks, and recovery evidence pass.
+- A source-attributed VCI frame with count 0 and an explicit empty rows array is an empty response for the requested window, not a zero-volume bar. Archive its exact bytes and complete the request without creating OHLC rows or zero-volume classifications; malformed frames remain quarantined and subject to the existing circuit breaker.
+
+## 2026-10-20 — Phase 2 feature and source guardrails
+
+- Keep the VNDIRECT adjusted-as-of series as the Phase 2 price basis and keep the fundamentals overlay separate from the core feature/model path. Migrations 034–038 define the Phase 2 archive, labels, feature set, verified source-input map, and optional overlay.
+- Populate a source-dependent field only after its underlying route/field semantics, row identifier, units, and point-in-time availability are evidenced. Until then, retain NULL; do not substitute a guessed proxy or synthetic observation.
+- Do not make live fundamentals calls until the registered machine has a fresh absolute quota observation and a durable reservation through `live.Gateway.CallRecorded`. A missing or percentage-only quota blocks ingestion. No live calls or quota probes were used for the current offline implementation checks.
+- A synthetic null-rate fixture is not the required production-data null-rate report. Phase 2 remains open until SQL/Rust feature parity passes and the report is generated from actual materialized feature rows; no recommendation becomes active without a later Phase 3 champion.
+
+## 2026-10-20 — bound V3 feature work by symbol batch
+
+- Compute index/market context and full-universe daily ranks once, then process the symbol-local ordered EMA, return windows, beta, ADX, and stochastic features in deterministic batches. Keep every effective-session gap and each symbol's full episode/session ordering inside its batch.
+- Use 50 symbols per batch by default, with a local session setting bounded to 1–250 for machine tuning and synthetic parity checks. The PostgreSQL acceptance fixture compared one 250-symbol batch with batches of two and found identical v3 rows and feature values; cross-sectional ranks and lagged market context stayed global.
+- The prior full-history v3 statement timed out before producing a report. The first measured symbol-batch scaling probe passed with exponent 1.025 for 15–60 symbols. Full-history rebuild, labels, and null-rate evidence remain pending; do not call Phase 2 complete until those runs and gates finish.
+
+## 2026-10-20 — remove V3 row JSON conversion and rolling-frame recomputation
+
+- `auto_explain` on a rollback-only real-data sample measured 87.55 seconds in the V3 feature statement. The outer output projection consumed 85.67 seconds while its joined feature rows were ready in about 2.32 seconds; the projection serialized each wide V2 row to JSONB and reparsed the composite row. Treat that timing gap as evidence for the JSON conversion cost, not as proof from a single plan node alone.
+- Copy the original V2 row directly into a transaction-local V3 output table, update only the V3 columns from a narrow computed table, and insert the completed composite row. Synthetic acceptance checks confirm inherited V2 fields and cross-batch equality.
+- PostgreSQL 18 has no moving inverse transition for the float8 rolling regression and variance aggregates used by V3. Replace the 20/60/250-session floating windows with cumulative sums and fixed-offset differences. The synthetic assertion compares beta, idiosyncratic volatility, and Amihud outputs with the direct rolling aggregate reference.
+- The 15-symbol feature batch fell from 87.63 seconds to 2.58 seconds. The 15/30/60 scaling exponent is 1.025. Evidence is in [`docs/evidence/phase2/v3_build_diagnosis.md`](evidence/phase2/v3_build_diagnosis.md) and [`docs/evidence/phase2/scaling_probe.md`](evidence/phase2/scaling_probe.md). The full-history V3 chunk run is now in progress on the disposable report clone.
+
+## 2026-10-20 — stop the 2020 full-universe chunk at its timeout
+
+- The retry of build `phase2-full-20261020` hit its 30-minute statement timeout while the full-universe symbol-batch map was being inserted. The error context identifies `SELECT DISTINCT r.symbol_id` joined across the 2.84M-row point-in-time cache and the 567-session temporary table; it does not establish that this inner operation consumed the full 30 minutes. Earlier notices in the same call report 8m17.8s for adjustment-cache creation and 14m42.5s for market context, far above the rollback probe's roughly 80s and 36–38s. The durable chunk record is `failed`; the transaction committed no 2020 V3 rows. Keep previously completed 2018/2019 chunks.
+- The 15/30/60 exponent of 1.025 measured downstream feature batches with an explicit probe limit; it did not measure the no-limit symbol-population query and is not a full-build ETA. One `pg_stat_activity` sample saw `IO:DataFileRead`. The earlier cache plan shows about 3.34 GiB of temp reads and 3.42 GiB of temp writes; its excerpt is `docs/evidence/phase2/cache_plan_excerpt.md`. A cache-backed `EXPLAIN` attempt also exceeded twice the prior 80s cache estimate and was stopped before returning a plan. The exact full-run slow plan node remains unconfirmed.
+- Do not retry full-history V3 until the cache, market-context, and no-limit population operations have bounded timings under representative conditions. The detailed run output and zero-row check are in [`docs/evidence/phase2/v3_build_diagnosis.md`](evidence/phase2/v3_build_diagnosis.md) and [`docs/evidence/phase2/full_history_retry_2020.log`](evidence/phase2/full_history_retry_2020.log). This re-plan keeps Phase 2 open; no success or ETA is claimed.
+
+## 2026-10-21 — defer real-data E3 until history loading is batched
+
+- The Rust offline suite passed six unit tests, including the independent seeded EMA golden vector. Its PostgreSQL integration test was skipped in that offline run. Evidence: [`docs/evidence/phase2/rust_tests_20261021.log`](evidence/phase2/rust_tests_20261021.log).
+- A real-data parity attempt against the disposable clone sampled 20 rows across at most three dates but ran for 772.65 seconds without producing a comparison. The reference loader executes a separate `core.vndirect_bars_as_of_with_episodes` history query per market symbol/date. Two read-only test backends were canceled; follow-up found neither active. No database rows were modified and no mismatches were assessed. Record E3 as NOT RUN, not PASS or a feature mismatch; see [`docs/evidence/phase2/parity_real_20261021.md`](evidence/phase2/parity_real_20261021.md).
+- Batch the as-of input history load before rerunning E3. The 20-symbol-day target still requires the full universe for ranks and market features, so the optimization must preserve those full cross-sectional inputs.
+
+## 2026-10-21 — null-rate report attempt timed out
+
+- The read-only `sql/diagnostics/phase2_feature_null_rates.sql` query ran against disposable database `vnsignal_phase2_report_20261019` with a five-minute statement timeout. PostgreSQL canceled it at line 327; the cause within the aggregate plan is not established. The output contains only the session `SET` and the timeout error, so it provides no null-rate measurements. The captured output and status note are `docs/evidence/phase2/null_rates_attempt_20261021.log` and `docs/evidence/phase2/null_rates_attempt_20261021.md`.
+- E1 remains NOT RUN. This is not a full or partial null-rate report and must not be used as one. The query reads `feat.features_daily` rows with `feature_version='phase2-v3'`; no production database was used and no data writes were made.
+
+## 2026-10-21 — stop local verification after environment overruns
+
+- The two-pass migration harness was run against newly created disposable database `vnsignal_phase2_ci_20261021`. It completed migration 023 on the first pass, then a PostgreSQL client connection timed out before later migrations and assertions could run. The attempt log is `docs/evidence/phase2/phase2_migration_ci_20261021.log`. After confirming the database had no active sessions, the disposable test database was dropped. This is NOT RUN to completion, not a SQL test failure or pass.
+- `go -C go test ./...` was started with UCRT64 GCC available and interrupted after more than five minutes without package results. No output artifact was flushed. Go vet, Python, the current-tree Rust clippy/tests, race checks, and hosted CI were not run in this verification pass. The test overrun is recorded as incomplete; it does not establish a code failure.
+- Details and the remaining current-tree gates are in `docs/evidence/phase2/phase2_local_verification_20261021.md`. Do not push or sign off on Phase 2 while these gates and the real-data E1–E5 criteria remain incomplete.
+
+## 2026-10-22 — make the VCI repair bounded and resumable
+
+- Do not perform a table-wide V3 rewrite inside migration 044. Install durable run, frozen-context, and chunk state first; take one SHA-256-identified session-level VCI context snapshot; then repair at most 30 calendar days per transaction. Each chunk records attempts, row and changed-row counts, and an output hash. Resume by skipping `done` chunks, and keep failure updates in the same run-then-chunk lock order used by repair. This preserves the one-effective-session lag at chunk edges while keeping interrupted work recoverable.
+- The fresh PostgreSQL 18.3 two-pass harness v7 passed the interruption/resume and idempotent completed-chunk assertions. The DDL-only migration was applied to disposable `vnsignal_phase2_report_20261019`; it did not touch registered `vnsignal`. Repair build `phase2-vci-repair-bounded-20261022` has committed 35/98 chunks (962,024 rows) through 2021-08-15, with 63 pending. The per-chunk state and hashes are recorded in `docs/evidence/phase2/phase2_vci_backfill_status_20261022.csv`.
+- A concurrent autovacuum began cleaning estimated pre-existing dead tuples plus rows changed by the repair. It scanned all 448,516 heap blocks, completed index/heap cleanup, and one overlapping 30-day chunk took 323.74 seconds. The 63 chunks after that vacuum averaged 7.32 seconds (maximum 12.68). Autovacuum was temporarily disabled on `feat.features_daily` in the disposable clone during the remaining writes, then `VACUUM (ANALYZE)` completed in 520.92 seconds, reported zero estimated dead tuples, and the table's default autovacuum setting was restored. This table-local tuning was not a migration or production change. Repair build `phase2-vci-repair-bounded-20261022` is complete: all 98/98 chunks and output hashes cover 2,844,435 rows from 2018-10-01 through 2026-10-16, with one consistent context hash. Do not claim Phase 2 complete: one current V3 feature chunk, all labels, real-data E1–E5, and PIT fundamentals remain open.
+
+## 2026-10-22 — repair the V3 selected-symbol CTE reference
+
+- The real 2026 V3 chunk failed after its input hash, adjustment cache, market context, and rank stages completed. The stored error was `relation "symbols" does not exist`; `ops.feature_chunks` records the attempt as failed with a 139,501 ms duration and no committed row count. Runtime function inspection found that migration 045 replaced the `symbols` CTE with `eligible_symbols` but retained `SELECT symbol_id FROM symbols` in `selected_symbols`. Fresh migration tests did not catch the upgrade-only mismatch because migration 037 already contained the renamed CTE.
+- Preserve migration 045 and add migration 046 to rewrite the old downstream reference idempotently. Add a function-definition assertion and retain the existing synthetic multi-batch builder test. The fresh PostgreSQL 18.3 two-pass migration harness v8 passed in `vnsignal_phase2_ci_20261022_v8_test`; evidence is `docs/evidence/phase2/phase2-migration-harness-v8-20261022.md`.
+- The report-clone runner refuses to proceed because the clone has a stale checksum for migration 034. Do not rewrite migration history to bypass that check. No ledger entries were changed; apply only the new additive 046 SQL directly to the disposable clone and verify its function definition. This does not modify registered `vnsignal`. The real 2026 retry and all label/E1–E5/PIT gates remain open until measured.
+## 2026-10-22 — corrected 2026 V3 feature chunk completed
+
+- The additive migration 046 CTE repair completed the previously failed `2026-01-01`–`2026-10-16` chunk on disposable report clone `vnsignal_phase2_report_20261019`. Durable state is `done`, 292,290 rows, 730,650 ms, output SHA-256 `5ff467f883e607634c0630ef5458d569d077a8ee6e967b5d7760a0ff1d0c46b2`; all nine feature chunks sum to 2,844,435 rows. V2 and V3 each cover 2018-10-01–2026-10-16 with 2,844,435 rows.
+- The chunk log shows all 26 symbol batches had equal base and computed row counts. The 1,194-session market context took 2m07.262s, ranks took 2.906s, and feature batches mostly took 12.7–21.8s. The current stage no longer fails at `selected_symbols`; the repaired function reached the final batch and committed.
+- The cache probes were 50.730s, 50.870s, and 47.290s for 15/30/60 symbols (exponent 0.004; full-cache projection 22.10 minutes). The cache loaded 2,844,435 rows in 25 reported fills. Runtime and live-database observations are captured in `docs/evidence/phase2/phase2_v3_2026_feature_recovery_20261022.md`; full runner output is preserved in `docs/evidence/phase2/phase2_build_phase2-vci-full-rebuild-20261021_features_20261022.log`.
+- Labels remain pending. Do not close Phase 2 until label construction, availability-aware E1, real E2–E5, PIT coverage review, current-tree tests, and hosted CI are complete.
+# 2026-10-22: repair probe transaction boundaries and full-market E2 inputs
+
+The first rank recovery probe passed the 30- and 60-session samples, but its
+120-session sample timed out in a later chunk's non-rank hash. PostgreSQL
+reported disk-read waits; the host has 4,017,764 KiB visible RAM and only
+311,516 KiB free at inspection. No trial repair rows or completion records
+committed. The actual hash plan uses the date/version bitmap index, rather than
+a per-row archive expansion. The failed probe is evidence of an unresolved
+runtime problem, not acceptable scaling evidence.
+
+The probe originally held every chunk for an N-session sample in one outer
+transaction. Real repair commits each bounded chunk independently. The probe
+now uses the same one-chunk transaction boundary, rolling each chunk back and
+verifying its output/audit rollback before moving on. Its total measured
+repair time is summed across those chunks; the 30/60/120 sizes and b<=1.3 gate
+are unchanged. Default work_mem is 16 MiB for this 4 GiB machine. The repair
+certificate pins memory, timeout, transaction policy, database, build ID, and
+SQL definitions, and is invalidated before a new probe begins. Vacuum of the
+report-clone feature table is recorded separately. See the rank probe log,
+`phase2_rank_hash_plan_before_vacuum_20261022.log`, and
+`phase2_rank_probe_vacuum_20261022.log` under `docs/evidence/phase2/`.
+
+E2 previously used unchanged persisted non-cohort V2 rows as full-market
+context. That could hide future dependence outside the 60-symbol cohort.
+Migration 055 generates a narrow market-input function from the canonical
+production V2 CTE chain and its exact final expressions, including session,
+episode, first-invalid-factor, and null guards. It rejects production-definition
+drift. No alternate feature equations are maintained in the fixture. Both E2
+branches now use full-universe branch-specific raw rows; every post-cut equity
+and index input is perturbed in the modified branch. The identical baseline
+projection is materialized once across cuts; every perturbed projection is
+recomputed. The selected output and rank cohort remains 60 symbols.
+
+The projection fixture passes exact binary comparison against freshly rebuilt
+production V2 output, pre-cut binary invariance, changed non-cohort post-cut
+support, and rejection of production-definition drift. Its evidence is
+`phase2_market_projection_assertions_20261022.log`. This is fixture evidence;
+the corrected real E2 has not yet passed. Phase 2 remains open.
+
+### 2026-10-22 — Measure S2 rank scaling without repair writes
+
+The Phase 2 recovery prompt defines S2 as market-wide ranks over 30, 60, and
+120 dates. The previous probe timed the full repair function and rolled it back.
+That comparison is contaminated: PostgreSQL retains dead tuple versions after
+an update is rolled back. The report clone then showed 393,406 estimated dead
+tuples and 396,278 updates, while the 30/60 repair timings were 34.303442 and
+151.062488 seconds (apparent exponent 2.138720). The 120 sample was stopped
+after one verified chunk and one cancelled chunk; there are no committed probe
+audit rows or active probe sessions. These timings are retained as diagnostic
+evidence, not accepted as the S2 scaling result.
+
+The S2 gate now warms the largest date window once and times only
+`feat.phase2_cross_sectional_ranks` in read-only transactions at 30/60/120
+effective sessions. The 1.3 exponent limit is unchanged. Full repair is
+measured and executed separately in bounded monthly transactions, so its
+rollback side effects cannot alter later S2 samples. The report clone is
+vacuumed before remeasurement; the registered `vnsignal` database is not used.
+Evidence: `docs/evidence/phase2/phase2_rank_probe_methodology_20261022.md`.
+
+### 2026-10-22 — constrain rank repair updates to the monthly slice
+
+The first 2025-03 repair attempt reached 139.483 seconds with PostgreSQL
+waiting on `IO:DataFileRead`, so it was cancelled and durably recorded as a
+failed attempt. Read-only component profiles took 2.749 seconds for ranks and
+2.568 seconds for the panel hash. The original update plan scanned the small
+expected-row table and performed about 31,000 primary-key lookups against the
+full feature table. An `EXPLAIN` of the same update with the already-known month
+bound on the target selected a bitmap heap scan using
+`features_daily_date_version_idx` followed by a hash join. This bounds the
+target rows without changing rank values or eligibility.
+
+Migration 056 applies that date predicate to both V2 and V3 updates, and the
+fixture assertion requires both predicates to remain. The PostgreSQL migration
+harness passed on a new disposable test database. The report-clone March retry
+committed in 36.354 seconds after a fresh passing S2 certificate was recorded.
+Subsequent repairs resume from the next durable month. Evidence includes
+`phase2_rank_update_plan_2025-03_date_default_20261022.log`,
+`phase2_rank_update_plan_2025-03_alternatives_20261022.log`,
+`phase2_rank_component_profile_2025-03_20261022_retry.log`, and
+`phase2_rank_probe_phase2-rank-repair-055-20261022.json` under
+`docs/evidence/phase2/`.
+
+### 2026-10-22 — lifecycle identity diagnostic correction during E4
+
+**Correction:** The KTL→PTM and TSB→CTR mismatch claims below came from a
+diagnostic join between `core.symbols.symbol_id` and the separate
+`core.security_master.security_id` domain. The source-attribution CSV and TSB
+bar check were stale and incorrect. The corrected queries join lifecycle
+evidence, bars, and features through `core.symbols`; security observations are
+crosswalked through the ticker. They show that CTR evidence references CTR
+landings and PTM evidence references PTM landings. The apparent five TSB bars
+are five CTR VCI rows inside CTR's UPCoM-to-HOSE transition. This correction
+supersedes the factual findings in this decision entry. E4 remains open because
+219 other continuity gaps are still unresolved. See
+`docs/evidence/phase2/phase2_e4_id_domain_correction_20261022.md`.
+
+The decision to require matching ticker identity between a lifecycle event and
+its source landing remains valid. Keep these source-identity and cross-ID
+domain checks in diagnostics; do not classify any gap from a direct join of
+`symbol_id` to `security_id`.
+
+### 2026-10-22 — fail closed on mismatched lifecycle evidence during E4 (superseded)
+
+This historical entry records the initial finding, which is superseded by the
+correction immediately above. Do not rely on its KTL/TSB attribution or its
+TSB bar-check result. The general rule remains: do not attribute a feature-session gap to a delisting, relisting, or
+suspension unless the evidence is keyed to the same security as its source
+landing. The read-only report-clone review found 219 of 221 gaps with no daily
+bars or archived source rows. The two apparent lifecycle matches are
+mismatched: KTL evidence references PTM source landings, and TSB evidence
+references a CTR source landing. TSB also has five identical VCI-traded bars
+inside the alleged delisting interval, without source-archive rows or feature
+rows. Keep E4 open and reconcile source identity and bar lineage before
+reclassifying these gaps. The registered database was not changed. Evidence:
+`docs/evidence/phase2/phase2_integrity_gap_attribution_20261022.csv`,
+`phase2_lifecycle_source_attribution_20261022.csv`, and
+`phase2_tsb_lifecycle_bar_check_20261022.csv`.
+
+### 2026-10-22 — split real E2 into bounded cut checkpoints
+
+Do not accept partial leakage evidence. The real E2 SQL currently runs the
+40%, 70%, and 95% cut cases inside one statement and repeats full-history
+market-support projection for perturbed branches. The report-clone attempt
+materialized 2,844,683 VNDIRECT adjustment rows, passed cohort selection, and
+reached the first cut's perturbed V3 rebuild, but produced no cut comparison
+before cancellation at 1,710.475 seconds. The transaction rolled back and no
+branch schemas remain. Before retrying, split the cases into bounded
+checkpoints and reuse a verified baseline projection where raw inputs are
+unchanged; retain the 60-symbol, separate-branch inputs, three cut dates,
+bit-identical pre-cut outputs, changed post-cut outputs, and label-boundary
+assertions. Evidence: `docs/evidence/phase2/phase2_e2_real_attempt_20261022.md`
+and `phase2_e2_real_20261022_retry2.log`.
+
+### 2026-10-23 — Phase 2 real-gate scope and disposition
+
+Use a point-in-time-stratified 60-symbol cohort (five symbols per exchange and
+liquidity stratum) for real-data feature and label comparisons, while retaining
+the full-market support projection so cross-sectional and market inputs remain
+in scope. Exercise independent 40%, 70%, and 95% future cutoffs; perturb future
+equity and index prices and positive volume in both directions by at most 20%;
+require byte-identical pre-cut features, completed labels, and label boundaries,
+plus crossing labels and changed post-cut features. Run the branches in one
+outer transaction on the disposable report database and roll it back. All three
+cutoffs passed on 2026-10-23; the durable evidence is the E2 log cited in
+`docs/BUILD_STATUS.md`. This sampled real-data gate is not a claim of exhaustive
+per-symbol parity; E3 separately passed 20 deterministic symbol-days.
+
+Interpret the Phase 2 null-rate exit as “report produced,” as specified in
+`docs/MASTER_BUILD_SPEC.md` §13. Do not convert the diagnostic's 1-point
+lookback deviation into a blocking threshold: the spec calls null-rate shifts
+warnings and does not set that limit. Keep the unverified-field and cell-level
+availability attribution work visible as data-quality follow-up; a passing E1
+report does not certify every NULL as expected.
+
+### 2026-10-23 — current-tree E2 and E5 recovery recheck
+
+Re-run real E2 after migrations 058 and 059 changed label availability and
+training eligibility. The old three-cut pass is not evidence for the current
+label definition. Preserve the 60-symbol cohort, full-market support, separate
+future-perturbation branches, and all three cutoff checks. The final V2
+candidate keeps native averages and standard deviations while computing exact
+250-session extrema with block prefix/suffix windows. A five-run synthetic
+probe at 15/30/60 symbols × 2,000 rows measured integrated medians 25–31% below
+direct windows and a 0.952 scaling exponent, but that synthetic gain does not
+establish real E2 performance.
+
+Migration 064's first report-clone replay exposed stale aggregate dependencies;
+after cleanup, the first real retry exposed an incomplete CTE replacement
+because PostgreSQL's `n` regular-expression flag would not cross line breaks.
+The migration now uses `s`, rejects an unmatched rewrite, and verifies that
+the projection retains `session_no`, `is_traded`, and extrema fields. The
+corrected function projection check and numerical extrema fixture passed on
+the disposable clone. In the corrected E2 run, the current-hash baseline's
+V2/V3 build took 1:40.811 and the whole baseline stage took 4:00.206. The 40%
+branch setup copied and perturbed inputs successfully, then the V2 rebuild
+remained CPU-active for 12:45.856 without reaching a feature/label comparison.
+It was canceled and the outer transaction rolled back. E2 is still **NOT
+PASS**; no 70% or 95% cut ran. Do not weaken the pre-cut invariance,
+crossing-label, changed-post-cut, or label-boundary checks. Further production
+profiling or optimization is required before another full E2 attempt. Evidence:
+`docs/evidence/phase2/phase2_e2_real_20261023_103110_365.txt`,
+`docs/evidence/phase2/phase2_v2_window_scaling_final_20261023.txt`, and
+`docs/evidence/phase2/phase2_e2_performance_gate_20261023.md`.
+
+Rebuild the 2023 E5 label chunk under the current hash. The first run completed
+720,718 rows in 367.240 seconds. An initial forced repeat was interrupted
+early; a clean retry was allowed to run until the label-build statement
+reached 753 seconds, just over twice the first step duration, without
+completing. After the local interrupt, the backend ended before a follow-up
+`pg_cancel_backend` could target it. The original `ops.feature_chunks` row
+remains `done`; the repeat row is `pending`, with no repeat `ops.step_runs` row
+or output hash and zero Phase 2 database sessions. Classify current-hash
+reproducibility as **inconclusive**; the historical pre-058 repeat does not
+satisfy it. Preserve both run outcomes in
+`docs/evidence/phase2/phase2_e5_m058_rebuilds_20261023.md`.
+
+The missing-session guard and training-gap eligibility fixture assertions now
+pass through migration 059 on a clean two-pass PostgreSQL harness. The policy
+excludes affected labels from training while leaving raw feature/label lineage
+intact; it does not resolve the 219 real unexplained gaps. Keep those gaps
+unclassified until source evidence exists, and do not claim recovery complete
+until the current E2, E5 reproducibility, and recovery-prompt label outputs are
+closed. At the time of this entry, the date-wise winsorization, volatility
+scaling/floor, PIT liquidity tiers/ranks, and price-limit execution weights
+were not implemented; their subsequent authored-but-unverified status is
+recorded in the later derived-label decision below.
+
+### 2026-10-23 — bounded raw-source census for unresolved E4 gaps
+
+On the disposable report clone, inspect only the 1,539 effective sessions
+listed in the corrected 219-gap attribution CSV. The exact-date census found
+12 valid-OHLC row occurrences across six dates and four symbols, represented
+by eight VCI `equity_ohlcv` landings. All rows have zero volume; there are no
+VNDIRECT rows or positive-volume observations. Their OHLCV fingerprints are
+duplicates. No matching canonical/alternate-source bars or historical listing
+snapshots were found. Do not merge these VCI records into the VNDIRECT adjusted
+feature series or classify the intervals as suspensions. Keep all 219 intervals
+unresolved and E4 **NOT PASS** until source or ticker-matched lifecycle evidence
+supports a classification. The input and output hashes, scope, and counts are
+recorded in `docs/evidence/phase2/phase2_e4_raw_census_20261023.md` and its CSV.
+
+### 2026-10-23 — derived label ranks and eligibility
+
+Keep `feat.labels_daily` raw rows and their existing hashes unchanged. Store
+recovery-prompt derived outputs in the durable, bounded
+`feat.phase2_label_targets_v3` chunk table, with a separate attempt ledger and
+deterministic derived-target chunk hash. The Master membership rank is
+median-20 `turnover_proxy_vnd` over 20 valid sessions, gated by at least 250
+strictly prior positive-volume VCI sessions and average-20 proxy of at least
+VND 5 billion. Enter at rank 400 and retain an existing member through rank
+500. The canonical VCI `core.bars_daily` schema stores `ingest_id` and
+`fetched_at`, but no source landing ID or row ordinal. A disposable-clone audit
+reconstructed exact row provenance for 1,810,727 of 1,810,729 canonical VCI
+bars by matching the same ingest, ticker and date, exact OHLCV, and the SHA-256
+of the archived response bytes. It found two unmatched positive ABR bars on
+2018-10-16 and 2018-10-17, with no corresponding rows in the archived ABR VCI
+payloads; no bar had ambiguous exact matches. Of 1,505 symbols, 1,321 have at
+least 250 unique exact, positive-volume VCI sessions before 2026-10-17; ABR is
+the only symbol with unmatched positive sessions, and those rows are excluded
+from its count. See the [lineage audit](evidence/phase2/phase2_vci_source_row_lineage_audit_20261023.md)
+and its [`SQL`](evidence/phase2/phase2_vci_source_row_lineage_audit_20261023.sql).
+This establishes that exact tenure evidence can be derived for the matched
+bars, but migration 061 still hardcodes `verified_listed_sessions` to NULL.
+Until the builder consumes a durable, hashed lineage materialization, real
+membership and tier outputs remain unverified; keep the two ABR rows unknown
+and do not infer tenure from first observed bars.
+Membership rank20 and recovery tier rank60 are separate fields. Tier rank60
+uses the 60-session median among eligible top-400 members, with L1 1–100,
+L2 101–250 and L3 251–400. Retained membership ranks 401–500 remain in scope
+but have no tier label/rank. The rank input remains adjusted-close ×
+reported-volume research estimate `turnover_proxy_vnd`; it is not
+source-reported or executed turnover.
+
+Keep the recovery target rank distinct from the liquidity position rank. For
+each signal date, horizon and L1/L2/L3 tier, order non-NULL volatility-scaled
+scores from highest to lowest, break exact score ties by ascending
+`symbol_id`, and store `(target_rank_in_tier - 0.5) / target_tier_count`.
+`tier_uniform_rank` remains the within-tier liquidity position; the new
+`target_uniform_rank` is the score-based Phase 3 rank target. Raw winsorized
+excess return remains available separately for quantile heads.
+
+Rebuilding a prior derived-label chunk invalidates all later target and
+membership-state rows because hysteresis carries forward; matching completed
+derived-chunk ledger records are marked invalidated, and later chunks must be
+rebuilt chronologically from a complete immediate-prior state checkpoint.
+The production E5 runner includes derived-target inputs in its input hash and
+compares a combined raw-label/derived-target output hash before skipping a
+completed chunk. Exact execution weights are available only where every effective
+session in the inclusive entry-to-exit interval has a source-row-linked
+unadjusted VNDIRECT bar and exact archived ceiling/floor observation. Entry
+open at ceiling yields 0; a fully locked OHLC row at either exact limit on at
+least two sessions yields 0.5; otherwise complete evidence yields 1. Missing
+exact evidence yields NULL. No configured percentage or generic band is
+substituted. The migration harness and fixture assertions pass on a fresh
+disposable PostgreSQL database, but real-data derived-target chunk outputs
+remain **NOT VERIFIED**. The report clone has no archived price-limit or
+listed-share observations needed to verify execution weights. VNDIRECT Finfo
+does not expose listed shares in the inspected row contract; no listed-share
+history is inferred.
+
+### 2026-10-23 — official-source findings for E4 transfer windows
+
+The archived evidence packet in
+`docs/evidence/phase2/hose_transfer_sources_20261023/` contains the HNX
+cohort notice and ticker-specific HOSE first-trading-day notices for all 13
+HNX-to-HOSE transfer candidates in the E4 gap report. These notices support
+transfer-window explanations for 40 missing effective sessions: 12 symbols
+from 2021-08-30 through 2021-09-01, and PAN through 2021-09-06 before its
+2021-09-07 HOSE first-trading day. The manifest records source URLs, hashes,
+and byte counts. This supersedes the earlier research entry that had only four
+paired endpoints.
+
+The files are saved in the repository but have not been imported into
+`raw.landings`; the lifecycle schema also lacks a transfer event type. Do not
+encode these notices as `TRADING_SUSPENDED`. Keep the 13 intervals
+unclassified until the event semantics and ticker-matched archive path are
+implemented and the report-clone attribution query is rerun. The other 206
+intervals, covering 1,499 effective sessions, remain without supporting
+evidence. E4 is **NOT PASS**. See
+`docs/evidence/phase2/phase2_e4_hnx_hose_transfer_research_20261023.md` and
+`docs/evidence/phase2/hose_transfer_sources_20261023/README.md`.
+
+### 2026-10-23 — bounded 40% E2 performance diagnostic
+
+Repeat only the 40% future-perturbation branch on the disposable report clone
+with `work_mem=128MB` and JIT disabled. The current-hash baseline completed in
+3:58.300, including a 1:41.652 V2/V3 rebuild and the label rebuild. The branch
+setup copied 117,551 cohort equity rows and perturbed 72,208 equity and 1,204
+index rows. Its V2 rebuild then ran for 20:10.797 without reaching a stage
+completion notice or comparison. Cancel the diagnostic at that bound; the
+`psql` process exited after cancellation, the transaction rolled back, and a
+follow-up check found no active database sessions. Temporary-byte accounting
+increased by 568,762,368 bytes, but no analyzed plan was emitted. This setting
+reduced spill relative to the 16 MB/JIT-on probe yet did not solve the CPU-heavy
+V2 rebuild. Current E2 remains **NOT PASS**; do not run all three cuts until a
+parity-checked production fix is established. The exact diagnostic inputs and
+output are preserved in
+`docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql`
+and `.log`.
+
+### 2026-10-24 — canceled full-cache date-order diagnostic
+
+The corrected staged-cache plan and 12-session aggregate show that price-day
+hashing can issue many local heap reads from the current symbol-batch cache
+layout. A rollback-only attempt to copy the full 2,844,435-row cache in date
+order was still waiting on `IO:DataFileRead` after 3:29, while the host had
+237 MiB free of 3.83 GiB. The copy was canceled, its transaction rolled back,
+and the backend exited. The attempt produced no reordered hash comparison and
+did not change persistent data. Keep the existing hash semantics; do not adopt
+whole-cache physical reordering based on this result. A separate per-batch
+probe instead inserted the same 2,844,435 rows ordered by date and symbol
+within each 60-symbol batch. On 60 effective sessions this reduced the hash
+query from 23.855s to 1.855s and local block reads from 82,419 to 1,864; all 60
+day hashes matched exactly. Cache insertion increased from 75.04s to 99.09s
+across 26 calls, while finalization remained about 15s. Adopt this bounded
+date-local insert order in a forward-only migration, then rerun the fresh
+two-pass harness and full 1,206-date hash checkpoint before retrying E1. This
+probe does not complete E1. Evidence is in
+`docs/evidence/phase2/phase2_hash_date_order_probe_20261024.md` and its paired
+`.psql`/`.log` files, plus
+`docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.md` and its
+paired `.psql`/`.log` files.
+### 2026-10-24 — bounded memory and configured label execution policy
+
+The full 1,206-date canonical hash checkpoint passed with 15-symbol insertion
+batches, 8 MB work memory, and 16 MB maintenance memory. Preserve these measured
+settings for the report-clone recovery; the runner now exposes maintenance
+memory explicitly. This changes execution strategy and preserves source and
+hash semantics. Full V3 and E1 are still open.
+
+Execution weights are now explicit configuration. The runner reads the strict
+TOML profile through vnpipe label-policy, captures it once per run, and applies
+transaction-local SQL settings before input hashing. Standalone SQL callers
+read an explicit configurable defaults row seeded to the existing 0/0.5 policy.
+The effective canonical JSON policy enters the label input hash and durable
+chunk/step metadata. Missing evidence remains NULL; entry-ceiling precedence
+is preserved. Targeted SQL, replay, default-label and CLI override checks pass;
+fresh full migration replay and real runner metadata remain unverified.
+
+## Cache probe accounting audit — 2026-10-24
+Migration 071 changed the 15/30/60 samples to use the selected production batch size. The assertion inherited from 042 still projects each sample as if its total time were one batch. At configured size 15, t60 already contains four fills plus one finalization; multiplying its scaled duration by the universe batch count double-counts work. This is a projection defect, separate from the observed exponent failure. The failed preflight remains failed; neither threshold nor sample timings have been altered. A correction must distinguish setup, fill, and finalization measurements and match the chosen production strategy, preserve the 1.3 exponent and budget guards, retain raw samples, and fail closed on incomplete or unstable evidence. No performance pass is inferred from the helper-only plans.
+
+### Cache projection correction (migration 072)
+Whole-strategy samples now normalize to complete production batches before multiplying by the universe batch count. A sample with a partial final batch divides by floor(sample_symbols / batch_size), attributing all partial-batch and setup/finalization cost to complete batches; this is conservative. A production batch larger than a sample extrapolates at least linearly. The maximum normalized sample cost is used. The 1.3 adjacent exponent guard, inconsistent-timing rejection, configuration matching, universe minimum, and configured budget rejection remain unchanged. This corrects arithmetic only; it does not establish stable benchmark evidence or fix the current exponent failure. Full-universe index/finalization cost still needs measured runtime evidence; the estimate is not a guarantee.
+
+## Growing-cache delete scans (migration 073) — 2026-10-24
+The isolated 072 preflight passed (550/1122/2490 ms, exponent1.150, projected1.06min), but full-cache fills accumulated164.287 seconds by batch95, exceeding twice the estimate. Cancellation was requested; by delivery all102 batches had loaded and the backend was in final ANALYZE. The cache transaction rolled back; no feature result is claimed. The log preserves this failure.
+
+Inspection found an unconditional DELETE against the unindexed growing temp cache before every first load. Disjoint manifest symbol batches and statement-atomic insert/loaded updates make this deletion unnecessary for never-loaded batches. Migration073 performs deletion only when that batch was already loaded. Retries still replace their prior rows and date manifest. This removes quadratic cumulative first-load delete scans; it does not prove that every observed slowdown had that cause or that finalization is fast enough. A new runtime assertion uses transaction scan counters to prove two first-load batches scan no cache rows, and a retry does scan/delete its old rows; final unique-index creation and duplicate checks also pass. Existing full row parity and date-manifest retry assertions remain in the harness.
+
+### Cache benchmark reproducibility investigation — 2026-10-24
+PostgreSQL18 pgbench Good Practices (https://www.postgresql.org/docs/18/pgbench.html) recommends longer runs and checking repeatability because second-scale runs can be dominated by noise. The isolated073 preflight still failed exponent1.638, with a30-symbol finalization696ms versus367ms for60. A fixed balanced nine-sample diagnostic yielded acceptable median exponents but29.69% CV for15-symbol timings; this is not taken as a pass. A fixed90-sample rollback-only diagnostic now retains all raw timings and three blocks with ten samples per size. Its purpose is to distinguish stable scaling from measurement noise before changing the protocol. Production thresholds are unchanged. No result is inferred until terminal output is inspected.
+
+## Fixed cache measurement protocol (migration074) — 2026-10-24
+Use90 predetermined balanced measurements after fixed warmups, all retained with configuration. Each size contributes30 timings to an arithmetic mean (rounded up), with three10-sample blocks checked for stability (CV<=20%). This replaces a single noisy observation; it does not change the1.3 exponent limit or time-budget guard. Reject inconsistent counts/configuration and unstable blocks. This protocol was selected after the fixed long diagnostic showed block reproducibility; no repeated-until-pass selection is allowed. The diagnostic itself had a trailing file-read error after rollback caused by editing a comment during execution; retain its nonzero outcome. Required command success must come from the tested implementation, not that diagnostic. See evidence/phase2/phase2_cache_repetitions_074_20261024.md.
+
+### Local Serena cleanup persistence — 2026-10-24
+A five-process Serena launcher/server/Python chain reappeared without an explicit Serena tool call during the fixed benchmark. It was stopped per user instruction. Local Codex config C:\Users\HP\.codex\config.toml had an automatically enabled mcp_servers.serena entry; enabled=false was added (backup retained beside config), parsed successfully, and zero Serena processes remained. This is a reversible local preference change, not a repository dependency change. Official config reference supports disabling a server without removing its configuration: https://learn.chatgpt.com/docs/config-file/config-reference. The active074 benchmark was disturbed by process cleanup and must retain that environmental fact; do not represent it as an undisturbed measurement.
+
+## Invalidate cached input hashes on cache mutation (075)
+The074 schema retained day hashes/coverage after refill and batch-date manifests after reinitialization. A red regression reproduced stale evidence. Resetting the cache generation must invalidate all derived hash evidence; a batch refill does likewise. 075 clears only owned session-local hash/coverage tables and resets the date manifest on begin. This is a correctness correction, not a performance-guard change. No feature equation or source-market table is changed.
+
+## VCI lineage observations (076)
+Persist versioned exact-row provenance with byte integrity and explicit unresolved outcomes. Include sorted requested scope and algorithm in batch fingerprints, including empty scopes. Enforce append-only observations and batches for row mutations and truncation. These snapshots are provenance evidence only; continuous legal identity, listing tenure and historical availability require separate contracts and current-input validation.
+
+### Serialize heavy real-data work on this machine
+Concurrent full-lineage archival and feature building produced sharp feature-batch delays. Stop the lineage statement with PostgreSQL cancellation, preserve each prior committed bounded batch, verify backend termination, and resume serially after the feature workload. Cancellation is retained as exit3 evidence, never reported as a full archive pass.
+
+### Fundamental ticker attribution from provider and request
+The generic adapter whitelist discarded provider symbol metadata needed by the archive. Fundamental responses now retain a normalized symbol bound to the exact equity request, record requested_symbol/requested_period and symbol_basis, and reject any supplied provider ticker that conflicts. Provider absence is explicitly request-based, never a provider claim. Actual FPT ingestion used provider_and_request attribution. No statement IDs, units or financial values are inferred.
+
+### Accepted offline-replay provenance (077)
+Immutable quarantine routes survive legitimate offline recovery. Extend lineage through the exact recorded job/landing and latest reviewed recovery audit, preserving original route and recovery snapshot in versioned input evidence. Never blanket-accept quarantine. Keep v1 observations and create v2 observations; legal listing tenure remains separate. Run fresh full SQL checks and archival serially after the feature workload; queued inputs are fingerprinted to prevent silent drift.
+
+### Actual frequency evidence and refresh idempotence
+A statement-family probe must verify requested quarter/year frequency and nonempty bounded rows; annual permission is not inferred from quarterly success. Observed jobs are keyed by Vietnam observation day so weekly collection can continue after a completed run, with same-day retries spending no second vendor request. Actual fetch timestamps retain financial availability; historical backfill keys remain stable.
+### Fundamental overlay population (078)
+Use the current-hash V3 cohort in both signal and event-date selection, and include its hash in overlay mapping identity. Unknown industries cannot become a synthetic peer group. Source IDs, accounting basis, valuation numerator/denominator treatment and industry mappings still require explicit evidence before activation.
+
+## 2026-10-24: durable local continuation and parent valuation inputs
+
+An execution-host interruption killed both child processes while their status
+files said running. OS process identity and PostgreSQL activity establish actual
+liveness; committed quarters are reused only after input-hash validation. A
+triggerless temporary Windows task owns the feature run and synchronous database
+follow-up. Its encrypted handoff file is Git-excluded with a user-only ACL;
+remove it and the task after completion.
+
+P/E and P/B require explicit parent profit and equity mappings. Group PAT/equity
+remain consolidated ratio operands and cannot replace missing parent inputs.
+Migration079 persists the valuation inputs and adds a formula identity tag.
+Real mappings require verified source semantics before activation.
+
+## 2026-10-24: explicit legal listing episodes, migration 080
+
+The exact VCI row archive proves price provenance, not legal listing tenure.
+Membership tenure now has its own reviewed legal notice ledger, with explicit
+admission identity, cessation and documented transfer continuity. A suspension
+remains legally listed. Counts use true sessions strictly before signal; known
+closed episodes/gaps are ineligible and unresolved evidence remains indeterminate.
+PIT corrections are append-only and do not revise earlier knowledge. Original
+PDF/HTML bytes and separately reviewed metadata remain distinct; verified
+historical publication requires source review. No current-profile or first-bar
+backfill is authorized by this change. No real events have been populated.
+Indexed session prefixes avoid full calendar scans per candidate, and all prior
+calendar/event/correction history invalidates label checkpoints. This replaces
+the provisional expectation that exact VCI bars alone could unlock tenure.
+
+Migration080 review additionally covers same-day closure/readmission and isolates
+prefix optimization to an explicit internal builder call. A captured historical
+issuer article is raw source evidence; its displayed old date alone is not proof
+of original-page vintage or complete subsequent legal continuity. The FPT2015
+article was archived idempotently but did not create a real listing event.
+
+## 2026-10-24: timestamped overlay classification, migration 081
+
+A date-only listing snapshot cannot establish pre-close availability. Fundamental
+bank classification and industry ranks now consume latest timestamped security
+observations visible by15:00, with conflicts and unknowns left NULL. Observation
+IDs, availability and original landings are retained in overlay lineage and its
+input manifest. The running V3 price build has no such snapshot lookup and is
+unaffected. Dedicated synthetic cutoff/conflict/hash checks and existing overlay
+assertions pass; full fresh harness remains queued.
+
+## 2026-10-24: branch candidate and evidence byte preservation
+
+A three-day-old zero-byte Git index lock had no active Git owner; it was removed
+after process/mtime verification. All CI-required Rust, SQL, Python, Go and ops
+sources are included in the candidate. Runtime credential state and scratch
+outputs are excluded. Archived evidence uses `-text -whitespace` attributes so
+Git preserves original source line endings and database output padding; source
+whitespace errors were corrected. An original FPT HTML blob was checked against
+the staged raw blob before commit. A local scan found no database password text
+in candidate source/evidence directories.
+
+Commit68f44cb60f2f4231df4418365ea8773c6dadc8b5 was pushed to phase2-evidence and
+draft PR1 opened. The offline workflow is queued; main merge still requires
+complete real-data exit evidence and green CI. No readiness claim is made from
+this dispatch.
+
+## 2026-10-24: correct the tenure proof scope
+
+Review found that080 made a legal admission ledger mandatory beyond the Master
+Spec and the18October sufficient lower-bound decision. Retain its exact/legal
+path and known-conflict protections, but implement an alternative qualified
+execution lower-bound path. >=250 verified positive public-market dates can
+prove the minimum; fewer cannot prove ineligibility. VCI rows lack dated venue
+metadata in this archive; native VNDIRECT rows have code/date/type/floor and
+matched volume, empirically reflecting ACB's historical exchange change. Require
+exact immutable source/canonical checks and an explicit identity/conflict
+contract; never invent publisher guarantees or use unknown source attributes.
+This correction is planned, not yet a successful gate. Full tests, real coverage
+and CI must prove it before Phase2 signoff.
+
+### 2026-10-24 — Public execution minimum tenure evidence
+
+Restore the accepted sufficient >=250 prior public-execution lower bound alongside 080 exact legal episodes. Require intact native VNDIRECT bytes and exact canonical code/date/pointer/raw OHLC/matched volume, STOCK type and dated public venue agreement. Keep fewer-than-250 observations unknown, fence known lifecycle contradictions, and identify the persisted proof basis. Do not promise an ISIN identity absent from the provider contract. Reconstruct public event availability at next local midnight while preserving later capture/observation timestamps; this is not contemporaneously archived vendor-vintage evidence. Final approval requires full synthetic and real-source validation and new green CI. See the 082 review evidence.
+
+Enforce LF for SQL source with .gitattributes: function-body migration anchors must replay identically on Windows and hosted CI.

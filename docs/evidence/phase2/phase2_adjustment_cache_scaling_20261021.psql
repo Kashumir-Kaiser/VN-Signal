@@ -1,0 +1,19 @@
+\set ON_ERROR_STOP on
+\pset pager off
+
+-- Read-only against the disposable report clone. The helper functions create
+-- only session-local temporary relations; rollback discards the probe cache.
+BEGIN ISOLATION LEVEL REPEATABLE READ;
+SET LOCAL statement_timeout='5min';
+SET LOCAL temp_file_limit='90GB';
+SET LOCAL work_mem='128MB';
+SET LOCAL jit=off;
+SET LOCAL random_page_cost=1.1;
+SET LOCAL application_name='phase2_adjustment_cache_probe';
+SET LOCAL vnpipe.phase2_symbol_batch_size='60';
+
+SELECT * FROM feat.probe_phase2_adjustment_cache(15);
+SELECT * FROM feat.probe_phase2_adjustment_cache(30);
+SELECT * FROM feat.probe_phase2_adjustment_cache(60);
+SELECT feat.assert_phase2_adjustment_cache_scaling();
+ROLLBACK;

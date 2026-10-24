@@ -1,0 +1,502 @@
+Pager usage is off.
+Timing is on.
+DO
+Time: 105.441 ms
+SET
+Time: 2.304 ms
+SET
+Time: 0.169 ms
+SET
+Time: 0.092 ms
+SET
+Time: 0.070 ms
+SET
+Time: 0.067 ms
+BEGIN
+Time: 0.059 ms
+ begin_phase2_adjustment_rows 
+------------------------------
+                           26
+(1 row)
+
+Time: 1481.028 ms (00:01.481)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:16: NOTICE:  Phase 2 adjustment cache initialized for 26 batches of up to 60 symbols
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          108331
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:02.82752
+Time: 2837.009 ms (00:02.837)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 1 rows 115152, dates 2008, elapsed 00:00:02.094592
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115152
+(1 row)
+
+Time: 2095.198 ms (00:02.095)
+ populate_phase2_adjustment_rows 
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 2 rows 111302, dates 2008, elapsed 00:00:02.432585
+---------------------------------
+                          111302
+(1 row)
+
+Time: 2432.945 ms (00:02.433)
+ populate_phase2_adjustment_rows 
+---------------------------------
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 3 rows 113879, dates 2008, elapsed 00:00:02.071199
+                          113879
+(1 row)
+
+Time: 2071.694 ms (00:02.072)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114214
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 4 rows 114214, dates 2008, elapsed 00:00:02.088975
+Time: 2089.402 ms (00:02.089)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 5 rows 114805, dates 2008, elapsed 00:00:01.869017
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114805
+(1 row)
+
+Time: 1869.514 ms (00:01.870)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112592
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 6 rows 112592, dates 2008, elapsed 00:00:02.012638
+Time: 2013.043 ms (00:02.013)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          116639
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 7 rows 116639, dates 2008, elapsed 00:00:01.990607
+Time: 1990.982 ms (00:01.991)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106585
+(1 row)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 8 rows 106585, dates 2008, elapsed 00:00:02.005558
+
+Time: 2005.900 ms (00:02.006)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 9 rows 111358, dates 2008, elapsed 00:00:01.93212
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111358
+(1 row)
+
+Time: 1932.526 ms (00:01.933)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 10 rows 106117, dates 2008, elapsed 00:00:01.933324
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106117
+(1 row)
+
+Time: 1933.693 ms (00:01.934)
+ populate_phase2_adjustment_rows 
+---------------------------------
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 11 rows 113594, dates 2008, elapsed 00:00:02.024096
+                          113594
+(1 row)
+
+Time: 2024.468 ms (00:02.024)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 12 rows 112628, dates 2008, elapsed 00:00:02.122478
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112628
+(1 row)
+
+Time: 2122.901 ms (00:02.123)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113102
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 13 rows 113102, dates 2008, elapsed 00:00:02.405051
+Time: 2405.415 ms (00:02.405)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 14 rows 113642, dates 2008, elapsed 00:00:02.16789
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113642
+(1 row)
+
+Time: 2168.264 ms (00:02.168)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111909
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 15 rows 111909, dates 2008, elapsed 00:00:03.760104
+Time: 3760.547 ms (00:03.761)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 16 rows 111802, dates 2008, elapsed 00:00:03.038191
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111802
+(1 row)
+
+Time: 3038.913 ms (00:03.039)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 17 rows 115171, dates 2008, elapsed 00:00:04.340456
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115171
+(1 row)
+
+Time: 4340.896 ms (00:04.341)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 18 rows 115471, dates 2008, elapsed 00:00:03.847782
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115471
+(1 row)
+
+Time: 3848.173 ms (00:03.848)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 19 rows 112613, dates 2008, elapsed 00:00:03.474276
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112613
+(1 row)
+
+Time: 3474.793 ms (00:03.475)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 20 rows 109469, dates 2008, elapsed 00:00:03.881618
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          109469
+(1 row)
+
+Time: 3882.047 ms (00:03.882)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 21 rows 114091, dates 2008, elapsed 00:00:03.876923
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114091
+(1 row)
+
+Time: 3877.351 ms (00:03.877)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 22 rows 110051, dates 2008, elapsed 00:00:06.090545
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          110051
+(1 row)
+
+Time: 6091.181 ms (00:06.091)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 23 rows 112438, dates 2008, elapsed 00:00:04.284568
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112438
+(1 row)
+
+Time: 4285.143 ms (00:04.285)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115457
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 24 rows 115457, dates 2008, elapsed 00:00:03.815404
+Time: 3815.837 ms (00:03.816)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:26: NOTICE:  Phase 2 adjustment cache batch 25 rows 32023, dates 2008, elapsed 00:00:02.656593
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           32023
+(1 row)
+
+Time: 2656.954 ms (00:02.657)
+Time: 1.785 ms
+ finish_phase2_adjustment_rows 
+-------------------------------
+                       2844435
+(1 row)
+
+Time: 15645.276 ms (00:15.645)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:27: NOTICE:  Phase 2 adjustment cache rows 2844435, finalize elapsed 00:00:15.636319
+CREATE TABLE
+Time: 36.915 ms
+INSERT 0 60
+Time: 55.774 ms
+ANALYZE
+Time: 1.029 ms
+                                                                                             QUERY PLAN                                                                                              
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=78283.12..87380.82 rows=2008 width=36) (actual time=68.358..23854.228 rows=60.00 loops=1)
+   Group Key: r.trade_date
+   Buffers: local hit=1535 read=82419 written=4
+   ->  Merge Join  (cost=78283.12..86203.12 rows=52048 width=138) (actual time=0.995..21381.845 rows=83629.00 loops=1)
+         Merge Cond: (r.trade_date = d.trade_date)
+         Buffers: local hit=1535 read=82419 written=4
+         ->  Index Scan using phase2_adjustment_rows_date_symbol_idx on phase2_adjustment_rows r  (cost=0.43..268541.79 rows=1741889 width=138) (actual time=0.940..21303.790 rows=83630.00 loops=1)
+               Index Cond: ((trade_date >= '2021-03-09'::date) AND (trade_date <= '2025-12-31'::date))
+               Index Searches: 1
+               Buffers: local hit=1534 read=82419 written=4
+         ->  Sort  (cost=3.37..3.52 rows=60 width=4) (actual time=0.049..0.123 rows=60.00 loops=1)
+               Sort Key: d.trade_date
+               Sort Method: quicksort  Memory: 25kB
+               Buffers: local hit=1
+               ->  Seq Scan on phase2_hash_probe_dates d  (cost=0.00..1.60 rows=60 width=4) (actual time=0.023..0.027 rows=60.00 loops=1)
+                     Buffers: local hit=1
+ Settings: work_mem = '64MB', jit = 'off'
+ Planning:
+   Buffers: shared hit=74 read=8, local hit=5
+ Planning Time: 32.178 ms
+ Execution Time: 23854.997 ms
+(21 rows)
+
+Time: 23919.930 ms (00:23.920)
+SELECT 60
+Time: 74031.212 ms (01:14.031)
+DO
+Time: 295.006 ms
+DROP TABLE
+Time: 46.026 ms
+DROP TABLE
+Time: 15.060 ms
+DROP TABLE
+Time: 6.438 ms
+DROP TABLE
+Time: 8.214 ms
+ begin_phase2_adjustment_rows 
+------------------------------
+                           26
+(1 row)
+
+Time: 1121.568 ms (00:01.122)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:88: NOTICE:  Phase 2 adjustment cache initialized for 26 batches of up to 60 symbols
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          108331
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:02.768449
+Time: 2772.780 ms (00:02.773)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 1 rows 115152, dates 2008, elapsed 00:00:02.685685
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115152
+(1 row)
+
+Time: 2686.344 ms (00:02.686)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 2 rows 111302, dates 2008, elapsed 00:00:02.572453
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111302
+(1 row)
+
+Time: 2573.203 ms (00:02.573)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 3 rows 113879, dates 2008, elapsed 00:00:03.02694
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113879
+(1 row)
+
+Time: 3027.298 ms (00:03.027)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 4 rows 114214, dates 2008, elapsed 00:00:03.665904
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114214
+(1 row)
+
+Time: 3666.296 ms (00:03.666)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 5 rows 114805, dates 2008, elapsed 00:00:03.099875
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114805
+(1 row)
+
+Time: 3100.236 ms (00:03.100)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 6 rows 112592, dates 2008, elapsed 00:00:03.019006
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112592
+(1 row)
+
+Time: 3019.420 ms (00:03.019)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 7 rows 116639, dates 2008, elapsed 00:00:03.04356
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          116639
+(1 row)
+
+Time: 3044.009 ms (00:03.044)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106585
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 8 rows 106585, dates 2008, elapsed 00:00:02.914362
+Time: 2915.135 ms (00:02.915)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 9 rows 111358, dates 2008, elapsed 00:00:03.02132
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111358
+(1 row)
+
+Time: 3021.758 ms (00:03.022)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 10 rows 106117, dates 2008, elapsed 00:00:04.130667
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106117
+(1 row)
+
+Time: 4131.129 ms (00:04.131)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 11 rows 113594, dates 2008, elapsed 00:00:02.885319
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113594
+(1 row)
+
+Time: 2885.745 ms (00:02.886)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 12 rows 112628, dates 2008, elapsed 00:00:03.188465
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112628
+(1 row)
+
+Time: 3188.932 ms (00:03.189)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 13 rows 113102, dates 2008, elapsed 00:00:02.942433
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113102
+(1 row)
+
+Time: 2942.762 ms (00:02.943)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 14 rows 113642, dates 2008, elapsed 00:00:03.210111
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113642
+(1 row)
+
+Time: 3211.066 ms (00:03.211)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 15 rows 111909, dates 2008, elapsed 00:00:03.445849
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111909
+(1 row)
+
+Time: 3446.953 ms (00:03.447)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 16 rows 111802, dates 2008, elapsed 00:00:03.955842
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111802
+(1 row)
+
+Time: 3956.509 ms (00:03.957)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115171
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 17 rows 115171, dates 2008, elapsed 00:00:03.364498
+Time: 3364.980 ms (00:03.365)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 18 rows 115471, dates 2008, elapsed 00:00:07.894328
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115471
+(1 row)
+
+Time: 7894.796 ms (00:07.895)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112613
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 19 rows 112613, dates 2008, elapsed 00:00:05.121356
+Time: 5121.916 ms (00:05.122)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 20 rows 109469, dates 2008, elapsed 00:00:06.243843
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          109469
+(1 row)
+
+Time: 6244.704 ms (00:06.245)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 21 rows 114091, dates 2008, elapsed 00:00:04.624372
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114091
+(1 row)
+
+Time: 4624.842 ms (00:04.625)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 22 rows 110051, dates 2008, elapsed 00:00:04.931784
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          110051
+(1 row)
+
+Time: 4932.248 ms (00:04.932)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 23 rows 112438, dates 2008, elapsed 00:00:05.593104
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112438
+(1 row)
+
+Time: 5593.674 ms (00:05.594)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 24 rows 115457, dates 2008, elapsed 00:00:04.731458
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115457
+(1 row)
+
+Time: 4731.987 ms (00:04.732)
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:98: NOTICE:  Phase 2 adjustment cache batch 25 rows 32023, dates 2008, elapsed 00:00:03.004615
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           32023
+(1 row)
+
+Time: 3005.056 ms (00:03.005)
+Time: 2.806 ms
+psql:docs/evidence/phase2/phase2_hash_batch_order_probe_60d_20261024.psql:99: NOTICE:  Phase 2 adjustment cache rows 2844435, finalize elapsed 00:00:14.290151
+ finish_phase2_adjustment_rows 
+-------------------------------
+                       2844435
+(1 row)
+
+Time: 14298.642 ms (00:14.299)
+                                                                                            QUERY PLAN                                                                                             
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=78139.95..87471.02 rows=2008 width=36) (actual time=51.710..1853.638 rows=60.00 loops=1)
+   Group Key: r.trade_date
+   Buffers: local hit=78988 read=1864 written=1
+   ->  Merge Join  (cost=78139.95..86295.57 rows=51868 width=138) (actual time=0.193..202.988 rows=83629.00 loops=1)
+         Merge Cond: (r.trade_date = d.trade_date)
+         Buffers: local hit=78988 read=1864 written=1
+         ->  Index Scan using phase2_adjustment_rows_date_symbol_idx on phase2_adjustment_rows r  (cost=0.43..268218.67 rows=1735858 width=138) (actual time=0.135..176.603 rows=83630.00 loops=1)
+               Index Cond: ((trade_date >= '2021-03-09'::date) AND (trade_date <= '2025-12-31'::date))
+               Index Searches: 1
+               Buffers: local hit=78987 read=1864 written=1
+         ->  Sort  (cost=3.37..3.52 rows=60 width=4) (actual time=0.054..0.135 rows=60.00 loops=1)
+               Sort Key: d.trade_date
+               Sort Method: quicksort  Memory: 25kB
+               Buffers: local hit=1
+               ->  Seq Scan on phase2_hash_probe_dates d  (cost=0.00..1.60 rows=60 width=4) (actual time=0.030..0.036 rows=60.00 loops=1)
+                     Buffers: local hit=1
+ Settings: work_mem = '64MB', jit = 'off'
+ Planning:
+   Buffers: shared hit=42 read=8, local hit=2 read=2
+ Planning Time: 8.870 ms
+ Execution Time: 1854.903 ms
+(21 rows)
+
+Time: 1907.900 ms (00:01.908)
+SELECT 60
+Time: 1253.889 ms (00:01.254)
+ baseline_hash_rows 
+--------------------
+                 60
+(1 row)
+
+Time: 2.566 ms
+ ordered_hash_rows 
+-------------------
+                60
+(1 row)
+
+Time: 0.952 ms
+ differing_hash_rows 
+---------------------
+                   0
+(1 row)
+
+Time: 5.962 ms
+ROLLBACK
+Time: 288.351 ms

@@ -1,0 +1,11 @@
+BEGIN
+SET
+SET
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+psql:tests/sql/phase2_market_projection_assertions.sql:83: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_market_projection_assertions.sql:83: NOTICE:  Phase 2 adjustment cache batch 0 rows 2282, elapsed 00:00:02.212528
+psql:tests/sql/phase2_market_projection_assertions.sql:83: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:00.172995
+DO
+ROLLBACK

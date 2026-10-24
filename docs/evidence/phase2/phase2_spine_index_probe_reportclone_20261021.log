@@ -1,0 +1,43 @@
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+ begin_phase2_adjustment_rows 
+------------------------------
+                            1
+(1 row)
+
+DELETE 60
+psql:docs/evidence/phase2/phase2_spine_index_probe_20261021.psql:12: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+INSERT 0 60
+DO
+ANALYZE
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          117203
+(1 row)
+
+psql:docs/evidence/phase2/phase2_spine_index_probe_20261021.psql:39: NOTICE:  Phase 2 adjustment cache batch 0 rows 117203, elapsed 00:00:52.419282
+ finish_phase2_adjustment_rows 
+-------------------------------
+                        117203
+(1 row)
+
+psql:docs/evidence/phase2/phase2_spine_index_probe_20261021.psql:40: NOTICE:  Phase 2 adjustment cache rows 117203, finalize elapsed 00:00:00.507759
+psql:docs/evidence/phase2/phase2_spine_index_probe_20261021.psql:41: NOTICE:  Phase 2 sessions 567, elapsed 00:00:00.316315
+psql:docs/evidence/phase2/phase2_spine_index_probe_20261021.psql:41: NOTICE:  Phase 2 market context rows 567, elapsed 00:00:41.322969
+psql:docs/evidence/phase2/phase2_spine_index_probe_20261021.psql:41: NOTICE:  Phase 2 rank rows 113828, elapsed 00:00:03.530682
+psql:docs/evidence/phase2/phase2_spine_index_probe_20261021.psql:41: NOTICE:  Phase 2 batch 0 spine rows 34020, elapsed 00:00:00.348495
+psql:docs/evidence/phase2/phase2_spine_index_probe_20261021.psql:41: NOTICE:  Phase 2 batch 0 base rows 14350, elapsed 00:00:01.27291
+psql:docs/evidence/phase2/phase2_spine_index_probe_20261021.psql:41: NOTICE:  Phase 2 batch 0 feature rows 14350, elapsed 00:00:10.509711
+ rows_built 
+------------
+      14350
+(1 row)
+
+ROLLBACK

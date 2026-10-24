@@ -1,0 +1,402 @@
+Build ID: phase2-vci-full-rebuild-20261021
+Stage: labels
+Date range: 2018-10-01 through 2026-10-16
+Failure recorded at: 2026-10-22 04:35:20 +07:00
+
+psql failed with exit code 3. BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:14: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:14: NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, elapsed 00:00:40.446476
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:14: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.187991
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |       41453
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:15: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:15: NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, elapsed 00:00:42.593563
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:15: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.301612
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |       43766
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:16: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:16: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:48.821499
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:16: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.377109
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |       49902
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:17: NOTICE:  Phase 2 adjustment cache scaling exponent 0.189, 15/30/60 timings 41453/43766/49902 ms, 1518 symbols in 26 batches of 60 (estimated per-batch 53891.2 ms), projected cache time 23.35 minutes (budget 40 minutes)
+ assert_phase2_adjustment_cache_scaling 
+----------------------------------------
+                    0.18928710317547107
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:18: NOTICE:  Phase 2 adjustment cache initialized for 26 batches of up to 60 symbols
+ begin_phase2_adjustment_rows 
+------------------------------
+                           26
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          108331
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:48.216786
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115152
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 1 rows 115152, elapsed 00:00:46.25326
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111302
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 2 rows 111302, elapsed 00:00:48.344306
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113879
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 3 rows 113879, elapsed 00:00:49.18671
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114214
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 4 rows 114214, elapsed 00:00:46.348709
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114805
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 5 rows 114805, elapsed 00:00:45.615374
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112592
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 6 rows 112592, elapsed 00:00:49.308644
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          116639
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 7 rows 116639, elapsed 00:00:53.156548
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106585
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 8 rows 106585, elapsed 00:00:49.364598
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111358
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 9 rows 111358, elapsed 00:00:44.907587
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106117
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 10 rows 106117, elapsed 00:00:43.291267
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113594
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 11 rows 113594, elapsed 00:00:46.718111
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112628
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 12 rows 112628, elapsed 00:00:52.360284
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113102
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 13 rows 113102, elapsed 00:00:51.69447
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113642
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 14 rows 113642, elapsed 00:00:46.438856
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111909
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 15 rows 111909, elapsed 00:00:53.121339
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111802
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 16 rows 111802, elapsed 00:00:51.811572
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115171
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 17 rows 115171, elapsed 00:00:53.72527
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115471
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 18 rows 115471, elapsed 00:00:49.767456
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112613
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 19 rows 112613, elapsed 00:00:51.632445
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          109469
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 20 rows 109469, elapsed 00:00:48.534831
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114091
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 21 rows 114091, elapsed 00:00:51.66415
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          110051
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 22 rows 110051, elapsed 00:00:51.13267
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112438
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 23 rows 112438, elapsed 00:00:48.584758
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115457
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 24 rows 115457, elapsed 00:00:50.170755
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           32023
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:23: NOTICE:  Phase 2 adjustment cache batch 25 rows 32023, elapsed 00:00:49.251849
+ finish_phase2_adjustment_rows 
+-------------------------------
+                       2844435
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:24: NOTICE:  Phase 2 adjustment cache rows 2844435, finalize elapsed 00:00:08.999218
+COMMIT
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:98: NOTICE:  START labels 20181001-20181231
+DO
+COMMIT
+DO
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:181: NOTICE:  START labels 20190101-20191231
+DO
+COMMIT
+DO
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:264: NOTICE:  START labels 20200101-20201231
+DO
+COMMIT
+DO
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:347: NOTICE:  START labels 20210101-20211231
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-2fc4d8d2b66945a9931d764c65ac0c7f.sql:347: ERROR:  canceling statement due to statement timeout
+CONTEXT:  SQL statement "WITH calendar_axis AS MATERIALIZED (
+        SELECT trade_date,
+               lead(trade_date,1) OVER(ORDER BY trade_date) AS entry_date,
+               lead(trade_date,6) OVER(ORDER BY trade_date) AS exit_5_date,
+               lead(trade_date,21) OVER(ORDER BY trade_date) AS exit_20_date
+        FROM core.effective_trading_sessions
+        WHERE is_session
+    ), signals AS MATERIALIZED (
+        SELECT c.trade_date AS signal_date,c.entry_date,h.horizon_sessions,
+               CASE h.horizon_sessions WHEN 5 THEN c.exit_5_date ELSE c.exit_20_date END AS exit_date
+        FROM calendar_axis c
+        CROSS JOIN (VALUES (5::smallint),(20::smallint)) h(horizon_sessions)
+        WHERE c.trade_date BETWEEN p_date_from AND p_date_to
+    ), targets AS MATERIALIZED (
+        SELECT s.signal_date,s.entry_date,s.exit_date,s.horizon_sessions,f.symbol_id
+        FROM signals s
+        JOIN feat.features_daily f ON f.trade_date=s.signal_date AND f.feature_version='phase2-v3'
+    ), target_symbols AS MATERIALIZED (
+        SELECT DISTINCT symbol_id FROM targets
+    ), adjustment_rows AS MATERIALIZED (
+        -- Resolve the complex adjusted-price view once per target symbol and
+        -- reuse its narrow result for endpoints, factor spans, and bad-factor
+        -- checks. Joining every history prefix to every exit date expanded the
+        -- same rows repeatedly and made a full label rebuild quadratic.
+        SELECT r.symbol_id,r.trade_date,r.model_o,r.model_c,r.v,r.is_traded,
+               r.episode_start_date,r.adjustment_vintage_at,r.landing_id,
+               r.reference_adjustment_ratio
+        FROM pg_temp.phase2_adjustment_rows r
+        JOIN target_symbols s USING(symbol_id)
+        WHERE r.source='vndirect'
+    ), endpoint_days AS MATERIALIZED (
+        SELECT DISTINCT symbol_id,entry_date AS trade_date FROM targets
+        UNION
+        SELECT DISTINCT symbol_id,exit_date FROM targets WHERE exit_date IS NOT NULL
+    ), endpoint_bars AS MATERIALIZED (
+        SELECT r.symbol_id,r.trade_date,r.model_o,r.model_c,r.v AS volume,r.is_traded,
+               r.episode_start_date,r.adjustment_vintage_at,r.landing_id
+        FROM adjustment_rows r
+        JOIN endpoint_days d
+          USING(symbol_id,trade_date)
+    ), latest_exit_by_symbol AS MATERIALIZED (
+        SELECT symbol_id,max(exit_date) AS latest_exit_date
+        FROM targets WHERE exit_date IS NOT NULL GROUP BY symbol_id
+    ), first_bad_factor AS MATERIALIZED (
+        SELECT r.symbol_id,min(r.trade_date) AS first_bad_date
+        FROM adjustment_rows r
+        JOIN latest_exit_by_symbol k ON k.symbol_id=r.symbol_id AND r.trade_date<=k.latest_exit_date
+        WHERE (r.reference_adjustment_ratio IS NULL OR r.reference_adjustment_ratio<=0
+               OR r.reference_adjustment_ratio>='Infinity'::double precision)
+          AND NOT EXISTS (SELECT 1 FROM ops.ml_symbol_scope x
+                          WHERE x.symbol_id=r.symbol_id AND x.scope_status='EXCLUDED')
+        GROUP BY r.symbol_id
+    ), spans AS MATERIALIZED (
+        SELECT t.symbol_id,t.signal_date,t.horizon_sessions,
+               sum(CASE WHEN r.reference_adjustment_ratio>0 AND
+                                  r.reference_adjustment_ratio<'Infinity'::double precision
+                        THEN ln(r.reference_adjustment_ratio) END) AS factor_log_span,
+               count(r.trade_date) AS factor_rows,
+               count(*) FILTER(WHERE r.trade_date IS NOT NULL AND
+                   (r.reference_adjustment_ratio IS NULL OR r.reference_adjustment_ratio<=0 OR
+                    r.reference_adjustment_ratio>='Infinity'::double precision)) AS bad_factor_rows,
+               bool_and(r.episode_start_date=t_entry.episode_start_date) AS one_episode_span
+        FROM targets t
+        LEFT JOIN endpoint_bars t_entry ON t_entry.symbol_id=t.symbol_id AND t_entry.trade_date=t.entry_date
+        LEFT JOIN adjustment_rows r
+          ON r.symbol_id=t.symbol_id
+         AND r.trade_date>t.entry_date AND r.trade_date<=t.exit_date
+         AND r.episode_start_date=t_entry.episode_start_date
+        GROUP BY t.symbol_id,t.signal_date,t.horizon_sessions
+    ), index_points AS MATERIALIZED (
+        SELECT t.signal_date,t.horizon_sessions,ie.trade_date AS index_entry_date,
+               ix.trade_date AS index_exit_date,ie.o AS index_entry_open,ix.c AS index_exit_close
+        FROM (SELECT DISTINCT signal_date,horizon_sessions,entry_date,exit_date FROM targets) t
+        LEFT JOIN core.index_bars ie ON ie.index_symbol='VNINDEX' AND ie.source='vci' AND ie.trade_date=t.entry_date
+        LEFT JOIN core.index_bars ix ON ix.index_symbol='VNINDEX' AND ix.source='vci' AND ix.trade_date=t.exit_date
+    ), assembled AS (
+        SELECT t.*,en.model_o AS entry_model_open,ex.model_c AS exit_model_close,
+               en.volume AS entry_volume,ex.volume AS exit_volume,en.is_traded AS entry_traded,
+               ex.is_traded AS exit_traded,en.episode_start_date AS entry_episode,
+               ex.episode_start_date AS exit_episode,en.adjustment_vintage_at AS entry_vintage,
+               ex.adjustment_vintage_at AS exit_vintage,en.landing_id AS entry_landing_id,
+               ex.landing_id AS exit_landing_id,en.trade_date AS entry_bar_date,ex.trade_date AS exit_bar_date,
+               sp.factor_log_span,sp.factor_rows,sp.bad_factor_rows,sp.one_episode_span,fb.first_bad_date,
+               ip.index_entry_open,ip.index_exit_close,
+               CASE
+                 WHEN t.entry_date IS NULL OR t.exit_date IS NULL THEN 'INSUFFICIENT_SESSIONS'
+                 WHEN en.trade_date IS NULL THEN 'MISSING_ENTRY'
+                 WHEN ex.trade_date IS NULL THEN 'MISSING_EXIT'
+                 WHEN fb.first_bad_date IS NOT NULL AND fb.first_bad_date<=t.exit_date THEN 'UNRESOLVED_ADJUSTMENT'
+                 WHEN sp.bad_factor_rows>0 OR sp.factor_log_span IS NULL OR NOT coalesce(sp.one_episode_span,true)
+                   THEN 'UNRESOLVED_ADJUSTMENT'
+                 WHEN en.episode_start_date IS DISTINCT FROM ex.episode_start_date THEN 'EPISODE_CHANGED'
+                 WHEN NOT en.is_traded OR en.volume<=0 THEN 'SUSPENDED_ENTRY'
+                 WHEN NOT ex.is_traded OR ex.volume<=0 THEN 'SUSPENDED_EXIT'
+                 WHEN ip.index_entry_date IS NULL OR ip.index_exit_date IS NULL OR
+                      ip.index_entry_open<=0 OR ip.index_exit_close<=0 THEN 'MISSING_BENCHMARK'
+                 ELSE 'READY'
+               END AS label_status
+        FROM targets t
+        LEFT JOIN endpoint_bars en ON en.symbol_id=t.symbol_id AND en.trade_date=t.entry_date
+        LEFT JOIN endpoint_bars ex ON ex.symbol_id=t.symbol_id AND ex.trade_date=t.exit_date
+        LEFT JOIN spans sp ON sp.symbol_id=t.symbol_id
+                          AND sp.signal_date=t.signal_date
+                          AND sp.horizon_sessions=t.horizon_sessions
+        LEFT JOIN first_bad_factor fb ON fb.symbol_id=t.symbol_id
+        LEFT JOIN index_points ip ON ip.signal_date=t.signal_date
+                                 AND ip.horizon_sessions=t.horizon_sessions
+    )
+    INSERT INTO feat.labels_daily(
+        symbol_id,signal_date,horizon_sessions,label_version,feature_set_hash,entry_date,exit_date,
+        label_status,stock_return,vnindex_return,excess_return,stock_entry_open,stock_exit_close,
+        vnindex_entry_open,vnindex_exit_close,price_basis,adjustment_vintage_at,
+        entry_adjustment_vintage_at,exit_adjustment_vintage_at,factor_log_span,entry_landing_id,exit_landing_id
+    )
+    SELECT a.symbol_id,a.signal_date,a.horizon_sessions,v_label,v_feature_hash,a.entry_date,a.exit_date,a.label_status,
+           CASE WHEN a.label_status='READY'
+                THEN a.exit_model_close/(a.entry_model_open*exp(a.factor_log_span))-1 END,
+           CASE WHEN a.label_status='READY' THEN a.index_exit_close/a.index_entry_open-1 END,
+           CASE WHEN a.label_status='READY'
+                THEN a.exit_model_close/(a.entry_model_open*exp(a.factor_log_span))-1
+                     -(a.index_exit_close/a.index_entry_open-1) END,
+           CASE WHEN a.label_status='READY' THEN a.entry_model_open*exp(a.factor_log_span) END,
+           CASE WHEN a.label_status='READY' THEN a.exit_model_close END,
+           a.index_entry_open,a.index_exit_close,'adjusted_as_of_exit',a.exit_vintage,
+           a.entry_vintage,a.exit_vintage,a.factor_log_span,a.entry_landing_id,a.exit_landing_id
+    FROM assembled a
+    ON CONFLICT(symbol_id,signal_date,horizon_sessions,label_version) DO UPDATE SET
+        feature_set_hash=EXCLUDED.feature_set_hash,entry_date=EXCLUDED.entry_date,exit_date=EXCLUDED.exit_date,
+        label_status=EXCLUDED.label_status,stock_return=EXCLUDED.stock_return,
+        vnindex_return=EXCLUDED.vnindex_return,excess_return=EXCLUDED.excess_return,
+        stock_entry_open=EXCLUDED.stock_entry_open,stock_exit_close=EXCLUDED.stock_exit_close,
+        vnindex_entry_open=EXCLUDED.vnindex_entry_open,vnindex_exit_close=EXCLUDED.vnindex_exit_close,
+        price_basis=EXCLUDED.price_basis,adjustment_vintage_at=EXCLUDED.adjustment_vintage_at,
+        entry_adjustment_vintage_at=EXCLUDED.entry_adjustment_vintage_at,
+        exit_adjustment_vintage_at=EXCLUDED.exit_adjustment_vintage_at,factor_log_span=EXCLUDED.factor_log_span,
+        entry_landing_id=EXCLUDED.entry_landing_id,exit_landing_id=EXCLUDED.exit_landing_id,computed_at=now()"
+PL/pgSQL function feat.build_labels_internal(date,date) line 20 at SQL statement
+PL/pgSQL function inline_code_block line 42 at assignment

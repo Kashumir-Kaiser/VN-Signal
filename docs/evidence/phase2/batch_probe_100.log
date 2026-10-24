@@ -1,0 +1,22 @@
+BEGIN
+NOTICE:  Phase 2 adjustment cache rows 2844435, elapsed 00:03:58.476586
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+NOTICE:  Phase 2 sessions 567, elapsed 00:03:59.317255
+NOTICE:  Phase 2 market context rows 567, elapsed 00:00:16.164588
+NOTICE:  Phase 2 rank rows 113828, elapsed 00:00:10.510923
+NOTICE:  Phase 2 batch 0 spine rows 56700, elapsed 00:00:01.907003
+NOTICE:  Phase 2 batch 0 base rows 24038, elapsed 00:00:03.322424
+NOTICE:  Phase 2 batch 0 feature rows 24038, elapsed 00:00:34.139353
+SET
+ build_price_features_v3_internal 
+----------------------------------
+                            24038
+(1 row)
+
+ROLLBACK

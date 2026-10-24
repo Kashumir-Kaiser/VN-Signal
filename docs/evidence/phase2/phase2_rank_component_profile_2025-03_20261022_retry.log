@@ -1,0 +1,29 @@
+Read-only rank/hash profile 2025-03; search_path=feat,core,ops,public; started 2026-10-22T19:46:35.9405577+07:00
+BEGIN
+SET
+SET
+SET
+SET
+SET
+                                                                    QUERY PLAN                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=12.75..12.76 rows=1 width=8) (actual time=2747.576..2747.577 rows=1.00 loops=1)
+   Buffers: shared hit=4229 read=11359 dirtied=14036 written=4725
+   ->  Function Scan on phase2_cross_sectional_ranks  (cost=0.25..10.25 rows=1000 width=0) (actual time=2743.315..2745.079 rows=21285.00 loops=1)
+         Buffers: shared hit=4229 read=11359 dirtied=14036 written=4725
+ Planning:
+   Buffers: shared hit=3
+ Planning Time: 0.185 ms
+ Execution Time: 2748.844 ms
+(8 rows)
+
+                                          QUERY PLAN                                           
+-----------------------------------------------------------------------------------------------
+ Result  (cost=0.00..0.26 rows=1 width=32) (actual time=2567.884..2567.885 rows=1.00 loops=1)
+   Buffers: shared hit=1357 read=22859 dirtied=5108 written=13951, temp read=4030 written=4032
+ Planning Time: 0.019 ms
+ Execution Time: 2568.352 ms
+(4 rows)
+
+ROLLBACK
+PROFILE_EXIT_CODE=0; ended=2026-10-22T19:46:41.4171456+07:00

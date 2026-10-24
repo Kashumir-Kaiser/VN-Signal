@@ -13,6 +13,21 @@ import (
 	"time"
 )
 
+func TestPythonInterpreterSelection(t *testing.T) {
+	t.Setenv("VNPIPE_PYTHON", "")
+	want := "python3"
+	if runtime.GOOS == "windows" {
+		want = "python"
+	}
+	if got := Python(); got != want {
+		t.Fatalf("default=%q want=%q", got, want)
+	}
+	t.Setenv("VNPIPE_PYTHON", "explicit-interpreter-path")
+	if got := Python(); got != "explicit-interpreter-path" {
+		t.Fatalf("override lost: %q", got)
+	}
+}
+
 func python(t *testing.T) string {
 	t.Helper()
 	if p := os.Getenv("VNPIPE_PYTHON"); p != "" {

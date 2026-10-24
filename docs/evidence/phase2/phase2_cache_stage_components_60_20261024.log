@@ -1,0 +1,657 @@
+Pager usage is off.
+DO
+LOAD
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:32: DEBUG:  duration: 1.333 ms  plan:
+Query Text: SELECT temp_files,temp_bytes FROM pg_stat_database WHERE datname=current_database();
+Subquery Scan on d  (cost=0.00..2.09 rows=2 width=16) (actual time=0.477..0.509 rows=1.00 loops=1)
+  Output: pg_stat_get_db_temp_files(d.oid), pg_stat_get_db_temp_bytes(d.oid)
+  Buffers: shared hit=2
+  ->  Append  (cost=0.00..2.06 rows=2 width=68) (actual time=0.043..0.073 rows=1.00 loops=1)
+        Buffers: shared hit=2
+        ->  Subquery Scan on "*SELECT* 1"  (cost=0.00..0.02 rows=1 width=68) (actual time=0.002..0.002 rows=0.00 loops=1)
+              Output: 0, NULL::name
+              ->  Result  (cost=0.00..0.01 rows=1 width=68) (actual time=0.001..0.001 rows=0.00 loops=1)
+                    Output: 0, NULL::name
+                    One-Time Filter: NULL::boolean
+        ->  Seq Scan on pg_catalog.pg_database  (cost=0.00..2.03 rows=1 width=68) (actual time=0.037..0.066 rows=1.00 loops=1)
+              Output: pg_database.oid, pg_database.datname
+              Filter: (pg_database.datname = current_database())
+              Rows Removed by Filter: 73
+              Buffers: shared hit=2
+ temp_files | temp_bytes  
+------------+-------------
+        777 | 30729404156
+(1 row)
+
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  relation "pg_temp.phase2_adjustment_rows" does not exist
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  relation "pg_temp.phase2_adjustment_symbol_batches" does not exist
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  relation "pg_temp.phase2_adjustment_cache_state" does not exist
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  building index "pg_toast_623336_index" on table "pg_toast_623336" serially
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  index "pg_toast_623336_index" can safely use deduplication
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  duration: 44.034 ms  plan:
+Query Text: CREATE TEMP TABLE phase2_adjustment_rows ON COMMIT PRESERVE ROWS AS
+    SELECT r.symbol_id,r.trade_date,r.source,r.v,r.is_traded,
+           r.reference_adjustment_ratio,r.episode_start_date,
+           r.model_o,r.model_h,r.model_l,r.model_c,
+           r.adjustment_vintage_at,r.landing_id,r.source_row,r.fetched_at
+    FROM core.vndirect_reference_adjustment_details r
+    WHERE false
+Result  (cost=0.00..0.00 rows=0 width=0) (actual time=0.004..0.004 rows=0.00 loops=1)
+  Output: r.symbol_id, r.trade_date, r.source, r.v, r.is_traded, r.reference_adjustment_ratio, r.episode_start_date, r.model_o, r.model_h, r.model_l, r.model_c, r.adjustment_vintage_at, r.landing_id, r.source_row, r.fetched_at
+  One-Time Filter: false
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  rehashing catalog cache id 37 for pg_namespace; 9 tups, 4 buckets
+LINE 14:               SELECT 1 FROM ops.ml_symbol_scope excluded
+                                     ^
+QUERY:  CREATE TEMP TABLE phase2_adjustment_symbol_batches ON COMMIT PRESERVE ROWS AS
+    WITH eligible_symbols AS (
+        -- core.symbols is the canonical one-row-per-security directory. Probe
+        -- its symbol/date/source index for coverage rather than scanning and
+        -- hashing every row in the 2.84M-row price table. Do not filter active:
+        -- historical delisted names remain part of Phase 2.
+        SELECT s.symbol_id
+        FROM core.symbols s
+        WHERE EXISTS (
+              SELECT 1 FROM core.bars_daily_sources b
+              WHERE b.symbol_id=s.symbol_id AND b.source='vndirect'
+          )
+          AND NOT EXISTS (
+              SELECT 1 FROM ops.ml_symbol_scope excluded
+              WHERE excluded.symbol_id=s.symbol_id
+                AND excluded.scope_status='EXCLUDED'
+          )
+    ), ranked_symbols AS (
+        SELECT e.symbol_id,
+               row_number() OVER(ORDER BY md5(e.symbol_id::text),e.symbol_id) AS symbol_no
+        FROM eligible_symbols e
+    )
+    SELECT s.symbol_id,
+           ((s.symbol_no-1)/p_symbol_batch_size)::integer AS batch_no,
+           false AS loaded
+    FROM ranked_symbols s
+    WHERE p_symbol_limit IS NULL OR s.symbol_no<=p_symbol_limit
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  duration: 4522.588 ms  plan:
+Query Text: CREATE TEMP TABLE phase2_adjustment_symbol_batches ON COMMIT PRESERVE ROWS AS
+    WITH eligible_symbols AS (
+        -- core.symbols is the canonical one-row-per-security directory. Probe
+        -- its symbol/date/source index for coverage rather than scanning and
+        -- hashing every row in the 2.84M-row price table. Do not filter active:
+        -- historical delisted names remain part of Phase 2.
+        SELECT s.symbol_id
+        FROM core.symbols s
+        WHERE EXISTS (
+              SELECT 1 FROM core.bars_daily_sources b
+              WHERE b.symbol_id=s.symbol_id AND b.source='vndirect'
+          )
+          AND NOT EXISTS (
+              SELECT 1 FROM ops.ml_symbol_scope excluded
+              WHERE excluded.symbol_id=s.symbol_id
+                AND excluded.scope_status='EXCLUDED'
+          )
+    ), ranked_symbols AS (
+        SELECT e.symbol_id,
+               row_number() OVER(ORDER BY md5(e.symbol_id::text),e.symbol_id) AS symbol_no
+        FROM eligible_symbols e
+    )
+    SELECT s.symbol_id,
+           ((s.symbol_no-1)/p_symbol_batch_size)::integer AS batch_no,
+           false AS loaded
+    FROM ranked_symbols s
+    WHERE p_symbol_limit IS NULL OR s.symbol_no<=p_symbol_limit
+Subquery Scan on s  (cost=100626.64..100694.26 rows=1503 width=13) (actual time=4217.496..4217.622 rows=60.00 loops=1)
+  Output: s.symbol_id, (((s.symbol_no - 1) / 60))::integer, false
+  Buffers: shared hit=2664 read=22393
+  ->  WindowAgg  (cost=100626.64..100667.96 rows=1503 width=48) (actual time=4217.492..4217.591 rows=60.00 loops=1)
+        Output: s_1.symbol_id, row_number() OVER w1, (md5((s_1.symbol_id)::text))
+        Window: w1 AS (ORDER BY (md5((s_1.symbol_id)::text)), s_1.symbol_id ROWS UNBOUNDED PRECEDING)
+        Run Condition: (row_number() OVER w1 <= 60)
+        Storage: Memory  Maximum Storage: 17kB
+        Buffers: shared hit=2664 read=22393
+        ->  Sort  (cost=100626.62..100630.38 rows=1503 width=40) (actual time=4215.291..4215.319 rows=61.00 loops=1)
+              Output: s_1.symbol_id, (md5((s_1.symbol_id)::text))
+              Sort Key: (md5((s_1.symbol_id)::text)), s_1.symbol_id
+              Sort Method: quicksort  Memory: 143kB
+              Buffers: shared hit=2664 read=22393
+              ->  Hash Join  (cost=100465.98..100547.31 rows=1503 width=40) (actual time=4203.019..4208.086 rows=1518.00 loops=1)
+                    Output: s_1.symbol_id, md5((s_1.symbol_id)::text)
+                    Inner Unique: true
+                    Hash Cond: (s_1.symbol_id = b.symbol_id)
+                    Buffers: shared hit=2658 read=22393
+                    ->  Hash Anti Join  (cost=1.02..50.38 rows=1518 width=8) (actual time=0.888..3.641 rows=1518.00 loops=1)
+                          Output: s_1.symbol_id
+                          Hash Cond: (s_1.symbol_id = excluded.symbol_id)
+                          Buffers: shared hit=16
+                          ->  Seq Scan on core.symbols s_1  (cost=0.00..30.19 rows=1519 width=8) (actual time=0.100..2.663 rows=1519.00 loops=1)
+                                Output: s_1.symbol_id, s_1.symbol, s_1.exchange, s_1.industry, s_1.first_seen_at, s_1.last_seen_at, s_1.active
+                                Buffers: shared hit=15
+                          ->  Hash  (cost=1.01..1.01 rows=1 width=8) (actual time=0.198..0.200 rows=1.00 loops=1)
+                                Output: excluded.symbol_id
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                Buffers: shared hit=1
+                                ->  Seq Scan on ops.ml_symbol_scope excluded  (cost=0.00..1.01 rows=1 width=8) (actual time=0.165..0.167 rows=1.00 loops=1)
+                                      Output: excluded.symbol_id
+                                      Filter: (excluded.scope_status = 'EXCLUDED'::text)
+                                      Buffers: shared hit=1
+                    ->  Hash  (cost=100446.15..100446.15 rows=1504 width=8) (actual time=4200.008..4200.010 rows=1519.00 loops=1)
+                          Output: b.symbol_id
+                          Buckets: 2048  Batches: 1  Memory Usage: 76kB
+                          Buffers: shared hit=2642 read=22393
+                          ->  HashAggregate  (cost=100431.11..100446.15 rows=1504 width=8) (actual time=4199.694..4199.819 rows=1519.00 loops=1)
+                                Output: b.symbol_id
+                                Group Key: b.symbol_id
+                                Batches: 1  Memory Usage: 121kB
+                                Buffers: shared hit=2642 read=22393
+                                ->  Index Only Scan using bars_daily_sources_pkey on core.bars_daily_sources b  (cost=0.43..93356.17 rows=2829975 width=8) (actual time=1.795..3519.689 rows=2844683.00 loops=1)
+                                      Output: b.symbol_id
+                                      Index Cond: (b.source = 'vndirect'::text)
+                                      Heap Fetches: 0
+                                      Index Searches: 1
+                                      Buffers: shared hit=2642 read=22393
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  ALTER TABLE / ADD PRIMARY KEY will create implicit index "phase2_adjustment_symbol_batches_pkey" for table "phase2_adjustment_symbol_batches"
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  building index "phase2_adjustment_symbol_batches_pkey" on table "phase2_adjustment_symbol_batches" serially
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  index "phase2_adjustment_symbol_batches_pkey" can safely use deduplication
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  verifying table "phase2_adjustment_symbol_batches"
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  building index "phase2_adjustment_symbol_batches_batch_idx" on table "phase2_adjustment_symbol_batches" serially
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  index "phase2_adjustment_symbol_batches_batch_idx" can safely use deduplication
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  CREATE TABLE / PRIMARY KEY will create implicit index "phase2_adjustment_cache_state_pkey" for table "phase2_adjustment_cache_state"
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  building index "phase2_adjustment_cache_state_pkey" on table "phase2_adjustment_cache_state" serially
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  index "phase2_adjustment_cache_state_pkey" can safely use deduplication
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  duration: 1.719 ms  plan:
+Query Text: INSERT INTO pg_temp.phase2_adjustment_cache_state(ready,finalized_at)
+    VALUES(false,NULL)
+Insert on pg_temp.phase2_adjustment_cache_state  (cost=0.00..0.01 rows=0 width=0) (actual time=1.717..1.718 rows=0.00 loops=1)
+  Buffers: shared hit=3, local hit=1 read=1 dirtied=3 written=2
+  ->  Result  (cost=0.00..0.01 rows=1 width=13) (actual time=0.001..0.002 rows=1.00 loops=1)
+        Output: 1, false, NULL::timestamp with time zone
+ begin_phase2_adjustment_rows 
+------------------------------
+                            1
+(1 row)
+
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  duration: 0.057 ms  plan:
+Query Text: SELECT count(DISTINCT batch_no)::integer
+                               FROM pg_temp.phase2_adjustment_symbol_batches
+Aggregate  (cost=3.67..3.68 rows=1 width=4) (actual time=0.049..0.050 rows=1.00 loops=1)
+  Output: (count(DISTINCT batch_no))::integer
+  Buffers: local hit=1
+  ->  Sort  (cost=3.37..3.52 rows=60 width=4) (actual time=0.040..0.042 rows=60.00 loops=1)
+        Output: batch_no
+        Sort Key: phase2_adjustment_symbol_batches.batch_no
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: local hit=1
+        ->  Seq Scan on pg_temp.phase2_adjustment_symbol_batches  (cost=0.00..1.60 rows=60 width=4) (actual time=0.023..0.027 rows=60.00 loops=1)
+              Output: batch_no
+              Buffers: local hit=1
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:33: DEBUG:  duration: 4797.774 ms  plan:
+Query Text: SELECT feat.begin_phase2_adjustment_rows(60,60);
+Result  (cost=0.00..0.26 rows=1 width=4) (actual time=4797.768..4797.768 rows=1.00 loops=1)
+  Output: feat.begin_phase2_adjustment_rows(60, 60)
+  Buffers: shared hit=5157 read=22411 dirtied=10 written=1, local hit=6 read=3 dirtied=4 written=3
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 0.511 ms  plan:
+Query Text: 
+Query Parameters: $1 = '623336', $2 = 'pg_class'
+Index Scan using pg_description_o_c_o_index on pg_catalog.pg_description  (cost=2.78..5.00 rows=1 width=25) (actual time=0.510..0.510 rows=1.00 loops=1)
+  Output: pg_description.description
+  Index Cond: ((pg_description.objoid = '623336'::oid) AND (pg_description.classoid = (InitPlan 1).col1) AND (pg_description.objsubid = 0))
+  Index Searches: 1
+  Buffers: shared hit=6
+  InitPlan 1
+    ->  Index Scan using pg_class_relname_nsp_index on pg_catalog.pg_class  (cost=0.28..2.49 rows=1 width=4) (actual time=0.049..0.050 rows=1.00 loops=1)
+          Output: pg_class.oid
+          Index Cond: ((pg_class.relname = 'pg_class'::name) AND (pg_class.relnamespace = '11'::oid))
+          Index Searches: 1
+          Buffers: shared hit=3
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 0.038 ms  plan:
+Query Text: 
+Query Parameters: $1 = '623341', $2 = 'pg_class'
+Index Scan using pg_description_o_c_o_index on pg_catalog.pg_description  (cost=2.78..5.00 rows=1 width=25) (actual time=0.036..0.036 rows=1.00 loops=1)
+  Output: pg_description.description
+  Index Cond: ((pg_description.objoid = '623341'::oid) AND (pg_description.classoid = (InitPlan 1).col1) AND (pg_description.objsubid = 0))
+  Index Searches: 1
+  Buffers: shared hit=6
+  InitPlan 1
+    ->  Index Scan using pg_class_relname_nsp_index on pg_catalog.pg_class  (cost=0.28..2.49 rows=1 width=4) (actual time=0.023..0.024 rows=1.00 loops=1)
+          Output: pg_class.oid
+          Index Cond: ((pg_class.relname = 'pg_class'::name) AND (pg_class.relnamespace = '11'::oid))
+          Index Searches: 1
+          Buffers: shared hit=3
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 0.057 ms  plan:
+Query Text: 
+Query Parameters: $1 = '623348', $2 = 'pg_class'
+Index Scan using pg_description_o_c_o_index on pg_catalog.pg_description  (cost=2.78..5.00 rows=1 width=25) (actual time=0.055..0.056 rows=1.00 loops=1)
+  Output: pg_description.description
+  Index Cond: ((pg_description.objoid = '623348'::oid) AND (pg_description.classoid = (InitPlan 1).col1) AND (pg_description.objsubid = 0))
+  Index Searches: 1
+  Buffers: shared hit=6
+  InitPlan 1
+    ->  Index Scan using pg_class_relname_nsp_index on pg_catalog.pg_class  (cost=0.28..2.49 rows=1 width=4) (actual time=0.037..0.038 rows=1.00 loops=1)
+          Output: pg_class.oid
+          Index Cond: ((pg_class.relname = 'pg_class'::name) AND (pg_class.relnamespace = '11'::oid))
+          Index Searches: 1
+          Buffers: shared hit=3
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 0.067 ms  plan:
+Query Text: NOT EXISTS (
+        SELECT 1 FROM pg_temp.phase2_adjustment_symbol_batches WHERE batch_no=p_batch_no
+    )
+Result  (cost=0.03..0.04 rows=1 width=1) (actual time=0.050..0.050 rows=1.00 loops=1)
+  Output: (NOT (InitPlan 1).col1)
+  Buffers: local hit=1
+  InitPlan 1
+    ->  Seq Scan on pg_temp.phase2_adjustment_symbol_batches  (cost=0.00..1.75 rows=60 width=0) (actual time=0.036..0.036 rows=1.00 loops=1)
+          Filter: (phase2_adjustment_symbol_batches.batch_no = 0)
+          Buffers: local hit=1
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 0.824 ms  plan:
+Query Text: SELECT array_agg(symbol_id ORDER BY symbol_id)
+                              FROM pg_temp.phase2_adjustment_symbol_batches
+     WHERE batch_no=p_batch_no
+Aggregate  (cost=3.82..3.83 rows=1 width=32) (actual time=0.812..0.813 rows=1.00 loops=1)
+  Output: array_agg(symbol_id ORDER BY symbol_id)
+  Buffers: local hit=1
+  ->  Sort  (cost=3.52..3.67 rows=60 width=8) (actual time=0.057..0.060 rows=60.00 loops=1)
+        Output: symbol_id
+        Sort Key: phase2_adjustment_symbol_batches.symbol_id
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: local hit=1
+        ->  Seq Scan on pg_temp.phase2_adjustment_symbol_batches  (cost=0.00..1.75 rows=60 width=8) (actual time=0.017..0.031 rows=60.00 loops=1)
+              Output: symbol_id
+              Filter: (phase2_adjustment_symbol_batches.batch_no = 0)
+              Buffers: local hit=1
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  relation "pg_temp.phase2_adjustment_batch_dates" does not exist
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  CREATE TABLE / PRIMARY KEY will create implicit index "phase2_adjustment_batch_dates_pkey" for table "phase2_adjustment_batch_dates"
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  building index "phase2_adjustment_batch_dates_pkey" on table "phase2_adjustment_batch_dates" serially
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  index "phase2_adjustment_batch_dates_pkey" can safely use deduplication
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  building index "phase2_adjustment_batch_dates_date_idx" on table "phase2_adjustment_batch_dates" serially
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  index "phase2_adjustment_batch_dates_date_idx" can safely use deduplication
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 0.264 ms  plan:
+Query Text: UPDATE pg_temp.phase2_adjustment_cache_state
+       SET ready=false,finalized_at=NULL
+Update on pg_temp.phase2_adjustment_cache_state  (cost=0.00..29.90 rows=0 width=0) (actual time=0.263..0.263 rows=0.00 loops=1)
+  Buffers: local hit=3
+  ->  Seq Scan on pg_temp.phase2_adjustment_cache_state  (cost=0.00..29.90 rows=1990 width=15) (actual time=0.023..0.024 rows=1.00 loops=1)
+        Output: false, NULL::timestamp with time zone, ctid
+        Buffers: local hit=1
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 0.343 ms  plan:
+Query Text: DELETE FROM pg_temp.phase2_adjustment_batch_dates WHERE batch_no=p_batch_no
+Delete on pg_temp.phase2_adjustment_batch_dates  (cost=1.34..9.56 rows=0 width=0) (actual time=0.342..0.343 rows=0.00 loops=1)
+  Buffers: local hit=2
+  ->  Bitmap Heap Scan on pg_temp.phase2_adjustment_batch_dates  (cost=1.34..9.56 rows=11 width=6) (actual time=0.341..0.341 rows=0.00 loops=1)
+        Output: ctid
+        Recheck Cond: (phase2_adjustment_batch_dates.batch_no = 0)
+        Buffers: local hit=2
+        ->  Bitmap Index Scan on phase2_adjustment_batch_dates_pkey  (cost=0.00..1.34 rows=11 width=0) (actual time=0.002..0.002 rows=0.00 loops=1)
+              Index Cond: (phase2_adjustment_batch_dates.batch_no = 0)
+              Index Searches: 1
+              Buffers: local hit=2
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 0.042 ms  plan:
+Query Text: DELETE FROM pg_temp.phase2_adjustment_rows r
+    USING pg_temp.phase2_adjustment_symbol_batches s
+    WHERE s.batch_no=p_batch_no AND r.symbol_id=s.symbol_id
+Delete on pg_temp.phase2_adjustment_rows r  (cost=2.50..19.22 rows=0 width=0) (actual time=0.040..0.041 rows=0.00 loops=1)
+  ->  Hash Join  (cost=2.50..19.22 rows=159 width=12) (actual time=0.038..0.039 rows=0.00 loops=1)
+        Output: r.ctid, s.ctid
+        Inner Unique: true
+        Hash Cond: (r.symbol_id = s.symbol_id)
+        ->  Seq Scan on pg_temp.phase2_adjustment_rows r  (cost=0.00..15.30 rows=530 width=14) (actual time=0.037..0.037 rows=0.00 loops=1)
+              Output: r.ctid, r.symbol_id
+        ->  Hash  (cost=1.75..1.75 rows=60 width=14) (never executed)
+              Output: s.ctid, s.symbol_id
+              ->  Seq Scan on pg_temp.phase2_adjustment_symbol_batches s  (cost=0.00..1.75 rows=60 width=14) (never executed)
+                    Output: s.ctid, s.symbol_id
+                    Filter: (s.batch_no = 0)
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 0.006 ms  plan:
+Query Text: SELECT set_config('enable_nestloop','off',true)
+Result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.004..0.005 rows=1.00 loops=1)
+  Output: set_config('enable_nestloop'::text, 'off'::text, true)
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 2018.814 ms  plan:
+Query Text: WITH inserted_rows AS (
+        INSERT INTO pg_temp.phase2_adjustment_rows(
+            symbol_id,trade_date,source,v,is_traded,reference_adjustment_ratio,
+            episode_start_date,model_o,model_h,model_l,model_c,
+            adjustment_vintage_at,landing_id,source_row,fetched_at
+        )
+        SELECT r.symbol_id,r.trade_date,r.source,r.v,r.is_traded,
+               r.reference_adjustment_ratio,r.episode_start_date,
+               r.model_o,r.model_h,r.model_l,r.model_c,
+               r.adjustment_vintage_at,r.landing_id,r.source_row,r.fetched_at
+        FROM feat.phase2_vndirect_adjustment_details_for_symbols(v_symbol_ids) r
+        RETURNING trade_date
+    ), recorded_dates AS (
+        INSERT INTO pg_temp.phase2_adjustment_batch_dates(batch_no,trade_date)
+        SELECT p_batch_no,trade_date
+        FROM inserted_rows
+        GROUP BY trade_date
+        ON CONFLICT(batch_no,trade_date) DO NOTHING
+        RETURNING trade_date
+    )
+    SELECT (SELECT count(*) FROM inserted_rows),
+           (SELECT count(*) FROM recorded_dates)
+Result  (cost=82276.06..82276.07 rows=1 width=16) (actual time=2018.788..2018.809 rows=1.00 loops=1)
+  Output: (InitPlan 5).col1, (InitPlan 6).col1
+  Buffers: shared hit=2388 read=1831, local hit=127138 read=2 dirtied=1995 written=2979, temp read=4047 written=4047
+  CTE inserted_rows
+    ->  Insert on pg_temp.phase2_adjustment_rows  (cost=82106.36..82275.89 rows=2 width=125) (actual time=1566.058..1937.561 rows=108331.00 loops=1)
+          Output: phase2_adjustment_rows.trade_date
+          Buffers: shared hit=2388 read=1831, local hit=112267 dirtied=1970 written=2925, temp read=4047 written=4047
+          ->  Hash Left Join  (cost=82106.36..82275.89 rows=2 width=125) (actual time=1565.778..1807.840 rows=108331.00 loops=1)
+                Output: o_2.symbol_id, o_2.trade_date, o_2.source, o_2.v, o_2.is_traded, COALESCE(x.reference_adjustment_ratio, CASE WHEN (o_2.episode_row_number = 1) THEN '1'::double precision WHEN ((o_2.exchange_code IS NULL) OR (o_2.exchange_code <> ALL ('{HOSE,HNX,UPCOM}'::text[]))) THEN NULL::double precision WHEN ((o_2.basic_price > '0'::double precision) AND (CASE WHEN (o_2.episode_row_number = 1) THEN NULL::double precision WHEN (o_2.exchange_code = 'UPCOM'::text) THEN CASE WHEN (o_2.prior_volume > '0'::double precision) THEN COALESCE(NULLIF(o_2.prior_average_price, '0'::double precision), o_2.prior_close) ELSE COALESCE(NULLIF(o_2.prior_basic_price, '0'::double precision), NULLIF(t.last_traded_average_price, '0'::double precision), o_2.prior_close) END ELSE CASE WHEN (o_2.prior_volume > '0'::double precision) THEN o_2.prior_close ELSE COALESCE(NULLIF(o_2.prior_basic_price, '0'::double precision), t.last_traded_close, o_2.prior_close) END END > '0'::double precision)) THEN CASE WHEN (abs((o_2.basic_price - CASE WHEN (o_2.episode_row_number = 1) THEN NULL::double precision WHEN (o_2.exchange_code = 'UPCOM'::text) THEN CASE WHEN (o_2.prior_volume > '0'::double precision) THEN COALESCE(NULLIF(o_2.prior_average_price, '0'::double precision), o_2.prior_close) ELSE COALESCE(NULLIF(o_2.prior_basic_price, '0'::double precision), NULLIF(t.last_traded_average_price, '0'::double precision), o_2.prior_close) END ELSE CASE WHEN (o_2.prior_volume > '0'::double precision) THEN o_2.prior_close ELSE COALESCE(NULLIF(o_2.prior_basic_price, '0'::double precision), t.last_traded_close, o_2.prior_close) END END)) <= (CASE WHEN ((o_2.exchange_code = 'HOSE'::text) AND (CASE WHEN (o_2.episode_row_number = 1) THEN NULL::double precision WHEN (o_2.exchange_code = 'UPCOM'::text) THEN CASE WHEN (o_2.prior_volume > '0'::double precision) THEN COALESCE(NULLIF(o_2.prior_average_price, '0'::double precision), o_2.prior_close) ELSE COALESCE(NULLIF(o_2.prior_basic_price, '0'::double precision), NULLIF(t.last_traded_average_price, '0'::double precision), o_2.prior_close) END ELSE CASE WHEN (o_2.prior_volume > '0'::double precision) THEN o_2.prior_close ELSE COALESCE(NULLIF(o_2.prior_basic_price, '0'::double precision), t.last_traded_close, o_2.prior_close) END END < '10'::double precision)) THEN '0.005'::double precision WHEN ((o_2.exchange_code = 'HOSE'::text) AND (CASE WHEN (o_2.episode_row_number = 1) THEN NULL::double precision WHEN (o_2.exchange_code = 'UPCOM'::text) THEN CASE WHEN (o_2.prior_volume > '0'::double precision) THEN COALESCE(NULLIF(o_2.prior_average_price, '0'::double precision), o_2.prior_close) ELSE COALESCE(NULLIF(o_2.prior_basic_price, '0'::double precision), NULLIF(t.last_traded_average_price, '0'::double precision), o_2.prior_close) END ELSE CASE WHEN (o_2.prior_volume > '0'::double precision) THEN o_2.prior_close ELSE COALESCE(NULLIF(o_2.prior_basic_price, '0'::double precision), t.last_traded_close, o_2.prior_close) END END < '50'::double precision)) THEN '0.025'::double precision ELSE '0.05'::double precision END + '1e-09'::double precision)) THEN '1'::double precision ELSE (o_2.basic_price / CASE WHEN (o_2.episode_row_number = 1) THEN NULL::double precision WHEN (o_2.exchange_code = 'UPCOM'::text) THEN CASE WHEN (o_2.prior_volume > '0'::double precision) THEN COALESCE(NULLIF(o_2.prior_average_price, '0'::double precision), o_2.prior_close) ELSE COALESCE(NULLIF(o_2.prior_basic_price, '0'::double precision), NULLIF(t.last_traded_average_price, '0'::double precision), o_2.prior_close) END ELSE CASE WHEN (o_2.prior_volume > '0'::double precision) THEN o_2.prior_close ELSE COALESCE(NULLIF(o_2.prior_basic_price, '0'::double precision), t.last_traded_close, o_2.prior_close) END END) END WHEN ((o_2.v = '0'::double precision) AND (o_2.c = o_2.prior_close) AND (NOT (o_2.adjusted_c IS DISTINCT FROM o_2.prior_adjusted_close))) THEN '1'::double precision ELSE NULL::double precision END), o_2.episode_start_date, o_2.model_o, o_2.model_h, o_2.model_l, o_2.model_c, o_2.adjustment_vintage_at, o_2.landing_id, o_2.source_row, o_2.fetched_at
+                Inner Unique: true
+                Hash Cond: ((o_2.symbol_id = t.symbol_id) AND (o_2.episode_start_date = t.episode_start_date) AND ((o_2.traded_sequence - (CASE WHEN (o_2.v > '0'::double precision) THEN '1'::bigint ELSE '0'::bigint END)::numeric) = t.traded_sequence))
+                Buffers: shared hit=2388 read=1831, temp read=4047 written=4047
+                CTE source_rows
+                  ->  WindowAgg  (cost=50.14..74195.10 rows=113721 width=371) (actual time=13.621..517.329 rows=108331.00 loops=1)
+                        Output: b.symbol_id, b.trade_date, b.source, b.o, b.h, b.l, b.c, b.v, b.adj_basis, b.is_traded, b.landing_id, b.source_row, b.ingest_id, b.fetched_at, b.adjusted_o, b.adjusted_h, b.adjusted_l, b.adjusted_c, b.adjustment_vintage_at, b.basic_price, b.average_price, b.exchange_code, COALESCE(m.model_o, b.o), COALESCE(m.model_h, b.h), COALESCE(m.model_l, b.l), COALESCE(m.model_c, b.c), m.evidence_url, m.evidence_sha256, m.secondary_evidence_url, m.secondary_evidence_sha256, m.evidence_note, (row_number() OVER w1), min(b.trade_date) OVER w2
+                        Window: w2 AS (PARTITION BY b.symbol_id)
+                        Storage: Memory  Maximum Storage: 456kB
+                        Buffers: shared hit=2245 read=1831
+                        ->  WindowAgg  (cost=1.21..72489.28 rows=113721 width=367) (actual time=0.350..395.809 rows=108331.00 loops=1)
+                              Output: b.symbol_id, b.trade_date, b.source, b.o, b.h, b.l, b.c, b.v, b.adj_basis, b.is_traded, b.landing_id, b.source_row, b.ingest_id, b.fetched_at, b.adjusted_o, b.adjusted_h, b.adjusted_l, b.adjusted_c, b.adjustment_vintage_at, b.basic_price, b.average_price, b.exchange_code, m.model_o, m.model_h, m.model_l, m.model_c, m.evidence_url, m.evidence_sha256, m.secondary_evidence_url, m.secondary_evidence_sha256, m.evidence_note, row_number() OVER w1
+                              Window: w1 AS (PARTITION BY b.symbol_id ORDER BY b.trade_date ROWS UNBOUNDED PRECEDING)
+                              Storage: Memory  Maximum Storage: 18kB
+                              Buffers: shared hit=2245 read=1831
+                              ->  Merge Left Join  (cost=0.57..70499.16 rows=113721 width=359) (actual time=0.342..295.610 rows=108331.00 loops=1)
+                                    Output: b.symbol_id, b.trade_date, b.source, b.o, b.h, b.l, b.c, b.v, b.adj_basis, b.is_traded, b.landing_id, b.source_row, b.ingest_id, b.fetched_at, b.adjusted_o, b.adjusted_h, b.adjusted_l, b.adjusted_c, b.adjustment_vintage_at, b.basic_price, b.average_price, b.exchange_code, m.model_o, m.model_h, m.model_l, m.model_c, m.evidence_url, m.evidence_sha256, m.secondary_evidence_url, m.secondary_evidence_sha256, m.evidence_note
+                                    Inner Unique: true
+                                    Merge Cond: ((b.symbol_id = m.symbol_id) AND (b.trade_date = m.trade_date))
+                                    Buffers: shared hit=2245 read=1831
+                                    ->  Index Scan using bars_daily_sources_pkey on core.bars_daily_sources b  (cost=0.43..69926.91 rows=113721 width=167) (actual time=0.283..248.614 rows=108331.00 loops=1)
+                                          Output: b.symbol_id, b.trade_date, b.source, b.o, b.h, b.l, b.c, b.v, b.adj_basis, b.is_traded, b.landing_id, b.source_row, b.ingest_id, b.fetched_at, b.adjusted_o, b.adjusted_h, b.adjusted_l, b.adjusted_c, b.adjustment_vintage_at, b.basic_price, b.average_price, b.exchange_code
+                                          Index Cond: ((b.symbol_id = ANY ('{27,60,63,126,134,138,158,163,168,180,195,221,236,245,249,252,269,278,310,339,348,363,367,381,384,433,461,498,521,550,580,594,595,610,629,689,713,744,762,833,841,889,890,896,899,933,1019,1021,1024,1077,1089,1164,1195,1283,1329,1338,1428,1457,1460,1467}'::bigint[])) AND (b.source = 'vndirect'::text))
+                                          Index Searches: 58
+                                          Buffers: shared hit=2236 read=1831
+                                    ->  Index Scan using vndirect_model_bar_overrides_pkey on core.vndirect_model_bar_overrides m  (cost=0.14..3.64 rows=1 width=236) (actual time=0.055..0.335 rows=25.00 loops=1)
+                                          Output: m.symbol_id, m.trade_date, m.source, m.model_o, m.model_h, m.model_l, m.model_c, m.evidence_url, m.evidence_sha256, m.secondary_evidence_url, m.secondary_evidence_sha256, m.evidence_note, m.recorded_at
+                                          Index Cond: (m.source = 'vndirect'::text)
+                                          Index Searches: 1
+                                          Buffers: shared hit=9
+                CTE ordered
+                  ->  WindowAgg  (cost=6444.10..7911.09 rows=2 width=529) (actual time=793.865..1184.569 rows=108331.00 loops=1)
+                        Output: o.symbol_id, o.trade_date, o.source, o.o, o.h, o.l, o.c, o.v, o.adj_basis, o.is_traded, o.landing_id, o.source_row, o.ingest_id, o.fetched_at, o.adjusted_o, o.adjusted_h, o.adjusted_l, o.adjusted_c, o.adjustment_vintage_at, o.basic_price, o.average_price, o.exchange_code, o.model_o, o.model_h, o.model_l, o.model_c, o.model_bar_evidence_url, o.model_bar_evidence_sha256, o.model_bar_secondary_evidence_url, o.model_bar_secondary_evidence_sha256, o.model_bar_evidence_note, o.source_sequence, o.first_trade_date, a.episode_start_date, lag(o.c) OVER w, lag(o.basic_price) OVER w, lag(o.average_price) OVER w, lag(o.v) OVER w, lag(o.adjusted_c) OVER w, sum(CASE WHEN (o.v > '0'::double precision) THEN '1'::bigint ELSE '0'::bigint END) OVER w, row_number() OVER w
+                        Window: w AS (PARTITION BY o.symbol_id, a.episode_start_date ORDER BY o.trade_date)
+                        Storage: Memory  Maximum Storage: 18kB
+                        Buffers: shared hit=2247 read=1831
+                        ->  Incremental Sort  (cost=6444.10..7911.02 rows=2 width=449) (actual time=789.673..942.575 rows=108331.00 loops=1)
+                              Output: o.symbol_id, o.trade_date, a.episode_start_date, o.source, o.o, o.h, o.l, o.c, o.v, o.adj_basis, o.is_traded, o.landing_id, o.source_row, o.ingest_id, o.fetched_at, o.adjusted_o, o.adjusted_h, o.adjusted_l, o.adjusted_c, o.adjustment_vintage_at, o.basic_price, o.average_price, o.exchange_code, o.model_o, o.model_h, o.model_l, o.model_c, o.model_bar_evidence_url, o.model_bar_evidence_sha256, o.model_bar_secondary_evidence_url, o.model_bar_secondary_evidence_sha256, o.model_bar_evidence_note, o.source_sequence, o.first_trade_date
+                              Sort Key: o.symbol_id, a.episode_start_date, o.trade_date
+                              Presorted Key: o.symbol_id
+                              Full-sort Groups: 60  Sort Method: quicksort  Average Memory: 41kB  Peak Memory: 41kB
+                              Pre-sorted Groups: 60  Sort Method: quicksort  Average Memory: 566kB  Peak Memory: 567kB
+                              Buffers: shared hit=2247 read=1831
+                              ->  Merge Join  (cost=4977.26..7910.93 rows=2 width=449) (actual time=784.790..888.527 rows=108331.00 loops=1)
+                                    Output: o.symbol_id, o.trade_date, a.episode_start_date, o.source, o.o, o.h, o.l, o.c, o.v, o.adj_basis, o.is_traded, o.landing_id, o.source_row, o.ingest_id, o.fetched_at, o.adjusted_o, o.adjusted_h, o.adjusted_l, o.adjusted_c, o.adjustment_vintage_at, o.basic_price, o.average_price, o.exchange_code, o.model_o, o.model_h, o.model_l, o.model_c, o.model_bar_evidence_url, o.model_bar_evidence_sha256, o.model_bar_secondary_evidence_url, o.model_bar_secondary_evidence_sha256, o.model_bar_evidence_note, o.source_sequence, o.first_trade_date
+                                    Merge Cond: ((o.symbol_id = a.symbol_id) AND (o.trade_date = a.trade_date))
+                                    Join Filter: (o.source_sequence = a.source_sequence)
+                                    Buffers: shared hit=2247 read=1831
+                                    ->  CTE Scan on source_rows o  (cost=0.00..2274.42 rows=113721 width=445) (actual time=13.624..23.392 rows=108331.00 loops=1)
+                                          Output: o.symbol_id, o.trade_date, o.source, o.o, o.h, o.l, o.c, o.v, o.adj_basis, o.is_traded, o.landing_id, o.source_row, o.ingest_id, o.fetched_at, o.adjusted_o, o.adjusted_h, o.adjusted_l, o.adjusted_c, o.adjustment_vintage_at, o.basic_price, o.average_price, o.exchange_code, o.model_o, o.model_h, o.model_l, o.model_c, o.model_bar_evidence_url, o.model_bar_evidence_sha256, o.model_bar_secondary_evidence_url, o.model_bar_secondary_evidence_sha256, o.model_bar_evidence_note, o.source_sequence, o.first_trade_date
+                                          Storage: Memory  Maximum Storage: 28894kB
+                                          Buffers: shared hit=82 read=1
+                                    ->  Sort  (cost=4977.26..5005.69 rows=11372 width=24) (actual time=771.154..785.129 rows=108331.00 loops=1)
+                                          Output: a.episode_start_date, a.symbol_id, a.trade_date, a.source_sequence
+                                          Sort Key: a.symbol_id, a.trade_date
+                                          Sort Method: quicksort  Memory: 8151kB
+                                          Buffers: shared hit=2165 read=1830
+                                          ->  Subquery Scan on a  (cost=3983.74..4211.18 rows=11372 width=24) (actual time=679.712..714.294 rows=108331.00 loops=1)
+                                                Output: a.episode_start_date, a.symbol_id, a.trade_date, a.source_sequence
+                                                Buffers: shared hit=2165 read=1830
+                                                ->  HashAggregate  (cost=3983.74..4097.46 rows=11372 width=28) (actual time=679.711..705.766 rows=108331.00 loops=1)
+                                                      Output: o_1.symbol_id, o_1.trade_date, o_1.source_sequence, COALESCE(max(e.date_from), o_1.first_trade_date), o_1.first_trade_date
+                                                      Group Key: o_1.symbol_id, o_1.trade_date, o_1.source_sequence, o_1.first_trade_date
+                                                      Batches: 1  Memory Usage: 12313kB
+                                                      Buffers: shared hit=2165 read=1830
+                                                      ->  Merge Left Join  (cost=2.15..2562.22 rows=113721 width=28) (actual time=0.169..627.950 rows=108331.00 loops=1)
+                                                            Output: o_1.symbol_id, o_1.trade_date, o_1.source_sequence, o_1.first_trade_date, e.date_from
+                                                            Merge Cond: (o_1.symbol_id = e.symbol_id)
+                                                            Join Filter: (e.date_from <= o_1.trade_date)
+                                                            Buffers: shared hit=2165 read=1830
+                                                            ->  CTE Scan on source_rows o_1  (cost=0.00..2274.42 rows=113721 width=24) (actual time=0.001..592.068 rows=108331.00 loops=1)
+                                                                  Output: o_1.symbol_id, o_1.trade_date, o_1.source, o_1.o, o_1.h, o_1.l, o_1.c, o_1.v, o_1.adj_basis, o_1.is_traded, o_1.landing_id, o_1.source_row, o_1.ingest_id, o_1.fetched_at, o_1.adjusted_o, o_1.adjusted_h, o_1.adjusted_l, o_1.adjusted_c, o_1.adjustment_vintage_at, o_1.basic_price, o_1.average_price, o_1.exchange_code, o_1.model_o, o_1.model_h, o_1.model_l, o_1.model_c, o_1.model_bar_evidence_url, o_1.model_bar_evidence_sha256, o_1.model_bar_secondary_evidence_url, o_1.model_bar_secondary_evidence_sha256, o_1.model_bar_evidence_note, o_1.source_sequence, o_1.first_trade_date
+                                                                  Storage: Memory  Maximum Storage: 28894kB
+                                                                  Buffers: shared hit=2163 read=1830
+                                                            ->  Materialize  (cost=2.15..2.17 rows=1 width=12) (actual time=0.165..0.170 rows=1.00 loops=1)
+                                                                  Output: e.symbol_id, e.date_from
+                                                                  Storage: Memory  Maximum Storage: 17kB
+                                                                  Buffers: shared hit=2
+                                                                  ->  Unique  (cost=2.15..2.16 rows=1 width=12) (actual time=0.115..0.119 rows=1.00 loops=1)
+                                                                        Output: e.symbol_id, e.date_from
+                                                                        Buffers: shared hit=2
+                                                                        ->  Sort  (cost=2.15..2.16 rows=1 width=12) (actual time=0.114..0.118 rows=1.00 loops=1)
+                                                                              Output: e.symbol_id, e.date_from
+                                                                              Sort Key: e.symbol_id, e.date_from
+                                                                              Sort Method: quicksort  Memory: 25kB
+                                                                              Buffers: shared hit=2
+                                                                              ->  Hash Semi Join  (cost=1.07..2.14 rows=1 width=12) (actual time=0.103..0.106 rows=1.00 loops=1)
+                                                                                    Output: e.symbol_id, e.date_from
+                                                                                    Hash Cond: (e.symbol_id = d.symbol_id)
+                                                                                    Join Filter: (d.date_to < e.date_from)
+                                                                                    Rows Removed by Join Filter: 1
+                                                                                    Buffers: shared hit=2
+                                                                                    ->  Seq Scan on core.security_lifecycle_evidence e  (cost=0.00..1.06 rows=1 width=12) (actual time=0.061..0.062 rows=3.00 loops=1)
+                                                                                          Output: e.evidence_id, e.symbol_id, e.exchange, e.evidence_type, e.date_from, e.date_to, e.source_landing_id, e.source_url, e.source_document_date, e.first_observed_at, e.recorded_at
+                                                                                          Filter: (e.evidence_type = 'TRADE_ELIGIBLE'::text)
+                                                                                          Rows Removed by Filter: 2
+                                                                                          Buffers: shared hit=1
+                                                                                    ->  Hash  (cost=1.06..1.06 rows=1 width=12) (actual time=0.026..0.027 rows=2.00 loops=1)
+                                                                                          Output: d.symbol_id, d.date_to
+                                                                                          Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                                                          Buffers: shared hit=1
+                                                                                          ->  Seq Scan on core.security_lifecycle_evidence d  (cost=0.00..1.06 rows=1 width=12) (actual time=0.014..0.015 rows=2.00 loops=1)
+                                                                                                Output: d.symbol_id, d.date_to
+                                                                                                Filter: ((d.date_to IS NOT NULL) AND (d.evidence_type = 'DELISTED'::text))
+                                                                                                Rows Removed by Filter: 3
+                                                                                                Buffers: shared hit=1
+                ->  Hash Right Join  (cost=0.08..169.30 rows=2 width=261) (actual time=1460.040..1525.520 rows=108331.00 loops=1)
+                      Output: o_2.symbol_id, o_2.trade_date, o_2.source, o_2.v, o_2.is_traded, o_2.episode_row_number, o_2.exchange_code, o_2.basic_price, o_2.prior_volume, o_2.prior_average_price, o_2.prior_close, o_2.prior_basic_price, o_2.c, o_2.adjusted_c, o_2.prior_adjusted_close, o_2.episode_start_date, o_2.model_o, o_2.model_h, o_2.model_l, o_2.model_c, o_2.adjustment_vintage_at, o_2.landing_id, o_2.source_row, o_2.fetched_at, o_2.traded_sequence, x.reference_adjustment_ratio
+                      Hash Cond: ((x.symbol_id = o_2.symbol_id) AND (x.trade_date = o_2.trade_date) AND (x.source = o_2.source))
+                      Buffers: shared hit=2388 read=1831, temp written=4046
+                      ->  Seq Scan on core.vndirect_reference_adjustment_overrides x  (cost=0.00..154.28 rows=1328 width=29) (actual time=0.036..14.164 rows=1328.00 loops=1)
+                            Output: x.symbol_id, x.trade_date, x.source, x.reference_adjustment_ratio, x.resolution_kind, x.evidence_url, x.secondary_evidence_url, x.evidence_note, x.recorded_at, x.evidence_sha256, x.secondary_evidence_sha256
+                            Buffers: shared hit=141
+                      ->  Hash  (cost=0.04..0.04 rows=2 width=253) (actual time=1459.941..1459.942 rows=108331.00 loops=1)
+                            Output: o_2.symbol_id, o_2.trade_date, o_2.source, o_2.v, o_2.is_traded, o_2.episode_row_number, o_2.exchange_code, o_2.basic_price, o_2.prior_volume, o_2.prior_average_price, o_2.prior_close, o_2.prior_basic_price, o_2.c, o_2.adjusted_c, o_2.prior_adjusted_close, o_2.episode_start_date, o_2.model_o, o_2.model_h, o_2.model_l, o_2.model_c, o_2.adjustment_vintage_at, o_2.landing_id, o_2.source_row, o_2.fetched_at, o_2.traded_sequence
+                            Buckets: 131072 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 25240kB
+                            Buffers: shared hit=2247 read=1831, temp written=4046
+                            ->  CTE Scan on ordered o_2  (cost=0.00..0.04 rows=2 width=253) (actual time=793.870..1399.931 rows=108331.00 loops=1)
+                                  Output: o_2.symbol_id, o_2.trade_date, o_2.source, o_2.v, o_2.is_traded, o_2.episode_row_number, o_2.exchange_code, o_2.basic_price, o_2.prior_volume, o_2.prior_average_price, o_2.prior_close, o_2.prior_basic_price, o_2.c, o_2.adjusted_c, o_2.prior_adjusted_close, o_2.episode_start_date, o_2.model_o, o_2.model_h, o_2.model_l, o_2.model_c, o_2.adjustment_vintage_at, o_2.landing_id, o_2.source_row, o_2.fetched_at, o_2.traded_sequence
+                                  Storage: Disk  Maximum Storage: 32769kB
+                                  Buffers: shared hit=2247 read=1831, temp written=4046
+                ->  Hash  (cost=0.08..0.08 rows=1 width=60) (actual time=105.711..105.713 rows=67784.00 loops=1)
+                      Output: t.last_traded_average_price, t.last_traded_close, t.symbol_id, t.episode_start_date, t.traded_sequence
+                      Buckets: 131072 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 5327kB
+                      Buffers: temp read=4047 written=1
+                      ->  Subquery Scan on t  (cost=0.06..0.08 rows=1 width=60) (actual time=70.408..90.563 rows=67784.00 loops=1)
+                            Output: t.last_traded_average_price, t.last_traded_close, t.symbol_id, t.episode_start_date, t.traded_sequence
+                            Buffers: temp read=4047 written=1
+                            ->  HashAggregate  (cost=0.06..0.07 rows=1 width=60) (actual time=70.406..85.228 rows=67784.00 loops=1)
+                                  Output: o_3.symbol_id, o_3.episode_start_date, o_3.traded_sequence, max(o_3.average_price), max(o_3.c)
+                                  Group Key: o_3.symbol_id, o_3.episode_start_date, o_3.traded_sequence
+                                  Batches: 1  Memory Usage: 8241kB
+                                  Buffers: temp read=4047 written=1
+                                  ->  CTE Scan on ordered o_3  (cost=0.00..0.04 rows=1 width=60) (actual time=0.053..36.543 rows=67784.00 loops=1)
+                                        Output: o_3.symbol_id, o_3.trade_date, o_3.source, o_3.o, o_3.h, o_3.l, o_3.c, o_3.v, o_3.adj_basis, o_3.is_traded, o_3.landing_id, o_3.source_row, o_3.ingest_id, o_3.fetched_at, o_3.adjusted_o, o_3.adjusted_h, o_3.adjusted_l, o_3.adjusted_c, o_3.adjustment_vintage_at, o_3.basic_price, o_3.average_price, o_3.exchange_code, o_3.model_o, o_3.model_h, o_3.model_l, o_3.model_c, o_3.model_bar_evidence_url, o_3.model_bar_evidence_sha256, o_3.model_bar_secondary_evidence_url, o_3.model_bar_secondary_evidence_sha256, o_3.model_bar_evidence_note, o_3.source_sequence, o_3.first_trade_date, o_3.episode_start_date, o_3.prior_close, o_3.prior_basic_price, o_3.prior_average_price, o_3.prior_volume, o_3.prior_adjusted_close, o_3.traded_sequence, o_3.episode_row_number
+                                        Filter: (o_3.v > '0'::double precision)
+                                        Rows Removed by Filter: 40547
+                                        Storage: Disk  Maximum Storage: 32769kB
+                                        Buffers: temp read=4047 written=1
+  CTE recorded_dates
+    ->  Insert on pg_temp.phase2_adjustment_batch_dates  (cost=0.05..0.06 rows=2 width=8) (actual time=23.882..47.292 rows=2008.00 loops=1)
+          Output: phase2_adjustment_batch_dates.trade_date
+          Conflict Resolution: NOTHING
+          Conflict Arbiter Indexes: phase2_adjustment_batch_dates_pkey
+          Tuples Inserted: 2008
+          Conflicting Tuples: 0
+          Buffers: local hit=14871 read=2 dirtied=25 written=54
+          ->  Group  (cost=0.05..0.06 rows=2 width=8) (actual time=23.260..34.948 rows=2008.00 loops=1)
+                Output: 0, inserted_rows.trade_date
+                Group Key: inserted_rows.trade_date
+                ->  Sort  (cost=0.05..0.06 rows=2 width=4) (actual time=23.256..27.434 rows=108331.00 loops=1)
+                      Output: inserted_rows.trade_date
+                      Sort Key: inserted_rows.trade_date
+                      Sort Method: quicksort  Memory: 3073kB
+                      ->  CTE Scan on inserted_rows  (cost=0.00..0.04 rows=2 width=4) (actual time=0.001..6.383 rows=108331.00 loops=1)
+                            Output: inserted_rows.trade_date
+                            Storage: Memory  Maximum Storage: 4410kB
+  InitPlan 5
+    ->  Aggregate  (cost=0.04..0.06 rows=1 width=8) (actual time=1970.836..1970.837 rows=1.00 loops=1)
+          Output: count(*)
+          Buffers: shared hit=2388 read=1831, local hit=112267 dirtied=1970 written=2925, temp read=4047 written=4047
+          ->  CTE Scan on inserted_rows inserted_rows_1  (cost=0.00..0.04 rows=2 width=0) (actual time=1566.061..1962.266 rows=108331.00 loops=1)
+                Output: inserted_rows_1.trade_date
+                Storage: Memory  Maximum Storage: 4410kB
+                Buffers: shared hit=2388 read=1831, local hit=112267 dirtied=1970 written=2925, temp read=4047 written=4047
+  InitPlan 6
+    ->  Aggregate  (cost=0.04..0.06 rows=1 width=8) (actual time=47.945..47.946 rows=1.00 loops=1)
+          Output: count(*)
+          Buffers: local hit=14871 read=2 dirtied=25 written=54
+          ->  CTE Scan on recorded_dates  (cost=0.00..0.04 rows=2 width=0) (actual time=23.885..47.765 rows=2008.00 loops=1)
+                Output: recorded_dates.trade_date
+                Storage: Memory  Maximum Storage: 79kB
+                Buffers: local hit=14871 read=2 dirtied=25 written=54
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: LOG:  temporary file: path "base/pgsql_tmp/pgsql_tmp17712.0", size 33147574
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 0.012 ms  plan:
+Query Text: SELECT set_config('enable_nestloop',v_enable_nestloop,true)
+Result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.009..0.009 rows=1.00 loops=1)
+  Output: set_config('enable_nestloop'::text, 'off'::text, true)
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 0.194 ms  plan:
+Query Text: UPDATE pg_temp.phase2_adjustment_symbol_batches
+       SET loaded=true
+     WHERE batch_no=p_batch_no
+Update on pg_temp.phase2_adjustment_symbol_batches  (cost=0.00..1.75 rows=0 width=0) (actual time=0.193..0.193 rows=0.00 loops=1)
+  Buffers: local hit=120 read=1 dirtied=1 written=1
+  ->  Seq Scan on pg_temp.phase2_adjustment_symbol_batches  (cost=0.00..1.75 rows=60 width=7) (actual time=0.077..0.095 rows=60.00 loops=1)
+        Output: true, ctid
+        Filter: (phase2_adjustment_symbol_batches.batch_no = 0)
+        Buffers: local read=1 written=1
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:02.130916
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: NOTICE:  CACHE COMPONENT populate rows=108331 elapsed=00:00:02.133243
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 0.053 ms  plan:
+Query Text: 
+Query Parameters: $1 = '623336', $2 = 'pg_class'
+Index Scan using pg_description_o_c_o_index on pg_catalog.pg_description  (cost=2.78..5.00 rows=1 width=25) (actual time=0.047..0.049 rows=1.00 loops=1)
+  Output: pg_description.description
+  Index Cond: ((pg_description.objoid = '623336'::oid) AND (pg_description.classoid = (InitPlan 1).col1) AND (pg_description.objsubid = 0))
+  Index Searches: 1
+  Buffers: shared hit=6
+  InitPlan 1
+    ->  Index Scan using pg_class_relname_nsp_index on pg_catalog.pg_class  (cost=0.28..2.49 rows=1 width=4) (actual time=0.025..0.025 rows=1.00 loops=1)
+          Output: pg_class.oid
+          Index Cond: ((pg_class.relname = 'pg_class'::name) AND (pg_class.relnamespace = '11'::oid))
+          Index Searches: 1
+          Buffers: shared hit=3
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 0.024 ms  plan:
+Query Text: 
+Query Parameters: $1 = '623341', $2 = 'pg_class'
+Index Scan using pg_description_o_c_o_index on pg_catalog.pg_description  (cost=2.78..5.00 rows=1 width=25) (actual time=0.023..0.023 rows=1.00 loops=1)
+  Output: pg_description.description
+  Index Cond: ((pg_description.objoid = '623341'::oid) AND (pg_description.classoid = (InitPlan 1).col1) AND (pg_description.objsubid = 0))
+  Index Searches: 1
+  Buffers: shared hit=6
+  InitPlan 1
+    ->  Index Scan using pg_class_relname_nsp_index on pg_catalog.pg_class  (cost=0.28..2.49 rows=1 width=4) (actual time=0.010..0.010 rows=1.00 loops=1)
+          Output: pg_class.oid
+          Index Cond: ((pg_class.relname = 'pg_class'::name) AND (pg_class.relnamespace = '11'::oid))
+          Index Searches: 1
+          Buffers: shared hit=3
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 0.020 ms  plan:
+Query Text: 
+Query Parameters: $1 = '623348', $2 = 'pg_class'
+Index Scan using pg_description_o_c_o_index on pg_catalog.pg_description  (cost=2.78..5.00 rows=1 width=25) (actual time=0.018..0.019 rows=1.00 loops=1)
+  Output: pg_description.description
+  Index Cond: ((pg_description.objoid = $1) AND (pg_description.classoid = (InitPlan 1).col1) AND (pg_description.objsubid = 0))
+  Index Searches: 1
+  Buffers: shared hit=6
+  InitPlan 1
+    ->  Index Scan using pg_class_relname_nsp_index on pg_catalog.pg_class  (cost=0.28..2.49 rows=1 width=4) (actual time=0.011..0.011 rows=1.00 loops=1)
+          Output: pg_class.oid
+          Index Cond: ((pg_class.relname = $2) AND (pg_class.relnamespace = '11'::oid))
+          Index Searches: 1
+          Buffers: shared hit=3
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 0.470 ms  plan:
+Query Text: SELECT batch_no                          FROM pg_temp.phase2_adjustment_symbol_batches
+    WHERE NOT loaded
+    ORDER BY batch_no
+    LIMIT 1
+Limit  (cost=0.14..0.21 rows=1 width=4) (actual time=0.468..0.469 rows=0.00 loops=1)
+  Output: batch_no
+  Buffers: local hit=1 read=1 written=1
+  ->  Index Scan using phase2_adjustment_symbol_batches_batch_idx on pg_temp.phase2_adjustment_symbol_batches  (cost=0.14..4.34 rows=60 width=4) (actual time=0.087..0.087 rows=0.00 loops=1)
+        Output: batch_no
+        Filter: (NOT phase2_adjustment_symbol_batches.loaded)
+        Rows Removed by Filter: 60
+        Index Searches: 1
+        Buffers: local hit=1 read=1 written=1
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  building index "phase2_adjustment_rows_symbol_date_idx" on table "phase2_adjustment_rows" serially
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  index "phase2_adjustment_rows_symbol_date_idx" can safely use deduplication
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  building index "phase2_adjustment_rows_date_symbol_idx" on table "phase2_adjustment_rows" serially
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  index "phase2_adjustment_rows_date_symbol_idx" can safely use deduplication
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 36.775 ms  plan:
+Query Text: SELECT count(*)             FROM pg_temp.phase2_adjustment_rows
+Aggregate  (cost=3324.14..3324.15 rows=1 width=8) (actual time=36.768..36.769 rows=1.00 loops=1)
+  Output: count(*)
+  Buffers: local read=1970
+  ->  Seq Scan on pg_temp.phase2_adjustment_rows  (cost=0.00..3053.31 rows=108331 width=0) (actual time=0.060..26.945 rows=108331.00 loops=1)
+        Output: symbol_id, trade_date, source, v, is_traded, reference_adjustment_ratio, episode_start_date, model_o, model_h, model_l, model_c, adjustment_vintage_at, landing_id, source_row, fetched_at
+        Buffers: local read=1970
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: DEBUG:  duration: 0.079 ms  plan:
+Query Text: UPDATE pg_temp.phase2_adjustment_cache_state
+       SET ready=true,finalized_at=clock_timestamp()
+Update on pg_temp.phase2_adjustment_cache_state  (cost=0.00..34.88 rows=0 width=0) (actual time=0.078..0.079 rows=0.00 loops=1)
+  Buffers: local hit=2 read=1 dirtied=1
+  ->  Seq Scan on pg_temp.phase2_adjustment_cache_state  (cost=0.00..34.88 rows=1990 width=15) (actual time=0.047..0.048 rows=1.00 loops=1)
+        Output: true, clock_timestamp(), ctid
+        Buffers: local read=1
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.513505
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:47: NOTICE:  CACHE COMPONENT finalize rows=108331 elapsed=00:00:00.514432
+DO
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:48: DEBUG:  duration: 28.347 ms  plan:
+Query Text: SELECT count(*) AS cache_rows FROM pg_temp.phase2_adjustment_rows;
+Aggregate  (cost=3324.14..3324.15 rows=1 width=8) (actual time=28.336..28.337 rows=1.00 loops=1)
+  Output: count(*)
+  Buffers: local read=1970 written=1
+  ->  Seq Scan on pg_temp.phase2_adjustment_rows  (cost=0.00..3053.31 rows=108331 width=0) (actual time=0.073..21.701 rows=108331.00 loops=1)
+        Output: symbol_id, trade_date, source, v, is_traded, reference_adjustment_ratio, episode_start_date, model_o, model_h, model_l, model_c, adjustment_vintage_at, landing_id, source_row, fetched_at
+        Buffers: local read=1970 written=1
+ cache_rows 
+------------
+     108331
+(1 row)
+
+ROLLBACK
+psql:docs/evidence/phase2/phase2_cache_stage_components_60_20261024.psql:50: DEBUG:  duration: 0.068 ms  plan:
+Query Text: SELECT temp_files,temp_bytes FROM pg_stat_database WHERE datname=current_database();
+Subquery Scan on d  (cost=0.00..2.09 rows=2 width=16) (actual time=0.040..0.063 rows=1.00 loops=1)
+  Output: pg_stat_get_db_temp_files(d.oid), pg_stat_get_db_temp_bytes(d.oid)
+  Buffers: shared hit=2
+  ->  Append  (cost=0.00..2.06 rows=2 width=68) (actual time=0.030..0.053 rows=1.00 loops=1)
+        Buffers: shared hit=2
+        ->  Subquery Scan on "*SELECT* 1"  (cost=0.00..0.02 rows=1 width=68) (actual time=0.002..0.002 rows=0.00 loops=1)
+              Output: 0, NULL::name
+              ->  Result  (cost=0.00..0.01 rows=1 width=68) (actual time=0.001..0.001 rows=0.00 loops=1)
+                    Output: 0, NULL::name
+                    One-Time Filter: NULL::boolean
+        ->  Seq Scan on pg_catalog.pg_database  (cost=0.00..2.03 rows=1 width=68) (actual time=0.027..0.049 rows=1.00 loops=1)
+              Output: pg_database.oid, pg_database.datname
+              Filter: (pg_database.datname = current_database())
+              Rows Removed by Filter: 73
+              Buffers: shared hit=2
+ temp_files | temp_bytes  
+------------+-------------
+        778 | 30762551730
+(1 row)
+

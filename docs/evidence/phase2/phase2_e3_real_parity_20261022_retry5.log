@@ -1,0 +1,50 @@
+   Compiling vn-signal-phase2-parity v0.1.0 (C:\Users\HP\VN-Signal\rust\crates\phase2-parity)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 22.10s
+     Running tests\sql_parity.rs (rust\target\debug\deps\sql_parity-a8e5847f67734581.exe)
+
+running 1 test
+E3 checkpoint: selected 20 deterministic feature rows, elapsed 18.4674302s
+E3 checkpoint: selected source lineage verified, elapsed 292.1065ms
+E3 checkpoint: initializing point-in-time cache batches
+E3 checkpoint: cache batch 0/26 rows 108331, elapsed 1.9732347s
+E3 checkpoint: cache batch 1/26 rows 115152, elapsed 2.05952s
+E3 checkpoint: cache batch 2/26 rows 111302, elapsed 1.8291133s
+E3 checkpoint: cache batch 3/26 rows 113879, elapsed 2.1018814s
+E3 checkpoint: cache batch 4/26 rows 114214, elapsed 1.9131813s
+E3 checkpoint: cache batch 5/26 rows 114805, elapsed 1.704839s
+E3 checkpoint: cache batch 6/26 rows 112592, elapsed 1.8000579s
+E3 checkpoint: cache batch 7/26 rows 116639, elapsed 1.902681s
+E3 checkpoint: cache batch 8/26 rows 106585, elapsed 1.7525643s
+E3 checkpoint: cache batch 9/26 rows 111358, elapsed 1.9729209s
+E3 checkpoint: cache batch 10/26 rows 106117, elapsed 1.7043571s
+E3 checkpoint: cache batch 11/26 rows 113594, elapsed 2.1216821s
+E3 checkpoint: cache batch 12/26 rows 112628, elapsed 1.8401523s
+E3 checkpoint: cache batch 13/26 rows 113102, elapsed 1.97996s
+E3 checkpoint: cache batch 14/26 rows 113642, elapsed 2.0128444s
+E3 checkpoint: cache batch 15/26 rows 111909, elapsed 1.9268744s
+test postgres_features_match_polars_reference_for_twenty_symbol_days has been running for over 60 seconds
+E3 checkpoint: cache batch 16/26 rows 111802, elapsed 1.9322897s
+E3 checkpoint: cache batch 17/26 rows 115171, elapsed 2.0636128s
+E3 checkpoint: cache batch 18/26 rows 115471, elapsed 2.0400537s
+E3 checkpoint: cache batch 19/26 rows 112613, elapsed 2.0028456s
+E3 checkpoint: cache batch 20/26 rows 109469, elapsed 2.1124347s
+E3 checkpoint: cache batch 21/26 rows 114091, elapsed 2.1427138s
+E3 checkpoint: cache batch 22/26 rows 110051, elapsed 2.2997144s
+E3 checkpoint: cache batch 23/26 rows 112438, elapsed 2.51883s
+E3 checkpoint: cache batch 24/26 rows 115457, elapsed 2.458934s
+E3 checkpoint: cache batch 25/26 rows 32023, elapsed 1.0641881s
+E3 checkpoint: point-in-time cache ready, rows 2844435, elapsed 61.7734776s
+
+thread 'postgres_features_match_polars_reference_for_twenty_symbol_days' (5276) panicked at crates\phase2-parity\tests\sql_parity.rs:671:18:
+freshly rebuild one sampled date with the production v2 SQL feature builder: Error { kind: ToSql(0), cause: Some(WrongType { postgres: Date, rust: "alloc::string::String" }) }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test postgres_features_match_polars_reference_for_twenty_symbol_days ... FAILED
+
+failures:
+
+failures:
+    postgres_features_match_polars_reference_for_twenty_symbol_days
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4 filtered out; finished in 89.32s
+
+error: test failed, to rerun pass `-p vn-signal-phase2-parity --test sql_parity`
