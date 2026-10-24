@@ -1,0 +1,12 @@
+BEGIN
+CREATE TABLE
+COPY 1
+psql:.phase2-runtime/import_execution_pilot.sql:25: NOTICE:  actual native source rows 2003, archived 2003, verified 2003
+DO
+          status           | venue | count |    min     |    max     |          min           |              max              
+---------------------------+-------+-------+------------+------------+------------------------+-------------------------------
+ VERIFIED_PUBLIC_EXECUTION | HNX   |   545 | 2018-10-01 | 2020-12-01 | 2018-10-02 00:00:00+07 | 2026-10-24 18:34:12.983203+07
+ VERIFIED_PUBLIC_EXECUTION | HOSE  |  1458 | 2020-12-09 | 2026-10-16 | 2020-12-10 00:00:00+07 | 2026-10-24 18:34:13.200154+07
+(2 rows)
+
+ROLLBACK

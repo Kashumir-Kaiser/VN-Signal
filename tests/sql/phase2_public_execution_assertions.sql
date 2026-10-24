@@ -1,5 +1,12 @@
 \set ON_ERROR_STOP on
 BEGIN;
+DO $$
+DECLARE d text:=pg_get_functiondef('ops.phase2_label_target_chunk_base_input_hash(date,date)'::regprocedure);
+BEGIN
+ IF regexp_count(d,'execution_proof=v[0-9]+')<>1 OR position('bounded_symbols' IN d)=0 THEN
+  RAISE EXCEPTION 'execution proof hash must have exactly one bounded versioned dependency';
+ END IF;
+END $$;
 CREATE FUNCTION pg_temp.public_execution_fixture(sym text,variant text)
 RETURNS bigint LANGUAGE plpgsql AS $$
 DECLARE sid bigint; lid bigint; body jsonb; bytes bytea; ingest uuid:=gen_random_uuid();

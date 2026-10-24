@@ -166,7 +166,7 @@ END $proof_basis$;
 DO $execution_hash$
 DECLARE d text:=pg_get_functiondef('ops.phase2_label_target_chunk_base_input_hash(date,date)'::regprocedure); a text:='v_hash||''|liquidity_context=''';
 BEGIN
- IF position('|execution_proof=v1|' IN d)>0 THEN RETURN; END IF;
+ IF position('|execution_proof=v' IN d)>0 THEN RETURN; END IF;
  IF position(a IN d)=0 THEN RAISE EXCEPTION 'execution proof hash anchor missing'; END IF;
  EXECUTE replace(d,a,'v_hash||''|execution_proof=v1|''||coalesce((SELECT string_agg(ops.phase2_hash_jsonb((to_jsonb(p)-''observed_at''-''available_at'')||jsonb_build_object(''available_at_epoch'',extract(epoch FROM p.available_at))),'''' ORDER BY p.symbol_id,p.trade_date,p.proof_id)
  FROM ops.phase2_current_public_execution_proof p WHERE p.trade_date<p_date_to),'''')||

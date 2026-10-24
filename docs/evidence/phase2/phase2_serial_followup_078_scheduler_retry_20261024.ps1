@@ -53,6 +53,8 @@ try {
  Check-Exit 'report migration081'
  & 'C:\Program Files\PostgreSQL\18\bin\psql.exe' -X -v ON_ERROR_STOP=1 -U postgres -d vnsignal_phase2_report_20261019 -f sql/migrations/082_phase2_public_execution_tenure.sql *> ($prefix+'.apply082.log')
  Check-Exit 'report migration082'
+ & 'C:\Program Files\PostgreSQL\18\bin\psql.exe' -X -v ON_ERROR_STOP=1 -U postgres -d vnsignal_phase2_report_20261019 -f sql/migrations/083_phase2_bounded_execution_proof_hash.sql *> ($prefix+'.apply083.log')
+ Check-Exit 'report migration083'
  $state.phase='public_execution_archive';Save-State
  & 'C:\Program Files\PostgreSQL\18\bin\psql.exe' -X -v ON_ERROR_STOP=1 -U postgres -d vnsignal_phase2_report_20261019 -f docs/evidence/phase2/phase2_public_execution_full_082_20261024.sql *> ($prefix+'.public_execution.log')
  Check-Exit 'full exact public execution archive'
