@@ -21,12 +21,13 @@ zero availability or lineage violations. It does not cover the other 1,359
 feature-universe symbols. Fundamental mappings and overlay rows remain empty,
 so optional model B stays disabled; core price-based Phase 3 can proceed
 without it. These data gates do not make the product production-ready:
-recommendations stay disabled until their later-phase validation. The exact
-code candidate `a4b4497` passed hosted Go, Python, and PostgreSQL 16 CI; the
-current evidence-only branch commit must also pass CI before merge.
+recommendations stay disabled until their later-phase validation. The code
+candidate `a4b4497` and exact evidence commit `a7a97f5` passed hosted Go
+race/vet, Python, PostgreSQL 16, and Rust CI. The follow-up note recording
+those runs is documentation-only and will be checked before merge.
 See the [current E4 report](evidence/phase2/phase2_e4_remaining_gap_probe_20261031/gdw_hnx_deregistration_capture_20261102/phase2_e4_currenthash_postgdw_20261102.md),
 [acceptance checkpoint](evidence/phase2/phase2_acceptance_checkpoint_20261102.md),
-and [hosted CI record](evidence/phase2/phase2_github_actions_a4b4497_20261102.md).
+and [latest hosted CI record](evidence/phase2/phase2_github_actions_a7a97f5_20261102.md).
 
 The dated build notes below preserve historical checkpoints. When one differs
 from this current-status section, use this section and the latest acceptance
