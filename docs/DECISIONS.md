@@ -1,5 +1,54 @@
 # Decisions
 
+## 2026-11-02 — close GDW's UPCoM endpoint with official HNX notices
+
+- Capture and visually review official HNX Notice 1385/TB-SGDHN, dated
+  2018-11-21. It states that GDW's last UPCoM session was 2018-12-06 and that
+  cancellation took effect 2018-12-07. HNX Notice 1458/TB-SGDHN, dated
+  2018-12-06, states the first HNX trading date was 2018-12-18. The secondary
+  profile's December 7 date is the cancellation-effective date, not the last
+  UPCoM session. The VSDC registration/depository-data date of December 11 is
+  a separate custody milestone.
+- Append both hash-verified source notices and transfer event 292 only to
+  disposable clone `vnsignal_phase2_report_20261019`. The saved importer replay
+  resolves to the same two source landings and one event with zero duplicate
+  inserts. Do not alter any bars, features, labels, or production database.
+- The refreshed current-hash E4 census records 219 strict verified transfers
+  / 1,539 sessions, plus the separately supported CTR and PTM lifecycle
+  intervals / 1,686 sessions. No interval outside those two documented
+  lifecycle cases remains unresolved. CTR's five transition-period rows
+  remain excluded from model eligibility. Do not assign daily gap-session
+  trade, no-trade, suspension, or delisting states from the transfer record.
+  E4 continuity is PASS. A later current-hash target census shows the 225
+  quarantined execution weights are all outside the eligible/investable
+  target cohort; retain them as NULL. Optional model-B mappings remain
+  disabled and are not required for the core price-based Phase 3 trainer.
+- Reproduction: `docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/gdw_hnx_deregistration_capture_20261102/`
+  contains the capture script/manifest, source bytes, reviewed stage files,
+  clone-only importer, successful replay log, and updated E4 reports.
+
+## 2026-11-02 — preserve explicit Phase 3 target exclusions
+
+- The read-only current-hash census found 3,161,496 targets overall and
+  716,739 eligible/investable tier-ranked rows with non-null ranks and
+  execution weights before the migration-059 250-session source-gap cooldown.
+  None of the 225 null execution weights belongs to an eligible/investable
+  target; all are 2018 rows, when the eligible/investable count is zero.
+- Preserve all unknown values. Do not impute the 225 execution weights, the
+  5,776 retained members without a liquidity tier, or the 152 tiered rows
+  lacking `realized_vol60` and therefore a volatility-scaled score/rank. The
+  tier-ranked Phase 3 selector must require the DATA_CONTRACT eligibility
+  fields; raw-return heads must use their own explicit eligibility.
+- The PIT archive covers all 159 symbols in the latest current-hash
+  investable L1/L2 cohort (100 L1, 59 L2), with six statement/frequency
+  groups and zero availability or observation-lineage violations. It does
+  not cover the full 1,518-symbol feature universe. Keep the optional
+  fundamentals model disabled until verified mappings and overlay features
+  exist; this does not block the core price-based Phase 3 path.
+- Evidence: `docs/evidence/phase2/phase2_phase3_training_target_readiness_20261102.sql`,
+  its successful log, and the updated
+  `docs/evidence/phase2/phase2_acceptance_checkpoint_20261102.md`.
+
 ## 2026-11-02 — retain quarantined weights after official exchange-source review
 
 - Capture the official HNX UPCoM price-fluctuation report for all 27 residual
@@ -43,6 +92,9 @@
   and the adjacent `gdw_primary_source_gap_20261031/README.md`.
 
 ## 2026-11-02 — retain GDW's unresolved UPCoM endpoint
+
+Historical decision below is superseded by the official HNX Notice
+1385/TB-SGDHN capture and E4 import recorded above.
 
 - Capture the official HNX listed-market article 309502 and its 2018 annual
   report attachment with normal TLS validation. The report's corporate-history

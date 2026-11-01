@@ -1,19 +1,58 @@
-# Build status — 2026-11-01
+# Build status — 2026-11-02
 
 ## Current Phase 2 status
 
-**Overall: OPEN — Phase 2 is not complete or production-ready.** The active
-objective is the full Phase 2 deliverable: SQL features and labels, a
-point-in-time fundamentals archive, E1–E5 acceptance evidence, and fixture-only
-CI. The full feature/label builds and current-hash E1–E3/E5 gates have recorded
-evidence. The PIT archive now covers all 159 members of the current investable
-L1/L2 cohort (100 L1, 59 L2); it does not cover the whole 1,518-symbol feature
-universe. E4 remains partial, 225 execution weights remain quarantined, and
-hosted CI has not covered the current candidate tree. A newly captured HNX
-annual report confirms GDW's listing history but not the end of UPCoM trading;
-the seven-session gap remains unclassified. The fundamental overlay
-remains disabled because its item and industry mappings are not source-verified.
-Phase 3 sign-off requires every remaining exit criterion below.
+**Overall: Phase 2 acceptance evidence is complete; final branch CI is the
+remaining sign-off check.** The Master Build Spec's Phase 2 deliverable is
+SQL features, labels, and a point-in-time fundamentals archive; its explicit
+exit tests (real null-rate report, leakage, and feature parity) pass. Recovery
+gates E1–E5 are also recorded as passing at their stated scopes. Current-hash
+target readiness is confirmed without imputing missing values: 716,739
+tier-ranked targets have ranks and execution weights before the migration-059
+250-session cooldown. The 225 null execution weights are all 2018 rows with
+zero eligible/investable targets; the 5,776 retained members without a tier
+and 152 targets without realized volatility remain unranked and must be
+excluded by the tier-ranked head selector. The Phase 3 trainer must follow the
+head-specific eligibility contract in `docs/DATA_CONTRACT.md`.
+
+The PIT archive covers the 159 symbols in the latest current-hash investable
+L1/L2 cohort (100 L1, 59 L2), across all six statement/frequency groups, with
+zero availability or lineage violations. It does not cover the other 1,359
+feature-universe symbols. Fundamental mappings and overlay rows remain empty,
+so optional model B stays disabled; core price-based Phase 3 can proceed
+without it. These data gates do not make the product production-ready:
+recommendations stay disabled until their later-phase validation. The exact
+code candidate `a4b4497` passed hosted Go, Python, and PostgreSQL 16 CI; the
+current evidence-only branch commit must also pass CI before merge.
+See the [current E4 report](evidence/phase2/phase2_e4_remaining_gap_probe_20261031/gdw_hnx_deregistration_capture_20261102/phase2_e4_currenthash_postgdw_20261102.md),
+[acceptance checkpoint](evidence/phase2/phase2_acceptance_checkpoint_20261102.md),
+and [hosted CI record](evidence/phase2/phase2_github_actions_a4b4497_20261102.md).
+
+The dated build notes below preserve historical checkpoints. When one differs
+from this current-status section, use this section and the latest acceptance
+checkpoint as the current decision.
+
+### 2026-11-02 — GDW endpoint evidence and acceptance update
+
+HNX Notice 1385/TB-SGDHN establishes GDW's final UPCoM session as 2018-12-06
+and cancellation effective 2018-12-07. HNX Notice 1458/TB-SGDHN establishes
+the first HNX session as 2018-12-18. The verified source pair is captured and
+imported into disposable clone `vnsignal_phase2_report_20261019` as event 292;
+no bars, features, or labels were changed. The refreshed full-hash census
+records 219 strict transfers / 1,539 sessions, the separately reviewed CTR
+and PTM lifecycle intervals / 1,686 sessions, and zero unresolved
+non-CTR/PTM intervals. Do not infer individual gap-session activity. See the
+[source packet](evidence/phase2/phase2_e4_remaining_gap_probe_20261031/gdw_hnx_deregistration_capture_20261102/README.md)
+and [recomputed census](evidence/phase2/phase2_e4_remaining_gap_probe_20261031/gdw_hnx_deregistration_capture_20261102/phase2_e4_currenthash_postgdw_20261102.md).
+
+The 225 2019-01-02 execution weights remain NULL and quarantined because the
+available HNX/HSX records do not provide source-linked executable OHLC for
+every affected symbol. The current-hash target census confirms all 225 are
+outside the eligible/investable cohort; there are no NULL weights among
+eligible/investable tier-ranked targets. See the [target-readiness audit]
+(evidence/phase2/phase2_phase3_training_target_readiness_20261102.log). The
+PIT archive scope and disabled overlay are described above; these limitations
+are explicit Phase 3 scope constraints rather than missing-value imputations.
 
 ### 2026-11-02 — official limit-source cross-check
 
@@ -43,11 +82,9 @@ and daily overlay rows remain zero, so the separate fundamental overlay stays
 disabled. See the [PIT report](evidence/phase2/phase2_fundamentals_pit_coverage_20261101.md)
 and its linked captured census/backfill evidence.
 
-Go tests, Go vet, and all 47 Python tests pass after the latest fundamental
-preflight and safe-error-diagnostic changes. The current candidate still lacks
-hosted CI. Phase 2 stays **OPEN** pending strict E4 continuity, resolution or
-continued quarantine of the 225 conflicting execution weights, and exact-tree
-CI. Suggestions remain disabled.
+Historical checkpoint before the 2026-11-02 GDW notice capture and target
+readiness census. Its Phase 2 blockers are superseded by the current status at
+the top of this file and the 2026-11-02 acceptance checkpoint.
 
 ### 2026-11-01 — BSC historical price-limit backfill for 2019-01-02
 
@@ -84,14 +121,12 @@ candidate and does not verify this working tree. See the
 and local logs linked from the
 [`Phase 2 acceptance checkpoint`](evidence/phase2/phase2_acceptance_checkpoint_20261101.md).
 
-This closes the exact-evidence gap only for the 834 matched symbols on this
-date. The other 225 windows remain unresolved because the price sources
-disagree on close. E1–E3 and E5 have passing evidence at the scopes recorded
-below, while E4 remains partial. The later same-day PIT archive continuation
-passes archive coverage for the full 159-member current investable cohort;
-model-B mapping and overlay remain disabled. Final exact-tree checks remain
-open; hosted CI must be rerun against the actual candidate tree before sign-off.
-Phase 2 remains **OPEN**, and suggestions remain disabled.
+Historical checkpoint as of 2026-11-01, before the GDW endpoint source pair,
+the all-target readiness census, and current-hash acceptance checkpoint were
+completed on 2026-11-02. At that time the 225 rows, partial E4 evidence, and
+then-current hosted CI were correctly reported as open. Use the current status
+and [2026-11-02 acceptance checkpoint](evidence/phase2/phase2_acceptance_checkpoint_20261102.md)
+for the present decision.
 
 ### 2026-11-01 — initial PIT fundamentals archive census (superseded same day)
 
@@ -166,16 +201,14 @@ and [source-gap review](evidence/phase2/phase2_e4_remaining_gap_probe_20261031/g
 
 ### 2026-11-02 — rerun current Go and Python checks
 
-The Go suite and all 47 Python unit tests pass on the current code tree on
-2026-11-02. Go vet passed after the last Go source change on 2026-11-01, and no
-Go code has changed since. The worker tests used the repository's Python
-3.12.10 virtual environment explicitly, avoiding the disabled Windows Store
-`python` alias. Evidence: [Go tests](evidence/phase2/phase2_20261102_resume_retry1_go_test.log),
-[Go vet](evidence/phase2/phase2_20261101_fundamental_error_diagnostics_go_vet.log),
-and [Python tests](evidence/phase2/phase2_20261102_resume_retry1_python_unittest.log).
+The Go suite, Go vet, and all 47 Python unit tests pass on the current code
+tree. The worker tests used the repository's Python 3.12 virtual environment
+explicitly. Evidence: [Go tests](evidence/phase2/phase2_resume_acceptance_20261102_go_test.log),
+[Go vet](evidence/phase2/phase2_resume_acceptance_20261102_go_vet.log), and
+[Python tests](evidence/phase2/phase2_resume_acceptance_20261102_python_unittest.log).
 Rust and PostgreSQL migration checks from 2026-11-01 remain applicable because
-no Rust or SQL code changed after those successful runs. This does not close
-the remaining E4, execution-weight, or hosted-CI gates.
+no Rust or SQL code changed after those successful runs. The exact evidence
+branch commit still needs its hosted CI result before merge.
 
 ### 2026-10-31 — current E4 checkpoint after TIE and LCM events 290–291
 
@@ -929,12 +962,18 @@ and [Rust reference trace](evidence/phase2/phase2_e3_symbol824_ema100_trace_refe
 | E1 — null rates | **REPORT PRODUCED for the completed current-hash full-range V3 build.** The report covers 2,844,435 rows, 1,518 symbols, and 101 fields under hash `28089ed13c1be5a19865bc9cea34c44cb84f3e460ee3f3f2ee837a853d317f6b`. It records 73 measured deviations above 1 pp, 15 within 1 pp, 13 source-unverified, and zero mismatches among six rank/input NULL-alignment checks. Flags are preserved; field-level attribution remains open. | [Current-hash E1 report](evidence/phase2/phase2_current_hash_null_rates_full_20261029.md), [clean CSV](evidence/phase2/phase2_current_hash_null_rates_full_20261029.csv), and [run log](evidence/phase2/phase2_current_hash_null_rates_full_20261029.log). |
 | E2 — real-data leakage | **PASS on the current-hash candidate.** A PIT-stratified cohort of 60 symbols passed the 40%, 70%, and 95% cutoff perturbation runs. All pre-cut feature bytes, completed labels, and label boundaries matched; each cutoff had nonzero future equity/index perturbations. Rank comparison used the selected 60-symbol population. | [Current-hash E2 report](evidence/phase2/phase2_e2_currenthash_20261029.md), [full assertion log](evidence/phase2/phase2_e2_currenthash_20261029.log), and [assertion SQL](../../tests/sql/phase2_e2_real_assertions.sql). |
 | E3 — feature parity | **PASS on the current-hash candidate.** Twenty real source-attributed symbol-days across three dates passed SQL/Rust parity at 1e-9; selected source payloads and feature hashes verified. The recursive Rust pandas golden suite passed 3/3; the PostgreSQL recursive SQL golden passed in the migration 094 disposable harness, and the current-hash EMA100 real smoke matched its independent reference. | [Current-hash E3 report](evidence/phase2/phase2_e3_currenthash_20261029.md), [real parity log](evidence/phase2/phase2_e3_real_parity_currenthash_20261029.log), and [recursive golden test log](evidence/phase2/phase2_e3_recursive_golden_currenthash_20261029.log). |
-| E4 — integrity and scaling | **PARTIAL.** All 97 monthly slices cover 2,844,435 current-hash rows with exact V2 key coverage, no null/duplicate keys, no non-calendar dates, and zero rank/nonfinite/null-alignment violations. The latest census has 221 feature-row gaps / 3,225 sessions: 218 strict transfer matches / 1,532 sessions and three non-matches / 1,693 sessions. CTR and PTM remain separately supported lifecycle cases / 1,686 sessions; GDW is the sole unresolved non-lifecycle interval / seven sessions. The GDW gap has no intervening bars or source rows, and no session status is inferred. One interval in the full census contains bars; none contains source-archive rows. The endpoint-semantic audit shows 52 prior and 41 next feature-row endpoints with `is_traded=false`; those row dates are not proof of trades. Cache, S1, and S2 evidence remains limited to its recorded scope. | [Latest E4 report](evidence/phase2/phase2_e4_currenthash_posttielcm1_20261031.md), [current gap-pair CSV](evidence/phase2/phase2_e4_currenthash_gap_pairs_20261031_posttielcm1.csv), [endpoint-semantics audit](evidence/phase2/phase2_e4_feature_endpoint_semantics_20261031_posttielcm1.csv), and [scaling evidence](evidence/phase2/scaling_probe.md). |
+| E4 — integrity and scaling | **PASS for integrity and documented continuity.** All 97 monthly slices cover 2,844,435 current-hash rows with exact V2 key coverage, no null/duplicate keys, no non-calendar dates, and zero rank/nonfinite/null-alignment violations. The refreshed census has 221 feature-row gaps / 3,225 sessions: 219 strict transfer matches / 1,539 sessions and two separately supported CTR/PTM lifecycle cases / 1,686 sessions. No other interval remains unresolved. GDW's 7-session gap is backed by HNX Notices 1385/TB-SGDHN and 1458/TB-SGDHN, with zero intervening bars or source rows; no individual gap-session status is inferred. One interval in the full census contains five CTR rows, which remain excluded from model eligibility; none contains source-archive rows. The endpoint-semantic audit shows 52 prior and 41 next feature-row endpoints with `is_traded=false`; those row dates are not proof of trades. Cache, S1, and S2 evidence remains limited to its recorded scope. | [Latest E4 report](evidence/phase2/phase2_e4_remaining_gap_probe_20261031/gdw_hnx_deregistration_capture_20261102/phase2_e4_currenthash_postgdw_20261102.md), [gap-pair CSV](evidence/phase2/phase2_e4_remaining_gap_probe_20261031/gdw_hnx_deregistration_capture_20261102/phase2_e4_currenthash_gap_pairs_20261102_postgdw.csv), [endpoint-semantics CSV](evidence/phase2/phase2_e4_remaining_gap_probe_20261031/gdw_hnx_deregistration_capture_20261102/phase2_e4_feature_endpoint_semantics_20261102_postgdw.csv), and [scaling evidence](evidence/phase2/scaling_probe.md). |
 | E5 — repeatability | **PASS for the full 2023 calendar year after the BSC backfill.** The read-only recheck matched the two independent builds across all 12 months; both durable year hashes and the canonical content hash are unchanged. The verifier rolled back. | [Post-BSC repeatability log](evidence/phase2/phase2_e5_repeatability_after_bsc_20261101.log) and [acceptance checkpoint](evidence/phase2/phase2_acceptance_checkpoint_20261101.md). |
-| CI — fixture-only | **OLDER HOSTED SHA PASS; CURRENT CANDIDATE NOT YET VERIFIED.** GitHub Actions run 162 passed Go, Python, and PostgreSQL 16 jobs for committed SHA `c65adf6edc2b722999d38aa1dcc23c8832875faa`, not this working tree. Local Go tests, Go vet, and 45 Python tests passed after the BSC reconciliation; the post-migration-106 local race, Rust, and disposable PostgreSQL 18 harness logs are recorded separately. A new hosted run is still required for the selected candidate before merge. | [Hosted run 162 record](evidence/phase2/phase2_github_actions_run_162_20261101.md), [post-reconcile Go tests](evidence/phase2/phase2_20261101_postreconcile_go_test.log), [Go vet](evidence/phase2/phase2_20261101_postreconcile_go_vet_retry.log), and [Python tests](evidence/phase2/phase2_20261101_postreconcile_python_unittest.log); see the [acceptance checkpoint](evidence/phase2/phase2_acceptance_checkpoint_20261101.md) for the remaining local logs. |
+| CI — fixture-only | **PASS for current code candidate `a4b4497`.** Hosted Go race/vet, Python unit/compile/config, PostgreSQL 16 migrations/integration race, and Rust checks all passed. Later local changes are evidence-only and do not alter the tested code. | [Runs 165 and 166 record](evidence/phase2/phase2_github_actions_a4b4497_20261102.md). |
 | Derived targets and execution weights | **TARGET COVERAGE PASS; EXACT-EVIDENCE COVERAGE PARTIAL.** All 3,161,496 READY labels have targets. For 2019–2026, 3,101,645 targets have complete exact source evidence, non-null execution weights, and zero mismatches. Of 14,866 windows spanning 2019-01-02, 14,641 now have exact matched BSC evidence; the remaining 225 across 31 symbols stay quarantined because BSC and VNDIRECT closes conflict. Their weights remain NULL. | [Current-hash execution-weight report](evidence/phase2/phase2_execution_weight_coverage_currenthash_20261031.md), [BSC backfill report](evidence/phase2/phase2_bsc_price_limit_backfill_20190102_20261101.md), [annual CSV](evidence/phase2/phase2_execution_weight_setbased_audit_currenthash_20261031.csv), and [strict post-repair target-integrity log](evidence/phase2/phase2_execution_weight_target_integrity_postrepair_20261031.log). |
 
-### Remaining Phase 2 requirements and delivery
+### Historical Phase 2 checkpoint — superseded on 2026-11-02
+
+The status and open items below describe the earlier 2026-10-26/2026-10-31
+checkpoint. They are retained as history, not current blockers. The current
+acceptance decision, Phase 3 entry contract, and remaining exact-branch CI
+check are recorded at the top of this file and in the
+[2026-11-02 acceptance checkpoint](evidence/phase2/phase2_acceptance_checkpoint_20261102.md).
 
 The PIT fundamentals archive has source-backed VCI rows for FPT (768 line
 versions, 824 observations) and TCB (592 versions, 592 observations). A fresh
@@ -2915,6 +2954,10 @@ E4 continuity, quarantined execution weights, and current-tree hosted CI gates
 are unresolved. Suggestions remain disabled.
 
 ## 2026-11-02 — continue primary-source review for GDW's E4 gap
+
+Historical checkpoint before the later HNX Notice 1385/TB-SGDHN capture.
+The result below is superseded by the current status at the top of this file
+and the linked GDW endpoint capture packet.
 
 - Capture the official VSDC record for GDW's registration/depository-data
   transfer from UPCoM to HNX effective 2018-12-11, and HNX exact-date UPCoM

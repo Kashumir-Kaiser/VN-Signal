@@ -104,7 +104,13 @@ official_price_limit_source_review_20261102/.
   and [`weight_refresh_audit_20261101.log`](bsc_price_limits_20190102/weight_refresh_audit_20261101.log).
 
 The database work was limited to the disposable report clone. The registered
-`vnsignal` database was not modified. Phase 2 remains open: the remaining 225
-execution windows need acceptable source evidence, and the full acceptance
-gates for PIT fundamentals, E1–E5, hosted PostgreSQL 16 CI, and final exact-tree
-verification are still required. Suggestions remain disabled.
+`vnsignal` database was not modified. The 225 weights remain NULL because
+acceptable source-linked executable OHLC was not available. The later
+2026-11-02 read-only target census established that all 225 are 2018 rows
+outside the eligible/investable cohort; none of the 716,739 eligible,
+investable, tier-ranked targets is missing an execution weight before the
+migration-059 cooldown. Preserve these quarantined values without imputation.
+See the [target-readiness audit](phase2_phase3_training_target_readiness_20261102.log)
+and [current acceptance checkpoint](phase2_acceptance_checkpoint_20261102.md).
+This weight evidence is not a Phase 2 blocker; suggestions remain disabled
+until their later-phase gates pass.

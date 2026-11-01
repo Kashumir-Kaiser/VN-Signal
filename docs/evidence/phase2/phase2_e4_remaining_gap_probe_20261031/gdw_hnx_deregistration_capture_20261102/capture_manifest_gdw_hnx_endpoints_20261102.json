@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "scope": "GDW official HNX UPCoM cessation and first-HNX endpoints",
+  "tls_certificate_validation": "Python default SSL certificate validation; no bypass",
+  "capture_time_basis": "actual HTTP capture UTC recorded in source manifest",
+  "captures": [
+    {
+      "symbol": "GDW",
+      "source": "hnx",
+      "route": "security_lifecycle_notice",
+      "file": "hnx_gdw_deregistration_1385tb_sgdhn_2018-11-21.pdf",
+      "request_url": "https://owa.hnx.vn/ftp/cims/2018/12_W2/000000007986358_1385tb_20181121_1.PDF",
+      "final_url": "https://owa.hnx.vn/ftp/cims/2018/12_W2/000000007986358_1385tb_20181121_1.PDF",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "started_at_utc": "2026-11-01T18:29:10.060211Z",
+      "completed_at_utc": "2026-11-01T18:29:10.379948Z",
+      "bytes": 213730,
+      "sha256": "0755fec1e2e91593f2e2506f6fe65e68d70f672c06b809d685a78f7bd799af00",
+      "notice_id": "1385/TB-SGDHN",
+      "document_date": "2018-11-21",
+      "last_trade_date": "2018-12-06",
+      "prior_ceased_from": "2018-12-07",
+      "first_trade_date": null,
+      "source_attribution": "Hanoi Stock Exchange official Notice 1385/TB-SGDHN, dated 2018-11-21.",
+      "source_claim": "The scanned HNX notice identifies GDW and states that its UPCoM registration cancellation is effective 2018-12-07 and its last trading day at HNX is 2018-12-06.",
+      "source_limitation": "Establishes the final UPCoM session and cancellation-effective date only; it does not report matched volume or classify each intervening session, and does not establish the first HNX session."
+    },
+    {
+      "symbol": "GDW",
+      "source": "hnx",
+      "route": "security_lifecycle_notice",
+      "file": "hnx_gdw_first_hnx_trade_1458tb_sgdhn_2018-12-06.pdf",
+      "request_url": "https://owa.hnx.vn/ftp//PORTALNEW/HEADER_IMAGES/20181206/GDW_Ngay%20giao%20dich%20dau%20tien.pdf",
+      "final_url": "https://owa.hnx.vn/ftp//PORTALNEW/HEADER_IMAGES/20181206/GDW_Ngay%20giao%20dich%20dau%20tien.pdf",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "started_at_utc": "2026-11-01T18:29:10.389932Z",
+      "completed_at_utc": "2026-11-01T18:29:10.776658Z",
+      "bytes": 634641,
+      "sha256": "aeba54a3203a3baf7fb7c6e7ff7b7cedcd3bece591075e232a44c9769bb642e5",
+      "notice_id": "1458/TB-SGDHN",
+      "document_date": "2018-12-06",
+      "last_trade_date": null,
+      "prior_ceased_from": null,
+      "first_trade_date": "2018-12-18",
+      "source_attribution": "Hanoi Stock Exchange official Notice 1458/TB-SGDHN, dated 2018-12-06.",
+      "source_claim": "The scanned HNX notice identifies GDW and states its first HNX trading date as Tuesday 2018-12-18, with 9,500,000 listed shares.",
+      "source_limitation": "Establishes the first HNX trading date and listed share count only; it does not establish the prior UPCoM endpoint or the status of any intervening session."
+    }
+  ],
+  "limitations": [
+    "The official 2018-12-06 UPCoM report captured separately reports zero matched volume; the notice proves the exchange's final session designation, not a matched trade.",
+    "No per-session traded, no-trade, suspended, or delisted state is inferred for the gap between the two venue endpoints."
+  ],
+  "capture_complete_time_utc": "2026-11-01T18:29:10.913491Z"
+}

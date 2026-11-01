@@ -168,3 +168,35 @@ attachment could not be retrieved over a verified TLS connection. No GDW
 transfer event was imported from these records. Keep the seven-session E4
 interval unmatched and E4 partial until a primary source establishes the
 prior-venue endpoint.
+
+## 2026-11-02 later HNX notice capture supersedes the unresolved result above
+
+The official HNX-hosted PDF of Notice 1385/TB-SGDHN, dated 2018-11-21, was
+retrieved over HTTPS with default certificate validation and visually
+reviewed. It identifies GDW and explicitly states that the last trading day
+on HNX/UPCoM was **2018-12-06** and registration cancellation took effect
+**2018-12-07**. HNX Notice 1458/TB-SGDHN dated 2018-12-06 establishes the
+first HNX trading session as **2018-12-18**. This primary-source endpoint pair
+shows that secondary profiles reporting December 7 conflate the
+cancellation-effective date with the final UPCoM session. VSDC's December 11
+registration/depository-data transfer date is a separate custody milestone.
+
+The source bytes, capture metadata, reproducible script, and reviewed event
+stage are in
+[`gdw_hnx_deregistration_capture_20261102/`](../gdw_hnx_deregistration_capture_20261102/README.md).
+Event 292 was added with its two source landings only to disposable report
+clone `vnsignal_phase2_report_20261019`; no market bars, features, labels, or
+production database rows were changed. HNX's 2018-12-06 daily report records
+zero matched volume, so the final-session notice is not treated as proof of an
+executed trade. The seven sessions from December 7 through 17 remain
+unclassified individually.
+
+The updated current-hash census records 219 strict transfers / 1,539 sessions,
+two separately supported CTR/PTM lifecycle cases / 1,686 sessions, and zero
+other unresolved intervals. E4 continuity now passes. The contemporaneous
+Phase 2 blocker note above is superseded by the later target-readiness audit:
+all 225 quarantined weights are outside the eligible/investable cohort, and
+the optional PIT model overlay remains disabled by scope. See the [updated E4
+report](../gdw_hnx_deregistration_capture_20261102/phase2_e4_currenthash_postgdw_20261102.md),
+[target-readiness audit](../../phase2_phase3_training_target_readiness_20261102.log),
+and [current status](../../../../BUILD_STATUS.md).
