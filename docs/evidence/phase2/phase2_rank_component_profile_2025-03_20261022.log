@@ -1,0 +1,35 @@
+Read-only rank/hash profile 2025-03; started 2026-10-22T19:46:25.4323948+07:00
+BEGIN
+SET
+SET
+SET
+SET
+ERROR:  relation "features_daily" does not exist
+LINE 3:           FROM features_daily f
+                       ^
+QUERY:  WITH inputs AS MATERIALIZED (
+        SELECT f.symbol_id,f.trade_date,x.metric,x.value
+          FROM features_daily f
+          CROSS JOIN LATERAL (VALUES ('return20',f.return_20s),
+              ('turnover',f.turnover_proxy_vnd),('vol20',f.realized_vol20)) x(metric,value)
+         WHERE f.feature_version='phase2-v2'
+           AND f.trade_date BETWEEN p_date_from AND p_date_to
+           AND (p_symbol_ids IS NULL OR f.symbol_id=ANY(p_symbol_ids))
+           AND x.value IS NOT NULL
+    ), ranks AS (
+        SELECT i.symbol_id,i.trade_date,i.metric,
+               percent_rank() OVER(PARTITION BY i.trade_date,i.metric ORDER BY i.value) AS uniform_rank,
+               feat.normal_quantile(
+                   (rank() OVER(PARTITION BY i.trade_date,i.metric ORDER BY i.value)
+                    +(count(*) OVER(PARTITION BY i.trade_date,i.metric,i.value)-1)/2.0-0.5)
+                   /count(*) OVER(PARTITION BY i.trade_date,i.metric)) AS score
+          FROM inputs i
+    )
+    SELECT r.symbol_id,r.trade_date,
+           max(r.uniform_rank) FILTER(WHERE r.metric='vol20'),
+           max(r.score) FILTER(WHERE r.metric='return20'),
+           max(r.score) FILTER(WHERE r.metric='turnover'),
+           max(r.score) FILTER(WHERE r.metric='vol20')
+      FROM ranks r GROUP BY r.symbol_id,r.trade_date
+CONTEXT:  PL/pgSQL function feat.phase2_cross_sectional_ranks(date,date,bigint[]) line 3 at RETURN QUERY
+PROFILE_EXIT_CODE=1; ended=2026-10-22T19:46:25.8362303+07:00

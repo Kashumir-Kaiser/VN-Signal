@@ -1,0 +1,7 @@
+# Cache benchmark memory investigation — 2026-10-24
+
+The hidden resume process completed90 measurements and explicitly failed block stability; its status file records failed/exit1 and its PID is no longer live. No feature chunk was added by that attempt. Per-block means (15/30/60 respectively) were611.3/1349.0/2418.5ms,833.4/1517.9/3029.0ms,975.3/2170.3/3203.9ms. All timings are retained in phase2_074_resume1_samples_20261024.csv. Do not silently relaunch the same work as if it were still active.
+
+A rollback-only diagnostic added backend-memory/lock notices to the same fixed90-sample function. It completed exit0 and ROLLBACK; the normal validator accepted all90 timings. Allocated backend memory reached22,297,416bytes and used18,534,040bytes at sample90, with4044 held locks. This does not show a large memory leak; resource use grows through repeated temporary-table DDL but is modest in this measurement. Per-block means were599.4/1220.4/2329.0ms,730.8/1442.8/2371.4ms,745.0/1366.6/2560.2ms. This is diagnostic evidence, not a passed production build, and the scaling assertion was not invoked by the diagnostic. Normal function restoration is verified in phase2_cache_memory_rollback_check_20261024.log.
+
+Sources: phase2_cache_memory_probe_074_20261024.psql and .log. Instrumentation creates no committed function or market-data changes. Next work must address reproducibility/resume behavior without weakening the guards; do not repeatedly restart an unchanged failed build just to obtain a favorable run.

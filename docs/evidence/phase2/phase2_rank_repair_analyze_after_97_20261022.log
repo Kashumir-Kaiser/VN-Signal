@@ -1,0 +1,10 @@
+Analyze after 97 rank ranges; started 2026-10-22T20:24:24.8100840+07:00
+INFO:  analyzing "feat.features_daily"
+INFO:  "features_daily": scanned 30000 of 499009 pages, containing 341498 live rows and 0 dead rows; 30000 rows in sample, 5680353 estimated total rows
+INFO:  finished analyzing table "vnsignal_phase2_report_20261019.feat.features_daily"
+avg read rate: 64.099 MB/s, avg write rate: 0.143 MB/s
+buffer usage: 2490 hits, 29102 reads, 65 dirtied
+WAL usage: 191 records, 64 full page images, 416167 bytes, 0 buffers full
+system usage: CPU: user: 0.96 s, system: 0.23 s, elapsed: 3.54 s
+ANALYZE
+ANALYZE_EXIT_CODE=0; ended=2026-10-22T20:24:28.7394927+07:00

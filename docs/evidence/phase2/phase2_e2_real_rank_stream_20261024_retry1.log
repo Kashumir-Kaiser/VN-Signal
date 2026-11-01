@@ -1,0 +1,308 @@
+Pager usage is off.
+Timing is on.
+BEGIN
+Time: 0.262 ms
+SET
+Time: 2.631 ms
+SET
+Time: 0.100 ms
+SET
+Time: 0.072 ms
+SET
+Time: 0.071 ms
+DO
+Time: 27.251 ms
+DO
+Time: 36.920 ms
+CREATE TABLE
+Time: 32.396 ms
+SELECT 2009
+Time: 23.892 ms
+CREATE INDEX
+Time: 28.306 ms
+CREATE INDEX
+Time: 3.912 ms
+ANALYZE
+Time: 41.645 ms
+SELECT 3
+Time: 10.212 ms
+CREATE INDEX
+Time: 5.046 ms
+E2 checkpoint: selecting the PIT-stratified 60-symbol cohort
+SELECT 60
+Time: 21089.430 ms (00:21.089)
+CREATE INDEX
+Time: 5.205 ms
+ANALYZE
+Time: 9.270 ms
+E2 checkpoint: cohort selection complete
+E2 checkpoint: building the canonical adjustment cache for the selected cohort
+SELECT 117551
+Time: 500209.440 ms (08:20.209)
+COMMENT
+Time: 34.515 ms
+CREATE INDEX
+Time: 113.078 ms
+CREATE INDEX
+Time: 99.049 ms
+ANALYZE
+Time: 235.701 ms
+SELECT 60
+Time: 89.106 ms
+COMMENT
+Time: 0.224 ms
+ALTER TABLE
+Time: 27.108 ms
+CREATE INDEX
+Time: 3.938 ms
+ANALYZE
+Time: 19.381 ms
+CREATE TABLE
+Time: 35.222 ms
+COMMENT
+Time: 0.201 ms
+INSERT 0 1
+Time: 18.843 ms
+ prepare_phase2_adjustment_rows 
+--------------------------------
+ 
+(1 row)
+
+Time: 387.526 ms
+E2 checkpoint: copying the finalized adjustment cache
+SELECT 117551
+Time: 144.269 ms
+CREATE INDEX
+Time: 69.448 ms
+ANALYZE
+Time: 200.595 ms
+E2 checkpoint: raw input snapshot is ready
+CREATE TABLE
+Time: 7.634 ms
+CREATE TABLE
+Time: 8.034 ms
+E2 checkpoint: validating the immutable current-hash baseline
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 sessions 2009, elapsed 00:00:01.839558
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 market context rows 2009, elapsed 00:00:08.179513
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 rank rows 103680, elapsed 00:00:02.104371
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 spine rows 100450, elapsed 00:00:00.823734
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 base rows 97567, elapsed 00:00:03.019624
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 feature rows 97567, elapsed 00:00:53.224151
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 spine rows 20090, elapsed 00:00:00.463493
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 base rows 19984, elapsed 00:00:02.235932
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 feature rows 19984, elapsed 00:00:07.961567
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  E2 baseline optimized V2/V3 feature rebuild elapsed 00:01:55.51692
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_targets" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 label targets rows 235102, elapsed 00:00:01.144687
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_latest_exit" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_endpoint_days" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 label endpoint days rows 117633, elapsed 00:00:00.326695
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_endpoint_bounds" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_adjustment_prefix" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 label adjustment prefix rows 117499, elapsed 00:00:00.806833
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_endpoint_bars" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 label endpoint bars rows 117491, elapsed 00:00:00.340548
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_first_bad_factor" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.035401
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_endpoint_targets" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_spans" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  E2 baseline reused the current-hash 60-symbol feature cohort and rebuilt labels with current hash 775b9bd502282ebcf15b69f8654189d5b60cb7e072549570698f723c088a021e
+DO
+Time: 231522.167 ms (03:51.522)
+CREATE FUNCTION
+Time: 57.291 ms
+E2 checkpoint: running the independent 40 percent cutoff
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 40 percent branch setup copied 117551 equity rows for 60 cohort symbols; elapsed 00:00:02.052578
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 40 percent future perturbations applied: 72208 equity rows and 1204 index rows; elapsed 00:00:01.168108
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 40 percent branch inputs ready; elapsed 00:00:04.314742
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 scoped cache preparation elapsed 00:00:00.000852
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 V2 feature rebuild elapsed 00:00:09.218405, rows 45343
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 sessions 804, elapsed 00:00:00.124725
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 market context rows 804, elapsed 00:00:02.996498
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 rank rows 39026, elapsed 00:00:00.78034
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 0 spine rows 40200, elapsed 00:00:00.334159
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 0 base rows 37399, elapsed 00:00:01.249273
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 0 feature rows 37399, elapsed 00:00:25.727523
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 1 spine rows 8040, elapsed 00:00:00.151925
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 1 base rows 7944, elapsed 00:00:00.668498
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 1 feature rows 7944, elapsed 00:00:05.373358
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 V3 feature rebuild elapsed 00:00:37.553072, rows 45343
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 label targets rows 90686, elapsed 00:00:00.247617
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 label endpoint days rows 46593, elapsed 00:00:00.13718
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 label adjustment prefix rows 46551, elapsed 00:00:00.238583
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 label endpoint bars rows 46543, elapsed 00:00:00.18243
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.149535
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 scoped label rebuild elapsed 00:00:05.216834, rows 90686
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 40 percent production feature and label rebuild complete; elapsed 00:00:52.602737
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 checkpoint: cut 2021-12-14 (40 percent), feature rows 90686, zero pre-cut and completed-label mismatches, crossing labels 1620, perturbed equity/index rows 72208/1204
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  drop cascades to 2 other objects
+DETAIL:  drop cascades to table p2e2_11028_68925_40_ob.features_daily
+drop cascades to table p2e2_11028_68925_40_ob.labels_daily
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  drop cascades to table p2e2_11028_68925_40_xb.ml_symbol_scope
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  drop cascades to 6 other objects
+DETAIL:  drop cascades to table p2e2_11028_68925_40_ib.effective_trading_sessions
+drop cascades to table p2e2_11028_68925_40_ib.symbols
+drop cascades to table p2e2_11028_68925_40_ib.index_bars
+drop cascades to table p2e2_11028_68925_40_ib.phase2_adjustment_rows
+drop cascades to table p2e2_11028_68925_40_ib.phase2_vci_index_features
+drop cascades to table p2e2_11028_68925_40_ib.phase2_market_features_daily
+ phase2_e2_run_cut 
+-------------------
+ 
+(1 row)
+
+Time: 69353.733 ms (01:09.354)
+E2 checkpoint: running the independent 70 percent cutoff
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 70 percent branch setup copied 117551 equity rows for 60 cohort symbols; elapsed 00:00:00.806676
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 70 percent future perturbations applied: 36036 equity rows and 601 index rows; elapsed 00:00:00.610798
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 70 percent branch inputs ready; elapsed 00:00:07.512664
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 scoped cache preparation elapsed 00:00:00.000803
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 V2 feature rebuild elapsed 00:00:19.748219, rows 81515
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 sessions 1407, elapsed 00:00:00.14624
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 market context rows 1407, elapsed 00:00:04.950332
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 rank rows 72591, elapsed 00:00:01.682436
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 spine rows 70350, elapsed 00:00:00.550206
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 base rows 67541, elapsed 00:00:02.046824
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 feature rows 67541, elapsed 00:01:07.361112
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 spine rows 14070, elapsed 00:00:00.165268
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 base rows 13974, elapsed 00:00:00.938451
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 feature rows 13974, elapsed 00:00:14.918843
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 V3 feature rebuild elapsed 00:01:33.034322, rows 81515
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 label targets rows 163030, elapsed 00:00:00.487211
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 label endpoint days rows 82773, elapsed 00:00:00.301478
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 label adjustment prefix rows 82723, elapsed 00:00:00.365308
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 label endpoint bars rows 82715, elapsed 00:00:00.283011
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.072626
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 scoped label rebuild elapsed 00:00:08.950593, rows 163030
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 70 percent production feature and label rebuild complete; elapsed 00:02:02.295481
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 checkpoint: cut 2024-05-21 (70 percent), feature rows 163030, zero pre-cut and completed-label mismatches, crossing labels 1620, perturbed equity/index rows 36036/601
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  drop cascades to 2 other objects
+DETAIL:  drop cascades to table p2e2_11028_68925_70_ob.features_daily
+drop cascades to table p2e2_11028_68925_70_ob.labels_daily
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  drop cascades to table p2e2_11028_68925_70_xb.ml_symbol_scope
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  drop cascades to 6 other objects
+DETAIL:  drop cascades to table p2e2_11028_68925_70_ib.effective_trading_sessions
+drop cascades to table p2e2_11028_68925_70_ib.symbols
+drop cascades to table p2e2_11028_68925_70_ib.index_bars
+drop cascades to table p2e2_11028_68925_70_ib.phase2_adjustment_rows
+drop cascades to table p2e2_11028_68925_70_ib.phase2_vci_index_features
+drop cascades to table p2e2_11028_68925_70_ib.phase2_market_features_daily
+ phase2_e2_run_cut 
+-------------------
+ 
+(1 row)
+
+Time: 145205.665 ms (02:25.206)
+E2 checkpoint: running the independent 95 percent cutoff
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 95 percent branch setup copied 117551 equity rows for 60 cohort symbols; elapsed 00:00:01.206525
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 95 percent future perturbations applied: 5937 equity rows and 99 index rows; elapsed 00:00:00.187653
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 95 percent branch inputs ready; elapsed 00:00:11.630627
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 scoped cache preparation elapsed 00:00:00.002407
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 V2 feature rebuild elapsed 00:00:24.7755, rows 111614
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 sessions 1909, elapsed 00:00:00.182836
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 market context rows 1909, elapsed 00:00:07.067515
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 rank rows 99048, elapsed 00:00:02.207486
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 spine rows 95450, elapsed 00:00:00.767511
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 base rows 92620, elapsed 00:00:02.410335
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 feature rows 92620, elapsed 00:01:50.829427
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 spine rows 19090, elapsed 00:00:00.320894
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 base rows 18994, elapsed 00:00:01.008738
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 feature rows 18994, elapsed 00:00:22.118409
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 V3 feature rebuild elapsed 00:02:27.289252, rows 111614
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 label targets rows 223228, elapsed 00:00:00.759349
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 label endpoint days rows 112882, elapsed 00:00:00.349455
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 label adjustment prefix rows 112819, elapsed 00:00:00.48502
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 label endpoint bars rows 112800, elapsed 00:00:00.379531
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.0552
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 scoped label rebuild elapsed 00:00:13.144552, rows 223228
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 95 percent production feature and label rebuild complete; elapsed 00:03:05.905687
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 checkpoint: cut 2026-05-27 (95 percent), feature rows 223228, zero pre-cut and completed-label mismatches, crossing labels 1601, perturbed equity/index rows 5937/99
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  drop cascades to 2 other objects
+DETAIL:  drop cascades to table p2e2_11028_68925_95_ob.features_daily
+drop cascades to table p2e2_11028_68925_95_ob.labels_daily
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  drop cascades to table p2e2_11028_68925_95_xb.ml_symbol_scope
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  drop cascades to 6 other objects
+DETAIL:  drop cascades to table p2e2_11028_68925_95_ib.effective_trading_sessions
+drop cascades to table p2e2_11028_68925_95_ib.symbols
+drop cascades to table p2e2_11028_68925_95_ib.index_bars
+drop cascades to table p2e2_11028_68925_95_ib.phase2_adjustment_rows
+drop cascades to table p2e2_11028_68925_95_ib.phase2_vci_index_features
+drop cascades to table p2e2_11028_68925_95_ib.phase2_market_features_daily
+ phase2_e2_run_cut 
+-------------------
+ 
+(1 row)
+
+Time: 220440.873 ms (03:40.441)
+DO
+Time: 19.962 ms
+ cut_percent |  cut_date  | cohort_symbols | pre_cut_feature_rows | pre_cut_feature_mismatches | labels_ending_by_cut | labels_crossing_cut | completed_label_mismatches | label_boundary_mismatches | perturbed_equity_rows | perturbed_index_rows |  rank_population   |                                                                                                                                                                                                                                          perturbation_summary                                                                                                                                                                                                                                          
+-------------+------------+----------------+----------------------+----------------------------+----------------------+---------------------+----------------------------+---------------------------+-----------------------+----------------------+--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+          40 | 2021-12-14 |             60 |                90686 |                          0 |                89066 |                1620 |                          0 |                         0 |                 72208 |                 1204 | selected_cohort_60 | {"index_price_max_abs_delta": 0.1995, "equity_price_max_abs_delta": 0.2000000000000004, "index_price_negative_delta": true, "index_price_positive_delta": true, "index_volume_max_abs_delta": 0.20000000000000018, "equity_price_negative_delta": true, "equity_price_positive_delta": true, "equity_volume_max_abs_delta": 0.20000000000000018, "index_volume_negative_delta": true, "index_volume_positive_delta": true, "equity_volume_negative_delta": true, "equity_volume_positive_delta": true}
+          70 | 2024-05-21 |             60 |               163030 |                          0 |               161410 |                1620 |                          0 |                         0 |                 36036 |                  601 | selected_cohort_60 | {"index_price_max_abs_delta": 0.1995, "equity_price_max_abs_delta": 0.2000000000000004, "index_price_negative_delta": true, "index_price_positive_delta": true, "index_volume_max_abs_delta": 0.19979999999999998, "equity_price_negative_delta": true, "equity_price_positive_delta": true, "equity_volume_max_abs_delta": 0.20000000000000018, "index_volume_negative_delta": true, "index_volume_positive_delta": true, "equity_volume_negative_delta": true, "equity_volume_positive_delta": true}
+          95 | 2026-05-27 |             60 |               223228 |                          0 |               221627 |                1601 |                          0 |                         0 |                  5937 |                   99 | selected_cohort_60 | {"index_price_max_abs_delta": 0.19720000000000004, "equity_price_max_abs_delta": 0.2000000000000004, "index_price_negative_delta": true, "index_price_positive_delta": true, "index_volume_max_abs_delta": 0.1996, "equity_price_negative_delta": true, "equity_price_positive_delta": true, "equity_volume_max_abs_delta": 0.20000000000000018, "index_volume_negative_delta": true, "index_volume_positive_delta": true, "equity_volume_negative_delta": true, "equity_volume_positive_delta": true}
+(3 rows)
+
+Time: 1.296 ms
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           selected_cohort                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ [{"exchange": "HNX", "symbol_id": 42, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 6885, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 216, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 7084, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 783, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 7611, "exchange_source_row": 796}, {"exchange": "HNX", "symbol_id": 1087, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 7900, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 1348, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 8216, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 204, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7069, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 616, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7481, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 646, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7490, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 945, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7792, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 1425, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 8247, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 121, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 6982, "exchange_source_row": 295}, {"exchange": "HNX", "symbol_id": 423, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7266, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 1074, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7939, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 1128, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 8026, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 1396, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 8258, "exchange_source_row": 730}, {"exchange": "HNX", "symbol_id": 8, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 6858, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 56, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 6914, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 157, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 7017, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 685, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 7531, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 981, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 7825, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 392, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 7248, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 1109, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 7954, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 1130, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 7999, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 1142, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 8016, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 1351, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 8158, "exchange_source_row": 792}, {"exchange": "HOSE", "symbol_id": 291, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7136, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 424, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7274, "exchange_source_row": 790}, {"exchange": "HOSE", "symbol_id": 698, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7546, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 1102, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7968, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 1117, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7963, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 115, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 6949, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 404, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7258, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 490, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7338, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 958, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7816, "exchange_source_row": 372}, {"exchange": "HOSE", "symbol_id": 1173, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 8008, "exchange_source_row": 729}, {"exchange": "HOSE", "symbol_id": 500, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 7354, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 786, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 7646, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 855, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 7671, "exchange_source_row": 218}, {"exchange": "HOSE", "symbol_id": 1352, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 6849, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 1357, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 8187, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 130, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 6966, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 595, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 7440, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 648, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 7511, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 1230, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 8111, "exchange_source_row": 797}, {"exchange": "UPCOM", "symbol_id": 1383, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 8199, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 10, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 6856, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 301, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7162, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 478, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7327, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 962, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7822, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 1375, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 8188, "exchange_source_row": 797}, {"exchange": "UPCOM", "symbol_id": 23, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 6871, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 318, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7149, "exchange_source_row": 797}, {"exchange": "UPCOM", "symbol_id": 988, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7861, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 1076, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7964, "exchange_source_row": 795}, {"exchange": "UPCOM", "symbol_id": 1080, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7970, "exchange_source_row": 797}, {"exchange": "UPCOM", "symbol_id": 6, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 6854, "exchange_source_row": 351}, {"exchange": "UPCOM", "symbol_id": 19, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 6865, "exchange_source_row": 92}, {"exchange": "UPCOM", "symbol_id": 119, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 6953, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 439, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 7281, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 1376, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 8239, "exchange_source_row": 803}]
+(1 row)
+
+Time: 11.367 ms
+ROLLBACK
+Time: 842.392 ms

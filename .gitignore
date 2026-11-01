@@ -13,6 +13,17 @@ __pycache__/
 /backups/
 /dist/
 /target/
+/rust/target/
+/.phase2-runtime/
+/.cgo-recheck/
+/tmp/
+/tmp_phase2_profile_e2_40.py
+/.cache/
+/.serena/
+/.vnstock/
+**/.*gocache*/
+/.tmp-vnsignal-*/
 /node_modules/
 /docs/probe/*.json
 !/docs/probe/.gitkeep
+!/docs/evidence/**/*.log

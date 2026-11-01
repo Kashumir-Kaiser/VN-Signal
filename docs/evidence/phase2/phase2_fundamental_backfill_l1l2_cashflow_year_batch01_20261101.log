@@ -1,0 +1,2 @@
+symbols=100; statement=cash_flow; period=year; database=vnsignal_phase2_report_20261019; days=31
+Fundamentals archive: statement=cash_flow period=year mode=backfill committed=100 skipped=0 blocked=0

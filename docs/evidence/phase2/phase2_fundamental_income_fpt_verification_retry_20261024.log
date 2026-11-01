@@ -1,0 +1,34 @@
+  statement_type  | period_type | rows | periods |    min     |    max     | observed_timestamp_ok | conservative_lag_ok 
+------------------+-------------+------+---------+------------+------------+-----------------------+---------------------
+ income_statement | quarter     |  160 |       8 | 2024-09-30 | 2026-06-30 | t                     | t
+(1 row)
+
+                         row_id                         |                         line_name                         | line_order | unit 
+--------------------------------------------------------+-----------------------------------------------------------+------------+------
+ IS_REVENUE                                             | DOANH THU BÁN HÀNG VÀ CUNG CẤP DỊCH VỤ                    |          1 | VNĐ
+ IS_REVENUE_DEDUCTIONS                                  | Các khoản giảm trừ doanh thu                              |          2 | VNĐ
+ IS_NET_REVENUE                                         | Doanh thu thuần về bán hàng và cung cấp dịch vụ           |          3 | VNĐ
+ IS_COST_OF_GOODS_SOLD                                  | Giá vốn hàng bán                                          |          4 | VNĐ
+ IS_GROSS_PROFIT                                        | LỢI NHUẬN GỘP VỀ BÁN HÀNG VÀ CUNG CẤP DỊCH VỤ             |          5 | VNĐ
+ IS_FINANCIAL_INCOME                                    | DOANH THU HOẠT ĐỘNG TÀI CHÍNH                             |          6 | VNĐ
+ IS_FINANCIAL_EXPENSES                                  | CHI PHÍ TÀI CHÍNH                                         |          7 | VNĐ
+ IS_SHARE_OF_ASSOCIATES_AND_JOINT_VENTURES_RESULT       | Phần lãi hoặc lỗ trong công ty liên doanh, liên kết       |          8 | VNĐ
+ IS_SELLING_EXPENSES                                    | CHI PHÍ BÁN HÀNG                                          |          9 | VNĐ
+ IS_GENERAL_AND_ADMINISTRATIVE_EXPENSES                 | CHI PHÍ QUẢN LÝ DOANH NGHIỆP                              |         10 | VNĐ
+ IS_OPERATING_PROFIT                                    | Lợi nhuận thuần từ hoạt động kinh doanh                   |         11 | VNĐ
+ IS_OTHER_PROFIT                                        | Thu nhập khác                                             |         12 | VNĐ
+ IS_SHARE_OF_PROFIT_IN_ASSOCIATES_AND_JOINT_VENTURES    | Phần lợi nhuận từ đầu tư vào công ty liên kết, liên doanh |         13 | VNĐ
+ IS_PROFIT_BEFORE_TAX                                   | TỔNG LỢI NHUẬN KẾ TOÁN TRƯỚC THUẾ                         |         14 | VNĐ
+ IS_CORPORATE_INCOME_TAX_EXPENSES                       | CHI PHÍ THUẾ THU NHẬP DOANH NGHIỆP                        |         15 | VNĐ
+ IS_NET_PROFIT_AFTER_TAX                                | LỢI NHUẬN SAU THUẾ THU NHẬP DOANH NGHIỆP                  |         16 | VNĐ
+ IS_MINORITY_INTEREST                                   | Lợi ích của cổ đông không kiểm soát                       |         17 | VNĐ
+ IS_PROFIT_AFTER_TAX_FOR_SHAREHOLDERS_OF_PARENT_COMPANY | Lợi nhuận sau thuế của cổ đông công ty mẹ                 |         18 | VNĐ
+ IS_BASIC_EARNINGS_PER_SHARE                            | Lãi cơ bản trên cổ phiếu                                  |         19 | VNĐ
+ IS_DILUTED_EARNINGS_PER_SHARE                          | Lãi suy giảm trên cổ phiếu                                |         20 | VNĐ
+(20 rows)
+
+ landing_id |                route                |     symbol_basis     | checksum_ok | body_ok 
+------------+-------------------------------------+----------------------+-------------+---------
+       9798 | fundamental.equity.income_statement | provider_and_request | t           | t
+(1 row)
+

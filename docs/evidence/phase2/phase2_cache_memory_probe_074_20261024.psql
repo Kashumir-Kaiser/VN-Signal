@@ -1,0 +1,35 @@
+\set ON_ERROR_STOP on
+\pset pager off
+BEGIN ISOLATION LEVEL REPEATABLE READ;
+SET LOCAL statement_timeout='10min';
+SET LOCAL work_mem='8MB';
+SET LOCAL maintenance_work_mem='16MB';
+SET LOCAL jit=off;
+SET LOCAL random_page_cost=1.1;
+SET LOCAL vnpipe.phase2_symbol_batch_size='15';
+SET LOCAL application_name='phase2_benchmark_memory_diagnostic';
+DO $instrument$
+DECLARE
+ definition text:=pg_get_functiondef('feat.measure_phase2_cache_scaling()'::regprocedure);
+ anchor text:='                (cycle-1)*9+i,sample.symbol_count,sample.row_count,sample.duration_ms;';
+ extra text:=$extra$
+            IF i=9 THEN
+                RAISE NOTICE 'MEMORY sample % allocated_bytes % used_bytes % held_locks %',
+                    (cycle-1)*9+i,
+                    (SELECT sum(total_bytes) FROM pg_backend_memory_contexts),
+                    (SELECT sum(used_bytes) FROM pg_backend_memory_contexts),
+                    (SELECT count(*) FROM pg_locks WHERE pid=pg_backend_pid());
+                RAISE NOTICE 'LARGEST_CONTEXTS %',
+                    (SELECT jsonb_agg(to_jsonb(c)) FROM (
+                        SELECT name,total_bytes,used_bytes FROM pg_backend_memory_contexts
+                        ORDER BY total_bytes DESC LIMIT 5
+                    ) c);
+            END IF;
+$extra$;
+BEGIN
+ IF position(anchor IN definition)=0 THEN RAISE EXCEPTION 'memory instrumentation anchor missing'; END IF;
+ EXECUTE replace(definition,anchor,anchor||extra);
+END;
+$instrument$;
+SELECT * FROM feat.measure_phase2_cache_scaling();
+ROLLBACK;

@@ -1,0 +1,2430 @@
+BEGIN
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE FUNCTION
+CREATE TABLE
+DROP TRIGGER
+CREATE TRIGGER
+psql:sql/migrations/001_init.sql:58: NOTICE:  trigger "symbols_canonical_exchange" for relation "core.symbols" does not exist, skipping
+CREATE TABLE
+psql:sql/migrations/001_init.sql:68: NOTICE:  trigger "listing_canonical_exchange" for relation "core.listing_snapshots" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+COMMIT
+BEGIN
+CREATE TABLE
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+psql:sql/migrations/004_raw_bytes.sql:8: NOTICE:  constraint "landings_payload_bytes_bound" of relation "landings" does not exist, skipping
+ALTER TABLE
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+psql:sql/migrations/005_market_bar_quality.sql:10: NOTICE:  constraint "bars_daily_is_traded_check" of relation "bars_daily" does not exist, skipping
+CREATE FUNCTION
+DROP TRIGGER
+psql:sql/migrations/005_market_bar_quality.sql:20: NOTICE:  trigger "bars_daily_derive_is_traded" for relation "core.bars_daily" does not exist, skipping
+CREATE TRIGGER
+ALTER TABLE
+CREATE TABLE
+CREATE INDEX
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+COMMIT
+BEGIN
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+psql:sql/migrations/007_lifecycle_evidence.sql:56: NOTICE:  trigger "security_lifecycle_verify_source" for relation "core.security_lifecycle_evidence" does not exist, skipping
+CREATE TRIGGER
+CREATE FUNCTION
+psql:sql/migrations/007_lifecycle_evidence.sql:67: NOTICE:  trigger "security_lifecycle_append_only" for relation "core.security_lifecycle_evidence" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE FUNCTION
+psql:sql/migrations/008_historical_security_master.sql:42: NOTICE:  trigger "security_observation_immutable" for relation "core.security_observations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+CREATE VIEW
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+psql:sql/migrations/009_company_profile_observations.sql:32: NOTICE:  trigger "profile_source_verify" for relation "core.company_profile_observations" does not exist, skipping
+CREATE TRIGGER
+CREATE FUNCTION
+psql:sql/migrations/009_company_profile_observations.sql:42: NOTICE:  trigger "profile_append_only" for relation "core.company_profile_observations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE VIEW
+COMMIT
+BEGIN
+CREATE TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+COMMENT
+CREATE TABLE
+COMMENT
+COMMENT
+COMMENT
+CREATE VIEW
+COMMENT
+CREATE TABLE
+COMMIT
+BEGIN
+CREATE FUNCTION
+ record_observed_bar_session 
+-----------------------------
+(0 rows)
+
+CREATE FUNCTION
+psql:sql/migrations/013_observed_bar_calendar.sql:40: NOTICE:  trigger "bars_daily_observed_calendar" for relation "core.bars_daily" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DO
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+CREATE VIEW
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+psql:sql/migrations/016_raw_landings_append_only.sql:12: NOTICE:  trigger "raw_landings_no_row_mutation" for relation "raw.landings" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+psql:sql/migrations/016_raw_landings_append_only.sql:17: NOTICE:  trigger "raw_landings_no_truncate" for relation "raw.landings" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+CREATE VIEW
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+psql:sql/migrations/019_vietnam_auction_ohlc.sql:5: NOTICE:  constraint "bars_daily_high_low_order" of relation "bars_daily" does not exist, skipping
+ALTER TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+psql:sql/migrations/022_ml_bar_eligibility_events.sql:73: NOTICE:  trigger "ml_bar_eligibility_verify_source" for relation "ops.ml_bar_eligibility_events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+psql:sql/migrations/022_ml_bar_eligibility_events.sql:84: NOTICE:  trigger "ml_bar_eligibility_append_only" for relation "ops.ml_bar_eligibility_events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+psql:sql/migrations/023_exchange_daily_bar_evidence.sql:65: NOTICE:  trigger "exchange_daily_bar_evidence_verify_source" for relation "ops.exchange_daily_bar_evidence" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+DROP TRIGGER
+psql:sql/migrations/023_exchange_daily_bar_evidence.sql:76: NOTICE:  trigger "exchange_daily_bar_evidence_append_only" for relation "ops.exchange_daily_bar_evidence" does not exist, skipping
+CREATE TRIGGER
+CREATE VIEW
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+psql:sql/migrations/025_hnx_report_interpretations.sql:60: NOTICE:  trigger "exchange_evidence_interpretation_verify" for relation "ops.exchange_daily_bar_evidence_interpretations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+psql:sql/migrations/025_hnx_report_interpretations.sql:72: NOTICE:  trigger "exchange_evidence_interpretation_append_only" for relation "ops.exchange_daily_bar_evidence_interpretations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+CREATE VIEW
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+INSERT 0 8
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 2
+INSERT 0 3
+INSERT 0 3
+INSERT 0 2
+INSERT 0 2
+INSERT 0 5
+INSERT 0 4
+INSERT 0 2
+INSERT 0 1
+INSERT 0 2
+COMMIT
+BEGIN
+ALTER TABLE
+DO
+UPDATE 23
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+INSERT 0 0
+COMMENT
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+ALTER TABLE
+UPDATE 23
+COMMENT
+COMMENT
+COMMENT
+CREATE VIEW
+COMMENT
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+CREATE VIEW
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+COMMENT
+INSERT 0 2
+CREATE VIEW
+COMMENT
+COMMIT
+BEGIN
+DROP FUNCTION
+DROP FUNCTION
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:10: NOTICE:  function core.vndirect_bars_as_of_with_episodes(date) does not exist, skipping
+DROP FUNCTION
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:11: NOTICE:  function core.vndirect_bars_as_of_with_episodes(pg_catalog.int8,date) does not exist, skipping
+DROP FUNCTION
+DROP VIEW
+ALTER TABLE
+CREATE TABLE
+COMMENT
+CREATE VIEW
+CREATE VIEW
+COMMENT
+COMMENT
+COMMENT
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:201: NOTICE:  function core.vndirect_bars_as_of(pg_catalog.int8,date) does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:270: NOTICE:  function core.vndirect_bars_as_of(date) does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:342: NOTICE:  function core.vndirect_bars_as_of_with_episodes(pg_catalog.int8,date) does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:371: NOTICE:  function core.vndirect_bars_as_of_with_episodes(date) does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+INSERT 0 0
+COMMIT
+BEGIN
+INSERT 0 0
+INSERT 0 0
+COMMIT
+BEGIN
+INSERT 0 20
+INSERT 0 20
+COMMIT
+BEGIN
+INSERT 0 20
+DO
+COMMIT
+BEGIN
+INSERT 0 1
+INSERT 0 1
+COMMIT
+BEGIN
+ALTER TABLE
+DO
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+psql:sql/migrations/034_fundamentals_pit_archive.sql:74: NOTICE:  trigger "fundamentals_pit_observations_no_update_delete" for relation "core.fundamentals_pit_observations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+psql:sql/migrations/034_fundamentals_pit_archive.sql:78: NOTICE:  trigger "fundamentals_pit_observations_no_truncate" for relation "core.fundamentals_pit_observations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+DROP TRIGGER
+psql:sql/migrations/034_fundamentals_pit_archive.sql:102: NOTICE:  trigger "fundamentals_pit_archive_immutable" for relation "core.fundamentals_pit" does not exist, skipping
+CREATE TRIGGER
+CREATE FUNCTION
+CREATE FUNCTION
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "return_2s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "return_3s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "return_10s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "return_120s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "return_250s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "close_sma100_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "close_sma200_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "distance_52w_high" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "distance_52w_low" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "rsi_14" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "bollinger_pct_b_20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "bollinger_bandwidth_20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "downside_vol20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "atr_pct_14" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "volume_zscore_20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "obv_slope_20" of relation "features_daily" already exists, skipping
+ALTER TABLE
+CREATE TABLE
+psql:sql/migrations/035_phase2_features_labels.sql:128: NOTICE:  column "entry_adjustment_vintage_at" of relation "labels_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:128: NOTICE:  column "exit_adjustment_vintage_at" of relation "labels_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:128: NOTICE:  column "factor_log_span" of relation "labels_daily" already exists, skipping
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE INDEX
+CREATE VIEW
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+psql:sql/migrations/036_phase2_source_inputs.sql:125: NOTICE:  trigger "listed_share_observations_verify_lineage" for relation "core.listed_share_observations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+psql:sql/migrations/036_phase2_source_inputs.sql:128: NOTICE:  trigger "daily_price_limit_observations_verify_lineage" for relation "core.daily_price_limit_observations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+psql:sql/migrations/036_phase2_source_inputs.sql:131: NOTICE:  trigger "bars_1m_observations_verify_lineage" for relation "core.bars_1m_observations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+psql:sql/migrations/036_phase2_source_inputs.sql:134: NOTICE:  trigger "calendar_event_observations_verify_lineage" for relation "core.calendar_event_observations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+psql:sql/migrations/036_phase2_source_inputs.sql:151: NOTICE:  trigger "listed_share_observations_append_only" for relation "core.listed_share_observations" does not exist, skipping
+psql:sql/migrations/036_phase2_source_inputs.sql:151: NOTICE:  trigger "listed_share_observations_no_truncate" for relation "core.listed_share_observations" does not exist, skipping
+psql:sql/migrations/036_phase2_source_inputs.sql:151: NOTICE:  trigger "daily_price_limit_observations_append_only" for relation "core.daily_price_limit_observations" does not exist, skipping
+psql:sql/migrations/036_phase2_source_inputs.sql:151: NOTICE:  trigger "daily_price_limit_observations_no_truncate" for relation "core.daily_price_limit_observations" does not exist, skipping
+psql:sql/migrations/036_phase2_source_inputs.sql:151: NOTICE:  trigger "bars_1m_observations_append_only" for relation "core.bars_1m_observations" does not exist, skipping
+psql:sql/migrations/036_phase2_source_inputs.sql:151: NOTICE:  trigger "bars_1m_observations_no_truncate" for relation "core.bars_1m_observations" does not exist, skipping
+psql:sql/migrations/036_phase2_source_inputs.sql:151: NOTICE:  trigger "calendar_event_observations_append_only" for relation "core.calendar_event_observations" does not exist, skipping
+psql:sql/migrations/036_phase2_source_inputs.sql:151: NOTICE:  trigger "calendar_event_observations_no_truncate" for relation "core.calendar_event_observations" does not exist, skipping
+DO
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+ALTER TABLE
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+COMMENT
+CREATE FUNCTION
+psql:sql/migrations/037_phase2_price_features.sql:128: NOTICE:  function feat.prepare_phase2_adjustment_rows() does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+DO
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+DO
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+DO
+CREATE FUNCTION
+CREATE FUNCTION
+psql:sql/migrations/041_phase2_deterministic_chunk_hashes.sql:47: NOTICE:  function ops.phase2_prepare_price_day_hashes() does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+DROP FUNCTION
+psql:sql/migrations/042_phase2_batched_adjustment_cache.sql:127: NOTICE:  function feat.phase2_vndirect_adjustment_details_for_symbols(pg_catalog.int8[]) does not exist, skipping
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+DO
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE VIEW
+DO
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+DO
+COMMENT
+COMMIT
+BEGIN
+DO
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+COMMIT
+CREATE FUNCTION
+COMMENT
+BEGIN
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+DO
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE VIEW
+COMMENT
+CREATE FUNCTION
+DO
+DO
+DO
+DROP FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+DO
+DO
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMENT
+DO
+CREATE TABLE
+CREATE TABLE
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMIT
+BEGIN
+DO
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMIT
+BEGIN
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+DO
+UPDATE 0
+COMMENT
+COMMIT
+BEGIN
+CREATE VIEW
+CREATE VIEW
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+DO
+DO
+COMMIT
+BEGIN
+DO
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+DO
+COMMIT
+BEGIN
+CREATE INDEX
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+ALTER TABLE
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+DO
+DO
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:166: NOTICE:  aggregate feat.p2_moving_avg(pg_catalog.float8) does not exist, skipping
+DROP AGGREGATE
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:167: NOTICE:  aggregate feat.p2_moving_stddev_pop(pg_catalog.float8) does not exist, skipping
+DROP AGGREGATE
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:168: NOTICE:  aggregate feat.p2_moving_stddev_samp(pg_catalog.float8) does not exist, skipping
+DROP AGGREGATE
+DROP AGGREGATE
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:169: NOTICE:  aggregate feat.p2_shifted_stddev_pop(pg_catalog.float8) does not exist, skipping
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:170: NOTICE:  aggregate feat.p2_shifted_stddev_samp(pg_catalog.float8) does not exist, skipping
+DROP AGGREGATE
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:171: NOTICE:  function feat.phase2_moving_avg_final(pg_catalog.float8[]) does not exist, skipping
+DROP FUNCTION
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:172: NOTICE:  function feat.phase2_moving_stddev_pop_final(pg_catalog.float8[]) does not exist, skipping
+DROP FUNCTION
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:173: NOTICE:  function feat.phase2_moving_stddev_samp_final(pg_catalog.float8[]) does not exist, skipping
+DROP FUNCTION
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:174: NOTICE:  function feat.phase2_moving_moments_inv(pg_catalog.float8[],pg_catalog.float8) does not exist, skipping
+DROP FUNCTION
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:175: NOTICE:  function feat.phase2_moving_moments_combine(pg_catalog.float8[],pg_catalog.float8[]) does not exist, skipping
+DROP FUNCTION
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:176: NOTICE:  function feat.phase2_moving_moments_trans(pg_catalog.float8[],pg_catalog.float8) does not exist, skipping
+DROP FUNCTION
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+DO
+COMMIT
+BEGIN
+CREATE SCHEMA
+psql:sql/migrations/001_init.sql:3: NOTICE:  schema "raw" already exists, skipping
+psql:sql/migrations/001_init.sql:4: NOTICE:  schema "core" already exists, skipping
+CREATE SCHEMA
+psql:sql/migrations/001_init.sql:5: NOTICE:  schema "feat" already exists, skipping
+CREATE SCHEMA
+psql:sql/migrations/001_init.sql:6: NOTICE:  schema "ml" already exists, skipping
+CREATE SCHEMA
+psql:sql/migrations/001_init.sql:7: NOTICE:  schema "ops" already exists, skipping
+CREATE SCHEMA
+psql:sql/migrations/001_init.sql:17: NOTICE:  relation "pipeline_runs" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/001_init.sql:27: NOTICE:  relation "api_calls" already exists, skipping
+CREATE TABLE
+CREATE INDEX
+psql:sql/migrations/001_init.sql:28: NOTICE:  relation "api_calls_attempted_at_idx" already exists, skipping
+psql:sql/migrations/001_init.sql:37: NOTICE:  relation "landings" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/001_init.sql:38: NOTICE:  relation "landings_fetched_at_idx" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/001_init.sql:39: NOTICE:  relation "landings_ingest_id_idx" already exists, skipping
+CREATE INDEX
+CREATE FUNCTION
+psql:sql/migrations/001_init.sql:57: NOTICE:  relation "symbols" already exists, skipping
+CREATE TABLE
+DROP TRIGGER
+CREATE TRIGGER
+psql:sql/migrations/001_init.sql:67: NOTICE:  relation "listing_snapshots" already exists, skipping
+CREATE TABLE
+DROP TRIGGER
+CREATE TRIGGER
+psql:sql/migrations/001_init.sql:86: NOTICE:  relation "bars_daily" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/001_init.sql:87: NOTICE:  relation "bars_daily_date_idx" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/001_init.sql:98: NOTICE:  relation "index_bars" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/001_init.sql:112: NOTICE:  relation "fundamentals_pit" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/001_init.sql:113: NOTICE:  relation "fundamentals_pit_lookup" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/001_init.sql:119: NOTICE:  relation "calendar" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/001_init.sql:125: NOTICE:  relation "calendar_overrides" already exists, skipping
+CREATE TABLE
+COMMIT
+BEGIN
+psql:sql/migrations/002_ingest_state.sql:24: NOTICE:  relation "ingest_jobs" already exists, skipping
+CREATE TABLE
+CREATE INDEX
+psql:sql/migrations/002_ingest_state.sql:26: NOTICE:  relation "ingest_jobs_pending_idx" already exists, skipping
+psql:sql/migrations/002_ingest_state.sql:38: NOTICE:  relation "api_reservations" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/002_ingest_state.sql:40: NOTICE:  relation "api_reservations_reserved_idx" already exists, skipping
+CREATE INDEX
+COMMIT
+BEGIN
+CREATE TABLE
+psql:sql/migrations/003_quota_guard.sql:15: NOTICE:  relation "quota_guard" already exists, skipping
+COMMIT
+BEGIN
+ALTER TABLE
+psql:sql/migrations/004_raw_bytes.sql:6: NOTICE:  column "payload_bytes" of relation "landings" already exists, skipping
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+psql:sql/migrations/005_market_bar_quality.sql:8: NOTICE:  column "is_traded" of relation "bars_daily" already exists, skipping
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+ALTER TABLE
+psql:sql/migrations/005_market_bar_quality.sql:37: NOTICE:  relation "bar_quality_issues" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/005_market_bar_quality.sql:38: NOTICE:  relation "bar_quality_job_idx" already exists, skipping
+CREATE INDEX
+COMMIT
+BEGIN
+psql:sql/migrations/006_unarchived_requeue_audit.sql:12: NOTICE:  relation "ingest_requeue_audit" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/006_unarchived_requeue_audit.sql:14: NOTICE:  relation "ingest_requeue_audit_job_idx" already exists, skipping
+CREATE INDEX
+COMMIT
+BEGIN
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+psql:sql/migrations/007_lifecycle_evidence.sql:32: NOTICE:  relation "security_lifecycle_evidence" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/007_lifecycle_evidence.sql:34: NOTICE:  relation "security_lifecycle_period_idx" already exists, skipping
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+COMMIT
+BEGIN
+psql:sql/migrations/008_historical_security_master.sql:10: NOTICE:  relation "security_master" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/008_historical_security_master.sql:30: NOTICE:  relation "security_observations" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/008_historical_security_master.sql:32: NOTICE:  relation "security_observed_asof_idx" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/008_historical_security_master.sql:34: NOTICE:  relation "security_observed_symbol_idx" already exists, skipping
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+CREATE VIEW
+COMMIT
+BEGIN
+psql:sql/migrations/009_company_profile_observations.sql:13: NOTICE:  relation "company_profile_observations" already exists, skipping
+CREATE TABLE
+CREATE INDEX
+psql:sql/migrations/009_company_profile_observations.sql:15: NOTICE:  relation "profile_security_date_idx" already exists, skipping
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+COMMIT
+BEGIN
+CREATE TABLE
+psql:sql/migrations/010_company_profile_batch.sql:13: NOTICE:  relation "company_profile_jobs" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/010_company_profile_batch.sql:15: NOTICE:  relation "company_profile_jobs_state_idx" already exists, skipping
+psql:sql/migrations/010_company_profile_batch.sql:30: NOTICE:  relation "company_profile_attempts" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/010_company_profile_batch.sql:32: NOTICE:  relation "company_profile_attempts_symbol_idx" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/010_company_profile_batch.sql:48: NOTICE:  relation "company_profile_batch_runs" already exists, skipping
+CREATE TABLE
+CREATE VIEW
+COMMIT
+BEGIN
+psql:sql/migrations/011_company_profile_call_audit.sql:21: NOTICE:  relation "company_profile_call_audit" already exists, skipping
+CREATE TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+psql:sql/migrations/012_dq_gate.sql:8: NOTICE:  relation "dq_tier_a_symbols" already exists, skipping
+COMMENT
+CREATE TABLE
+psql:sql/migrations/012_dq_gate.sql:21: NOTICE:  relation "dq_cross_source_samples" already exists, skipping
+COMMENT
+COMMENT
+COMMENT
+CREATE VIEW
+COMMENT
+psql:sql/migrations/012_dq_gate.sql:52: NOTICE:  relation "dq_gate_results" already exists, skipping
+CREATE TABLE
+COMMIT
+BEGIN
+CREATE FUNCTION
+ record_observed_bar_session 
+-----------------------------
+(0 rows)
+
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+ALTER TABLE
+psql:sql/migrations/015_dq_cross_source_lineage.sql:4: NOTICE:  column "primary_landing_id" of relation "dq_cross_source_samples" already exists, skipping
+psql:sql/migrations/015_dq_cross_source_lineage.sql:6: NOTICE:  column "primary_source_row" of relation "dq_cross_source_samples" already exists, skipping
+ALTER TABLE
+psql:sql/migrations/015_dq_cross_source_lineage.sql:8: NOTICE:  column "secondary_landing_id" of relation "dq_cross_source_samples" already exists, skipping
+ALTER TABLE
+psql:sql/migrations/015_dq_cross_source_lineage.sql:10: NOTICE:  column "secondary_source_row" of relation "dq_cross_source_samples" already exists, skipping
+ALTER TABLE
+DO
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+CREATE VIEW
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+CREATE VIEW
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+psql:sql/migrations/018_bar_quality_reprocess_audit.sql:15: NOTICE:  relation "bar_quality_reprocess_audit" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/018_bar_quality_reprocess_audit.sql:18: NOTICE:  relation "bar_quality_reprocess_job_idx" already exists, skipping
+CREATE INDEX
+COMMIT
+BEGIN
+psql:sql/migrations/019_vietnam_auction_ohlc.sql:4: NOTICE:  constraint "bars_daily_check" of relation "bars_daily" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+psql:sql/migrations/020_alternate_market_sources.sql:24: NOTICE:  relation "external_market_calls" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/020_alternate_market_sources.sql:26: NOTICE:  relation "external_market_calls_source_started_idx" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/020_alternate_market_sources.sql:47: NOTICE:  relation "bars_daily_sources" already exists, skipping
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+COMMIT
+psql:sql/migrations/020_alternate_market_sources.sql:49: NOTICE:  relation "bars_daily_sources_date_idx" already exists, skipping
+psql:sql/migrations/020_alternate_market_sources.sql:51: NOTICE:  relation "bars_daily_sources_landing_idx" already exists, skipping
+psql:sql/migrations/020_alternate_market_sources.sql:62: NOTICE:  relation "alternate_bar_quality_issues" already exists, skipping
+psql:sql/migrations/020_alternate_market_sources.sql:64: NOTICE:  relation "alternate_bar_quality_job_idx" already exists, skipping
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+psql:sql/migrations/022_ml_bar_eligibility_events.sql:17: NOTICE:  relation "ml_bar_eligibility_events" already exists, skipping
+psql:sql/migrations/022_ml_bar_eligibility_events.sql:20: NOTICE:  relation "ml_bar_eligibility_latest_idx" already exists, skipping
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+psql:sql/migrations/023_exchange_daily_bar_evidence.sql:24: NOTICE:  relation "exchange_daily_bar_evidence" already exists, skipping
+psql:sql/migrations/023_exchange_daily_bar_evidence.sql:27: NOTICE:  relation "exchange_daily_bar_evidence_symbol_date_idx" already exists, skipping
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+psql:sql/migrations/025_hnx_report_interpretations.sql:23: NOTICE:  relation "exchange_daily_bar_evidence_interpretations" already exists, skipping
+CREATE TABLE
+CREATE INDEX
+psql:sql/migrations/025_hnx_report_interpretations.sql:26: NOTICE:  relation "exchange_evidence_interpretations_latest_idx" already exists, skipping
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+CREATE VIEW
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+psql:sql/migrations/026_vndirect_adjusted_prices.sql:10: NOTICE:  column "adjusted_o" of relation "bars_daily_sources" already exists, skipping
+psql:sql/migrations/026_vndirect_adjusted_prices.sql:10: NOTICE:  column "adjusted_h" of relation "bars_daily_sources" already exists, skipping
+psql:sql/migrations/026_vndirect_adjusted_prices.sql:10: NOTICE:  column "adjusted_l" of relation "bars_daily_sources" already exists, skipping
+psql:sql/migrations/026_vndirect_adjusted_prices.sql:10: NOTICE:  column "adjusted_c" of relation "bars_daily_sources" already exists, skipping
+psql:sql/migrations/026_vndirect_adjusted_prices.sql:10: NOTICE:  column "adjustment_vintage_at" of relation "bars_daily_sources" already exists, skipping
+ALTER TABLE
+DO
+UPDATE 22
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+psql:sql/migrations/027_vndirect_bulk_as_of.sql:12: NOTICE:  relation "ml_symbol_scope" already exists, skipping
+CREATE TABLE
+INSERT 0 0
+COMMENT
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+psql:sql/migrations/028_vndirect_reference_adjustment.sql:8: NOTICE:  column "basic_price" of relation "bars_daily_sources" already exists, skipping
+psql:sql/migrations/028_vndirect_reference_adjustment.sql:8: NOTICE:  column "average_price" of relation "bars_daily_sources" already exists, skipping
+psql:sql/migrations/028_vndirect_reference_adjustment.sql:8: NOTICE:  column "exchange_code" of relation "bars_daily_sources" already exists, skipping
+ALTER TABLE
+UPDATE 0
+COMMENT
+COMMENT
+COMMENT
+CREATE VIEW
+COMMENT
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+CREATE VIEW
+COMMENT
+COMMIT
+BEGIN
+psql:sql/migrations/030_vndirect_2019_reference_resolution.sql:23: NOTICE:  relation "vndirect_reference_adjustment_overrides" already exists, skipping
+CREATE TABLE
+COMMENT
+INSERT 0 0
+CREATE VIEW
+COMMENT
+COMMIT
+BEGIN
+DROP FUNCTION
+DROP FUNCTION
+DROP FUNCTION
+DROP FUNCTION
+DROP VIEW
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:16: NOTICE:  column "evidence_sha256" of relation "vndirect_reference_adjustment_overrides" already exists, skipping
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:16: NOTICE:  column "secondary_evidence_sha256" of relation "vndirect_reference_adjustment_overrides" already exists, skipping
+ALTER TABLE
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:39: NOTICE:  relation "vndirect_model_bar_overrides" already exists, skipping
+CREATE TABLE
+COMMENT
+CREATE VIEW
+CREATE VIEW
+COMMENT
+COMMENT
+COMMENT
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:201: NOTICE:  function core.vndirect_bars_as_of(pg_catalog.int8,date) does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:270: NOTICE:  function core.vndirect_bars_as_of(date) does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:342: NOTICE:  function core.vndirect_bars_as_of_with_episodes(pg_catalog.int8,date) does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:371: NOTICE:  function core.vndirect_bars_as_of_with_episodes(date) does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+INSERT 0 0
+COMMIT
+BEGIN
+INSERT 0 0
+INSERT 0 0
+COMMIT
+BEGIN
+INSERT 0 20
+DO
+COMMIT
+BEGIN
+psql:sql/migrations/034_fundamentals_pit_archive.sql:20: NOTICE:  column "statement_type" of relation "fundamentals_pit" already exists, skipping
+psql:sql/migrations/034_fundamentals_pit_archive.sql:20: NOTICE:  column "ingest_id" of relation "fundamentals_pit" already exists, skipping
+psql:sql/migrations/034_fundamentals_pit_archive.sql:20: NOTICE:  column "fetched_at" of relation "fundamentals_pit" already exists, skipping
+psql:sql/migrations/034_fundamentals_pit_archive.sql:20: NOTICE:  column "row_id" of relation "fundamentals_pit" already exists, skipping
+psql:sql/migrations/034_fundamentals_pit_archive.sql:20: NOTICE:  column "line_name" of relation "fundamentals_pit" already exists, skipping
+psql:sql/migrations/034_fundamentals_pit_archive.sql:20: NOTICE:  column "line_order" of relation "fundamentals_pit" already exists, skipping
+psql:sql/migrations/034_fundamentals_pit_archive.sql:20: NOTICE:  column "line_level" of relation "fundamentals_pit" already exists, skipping
+psql:sql/migrations/034_fundamentals_pit_archive.sql:20: NOTICE:  column "unit" of relation "fundamentals_pit" already exists, skipping
+psql:sql/migrations/034_fundamentals_pit_archive.sql:20: NOTICE:  column "availability_basis" of relation "fundamentals_pit" already exists, skipping
+psql:sql/migrations/034_fundamentals_pit_archive.sql:20: NOTICE:  column "availability_is_assumed" of relation "fundamentals_pit" already exists, skipping
+psql:sql/migrations/034_fundamentals_pit_archive.sql:20: NOTICE:  column "raw_landing_id" of relation "fundamentals_pit" already exists, skipping
+psql:sql/migrations/034_fundamentals_pit_archive.sql:20: NOTICE:  column "source_row" of relation "fundamentals_pit" already exists, skipping
+psql:sql/migrations/034_fundamentals_pit_archive.sql:20: NOTICE:  column "row_payload" of relation "fundamentals_pit" already exists, skipping
+psql:sql/migrations/034_fundamentals_pit_archive.sql:20: NOTICE:  column "archive_managed" of relation "fundamentals_pit" already exists, skipping
+ALTER TABLE
+DO
+psql:sql/migrations/034_fundamentals_pit_archive.sql:49: NOTICE:  relation "fundamentals_pit_version_lookup" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/034_fundamentals_pit_archive.sql:64: NOTICE:  relation "fundamentals_pit_observations" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/034_fundamentals_pit_archive.sql:66: NOTICE:  relation "fundamentals_pit_observations_snapshot_idx" already exists, skipping
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+CREATE FUNCTION
+COMMIT
+BEGIN
+psql:sql/migrations/035_phase2_features_labels.sql:75: NOTICE:  relation "features_daily" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/035_phase2_features_labels.sql:77: NOTICE:  relation "features_daily_date_version_idx" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "return_2s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "return_3s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "return_10s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "return_120s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "return_250s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "close_sma100_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "close_sma200_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "distance_52w_high" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "distance_52w_low" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "rsi_14" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "bollinger_pct_b_20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "bollinger_bandwidth_20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "downside_vol20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "atr_pct_14" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "volume_zscore_20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "obv_slope_20" of relation "features_daily" already exists, skipping
+ALTER TABLE
+psql:sql/migrations/035_phase2_features_labels.sql:124: NOTICE:  relation "labels_daily" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/035_phase2_features_labels.sql:128: NOTICE:  column "entry_adjustment_vintage_at" of relation "labels_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:128: NOTICE:  column "exit_adjustment_vintage_at" of relation "labels_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:128: NOTICE:  column "factor_log_span" of relation "labels_daily" already exists, skipping
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+psql:sql/migrations/035_phase2_features_labels.sql:134: NOTICE:  relation "labels_daily_signal_version_idx" already exists, skipping
+CREATE INDEX
+CREATE VIEW
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+psql:sql/migrations/036_phase2_source_inputs.sql:18: NOTICE:  relation "listed_share_observations" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/036_phase2_source_inputs.sql:20: NOTICE:  relation "listed_share_observations_pit_idx" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/036_phase2_source_inputs.sql:36: NOTICE:  relation "daily_price_limit_observations" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/036_phase2_source_inputs.sql:38: NOTICE:  relation "daily_price_limit_observations_pit_idx" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/036_phase2_source_inputs.sql:63: NOTICE:  relation "bars_1m_observations" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/036_phase2_source_inputs.sql:65: NOTICE:  relation "bars_1m_observations_pit_idx" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/036_phase2_source_inputs.sql:86: NOTICE:  relation "calendar_event_observations" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/036_phase2_source_inputs.sql:88: NOTICE:  relation "calendar_event_observations_pit_idx" already exists, skipping
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+DO
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "momentum_12_1s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "residual_momentum_12_1s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "ema_5_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "ema_10_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "ema_20_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "ema_50_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "ema_100_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "ema_200_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "macd_histogram_pct" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "adx_14_sma" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "stochastic_k_14" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "stochastic_d_3" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "downside_vol5" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "downside_vol60" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "return_skew_pop60" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "return_excess_kurtosis_pop60" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "beta_vnindex_60" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "beta_vnindex_250" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "idio_vol_vnindex_60" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "idio_vol_vnindex_250" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "correlation_vn30_60" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "amihud_proxy_20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "gap_mean20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "gap_std20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "rank_gaussian_return20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "rank_gaussian_turnover_proxy" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "rank_gaussian_realized_vol20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "rank_gaussian_momentum20_industry" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "market_advance_minus_decline" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "market_new_high_minus_low" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "market_turnover_z20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "market_return_dispersion" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "vnindex_sma50_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "vnindex_sma200_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "vnindex_drawdown252" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "vnindex_realized_vol60" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "quarter_end_proximity_days" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "turnover_listed_shares" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "limit_up_hit" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "limit_down_hit" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "limit_up_streak" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "limit_down_streak" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "distance_to_price_limit" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "sessions_to_tet" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "sessions_from_tet" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "intraday_realized_variance" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "intraday_vwap_gap" of relation "features_daily" already exists, skipping
+psql:sql/migrations/037_phase2_price_features.sql:54: NOTICE:  column "intraday_closing_auction_share" of relation "features_daily" already exists, skipping
+ALTER TABLE
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+COMMENT
+CREATE FUNCTION
+psql:sql/migrations/037_phase2_price_features.sql:128: NOTICE:  function feat.prepare_phase2_adjustment_rows() does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+DO
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+DO
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+psql:sql/migrations/038_phase2_fundamental_features.sql:10: NOTICE:  relation "fundamental_industry_class_map" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/038_phase2_fundamental_features.sql:32: NOTICE:  relation "fundamental_line_item_map" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/038_phase2_fundamental_features.sql:35: NOTICE:  relation "fundamental_line_item_one_active_mapping" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/038_phase2_fundamental_features.sql:92: NOTICE:  relation "fundamental_features_daily" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/038_phase2_fundamental_features.sql:94: NOTICE:  relation "fundamental_features_date_version_idx" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/038_phase2_fundamental_features.sql:96: NOTICE:  relation "fundamental_features_industry_idx" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/038_phase2_fundamental_features.sql:104: NOTICE:  relation "fundamentals_pit_overlay_version_lookup" already exists, skipping
+CREATE INDEX
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+psql:sql/migrations/039_phase2_resumable_builds.sql:20: NOTICE:  relation "feature_chunks" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/039_phase2_resumable_builds.sql:23: NOTICE:  relation "feature_chunks_status_idx" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/039_phase2_resumable_builds.sql:39: NOTICE:  relation "step_runs" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/039_phase2_resumable_builds.sql:42: NOTICE:  relation "step_runs_build_stage_idx" already exists, skipping
+CREATE INDEX
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+psql:sql/migrations/041_phase2_deterministic_chunk_hashes.sql:8: NOTICE:  column "input_sha256" of relation "feature_chunks" already exists, skipping
+psql:sql/migrations/041_phase2_deterministic_chunk_hashes.sql:8: NOTICE:  column "output_sha256" of relation "feature_chunks" already exists, skipping
+ALTER TABLE
+psql:sql/migrations/041_phase2_deterministic_chunk_hashes.sql:11: NOTICE:  column "input_sha256" of relation "step_runs" already exists, skipping
+psql:sql/migrations/041_phase2_deterministic_chunk_hashes.sql:11: NOTICE:  column "output_sha256" of relation "step_runs" already exists, skipping
+ALTER TABLE
+DO
+CREATE FUNCTION
+CREATE FUNCTION
+psql:sql/migrations/041_phase2_deterministic_chunk_hashes.sql:47: NOTICE:  function ops.phase2_prepare_price_day_hashes() does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+DO
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE VIEW
+DO
+psql:sql/migrations/044_phase2_vci_inherited_index_features.sql:175: NOTICE:  relation "phase2_vci_backfill_runs" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/044_phase2_vci_inherited_index_features.sql:186: NOTICE:  relation "phase2_vci_backfill_context" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/044_phase2_vci_inherited_index_features.sql:205: NOTICE:  relation "phase2_vci_backfill_chunks" already exists, skipping
+CREATE TABLE
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+DO
+COMMENT
+COMMIT
+BEGIN
+DO
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+COMMIT
+CREATE FUNCTION
+COMMENT
+BEGIN
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+DO
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE VIEW
+COMMENT
+CREATE FUNCTION
+DO
+DO
+DO
+DROP FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+DO
+DO
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMENT
+DO
+psql:sql/migrations/054_phase2_bounded_rank_repair.sql:82: NOTICE:  relation "phase2_rank_repairs" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/054_phase2_bounded_rank_repair.sql:92: NOTICE:  relation "phase2_rank_repair_attempts" already exists, skipping
+CREATE TABLE
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMIT
+BEGIN
+DO
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMIT
+BEGIN
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+DO
+UPDATE 0
+COMMENT
+COMMIT
+BEGIN
+CREATE VIEW
+CREATE VIEW
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+DO
+DO
+COMMIT
+BEGIN
+DO
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+psql:sql/migrations/061_phase2_label_derived_targets.sql:110: NOTICE:  relation "phase2_liquidity_tiers_v3" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/061_phase2_label_derived_targets.sql:112: NOTICE:  relation "phase2_liquidity_tiers_date_idx" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/061_phase2_label_derived_targets.sql:152: NOTICE:  relation "phase2_label_targets_v3" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/061_phase2_label_derived_targets.sql:154: NOTICE:  relation "phase2_label_targets_date_idx" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/061_phase2_label_derived_targets.sql:171: NOTICE:  relation "phase2_label_target_chunk_runs" already exists, skipping
+CREATE TABLE
+psql:sql/migrations/061_phase2_label_derived_targets.sql:173: NOTICE:  relation "phase2_label_target_chunk_runs_range_idx" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/061_phase2_label_derived_targets.sql:177: NOTICE:  column "invalidated_at" of relation "phase2_label_target_chunk_runs" already exists, skipping
+psql:sql/migrations/061_phase2_label_derived_targets.sql:177: NOTICE:  column "invalidation_reason" of relation "phase2_label_target_chunk_runs" already exists, skipping
+ALTER TABLE
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+DO
+COMMIT
+BEGIN
+CREATE INDEX
+psql:sql/migrations/062_phase2_vndirect_archived_price_limits.sql:7: NOTICE:  relation "daily_price_limit_observations_symbol_date_source_idx" already exists, skipping
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+psql:sql/migrations/063_phase2_label_execution_weights.sql:7: NOTICE:  column "execution_weight" of relation "phase2_label_targets_v3" already exists, skipping
+ALTER TABLE
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+DO
+DO
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:166: NOTICE:  aggregate feat.p2_moving_avg(pg_catalog.float8) does not exist, skipping
+DROP AGGREGATE
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:167: NOTICE:  aggregate feat.p2_moving_stddev_pop(pg_catalog.float8) does not exist, skipping
+DROP AGGREGATE
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:168: NOTICE:  aggregate feat.p2_moving_stddev_samp(pg_catalog.float8) does not exist, skipping
+DROP AGGREGATE
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:169: NOTICE:  aggregate feat.p2_shifted_stddev_pop(pg_catalog.float8) does not exist, skipping
+DROP AGGREGATE
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:170: NOTICE:  aggregate feat.p2_shifted_stddev_samp(pg_catalog.float8) does not exist, skipping
+DROP AGGREGATE
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:171: NOTICE:  function feat.phase2_moving_avg_final(pg_catalog.float8[]) does not exist, skipping
+DROP FUNCTION
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:172: NOTICE:  function feat.phase2_moving_stddev_pop_final(pg_catalog.float8[]) does not exist, skipping
+DROP FUNCTION
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:173: NOTICE:  function feat.phase2_moving_stddev_samp_final(pg_catalog.float8[]) does not exist, skipping
+DROP FUNCTION
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:174: NOTICE:  function feat.phase2_moving_moments_inv(pg_catalog.float8[],pg_catalog.float8) does not exist, skipping
+DROP FUNCTION
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:175: NOTICE:  function feat.phase2_moving_moments_combine(pg_catalog.float8[],pg_catalog.float8[]) does not exist, skipping
+DROP FUNCTION
+psql:sql/migrations/064_phase2_v2_moving_windows.sql:176: NOTICE:  function feat.phase2_moving_moments_trans(pg_catalog.float8[],pg_catalog.float8) does not exist, skipping
+DROP FUNCTION
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+DO
+COMMIT
+BEGIN
+DO
+INSERT 0 3
+DO
+INSERT 0 1
+DO
+INSERT 0 1
+DO
+DO
+INSERT 0 1
+INSERT 0 1
+DO
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "fundamentals_pit"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "ingest_jobs"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "bar_quality_issues"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "security_lifecycle_evidence"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "security_observations"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "company_profile_observations"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "company_profile_attempts"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "dq_cross_source_samples"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "bar_quality_reprocess_audit"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "external_market_calls"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "bars_daily_sources"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "alternate_bar_quality_issues"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "ml_bar_eligibility_events"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "exchange_daily_bar_evidence"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "fundamentals_pit_observations"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "features_daily"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "labels_daily"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "listed_share_observations"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "daily_price_limit_observations"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "bars_1m_observations"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "calendar_event_observations"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "fundamental_features_daily"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "api_reservations"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "ingest_requeue_audit"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "company_profile_call_audit"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "exchange_daily_bar_evidence_interpretations"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "vndirect_reference_adjustment_overrides"
+psql:tests/sql/schema_assertions.sql:108: NOTICE:  truncate cascades to table "vndirect_model_bar_overrides"
+DO
+INSERT 0 1
+DO
+INSERT 0 1
+INSERT 0 1
+DO
+DO
+DO
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+DO
+DO
+DO
+DO
+DO
+DO
+ROLLBACK
+BEGIN
+DO
+ROLLBACK
+DO
+DO
+BEGIN
+DO
+ROLLBACK
+BEGIN
+DELETE 0
+DELETE 0
+DELETE 0
+DELETE 0
+DELETE 0
+INSERT 0 8
+INSERT 0 320
+INSERT 0 2558
+INSERT 0 320
+INSERT 0 320
+INSERT 0 2
+INSERT 0 2
+COMMIT
+DO
+DO
+BEGIN
+SET
+SET
+SET
+SET
+psql:tests/sql/phase2_session_cache_assertions.sql:36: NOTICE:  Phase 2 adjustment cache initialized for 18 batches of up to 2 symbols
+ begin_phase2_adjustment_rows 
+------------------------------
+                           18
+(1 row)
+
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 0 rows 3, elapsed 00:00:00.031357
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               3
+(1 row)
+
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 1 rows 640, elapsed 00:00:00.029083
+ populate_phase2_adjustment_rows 
+---------------------------------
+                             640
+(1 row)
+
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 2 rows 2, elapsed 00:00:00.007892
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               2
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                             321
+(1 row)
+
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 3 rows 321, elapsed 00:00:00.017213
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 4 rows 2, elapsed 00:00:00.007584
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               2
+(1 row)
+
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 5 rows 2, elapsed 00:00:00.008482
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               2
+(1 row)
+
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 6 rows 2, elapsed 00:00:00.001898
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               2
+(1 row)
+
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 7 rows 2, elapsed 00:00:00.001528
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               2
+(1 row)
+
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 8 rows 3, elapsed 00:00:00.00156
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               3
+(1 row)
+
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 9 rows 320, elapsed 00:00:00.011237
+ populate_phase2_adjustment_rows 
+---------------------------------
+                             320
+(1 row)
+
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 10 rows 325, elapsed 00:00:00.010087
+ populate_phase2_adjustment_rows 
+---------------------------------
+                             325
+(1 row)
+
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 11 rows 2, elapsed 00:00:00.001789
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               2
+(1 row)
+
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 12 rows 3, elapsed 00:00:00.001841
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               3
+(1 row)
+
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 13 rows 2, elapsed 00:00:00.001737
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               2
+(1 row)
+
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 14 rows 5, elapsed 00:00:00.001697
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               5
+(1 row)
+
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 15 rows 321, elapsed 00:00:00.010342
+ populate_phase2_adjustment_rows 
+---------------------------------
+                             321
+(1 row)
+
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 16 rows 639, elapsed 00:00:00.019156
+ populate_phase2_adjustment_rows 
+---------------------------------
+                             639
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               7
+(1 row)
+
+psql:tests/sql/phase2_session_cache_assertions.sql:41: NOTICE:  Phase 2 adjustment cache batch 17 rows 7, elapsed 00:00:00.003064
+psql:tests/sql/phase2_session_cache_assertions.sql:43: NOTICE:  Phase 2 adjustment cache batch 0 rows 3, elapsed 00:00:00.002248
+ populate_phase2_adjustment_rows 
+---------------------------------
+                               3
+(1 row)
+
+DO
+psql:tests/sql/phase2_session_cache_assertions.sql:61: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.077007
+ finish_phase2_adjustment_rows 
+-------------------------------
+                          2601
+(1 row)
+
+COMMIT
+DO
+BEGIN
+SET
+SET
+SET
+psql:tests/sql/phase2_session_cache_assertions.sql:101: NOTICE:  Phase 2 sessions 258, elapsed 00:00:00.057279
+psql:tests/sql/phase2_session_cache_assertions.sql:101: NOTICE:  Phase 2 market context rows 258, elapsed 00:00:00.065708
+psql:tests/sql/phase2_session_cache_assertions.sql:101: NOTICE:  Phase 2 rank rows 0, elapsed 00:00:00.00652
+ build_price_features_v3_internal 
+----------------------------------
+                                0
+(1 row)
+
+COMMIT
+BEGIN
+SET
+SET
+SET
+psql:tests/sql/phase2_session_cache_assertions.sql:109: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.032359
+psql:tests/sql/phase2_session_cache_assertions.sql:109: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.063547
+psql:tests/sql/phase2_session_cache_assertions.sql:109: NOTICE:  Phase 2 rank rows 0, elapsed 00:00:00.006758
+ build_price_features_v3_internal 
+----------------------------------
+                                0
+(1 row)
+
+COMMIT
+PASS phase2 adjustment cache persisted across chunk commits
+BEGIN
+INSERT 0 14
+INSERT 0 1
+INSERT 0 6
+DO
+COMMIT
+BEGIN
+DO
+CREATE TABLE
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 250 symbols
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.084775
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.058266
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.03675
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.068117
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 rank rows 1263, elapsed 00:00:00.048137
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 batch 0 spine rows 2560, elapsed 00:00:00.049169
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 batch 0 base rows 2558, elapsed 00:00:00.090125
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 batch 0 feature rows 2558, elapsed 00:00:00.833676
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache initialized for 18 batches of up to 2 symbols
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 0 rows 3, elapsed 00:00:00.004976
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 1 rows 640, elapsed 00:00:00.01298
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 2 rows 2, elapsed 00:00:00.004388
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 3 rows 321, elapsed 00:00:00.008188
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 4 rows 2, elapsed 00:00:00.004466
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 5 rows 2, elapsed 00:00:00.001275
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 6 rows 2, elapsed 00:00:00.001405
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 7 rows 2, elapsed 00:00:00.001178
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 8 rows 3, elapsed 00:00:00.001126
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 9 rows 320, elapsed 00:00:00.005636
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 10 rows 325, elapsed 00:00:00.004951
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 11 rows 2, elapsed 00:00:00.001752
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 12 rows 3, elapsed 00:00:00.00171
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 13 rows 2, elapsed 00:00:00.001713
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 14 rows 5, elapsed 00:00:00.001904
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 15 rows 321, elapsed 00:00:00.005585
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 16 rows 639, elapsed 00:00:00.008737
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 17 rows 7, elapsed 00:00:00.001926
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.042545
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.057416
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.112885
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 rank rows 1263, elapsed 00:00:00.06396
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 batch 0 spine rows 640, elapsed 00:00:00.041088
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 batch 0 base rows 640, elapsed 00:00:00.079328
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 batch 0 feature rows 640, elapsed 00:00:00.285544
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 batch 1 spine rows 640, elapsed 00:00:00.041127
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 batch 1 base rows 640, elapsed 00:00:00.057008
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 batch 1 feature rows 640, elapsed 00:00:00.230469
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 batch 2 spine rows 640, elapsed 00:00:00.040606
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 batch 2 base rows 638, elapsed 00:00:00.060974
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 batch 2 feature rows 638, elapsed 00:00:00.255837
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 batch 3 spine rows 640, elapsed 00:00:00.04346
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 batch 3 base rows 640, elapsed 00:00:00.071768
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 batch 3 feature rows 640, elapsed 00:00:00.325015
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 50 symbols
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.052663
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.044382
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  table "phase2_label_targets" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label targets rows 16, elapsed 00:00:00.029042
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  table "phase2_label_latest_exit" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  table "phase2_label_endpoint_days" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label endpoint days rows 24, elapsed 00:00:00.013649
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  table "phase2_label_endpoint_bounds" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  table "phase2_label_adjustment_prefix" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label adjustment prefix rows 166, elapsed 00:00:00.038719
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  table "phase2_label_endpoint_bars" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label endpoint bars rows 23, elapsed 00:00:00.015086
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  table "phase2_label_first_bad_factor" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.00907
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  table "phase2_label_endpoint_targets" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  table "phase2_label_spans" does not exist, skipping
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 50 symbols
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.058623
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.036974
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label targets rows 16, elapsed 00:00:00.027327
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label endpoint days rows 24, elapsed 00:00:00.022167
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label adjustment prefix rows 168, elapsed 00:00:00.045442
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label endpoint bars rows 24, elapsed 00:00:00.016059
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.006737
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 50 symbols
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.038906
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.03974
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label targets rows 16, elapsed 00:00:00.022817
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label endpoint days rows 0, elapsed 00:00:00.00958
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label adjustment prefix rows 0, elapsed 00:00:00.012454
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label endpoint bars rows 0, elapsed 00:00:00.008018
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.005579
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 50 symbols
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.036502
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.042719
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label targets rows 32, elapsed 00:00:00.029563
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label endpoint days rows 48, elapsed 00:00:00.015094
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label adjustment prefix rows 176, elapsed 00:00:00.029708
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label endpoint bars rows 48, elapsed 00:00:00.014086
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.006115
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 50 symbols
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.036421
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.040609
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label targets rows 16, elapsed 00:00:00.02435
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label endpoint days rows 24, elapsed 00:00:00.012148
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label adjustment prefix rows 166, elapsed 00:00:00.031824
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label endpoint bars rows 23, elapsed 00:00:00.016755
+psql:tests/sql/phase2_feature_assertions.sql:576: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.007997
+DO
+ROLLBACK
+NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.414565
+NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.061071
+NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.046811
+NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.069429
+NOTICE:  Phase 2 rank rows 1263, elapsed 00:00:00.067824
+NOTICE:  Phase 2 batch 0 spine rows 2560, elapsed 00:00:00.056505
+NOTICE:  Phase 2 batch 0 base rows 2558, elapsed 00:00:00.08853
+NOTICE:  Phase 2 batch 0 feature rows 2558, elapsed 00:00:00.862678
+ build_features 
+----------------
+           2558
+(1 row)
+
+BEGIN
+DO
+ROLLBACK
+NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.048739
+NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.044506
+NOTICE:  table "phase2_label_targets" does not exist, skipping
+NOTICE:  Phase 2 label targets rows 5116, elapsed 00:00:00.055637
+NOTICE:  table "phase2_label_latest_exit" does not exist, skipping
+NOTICE:  table "phase2_label_endpoint_days" does not exist, skipping
+NOTICE:  Phase 2 label endpoint days rows 2550, elapsed 00:00:00.025092
+NOTICE:  table "phase2_label_endpoint_bounds" does not exist, skipping
+NOTICE:  table "phase2_label_adjustment_prefix" does not exist, skipping
+NOTICE:  Phase 2 label adjustment prefix rows 2550, elapsed 00:00:00.044821
+NOTICE:  table "phase2_label_endpoint_bars" does not exist, skipping
+NOTICE:  Phase 2 label endpoint bars rows 2548, elapsed 00:00:00.033252
+NOTICE:  table "phase2_label_first_bad_factor" does not exist, skipping
+NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.006101
+NOTICE:  table "phase2_label_endpoint_targets" does not exist, skipping
+NOTICE:  table "phase2_label_spans" does not exist, skipping
+ build_labels 
+--------------
+         5116
+(1 row)
+
+BEGIN
+DO
+ROLLBACK
+BEGIN
+DO
+ROLLBACK
+ build_fundamental_features 
+----------------------------
+                       1919
+(1 row)
+
+BEGIN
+SET
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache initialized for 18 batches of up to 2 symbols
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 0 rows 3, elapsed 00:00:00.019171
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 1 rows 640, elapsed 00:00:00.013032
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 2 rows 2, elapsed 00:00:00.004674
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 3 rows 321, elapsed 00:00:00.008287
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 4 rows 2, elapsed 00:00:00.005073
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 5 rows 2, elapsed 00:00:00.006783
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 6 rows 2, elapsed 00:00:00.001688
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 7 rows 2, elapsed 00:00:00.001176
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 8 rows 3, elapsed 00:00:00.001445
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 9 rows 320, elapsed 00:00:00.005207
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 10 rows 325, elapsed 00:00:00.004891
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 11 rows 2, elapsed 00:00:00.001765
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 12 rows 3, elapsed 00:00:00.001721
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 13 rows 2, elapsed 00:00:00.001692
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 14 rows 5, elapsed 00:00:00.002027
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 15 rows 321, elapsed 00:00:00.005067
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 16 rows 639, elapsed 00:00:00.009227
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 17 rows 7, elapsed 00:00:00.001685
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.048927
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 sessions 73, elapsed 00:00:00.026492
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 market context rows 73, elapsed 00:00:00.029486
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 rank rows 275, elapsed 00:00:00.025004
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 0 spine rows 146, elapsed 00:00:00.030509
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 0 base rows 146, elapsed 00:00:00.023575
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 0 feature rows 146, elapsed 00:00:00.099868
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 1 spine rows 146, elapsed 00:00:00.036031
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 1 base rows 146, elapsed 00:00:00.037419
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 1 feature rows 146, elapsed 00:00:00.08214
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 2 spine rows 146, elapsed 00:00:00.035557
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 2 base rows 144, elapsed 00:00:00.043358
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 2 feature rows 144, elapsed 00:00:00.084221
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 3 spine rows 146, elapsed 00:00:00.041376
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 3 base rows 146, elapsed 00:00:00.043169
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 3 feature rows 146, elapsed 00:00:00.274657
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache initialized for 18 batches of up to 2 symbols
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 0 rows 3, elapsed 00:00:00.009263
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 1 rows 640, elapsed 00:00:00.022701
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 2 rows 2, elapsed 00:00:00.001361
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 3 rows 321, elapsed 00:00:00.00694
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 4 rows 2, elapsed 00:00:00.001392
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 5 rows 2, elapsed 00:00:00.001662
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 6 rows 2, elapsed 00:00:00.001769
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 7 rows 2, elapsed 00:00:00.001688
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 8 rows 3, elapsed 00:00:00.001288
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 9 rows 320, elapsed 00:00:00.008681
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 10 rows 325, elapsed 00:00:00.005901
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 11 rows 2, elapsed 00:00:00.001419
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 12 rows 3, elapsed 00:00:00.001445
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 13 rows 2, elapsed 00:00:00.001091
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 14 rows 5, elapsed 00:00:00.001957
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 15 rows 321, elapsed 00:00:00.005489
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 16 rows 639, elapsed 00:00:00.011616
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 17 rows 7, elapsed 00:00:00.001672
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.042775
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 sessions 73, elapsed 00:00:00.028623
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 market context rows 73, elapsed 00:00:00.032573
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 rank rows 275, elapsed 00:00:00.044552
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 0 spine rows 146, elapsed 00:00:00.040209
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 0 base rows 146, elapsed 00:00:00.042051
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 0 feature rows 146, elapsed 00:00:00.096944
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 1 spine rows 146, elapsed 00:00:00.034091
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 1 base rows 146, elapsed 00:00:00.043292
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 1 feature rows 146, elapsed 00:00:00.097022
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 2 spine rows 146, elapsed 00:00:00.041772
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 2 base rows 144, elapsed 00:00:00.07931
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 2 feature rows 144, elapsed 00:00:00.11721
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 3 spine rows 146, elapsed 00:00:00.052756
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 3 base rows 146, elapsed 00:00:00.039955
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 3 feature rows 146, elapsed 00:00:00.086645
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache initialized for 18 batches of up to 2 symbols
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 0 rows 3, elapsed 00:00:00.008391
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 1 rows 640, elapsed 00:00:00.015074
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 2 rows 2, elapsed 00:00:00.00518
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 3 rows 321, elapsed 00:00:00.009265
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 4 rows 2, elapsed 00:00:00.004755
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 5 rows 2, elapsed 00:00:00.006753
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 6 rows 2, elapsed 00:00:00.004306
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 7 rows 2, elapsed 00:00:00.004432
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 8 rows 3, elapsed 00:00:00.006744
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 9 rows 320, elapsed 00:00:00.008645
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 10 rows 325, elapsed 00:00:00.008397
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 11 rows 2, elapsed 00:00:00.004299
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 12 rows 3, elapsed 00:00:00.004509
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 13 rows 2, elapsed 00:00:00.005789
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 14 rows 5, elapsed 00:00:00.004399
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 15 rows 321, elapsed 00:00:00.010226
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 16 rows 639, elapsed 00:00:00.012262
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 17 rows 7, elapsed 00:00:00.008543
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.050628
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  table "phase2_label_targets" does not exist, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 label targets rows 16, elapsed 00:00:00.02802
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  table "phase2_label_latest_exit" does not exist, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  table "phase2_label_endpoint_days" does not exist, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 label endpoint days rows 24, elapsed 00:00:00.014628
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  table "phase2_label_endpoint_bounds" does not exist, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  table "phase2_label_adjustment_prefix" does not exist, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 label adjustment prefix rows 168, elapsed 00:00:00.034403
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  table "phase2_label_endpoint_bars" does not exist, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 label endpoint bars rows 24, elapsed 00:00:00.019654
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  table "phase2_label_first_bad_factor" does not exist, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.010808
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  table "phase2_label_endpoint_targets" does not exist, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  table "phase2_label_spans" does not exist, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache initialized for 18 batches of up to 2 symbols
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 0 rows 3, elapsed 00:00:00.005745
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 1 rows 640, elapsed 00:00:00.012868
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 2 rows 2, elapsed 00:00:00.004318
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 3 rows 321, elapsed 00:00:00.007706
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 4 rows 2, elapsed 00:00:00.004465
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 5 rows 2, elapsed 00:00:00.004089
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 6 rows 2, elapsed 00:00:00.004252
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 7 rows 2, elapsed 00:00:00.004315
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 8 rows 3, elapsed 00:00:00.004786
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 9 rows 320, elapsed 00:00:00.008061
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 10 rows 325, elapsed 00:00:00.010627
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 11 rows 2, elapsed 00:00:00.011116
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 12 rows 3, elapsed 00:00:00.0108
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 13 rows 2, elapsed 00:00:00.011936
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 14 rows 5, elapsed 00:00:00.007505
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 15 rows 321, elapsed 00:00:00.007675
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 16 rows 639, elapsed 00:00:00.01389
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 17 rows 7, elapsed 00:00:00.004437
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.038044
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache initialized for 18 batches of up to 2 symbols
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 0 rows 3, elapsed 00:00:00.005985
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 1 rows 640, elapsed 00:00:00.012018
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 2 rows 2, elapsed 00:00:00.004315
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 3 rows 321, elapsed 00:00:00.008223
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 4 rows 2, elapsed 00:00:00.004236
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 5 rows 2, elapsed 00:00:00.004148
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 6 rows 2, elapsed 00:00:00.004386
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 7 rows 2, elapsed 00:00:00.004142
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 8 rows 3, elapsed 00:00:00.004194
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 9 rows 320, elapsed 00:00:00.009441
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 10 rows 325, elapsed 00:00:00.00782
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 11 rows 2, elapsed 00:00:00.004668
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 12 rows 3, elapsed 00:00:00.004985
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 13 rows 2, elapsed 00:00:00.004262
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 14 rows 5, elapsed 00:00:00.004511
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 15 rows 321, elapsed 00:00:00.007629
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 16 rows 639, elapsed 00:00:00.011972
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 17 rows 7, elapsed 00:00:00.004716
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.06007
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 sessions 73, elapsed 00:00:00.029904
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 market context rows 73, elapsed 00:00:00.033106
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 rank rows 275, elapsed 00:00:00.038473
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 0 spine rows 146, elapsed 00:00:00.034742
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 0 base rows 146, elapsed 00:00:00.036516
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 0 feature rows 146, elapsed 00:00:00.073747
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 1 spine rows 146, elapsed 00:00:00.034694
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 1 base rows 146, elapsed 00:00:00.038002
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 1 feature rows 146, elapsed 00:00:00.082429
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 2 spine rows 146, elapsed 00:00:00.04662
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 2 base rows 144, elapsed 00:00:00.039138
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 2 feature rows 144, elapsed 00:00:00.076325
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 3 spine rows 146, elapsed 00:00:00.035528
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 3 base rows 146, elapsed 00:00:00.04468
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 batch 3 feature rows 146, elapsed 00:00:00.073743
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache initialized for 18 batches of up to 2 symbols
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 0 rows 3, elapsed 00:00:00.004839
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 1 rows 640, elapsed 00:00:00.012279
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 2 rows 2, elapsed 00:00:00.004343
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 3 rows 321, elapsed 00:00:00.008252
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 4 rows 2, elapsed 00:00:00.004169
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 5 rows 2, elapsed 00:00:00.004948
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 6 rows 2, elapsed 00:00:00.004407
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 7 rows 2, elapsed 00:00:00.004316
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 8 rows 3, elapsed 00:00:00.004503
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 9 rows 320, elapsed 00:00:00.008346
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 10 rows 325, elapsed 00:00:00.007582
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 11 rows 2, elapsed 00:00:00.004432
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 12 rows 3, elapsed 00:00:00.004529
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 13 rows 2, elapsed 00:00:00.004432
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 14 rows 5, elapsed 00:00:00.004391
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 15 rows 321, elapsed 00:00:00.007809
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 16 rows 639, elapsed 00:00:00.011241
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache batch 17 rows 7, elapsed 00:00:00.004922
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.039374
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 label targets rows 16, elapsed 00:00:00.023292
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 label endpoint days rows 24, elapsed 00:00:00.013872
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 label adjustment prefix rows 168, elapsed 00:00:00.028874
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 label endpoint bars rows 24, elapsed 00:00:00.012259
+psql:tests/sql/phase2_leakage_assertions.sql:286: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.005713
+DO
+ROLLBACK
+BEGIN
+SET
+SET
+CREATE TABLE
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.046899
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.051014
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.033856
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.057321
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 rank rows 1263, elapsed 00:00:00.041764
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 batch 0 spine rows 2560, elapsed 00:00:00.042308
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 batch 0 base rows 2558, elapsed 00:00:00.233845
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 batch 0 feature rows 2558, elapsed 00:00:00.64998
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_targets" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 label targets rows 5116, elapsed 00:00:00.053237
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_latest_exit" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_endpoint_days" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 label endpoint days rows 2550, elapsed 00:00:00.025832
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_endpoint_bounds" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_adjustment_prefix" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 label adjustment prefix rows 2550, elapsed 00:00:00.046342
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_endpoint_bars" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 label endpoint bars rows 2548, elapsed 00:00:00.031442
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_first_bad_factor" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.006213
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_endpoint_targets" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:66: NOTICE:  table "phase2_label_spans" does not exist, skipping
+DO
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.034914
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.036149
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.060083
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.123134
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 rank rows 1263, elapsed 00:00:00.061259
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 batch 0 spine rows 2560, elapsed 00:00:00.054048
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 batch 0 base rows 2558, elapsed 00:00:00.129391
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 batch 0 feature rows 2558, elapsed 00:00:00.653757
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 label targets rows 5116, elapsed 00:00:00.089407
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 label endpoint days rows 2550, elapsed 00:00:00.04205
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 label adjustment prefix rows 2550, elapsed 00:00:00.065399
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 label endpoint bars rows 2548, elapsed 00:00:00.054916
+psql:tests/sql/phase2_shared_builder_assertions.sql:187: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.008729
+DO
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.037026
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.043732
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.050088
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.09355
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 rank rows 640, elapsed 00:00:00.04801
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 batch 0 spine rows 640, elapsed 00:00:00.042271
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 batch 0 base rows 640, elapsed 00:00:00.057868
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 batch 0 feature rows 640, elapsed 00:00:00.22812
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 label targets rows 1280, elapsed 00:00:00.040114
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 label endpoint days rows 638, elapsed 00:00:00.031417
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 label adjustment prefix rows 638, elapsed 00:00:00.051438
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 label endpoint bars rows 638, elapsed 00:00:00.033147
+psql:tests/sql/phase2_shared_builder_assertions.sql:226: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.005876
+DO
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.045774
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.116231
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  Phase 2 rank rows 640, elapsed 00:00:00.051873
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  Phase 2 batch 0 spine rows 640, elapsed 00:00:00.052531
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  Phase 2 batch 0 base rows 640, elapsed 00:00:00.067735
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  Phase 2 batch 0 feature rows 640, elapsed 00:00:00.264573
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  Phase 2 label targets rows 1280, elapsed 00:00:00.065879
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  Phase 2 label endpoint days rows 638, elapsed 00:00:00.020181
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  Phase 2 label adjustment prefix rows 638, elapsed 00:00:00.039873
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  Phase 2 label endpoint bars rows 638, elapsed 00:00:00.026295
+psql:tests/sql/phase2_shared_builder_assertions.sql:361: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.006061
+DO
+ROLLBACK
+BEGIN
+SET
+SET
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+psql:tests/sql/phase2_market_projection_assertions.sql:83: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_market_projection_assertions.sql:83: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.053906
+psql:tests/sql/phase2_market_projection_assertions.sql:83: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.043802
+DO
+ROLLBACK
+BEGIN
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.052239
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.04968
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.038613
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.07018
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 rank rows 4, elapsed 00:00:00.034942
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 batch 0 spine rows 2560, elapsed 00:00:00.043787
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 batch 0 base rows 8, elapsed 00:00:00.014007
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 batch 0 feature rows 8, elapsed 00:00:00.368933
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.040318
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.196429
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.060918
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.093093
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 rank rows 1, elapsed 00:00:00.014635
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 batch 0 spine rows 2560, elapsed 00:00:00.085024
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 batch 0 base rows 8, elapsed 00:00:00.02553
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 batch 0 feature rows 8, elapsed 00:00:00.347998
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 adjustment cache batch 0 rows 2601, elapsed 00:00:00.034408
+psql:tests/sql/phase2_rank_population_assertions.sql:113: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.039442
+DO
+ROLLBACK
+BEGIN
+SET
+psql:tests/sql/phase2_rank_repair_assertions.sql:153: ERROR:  rank repair is restricted to the audited 052-to-053 semantic upgrade
+CONTEXT:  PL/pgSQL function ops.repair_phase2_rank_chunk(text,date,date,boolean) line 18 at RAISE
+SQL statement "SELECT ops.repair_phase2_rank_chunk('rank-unknown',d,d)"
+PL/pgSQL function inline_code_block line 41 at PERFORM

@@ -1,0 +1,57 @@
+DO
+SET
+SET
+SET
+ batch |          started_at           | inserted 
+-------+-------------------------------+----------
+     0 | 2026-10-24 11:55:20.198162+07 |    20139
+(1 row)
+
+ batch |          started_at           | inserted 
+-------+-------------------------------+----------
+     1 | 2026-10-24 11:55:29.593669+07 |    22075
+(1 row)
+
+ batch |          started_at           | inserted 
+-------+-------------------------------+----------
+     2 | 2026-10-24 11:55:38.832635+07 |    18449
+(1 row)
+
+ batch |          started_at           | inserted 
+-------+-------------------------------+----------
+     3 | 2026-10-24 11:55:50.842469+07 |    19355
+(1 row)
+
+ batch |          started_at           | inserted 
+-------+-------------------------------+----------
+     4 | 2026-10-24 11:56:08.525598+07 |    16846
+(1 row)
+
+ batch |          started_at           | inserted 
+-------+-------------------------------+----------
+     5 | 2026-10-24 11:56:39.341316+07 |    17154
+(1 row)
+
+ batch |          started_at           | inserted 
+-------+-------------------------------+----------
+     6 | 2026-10-24 11:56:52.558061+07 |    12859
+(1 row)
+
+ batch |          started_at          | inserted 
+-------+------------------------------+----------
+     7 | 2026-10-24 11:57:18.50897+07 |    15921
+(1 row)
+
+ batch |          started_at           | inserted 
+-------+-------------------------------+----------
+     8 | 2026-10-24 11:58:05.971485+07 |    15892
+(1 row)
+
+psql:docs/evidence/phase2/phase2_vci_lineage_full_076_20261024.sql:20: ERROR:  canceling statement due to user request
+CONTEXT:  SQL statement "INSERT INTO ops.phase2_vci_bar_lineage(symbol_id,trade_date,algorithm_version,canonical_sha256,input_sha256,
+   canonical_snapshot,status,exact_matches,landing_id,source_ordinal_1based,source_fetched_at)
+ SELECT r.symbol_id,r.trade_date,v_algorithm,r.canonical_sha256,r.input_sha256,r.snapshot,r.status,
+   r.exact_matches,r.landing_id,r.source_ordinal_1based,r.source_fetched_at
+ FROM pg_temp.phase2_vci_lineage_results_work r
+ ON CONFLICT(symbol_id,trade_date,algorithm_version,input_sha256) DO NOTHING"
+PL/pgSQL function ops.materialize_phase2_vci_lineage(bigint[]) line 113 at SQL statement

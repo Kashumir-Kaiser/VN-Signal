@@ -1,0 +1,5 @@
+ chunk_status | done_chunks 
+--------------+-------------
+ absent       |          26
+(1 row)
+

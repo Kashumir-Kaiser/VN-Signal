@@ -1,0 +1,191 @@
+Pager usage is off.
+BEGIN
+SET
+SET
+SET
+SET
+psql:docs/evidence/phase2/phase2_label_endpoint_plan_20261022.sql:11: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:docs/evidence/phase2/phase2_label_endpoint_plan_20261022.sql:11: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:45.990639
+psql:docs/evidence/phase2/phase2_label_endpoint_plan_20261022.sql:11: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.473087
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |       47165
+(1 row)
+
+SELECT 5980
+SELECT 3910
+ALTER TABLE
+ANALYZE
+SELECT 46
+ALTER TABLE
+ANALYZE
+=== current endpoint join ===
+                                                                                      QUERY PLAN                                                                                       
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Merge Join  (cost=306.35..550.89 rows=3872 width=57) (actual time=2.867..43.362 rows=3910.00 loops=1)
+   Merge Cond: ((r.trade_date = d.trade_date) AND (r.symbol_id = d.symbol_id))
+   Buffers: local hit=2104 read=1903 written=12
+   ->  Index Scan using phase2_adjustment_rows_date_symbol_idx on phase2_adjustment_rows r  (cost=0.42..4526.31 rows=108331 width=57) (actual time=0.014..36.974 rows=3957.00 loops=1)
+         Filter: (source = 'vndirect'::text)
+         Index Searches: 1
+         Buffers: local hit=2072 read=1903 written=12
+   ->  Sort  (cost=304.39..314.16 rows=3910 width=12) (actual time=2.214..2.931 rows=3910.00 loops=1)
+         Sort Key: d.trade_date, d.symbol_id
+         Sort Method: quicksort  Memory: 219kB
+         Buffers: local hit=32
+         ->  Seq Scan on phase2_label_endpoint_days d  (cost=0.00..71.10 rows=3910 width=12) (actual time=0.025..0.394 rows=3910.00 loops=1)
+               Buffers: local hit=32
+ Settings: work_mem = '128MB', jit = 'off', random_page_cost = '1.1'
+ Planning:
+   Buffers: shared hit=37, local read=5
+ Planning Time: 1.048 ms
+ Execution Time: 43.654 ms
+(18 rows)
+
+=== date-bounded endpoint join ===
+                                                                                    QUERY PLAN                                                                                     
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Merge Join  (cost=466.58..515.12 rows=19 width=57) (actual time=14.184..39.160 rows=3910.00 loops=1)
+   Merge Cond: ((r.trade_date = d.trade_date) AND (r.symbol_id = d.symbol_id))
+   Buffers: local hit=2418 read=1606 written=54
+   InitPlan 1
+     ->  Aggregate  (cost=80.88..80.89 rows=1 width=4) (actual time=2.021..2.022 rows=1.00 loops=1)
+           Buffers: local hit=32
+           ->  Seq Scan on phase2_label_endpoint_days  (cost=0.00..71.10 rows=3910 width=4) (actual time=0.436..1.027 rows=3910.00 loops=1)
+                 Buffers: local hit=32
+   InitPlan 2
+     ->  Aggregate  (cost=80.88..80.89 rows=1 width=4) (actual time=3.627..3.627 rows=1.00 loops=1)
+           Buffers: local hit=32
+           ->  Seq Scan on phase2_label_endpoint_days phase2_label_endpoint_days_1  (cost=0.00..71.10 rows=3910 width=4) (actual time=0.031..2.516 rows=3910.00 loops=1)
+                 Buffers: local hit=32
+   ->  Index Scan using phase2_adjustment_rows_date_symbol_idx on phase2_adjustment_rows r  (cost=0.42..540.60 rows=542 width=57) (actual time=6.115..28.876 rows=3910.00 loops=1)
+         Index Cond: ((trade_date >= (InitPlan 1).col1) AND (trade_date <= (InitPlan 2).col1))
+         Filter: (source = 'vndirect'::text)
+         Index Searches: 1
+         Buffers: local hit=2386 read=1606 written=54
+   ->  Sort  (cost=304.39..314.16 rows=3910 width=12) (actual time=8.058..8.520 rows=3910.00 loops=1)
+         Sort Key: d.trade_date, d.symbol_id
+         Sort Method: quicksort  Memory: 219kB
+         Buffers: local hit=32
+         ->  Seq Scan on phase2_label_endpoint_days d  (cost=0.00..71.10 rows=3910 width=12) (actual time=1.314..2.457 rows=3910.00 loops=1)
+               Buffers: local hit=32
+ Settings: work_mem = '128MB', jit = 'off', random_page_cost = '1.1'
+ Planning:
+   Buffers: shared hit=10 read=1, local read=4
+ Planning Time: 0.830 ms
+ Execution Time: 39.367 ms
+(29 rows)
+
+=== indexed lateral endpoint lookup ===
+                                                                                        QUERY PLAN                                                                                        
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop  (cost=0.43..1203.46 rows=3910 width=57) (actual time=0.191..48.514 rows=3910.00 loops=1)
+   Buffers: local hit=14211 read=1461
+   ->  Seq Scan on phase2_label_endpoint_days d  (cost=0.00..71.10 rows=3910 width=12) (actual time=0.065..1.269 rows=3910.00 loops=1)
+         Buffers: local read=32
+   ->  Memoize  (cost=0.43..2.65 rows=1 width=45) (actual time=0.011..0.012 rows=1.00 loops=3910)
+         Cache Key: d.symbol_id, d.trade_date
+         Cache Mode: binary
+         Hits: 0  Misses: 3910  Evictions: 0  Overflows: 0  Memory Usage: 596kB
+         Buffers: local hit=14211 read=1429
+         ->  Limit  (cost=0.42..2.64 rows=1 width=45) (actual time=0.010..0.010 rows=1.00 loops=3910)
+               Buffers: local hit=14211 read=1429
+               ->  Index Scan using phase2_adjustment_rows_date_symbol_idx on phase2_adjustment_rows r  (cost=0.42..2.64 rows=1 width=45) (actual time=0.010..0.010 rows=1.00 loops=3910)
+                     Index Cond: ((trade_date = d.trade_date) AND (symbol_id = d.symbol_id))
+                     Filter: (source = 'vndirect'::text)
+                     Index Searches: 3910
+                     Buffers: local hit=14211 read=1429
+ Settings: work_mem = '128MB', jit = 'off', random_page_cost = '1.1'
+ Planning Time: 0.188 ms
+ Execution Time: 48.964 ms
+(19 rows)
+
+=== full-history adjustment prefixes ===
+                                                                                          QUERY PLAN                                                                                           
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ WindowAgg  (cost=173.66..16616.12 rows=108331 width=48) (actual time=7.146..150.096 rows=108331.00 loops=1)
+   Window: w AS (PARTITION BY symbol_id, episode_start_date ORDER BY trade_date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+   Storage: Memory  Maximum Storage: 17kB
+   Buffers: local hit=103521 read=2144
+   ->  Incremental Sort  (cost=173.51..11741.22 rows=108331 width=24) (actual time=7.126..85.510 rows=108331.00 loops=1)
+         Sort Key: symbol_id, episode_start_date, trade_date
+         Presorted Key: symbol_id
+         Full-sort Groups: 60  Sort Method: quicksort  Average Memory: 27kB  Peak Memory: 27kB
+         Pre-sorted Groups: 60  Sort Method: quicksort  Average Memory: 127kB  Peak Memory: 127kB
+         Buffers: local hit=103521 read=2144
+         ->  Index Scan using phase2_adjustment_rows_symbol_date_idx on phase2_adjustment_rows r  (cost=0.42..4526.15 rows=108331 width=24) (actual time=0.116..64.774 rows=108331.00 loops=1)
+               Filter: (source = 'vndirect'::text)
+               Index Searches: 1
+               Buffers: local hit=103521 read=2144
+ Settings: work_mem = '128MB', jit = 'off', random_page_cost = '1.1'
+ Planning:
+   Buffers: shared hit=3
+ Planning Time: 0.297 ms
+ Execution Time: 153.499 ms
+(19 rows)
+
+=== chunk-window adjustment prefixes ===
+                                                                               QUERY PLAN                                                                                
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ WindowAgg  (cost=706.37..732.11 rows=542 width=48) (actual time=25.562..27.759 rows=3910.00 loops=1)
+   Window: w AS (PARTITION BY r.symbol_id, r.episode_start_date ORDER BY r.trade_date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+   Storage: Memory  Maximum Storage: 17kB
+   Buffers: local hit=512 read=1094
+   InitPlan 1
+     ->  Aggregate  (cost=80.88..80.89 rows=1 width=4) (actual time=1.810..1.810 rows=1.00 loops=1)
+           Buffers: local read=32
+           ->  Seq Scan on phase2_label_endpoint_days  (cost=0.00..71.10 rows=3910 width=4) (actual time=0.078..1.095 rows=3910.00 loops=1)
+                 Buffers: local read=32
+   InitPlan 2
+     ->  Aggregate  (cost=80.88..80.89 rows=1 width=4) (actual time=1.845..1.846 rows=1.00 loops=1)
+           Buffers: local hit=32
+           ->  Seq Scan on phase2_label_endpoint_days phase2_label_endpoint_days_1  (cost=0.00..71.10 rows=3910 width=4) (actual time=0.058..0.473 rows=3910.00 loops=1)
+                 Buffers: local hit=32
+   ->  Sort  (cost=544.60..545.95 rows=542 width=24) (actual time=25.545..25.673 rows=3910.00 loops=1)
+         Sort Key: r.symbol_id, r.episode_start_date, r.trade_date
+         Sort Method: quicksort  Memory: 249kB
+         Buffers: local hit=512 read=1094
+         ->  Bitmap Heap Scan on phase2_adjustment_rows r  (cost=9.27..519.99 rows=542 width=24) (actual time=6.138..23.534 rows=3910.00 loops=1)
+               Recheck Cond: ((trade_date >= (InitPlan 1).col1) AND (trade_date <= (InitPlan 2).col1))
+               Filter: (source = 'vndirect'::text)
+               Heap Blocks: exact=1524
+               Buffers: local hit=512 read=1094
+               ->  Bitmap Index Scan on phase2_adjustment_rows_date_symbol_idx  (cost=0.00..9.14 rows=542 width=0) (actual time=5.673..5.673 rows=3910.00 loops=1)
+                     Index Cond: ((trade_date >= (InitPlan 1).col1) AND (trade_date <= (InitPlan 2).col1))
+                     Index Searches: 1
+                     Buffers: local hit=32 read=50
+ Settings: work_mem = '128MB', jit = 'off', random_page_cost = '1.1'
+ Planning Time: 0.376 ms
+ Execution Time: 28.025 ms
+(30 rows)
+
+=== first invalid factor by symbol ===
+                                                                                                          QUERY PLAN                                                                                                           
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=0.56..3082.93 rows=1 width=12) (actual time=32.124..32.125 rows=0.00 loops=1)
+   Group Key: r.symbol_id
+   Buffers: local hit=2678 read=1321
+   ->  Nested Loop Anti Join  (cost=0.56..3082.92 rows=1 width=12) (actual time=32.123..32.124 rows=0.00 loops=1)
+         Join Filter: (x.symbol_id = r.symbol_id)
+         Buffers: local hit=2678 read=1321
+         ->  Nested Loop  (cost=0.56..3081.89 rows=1 width=12) (actual time=32.123..32.123 rows=0.00 loops=1)
+               Buffers: local hit=2678 read=1321
+               ->  Index Scan using phase2_label_latest_exit_pkey on phase2_label_latest_exit k  (cost=0.14..4.13 rows=46 width=12) (actual time=0.006..0.263 rows=46.00 loops=1)
+                     Index Searches: 1
+                     Buffers: local hit=2
+               ->  Index Scan using phase2_adjustment_rows_symbol_date_idx on phase2_adjustment_rows r  (cost=0.42..66.90 rows=1 width=12) (actual time=0.689..0.689 rows=0.00 loops=46)
+                     Index Cond: ((symbol_id = k.symbol_id) AND (trade_date <= k.latest_exit_date))
+                     Filter: ((source = 'vndirect'::text) AND ((reference_adjustment_ratio IS NULL) OR (reference_adjustment_ratio <= '0'::double precision) OR (reference_adjustment_ratio >= 'Infinity'::double precision)))
+                     Rows Removed by Filter: 86
+                     Index Searches: 46
+                     Buffers: local hit=2676 read=1321
+         ->  Seq Scan on ml_symbol_scope x  (cost=0.00..1.01 rows=1 width=8) (never executed)
+               Filter: (scope_status = 'EXCLUDED'::text)
+ Settings: work_mem = '128MB', jit = 'off', random_page_cost = '1.1'
+ Planning:
+   Buffers: shared hit=17, local hit=2 read=3
+ Planning Time: 0.642 ms
+ Execution Time: 32.173 ms
+(24 rows)
+
+ROLLBACK

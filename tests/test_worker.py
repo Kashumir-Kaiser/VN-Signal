@@ -137,6 +137,37 @@ class FrameTests(unittest.TestCase):
 
 
 class LocalCLITests(unittest.TestCase):
+    def test_fundamental_request_attribution_and_provider_conflicts(self):
+        class FakeFrame:
+            columns = ["period", "id", "value"]
+            attrs = {"source": "vci", "route": "fundamental.equity.income_statement"}
+            def to_dict(self, orient):
+                return [{"period": "2025-Q1", "id": "fixture", "value": 1}]
+        received = {}
+        frame = FakeFrame()
+        class FakeEquity:
+            def income_statement(self, **kwargs):
+                received.update(kwargs)
+                return frame
+        class FakeFundamental:
+            def equity(self, symbol):
+                received["symbol"] = symbol
+                return FakeEquity()
+        module = types.SimpleNamespace(Fundamental=FakeFundamental, Market=lambda: None, Reference=lambda: None)
+        job = {"op": "income_statement", "symbol": "FPT", "period": "quarter", "source": "vci"}
+        with patch.dict(sys.modules, {"vnstock": module}), patch.dict(worker.os.environ, {"VNPIPE_DISABLE_LIVE": "0"}):
+            result = worker._fetch(job)
+            self.assertEqual(received, {"symbol": "FPT", "period": "quarter", "source": "vci"})
+            self.assertEqual(result["attributes"]["symbol"], "FPT")
+            self.assertEqual(result["attributes"]["requested_symbol"], "FPT")
+            self.assertEqual(result["attributes"]["symbol_basis"], "request")
+            frame.attrs = dict(FakeFrame.attrs, symbol=" fpt ")
+            self.assertEqual(worker._fetch(job)["attributes"]["symbol_basis"], "provider_and_request")
+            for bad in ("OTHER", 123, ""):
+                frame.attrs = dict(FakeFrame.attrs, symbol=bad)
+                with self.assertRaisesRegex(ValueError, "provider symbol"):
+                    worker._fetch(job)
+
     def test_cli_places_global_json_option_before_subcommand(self):
         result = subprocess.CompletedProcess(
             [], 0, '{"tier":"community"}', "")

@@ -1,0 +1,17 @@
+  statement_type  | period_type | rows | periods |    min     |    max     | lag_midnight_check 
+------------------+-------------+------+---------+------------+------------+--------------------
+ balance_sheet    | year        |  144 |       8 | 2018-12-31 | 2025-12-31 | t
+ cash_flow        | year        |   56 |       8 | 2018-12-31 | 2025-12-31 | t
+ income_statement | year        |   96 |       8 | 2018-12-31 | 2025-12-31 | t
+(3 rows)
+
+ landing_id |                route                | checksum_ok | body_ok 
+------------+-------------------------------------+-------------+---------
+       9808 | fundamental.equity.income_statement | t           | t
+       9809 | fundamental.equity.balance_sheet    | t           | t
+       9810 | fundamental.equity.cash_flow        | t           | t
+       9811 | fundamental.equity.income_statement | t           | t
+       9812 | fundamental.equity.balance_sheet    | t           | t
+       9813 | fundamental.equity.cash_flow        | t           | t
+(6 rows)
+

@@ -1,0 +1,5 @@
+database=vnsignal_phase2_report_20261019
+fixture=tests/sql/phase2_moving_window_assertions.sql
+BEGIN
+DO
+ROLLBACK

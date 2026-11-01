@@ -1,0 +1,83 @@
+BEGIN
+SET
+SET
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 adjustment cache batch 0 rows 2282, elapsed 00:00:07.955256
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:01.89983
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 sessions 320, elapsed 00:00:05.762703
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:06.445595
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 rank rows 944, elapsed 00:00:05.899527
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 batch 0 spine rows 2240, elapsed 00:00:04.470802
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 batch 0 base rows 2239, elapsed 00:00:01.980654
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 batch 0 feature rows 2239, elapsed 00:00:11.42956
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  table "phase2_label_targets" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 label targets rows 4478, elapsed 00:00:06.605684
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  table "phase2_label_latest_exit" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  table "phase2_label_endpoint_days" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 label endpoint days rows 2232, elapsed 00:00:04.763811
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  table "phase2_label_endpoint_bounds" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  table "phase2_label_adjustment_prefix" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 label adjustment prefix rows 2232, elapsed 00:00:06.906112
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  table "phase2_label_endpoint_bars" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 label endpoint bars rows 2231, elapsed 00:00:02.926168
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  table "phase2_label_first_bad_factor" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.767385
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  table "phase2_label_endpoint_targets" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  table "phase2_label_spans" does not exist, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 adjustment cache batch 0 rows 2282, elapsed 00:00:00.249459
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 adjustment cache rows 2282, finalize elapsed 00:00:00.400644
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 sessions 320, elapsed 00:00:06.167204
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:02.731377
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 rank rows 944, elapsed 00:00:02.232128
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 batch 0 spine rows 2240, elapsed 00:00:01.996475
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 batch 0 base rows 2239, elapsed 00:00:02.336126
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 batch 0 feature rows 2239, elapsed 00:00:05.161653
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 label targets rows 4478, elapsed 00:00:00.434547
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 label endpoint days rows 2232, elapsed 00:00:00.52586
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 label adjustment prefix rows 2232, elapsed 00:00:00.290212
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 label endpoint bars rows 2231, elapsed 00:00:00.220251
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.064485
+psql:tests/sql/phase2_shared_builder_assertions.sql:291: ERROR:  canceling statement due to statement timeout
+CONTEXT:  SQL statement "CREATE TEMP TABLE phase2_label_endpoint_targets ON COMMIT DROP AS
+    SELECT t.*,
+           en.model_o AS entry_model_open,
+           ex.model_c AS exit_model_close,
+           en.volume AS entry_volume,
+           ex.volume AS exit_volume,
+           en.is_traded AS entry_traded,
+           ex.is_traded AS exit_traded,
+           en.episode_start_date AS entry_episode,
+           ex.episode_start_date AS exit_episode,
+           en.adjustment_vintage_at AS entry_vintage,
+           ex.adjustment_vintage_at AS exit_vintage,
+           en.landing_id AS entry_landing_id,
+           ex.landing_id AS exit_landing_id,
+           en.trade_date AS entry_bar_date,
+           ex.trade_date AS exit_bar_date
+      FROM pg_temp.phase2_label_targets t
+      LEFT JOIN pg_temp.phase2_label_endpoint_bars en
+        ON en.symbol_id = t.symbol_id AND en.trade_date = t.entry_date
+      LEFT JOIN pg_temp.phase2_label_endpoint_bars ex
+        ON ex.symbol_id = t.symbol_id AND ex.trade_date = t.exit_date"
+PL/pgSQL function build_labels_set_based_shared(date,date,bigint[]) line 188 at SQL statement
+SQL statement "SELECT feat.build_labels_set_based_shared(date_from,date_to,NULL)"
+PL/pgSQL function inline_code_block line 56 at PERFORM

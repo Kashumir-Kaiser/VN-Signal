@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "symbol": "TNA",
+  "feature_set_hash": "28089ed13c1be5a19865bc9cea34c44cb84f3e460ee3f3f2ee837a853d317f6b",
+  "current_gap": {
+    "prior_trade_date": "2024-11-18",
+    "next_trade_date": "2024-11-29",
+    "missing_effective_sessions": "8",
+    "bar_rows_between": "0",
+    "source_rows_between": "0"
+  },
+  "capture_manifest_sha256": "e083112f7d4ad20b78bf0f626d1fe4558f1766d4cf762e082f78a786c4c14588",
+  "builder_sha256": "be034907e0b3450a9ca527ea5540dbfc10255d314a42e214b86c25934a9488b0",
+  "event_facts": {
+    "symbol": "TNA",
+    "prior_venue": "HOSE",
+    "venue": "UPCOM",
+    "prior_trade_date": "2024-09-13",
+    "suspension_effective_date": "2024-09-16",
+    "prior_ceased_from": "2024-11-19",
+    "effective_date": "2024-11-29",
+    "prior_feature_row_date": "2024-11-18",
+    "next_feature_row_date": "2024-11-29",
+    "missing_effective_sessions": "8",
+    "share_count": "49576264",
+    "source_article_id": "1724218",
+    "continuity_article_id": "60019952",
+    "source_file": "tna_transition_capture_20261031/hose_tna_decision_1724218.pdf",
+    "continuity_file": "tna_transition_capture_20261031/hnx_tna_first_trade_notice_60019952.pdf",
+    "reviewed_claim": "Signed HOSE Decision 619/QD-SGDHCM states TNA's final HOSE trade was 2024-09-13, trading was suspended effective 2024-09-16, and delisting became effective 2024-11-19. Signed HNX Notice 5064/TB-SGDHN states TNA had 49,576,264 registered shares and its first UPCoM trading session was 2024-11-29. The legal delisting date is kept distinct from the earlier final trade and suspension dates; no intervening session activity is inferred."
+  },
+  "stage_files": {
+    "landing_stage_tna_20261031.csv": {
+      "bytes": 1330969,
+      "sha256": "4dd46879748e6bdba7ded30090660d8adfbe5417ba0d020d4f7bae5f10c61406"
+    },
+    "transfer_event_stage_tna_20261031.csv": {
+      "bytes": 947,
+      "sha256": "b546f12ad99e6c00a717f1b0f6ebcd60ab00dd94255186b3b825d2070d88ab2d"
+    },
+    "source_review_tna_20261031.csv": {
+      "bytes": 1446,
+      "sha256": "b9bc5c5402fec6c27d210d0e2d3fb0dff7fca6540160177b1188947a06ed34a3"
+    }
+  },
+  "evidence_files": {
+    "import_tna_transfer_reportclone_20261031.sql": {
+      "bytes": 14548,
+      "sha256": "6c12f22c696297808d8e73370d193abceaf608eb716fa42bdd14649bd798c892"
+    },
+    "import_tna_transfer_reportclone_attempt1_20261031.log": {
+      "bytes": 374,
+      "sha256": "5cf5f61601ece7bf4f80c4c701a2b3b8996245c4c949bf95c6ca7b86d7f4a4cd"
+    },
+    "import_tna_transfer_reportclone_retry1_20261031.log": {
+      "bytes": 126,
+      "sha256": "75532449e773cd7d213b1f442dd44a2d96c861bd775fb6f03cbd875409396383"
+    },
+    "replay_tna_transfer_reportclone_20261031.log": {
+      "bytes": 126,
+      "sha256": "7fd87d0d81e07b9e21410992d81703b721e11af58284a0e0b656c34173879f1c"
+    },
+    "../../phase2_e4_currenthash_gap_pairs_20261031_posttna1.sql": {
+      "bytes": 5915,
+      "sha256": "30c5279d0d7107d93df7682db084ff07477fba7cf47181f517d2ef7427cc9ad4"
+    },
+    "../../phase2_e4_currenthash_gap_pairs_20261031_posttna1.csv": {
+      "bytes": 16132,
+      "sha256": "066a75f7372b8955dfd1dbdcde46c9b2f9fe97c28fe1957b282020afb9c3aef6"
+    },
+    "../../phase2_e4_currenthash_gap_pairs_20261031_posttna1.log": {
+      "bytes": 126,
+      "sha256": "38f9c0721f58de98c1780f1fd4789b1861bfc3408d5ef5d3dc06014ac86588e5"
+    },
+    "../../phase2_e4_feature_endpoint_semantics_20261031_posttna1.sql": {
+      "bytes": 4537,
+      "sha256": "e8deb6bb017cbdadf75ee07fcdbb5bb09c3a278335ffa174889be24ec9fcb870"
+    },
+    "../../phase2_e4_feature_endpoint_semantics_20261031_posttna1.csv": {
+      "bytes": 14486,
+      "sha256": "1fffb675f227cf8d051910fee2486124667632f0d75414a8aaef38defc73b488"
+    },
+    "../../phase2_e4_feature_endpoint_semantics_20261031_posttna1.log": {
+      "bytes": 111,
+      "sha256": "a4f0bd24fbe0ddf98c4da1bb73b7be6c53d7496ff8da7eac7c5b19c308f36705"
+    },
+    "../../phase2_e4_currenthash_posttna1_20261031.md": {
+      "bytes": 3756,
+      "sha256": "b17bed1eef14109695946c15bc04aab35cbc7d3c6dff68521c4a720c966392e3"
+    },
+    "README.md": {
+      "bytes": 3333,
+      "sha256": "d445a15d89a3c4c3cba6937f01b737be699c251bdccbbc1d89e4ef7d6be6818c"
+    }
+  },
+  "handling": "Final trade, suspension effective date, legal delisting effective date, and first UPCoM trade are distinct source facts. No session-level activity, bars, prices, labels, or suspension statuses are inferred."
+}

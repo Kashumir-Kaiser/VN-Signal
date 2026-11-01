@@ -1,0 +1,9 @@
+{
+  "build_id": "phase2-v3-074-clean-full-20261024",
+  "pid": 9328,
+  "process_started_utc": "2026-10-24T04:32:50.0803128Z",
+  "started_utc": "2026-10-24T04:32:50.9467163Z",
+  "phase": "process_lost",
+  "exit_code": null,
+  "loss_confirmed_utc": "2026-10-24T09:55:31.6102376Z"
+}

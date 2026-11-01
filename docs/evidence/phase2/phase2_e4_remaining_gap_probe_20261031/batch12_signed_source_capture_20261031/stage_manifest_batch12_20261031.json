@@ -1,0 +1,335 @@
+{
+  "schema_version": 1,
+  "symbols": [
+    "DAG",
+    "HTT",
+    "ITA",
+    "LEC",
+    "SJF",
+    "TCD"
+  ],
+  "feature_set_hash": "28089ed13c1be5a19865bc9cea34c44cb84f3e460ee3f3f2ee837a853d317f6b",
+  "capture_manifest_sha256": "853c6fabd2cb0e96b98a34ba0cb44f93201b38ad3c8e093ae6d599d2747acc65",
+  "builder_sha256": "45092bff160229818da8c8de32ddb9c49ccd4c6ced97f0b65adec06c9070f35c",
+  "current_gaps": {
+    "DAG": {
+      "prior_trade_date": "2024-10-21",
+      "next_trade_date": "2024-11-01",
+      "missing_effective_sessions": "8",
+      "bar_rows_between": "0",
+      "source_rows_between": "0"
+    },
+    "HTT": {
+      "prior_trade_date": "2020-06-17",
+      "next_trade_date": "2020-06-26",
+      "missing_effective_sessions": "6",
+      "bar_rows_between": "0",
+      "source_rows_between": "0"
+    },
+    "ITA": {
+      "prior_trade_date": "2025-02-03",
+      "next_trade_date": "2025-02-13",
+      "missing_effective_sessions": "7",
+      "bar_rows_between": "0",
+      "source_rows_between": "0"
+    },
+    "LEC": {
+      "prior_trade_date": "2025-04-28",
+      "next_trade_date": "2025-05-13",
+      "missing_effective_sessions": "7",
+      "bar_rows_between": "0",
+      "source_rows_between": "0"
+    },
+    "SJF": {
+      "prior_trade_date": "2024-10-31",
+      "next_trade_date": "2024-11-13",
+      "missing_effective_sessions": "8",
+      "bar_rows_between": "0",
+      "source_rows_between": "0"
+    },
+    "TCD": {
+      "prior_trade_date": "2026-07-14",
+      "next_trade_date": "2026-07-24",
+      "missing_effective_sessions": "7",
+      "bar_rows_between": "0",
+      "source_rows_between": "0"
+    }
+  },
+  "event_facts": [
+    {
+      "symbol": "DAG",
+      "prior_venue": "HOSE",
+      "venue": "UPCOM",
+      "prior_trade_date": "2024-08-14",
+      "suspension_effective_date": "2024-08-15",
+      "prior_ceased_from": "2024-10-22",
+      "effective_date": "2024-11-01",
+      "prior_feature_row_date": "2024-10-21",
+      "next_feature_row_date": "2024-11-01",
+      "missing_effective_sessions": "8",
+      "share_count": "60314112",
+      "source_article_id": "1733994",
+      "notice_article_id": "1733993",
+      "continuity_article_id": "60019787",
+      "decision_date": "2024-10-15",
+      "notice_date": "2024-10-15",
+      "continuity_date": "2024-10-25",
+      "source_file": "batch12_signed_source_capture_20261031/hose_dag_decision_1733994.pdf",
+      "continuity_file": "batch12_signed_source_capture_20261031/hnx_dag_first_trade_60019787.pdf",
+      "reviewed_claim": "Signed HOSE decision and notice for DAG report 60314112 shares, final HOSE trade 2024-08-14, and legal delisting effective 2024-10-22; signed HNX Notice records the same share count and first UPCoM trade 2024-11-01. Separate final-trade, suspension, legal cessation, and new-venue dates are preserved; no activity is inferred for missing sessions."
+    },
+    {
+      "symbol": "HTT",
+      "prior_venue": "HOSE",
+      "venue": "UPCOM",
+      "prior_trade_date": "2020-05-21",
+      "suspension_effective_date": "",
+      "prior_ceased_from": "2020-06-18",
+      "effective_date": "2020-06-26",
+      "prior_feature_row_date": "2020-06-17",
+      "next_feature_row_date": "2020-06-26",
+      "missing_effective_sessions": "6",
+      "share_count": "20000000",
+      "source_article_id": "1188489",
+      "notice_article_id": "1187025",
+      "continuity_article_id": "60008745",
+      "decision_date": "2020-06-11",
+      "notice_date": "2020-06-11",
+      "continuity_date": "2020-06-19",
+      "source_file": "batch12_signed_source_capture_20261031/hose_htt_decision_1188489.pdf",
+      "continuity_file": "batch12_signed_source_capture_20261031/hnx_htt_first_trade_60008745.pdf",
+      "reviewed_claim": "Signed HOSE decision and notice for HTT report 20000000 shares, final HOSE trade 2020-05-21, and legal delisting effective 2020-06-18; signed HNX Notice records the same share count and first UPCoM trade 2020-06-26. Separate final-trade, suspension, legal cessation, and new-venue dates are preserved; no activity is inferred for missing sessions."
+    },
+    {
+      "symbol": "ITA",
+      "prior_venue": "HOSE",
+      "venue": "UPCOM",
+      "prior_trade_date": "2024-09-25",
+      "suspension_effective_date": "2024-09-26",
+      "prior_ceased_from": "2025-02-04",
+      "effective_date": "2025-02-13",
+      "prior_feature_row_date": "2025-02-03",
+      "next_feature_row_date": "2025-02-13",
+      "missing_effective_sessions": "7",
+      "share_count": "938463607",
+      "source_article_id": "1745490",
+      "notice_article_id": "1745784",
+      "continuity_article_id": "60020444",
+      "decision_date": "2025-01-21",
+      "notice_date": "2025-01-21",
+      "continuity_date": "2025-02-06",
+      "source_file": "batch12_signed_source_capture_20261031/hose_ita_decision_1745490.pdf",
+      "continuity_file": "batch12_signed_source_capture_20261031/hnx_ita_first_trade_60020444.pdf",
+      "reviewed_claim": "Signed HOSE decision and notice for ITA report 938463607 shares, final HOSE trade 2024-09-25, and legal delisting effective 2025-02-04; signed HNX Notice records the same share count and first UPCoM trade 2025-02-13. Separate final-trade, suspension, legal cessation, and new-venue dates are preserved; no activity is inferred for missing sessions."
+    },
+    {
+      "symbol": "LEC",
+      "prior_venue": "HOSE",
+      "venue": "UPCOM",
+      "prior_trade_date": "2024-09-13",
+      "suspension_effective_date": "2024-09-16",
+      "prior_ceased_from": "2025-04-29",
+      "effective_date": "2025-05-13",
+      "prior_feature_row_date": "2025-04-28",
+      "next_feature_row_date": "2025-05-13",
+      "missing_effective_sessions": "7",
+      "share_count": "26100000",
+      "source_article_id": "2270980",
+      "notice_article_id": "2272810",
+      "continuity_article_id": "60021001",
+      "decision_date": "2025-04-23",
+      "notice_date": "2025-04-23",
+      "continuity_date": "2025-05-06",
+      "source_file": "batch12_signed_source_capture_20261031/hose_lec_decision_2270980.pdf",
+      "continuity_file": "batch12_signed_source_capture_20261031/hnx_lec_first_trade_60021001.pdf",
+      "reviewed_claim": "Signed HOSE decision and notice for LEC report 26100000 shares, final HOSE trade 2024-09-13, and legal delisting effective 2025-04-29; signed HNX Notice records the same share count and first UPCoM trade 2025-05-13. Separate final-trade, suspension, legal cessation, and new-venue dates are preserved; no activity is inferred for missing sessions."
+    },
+    {
+      "symbol": "SJF",
+      "prior_venue": "HOSE",
+      "venue": "UPCOM",
+      "prior_trade_date": "2023-11-10",
+      "suspension_effective_date": "2023-11-13",
+      "prior_ceased_from": "2024-11-01",
+      "effective_date": "2024-11-13",
+      "prior_feature_row_date": "2024-10-31",
+      "next_feature_row_date": "2024-11-13",
+      "missing_effective_sessions": "8",
+      "share_count": "79200000",
+      "source_article_id": "1724483",
+      "notice_article_id": "1723687",
+      "continuity_article_id": "60019853",
+      "decision_date": "2024-10-25",
+      "notice_date": "2024-10-25",
+      "continuity_date": "2024-11-06",
+      "source_file": "batch12_signed_source_capture_20261031/hose_sjf_decision_1724483.pdf",
+      "continuity_file": "batch12_signed_source_capture_20261031/hnx_sjf_first_trade_60019853.pdf",
+      "reviewed_claim": "Signed HOSE decision and notice for SJF report 79200000 shares, final HOSE trade 2023-11-10, and legal delisting effective 2024-11-01; signed HNX Notice records the same share count and first UPCoM trade 2024-11-13. Separate final-trade, suspension, legal cessation, and new-venue dates are preserved; no activity is inferred for missing sessions."
+    },
+    {
+      "symbol": "TCD",
+      "prior_venue": "HOSE",
+      "venue": "UPCOM",
+      "prior_trade_date": "2025-10-09",
+      "suspension_effective_date": "",
+      "prior_ceased_from": "2026-07-15",
+      "effective_date": "2026-07-24",
+      "prior_feature_row_date": "2026-07-14",
+      "next_feature_row_date": "2026-07-24",
+      "missing_effective_sessions": "7",
+      "share_count": "335820641",
+      "source_article_id": "2478114",
+      "notice_article_id": "2478116",
+      "continuity_article_id": "60023071",
+      "decision_date": "2026-07-08",
+      "notice_date": "2026-07-08",
+      "continuity_date": "2026-07-17",
+      "source_file": "batch12_signed_source_capture_20261031/hose_tcd_decision_2478114.pdf",
+      "continuity_file": "batch12_signed_source_capture_20261031/hnx_tcd_first_trade_60023071.pdf",
+      "reviewed_claim": "Signed HOSE decision and notice for TCD report 335820641 shares, final HOSE trade 2025-10-09, and legal delisting effective 2026-07-15; signed HNX Notice records the same share count and first UPCoM trade 2026-07-24. Separate final-trade, suspension, legal cessation, and new-venue dates are preserved; no activity is inferred for missing sessions."
+    }
+  ],
+  "source_pdf_hashes": {
+    "hose_dag_decision_1733994.pdf": {
+      "bytes": 467091,
+      "sha256": "2c6e1e45dcc9c04b9c417c032c91e181c0b0048adcea3e477bedd0727b0f20f8"
+    },
+    "hnx_dag_first_trade_60019787.pdf": {
+      "bytes": 337064,
+      "sha256": "511a39abf27528c214cb88d856e4396e1b447d63498b36bf863fa1c5a56050d2"
+    },
+    "hose_htt_decision_1188489.pdf": {
+      "bytes": 542765,
+      "sha256": "29837f9dfbd1b4e028d2deb50701c64f198bab2a63d83241edb35a8b9f3e870f"
+    },
+    "hnx_htt_first_trade_60008745.pdf": {
+      "bytes": 253994,
+      "sha256": "2f6d137fce9b4b6bbf29f550fff7b4922481e6890b31f3b58b9ef5d8ba2c4621"
+    },
+    "hose_ita_decision_1745490.pdf": {
+      "bytes": 511536,
+      "sha256": "21fee8c719b85315d3996a3732fda28cf4be12d4d8721b7fb420ac8dc49be857"
+    },
+    "hnx_ita_first_trade_60020444.pdf": {
+      "bytes": 352864,
+      "sha256": "d50c091ca402af344052be858873b17093d72058392f627851fa876ef2adbda4"
+    },
+    "hose_lec_decision_2270980.pdf": {
+      "bytes": 485529,
+      "sha256": "e1187a832a103841eb5739d4390668005d8cd8d7937846c825cd52fcb79a9f26"
+    },
+    "hnx_lec_first_trade_60021001.pdf": {
+      "bytes": 422104,
+      "sha256": "76dc9ca275abb73713bda69cf70677254509f6b99081dfb67504dccd84f3ac51"
+    },
+    "hose_sjf_decision_1724483.pdf": {
+      "bytes": 462653,
+      "sha256": "9e6ce23a9e7f3b67ebd9791b7ee2ce2c53f582ca4978f9ecab8150635cfc1b4c"
+    },
+    "hnx_sjf_first_trade_60019853.pdf": {
+      "bytes": 330784,
+      "sha256": "648c83d516b2bc231e651b5ce3ad46d59cd22d9cb4de4ed15d09525687718819"
+    },
+    "hose_tcd_decision_2478114.pdf": {
+      "bytes": 497342,
+      "sha256": "8db7b2e4f2897f7ad3ac968f8d3797acf4a0df780689733a746ef5a702184e49"
+    },
+    "hnx_tcd_first_trade_60023071.pdf": {
+      "bytes": 360843,
+      "sha256": "a8da1a8146184c258515752e0d0f9ba14731ef1c05da2bb67ca8d8836f369ac0"
+    }
+  },
+  "stage_files": {
+    "landing_stage_batch12_20261031.csv": {
+      "bytes": 10075331,
+      "sha256": "a326f60d814ec19abc9813946e032c4555206531d9ba54ce00052f2b4d95d010"
+    },
+    "transfer_event_stage_batch12_20261031.csv": {
+      "bytes": 4158,
+      "sha256": "57d8bddcff9c9cb5789b68dd24b6ff671d97219494c76ebd5a1b0cd7b4e7d8d5"
+    },
+    "source_review_batch12_20261031.csv": {
+      "bytes": 6708,
+      "sha256": "cfb2199be5ef12262260f1344a2b90e3691fe4952228e0fa764b7a8360f502a1"
+    }
+  },
+  "evidence_files": {
+    "capture_manifest_batch12_signed_endpoints_20261031.json": {
+      "bytes": 55441,
+      "sha256": "853c6fabd2cb0e96b98a34ba0cb44f93201b38ad3c8e093ae6d599d2747acc65"
+    },
+    "import_batch12_transfer_reportclone_20261031.sql": {
+      "bytes": 19017,
+      "sha256": "f930cfeb42e9c814ef2914604e6ad818de94ee9d2552ff6a97998bfe21975990"
+    },
+    "../../phase2_e4_remaining_gap_probe_20261031/capture_batch12_signed_endpoints_20261031.py": {
+      "bytes": 14560,
+      "sha256": "066629dc3c4788e28d339571daaa167b35066b7ce8833e071220dd3fccacd8ae"
+    },
+    "../../phase2_e4_remaining_gap_probe_20261031/hose_delisting_notices_batch12_capture_20261031/capture_manifest.json": {
+      "bytes": 21045,
+      "sha256": "75a7c01d551468ea696a7434781ea01f721f57f7fc971026870de7bdd12bd732"
+    },
+    "../../phase2_e4_remaining_gap_probe_20261031/hnx_disclosure_probe_20261031/hnx_disclosure_probe_manifest_20261031.json": {
+      "bytes": 1396310,
+      "sha256": "5e16b85a1a5304a57f6bb90b0b78d9eaad1134a40e89d50ea2873688cde2412a"
+    },
+    "../../phase2_e4_currenthash_gap_pairs_20261031_posttna1.csv": {
+      "bytes": 16132,
+      "sha256": "066a75f7372b8955dfd1dbdcde46c9b2f9fe97c28fe1957b282020afb9c3aef6"
+    },
+    "../../phase2_e4_currenthash_gap_pairs_20261031_posttna1.sql": {
+      "bytes": 5915,
+      "sha256": "30c5279d0d7107d93df7682db084ff07477fba7cf47181f517d2ef7427cc9ad4"
+    },
+    "../../phase2_e4_currenthash_gap_pairs_20261031_posttna1.log": {
+      "bytes": 126,
+      "sha256": "38f9c0721f58de98c1780f1fd4789b1861bfc3408d5ef5d3dc06014ac86588e5"
+    },
+    "../../phase2_e4_currenthash_posttna1_20261031.md": {
+      "bytes": 3756,
+      "sha256": "b17bed1eef14109695946c15bc04aab35cbc7d3c6dff68521c4a720c966392e3"
+    },
+    "../../phase2_e4_currenthash_gap_pairs_20261031_postbatch12.sql": {
+      "bytes": 5932,
+      "sha256": "fd10e897d8eaa05fcccc07fe68526dc6c8bf140e66e6a4fe07bc55ed29800e1a"
+    },
+    "../../phase2_e4_currenthash_gap_pairs_20261031_postbatch12.csv": {
+      "bytes": 16348,
+      "sha256": "0a1b12d28dd7f7f680e57f4aafcc00d2978485ed7c4395bc885f3455343171e3"
+    },
+    "../../phase2_e4_currenthash_gap_pairs_20261031_postbatch12.log": {
+      "bytes": 125,
+      "sha256": "79d51682f4384f1ffb899eb941978fe23ffbe8918494d701f41d73ea03d858f8"
+    },
+    "../../phase2_e4_feature_endpoint_semantics_20261031_postbatch12.sql": {
+      "bytes": 4540,
+      "sha256": "c1afdc67e72fff698e734ea80f635b5f9fb9e4492fbcd00a21185cddfe35db92"
+    },
+    "../../phase2_e4_feature_endpoint_semantics_20261031_postbatch12.csv": {
+      "bytes": 14486,
+      "sha256": "7f83eba7ddd9505e0714a0c4819782eb5e7c117952f9ec243ed1125de4ea4b1d"
+    },
+    "../../phase2_e4_feature_endpoint_semantics_20261031_postbatch12.log": {
+      "bytes": 111,
+      "sha256": "a52dd182e34c33732059dd680067b79e3b053ce5c189fbcca0580ff313e155fa"
+    },
+    "../../phase2_e4_currenthash_postbatch12_20261031.md": {
+      "bytes": 3880,
+      "sha256": "bab9b028f7ac56e67eb4cab9441110e68bb72e4adeb6332c7d7e252e0a38a58a"
+    },
+    "import_batch12_transfer_reportclone_20261031.log": {
+      "bytes": 125,
+      "sha256": "502bc3d518ac286337447ed29e79bdd76b06c76824f252190760a23c5d4dd2ef"
+    },
+    "replay_batch12_transfer_reportclone_20261031.log": {
+      "bytes": 124,
+      "sha256": "0a6a445f23260e3a7499f192b37b0bd4a10d08e006ac75d4caeed84dc11314a2"
+    },
+    "README.md": {
+      "bytes": 4160,
+      "sha256": "4fc3bfca59872a26c27672bc132519c9ddec39ecd9fa8c4a07cd681935fe4f05"
+    }
+  },
+  "handling": "Keep last positive trade, suspension effective date when stated, legal prior-venue cessation, and first new-venue trade as separate facts. Do not infer session activity, bars, prices, labels, or suspension status within any gap."
+}

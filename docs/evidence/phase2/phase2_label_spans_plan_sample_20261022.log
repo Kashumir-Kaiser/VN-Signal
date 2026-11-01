@@ -1,0 +1,133 @@
+SET
+SET
+SET
+SET
+SET
+psql:docs/evidence/phase2/phase2_label_spans_plan_sample_20261022.sql:6: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:docs/evidence/phase2/phase2_label_spans_plan_sample_20261022.sql:6: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:05.539299
+psql:docs/evidence/phase2/phase2_label_spans_plan_sample_20261022.sql:6: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.428741
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        6930
+(1 row)
+
+                                                                                                                                                                                                                                                                                                       QUERY PLAN                                                                                                                                                                                                                                                                                                        
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=15814.00..15814.01 rows=1 width=8)
+   Output: count(*)
+   CTE calendar_axis
+     ->  WindowAgg  (cost=199.82..222.38 rows=1004 width=16)
+           Output: (COALESCE(c.trade_date, o.trade_date)), lead((COALESCE(c.trade_date, o.trade_date)), 1) OVER w1, lead((COALESCE(c.trade_date, o.trade_date)), 6) OVER w1, lead((COALESCE(c.trade_date, o.trade_date)), 21) OVER w1
+           Window: w1 AS (ORDER BY (COALESCE(c.trade_date, o.trade_date)))
+           ->  Sort  (cost=199.79..202.30 rows=1004 width=12)
+                 Output: (COALESCE(c.trade_date, o.trade_date)), c.trade_date, o.trade_date
+                 Sort Key: (COALESCE(c.trade_date, o.trade_date))
+                 ->  Hash Full Join  (cost=5.36..149.74 rows=1004 width=12)
+                       Output: COALESCE(c.trade_date, o.trade_date), c.trade_date, o.trade_date
+                       Inner Unique: true
+                       Hash Cond: (c.trade_date = o.trade_date)
+                       Filter: COALESCE(o.is_session, c.is_session, false)
+                       ->  Seq Scan on core.calendar c  (cost=0.00..139.09 rows=2009 width=5)
+                             Output: c.trade_date, c.is_session, c.source, c.notes
+                       ->  Hash  (cost=4.05..4.05 rows=105 width=5)
+                             Output: o.trade_date, o.is_session
+                             ->  Seq Scan on core.calendar_overrides o  (cost=0.00..4.05 rows=105 width=5)
+                                   Output: o.trade_date, o.is_session
+   CTE signals
+     ->  Nested Loop  (cost=0.00..25.28 rows=10 width=14)
+           Output: c_1.trade_date, c_1.entry_date, "*VALUES*".column1, CASE "*VALUES*".column1 WHEN 5 THEN c_1.exit_5_date ELSE c_1.exit_20_date END
+           ->  CTE Scan on calendar_axis c_1  (cost=0.00..25.10 rows=5 width=16)
+                 Output: c_1.trade_date, c_1.entry_date, c_1.exit_5_date, c_1.exit_20_date
+                 Filter: ((c_1.trade_date >= '2021-01-01'::date) AND (c_1.trade_date <= '2021-12-31'::date))
+           ->  Materialize  (cost=0.00..0.04 rows=2 width=2)
+                 Output: "*VALUES*".column1
+                 ->  Values Scan on "*VALUES*"  (cost=0.00..0.03 rows=2 width=2)
+                       Output: "*VALUES*".column1
+   CTE targets
+     ->  Nested Loop  (cost=0.43..2938.60 rows=567 width=22)
+           Output: s.signal_date, s.entry_date, s.exit_date, s.horizon_sessions, f.symbol_id
+           ->  Seq Scan on pg_temp.phase2_adjustment_symbol_batches sb  (cost=0.00..1.60 rows=60 width=8)
+                 Output: sb.symbol_id, sb.batch_no, sb.loaded
+           ->  Nested Loop  (cost=0.43..48.85 rows=10 width=22)
+                 Output: s.signal_date, s.entry_date, s.exit_date, s.horizon_sessions, f.symbol_id
+                 ->  CTE Scan on signals s  (cost=0.00..0.20 rows=10 width=14)
+                       Output: s.signal_date, s.entry_date, s.horizon_sessions, s.exit_date
+                 ->  Index Only Scan using features_daily_pkey on feat.features_daily f  (cost=0.43..4.86 rows=1 width=12)
+                       Output: f.symbol_id, f.trade_date, f.feature_version
+                       Index Cond: ((f.symbol_id = sb.symbol_id) AND (f.trade_date = s.signal_date) AND (f.feature_version = 'phase2-v3'::text))
+   CTE target_symbols
+     ->  HashAggregate  (cost=12.76..18.43 rows=567 width=8)
+           Output: targets.symbol_id
+           Group Key: targets.symbol_id
+           ->  CTE Scan on targets  (cost=0.00..11.34 rows=567 width=8)
+                 Output: targets.signal_date, targets.entry_date, targets.exit_date, targets.horizon_sessions, targets.symbol_id
+   CTE adjustment_rows
+     ->  Hash Join  (cost=18.43..4832.12 rows=108331 width=65)
+           Output: r.symbol_id, r.trade_date, r.model_o, r.model_c, r.v, r.is_traded, r.episode_start_date, r.adjustment_vintage_at, r.landing_id, r.reference_adjustment_ratio
+           Hash Cond: (r.symbol_id = s_1.symbol_id)
+           ->  Seq Scan on pg_temp.phase2_adjustment_rows r  (cost=0.00..3324.14 rows=108331 width=65)
+                 Output: r.symbol_id, r.trade_date, r.source, r.v, r.is_traded, r.reference_adjustment_ratio, r.episode_start_date, r.model_o, r.model_h, r.model_l, r.model_c, r.adjustment_vintage_at, r.landing_id, r.source_row, r.fetched_at
+                 Filter: (r.source = 'vndirect'::text)
+           ->  Hash  (cost=11.34..11.34 rows=567 width=8)
+                 Output: s_1.symbol_id
+                 ->  CTE Scan on target_symbols s_1  (cost=0.00..11.34 rows=567 width=8)
+                       Output: s_1.symbol_id
+   CTE endpoint_days
+     ->  HashAggregate  (cost=50.95..62.27 rows=1131 width=12)
+           Output: targets_1.symbol_id, targets_1.entry_date
+           Group Key: targets_1.symbol_id, targets_1.entry_date
+           ->  Append  (cost=14.18..45.30 rows=1131 width=12)
+                 ->  HashAggregate  (cost=14.18..19.84 rows=567 width=12)
+                       Output: targets_1.symbol_id, targets_1.entry_date
+                       Group Key: targets_1.symbol_id, targets_1.entry_date
+                       ->  CTE Scan on targets targets_1  (cost=0.00..11.34 rows=567 width=12)
+                             Output: targets_1.signal_date, targets_1.entry_date, targets_1.exit_date, targets_1.horizon_sessions, targets_1.symbol_id
+                 ->  HashAggregate  (cost=14.16..19.80 rows=564 width=12)
+                       Output: targets_2.symbol_id, targets_2.exit_date
+                       Group Key: targets_2.symbol_id, targets_2.exit_date
+                       ->  CTE Scan on targets targets_2  (cost=0.00..11.34 rows=564 width=12)
+                             Output: targets_2.signal_date, targets_2.entry_date, targets_2.exit_date, targets_2.horizon_sessions, targets_2.symbol_id
+                             Filter: (targets_2.exit_date IS NOT NULL)
+   CTE endpoint_bars
+     ->  Hash Join  (cost=3791.59..4097.18 rows=305 width=57)
+           Output: r_1.symbol_id, r_1.trade_date, r_1.model_o, r_1.model_c, r_1.v, r_1.is_traded, r_1.episode_start_date, r_1.adjustment_vintage_at, r_1.landing_id
+           Hash Cond: ((d.symbol_id = r_1.symbol_id) AND (d.trade_date = r_1.trade_date))
+           ->  CTE Scan on endpoint_days d  (cost=0.00..22.62 rows=1131 width=12)
+                 Output: d.symbol_id, d.trade_date
+           ->  Hash  (cost=2166.62..2166.62 rows=108331 width=57)
+                 Output: r_1.symbol_id, r_1.trade_date, r_1.model_o, r_1.model_c, r_1.v, r_1.is_traded, r_1.episode_start_date, r_1.adjustment_vintage_at, r_1.landing_id
+                 ->  CTE Scan on adjustment_rows r_1  (cost=0.00..2166.62 rows=108331 width=57)
+                       Output: r_1.symbol_id, r_1.trade_date, r_1.model_o, r_1.model_c, r_1.v, r_1.is_traded, r_1.episode_start_date, r_1.adjustment_vintage_at, r_1.landing_id
+   CTE latest_exit_by_symbol
+     ->  HashAggregate  (cost=14.16..19.80 rows=564 width=12)
+           Output: targets_3.symbol_id, max(targets_3.exit_date)
+           Group Key: targets_3.symbol_id
+           ->  CTE Scan on targets targets_3  (cost=0.00..11.34 rows=564 width=12)
+                 Output: targets_3.signal_date, targets_3.entry_date, targets_3.exit_date, targets_3.horizon_sessions, targets_3.symbol_id
+                 Filter: (targets_3.exit_date IS NOT NULL)
+   CTE spans
+     ->  HashAggregate  (cost=3579.52..3585.19 rows=567 width=39)
+           Output: t.symbol_id, t.signal_date, t.horizon_sessions, sum(CASE WHEN ((r_2.reference_adjustment_ratio > '0'::double precision) AND (r_2.reference_adjustment_ratio < 'Infinity'::double precision)) THEN ln(r_2.reference_adjustment_ratio) ELSE NULL::double precision END), count(r_2.trade_date), count(*) FILTER (WHERE ((r_2.trade_date IS NOT NULL) AND ((r_2.reference_adjustment_ratio IS NULL) OR (r_2.reference_adjustment_ratio <= '0'::double precision) OR (r_2.reference_adjustment_ratio >= 'Infinity'::double precision)))), bool_and((r_2.episode_start_date = t_entry.episode_start_date))
+           Group Key: t.symbol_id, t.signal_date, t.horizon_sessions
+           ->  Hash Right Join  (cost=34.78..3469.76 rows=3377 width=34)
+                 Output: t.symbol_id, t.signal_date, t.horizon_sessions, r_2.reference_adjustment_ratio, r_2.trade_date, r_2.episode_start_date, t_entry.episode_start_date
+                 Hash Cond: ((r_2.symbol_id = t.symbol_id) AND (r_2.episode_start_date = t_entry.episode_start_date))
+                 Join Filter: ((r_2.trade_date > t.entry_date) AND (r_2.trade_date <= t.exit_date))
+                 ->  CTE Scan on adjustment_rows r_2  (cost=0.00..2166.62 rows=108331 width=24)
+                       Output: r_2.symbol_id, r_2.trade_date, r_2.model_o, r_2.model_c, r_2.v, r_2.is_traded, r_2.episode_start_date, r_2.adjustment_vintage_at, r_2.landing_id, r_2.reference_adjustment_ratio
+                 ->  Hash  (cost=26.28..26.28 rows=567 width=26)
+                       Output: t.symbol_id, t.signal_date, t.horizon_sessions, t.entry_date, t.exit_date, t_entry.episode_start_date
+                       ->  Hash Left Join  (cost=10.68..26.28 rows=567 width=26)
+                             Output: t.symbol_id, t.signal_date, t.horizon_sessions, t.entry_date, t.exit_date, t_entry.episode_start_date
+                             Hash Cond: ((t.symbol_id = t_entry.symbol_id) AND (t.entry_date = t_entry.trade_date))
+                             ->  CTE Scan on targets t  (cost=0.00..11.34 rows=567 width=22)
+                                   Output: t.signal_date, t.entry_date, t.exit_date, t.horizon_sessions, t.symbol_id
+                             ->  Hash  (cost=6.10..6.10 rows=305 width=16)
+                                   Output: t_entry.episode_start_date, t_entry.symbol_id, t_entry.trade_date
+                                   ->  CTE Scan on endpoint_bars t_entry  (cost=0.00..6.10 rows=305 width=16)
+                                         Output: t_entry.episode_start_date, t_entry.symbol_id, t_entry.trade_date
+   ->  CTE Scan on spans  (cost=0.00..11.34 rows=567 width=0)
+         Output: spans.symbol_id, spans.signal_date, spans.horizon_sessions, spans.factor_log_span, spans.factor_rows, spans.bad_factor_rows, spans.one_episode_span
+ Settings: work_mem = '128MB', jit = 'off'
+(116 rows)
+

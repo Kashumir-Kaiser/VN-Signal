@@ -1,0 +1,1237 @@
+Pager usage is off.
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:15: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+ begin_phase2_adjustment_rows 
+------------------------------
+                            1
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          108331
+(1 row)
+
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:16: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:02.72828
+ finish_phase2_adjustment_rows 
+-------------------------------
+                        108331
+(1 row)
+
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:17: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.455301
+COMMIT
+LOAD
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  rehashing catalog cache id 39 for pg_operator; 33 lists, 16 buckets
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  duration: 6605.484 ms  plan:
+Query Text: EXISTS (
+        SELECT 1 FROM features_daily f
+         WHERE f.feature_version='phase2-v2'
+           AND f.trade_date BETWEEN p_date_from AND p_date_to
+           AND (p_symbol_ids IS NULL OR f.symbol_id=ANY(p_symbol_ids))
+           AND (f.feature_set_hash IS DISTINCT FROM feat.phase2_feature_set_hash()
+             OR (f.rank_realized_vol20 IS NULL)<>(f.realized_vol20 IS NULL)
+             OR (f.rank_momentum_20s IS NULL)<>(f.momentum_20s IS NULL)
+             OR (f.rank_turnover_proxy IS NULL)<>(f.turnover_proxy_vnd IS NULL))
+    )
+Result  (cost=1.45..1.46 rows=1 width=1) (actual time=6605.480..6605.480 rows=1.00 loops=1)
+  Output: (InitPlan 1).col1
+  Buffers: shared hit=56641 read=14092 written=557
+  InitPlan 1
+    ->  Index Scan using features_daily_date_version_idx on feat.features_daily f  (cost=0.43..85534.69 rows=83660 width=0) (actual time=6605.478..6605.478 rows=0.00 loops=1)
+          Index Cond: ((f.trade_date >= '2020-01-01'::date) AND (f.trade_date <= '2020-03-31'::date) AND (f.feature_version = 'phase2-v2'::text))
+          Filter: ((f.feature_set_hash IS DISTINCT FROM '4f055e336c4721e9ea4dde9f6fb88fc381508a114a1895878d330d0d1eeb02b3'::text) OR ((f.rank_realized_vol20 IS NULL) <> (f.realized_vol20 IS NULL)) OR ((f.rank_momentum_20s IS NULL) <> (f.momentum_20s IS NULL)) OR ((f.rank_turnover_proxy IS NULL) <> (f.turnover_proxy_vnd IS NULL)))
+          Rows Removed by Filter: 78966
+          Index Searches: 59
+          Buffers: shared hit=56641 read=14092 written=557
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  duration: 4951.274 ms  plan:
+Query Text: DELETE FROM features_daily
+     WHERE feature_version='phase2-v3' AND trade_date BETWEEN p_date_from AND p_date_to
+       AND (p_symbol_ids IS NULL OR symbol_id=ANY(p_symbol_ids))
+Delete on feat.features_daily  (cost=0.43..84168.50 rows=0 width=0) (actual time=4951.269..4951.270 rows=0.00 loops=1)
+  Buffers: shared hit=137555 read=10775 dirtied=9179 written=318
+  ->  Index Scan using features_daily_date_version_idx on feat.features_daily  (cost=0.43..84168.50 rows=83093 width=6) (actual time=17.136..4753.042 rows=76075.00 loops=1)
+        Output: ctid
+        Index Cond: ((features_daily.trade_date >= '2020-01-01'::date) AND (features_daily.trade_date <= '2020-03-31'::date) AND (features_daily.feature_version = 'phase2-v3'::text))
+        Index Searches: 34
+        Buffers: shared hit=61480 read=10775 dirtied=5544 written=318
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  building index "phase2_v3_sessions_no_idx" on table "phase2_v3_sessions" serially
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  index "phase2_v3_sessions_no_idx" can safely use deduplication
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  building index "phase2_v3_sessions_date_idx" on table "phase2_v3_sessions" serially
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  index "phase2_v3_sessions_date_idx" can safely use deduplication
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: NOTICE:  Phase 2 sessions 374, elapsed 00:00:11.743236
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  building index "phase2_v3_index_raw_session_idx" on table "phase2_v3_index_raw" serially
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  index "phase2_v3_index_raw_session_idx" can safely use deduplication
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  duration: 22886.322 ms  plan:
+Query Text: INSERT INTO pg_temp.phase2_v3_market_lagged
+    WITH sessions AS MATERIALIZED (
+        SELECT trade_date,session_no FROM pg_temp.phase2_v3_sessions
+    ), index_context0 AS MATERIALIZED (
+        SELECT i.*,
+               lag(i.index_close,20) OVER(ORDER BY i.session_no) AS close20,
+               lag(i.index_close,60) OVER(ORDER BY i.session_no) AS close60,
+               avg(i.index_close) FILTER(WHERE i.index_close>0) OVER w50 AS index_sma50,
+               avg(i.index_close) FILTER(WHERE i.index_close>0) OVER w200 AS index_sma200,
+               max(i.index_close) FILTER(WHERE i.index_close>0) OVER w252 AS high252,
+               stddev_samp(i.index_return) OVER w20 AS vol20,
+               count(i.index_return) OVER w20 AS return_count20,
+               stddev_samp(i.index_return) OVER w60 AS vol60,
+               count(i.index_return) OVER w60 AS return_count60,
+               count(i.index_close) FILTER(WHERE i.index_close>0) OVER w50 AS close_count50,
+               count(i.index_close) FILTER(WHERE i.index_close>0) OVER w200 AS close_count200,
+               count(i.index_close) FILTER(WHERE i.index_close>0) OVER w252 AS close_count252
+        FROM pg_temp.phase2_v3_index_raw i
+        WINDOW w20 AS (ORDER BY i.session_no ROWS BETWEEN 19 PRECEDING AND CURRENT ROW),
+               w50 AS (ORDER BY i.session_no ROWS BETWEEN 49 PRECEDING AND CURRENT ROW),
+               w60 AS (ORDER BY i.session_no ROWS BETWEEN 59 PRECEDING AND CURRENT ROW),
+               w200 AS (ORDER BY i.session_no ROWS BETWEEN 199 PRECEDING AND CURRENT ROW),
+               w252 AS (ORDER BY i.session_no ROWS BETWEEN 251 PRECEDING AND CURRENT ROW)
+    ), market_grouped AS MATERIALIZED (
+        SELECT f.trade_date,s.session_no,
+               count(*) FILTER(WHERE f.ret_1>0)::bigint AS advances,
+               count(*) FILTER(WHERE f.ret_1<0)::bigint AS declines,
+               count(*) FILTER(WHERE f.distance_52w_high IS NOT NULL AND f.distance_52w_high>=-1e-12)::bigint AS new_highs,
+               count(*) FILTER(WHERE f.distance_52w_low IS NOT NULL AND f.distance_52w_low<=1e-12)::bigint AS new_lows,
+               sum(f.turnover_proxy_vnd ORDER BY f.symbol_id)
+                   FILTER(WHERE f.turnover_proxy_vnd IS NOT NULL) AS turnover_total,
+               stddev_samp(f.ret_1 ORDER BY f.symbol_id)
+                   FILTER(WHERE f.ret_1 IS NOT NULL) AS return_dispersion,
+               count(f.ret_1) AS return_count
+        FROM (
+            SELECT f.symbol_id,f.trade_date,f.feature_version,f.ret_1,
+                   f.distance_52w_high,f.distance_52w_low,f.turnover_proxy_vnd
+              FROM phase2_market_features_daily f
+             WHERE f.feature_version='phase2-v2'
+               AND (p_symbol_ids IS NULL OR f.symbol_id<>ALL(p_symbol_ids))
+            UNION ALL
+            SELECT f.symbol_id,f.trade_date,f.feature_version,f.ret_1,
+                   f.distance_52w_high,f.distance_52w_low,f.turnover_proxy_vnd
+              FROM features_daily f
+             WHERE f.feature_version='phase2-v2'
+               AND p_symbol_ids IS NOT NULL AND f.symbol_id=ANY(p_symbol_ids)
+        ) f
+        JOIN sessions s USING(trade_date)
+        GROUP BY f.trade_date,s.session_no
+    ), market_daily AS MATERIALIZED (
+        SELECT s.trade_date,s.session_no,g.advances,g.declines,g.new_highs,g.new_lows,
+               g.turnover_total,g.return_dispersion,g.return_count
+        FROM sessions s LEFT JOIN market_grouped g USING(trade_date,session_no)
+    ), market_daily_stats AS MATERIALIZED (
+        SELECT m.*,
+               avg(m.turnover_total) OVER(ORDER BY m.session_no ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) AS turnover_mean20,
+               stddev_samp(m.turnover_total) OVER(ORDER BY m.session_no ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) AS turnover_sd20,
+               count(m.turnover_total) OVER(ORDER BY m.session_no ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) AS turnover_count20
+        FROM market_daily m
+    )
+    SELECT s.session_no,
+           m.advances-m.declines AS advance_minus_decline,
+           m.new_highs-m.new_lows AS new_high_minus_low,
+           CASE WHEN m.turnover_count20=20
+                THEN (m.turnover_total-m.turnover_mean20)/nullif(m.turnover_sd20,0) END AS turnover_z20,
+           m.return_dispersion,
+           CASE WHEN i.close_count50=50 THEN i.index_close/i.index_sma50-1 END AS index_sma50_ratio,
+           CASE WHEN i.close_count200=200 THEN i.index_close/i.index_sma200-1 END AS index_sma200_ratio,
+           CASE WHEN i.close_count252=252 THEN i.index_close/i.high252-1 END AS index_drawdown252,
+           CASE WHEN i.return_count60=60 THEN i.vol60 END AS vol60,
+           CASE WHEN i.index_close>0 AND i.close20>0 THEN i.index_close/i.close20-1 END AS vnindex_return_20s,
+           CASE WHEN i.index_close>0 AND i.close60>0 THEN i.index_close/i.close60-1 END AS vnindex_return_60s,
+           CASE WHEN i.return_count20=20 THEN i.vol20 END AS vnindex_realized_vol20
+    FROM sessions s
+    LEFT JOIN market_daily_stats m ON m.session_no=s.session_no
+    LEFT JOIN index_context0 i ON i.session_no=s.session_no
+Insert on pg_temp.phase2_v3_market_lagged  (cost=1101954.03..1101995.17 rows=0 width=0) (actual time=22886.310..22886.320 rows=0.00 loops=1)
+  Buffers: shared hit=14469 read=484540, local hit=389 read=3 dirtied=7 written=9, temp read=2575 written=2576
+  ->  Hash Left Join  (cost=1101954.03..1101995.17 rows=374 width=96) (actual time=22883.797..22884.295 rows=374.00 loops=1)
+        Output: s.session_no, (m.advances - m.declines), (m.new_highs - m.new_lows), CASE WHEN (m.turnover_count20 = 20) THEN ((m.turnover_total - m.turnover_mean20) / NULLIF(m.turnover_sd20, '0'::double precision)) ELSE NULL::double precision END, m.return_dispersion, CASE WHEN (i.close_count50 = 50) THEN ((i.index_close / i.index_sma50) - '1'::double precision) ELSE NULL::double precision END, CASE WHEN (i.close_count200 = 200) THEN ((i.index_close / i.index_sma200) - '1'::double precision) ELSE NULL::double precision END, CASE WHEN (i.close_count252 = 252) THEN ((i.index_close / i.high252) - '1'::double precision) ELSE NULL::double precision END, CASE WHEN (i.return_count60 = 60) THEN i.vol60 ELSE NULL::double precision END, CASE WHEN ((i.index_close > '0'::double precision) AND (i.close20 > '0'::double precision)) THEN ((i.index_close / i.close20) - '1'::double precision) ELSE NULL::double precision END, CASE WHEN ((i.index_close > '0'::double precision) AND (i.close60 > '0'::double precision)) THEN ((i.index_close / i.close60) - '1'::double precision) ELSE NULL::double precision END, CASE WHEN (i.return_count20 = 20) THEN i.vol20 ELSE NULL::double precision END
+        Hash Cond: (s.session_no = i.session_no)
+        Buffers: shared hit=14469 read=484540, local hit=7 read=3, temp read=2575 written=2576
+        CTE sessions
+          ->  Seq Scan on pg_temp.phase2_v3_sessions  (cost=0.00..6.74 rows=374 width=12) (actual time=0.025..0.047 rows=374.00 loops=1)
+                Output: phase2_v3_sessions.trade_date, phase2_v3_sessions.session_no
+                Buffers: local hit=3
+        CTE index_context0
+          ->  WindowAgg  (cost=0.91..59.26 rows=374 width=132) (actual time=1.109..28.163 rows=374.00 loops=1)
+                Output: i_1.trade_date, i_1.session_no, i_1.index_close, i_1.prior_index_close, i_1.index_return, lag(i_1.index_close, 20) OVER w1, lag(i_1.index_close, 60) OVER w1, (avg(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w50), (avg(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w200), (max(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w252), (stddev_samp(i_1.index_return) OVER w20), (count(i_1.index_return) OVER w20), (stddev_samp(i_1.index_return) OVER w60), (count(i_1.index_return) OVER w60), (count(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w50), (count(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w200), (count(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w252)
+                Window: w1 AS (ORDER BY i_1.session_no)
+                Storage: Memory  Maximum Storage: 25kB
+                Buffers: local hit=4 read=3
+                ->  WindowAgg  (cost=0.76..52.72 rows=374 width=116) (actual time=1.099..27.593 rows=374.00 loops=1)
+                      Output: i_1.session_no, i_1.trade_date, i_1.index_close, i_1.prior_index_close, i_1.index_return, (stddev_samp(i_1.index_return) OVER w20), (count(i_1.index_return) OVER w20), (avg(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w50), (count(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w50), (stddev_samp(i_1.index_return) OVER w60), (count(i_1.index_return) OVER w60), (avg(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w200), (count(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w200), max(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w252, count(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w252
+                      Window: w252 AS (ORDER BY i_1.session_no ROWS BETWEEN '251'::bigint PRECEDING AND CURRENT ROW)
+                      Storage: Memory  Maximum Storage: 48kB
+                      Buffers: local hit=4 read=3
+                      ->  WindowAgg  (cost=0.62..44.30 rows=374 width=100) (actual time=1.084..19.926 rows=374.00 loops=1)
+                            Output: i_1.session_no, i_1.trade_date, i_1.index_close, i_1.prior_index_close, i_1.index_return, (stddev_samp(i_1.index_return) OVER w20), (count(i_1.index_return) OVER w20), (avg(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w50), (count(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w50), (stddev_samp(i_1.index_return) OVER w60), (count(i_1.index_return) OVER w60), avg(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w200, count(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w200
+                            Window: w200 AS (ORDER BY i_1.session_no ROWS BETWEEN '199'::bigint PRECEDING AND CURRENT ROW)
+                            Storage: Memory  Maximum Storage: 39kB
+                            Buffers: local hit=4 read=3
+                            ->  WindowAgg  (cost=0.50..35.89 rows=374 width=84) (actual time=1.076..11.521 rows=374.00 loops=1)
+                                  Output: i_1.session_no, i_1.trade_date, i_1.index_close, i_1.prior_index_close, i_1.index_return, (stddev_samp(i_1.index_return) OVER w20), (count(i_1.index_return) OVER w20), (avg(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w50), (count(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w50), stddev_samp(i_1.index_return) OVER w60, count(i_1.index_return) OVER w60
+                                  Window: w60 AS (ORDER BY i_1.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+                                  Storage: Memory  Maximum Storage: 22kB
+                                  Buffers: local hit=4 read=3
+                                  ->  WindowAgg  (cost=0.41..29.34 rows=374 width=68) (actual time=1.068..7.486 rows=374.00 loops=1)
+                                        Output: i_1.session_no, i_1.trade_date, i_1.index_close, i_1.prior_index_close, i_1.index_return, (stddev_samp(i_1.index_return) OVER w20), (count(i_1.index_return) OVER w20), avg(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w50, count(i_1.index_close) FILTER (WHERE (i_1.index_close > '0'::double precision)) OVER w50
+                                        Window: w50 AS (ORDER BY i_1.session_no ROWS BETWEEN '49'::bigint PRECEDING AND CURRENT ROW)
+                                        Storage: Memory  Maximum Storage: 21kB
+                                        Buffers: local hit=4 read=3
+                                        ->  WindowAgg  (cost=0.33..20.93 rows=374 width=52) (actual time=1.060..3.242 rows=374.00 loops=1)
+                                              Output: i_1.session_no, i_1.trade_date, i_1.index_close, i_1.prior_index_close, i_1.index_return, stddev_samp(i_1.index_return) OVER w20, count(i_1.index_return) OVER w20
+                                              Window: w20 AS (ORDER BY i_1.session_no ROWS BETWEEN '19'::bigint PRECEDING AND CURRENT ROW)
+                                              Storage: Memory  Maximum Storage: 18kB
+                                              Buffers: local hit=4 read=3
+                                              ->  Index Scan using phase2_v3_index_raw_session_idx on pg_temp.phase2_v3_index_raw i_1  (cost=0.27..14.38 rows=374 width=36) (actual time=1.049..1.506 rows=374.00 loops=1)
+                                                    Output: i_1.session_no, i_1.trade_date, i_1.index_close, i_1.prior_index_close, i_1.index_return
+                                                    Index Searches: 1
+                                                    Buffers: local hit=4 read=3
+        CTE market_grouped
+          ->  GroupAggregate  (cost=999422.07..1099933.57 rows=74800 width=68) (actual time=22545.235..22850.431 rows=374.00 loops=1)
+                Output: "*SELECT* 1".trade_date, s_1.session_no, count(*) FILTER (WHERE ("*SELECT* 1".ret_1 > '0'::double precision)), count(*) FILTER (WHERE ("*SELECT* 1".ret_1 < '0'::double precision)), count(*) FILTER (WHERE (("*SELECT* 1".distance_52w_high IS NOT NULL) AND ("*SELECT* 1".distance_52w_high >= '-1e-12'::double precision))), count(*) FILTER (WHERE (("*SELECT* 1".distance_52w_low IS NOT NULL) AND ("*SELECT* 1".distance_52w_low <= '1e-12'::double precision))), sum("*SELECT* 1".turnover_proxy_vnd ORDER BY "*SELECT* 1".symbol_id) FILTER (WHERE ("*SELECT* 1".turnover_proxy_vnd IS NOT NULL)), stddev_samp("*SELECT* 1".ret_1 ORDER BY "*SELECT* 1".symbol_id) FILTER (WHERE ("*SELECT* 1".ret_1 IS NOT NULL)), count("*SELECT* 1".ret_1)
+                Group Key: "*SELECT* 1".trade_date, s_1.session_no
+                Buffers: shared hit=14469 read=484540, local hit=1, temp read=2575 written=2576
+                ->  Sort  (cost=999422.07..1006534.68 rows=2845043 width=52) (actual time=22544.110..22655.838 rows=487640.00 loops=1)
+                      Output: "*SELECT* 1".trade_date, s_1.session_no, "*SELECT* 1".ret_1, "*SELECT* 1".distance_52w_high, "*SELECT* 1".distance_52w_low, "*SELECT* 1".turnover_proxy_vnd, "*SELECT* 1".symbol_id
+                      Sort Key: "*SELECT* 1".trade_date, s_1.session_no, "*SELECT* 1".symbol_id
+                      Sort Method: external merge  Disk: 20600kB
+                      Buffers: shared hit=14469 read=484540, local hit=1, temp read=2575 written=2576
+                      ->  Hash Join  (cost=12.16..637475.99 rows=2845043 width=52) (actual time=0.877..21695.301 rows=487640.00 loops=1)
+                            Output: "*SELECT* 1".trade_date, s_1.session_no, "*SELECT* 1".ret_1, "*SELECT* 1".distance_52w_high, "*SELECT* 1".distance_52w_low, "*SELECT* 1".turnover_proxy_vnd, "*SELECT* 1".symbol_id
+                            Hash Cond: ("*SELECT* 1".trade_date = s_1.trade_date)
+                            Buffers: shared hit=14469 read=484540, local hit=1
+                            ->  Subquery Scan on "*SELECT* 1"  (cost=0.00..598344.49 rows=2845043 width=44) (actual time=0.723..21057.039 rows=2844435.00 loops=1)
+                                  Output: "*SELECT* 1".trade_date, "*SELECT* 1".ret_1, "*SELECT* 1".distance_52w_high, "*SELECT* 1".distance_52w_low, "*SELECT* 1".turnover_proxy_vnd, "*SELECT* 1".symbol_id
+                                  Buffers: shared hit=14469 read=484540
+                                  ->  Seq Scan on feat.features_daily  (cost=0.00..569894.06 rows=2845043 width=76) (actual time=0.722..20557.447 rows=2844435.00 loops=1)
+                                        Output: features_daily.symbol_id, features_daily.trade_date, NULL::text, features_daily.ret_1, features_daily.distance_52w_high, features_daily.distance_52w_low, features_daily.turnover_proxy_vnd
+                                        Filter: (features_daily.feature_version = 'phase2-v2'::text)
+                                        Rows Removed by Filter: 2765469
+                                        Buffers: shared hit=14469 read=484540
+                            ->  Hash  (cost=7.48..7.48 rows=374 width=12) (actual time=0.143..0.143 rows=374.00 loops=1)
+                                  Output: s_1.session_no, s_1.trade_date
+                                  Buckets: 1024  Batches: 1  Memory Usage: 25kB
+                                  Buffers: local hit=1
+                                  ->  CTE Scan on sessions s_1  (cost=0.00..7.48 rows=374 width=12) (actual time=0.002..0.086 rows=374.00 loops=1)
+                                        Output: s_1.session_no, s_1.trade_date
+                                        Storage: Memory  Maximum Storage: 31kB
+                                        Buffers: local hit=1
+        CTE market_daily
+          ->  Merge Right Join  (cost=23.46..1898.27 rows=374 width=68) (actual time=22545.328..22851.355 rows=374.00 loops=1)
+                Output: s_2.trade_date, s_2.session_no, g.advances, g.declines, g.new_highs, g.new_lows, g.turnover_total, g.return_dispersion, g.return_count
+                Merge Cond: ((g.trade_date = s_2.trade_date) AND (g.session_no = s_2.session_no))
+                Buffers: shared hit=14469 read=484540, local hit=1, temp read=2575 written=2576
+                ->  CTE Scan on market_grouped g  (cost=0.00..1496.00 rows=74800 width=68) (actual time=22545.240..22850.819 rows=374.00 loops=1)
+                      Output: g.trade_date, g.session_no, g.advances, g.declines, g.new_highs, g.new_lows, g.turnover_total, g.return_dispersion, g.return_count
+                      Storage: Memory  Maximum Storage: 52kB
+                      Buffers: shared hit=14469 read=484540, local hit=1, temp read=2575 written=2576
+                ->  Sort  (cost=23.46..24.40 rows=374 width=12) (actual time=0.080..0.115 rows=374.00 loops=1)
+                      Output: s_2.trade_date, s_2.session_no
+                      Sort Key: s_2.trade_date, s_2.session_no
+                      Sort Method: quicksort  Memory: 36kB
+                      ->  CTE Scan on sessions s_2  (cost=0.00..7.48 rows=374 width=12) (actual time=0.002..0.022 rows=374.00 loops=1)
+                            Output: s_2.trade_date, s_2.session_no
+                            Storage: Memory  Maximum Storage: 31kB
+        CTE market_daily_stats
+          ->  WindowAgg  (cost=23.49..31.88 rows=374 width=92) (actual time=22851.822..22854.534 rows=374.00 loops=1)
+                Output: m_1.trade_date, m_1.session_no, m_1.advances, m_1.declines, m_1.new_highs, m_1.new_lows, m_1.turnover_total, m_1.return_dispersion, m_1.return_count, avg(m_1.turnover_total) OVER w1, stddev_samp(m_1.turnover_total) OVER w1, count(m_1.turnover_total) OVER w1
+                Window: w1 AS (ORDER BY m_1.session_no ROWS BETWEEN '19'::bigint PRECEDING AND CURRENT ROW)
+                Storage: Memory  Maximum Storage: 19kB
+                Buffers: shared hit=14469 read=484540, local hit=1, temp read=2575 written=2576
+                ->  Sort  (cost=23.46..24.40 rows=374 width=68) (actual time=22851.804..22851.832 rows=374.00 loops=1)
+                      Output: m_1.session_no, m_1.trade_date, m_1.advances, m_1.declines, m_1.new_highs, m_1.new_lows, m_1.turnover_total, m_1.return_dispersion, m_1.return_count
+                      Sort Key: m_1.session_no
+                      Sort Method: quicksort  Memory: 57kB
+                      Buffers: shared hit=14469 read=484540, local hit=1, temp read=2575 written=2576
+                      ->  CTE Scan on market_daily m_1  (cost=0.00..7.48 rows=374 width=68) (actual time=22545.330..22851.640 rows=374.00 loops=1)
+                            Output: m_1.session_no, m_1.trade_date, m_1.advances, m_1.declines, m_1.new_highs, m_1.new_lows, m_1.turnover_total, m_1.return_dispersion, m_1.return_count
+                            Storage: Memory  Maximum Storage: 52kB
+                            Buffers: shared hit=14469 read=484540, local hit=1, temp read=2575 written=2576
+        ->  Hash Left Join  (cost=12.16..24.78 rows=374 width=80) (actual time=22855.083..22855.271 rows=374.00 loops=1)
+              Output: s.session_no, m.advances, m.declines, m.new_highs, m.new_lows, m.turnover_count20, m.turnover_total, m.turnover_mean20, m.turnover_sd20, m.return_dispersion
+              Hash Cond: (s.session_no = m.session_no)
+              Buffers: shared hit=14469 read=484540, local hit=3, temp read=2575 written=2576
+              ->  CTE Scan on sessions s  (cost=0.00..7.48 rows=374 width=8) (actual time=0.027..0.068 rows=374.00 loops=1)
+                    Output: s.trade_date, s.session_no
+                    Storage: Memory  Maximum Storage: 31kB
+                    Buffers: local hit=2
+              ->  Hash  (cost=7.48..7.48 rows=374 width=80) (actual time=22855.051..22855.051 rows=374.00 loops=1)
+                    Output: m.advances, m.declines, m.new_highs, m.new_lows, m.turnover_count20, m.turnover_total, m.turnover_mean20, m.turnover_sd20, m.return_dispersion, m.session_no
+                    Buckets: 1024  Batches: 1  Memory Usage: 49kB
+                    Buffers: shared hit=14469 read=484540, local hit=1, temp read=2575 written=2576
+                    ->  CTE Scan on market_daily_stats m  (cost=0.00..7.48 rows=374 width=80) (actual time=22851.832..22854.898 rows=374.00 loops=1)
+                          Output: m.advances, m.declines, m.new_highs, m.new_lows, m.turnover_count20, m.turnover_total, m.turnover_mean20, m.turnover_sd20, m.return_dispersion, m.session_no
+                          Storage: Memory  Maximum Storage: 60kB
+                          Buffers: shared hit=14469 read=484540, local hit=1, temp read=2575 written=2576
+        ->  Hash  (cost=7.48..7.48 rows=374 width=112) (actual time=28.696..28.696 rows=374.00 loops=1)
+              Output: i.close_count50, i.index_close, i.index_sma50, i.close_count200, i.index_sma200, i.close_count252, i.high252, i.return_count60, i.vol60, i.close20, i.close60, i.return_count20, i.vol20, i.session_no
+              Buckets: 1024  Batches: 1  Memory Usage: 60kB
+              Buffers: local hit=4 read=3
+              ->  CTE Scan on index_context0 i  (cost=0.00..7.48 rows=374 width=112) (actual time=1.111..28.529 rows=374.00 loops=1)
+                    Output: i.close_count50, i.index_close, i.index_sma50, i.close_count200, i.index_sma200, i.close_count252, i.high252, i.return_count60, i.vol60, i.close20, i.close60, i.return_count20, i.vol20, i.session_no
+                    Storage: Memory  Maximum Storage: 74kB
+                    Buffers: local hit=4 read=3
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  building index "phase2_v3_market_lagged_session_idx" on table "phase2_v3_market_lagged" serially
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  index "phase2_v3_market_lagged_session_idx" can safely use deduplication
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: NOTICE:  Phase 2 market context rows 374, elapsed 00:00:23.142452
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  rehashing catalog cache id 46 for pg_proc; 33 lists, 16 buckets
+LINE 1: q := sqrt(-2*ln(p))
+             ^
+QUERY:  q := sqrt(-2*ln(p))
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  rehashing catalog cache id 39 for pg_operator; 65 lists, 32 buckets
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  duration: 7922.656 ms  plan:
+Query Text: INSERT INTO pg_temp.phase2_v3_ranks
+    -- independent_nonnull_rank_populations_v1: each metric has its own
+    -- eligible population. Ties receive their average ordinal before the
+    -- Gaussian transform; a singleton maps to normal_quantile(0.5)=0.
+    WITH inputs AS MATERIALIZED (
+        SELECT f.symbol_id,f.trade_date,x.metric,x.value
+          FROM features_daily f
+          CROSS JOIN LATERAL (VALUES
+              ('return20',f.return_20s),
+              ('turnover',f.turnover_proxy_vnd),
+              ('vol20',f.realized_vol20)
+          ) x(metric,value)
+         WHERE f.feature_version='phase2-v2'
+           AND f.trade_date BETWEEN p_date_from AND p_date_to
+           AND (p_symbol_ids IS NULL OR f.symbol_id=ANY(p_symbol_ids))
+           AND x.value IS NOT NULL
+    ), ranks AS (
+        SELECT symbol_id,trade_date,metric,
+               feat.normal_quantile(
+                   (rank() OVER(PARTITION BY trade_date,metric ORDER BY value)
+                    +(count(*) OVER(PARTITION BY trade_date,metric,value)-1)/2.0-0.5)
+                   /count(*) OVER(PARTITION BY trade_date,metric)
+               ) AS score
+          FROM inputs
+    )
+    SELECT symbol_id,trade_date,
+           max(score) FILTER(WHERE metric='return20'),
+           max(score) FILTER(WHERE metric='turnover'),
+           max(score) FILTER(WHERE metric='vol20')
+      FROM ranks GROUP BY symbol_id,trade_date
+Insert on pg_temp.phase2_v3_ranks  (cost=208854.40..209105.38 rows=0 width=0) (actual time=7922.651..7922.654 rows=0.00 loops=1)
+  Buffers: shared hit=56158 read=14667 written=2864, local hit=42525 dirtied=325 written=327
+  ->  HashAggregate  (cost=208854.40..209105.38 rows=25098 width=36) (actual time=7895.616..7905.055 rows=41881.00 loops=1)
+        Output: inputs.symbol_id, inputs.trade_date, max((normal_quantile(((((((rank() OVER w1))::numeric + ((((count(*) OVER w2) - 1))::numeric / 2.0)) - 0.5) / (count(*) OVER w3)::numeric))::double precision))) FILTER (WHERE (inputs.metric = 'return20'::text)), max((normal_quantile(((((((rank() OVER w1))::numeric + ((((count(*) OVER w2) - 1))::numeric / 2.0)) - 0.5) / (count(*) OVER w3)::numeric))::double precision))) FILTER (WHERE (inputs.metric = 'turnover'::text)), max((normal_quantile(((((((rank() OVER w1))::numeric + ((((count(*) OVER w2) - 1))::numeric / 2.0)) - 0.5) / (count(*) OVER w3)::numeric))::double precision))) FILTER (WHERE (inputs.metric = 'vol20'::text))
+        Group Key: inputs.symbol_id, inputs.trade_date
+        Batches: 1  Memory Usage: 5145kB
+        Buffers: shared hit=56158 read=14667 written=2864
+        CTE inputs
+          ->  Nested Loop  (cost=0.43..90345.14 rows=250980 width=52) (actual time=1.014..7292.503 rows=98746.00 loops=1)
+                Output: f.symbol_id, f.trade_date, "*VALUES*".column1, "*VALUES*".column2
+                Buffers: shared hit=56075 read=14658 written=2864
+                ->  Index Scan using features_daily_date_version_idx on feat.features_daily f  (cost=0.43..84698.09 rows=83660 width=36) (actual time=1.006..7100.519 rows=78966.00 loops=1)
+                      Output: f.symbol_id, f.trade_date, f.feature_version, f.feature_set_hash, f.source, f.price_basis, f.adjustment_vintage_at, f.as_of_factor, f.bar_landing_id, f.bar_source_row, f.bar_fetched_at, f.is_traded, f.volume, f.ret_1, f.ret_5, f.return_1d, f.return_5s, f.return_20s, f.return_60s, f.return_2s, f.return_3s, f.return_10s, f.return_120s, f.return_250s, f.momentum_20s, f.momentum_60s, f.close_sma5_ratio, f.sma_5_ratio, f.close_sma20_ratio, f.close_sma60_ratio, f.close_sma100_ratio, f.close_sma200_ratio, f.distance_52w_high, f.distance_52w_low, f.rsi_14, f.bollinger_pct_b_20, f.bollinger_bandwidth_20, f.downside_vol20, f.atr_pct_14, f.volume_zscore_20, f.obv_slope_20, f.close_sma50_ratio, f.realized_vol20, f.realized_vol60, f.vol_5, f.turnover_proxy_vnd, f.log_turnover_proxy_vnd, f.turnover_sma20_vnd, f.volume_sma20, f.gap_open_1d, f.intraday_return, f.intraday_range_pct, f.close_location, f.large_move_approx, f.session_ordinal, f.day_of_week, f.month_of_year, f.vnindex_return_20s, f.vnindex_return_60s, f.vnindex_realized_vol20, f.market_breadth_above_sma50, f.rank_momentum_20s, f.rank_turnover_proxy, f.rank_realized_vol20, f.built_at, f.momentum_12_1s, f.residual_momentum_12_1s, f.ema_5_ratio, f.ema_10_ratio, f.ema_20_ratio, f.ema_50_ratio, f.ema_100_ratio, f.ema_200_ratio, f.macd_histogram_pct, f.adx_14_sma, f.stochastic_k_14, f.stochastic_d_3, f.downside_vol5, f.downside_vol60, f.return_skew_pop60, f.return_excess_kurtosis_pop60, f.beta_vnindex_60, f.beta_vnindex_250, f.idio_vol_vnindex_60, f.idio_vol_vnindex_250, f.correlation_vn30_60, f.amihud_proxy_20, f.gap_mean20, f.gap_std20, f.rank_gaussian_return20, f.rank_gaussian_turnover_proxy, f.rank_gaussian_realized_vol20, f.rank_gaussian_momentum20_industry, f.market_advance_minus_decline, f.market_new_high_minus_low, f.market_turnover_z20, f.market_return_dispersion, f.vnindex_sma50_ratio, f.vnindex_sma200_ratio, f.vnindex_drawdown252, f.vnindex_realized_vol60, f.quarter_end_proximity_days, f.turnover_listed_shares, f.limit_up_hit, f.limit_down_hit, f.limit_up_streak, f.limit_down_streak, f.distance_to_price_limit, f.sessions_to_tet, f.sessions_from_tet, f.intraday_realized_variance, f.intraday_vwap_gap, f.intraday_closing_auction_share
+                      Index Cond: ((f.trade_date >= '2020-01-01'::date) AND (f.trade_date <= '2020-03-31'::date) AND (f.feature_version = 'phase2-v2'::text))
+                      Index Searches: 59
+                      Buffers: shared hit=56075 read=14658 written=2864
+                ->  Values Scan on "*VALUES*"  (cost=0.00..0.04 rows=3 width=40) (actual time=0.001..0.001 rows=1.25 loops=78966)
+                      Output: "*VALUES*".column1, "*VALUES*".column2
+                      Filter: ("*VALUES*".column2 IS NOT NULL)
+                      Rows Removed by Filter: 2
+        ->  WindowAgg  (cost=27529.95..110979.86 rows=250980 width=60) (actual time=7504.474..7858.138 rows=98746.00 loops=1)
+              Output: inputs.symbol_id, inputs.trade_date, inputs.metric, normal_quantile(((((((rank() OVER w1))::numeric + ((((count(*) OVER w2) - 1))::numeric / 2.0)) - 0.5) / (count(*) OVER w3)::numeric))::double precision), inputs.value
+              Window: w3 AS (PARTITION BY inputs.trade_date, inputs.metric)
+              Storage: Memory  Maximum Storage: 72kB
+              Buffers: shared hit=56158 read=14667 written=2864
+              ->  WindowAgg  (cost=27529.41..38195.66 rows=250980 width=68) (actual time=7499.494..7599.270 rows=98746.00 loops=1)
+                    Output: inputs.trade_date, inputs.metric, inputs.value, inputs.symbol_id, (rank() OVER w1), count(*) OVER w2
+                    Window: w2 AS (PARTITION BY inputs.trade_date, inputs.metric, inputs.value)
+                    Storage: Memory  Maximum Storage: 19kB
+                    Buffers: shared hit=56075 read=14658 written=2864
+                    ->  WindowAgg  (cost=27529.03..33176.06 rows=250980 width=60) (actual time=7499.481..7553.657 rows=98746.00 loops=1)
+                          Output: inputs.trade_date, inputs.metric, inputs.value, inputs.symbol_id, rank() OVER w1
+                          Window: w1 AS (PARTITION BY inputs.trade_date, inputs.metric ORDER BY inputs.value ROWS UNBOUNDED PRECEDING)
+                          Storage: Memory  Maximum Storage: 17kB
+                          Buffers: shared hit=56075 read=14658 written=2864
+                          ->  Sort  (cost=27529.01..28156.46 rows=250980 width=52) (actual time=7499.461..7504.697 rows=98746.00 loops=1)
+                                Output: inputs.trade_date, inputs.metric, inputs.value, inputs.symbol_id
+                                Sort Key: inputs.trade_date, inputs.metric, inputs.value
+                                Sort Method: quicksort  Memory: 7701kB
+                                Buffers: shared hit=56075 read=14658 written=2864
+                                ->  CTE Scan on inputs  (cost=0.00..5019.60 rows=250980 width=52) (actual time=1.019..7353.438 rows=98746.00 loops=1)
+                                      Output: inputs.trade_date, inputs.metric, inputs.value, inputs.symbol_id
+                                      Storage: Memory  Maximum Storage: 6425kB
+                                      Buffers: shared hit=56075 read=14658 written=2864
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  building index "phase2_v3_ranks_key_idx" on table "phase2_v3_ranks" serially
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  index "phase2_v3_ranks_key_idx" can safely use deduplication
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: NOTICE:  Phase 2 rank rows 41881, elapsed 00:00:08.161151
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  duration: 4581.790 ms  plan:
+Query Text: INSERT INTO pg_temp.phase2_v3_symbol_batches(symbol_id,batch_no)
+    WITH requested_symbols AS MATERIALIZED (
+        -- Only symbols with V2 output rows in this chunk can produce V3 rows.
+        -- This uses the date/version index instead of deduplicating the entire
+        -- point-in-time adjustment cache for every chunk.
+        SELECT DISTINCT f.symbol_id
+        FROM features_daily f
+        WHERE f.feature_version='phase2-v2'
+          AND f.trade_date BETWEEN p_date_from AND p_date_to
+          AND (p_symbol_ids IS NULL OR f.symbol_id=ANY(p_symbol_ids))
+    ), eligible_symbols AS MATERIALIZED (
+        -- Walk the selected session dates once through the cache's date-first
+        -- index, then retain requested symbols with any finite positive factor.
+        SELECT DISTINCT c.symbol_id
+        FROM pg_temp.phase2_v3_sessions s
+        JOIN pg_temp.phase2_adjustment_rows r ON r.trade_date=s.trade_date
+        JOIN requested_symbols c ON c.symbol_id=r.symbol_id
+        WHERE r.source='vndirect'
+          AND r.reference_adjustment_ratio>0
+          AND r.reference_adjustment_ratio<'Infinity'::double precision
+    ), selected_symbols AS MATERIALIZED (
+        SELECT symbol_id FROM eligible_symbols ORDER BY symbol_id
+        LIMIT COALESCE(v_probe_symbol_limit,2147483647)
+    )
+    SELECT symbol_id,((row_number() OVER(ORDER BY symbol_id)-1)/v_batch_size)::integer
+    FROM selected_symbols
+Insert on pg_temp.phase2_v3_symbol_batches  (cost=6978.95..6981.47 rows=0 width=0) (actual time=4581.786..4581.789 rows=0.00 loops=1)
+  Buffers: shared hit=71023 read=4753 written=1146, local hit=8570 read=9415 dirtied=9485 written=8814
+  ->  WindowAgg  (cost=6978.95..6981.47 rows=60 width=12) (actual time=4581.447..4581.477 rows=49.00 loops=1)
+        Output: selected_symbols.symbol_id, (((row_number() OVER w1 - 1) / 60))::integer
+        Window: w1 AS (ORDER BY selected_symbols.symbol_id ROWS UNBOUNDED PRECEDING)
+        Storage: Memory  Maximum Storage: 17kB
+        Buffers: shared hit=71023 read=4753 written=1146, local hit=8522 read=9415 dirtied=9484 written=8812
+        CTE requested_symbols
+          ->  Unique  (cost=0.43..5421.99 rows=1506 width=8) (actual time=13.035..2895.424 rows=1345.00 loops=1)
+                Output: f.symbol_id
+                Buffers: shared hit=71023 read=4753 written=1146
+                ->  Index Only Scan using features_daily_pkey on feat.features_daily f  (cost=0.43..5212.84 rows=83660 width=8) (actual time=13.033..2883.023 rows=78966.00 loops=1)
+                      Output: f.symbol_id
+                      Index Cond: ((f.trade_date >= '2020-01-01'::date) AND (f.trade_date <= '2020-03-31'::date) AND (f.feature_version = 'phase2-v2'::text))
+                      Heap Fetches: 13880
+                      Index Searches: 1519
+                      Buffers: shared hit=71023 read=4753 written=1146
+        CTE eligible_symbols
+          ->  HashAggregate  (cost=1459.59..1474.65 rows=1506 width=8) (actual time=4581.390..4581.400 rows=49.00 loops=1)
+                Output: c.symbol_id
+                Group Key: c.symbol_id
+                Batches: 1  Memory Usage: 65kB
+                Buffers: shared hit=71023 read=4753 written=1146, local hit=8522 read=9415 dirtied=9484 written=8812
+                ->  Hash Join  (cost=49.64..1409.15 rows=20177 width=8) (actual time=2900.363..4571.496 rows=17874.00 loops=1)
+                      Output: c.symbol_id
+                      Hash Cond: (r.symbol_id = c.symbol_id)
+                      Buffers: shared hit=71023 read=4753 written=1146, local hit=8522 read=9415 dirtied=9484 written=8812
+                      ->  Merge Join  (cost=0.69..1082.77 rows=20177 width=8) (actual time=0.044..1657.885 rows=17874.00 loops=1)
+                            Output: r.symbol_id
+                            Merge Cond: (s.trade_date = r.trade_date)
+                            Buffers: local hit=8522 read=9415 dirtied=9484 written=8812
+                            ->  Index Only Scan using phase2_v3_sessions_date_idx on pg_temp.phase2_v3_sessions s  (cost=0.27..13.38 rows=374 width=4) (actual time=0.016..0.963 rows=374.00 loops=1)
+                                  Output: s.trade_date
+                                  Heap Fetches: 374
+                                  Index Searches: 1
+                                  Buffers: local hit=3 read=3 written=3
+                            ->  Index Scan using phase2_adjustment_rows_date_symbol_idx on pg_temp.phase2_adjustment_rows r  (cost=0.42..5067.96 rows=108331 width=12) (actual time=0.026..1648.806 rows=17875.00 loops=1)
+                                  Output: r.symbol_id, r.trade_date, r.source, r.v, r.is_traded, r.reference_adjustment_ratio, r.episode_start_date, r.model_o, r.model_h, r.model_l, r.model_c, r.adjustment_vintage_at, r.landing_id, r.source_row, r.fetched_at
+                                  Filter: ((r.reference_adjustment_ratio > '0'::double precision) AND (r.reference_adjustment_ratio < 'Infinity'::double precision) AND (r.source = 'vndirect'::text))
+                                  Index Searches: 1
+                                  Buffers: local hit=8519 read=9412 dirtied=9484 written=8809
+                      ->  Hash  (cost=30.12..30.12 rows=1506 width=8) (actual time=2900.302..2900.303 rows=1345.00 loops=1)
+                            Output: c.symbol_id
+                            Buckets: 2048  Batches: 1  Memory Usage: 69kB
+                            Buffers: shared hit=71023 read=4753 written=1146
+                            ->  CTE Scan on requested_symbols c  (cost=0.00..30.12 rows=1506 width=8) (actual time=13.037..2898.155 rows=1345.00 loops=1)
+                                  Output: c.symbol_id
+                                  Storage: Memory  Maximum Storage: 59kB
+                                  Buffers: shared hit=71023 read=4753 written=1146
+        CTE selected_symbols
+          ->  Limit  (cost=82.13..82.28 rows=60 width=8) (actual time=4581.422..4581.429 rows=49.00 loops=1)
+                Output: eligible_symbols.symbol_id
+                Buffers: shared hit=71023 read=4753 written=1146, local hit=8522 read=9415 dirtied=9484 written=8812
+                ->  Sort  (cost=82.13..85.89 rows=1506 width=8) (actual time=4581.421..4581.425 rows=49.00 loops=1)
+                      Output: eligible_symbols.symbol_id
+                      Sort Key: eligible_symbols.symbol_id
+                      Sort Method: quicksort  Memory: 25kB
+                      Buffers: shared hit=71023 read=4753 written=1146, local hit=8522 read=9415 dirtied=9484 written=8812
+                      ->  CTE Scan on eligible_symbols  (cost=0.00..30.12 rows=1506 width=8) (actual time=4581.394..4581.410 rows=49.00 loops=1)
+                            Output: eligible_symbols.symbol_id
+                            Storage: Memory  Maximum Storage: 18kB
+                            Buffers: shared hit=71023 read=4753 written=1146, local hit=8522 read=9415 dirtied=9484 written=8812
+        ->  CTE Scan on selected_symbols  (cost=0.00..1.20 rows=60 width=8) (actual time=4581.424..4581.439 rows=49.00 loops=1)
+              Output: selected_symbols.symbol_id
+              Storage: Memory  Maximum Storage: 18kB
+              Buffers: shared hit=71023 read=4753 written=1146, local hit=8522 read=9415 dirtied=9484 written=8812
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  building index "phase2_v3_symbol_batches_symbol_idx" on table "phase2_v3_symbol_batches" serially
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  index "phase2_v3_symbol_batches_symbol_idx" can safely use deduplication
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  building index "phase2_v3_symbol_batches_batch_idx" on table "phase2_v3_symbol_batches" serially
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  index "phase2_v3_symbol_batches_batch_idx" can safely use deduplication
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  building index "phase2_v3_spine_symbol_session_idx" on table "phase2_v3_spine" serially
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  index "phase2_v3_spine_symbol_session_idx" can safely use deduplication
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  building index "pg_toast_615829_index" on table "pg_toast_615829" serially
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  index "pg_toast_615829_index" can safely use deduplication
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  building index "phase2_v3_output_key_idx" on table "phase2_v3_output" serially
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  index "phase2_v3_output_key_idx" can safely use deduplication
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  building index "phase2_v3_computed_key_idx" on table "phase2_v3_computed" serially
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  index "phase2_v3_computed_key_idx" can safely use deduplication
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  building index "phase2_v3_spine_symbol_session_idx" on table "phase2_v3_spine" serially
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  index "phase2_v3_spine_symbol_session_idx" can safely use deduplication
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: NOTICE:  Phase 2 batch 0 spine rows 18326, elapsed 00:00:00.614605
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  building index "phase2_v3_output_key_idx" on table "phase2_v3_output" serially
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  index "phase2_v3_output_key_idx" can safely use deduplication
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  building index "pg_toast_615829_index" on table "pg_toast_615829" serially
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  index "pg_toast_615829_index" can safely use deduplication
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  building index "phase2_v3_computed_key_idx" on table "phase2_v3_computed" serially
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  index "phase2_v3_computed_key_idx" can safely use deduplication
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  rehashing catalog cache id 65 for pg_statistic; 257 tups, 128 buckets
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  rehashing catalog cache id 7 for pg_attribute; 257 tups, 128 buckets
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: NOTICE:  Phase 2 batch 0 base rows 2891, elapsed 00:00:00.140485
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: DEBUG:  duration: 5350.338 ms  plan:
+Query Text: WITH sessions AS MATERIALIZED (
+        SELECT trade_date,session_no FROM pg_temp.phase2_v3_sessions
+    ), spine AS NOT MATERIALIZED (
+        SELECT * FROM pg_temp.phase2_v3_spine
+    ), ema_episode_marks AS MATERIALIZED (
+        SELECT p.*,
+               CASE WHEN p.c IS NOT NULL AND p.episode_key IS DISTINCT FROM
+                         lag(p.episode_key) OVER(PARTITION BY p.symbol_id ORDER BY p.session_no)
+                    THEN 1::bigint ELSE 0::bigint END AS ema_episode_start
+        FROM spine p
+    ), ema_episode_groups AS MATERIALIZED (
+        SELECT p.*,
+               sum(p.ema_episode_start) OVER(PARTITION BY p.symbol_id ORDER BY p.session_no
+                   ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ema_episode
+        FROM ema_episode_marks p
+    ), ema_input_stats AS MATERIALIZED (
+        SELECT p.*,
+               min(p.session_no) FILTER(WHERE p.c IS NOT NULL)
+                   OVER(PARTITION BY p.symbol_id,p.ema_episode) AS first_close_session,
+               count(*) FILTER(WHERE p.is_traded AND p.c IS NOT NULL)
+                   OVER(PARTITION BY p.symbol_id,p.ema_episode ORDER BY p.session_no
+                        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ema_count
+        FROM ema_episode_groups p
+    ), ema_inputs AS MATERIALIZED (
+        SELECT p.*,
+               CASE WHEN p.session_no=p.first_close_session OR p.is_traded THEN p.c END AS ema_input
+        FROM ema_input_stats p
+    ), ema_state AS MATERIALIZED (
+        SELECT p.symbol_id,p.trade_date,p.session_no,p.episode_key,p.ema_episode,p.c,p.is_traded,p.ema_count,
+               feat.ema(p.ema_input,2.0/6) OVER w AS ema5,
+               feat.ema(p.ema_input,2.0/11) OVER w AS ema10,
+               feat.ema(p.ema_input,2.0/21) OVER w AS ema20,
+               feat.ema(p.ema_input,2.0/51) OVER w AS ema50,
+               feat.ema(p.ema_input,2.0/101) OVER w AS ema100,
+               feat.ema(p.ema_input,2.0/201) OVER w AS ema200,
+               feat.ema(p.ema_input,2.0/13) OVER w AS ema12,
+               feat.ema(p.ema_input,2.0/27) OVER w AS ema26
+        FROM ema_inputs p
+        WINDOW w AS (PARTITION BY p.symbol_id,p.ema_episode ORDER BY p.session_no
+                     ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+    ), ema_macd AS MATERIALIZED (
+        SELECT e.*,
+               feat.ema(CASE WHEN e.is_traded AND e.ema_count>=26 THEN e.ema12-e.ema26 END,0.2)
+                   OVER(PARTITION BY e.symbol_id,e.ema_episode ORDER BY e.session_no
+                        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS macd_signal,
+               count(*) FILTER(WHERE e.is_traded AND e.ema_count>=26)
+                   OVER(PARTITION BY e.symbol_id,e.ema_episode ORDER BY e.session_no
+                        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS macd_count
+        FROM ema_state e
+    ), ema_signal AS MATERIALIZED (
+        SELECT e.*,
+               CASE WHEN e.is_traded AND e.ema_count>=5 AND e.ema5>0 THEN e.c/e.ema5-1 END AS ema5_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=10 AND e.ema10>0 THEN e.c/e.ema10-1 END AS ema10_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=20 AND e.ema20>0 THEN e.c/e.ema20-1 END AS ema20_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=50 AND e.ema50>0 THEN e.c/e.ema50-1 END AS ema50_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=100 AND e.ema100>0 THEN e.c/e.ema100-1 END AS ema100_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=200 AND e.ema200>0 THEN e.c/e.ema200-1 END AS ema200_ratio,
+               CASE WHEN e.is_traded AND e.ema_count>=26 AND e.macd_count>=9 AND e.c>0
+                    THEN ((e.ema12-e.ema26)-e.macd_signal)/e.c END AS macd_histogram_pct
+        FROM ema_macd e
+    ), prior_price AS MATERIALIZED (
+        SELECT x.*,
+               lag(x.is_traded) OVER w AS prior_is_traded,
+               lag(x.c) OVER w AS prior_c,
+               lag(x.h) OVER w AS prior_h,
+               lag(x.l) OVER w AS prior_l,
+               lag(x.episode_key) OVER w AS prior_episode
+        FROM spine x
+        WINDOW w AS (PARTITION BY x.symbol_id ORDER BY x.session_no)
+    ), price_lags AS MATERIALIZED (
+        SELECT x.*,
+               CASE WHEN x.is_traded AND x.prior_is_traded AND x.episode_key=x.prior_episode AND x.prior_c>0
+                    THEN x.c/x.prior_c-1 END AS daily_return,
+               CASE WHEN x.is_traded AND x.prior_is_traded AND x.episode_key=x.prior_episode AND x.prior_c>0
+                    THEN x.o/x.prior_c-1 END AS open_gap,
+               CASE WHEN x.is_traded AND x.prior_is_traded AND x.episode_key=x.prior_episode
+                    THEN greatest(x.h-x.l,abs(x.h-x.prior_c),abs(x.l-x.prior_c)) END AS true_range,
+               CASE WHEN x.is_traded AND x.prior_is_traded AND x.episode_key=x.prior_episode
+                    THEN greatest(x.h-x.prior_h,0.0) END AS plus_dm,
+               CASE WHEN x.is_traded AND x.prior_is_traded AND x.episode_key=x.prior_episode
+                    THEN greatest(x.prior_l-x.l,0.0) END AS minus_dm
+        FROM prior_price x
+    ), technical AS MATERIALIZED (
+        SELECT p.*,
+               count(p.c) FILTER(WHERE p.is_traded) OVER w5 AS traded5,
+               count(p.c) FILTER(WHERE p.is_traded) OVER w10 AS traded10,
+               count(p.c) FILTER(WHERE p.is_traded) OVER w14_episode AS traded14,
+               max(p.h) FILTER(WHERE p.is_traded) OVER w14_episode AS high14,
+               min(p.l) FILTER(WHERE p.is_traded) OVER w14_episode AS low14,
+               avg(p.true_range) OVER w14 AS tr14,
+               avg(p.plus_dm) OVER w14 AS plus14,
+               avg(p.minus_dm) OVER w14 AS minus14,
+               count(p.true_range) OVER w14 AS tr_count14,
+               count(p.daily_return) OVER w5 AS return_count5,
+               sqrt(avg(power(least(p.daily_return,0.0),2)) OVER w5) AS downside5,
+               sqrt(avg(power(least(p.daily_return,0.0),2)) OVER w60) AS downside60,
+               count(p.daily_return) OVER w60 AS return_count60,
+               avg(p.daily_return) OVER w60 AS mean60,
+               stddev_pop(p.daily_return) OVER w60 AS sd60,
+               avg(power(p.daily_return,2)) OVER w60 AS raw_second60,
+               avg(power(p.daily_return,3)) OVER w60 AS raw_third60,
+               avg(power(p.daily_return,4)) OVER w60 AS raw_fourth60,
+               avg(p.open_gap) OVER w20 AS gap_mean20,
+               stddev_samp(p.open_gap) OVER w20 AS gap_sd20,
+               count(p.open_gap) OVER w20 AS gap_count20
+        FROM price_lags p
+        WINDOW w AS (PARTITION BY p.symbol_id ORDER BY p.session_no),
+               w5 AS (w ROWS BETWEEN 4 PRECEDING AND CURRENT ROW),
+               w10 AS (w ROWS BETWEEN 9 PRECEDING AND CURRENT ROW),
+               w14 AS (w ROWS BETWEEN 13 PRECEDING AND CURRENT ROW),
+               w14_episode AS (PARTITION BY p.symbol_id,p.episode_key ORDER BY p.session_no ROWS BETWEEN 13 PRECEDING AND CURRENT ROW),
+               w20 AS (w ROWS BETWEEN 19 PRECEDING AND CURRENT ROW),
+               w60 AS (w ROWS BETWEEN 59 PRECEDING AND CURRENT ROW)
+    ), directional AS MATERIALIZED (
+        SELECT t.*,
+               CASE WHEN t.tr_count14=14 AND t.tr14>0
+                    THEN 100*abs(t.plus14-t.minus14)/nullif(t.plus14+t.minus14,0) END AS dx14
+        FROM technical t
+    ), adx_calc AS MATERIALIZED (
+        SELECT d.*,
+               avg(d.dx14) OVER(PARTITION BY d.symbol_id ORDER BY d.session_no
+                   ROWS BETWEEN 13 PRECEDING AND CURRENT ROW) AS adx14_sma,
+               count(d.dx14) OVER(PARTITION BY d.symbol_id ORDER BY d.session_no
+                   ROWS BETWEEN 13 PRECEDING AND CURRENT ROW) AS adx_count14,
+               -- Convert the raw moments using this row's 60-return mean. A
+               -- second rolling window over row-specific means would center
+               -- each historical return on a different mean.
+               d.raw_third60-3*d.mean60*d.raw_second60+2*power(d.mean60,3) AS third_moment60,
+               d.raw_fourth60-4*d.mean60*d.raw_third60+6*power(d.mean60,2)*d.raw_second60
+                   -3*power(d.mean60,4) AS fourth_moment60
+        FROM directional d
+    ), index_raw AS MATERIALIZED (
+        SELECT * FROM pg_temp.phase2_v3_index_raw
+    ), market_lagged AS MATERIALIZED (
+        SELECT * FROM pg_temp.phase2_v3_market_lagged
+    ), symbol_market AS MATERIALIZED (
+        SELECT f.symbol_id,f.trade_date,s.session_no,f.ret_1 AS stock_return,
+               lag(i.index_return) OVER(PARTITION BY f.symbol_id ORDER BY s.session_no) AS index_return_lagged,
+               f.return_20s,f.turnover_proxy_vnd,f.realized_vol20,f.gap_open_1d,
+               f.distance_52w_high,f.distance_52w_low
+        FROM features_daily f
+        JOIN sessions s USING(trade_date)
+        JOIN pg_temp.phase2_v3_symbol_batches bs
+          ON bs.symbol_id=f.symbol_id AND bs.batch_no=v_batch.batch_no
+        LEFT JOIN index_raw i ON i.session_no=s.session_no
+        WHERE f.feature_version='phase2-v2'
+    ), stock_market_prefix AS MATERIALIZED (
+        SELECT x.*,
+               count(x.stock_return) OVER w AS stock_count_prefix,
+               count(x.index_return_lagged) OVER w AS market_count_prefix,
+               sum(ln(1+x.stock_return)) OVER w AS stock_log_prefix,
+               sum(ln(1+x.index_return_lagged)) OVER w AS market_log_prefix,
+               count(*) FILTER(WHERE x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL)
+                   OVER w AS pair_count_prefix,
+               sum(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.stock_return ELSE 0 END) OVER w AS stock_sum_prefix,
+               sum(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.index_return_lagged ELSE 0 END) OVER w AS market_sum_prefix,
+               sum(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.stock_return*x.stock_return ELSE 0 END) OVER w AS stock_square_prefix,
+               sum(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.index_return_lagged*x.index_return_lagged ELSE 0 END) OVER w AS market_square_prefix,
+               sum(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.stock_return*x.index_return_lagged ELSE 0 END) OVER w AS cross_product_prefix,
+               count(abs(x.stock_return)/nullif(x.turnover_proxy_vnd,0)) OVER w AS amihud_count_prefix,
+               sum(abs(x.stock_return)/nullif(x.turnover_proxy_vnd,0)) OVER w AS amihud_sum_prefix,
+               -- stable_pair_moments_v1: local Welford moments avoid subtracting
+               -- long cumulative prefixes when the residual variance is small.
+               count(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                          THEN 1 END) OVER w60 AS pair_count60_rolling,
+               var_samp(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                             THEN x.stock_return END) OVER w60 AS stock_var60_rolling,
+               var_samp(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                             THEN x.index_return_lagged END) OVER w60 AS market_var60_rolling,
+               covar_samp(
+                   CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.stock_return END,
+                   CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.index_return_lagged END
+               ) OVER w60 AS covar60_rolling,
+               count(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                          THEN 1 END) OVER w250 AS pair_count250_rolling,
+               var_samp(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                             THEN x.stock_return END) OVER w250 AS stock_var250_rolling,
+               var_samp(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                             THEN x.index_return_lagged END) OVER w250 AS market_var250_rolling,
+               covar_samp(
+                   CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.stock_return END,
+                   CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL
+                        THEN x.index_return_lagged END
+               ) OVER w250 AS covar250_rolling
+        FROM symbol_market x
+        WINDOW base_w AS (PARTITION BY x.symbol_id ORDER BY x.session_no),
+              w AS (base_w ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW),
+              w60 AS (base_w ROWS BETWEEN 59 PRECEDING AND CURRENT ROW),
+              w250 AS (base_w ROWS BETWEEN 249 PRECEDING AND CURRENT ROW)
+    ), stock_market_prefix_lags AS MATERIALIZED (
+        SELECT p.*,
+               lag(p.stock_count_prefix,21) OVER w AS stock_count_lag21,
+               lag(p.stock_count_prefix,252) OVER w AS stock_count_lag252,
+               lag(p.market_count_prefix,21) OVER w AS market_count_lag21,
+               lag(p.market_count_prefix,252) OVER w AS market_count_lag252,
+               lag(p.stock_log_prefix,21) OVER w AS stock_log_lag21,
+               lag(p.stock_log_prefix,252) OVER w AS stock_log_lag252,
+               lag(p.market_log_prefix,21) OVER w AS market_log_lag21,
+               lag(p.market_log_prefix,252) OVER w AS market_log_lag252,
+               lag(p.pair_count_prefix,60) OVER w AS pair_count_lag60,
+               lag(p.pair_count_prefix,250) OVER w AS pair_count_lag250,
+               lag(p.stock_sum_prefix,60) OVER w AS stock_sum_lag60,
+               lag(p.stock_sum_prefix,250) OVER w AS stock_sum_lag250,
+               lag(p.market_sum_prefix,60) OVER w AS market_sum_lag60,
+               lag(p.market_sum_prefix,250) OVER w AS market_sum_lag250,
+               lag(p.stock_square_prefix,60) OVER w AS stock_square_lag60,
+               lag(p.stock_square_prefix,250) OVER w AS stock_square_lag250,
+               lag(p.market_square_prefix,60) OVER w AS market_square_lag60,
+               lag(p.market_square_prefix,250) OVER w AS market_square_lag250,
+               lag(p.cross_product_prefix,60) OVER w AS cross_product_lag60,
+               lag(p.cross_product_prefix,250) OVER w AS cross_product_lag250,
+               lag(p.stock_count_prefix,20) OVER w AS stock_count_lag20,
+               lag(p.amihud_count_prefix,20) OVER w AS amihud_count_lag20,
+               lag(p.amihud_sum_prefix,20) OVER w AS amihud_sum_lag20
+        FROM stock_market_prefix p
+        WINDOW w AS (PARTITION BY p.symbol_id ORDER BY p.session_no)
+    ), stock_market_differences AS MATERIALIZED (
+        SELECT p.*,
+               coalesce(p.stock_count_lag21,0)-coalesce(p.stock_count_lag252,0) AS stock_n231,
+               coalesce(p.market_count_lag21,0)-coalesce(p.market_count_lag252,0) AS market_n231,
+               coalesce(p.stock_log_lag21,0)-coalesce(p.stock_log_lag252,0) AS stock_log_12_1,
+               coalesce(p.market_log_lag21,0)-coalesce(p.market_log_lag252,0) AS market_log_12_1,
+                p.pair_count60_rolling AS n60,
+                p.pair_count250_rolling AS n250,
+               p.stock_sum_prefix-coalesce(p.stock_sum_lag60,0) AS stock_sum60,
+               p.stock_sum_prefix-coalesce(p.stock_sum_lag250,0) AS stock_sum250,
+               p.market_sum_prefix-coalesce(p.market_sum_lag60,0) AS market_sum60,
+               p.market_sum_prefix-coalesce(p.market_sum_lag250,0) AS market_sum250,
+               p.stock_square_prefix-coalesce(p.stock_square_lag60,0) AS stock_square60,
+               p.stock_square_prefix-coalesce(p.stock_square_lag250,0) AS stock_square250,
+               p.market_square_prefix-coalesce(p.market_square_lag60,0) AS market_square60,
+               p.market_square_prefix-coalesce(p.market_square_lag250,0) AS market_square250,
+               p.cross_product_prefix-coalesce(p.cross_product_lag60,0) AS cross_product60,
+               p.cross_product_prefix-coalesce(p.cross_product_lag250,0) AS cross_product250,
+               p.stock_count_prefix-coalesce(p.stock_count_lag20,0) AS return_n20,
+               (p.amihud_sum_prefix-coalesce(p.amihud_sum_lag20,0)) /
+                    nullif(p.amihud_count_prefix-coalesce(p.amihud_count_lag20,0),0) AS amihud20
+        FROM stock_market_prefix_lags p
+    ), stock_market_beta AS MATERIALIZED (
+        SELECT d.*,
+               CASE WHEN d.n60>1 THEN d.covar60_rolling/nullif(d.market_var60_rolling,0) END AS beta60,
+               CASE WHEN d.n60>1 THEN greatest(0::double precision,d.stock_var60_rolling) END AS stock_var60,
+               CASE WHEN d.n60>1 THEN greatest(0::double precision,d.market_var60_rolling) END AS market_var60,
+               CASE WHEN d.n60>1 THEN d.covar60_rolling END AS covar60,
+               CASE WHEN d.n250>1 THEN d.covar250_rolling/nullif(d.market_var250_rolling,0) END AS beta250,
+               CASE WHEN d.n250>1 THEN greatest(0::double precision,d.stock_var250_rolling) END AS stock_var250,
+               CASE WHEN d.n250>1 THEN greatest(0::double precision,d.market_var250_rolling) END AS market_var250,
+               CASE WHEN d.n250>1 THEN d.covar250_rolling END AS covar250
+        FROM stock_market_differences d
+    ), stock_market_windows AS MATERIALIZED (
+        SELECT b.*,lag(b.beta60,21) OVER(PARTITION BY b.symbol_id ORDER BY b.session_no) AS beta60_at_12_1_start
+        FROM stock_market_beta b
+    ), ranks AS MATERIALIZED (
+        SELECT r.* FROM pg_temp.phase2_v3_ranks r
+        JOIN pg_temp.phase2_v3_symbol_batches bs USING(symbol_id)
+        WHERE bs.batch_no=v_batch.batch_no
+    ), stoch AS MATERIALIZED (
+        SELECT t.symbol_id,t.trade_date,t.session_no,t.episode_key,
+               CASE WHEN t.is_traded AND t.traded14=14 AND t.high14>t.low14
+                    THEN 100*(t.c-t.low14)/(t.high14-t.low14) END AS k14
+        FROM technical t
+    ), stochd AS MATERIALIZED (
+        SELECT s.*,
+               avg(s.k14) OVER(PARTITION BY s.symbol_id,s.episode_key ORDER BY s.session_no ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS d3,
+               count(s.k14) OVER(PARTITION BY s.symbol_id,s.episode_key ORDER BY s.session_no ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS n3
+        FROM stoch s
+    )
+    INSERT INTO pg_temp.phase2_v3_computed (
+        symbol_id,trade_date,momentum_12_1s,residual_momentum_12_1s,
+        ema_5_ratio,ema_10_ratio,ema_20_ratio,ema_50_ratio,ema_100_ratio,ema_200_ratio,
+        macd_histogram_pct,adx_14_sma,stochastic_k_14,stochastic_d_3,
+        downside_vol5,downside_vol60,return_skew_pop60,return_excess_kurtosis_pop60,
+        beta_vnindex_60,beta_vnindex_250,idio_vol_vnindex_60,idio_vol_vnindex_250,
+        amihud_proxy_20,gap_mean20,gap_std20,rank_gaussian_return20,
+        rank_gaussian_turnover_proxy,rank_gaussian_realized_vol20,
+        market_advance_minus_decline,market_new_high_minus_low,market_turnover_z20,
+        market_return_dispersion,vnindex_sma50_ratio,vnindex_sma200_ratio,
+        vnindex_drawdown252,vnindex_realized_vol60,quarter_end_proximity_days
+    )
+    SELECT f.symbol_id,f.trade_date,
+           CASE WHEN sm.stock_n231=231 THEN exp(sm.stock_log_12_1)-1 END,
+           CASE WHEN sm.stock_n231=231 AND sm.market_n231=231 AND sm.beta60_at_12_1_start IS NOT NULL
+                THEN (exp(sm.stock_log_12_1)-1)-sm.beta60_at_12_1_start*(exp(sm.market_log_12_1)-1) END,
+           es.ema5_ratio,es.ema10_ratio,es.ema20_ratio,es.ema50_ratio,es.ema100_ratio,es.ema200_ratio,
+           es.macd_histogram_pct,
+           CASE WHEN a.adx_count14=14 THEN a.adx14_sma END,
+           st.k14,
+           CASE WHEN st.n3=3 THEN st.d3 END,
+           CASE WHEN t.return_count5=5 THEN t.downside5 END,
+           CASE WHEN a.return_count60=60 THEN a.downside60 END,
+           CASE WHEN a.return_count60=60 AND a.sd60>0 THEN a.third_moment60/power(a.sd60,3) END,
+           CASE WHEN a.return_count60=60 AND a.sd60>0 THEN a.fourth_moment60/power(a.sd60,4)-3 END,
+           CASE WHEN sm.n60=60 AND sm.market_var60>0 THEN sm.beta60 END,
+           CASE WHEN sm.n250=250 AND sm.market_var250>0 THEN sm.beta250 END,
+           CASE WHEN sm.n60=60 AND sm.market_var60>0
+                THEN sqrt(greatest(0,sm.stock_var60-sm.covar60*sm.covar60/sm.market_var60)) END,
+           CASE WHEN sm.n250=250 AND sm.market_var250>0
+                THEN sqrt(greatest(0,sm.stock_var250-sm.covar250*sm.covar250/sm.market_var250)) END,
+           CASE WHEN sm.return_n20=20 THEN sm.amihud20 END,
+           CASE WHEN t.gap_count20=20 THEN t.gap_mean20 END,
+           CASE WHEN t.gap_count20=20 THEN t.gap_sd20 END,
+           rk.gauss_return20,rk.gauss_turnover,rk.gauss_vol20,
+           ml.advance_minus_decline,ml.new_high_minus_low,ml.turnover_z20,
+           ml.return_dispersion,ml.index_sma50_ratio,ml.index_sma200_ratio,
+           ml.index_drawdown252,ml.vol60,
+           ((date_trunc('quarter',f.trade_date::timestamp)+interval '3 months'-interval '1 day')::date-f.trade_date)::smallint
+    FROM features_daily f
+    JOIN pg_temp.phase2_v3_symbol_batches bs
+      ON bs.symbol_id=f.symbol_id AND bs.batch_no=v_batch.batch_no
+    JOIN sessions s ON s.trade_date=f.trade_date
+    LEFT JOIN ema_signal es ON es.symbol_id=f.symbol_id AND es.trade_date=f.trade_date
+    LEFT JOIN adx_calc a ON a.symbol_id=f.symbol_id AND a.trade_date=f.trade_date
+    LEFT JOIN technical t ON t.symbol_id=f.symbol_id AND t.trade_date=f.trade_date
+    LEFT JOIN stochd st ON st.symbol_id=f.symbol_id AND st.trade_date=f.trade_date
+    LEFT JOIN stock_market_windows sm ON sm.symbol_id=f.symbol_id AND sm.trade_date=f.trade_date
+    LEFT JOIN ranks rk ON rk.symbol_id=f.symbol_id AND rk.trade_date=f.trade_date
+    LEFT JOIN market_lagged ml ON ml.session_no=s.session_no-1
+    WHERE f.feature_version='phase2-v2'
+      AND f.trade_date BETWEEN p_date_from AND p_date_to
+Insert on pg_temp.phase2_v3_computed  (cost=87248.62..92064.97 rows=0 width=0) (actual time=5350.295..5350.336 rows=0.00 loops=1)
+  Buffers: shared hit=71386 read=4170, local hit=10892 read=380 dirtied=87 written=88
+  CTE sessions
+    ->  Seq Scan on pg_temp.phase2_v3_sessions  (cost=0.00..6.74 rows=374 width=12) (actual time=0.014..0.033 rows=374.00 loops=1)
+          Output: phase2_v3_sessions.trade_date, phase2_v3_sessions.session_no
+          Buffers: local hit=3
+  CTE ema_episode_marks
+    ->  WindowAgg  (cost=0.34..972.58 rows=18326 width=77) (actual time=0.022..18.276 rows=18326.00 loops=1)
+          Output: phase2_v3_spine.symbol_id, phase2_v3_spine.trade_date, phase2_v3_spine.session_no, phase2_v3_spine.o, phase2_v3_spine.h, phase2_v3_spine.l, phase2_v3_spine.c, phase2_v3_spine.v, phase2_v3_spine.is_traded, phase2_v3_spine.bar_episode, phase2_v3_spine.episode_key, CASE WHEN ((phase2_v3_spine.c IS NOT NULL) AND (phase2_v3_spine.episode_key IS DISTINCT FROM lag(phase2_v3_spine.episode_key) OVER w1)) THEN '1'::bigint ELSE '0'::bigint END
+          Window: w1 AS (PARTITION BY phase2_v3_spine.symbol_id ORDER BY phase2_v3_spine.session_no)
+          Storage: Memory  Maximum Storage: 17kB
+          Buffers: local hit=490
+          ->  Index Scan using phase2_v3_spine_symbol_session_idx on pg_temp.phase2_v3_spine  (cost=0.29..606.06 rows=18326 width=69) (actual time=0.010..5.161 rows=18326.00 loops=1)
+                Output: phase2_v3_spine.symbol_id, phase2_v3_spine.session_no, phase2_v3_spine.trade_date, phase2_v3_spine.o, phase2_v3_spine.h, phase2_v3_spine.l, phase2_v3_spine.c, phase2_v3_spine.v, phase2_v3_spine.is_traded, phase2_v3_spine.bar_episode, phase2_v3_spine.episode_key
+                Index Searches: 1
+                Buffers: local hit=490
+  CTE ema_episode_groups
+    ->  WindowAgg  (cost=0.04..687.22 rows=18326 width=109) (actual time=0.037..42.017 rows=18326.00 loops=1)
+          Output: p.symbol_id, p.trade_date, p.session_no, p.o, p.h, p.l, p.c, p.v, p.is_traded, p.bar_episode, p.episode_key, p.ema_episode_start, sum(p.ema_episode_start) OVER w1
+          Window: w1 AS (PARTITION BY p.symbol_id ORDER BY p.session_no ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+          Storage: Memory  Maximum Storage: 17kB
+          Buffers: local hit=490
+          ->  CTE Scan on ema_episode_marks p  (cost=0.00..366.52 rows=18326 width=77) (actual time=0.023..27.032 rows=18326.00 loops=1)
+                Output: p.symbol_id, p.session_no, p.trade_date, p.o, p.h, p.l, p.c, p.v, p.is_traded, p.bar_episode, p.episode_key, p.ema_episode_start
+                Storage: Memory  Maximum Storage: 2240kB
+                Buffers: local hit=490
+  CTE ema_input_stats
+    ->  WindowAgg  (cost=24.56..2066.95 rows=18326 width=125) (actual time=2.820..82.667 rows=18326.00 loops=1)
+          Output: p_1.symbol_id, p_1.trade_date, p_1.session_no, p_1.o, p_1.h, p_1.l, p_1.c, p_1.v, p_1.is_traded, p_1.bar_episode, p_1.episode_key, p_1.ema_episode_start, p_1.ema_episode, min(p_1.session_no) FILTER (WHERE (p_1.c IS NOT NULL)) OVER w2, (count(*) FILTER (WHERE (p_1.is_traded AND (p_1.c IS NOT NULL))) OVER w1)
+          Window: w2 AS (PARTITION BY p_1.symbol_id, p_1.ema_episode)
+          Storage: Memory  Maximum Storage: 63kB
+          Buffers: local hit=490
+          ->  WindowAgg  (cost=23.56..1746.25 rows=18326 width=117) (actual time=1.254..70.569 rows=18326.00 loops=1)
+                Output: p_1.symbol_id, p_1.session_no, p_1.ema_episode, p_1.trade_date, p_1.o, p_1.h, p_1.l, p_1.c, p_1.v, p_1.is_traded, p_1.bar_episode, p_1.episode_key, p_1.ema_episode_start, count(*) FILTER (WHERE (p_1.is_traded AND (p_1.c IS NOT NULL))) OVER w1
+                Window: w1 AS (PARTITION BY p_1.symbol_id, p_1.ema_episode ORDER BY p_1.session_no ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+                Storage: Memory  Maximum Storage: 17kB
+                Buffers: local hit=490
+                ->  Incremental Sort  (cost=23.46..1379.73 rows=18326 width=109) (actual time=1.243..59.109 rows=18326.00 loops=1)
+                      Output: p_1.symbol_id, p_1.session_no, p_1.ema_episode, p_1.trade_date, p_1.o, p_1.h, p_1.l, p_1.c, p_1.v, p_1.is_traded, p_1.bar_episode, p_1.episode_key, p_1.ema_episode_start
+                      Sort Key: p_1.symbol_id, p_1.ema_episode, p_1.session_no
+                      Presorted Key: p_1.symbol_id
+                      Full-sort Groups: 49  Sort Method: quicksort  Average Memory: 32kB  Peak Memory: 32kB
+                      Pre-sorted Groups: 49  Sort Method: quicksort  Average Memory: 65kB  Peak Memory: 65kB
+                      Buffers: local hit=490
+                      ->  CTE Scan on ema_episode_groups p_1  (cost=0.00..366.52 rows=18326 width=109) (actual time=0.038..51.644 rows=18326.00 loops=1)
+                            Output: p_1.symbol_id, p_1.session_no, p_1.ema_episode, p_1.trade_date, p_1.o, p_1.h, p_1.l, p_1.c, p_1.v, p_1.is_traded, p_1.bar_episode, p_1.episode_key, p_1.ema_episode_start
+                            Storage: Memory  Maximum Storage: 2383kB
+                            Buffers: local hit=490
+  CTE ema_inputs
+    ->  CTE Scan on ema_input_stats p_2  (cost=0.00..412.33 rows=18326 width=133) (actual time=2.821..93.428 rows=18326.00 loops=1)
+          Output: p_2.symbol_id, p_2.trade_date, p_2.session_no, p_2.o, p_2.h, p_2.l, p_2.c, p_2.v, p_2.is_traded, p_2.bar_episode, p_2.episode_key, p_2.ema_episode_start, p_2.ema_episode, p_2.first_close_session, p_2.ema_count, CASE WHEN ((p_2.session_no = p_2.first_close_session) OR p_2.is_traded) THEN p_2.c ELSE NULL::double precision END
+          Storage: Memory  Maximum Storage: 2666kB
+          Buffers: local hit=490
+  CTE ema_state
+    ->  WindowAgg  (cost=1664.19..2397.19 rows=18326 width=137) (actual time=108.572..416.380 rows=18326.00 loops=1)
+          Output: p_3.symbol_id, p_3.trade_date, p_3.session_no, p_3.episode_key, p_3.ema_episode, p_3.c, p_3.is_traded, p_3.ema_count, ema(p_3.ema_input, '0.3333333333333333'::double precision) OVER w, ema(p_3.ema_input, '0.18181818181818182'::double precision) OVER w, ema(p_3.ema_input, '0.09523809523809523'::double precision) OVER w, ema(p_3.ema_input, '0.0392156862745098'::double precision) OVER w, ema(p_3.ema_input, '0.019801980198019802'::double precision) OVER w, ema(p_3.ema_input, '0.009950248756218905'::double precision) OVER w, ema(p_3.ema_input, '0.15384615384615385'::double precision) OVER w, ema(p_3.ema_input, '0.07407407407407407'::double precision) OVER w
+          Window: w AS (PARTITION BY p_3.symbol_id, p_3.ema_episode ORDER BY p_3.session_no ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+          Storage: Memory  Maximum Storage: 17kB
+          Buffers: shared hit=3, local hit=490
+          ->  Sort  (cost=1664.15..1709.96 rows=18326 width=81) (actual time=108.417..109.998 rows=18326.00 loops=1)
+                Output: p_3.symbol_id, p_3.session_no, p_3.ema_episode, p_3.trade_date, p_3.episode_key, p_3.c, p_3.is_traded, p_3.ema_count, p_3.ema_input
+                Sort Key: p_3.symbol_id, p_3.ema_episode, p_3.session_no
+                Sort Method: quicksort  Memory: 2190kB
+                Buffers: shared hit=3, local hit=490
+                ->  CTE Scan on ema_inputs p_3  (cost=0.00..366.52 rows=18326 width=81) (actual time=2.823..103.455 rows=18326.00 loops=1)
+                      Output: p_3.symbol_id, p_3.session_no, p_3.ema_episode, p_3.trade_date, p_3.episode_key, p_3.c, p_3.is_traded, p_3.ema_count, p_3.ema_input
+                      Storage: Memory  Maximum Storage: 2805kB
+                      Buffers: local hit=490
+  CTE ema_macd
+    ->  WindowAgg  (cost=0.05..916.30 rows=18326 width=153) (actual time=108.606..489.610 rows=18326.00 loops=1)
+          Output: e.symbol_id, e.trade_date, e.session_no, e.episode_key, e.ema_episode, e.c, e.is_traded, e.ema_count, e.ema5, e.ema10, e.ema20, e.ema50, e.ema100, e.ema200, e.ema12, e.ema26, ema(CASE WHEN (e.is_traded AND (e.ema_count >= 26)) THEN (e.ema12 - e.ema26) ELSE NULL::double precision END, '0.2'::double precision) OVER w1, count(*) FILTER (WHERE (e.is_traded AND (e.ema_count >= 26))) OVER w1
+          Window: w1 AS (PARTITION BY e.symbol_id, e.ema_episode ORDER BY e.session_no ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+          Storage: Memory  Maximum Storage: 17kB
+          Buffers: shared hit=3, local hit=490
+          ->  CTE Scan on ema_state e  (cost=0.00..366.52 rows=18326 width=137) (actual time=108.574..429.135 rows=18326.00 loops=1)
+                Output: e.symbol_id, e.session_no, e.ema_episode, e.trade_date, e.episode_key, e.c, e.is_traded, e.ema_count, e.ema5, e.ema10, e.ema20, e.ema50, e.ema100, e.ema200, e.ema12, e.ema26
+                Storage: Memory  Maximum Storage: 2941kB
+                Buffers: shared hit=3, local hit=490
+  CTE ema_signal
+    ->  CTE Scan on ema_macd e_1  (cost=0.00..1740.97 rows=18326 width=209) (actual time=108.610..508.501 rows=18326.00 loops=1)
+          Output: e_1.symbol_id, e_1.trade_date, e_1.session_no, e_1.episode_key, e_1.ema_episode, e_1.c, e_1.is_traded, e_1.ema_count, e_1.ema5, e_1.ema10, e_1.ema20, e_1.ema50, e_1.ema100, e_1.ema200, e_1.ema12, e_1.ema26, e_1.macd_signal, e_1.macd_count, CASE WHEN (e_1.is_traded AND (e_1.ema_count >= 5) AND (e_1.ema5 > '0'::double precision)) THEN ((e_1.c / e_1.ema5) - '1'::double precision) ELSE NULL::double precision END, CASE WHEN (e_1.is_traded AND (e_1.ema_count >= 10) AND (e_1.ema10 > '0'::double precision)) THEN ((e_1.c / e_1.ema10) - '1'::double precision) ELSE NULL::double precision END, CASE WHEN (e_1.is_traded AND (e_1.ema_count >= 20) AND (e_1.ema20 > '0'::double precision)) THEN ((e_1.c / e_1.ema20) - '1'::double precision) ELSE NULL::double precision END, CASE WHEN (e_1.is_traded AND (e_1.ema_count >= 50) AND (e_1.ema50 > '0'::double precision)) THEN ((e_1.c / e_1.ema50) - '1'::double precision) ELSE NULL::double precision END, CASE WHEN (e_1.is_traded AND (e_1.ema_count >= 100) AND (e_1.ema100 > '0'::double precision)) THEN ((e_1.c / e_1.ema100) - '1'::double precision) ELSE NULL::double precision END, CASE WHEN (e_1.is_traded AND (e_1.ema_count >= 200) AND (e_1.ema200 > '0'::double precision)) THEN ((e_1.c / e_1.ema200) - '1'::double precision) ELSE NULL::double precision END, CASE WHEN (e_1.is_traded AND (e_1.ema_count >= 26) AND (e_1.macd_count >= 9) AND (e_1.c > '0'::double precision)) THEN (((e_1.ema12 - e_1.ema26) - e_1.macd_signal) / e_1.c) ELSE NULL::double precision END
+          Storage: Memory  Maximum Storage: 3224kB
+          Buffers: shared hit=3, local hit=490
+  CTE prior_price
+    ->  WindowAgg  (cost=0.35..1110.02 rows=18326 width=98) (actual time=0.021..26.683 rows=18326.00 loops=1)
+          Output: phase2_v3_spine_1.symbol_id, phase2_v3_spine_1.trade_date, phase2_v3_spine_1.session_no, phase2_v3_spine_1.o, phase2_v3_spine_1.h, phase2_v3_spine_1.l, phase2_v3_spine_1.c, phase2_v3_spine_1.v, phase2_v3_spine_1.is_traded, phase2_v3_spine_1.bar_episode, phase2_v3_spine_1.episode_key, lag(phase2_v3_spine_1.is_traded) OVER w, lag(phase2_v3_spine_1.c) OVER w, lag(phase2_v3_spine_1.h) OVER w, lag(phase2_v3_spine_1.l) OVER w, lag(phase2_v3_spine_1.episode_key) OVER w
+          Window: w AS (PARTITION BY phase2_v3_spine_1.symbol_id ORDER BY phase2_v3_spine_1.session_no)
+          Storage: Memory  Maximum Storage: 17kB
+          Buffers: local hit=490
+          ->  Index Scan using phase2_v3_spine_symbol_session_idx on pg_temp.phase2_v3_spine phase2_v3_spine_1  (cost=0.29..606.06 rows=18326 width=69) (actual time=0.015..5.103 rows=18326.00 loops=1)
+                Output: phase2_v3_spine_1.symbol_id, phase2_v3_spine_1.session_no, phase2_v3_spine_1.trade_date, phase2_v3_spine_1.o, phase2_v3_spine_1.h, phase2_v3_spine_1.l, phase2_v3_spine_1.c, phase2_v3_spine_1.v, phase2_v3_spine_1.is_traded, phase2_v3_spine_1.bar_episode, phase2_v3_spine_1.episode_key
+                Index Searches: 1
+                Buffers: local hit=490
+  CTE price_lags
+    ->  CTE Scan on prior_price x  (cost=0.00..1328.64 rows=18326 width=138) (actual time=0.024..42.538 rows=18326.00 loops=1)
+          Output: x.symbol_id, x.trade_date, x.session_no, x.o, x.h, x.l, x.c, x.v, x.is_traded, x.bar_episode, x.episode_key, x.prior_is_traded, x.prior_c, x.prior_h, x.prior_l, x.prior_episode, CASE WHEN (x.is_traded AND x.prior_is_traded AND (x.episode_key = x.prior_episode) AND (x.prior_c > '0'::double precision)) THEN ((x.c / x.prior_c) - '1'::double precision) ELSE NULL::double precision END, CASE WHEN (x.is_traded AND x.prior_is_traded AND (x.episode_key = x.prior_episode) AND (x.prior_c > '0'::double precision)) THEN ((x.o / x.prior_c) - '1'::double precision) ELSE NULL::double precision END, CASE WHEN (x.is_traded AND x.prior_is_traded AND (x.episode_key = x.prior_episode)) THEN GREATEST((x.h - x.l), abs((x.h - x.prior_c)), abs((x.l - x.prior_c))) ELSE NULL::double precision END, CASE WHEN (x.is_traded AND x.prior_is_traded AND (x.episode_key = x.prior_episode)) THEN GREATEST((x.h - x.prior_h), '0'::double precision) ELSE NULL::double precision END, CASE WHEN (x.is_traded AND x.prior_is_traded AND (x.episode_key = x.prior_episode)) THEN GREATEST((x.prior_l - x.l), '0'::double precision) ELSE NULL::double precision END
+          Storage: Memory  Maximum Storage: 2654kB
+          Buffers: local hit=490
+  CTE technical
+    ->  WindowAgg  (cost=1691.22..5792.77 rows=18326 width=306) (actual time=65.927..790.068 rows=18326.00 loops=1)
+          Output: p_4.symbol_id, p_4.trade_date, p_4.session_no, p_4.o, p_4.h, p_4.l, p_4.c, p_4.v, p_4.is_traded, p_4.bar_episode, p_4.episode_key, p_4.prior_is_traded, p_4.prior_c, p_4.prior_h, p_4.prior_l, p_4.prior_episode, p_4.daily_return, p_4.open_gap, p_4.true_range, p_4.plus_dm, p_4.minus_dm, (count(p_4.c) FILTER (WHERE p_4.is_traded) OVER w5), (count(p_4.c) FILTER (WHERE p_4.is_traded) OVER w10), (count(p_4.c) FILTER (WHERE p_4.is_traded) OVER w14_episode), (max(p_4.h) FILTER (WHERE p_4.is_traded) OVER w14_episode), (min(p_4.l) FILTER (WHERE p_4.is_traded) OVER w14_episode), (avg(p_4.true_range) OVER w14), (avg(p_4.plus_dm) OVER w14), (avg(p_4.minus_dm) OVER w14), (count(p_4.true_range) OVER w14), (count(p_4.daily_return) OVER w5), sqrt((avg(power(LEAST(p_4.daily_return, '0'::double precision), '2'::double precision)) OVER w5)), sqrt(avg(power(LEAST(p_4.daily_return, '0'::double precision), '2'::double precision)) OVER w60), count(p_4.daily_return) OVER w60, avg(p_4.daily_return) OVER w60, stddev_pop(p_4.daily_return) OVER w60, avg(power(p_4.daily_return, '2'::double precision)) OVER w60, avg(power(p_4.daily_return, '3'::double precision)) OVER w60, avg(power(p_4.daily_return, '4'::double precision)) OVER w60, (avg(p_4.open_gap) OVER w20), (stddev_samp(p_4.open_gap) OVER w20), (count(p_4.open_gap) OVER w20)
+          Window: w60 AS (PARTITION BY p_4.symbol_id ORDER BY p_4.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+          Storage: Memory  Maximum Storage: 34kB
+          Buffers: local hit=490
+          ->  WindowAgg  (cost=1691.00..4876.47 rows=18326 width=250) (actual time=65.914..332.047 rows=18326.00 loops=1)
+                Output: p_4.symbol_id, p_4.session_no, p_4.episode_key, p_4.trade_date, p_4.o, p_4.h, p_4.l, p_4.c, p_4.v, p_4.is_traded, p_4.bar_episode, p_4.prior_is_traded, p_4.prior_c, p_4.prior_h, p_4.prior_l, p_4.prior_episode, p_4.daily_return, p_4.open_gap, p_4.true_range, p_4.plus_dm, p_4.minus_dm, (count(p_4.c) FILTER (WHERE p_4.is_traded) OVER w14_episode), (max(p_4.h) FILTER (WHERE p_4.is_traded) OVER w14_episode), (min(p_4.l) FILTER (WHERE p_4.is_traded) OVER w14_episode), (count(p_4.c) FILTER (WHERE p_4.is_traded) OVER w5), (count(p_4.daily_return) OVER w5), (avg(power(LEAST(p_4.daily_return, '0'::double precision), '2'::double precision)) OVER w5), (count(p_4.c) FILTER (WHERE p_4.is_traded) OVER w10), (avg(p_4.true_range) OVER w14), (avg(p_4.plus_dm) OVER w14), (avg(p_4.minus_dm) OVER w14), (count(p_4.true_range) OVER w14), avg(p_4.open_gap) OVER w20, stddev_samp(p_4.open_gap) OVER w20, count(p_4.open_gap) OVER w20
+                Window: w20 AS (PARTITION BY p_4.symbol_id ORDER BY p_4.session_no ROWS BETWEEN '19'::bigint PRECEDING AND CURRENT ROW)
+                Storage: Memory  Maximum Storage: 22kB
+                Buffers: local hit=490
+                ->  WindowAgg  (cost=1690.83..4464.14 rows=18326 width=226) (actual time=65.903..252.740 rows=18326.00 loops=1)
+                      Output: p_4.symbol_id, p_4.session_no, p_4.episode_key, p_4.trade_date, p_4.o, p_4.h, p_4.l, p_4.c, p_4.v, p_4.is_traded, p_4.bar_episode, p_4.prior_is_traded, p_4.prior_c, p_4.prior_h, p_4.prior_l, p_4.prior_episode, p_4.daily_return, p_4.open_gap, p_4.true_range, p_4.plus_dm, p_4.minus_dm, (count(p_4.c) FILTER (WHERE p_4.is_traded) OVER w14_episode), (max(p_4.h) FILTER (WHERE p_4.is_traded) OVER w14_episode), (min(p_4.l) FILTER (WHERE p_4.is_traded) OVER w14_episode), (count(p_4.c) FILTER (WHERE p_4.is_traded) OVER w5), (count(p_4.daily_return) OVER w5), (avg(power(LEAST(p_4.daily_return, '0'::double precision), '2'::double precision)) OVER w5), (count(p_4.c) FILTER (WHERE p_4.is_traded) OVER w10), avg(p_4.true_range) OVER w14, avg(p_4.plus_dm) OVER w14, avg(p_4.minus_dm) OVER w14, count(p_4.true_range) OVER w14
+                      Window: w14 AS (PARTITION BY p_4.symbol_id ORDER BY p_4.session_no ROWS BETWEEN '13'::bigint PRECEDING AND CURRENT ROW)
+                      Storage: Memory  Maximum Storage: 20kB
+                      Buffers: local hit=490
+                      ->  WindowAgg  (cost=1690.68..4005.99 rows=18326 width=194) (actual time=65.894..180.211 rows=18326.00 loops=1)
+                            Output: p_4.symbol_id, p_4.session_no, p_4.episode_key, p_4.trade_date, p_4.o, p_4.h, p_4.l, p_4.c, p_4.v, p_4.is_traded, p_4.bar_episode, p_4.prior_is_traded, p_4.prior_c, p_4.prior_h, p_4.prior_l, p_4.prior_episode, p_4.daily_return, p_4.open_gap, p_4.true_range, p_4.plus_dm, p_4.minus_dm, (count(p_4.c) FILTER (WHERE p_4.is_traded) OVER w14_episode), (max(p_4.h) FILTER (WHERE p_4.is_traded) OVER w14_episode), (min(p_4.l) FILTER (WHERE p_4.is_traded) OVER w14_episode), (count(p_4.c) FILTER (WHERE p_4.is_traded) OVER w5), (count(p_4.daily_return) OVER w5), (avg(power(LEAST(p_4.daily_return, '0'::double precision), '2'::double precision)) OVER w5), count(p_4.c) FILTER (WHERE p_4.is_traded) OVER w10
+                            Window: w10 AS (PARTITION BY p_4.symbol_id ORDER BY p_4.session_no ROWS BETWEEN '9'::bigint PRECEDING AND CURRENT ROW)
+                            Storage: Memory  Maximum Storage: 19kB
+                            Buffers: local hit=490
+                            ->  WindowAgg  (cost=1690.55..3685.28 rows=18326 width=186) (actual time=65.885..160.575 rows=18326.00 loops=1)
+                                  Output: p_4.symbol_id, p_4.session_no, p_4.episode_key, p_4.trade_date, p_4.o, p_4.h, p_4.l, p_4.c, p_4.v, p_4.is_traded, p_4.bar_episode, p_4.prior_is_traded, p_4.prior_c, p_4.prior_h, p_4.prior_l, p_4.prior_episode, p_4.daily_return, p_4.open_gap, p_4.true_range, p_4.plus_dm, p_4.minus_dm, (count(p_4.c) FILTER (WHERE p_4.is_traded) OVER w14_episode), (max(p_4.h) FILTER (WHERE p_4.is_traded) OVER w14_episode), (min(p_4.l) FILTER (WHERE p_4.is_traded) OVER w14_episode), count(p_4.c) FILTER (WHERE p_4.is_traded) OVER w5, count(p_4.daily_return) OVER w5, avg(power(LEAST(p_4.daily_return, '0'::double precision), '2'::double precision)) OVER w5
+                                  Window: w5 AS (PARTITION BY p_4.symbol_id ORDER BY p_4.session_no ROWS BETWEEN '4'::bigint PRECEDING AND CURRENT ROW)
+                                  Storage: Memory  Maximum Storage: 18kB
+                                  Buffers: local hit=490
+                                  ->  Incremental Sort  (cost=1690.44..3181.32 rows=18326 width=162) (actual time=65.875..118.142 rows=18326.00 loops=1)
+                                        Output: p_4.symbol_id, p_4.session_no, p_4.episode_key, p_4.trade_date, p_4.o, p_4.h, p_4.l, p_4.c, p_4.v, p_4.is_traded, p_4.bar_episode, p_4.prior_is_traded, p_4.prior_c, p_4.prior_h, p_4.prior_l, p_4.prior_episode, p_4.daily_return, p_4.open_gap, p_4.true_range, p_4.plus_dm, p_4.minus_dm, (count(p_4.c) FILTER (WHERE p_4.is_traded) OVER w14_episode), (max(p_4.h) FILTER (WHERE p_4.is_traded) OVER w14_episode), (min(p_4.l) FILTER (WHERE p_4.is_traded) OVER w14_episode)
+                                        Sort Key: p_4.symbol_id, p_4.session_no
+                                        Presorted Key: p_4.symbol_id
+                                        Full-sort Groups: 49  Sort Method: quicksort  Average Memory: 37kB  Peak Memory: 37kB
+                                        Pre-sorted Groups: 49  Sort Method: quicksort  Average Memory: 94kB  Peak Memory: 94kB
+                                        Buffers: local hit=490
+                                        ->  WindowAgg  (cost=1664.18..2168.11 rows=18326 width=162) (actual time=64.854..111.521 rows=18326.00 loops=1)
+                                              Output: p_4.symbol_id, p_4.session_no, p_4.episode_key, p_4.trade_date, p_4.o, p_4.h, p_4.l, p_4.c, p_4.v, p_4.is_traded, p_4.bar_episode, p_4.prior_is_traded, p_4.prior_c, p_4.prior_h, p_4.prior_l, p_4.prior_episode, p_4.daily_return, p_4.open_gap, p_4.true_range, p_4.plus_dm, p_4.minus_dm, count(p_4.c) FILTER (WHERE p_4.is_traded) OVER w14_episode, max(p_4.h) FILTER (WHERE p_4.is_traded) OVER w14_episode, min(p_4.l) FILTER (WHERE p_4.is_traded) OVER w14_episode
+                                              Window: w14_episode AS (PARTITION BY p_4.symbol_id, p_4.episode_key ORDER BY p_4.session_no ROWS BETWEEN '13'::bigint PRECEDING AND CURRENT ROW)
+                                              Storage: Memory  Maximum Storage: 19kB
+                                              Buffers: local hit=490
+                                              ->  Sort  (cost=1664.15..1709.96 rows=18326 width=138) (actual time=64.828..65.565 rows=18326.00 loops=1)
+                                                    Output: p_4.symbol_id, p_4.session_no, p_4.episode_key, p_4.trade_date, p_4.o, p_4.h, p_4.l, p_4.c, p_4.v, p_4.is_traded, p_4.bar_episode, p_4.prior_is_traded, p_4.prior_c, p_4.prior_h, p_4.prior_l, p_4.prior_episode, p_4.daily_return, p_4.open_gap, p_4.true_range, p_4.plus_dm, p_4.minus_dm
+                                                    Sort Key: p_4.symbol_id, p_4.episode_key, p_4.session_no
+                                                    Sort Method: quicksort  Memory: 3446kB
+                                                    Buffers: local hit=490
+                                                    ->  CTE Scan on price_lags p_4  (cost=0.00..366.52 rows=18326 width=138) (actual time=0.026..55.066 rows=18326.00 loops=1)
+                                                          Output: p_4.symbol_id, p_4.session_no, p_4.episode_key, p_4.trade_date, p_4.o, p_4.h, p_4.l, p_4.c, p_4.v, p_4.is_traded, p_4.bar_episode, p_4.prior_is_traded, p_4.prior_c, p_4.prior_h, p_4.prior_l, p_4.prior_episode, p_4.daily_return, p_4.open_gap, p_4.true_range, p_4.plus_dm, p_4.minus_dm
+                                                          Storage: Memory  Maximum Storage: 3077kB
+                                                          Buffers: local hit=490
+  CTE directional
+    ->  CTE Scan on technical t_1  (cost=0.00..733.04 rows=18326 width=314) (actual time=65.931..813.071 rows=18326.00 loops=1)
+          Output: t_1.symbol_id, t_1.trade_date, t_1.session_no, t_1.o, t_1.h, t_1.l, t_1.c, t_1.v, t_1.is_traded, t_1.bar_episode, t_1.episode_key, t_1.prior_is_traded, t_1.prior_c, t_1.prior_h, t_1.prior_l, t_1.prior_episode, t_1.daily_return, t_1.open_gap, t_1.true_range, t_1.plus_dm, t_1.minus_dm, t_1.traded5, t_1.traded10, t_1.traded14, t_1.high14, t_1.low14, t_1.tr14, t_1.plus14, t_1.minus14, t_1.tr_count14, t_1.return_count5, t_1.downside5, t_1.downside60, t_1.return_count60, t_1.mean60, t_1.sd60, t_1.raw_second60, t_1.raw_third60, t_1.raw_fourth60, t_1.gap_mean20, t_1.gap_sd20, t_1.gap_count20, CASE WHEN ((t_1.tr_count14 = 14) AND (t_1.tr14 > '0'::double precision)) THEN (('100'::double precision * abs((t_1.plus14 - t_1.minus14))) / NULLIF((t_1.plus14 + t_1.minus14), '0'::double precision)) ELSE NULL::double precision END
+          Storage: Memory  Maximum Storage: 5599kB
+          Buffers: local hit=490
+  CTE adx_calc
+    ->  WindowAgg  (cost=1664.17..2809.52 rows=18326 width=346) (actual time=844.811..930.225 rows=18326.00 loops=1)
+          Output: d.symbol_id, d.trade_date, d.session_no, d.o, d.h, d.l, d.c, d.v, d.is_traded, d.bar_episode, d.episode_key, d.prior_is_traded, d.prior_c, d.prior_h, d.prior_l, d.prior_episode, d.daily_return, d.open_gap, d.true_range, d.plus_dm, d.minus_dm, d.traded5, d.traded10, d.traded14, d.high14, d.low14, d.tr14, d.plus14, d.minus14, d.tr_count14, d.return_count5, d.downside5, d.downside60, d.return_count60, d.mean60, d.sd60, d.raw_second60, d.raw_third60, d.raw_fourth60, d.gap_mean20, d.gap_sd20, d.gap_count20, d.dx14, avg(d.dx14) OVER w1, count(d.dx14) OVER w1, ((d.raw_third60 - (('3'::double precision * d.mean60) * d.raw_second60)) + ('2'::double precision * power(d.mean60, '3'::double precision))), (((d.raw_fourth60 - (('4'::double precision * d.mean60) * d.raw_third60)) + (('6'::double precision * power(d.mean60, '2'::double precision)) * d.raw_second60)) - ('3'::double precision * power(d.mean60, '4'::double precision)))
+          Window: w1 AS (PARTITION BY d.symbol_id ORDER BY d.session_no ROWS BETWEEN '13'::bigint PRECEDING AND CURRENT ROW)
+          Storage: Memory  Maximum Storage: 22kB
+          Buffers: local hit=490
+          ->  Sort  (cost=1664.15..1709.96 rows=18326 width=314) (actual time=844.799..845.748 rows=18326.00 loops=1)
+                Output: d.symbol_id, d.session_no, d.trade_date, d.o, d.h, d.l, d.c, d.v, d.is_traded, d.bar_episode, d.episode_key, d.prior_is_traded, d.prior_c, d.prior_h, d.prior_l, d.prior_episode, d.daily_return, d.open_gap, d.true_range, d.plus_dm, d.minus_dm, d.traded5, d.traded10, d.traded14, d.high14, d.low14, d.tr14, d.plus14, d.minus14, d.tr_count14, d.return_count5, d.downside5, d.downside60, d.return_count60, d.mean60, d.sd60, d.raw_second60, d.raw_third60, d.raw_fourth60, d.gap_mean20, d.gap_sd20, d.gap_count20, d.dx14
+                Sort Key: d.symbol_id, d.session_no
+                Sort Method: quicksort  Memory: 6038kB
+                Buffers: local hit=490
+                ->  CTE Scan on directional d  (cost=0.00..366.52 rows=18326 width=314) (actual time=65.933..834.705 rows=18326.00 loops=1)
+                      Output: d.symbol_id, d.session_no, d.trade_date, d.o, d.h, d.l, d.c, d.v, d.is_traded, d.bar_episode, d.episode_key, d.prior_is_traded, d.prior_c, d.prior_h, d.prior_l, d.prior_episode, d.daily_return, d.open_gap, d.true_range, d.plus_dm, d.minus_dm, d.traded5, d.traded10, d.traded14, d.high14, d.low14, d.tr14, d.plus14, d.minus14, d.tr_count14, d.return_count5, d.downside5, d.downside60, d.return_count60, d.mean60, d.sd60, d.raw_second60, d.raw_third60, d.raw_fourth60, d.gap_mean20, d.gap_sd20, d.gap_count20, d.dx14
+                      Storage: Memory  Maximum Storage: 5669kB
+                      Buffers: local hit=490
+  CTE index_raw
+    ->  Seq Scan on pg_temp.phase2_v3_index_raw  (cost=0.00..7.74 rows=374 width=36) (actual time=0.051..0.081 rows=374.00 loops=1)
+          Output: phase2_v3_index_raw.trade_date, phase2_v3_index_raw.session_no, phase2_v3_index_raw.index_close, phase2_v3_index_raw.prior_index_close, phase2_v3_index_raw.index_return
+          Buffers: local read=4
+  CTE market_lagged
+    ->  Seq Scan on pg_temp.phase2_v3_market_lagged  (cost=0.00..9.74 rows=374 width=96) (actual time=0.057..0.107 rows=374.00 loops=1)
+          Output: phase2_v3_market_lagged.session_no, phase2_v3_market_lagged.advance_minus_decline, phase2_v3_market_lagged.new_high_minus_low, phase2_v3_market_lagged.turnover_z20, phase2_v3_market_lagged.return_dispersion, phase2_v3_market_lagged.index_sma50_ratio, phase2_v3_market_lagged.index_sma200_ratio, phase2_v3_market_lagged.index_drawdown252, phase2_v3_market_lagged.vol60, phase2_v3_market_lagged.vnindex_return_20s, phase2_v3_market_lagged.vnindex_return_60s, phase2_v3_market_lagged.vnindex_realized_vol20
+          Buffers: local read=6
+  CTE symbol_market
+    ->  WindowAgg  (cost=1055.59..51487.85 rows=17241 width=84) (actual time=74.302..2612.156 rows=17874.00 loops=1)
+          Output: f_1.symbol_id, f_1.trade_date, s_1.session_no, f_1.ret_1, lag(i.index_return) OVER w1, f_1.return_20s, f_1.turnover_proxy_vnd, f_1.realized_vol20, f_1.gap_open_1d, f_1.distance_52w_high, f_1.distance_52w_low
+          Window: w1 AS (PARTITION BY f_1.symbol_id ORDER BY s_1.session_no)
+          Storage: Memory  Maximum Storage: 17kB
+          Buffers: shared hit=68682 read=4170, local hit=1 read=5
+          ->  Incremental Sort  (cost=1052.66..51186.13 rows=17241 width=84) (actual time=74.294..2596.380 rows=17874.00 loops=1)
+                Output: f_1.symbol_id, s_1.session_no, f_1.trade_date, f_1.ret_1, i.index_return, f_1.return_20s, f_1.turnover_proxy_vnd, f_1.realized_vol20, f_1.gap_open_1d, f_1.distance_52w_high, f_1.distance_52w_low
+                Sort Key: f_1.symbol_id, s_1.session_no
+                Presorted Key: f_1.symbol_id
+                Full-sort Groups: 49  Sort Method: quicksort  Average Memory: 30kB  Peak Memory: 30kB
+                Pre-sorted Groups: 49  Sort Method: quicksort  Average Memory: 58kB  Peak Memory: 58kB
+                Buffers: shared hit=68682 read=4170, local hit=1 read=5
+                ->  Nested Loop  (cost=12.73..50240.45 rows=17241 width=84) (actual time=2.068..2577.783 rows=17874.00 loops=1)
+                      Output: f_1.symbol_id, s_1.session_no, f_1.trade_date, f_1.ret_1, i.index_return, f_1.return_20s, f_1.turnover_proxy_vnd, f_1.realized_vol20, f_1.gap_open_1d, f_1.distance_52w_high, f_1.distance_52w_low
+                      Buffers: shared hit=68682 read=4170, local hit=1 read=5
+                      ->  Index Only Scan using phase2_v3_symbol_batches_batch_idx on pg_temp.phase2_v3_symbol_batches bs_1  (cost=0.14..4.30 rows=49 width=8) (actual time=0.060..0.219 rows=49.00 loops=1)
+                            Output: bs_1.batch_no, bs_1.symbol_id
+                            Index Cond: (bs_1.batch_no = 0)
+                            Heap Fetches: 49
+                            Index Searches: 1
+                            Buffers: local hit=1 read=1
+                      ->  Nested Loop  (cost=12.59..1021.49 rows=374 width=84) (actual time=1.217..52.490 rows=364.78 loops=49)
+                            Output: f_1.symbol_id, f_1.trade_date, f_1.ret_1, f_1.return_20s, f_1.turnover_proxy_vnd, f_1.realized_vol20, f_1.gap_open_1d, f_1.distance_52w_high, f_1.distance_52w_low, s_1.session_no, i.index_return
+                            Buffers: shared hit=68682 read=4170, local read=4
+                            ->  Hash Left Join  (cost=12.16..24.78 rows=374 width=20) (actual time=0.005..0.470 rows=374.00 loops=49)
+                                  Output: s_1.session_no, s_1.trade_date, i.index_return
+                                  Hash Cond: (s_1.session_no = i.session_no)
+                                  Buffers: local read=4
+                                  ->  CTE Scan on sessions s_1  (cost=0.00..7.48 rows=374 width=12) (actual time=0.000..0.145 rows=374.00 loops=49)
+                                        Output: s_1.trade_date, s_1.session_no
+                                        Storage: Memory  Maximum Storage: 31kB
+                                  ->  Hash  (cost=7.48..7.48 rows=374 width=16) (actual time=0.179..0.180 rows=374.00 loops=1)
+                                        Output: i.index_return, i.session_no
+                                        Buckets: 1024  Batches: 1  Memory Usage: 26kB
+                                        Buffers: local read=4
+                                        ->  CTE Scan on index_raw i  (cost=0.00..7.48 rows=374 width=16) (actual time=0.053..0.142 rows=374.00 loops=1)
+                                              Output: i.index_return, i.session_no
+                                              Storage: Memory  Maximum Storage: 40kB
+                                              Buffers: local read=4
+                            ->  Index Scan using features_daily_pkey on feat.features_daily f_1  (cost=0.43..2.66 rows=1 width=68) (actual time=0.137..0.137 rows=0.98 loops=18326)
+                                  Output: f_1.symbol_id, f_1.trade_date, f_1.feature_version, f_1.feature_set_hash, f_1.source, f_1.price_basis, f_1.adjustment_vintage_at, f_1.as_of_factor, f_1.bar_landing_id, f_1.bar_source_row, f_1.bar_fetched_at, f_1.is_traded, f_1.volume, f_1.ret_1, f_1.ret_5, f_1.return_1d, f_1.return_5s, f_1.return_20s, f_1.return_60s, f_1.return_2s, f_1.return_3s, f_1.return_10s, f_1.return_120s, f_1.return_250s, f_1.momentum_20s, f_1.momentum_60s, f_1.close_sma5_ratio, f_1.sma_5_ratio, f_1.close_sma20_ratio, f_1.close_sma60_ratio, f_1.close_sma100_ratio, f_1.close_sma200_ratio, f_1.distance_52w_high, f_1.distance_52w_low, f_1.rsi_14, f_1.bollinger_pct_b_20, f_1.bollinger_bandwidth_20, f_1.downside_vol20, f_1.atr_pct_14, f_1.volume_zscore_20, f_1.obv_slope_20, f_1.close_sma50_ratio, f_1.realized_vol20, f_1.realized_vol60, f_1.vol_5, f_1.turnover_proxy_vnd, f_1.log_turnover_proxy_vnd, f_1.turnover_sma20_vnd, f_1.volume_sma20, f_1.gap_open_1d, f_1.intraday_return, f_1.intraday_range_pct, f_1.close_location, f_1.large_move_approx, f_1.session_ordinal, f_1.day_of_week, f_1.month_of_year, f_1.vnindex_return_20s, f_1.vnindex_return_60s, f_1.vnindex_realized_vol20, f_1.market_breadth_above_sma50, f_1.rank_momentum_20s, f_1.rank_turnover_proxy, f_1.rank_realized_vol20, f_1.built_at, f_1.momentum_12_1s, f_1.residual_momentum_12_1s, f_1.ema_5_ratio, f_1.ema_10_ratio, f_1.ema_20_ratio, f_1.ema_50_ratio, f_1.ema_100_ratio, f_1.ema_200_ratio, f_1.macd_histogram_pct, f_1.adx_14_sma, f_1.stochastic_k_14, f_1.stochastic_d_3, f_1.downside_vol5, f_1.downside_vol60, f_1.return_skew_pop60, f_1.return_excess_kurtosis_pop60, f_1.beta_vnindex_60, f_1.beta_vnindex_250, f_1.idio_vol_vnindex_60, f_1.idio_vol_vnindex_250, f_1.correlation_vn30_60, f_1.amihud_proxy_20, f_1.gap_mean20, f_1.gap_std20, f_1.rank_gaussian_return20, f_1.rank_gaussian_turnover_proxy, f_1.rank_gaussian_realized_vol20, f_1.rank_gaussian_momentum20_industry, f_1.market_advance_minus_decline, f_1.market_new_high_minus_low, f_1.market_turnover_z20, f_1.market_return_dispersion, f_1.vnindex_sma50_ratio, f_1.vnindex_sma200_ratio, f_1.vnindex_drawdown252, f_1.vnindex_realized_vol60, f_1.quarter_end_proximity_days, f_1.turnover_listed_shares, f_1.limit_up_hit, f_1.limit_down_hit, f_1.limit_up_streak, f_1.limit_down_streak, f_1.distance_to_price_limit, f_1.sessions_to_tet, f_1.sessions_from_tet, f_1.intraday_realized_variance, f_1.intraday_vwap_gap, f_1.intraday_closing_auction_share
+                                  Index Cond: ((f_1.symbol_id = bs_1.symbol_id) AND (f_1.trade_date = s_1.trade_date) AND (f_1.feature_version = 'phase2-v2'::text))
+                                  Index Searches: 18326
+                                  Buffers: shared hit=68682 read=4170
+  CTE stock_market_prefix
+    ->  WindowAgg  (cost=0.37..2543.05 rows=17241 width=244) (actual time=74.357..3452.953 rows=17874.00 loops=1)
+          Output: x_1.symbol_id, x_1.trade_date, x_1.session_no, x_1.stock_return, x_1.index_return_lagged, x_1.return_20s, x_1.turnover_proxy_vnd, x_1.realized_vol20, x_1.gap_open_1d, x_1.distance_52w_high, x_1.distance_52w_low, (count(x_1.stock_return) OVER w), (count(x_1.index_return_lagged) OVER w), (sum(ln(('1'::double precision + x_1.stock_return))) OVER w), (sum(ln(('1'::double precision + x_1.index_return_lagged))) OVER w), (count(*) FILTER (WHERE ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL))) OVER w), (sum(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.stock_return ELSE '0'::double precision END) OVER w), (sum(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.index_return_lagged ELSE '0'::double precision END) OVER w), (sum(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN (x_1.stock_return * x_1.stock_return) ELSE '0'::double precision END) OVER w), (sum(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN (x_1.index_return_lagged * x_1.index_return_lagged) ELSE '0'::double precision END) OVER w), (sum(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN (x_1.stock_return * x_1.index_return_lagged) ELSE '0'::double precision END) OVER w), (count((abs(x_1.stock_return) / NULLIF(x_1.turnover_proxy_vnd, '0'::double precision))) OVER w), (sum((abs(x_1.stock_return) / NULLIF(x_1.turnover_proxy_vnd, '0'::double precision))) OVER w), (count(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN 1 ELSE NULL::integer END) OVER w60), (var_samp(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.stock_return ELSE NULL::double precision END) OVER w60), (var_samp(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.index_return_lagged ELSE NULL::double precision END) OVER w60), (covar_samp(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.stock_return ELSE NULL::double precision END, CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.index_return_lagged ELSE NULL::double precision END) OVER w60), count(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN 1 ELSE NULL::integer END) OVER w250, var_samp(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.stock_return ELSE NULL::double precision END) OVER w250, var_samp(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.index_return_lagged ELSE NULL::double precision END) OVER w250, covar_samp(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.stock_return ELSE NULL::double precision END, CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.index_return_lagged ELSE NULL::double precision END) OVER w250
+          Window: w250 AS (PARTITION BY x_1.symbol_id ORDER BY x_1.session_no ROWS BETWEEN '249'::bigint PRECEDING AND CURRENT ROW)
+          Storage: Memory  Maximum Storage: 75kB
+          Buffers: shared hit=68682 read=4170, local hit=1 read=5
+          ->  WindowAgg  (cost=0.22..2112.02 rows=17241 width=212) (actual time=74.332..2961.085 rows=17874.00 loops=1)
+                Output: x_1.symbol_id, x_1.session_no, x_1.trade_date, x_1.stock_return, x_1.index_return_lagged, x_1.return_20s, x_1.turnover_proxy_vnd, x_1.realized_vol20, x_1.gap_open_1d, x_1.distance_52w_high, x_1.distance_52w_low, (count(x_1.stock_return) OVER w), (count(x_1.index_return_lagged) OVER w), (sum(ln(('1'::double precision + x_1.stock_return))) OVER w), (sum(ln(('1'::double precision + x_1.index_return_lagged))) OVER w), (count(*) FILTER (WHERE ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL))) OVER w), (sum(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.stock_return ELSE '0'::double precision END) OVER w), (sum(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.index_return_lagged ELSE '0'::double precision END) OVER w), (sum(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN (x_1.stock_return * x_1.stock_return) ELSE '0'::double precision END) OVER w), (sum(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN (x_1.index_return_lagged * x_1.index_return_lagged) ELSE '0'::double precision END) OVER w), (sum(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN (x_1.stock_return * x_1.index_return_lagged) ELSE '0'::double precision END) OVER w), (count((abs(x_1.stock_return) / NULLIF(x_1.turnover_proxy_vnd, '0'::double precision))) OVER w), (sum((abs(x_1.stock_return) / NULLIF(x_1.turnover_proxy_vnd, '0'::double precision))) OVER w), count(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN 1 ELSE NULL::integer END) OVER w60, var_samp(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.stock_return ELSE NULL::double precision END) OVER w60, var_samp(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.index_return_lagged ELSE NULL::double precision END) OVER w60, covar_samp(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.stock_return ELSE NULL::double precision END, CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.index_return_lagged ELSE NULL::double precision END) OVER w60
+                Window: w60 AS (PARTITION BY x_1.symbol_id ORDER BY x_1.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+                Storage: Memory  Maximum Storage: 29kB
+                Buffers: shared hit=68682 read=4170, local hit=1 read=5
+                ->  WindowAgg  (cost=0.10..1681.00 rows=17241 width=180) (actual time=74.315..2660.634 rows=17874.00 loops=1)
+                      Output: x_1.symbol_id, x_1.session_no, x_1.trade_date, x_1.stock_return, x_1.index_return_lagged, x_1.return_20s, x_1.turnover_proxy_vnd, x_1.realized_vol20, x_1.gap_open_1d, x_1.distance_52w_high, x_1.distance_52w_low, count(x_1.stock_return) OVER w, count(x_1.index_return_lagged) OVER w, sum(ln(('1'::double precision + x_1.stock_return))) OVER w, sum(ln(('1'::double precision + x_1.index_return_lagged))) OVER w, count(*) FILTER (WHERE ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL))) OVER w, sum(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.stock_return ELSE '0'::double precision END) OVER w, sum(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN x_1.index_return_lagged ELSE '0'::double precision END) OVER w, sum(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN (x_1.stock_return * x_1.stock_return) ELSE '0'::double precision END) OVER w, sum(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN (x_1.index_return_lagged * x_1.index_return_lagged) ELSE '0'::double precision END) OVER w, sum(CASE WHEN ((x_1.stock_return IS NOT NULL) AND (x_1.index_return_lagged IS NOT NULL)) THEN (x_1.stock_return * x_1.index_return_lagged) ELSE '0'::double precision END) OVER w, count((abs(x_1.stock_return) / NULLIF(x_1.turnover_proxy_vnd, '0'::double precision))) OVER w, sum((abs(x_1.stock_return) / NULLIF(x_1.turnover_proxy_vnd, '0'::double precision))) OVER w
+                      Window: w AS (PARTITION BY x_1.symbol_id ORDER BY x_1.session_no ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+                      Storage: Memory  Maximum Storage: 17kB
+                      Buffers: shared hit=68682 read=4170, local hit=1 read=5
+                      ->  CTE Scan on symbol_market x_1  (cost=0.00..344.82 rows=17241 width=84) (actual time=74.304..2623.735 rows=17874.00 loops=1)
+                            Output: x_1.symbol_id, x_1.session_no, x_1.trade_date, x_1.stock_return, x_1.index_return_lagged, x_1.return_20s, x_1.turnover_proxy_vnd, x_1.realized_vol20, x_1.gap_open_1d, x_1.distance_52w_high, x_1.distance_52w_low
+                            Storage: Memory  Maximum Storage: 1722kB
+                            Buffers: shared hit=68682 read=4170, local hit=1 read=5
+  CTE stock_market_prefix_lags
+    ->  WindowAgg  (cost=0.09..1594.79 rows=17241 width=428) (actual time=74.383..3556.607 rows=17874.00 loops=1)
+          Output: p_5.symbol_id, p_5.trade_date, p_5.session_no, p_5.stock_return, p_5.index_return_lagged, p_5.return_20s, p_5.turnover_proxy_vnd, p_5.realized_vol20, p_5.gap_open_1d, p_5.distance_52w_high, p_5.distance_52w_low, p_5.stock_count_prefix, p_5.market_count_prefix, p_5.stock_log_prefix, p_5.market_log_prefix, p_5.pair_count_prefix, p_5.stock_sum_prefix, p_5.market_sum_prefix, p_5.stock_square_prefix, p_5.market_square_prefix, p_5.cross_product_prefix, p_5.amihud_count_prefix, p_5.amihud_sum_prefix, p_5.pair_count60_rolling, p_5.stock_var60_rolling, p_5.market_var60_rolling, p_5.covar60_rolling, p_5.pair_count250_rolling, p_5.stock_var250_rolling, p_5.market_var250_rolling, p_5.covar250_rolling, lag(p_5.stock_count_prefix, 21) OVER w, lag(p_5.stock_count_prefix, 252) OVER w, lag(p_5.market_count_prefix, 21) OVER w, lag(p_5.market_count_prefix, 252) OVER w, lag(p_5.stock_log_prefix, 21) OVER w, lag(p_5.stock_log_prefix, 252) OVER w, lag(p_5.market_log_prefix, 21) OVER w, lag(p_5.market_log_prefix, 252) OVER w, lag(p_5.pair_count_prefix, 60) OVER w, lag(p_5.pair_count_prefix, 250) OVER w, lag(p_5.stock_sum_prefix, 60) OVER w, lag(p_5.stock_sum_prefix, 250) OVER w, lag(p_5.market_sum_prefix, 60) OVER w, lag(p_5.market_sum_prefix, 250) OVER w, lag(p_5.stock_square_prefix, 60) OVER w, lag(p_5.stock_square_prefix, 250) OVER w, lag(p_5.market_square_prefix, 60) OVER w, lag(p_5.market_square_prefix, 250) OVER w, lag(p_5.cross_product_prefix, 60) OVER w, lag(p_5.cross_product_prefix, 250) OVER w, lag(p_5.stock_count_prefix, 20) OVER w, lag(p_5.amihud_count_prefix, 20) OVER w, lag(p_5.amihud_sum_prefix, 20) OVER w
+          Window: w AS (PARTITION BY p_5.symbol_id ORDER BY p_5.session_no)
+          Storage: Memory  Maximum Storage: 83kB
+          Buffers: shared hit=68682 read=4170, local hit=1 read=5
+          ->  CTE Scan on stock_market_prefix p_5  (cost=0.00..344.82 rows=17241 width=244) (actual time=74.359..3473.222 rows=17874.00 loops=1)
+                Output: p_5.symbol_id, p_5.session_no, p_5.trade_date, p_5.stock_return, p_5.index_return_lagged, p_5.return_20s, p_5.turnover_proxy_vnd, p_5.realized_vol20, p_5.gap_open_1d, p_5.distance_52w_high, p_5.distance_52w_low, p_5.stock_count_prefix, p_5.market_count_prefix, p_5.stock_log_prefix, p_5.market_log_prefix, p_5.pair_count_prefix, p_5.stock_sum_prefix, p_5.market_sum_prefix, p_5.stock_square_prefix, p_5.market_square_prefix, p_5.cross_product_prefix, p_5.amihud_count_prefix, p_5.amihud_sum_prefix, p_5.pair_count60_rolling, p_5.stock_var60_rolling, p_5.market_var60_rolling, p_5.covar60_rolling, p_5.pair_count250_rolling, p_5.stock_var250_rolling, p_5.market_var250_rolling, p_5.covar250_rolling
+                Storage: Memory  Maximum Storage: 4243kB
+                Buffers: shared hit=68682 read=4170, local hit=1 read=5
+  CTE stock_market_differences
+    ->  CTE Scan on stock_market_prefix_lags p_6  (cost=0.00..1206.87 rows=17241 width=572) (actual time=74.388..3597.045 rows=17874.00 loops=1)
+          Output: p_6.symbol_id, p_6.trade_date, p_6.session_no, p_6.stock_return, p_6.index_return_lagged, p_6.return_20s, p_6.turnover_proxy_vnd, p_6.realized_vol20, p_6.gap_open_1d, p_6.distance_52w_high, p_6.distance_52w_low, p_6.stock_count_prefix, p_6.market_count_prefix, p_6.stock_log_prefix, p_6.market_log_prefix, p_6.pair_count_prefix, p_6.stock_sum_prefix, p_6.market_sum_prefix, p_6.stock_square_prefix, p_6.market_square_prefix, p_6.cross_product_prefix, p_6.amihud_count_prefix, p_6.amihud_sum_prefix, p_6.pair_count60_rolling, p_6.stock_var60_rolling, p_6.market_var60_rolling, p_6.covar60_rolling, p_6.pair_count250_rolling, p_6.stock_var250_rolling, p_6.market_var250_rolling, p_6.covar250_rolling, p_6.stock_count_lag21, p_6.stock_count_lag252, p_6.market_count_lag21, p_6.market_count_lag252, p_6.stock_log_lag21, p_6.stock_log_lag252, p_6.market_log_lag21, p_6.market_log_lag252, p_6.pair_count_lag60, p_6.pair_count_lag250, p_6.stock_sum_lag60, p_6.stock_sum_lag250, p_6.market_sum_lag60, p_6.market_sum_lag250, p_6.stock_square_lag60, p_6.stock_square_lag250, p_6.market_square_lag60, p_6.market_square_lag250, p_6.cross_product_lag60, p_6.cross_product_lag250, p_6.stock_count_lag20, p_6.amihud_count_lag20, p_6.amihud_sum_lag20, (COALESCE(p_6.stock_count_lag21, '0'::bigint) - COALESCE(p_6.stock_count_lag252, '0'::bigint)), (COALESCE(p_6.market_count_lag21, '0'::bigint) - COALESCE(p_6.market_count_lag252, '0'::bigint)), (COALESCE(p_6.stock_log_lag21, '0'::double precision) - COALESCE(p_6.stock_log_lag252, '0'::double precision)), (COALESCE(p_6.market_log_lag21, '0'::double precision) - COALESCE(p_6.market_log_lag252, '0'::double precision)), p_6.pair_count60_rolling, p_6.pair_count250_rolling, (p_6.stock_sum_prefix - COALESCE(p_6.stock_sum_lag60, '0'::double precision)), (p_6.stock_sum_prefix - COALESCE(p_6.stock_sum_lag250, '0'::double precision)), (p_6.market_sum_prefix - COALESCE(p_6.market_sum_lag60, '0'::double precision)), (p_6.market_sum_prefix - COALESCE(p_6.market_sum_lag250, '0'::double precision)), (p_6.stock_square_prefix - COALESCE(p_6.stock_square_lag60, '0'::double precision)), (p_6.stock_square_prefix - COALESCE(p_6.stock_square_lag250, '0'::double precision)), (p_6.market_square_prefix - COALESCE(p_6.market_square_lag60, '0'::double precision)), (p_6.market_square_prefix - COALESCE(p_6.market_square_lag250, '0'::double precision)), (p_6.cross_product_prefix - COALESCE(p_6.cross_product_lag60, '0'::double precision)), (p_6.cross_product_prefix - COALESCE(p_6.cross_product_lag250, '0'::double precision)), (p_6.stock_count_prefix - COALESCE(p_6.stock_count_lag20, '0'::bigint)), ((p_6.amihud_sum_prefix - COALESCE(p_6.amihud_sum_lag20, '0'::double precision)) / (NULLIF((p_6.amihud_count_prefix - COALESCE(p_6.amihud_count_lag20, '0'::bigint)), 0))::double precision)
+          Storage: Memory  Maximum Storage: 6244kB
+          Buffers: shared hit=68682 read=4170, local hit=1 read=5
+  CTE stock_market_beta
+    ->  CTE Scan on stock_market_differences d_1  (cost=0.00..1034.46 rows=17241 width=636) (actual time=74.392..3640.100 rows=17874.00 loops=1)
+          Output: d_1.symbol_id, d_1.trade_date, d_1.session_no, d_1.stock_return, d_1.index_return_lagged, d_1.return_20s, d_1.turnover_proxy_vnd, d_1.realized_vol20, d_1.gap_open_1d, d_1.distance_52w_high, d_1.distance_52w_low, d_1.stock_count_prefix, d_1.market_count_prefix, d_1.stock_log_prefix, d_1.market_log_prefix, d_1.pair_count_prefix, d_1.stock_sum_prefix, d_1.market_sum_prefix, d_1.stock_square_prefix, d_1.market_square_prefix, d_1.cross_product_prefix, d_1.amihud_count_prefix, d_1.amihud_sum_prefix, d_1.pair_count60_rolling, d_1.stock_var60_rolling, d_1.market_var60_rolling, d_1.covar60_rolling, d_1.pair_count250_rolling, d_1.stock_var250_rolling, d_1.market_var250_rolling, d_1.covar250_rolling, d_1.stock_count_lag21, d_1.stock_count_lag252, d_1.market_count_lag21, d_1.market_count_lag252, d_1.stock_log_lag21, d_1.stock_log_lag252, d_1.market_log_lag21, d_1.market_log_lag252, d_1.pair_count_lag60, d_1.pair_count_lag250, d_1.stock_sum_lag60, d_1.stock_sum_lag250, d_1.market_sum_lag60, d_1.market_sum_lag250, d_1.stock_square_lag60, d_1.stock_square_lag250, d_1.market_square_lag60, d_1.market_square_lag250, d_1.cross_product_lag60, d_1.cross_product_lag250, d_1.stock_count_lag20, d_1.amihud_count_lag20, d_1.amihud_sum_lag20, d_1.stock_n231, d_1.market_n231, d_1.stock_log_12_1, d_1.market_log_12_1, d_1.n60, d_1.n250, d_1.stock_sum60, d_1.stock_sum250, d_1.market_sum60, d_1.market_sum250, d_1.stock_square60, d_1.stock_square250, d_1.market_square60, d_1.market_square250, d_1.cross_product60, d_1.cross_product250, d_1.return_n20, d_1.amihud20, CASE WHEN (d_1.n60 > 1) THEN (d_1.covar60_rolling / NULLIF(d_1.market_var60_rolling, '0'::double precision)) ELSE NULL::double precision END, CASE WHEN (d_1.n60 > 1) THEN GREATEST('0'::double precision, d_1.stock_var60_rolling) ELSE NULL::double precision END, CASE WHEN (d_1.n60 > 1) THEN GREATEST('0'::double precision, d_1.market_var60_rolling) ELSE NULL::double precision END, CASE WHEN (d_1.n60 > 1) THEN d_1.covar60_rolling ELSE NULL::double precision END, CASE WHEN (d_1.n250 > 1) THEN (d_1.covar250_rolling / NULLIF(d_1.market_var250_rolling, '0'::double precision)) ELSE NULL::double precision END, CASE WHEN (d_1.n250 > 1) THEN GREATEST('0'::double precision, d_1.stock_var250_rolling) ELSE NULL::double precision END, CASE WHEN (d_1.n250 > 1) THEN GREATEST('0'::double precision, d_1.market_var250_rolling) ELSE NULL::double precision END, CASE WHEN (d_1.n250 > 1) THEN d_1.covar250_rolling ELSE NULL::double precision END
+          Storage: Memory  Maximum Storage: 8716kB
+          Buffers: shared hit=68682 read=4170, local hit=1 read=5
+  CTE stock_market_windows
+    ->  WindowAgg  (cost=1558.05..1902.85 rows=17241 width=644) (actual time=3695.753..3720.932 rows=17874.00 loops=1)
+          Output: b.symbol_id, b.trade_date, b.session_no, b.stock_return, b.index_return_lagged, b.return_20s, b.turnover_proxy_vnd, b.realized_vol20, b.gap_open_1d, b.distance_52w_high, b.distance_52w_low, b.stock_count_prefix, b.market_count_prefix, b.stock_log_prefix, b.market_log_prefix, b.pair_count_prefix, b.stock_sum_prefix, b.market_sum_prefix, b.stock_square_prefix, b.market_square_prefix, b.cross_product_prefix, b.amihud_count_prefix, b.amihud_sum_prefix, b.pair_count60_rolling, b.stock_var60_rolling, b.market_var60_rolling, b.covar60_rolling, b.pair_count250_rolling, b.stock_var250_rolling, b.market_var250_rolling, b.covar250_rolling, b.stock_count_lag21, b.stock_count_lag252, b.market_count_lag21, b.market_count_lag252, b.stock_log_lag21, b.stock_log_lag252, b.market_log_lag21, b.market_log_lag252, b.pair_count_lag60, b.pair_count_lag250, b.stock_sum_lag60, b.stock_sum_lag250, b.market_sum_lag60, b.market_sum_lag250, b.stock_square_lag60, b.stock_square_lag250, b.market_square_lag60, b.market_square_lag250, b.cross_product_lag60, b.cross_product_lag250, b.stock_count_lag20, b.amihud_count_lag20, b.amihud_sum_lag20, b.stock_n231, b.market_n231, b.stock_log_12_1, b.market_log_12_1, b.n60, b.n250, b.stock_sum60, b.stock_sum250, b.market_sum60, b.market_sum250, b.stock_square60, b.stock_square250, b.market_square60, b.market_square250, b.cross_product60, b.cross_product250, b.return_n20, b.amihud20, b.beta60, b.stock_var60, b.market_var60, b.covar60, b.beta250, b.stock_var250, b.market_var250, b.covar250, lag(b.beta60, 21) OVER w1
+          Window: w1 AS (PARTITION BY b.symbol_id ORDER BY b.session_no)
+          Storage: Memory  Maximum Storage: 32kB
+          Buffers: shared hit=68682 read=4170, local hit=1 read=5
+          ->  Sort  (cost=1558.03..1601.13 rows=17241 width=636) (actual time=3695.742..3696.484 rows=17874.00 loops=1)
+                Output: b.symbol_id, b.session_no, b.trade_date, b.stock_return, b.index_return_lagged, b.return_20s, b.turnover_proxy_vnd, b.realized_vol20, b.gap_open_1d, b.distance_52w_high, b.distance_52w_low, b.stock_count_prefix, b.market_count_prefix, b.stock_log_prefix, b.market_log_prefix, b.pair_count_prefix, b.stock_sum_prefix, b.market_sum_prefix, b.stock_square_prefix, b.market_square_prefix, b.cross_product_prefix, b.amihud_count_prefix, b.amihud_sum_prefix, b.pair_count60_rolling, b.stock_var60_rolling, b.market_var60_rolling, b.covar60_rolling, b.pair_count250_rolling, b.stock_var250_rolling, b.market_var250_rolling, b.covar250_rolling, b.stock_count_lag21, b.stock_count_lag252, b.market_count_lag21, b.market_count_lag252, b.stock_log_lag21, b.stock_log_lag252, b.market_log_lag21, b.market_log_lag252, b.pair_count_lag60, b.pair_count_lag250, b.stock_sum_lag60, b.stock_sum_lag250, b.market_sum_lag60, b.market_sum_lag250, b.stock_square_lag60, b.stock_square_lag250, b.market_square_lag60, b.market_square_lag250, b.cross_product_lag60, b.cross_product_lag250, b.stock_count_lag20, b.amihud_count_lag20, b.amihud_sum_lag20, b.stock_n231, b.market_n231, b.stock_log_12_1, b.market_log_12_1, b.n60, b.n250, b.stock_sum60, b.stock_sum250, b.market_sum60, b.market_sum250, b.stock_square60, b.stock_square250, b.market_square60, b.market_square250, b.cross_product60, b.cross_product250, b.return_n20, b.amihud20, b.beta60, b.stock_var60, b.market_var60, b.covar60, b.beta250, b.stock_var250, b.market_var250, b.covar250
+                Sort Key: b.symbol_id, b.session_no
+                Sort Method: quicksort  Memory: 10042kB
+                Buffers: shared hit=68682 read=4170, local hit=1 read=5
+                ->  CTE Scan on stock_market_beta b  (cost=0.00..344.82 rows=17241 width=636) (actual time=74.395..3678.727 rows=17874.00 loops=1)
+                      Output: b.symbol_id, b.session_no, b.trade_date, b.stock_return, b.index_return_lagged, b.return_20s, b.turnover_proxy_vnd, b.realized_vol20, b.gap_open_1d, b.distance_52w_high, b.distance_52w_low, b.stock_count_prefix, b.market_count_prefix, b.stock_log_prefix, b.market_log_prefix, b.pair_count_prefix, b.stock_sum_prefix, b.market_sum_prefix, b.stock_square_prefix, b.market_square_prefix, b.cross_product_prefix, b.amihud_count_prefix, b.amihud_sum_prefix, b.pair_count60_rolling, b.stock_var60_rolling, b.market_var60_rolling, b.covar60_rolling, b.pair_count250_rolling, b.stock_var250_rolling, b.market_var250_rolling, b.covar250_rolling, b.stock_count_lag21, b.stock_count_lag252, b.market_count_lag21, b.market_count_lag252, b.stock_log_lag21, b.stock_log_lag252, b.market_log_lag21, b.market_log_lag252, b.pair_count_lag60, b.pair_count_lag250, b.stock_sum_lag60, b.stock_sum_lag250, b.market_sum_lag60, b.market_sum_lag250, b.stock_square_lag60, b.stock_square_lag250, b.market_square_lag60, b.market_square_lag250, b.cross_product_lag60, b.cross_product_lag250, b.stock_count_lag20, b.amihud_count_lag20, b.amihud_sum_lag20, b.stock_n231, b.market_n231, b.stock_log_12_1, b.market_log_12_1, b.n60, b.n250, b.stock_sum60, b.stock_sum250, b.market_sum60, b.market_sum250, b.stock_square60, b.stock_square250, b.market_square60, b.market_square250, b.cross_product60, b.cross_product250, b.return_n20, b.amihud20, b.beta60, b.stock_var60, b.market_var60, b.covar60, b.beta250, b.stock_var250, b.market_var250, b.covar250
+                      Storage: Memory  Maximum Storage: 9669kB
+                      Buffers: shared hit=68682 read=4170, local hit=1 read=5
+  CTE ranks
+    ->  Nested Loop  (cost=0.29..468.03 rows=1755 width=36) (actual time=4.067..26.032 rows=1613.00 loops=1)
+          Output: r.symbol_id, r.trade_date, r.gauss_return20, r.gauss_turnover, r.gauss_vol20
+          Buffers: local hit=1343 read=368
+          ->  Seq Scan on pg_temp.phase2_v3_symbol_batches bs_2  (cost=0.00..1.61 rows=49 width=8) (actual time=0.036..0.087 rows=49.00 loops=1)
+                Output: bs_2.symbol_id, bs_2.batch_no
+                Filter: (bs_2.batch_no = 0)
+                Buffers: local hit=1
+          ->  Index Scan using phase2_v3_ranks_key_idx on pg_temp.phase2_v3_ranks r  (cost=0.29..9.16 rows=36 width=36) (actual time=0.377..0.522 rows=32.92 loops=49)
+                Output: r.symbol_id, r.trade_date, r.gauss_return20, r.gauss_turnover, r.gauss_vol20
+                Index Cond: (r.symbol_id = bs_2.symbol_id)
+                Index Searches: 49
+                Buffers: local hit=1342 read=368
+  CTE stoch
+    ->  CTE Scan on technical t_2  (cost=0.00..641.41 rows=18326 width=32) (actual time=0.003..6.259 rows=18326.00 loops=1)
+          Output: t_2.symbol_id, t_2.trade_date, t_2.session_no, t_2.episode_key, CASE WHEN (t_2.is_traded AND (t_2.traded14 = 14) AND (t_2.high14 > t_2.low14)) THEN (('100'::double precision * (t_2.c - t_2.low14)) / (t_2.high14 - t_2.low14)) ELSE NULL::double precision END
+          Storage: Memory  Maximum Storage: 5599kB
+  CTE stochd
+    ->  WindowAgg  (cost=1664.17..2122.30 rows=18326 width=48) (actual time=19.657..35.208 rows=18326.00 loops=1)
+          Output: s_2.symbol_id, s_2.trade_date, s_2.session_no, s_2.episode_key, s_2.k14, avg(s_2.k14) OVER w1, count(s_2.k14) OVER w1
+          Window: w1 AS (PARTITION BY s_2.symbol_id, s_2.episode_key ORDER BY s_2.session_no ROWS BETWEEN '2'::bigint PRECEDING AND CURRENT ROW)
+          Storage: Memory  Maximum Storage: 17kB
+          ->  Sort  (cost=1664.15..1709.96 rows=18326 width=32) (actual time=19.637..20.352 rows=18326.00 loops=1)
+                Output: s_2.symbol_id, s_2.session_no, s_2.episode_key, s_2.trade_date, s_2.k14
+                Sort Key: s_2.symbol_id, s_2.episode_key, s_2.session_no
+                Sort Method: quicksort  Memory: 1539kB
+                ->  CTE Scan on stoch s_2  (cost=0.00..366.52 rows=18326 width=32) (actual time=0.004..13.119 rows=18326.00 loops=1)
+                      Output: s_2.symbol_id, s_2.session_no, s_2.episode_key, s_2.trade_date, s_2.k14
+                      Storage: Memory  Maximum Storage: 1309kB
+  ->  Hash Left Join  (cost=3255.24..8071.60 rows=507 width=286) (actual time=5324.157..5341.028 rows=2891.00 loops=1)
+        Output: f.symbol_id, f.trade_date, CASE WHEN (sm.stock_n231 = 231) THEN (exp(sm.stock_log_12_1) - '1'::double precision) ELSE NULL::double precision END, CASE WHEN ((sm.stock_n231 = 231) AND (sm.market_n231 = 231) AND (sm.beta60_at_12_1_start IS NOT NULL)) THEN ((exp(sm.stock_log_12_1) - '1'::double precision) - (sm.beta60_at_12_1_start * (exp(sm.market_log_12_1) - '1'::double precision))) ELSE NULL::double precision END, es.ema5_ratio, es.ema10_ratio, es.ema20_ratio, es.ema50_ratio, es.ema100_ratio, es.ema200_ratio, es.macd_histogram_pct, CASE WHEN (a.adx_count14 = 14) THEN a.adx14_sma ELSE NULL::double precision END, st.k14, CASE WHEN (st.n3 = 3) THEN st.d3 ELSE NULL::double precision END, CASE WHEN (t.return_count5 = 5) THEN t.downside5 ELSE NULL::double precision END, CASE WHEN (a.return_count60 = 60) THEN a.downside60 ELSE NULL::double precision END, CASE WHEN ((a.return_count60 = 60) AND (a.sd60 > '0'::double precision)) THEN (a.third_moment60 / power(a.sd60, '3'::double precision)) ELSE NULL::double precision END, CASE WHEN ((a.return_count60 = 60) AND (a.sd60 > '0'::double precision)) THEN ((a.fourth_moment60 / power(a.sd60, '4'::double precision)) - '3'::double precision) ELSE NULL::double precision END, CASE WHEN ((sm.n60 = 60) AND (sm.market_var60 > '0'::double precision)) THEN sm.beta60 ELSE NULL::double precision END, CASE WHEN ((sm.n250 = 250) AND (sm.market_var250 > '0'::double precision)) THEN sm.beta250 ELSE NULL::double precision END, CASE WHEN ((sm.n60 = 60) AND (sm.market_var60 > '0'::double precision)) THEN sqrt(GREATEST('0'::double precision, (sm.stock_var60 - ((sm.covar60 * sm.covar60) / sm.market_var60)))) ELSE NULL::double precision END, CASE WHEN ((sm.n250 = 250) AND (sm.market_var250 > '0'::double precision)) THEN sqrt(GREATEST('0'::double precision, (sm.stock_var250 - ((sm.covar250 * sm.covar250) / sm.market_var250)))) ELSE NULL::double precision END, CASE WHEN (sm.return_n20 = 20) THEN sm.amihud20 ELSE NULL::double precision END, CASE WHEN (t.gap_count20 = 20) THEN t.gap_mean20 ELSE NULL::double precision END, CASE WHEN (t.gap_count20 = 20) THEN t.gap_sd20 ELSE NULL::double precision END, rk.gauss_return20, rk.gauss_turnover, rk.gauss_vol20, ml.advance_minus_decline, ml.new_high_minus_low, ml.turnover_z20, ml.return_dispersion, ml.index_sma50_ratio, ml.index_sma200_ratio, ml.index_drawdown252, ml.vol60, (((((date_trunc('quarter'::text, (f.trade_date)::timestamp without time zone) + '3 mons'::interval) - '1 day'::interval))::date - f.trade_date))::smallint
+        Hash Cond: ((s.session_no - 1) = ml.session_no)
+        Buffers: shared hit=71383 read=4170, local hit=2328 read=379
+        ->  Hash Left Join  (cost=3243.09..7985.93 rows=507 width=356) (actual time=5322.646..5335.616 rows=2891.00 loops=1)
+              Output: f.symbol_id, f.trade_date, s.session_no, es.ema5_ratio, es.ema10_ratio, es.ema20_ratio, es.ema50_ratio, es.ema100_ratio, es.ema200_ratio, es.macd_histogram_pct, a.adx_count14, a.adx14_sma, a.return_count60, a.downside60, a.sd60, a.third_moment60, a.fourth_moment60, t.return_count5, t.downside5, t.gap_count20, t.gap_mean20, t.gap_sd20, st.k14, st.n3, st.d3, sm.stock_n231, sm.stock_log_12_1, sm.market_n231, sm.beta60_at_12_1_start, sm.market_log_12_1, sm.n60, sm.market_var60, sm.beta60, sm.n250, sm.market_var250, sm.beta250, sm.stock_var60, sm.covar60, sm.stock_var250, sm.covar250, sm.return_n20, sm.amihud20, rk.gauss_return20, rk.gauss_turnover, rk.gauss_vol20
+              Hash Cond: ((f.symbol_id = rk.symbol_id) AND (f.trade_date = rk.trade_date))
+              Buffers: shared hit=71383 read=4170, local hit=2328 read=373
+              ->  Hash Left Join  (cost=3181.66..7918.16 rows=507 width=332) (actual time=5295.341..5306.953 rows=2891.00 loops=1)
+                    Output: f.symbol_id, f.trade_date, s.session_no, es.ema5_ratio, es.ema10_ratio, es.ema20_ratio, es.ema50_ratio, es.ema100_ratio, es.ema200_ratio, es.macd_histogram_pct, a.adx_count14, a.adx14_sma, a.return_count60, a.downside60, a.sd60, a.third_moment60, a.fourth_moment60, t.return_count5, t.downside5, t.gap_count20, t.gap_mean20, t.gap_sd20, st.k14, st.n3, st.d3, sm.stock_n231, sm.stock_log_12_1, sm.market_n231, sm.beta60_at_12_1_start, sm.market_log_12_1, sm.n60, sm.market_var60, sm.beta60, sm.n250, sm.market_var250, sm.beta250, sm.stock_var60, sm.covar60, sm.stock_var250, sm.covar250, sm.return_n20, sm.amihud20
+                    Hash Cond: ((f.symbol_id = sm.symbol_id) AND (f.trade_date = sm.trade_date))
+                    Buffers: shared hit=71383 read=4170, local hit=985 read=5
+                    ->  Hash Left Join  (cost=2578.23..7291.88 rows=507 width=196) (actual time=1538.263..1548.057 rows=2891.00 loops=1)
+                          Output: f.symbol_id, f.trade_date, s.session_no, es.ema5_ratio, es.ema10_ratio, es.ema20_ratio, es.ema50_ratio, es.ema100_ratio, es.ema200_ratio, es.macd_histogram_pct, a.adx_count14, a.adx14_sma, a.return_count60, a.downside60, a.sd60, a.third_moment60, a.fourth_moment60, t.return_count5, t.downside5, t.gap_count20, t.gap_mean20, t.gap_sd20, st.k14, st.n3, st.d3
+                          Hash Cond: ((f.symbol_id = st.symbol_id) AND (f.trade_date = st.trade_date))
+                          Buffers: shared hit=2701, local hit=984
+                          ->  Hash Left Join  (cost=1936.82..6585.80 rows=507 width=172) (actual time=1493.529..1501.828 rows=2891.00 loops=1)
+                                Output: f.symbol_id, f.trade_date, s.session_no, es.ema5_ratio, es.ema10_ratio, es.ema20_ratio, es.ema50_ratio, es.ema100_ratio, es.ema200_ratio, es.macd_histogram_pct, a.adx_count14, a.adx14_sma, a.return_count60, a.downside60, a.sd60, a.third_moment60, a.fourth_moment60, t.return_count5, t.downside5, t.gap_count20, t.gap_mean20, t.gap_sd20
+                                Hash Cond: ((f.symbol_id = t.symbol_id) AND (f.trade_date = t.trade_date))
+                                Buffers: shared hit=2701, local hit=984
+                                ->  Hash Left Join  (cost=1295.41..5879.71 rows=507 width=132) (actual time=1484.856..1491.715 rows=2891.00 loops=1)
+                                      Output: f.symbol_id, f.trade_date, s.session_no, es.ema5_ratio, es.ema10_ratio, es.ema20_ratio, es.ema50_ratio, es.ema100_ratio, es.ema200_ratio, es.macd_histogram_pct, a.adx_count14, a.adx14_sma, a.return_count60, a.downside60, a.sd60, a.third_moment60, a.fourth_moment60
+                                      Hash Cond: ((f.symbol_id = a.symbol_id) AND (f.trade_date = a.trade_date))
+                                      Buffers: shared hit=2701, local hit=984
+                                      ->  Hash Left Join  (cost=654.00..5173.63 rows=507 width=76) (actual time=529.153..534.598 rows=2891.00 loops=1)
+                                            Output: f.symbol_id, f.trade_date, s.session_no, es.ema5_ratio, es.ema10_ratio, es.ema20_ratio, es.ema50_ratio, es.ema100_ratio, es.ema200_ratio, es.macd_histogram_pct
+                                            Hash Cond: ((f.symbol_id = es.symbol_id) AND (f.trade_date = es.trade_date))
+                                            Buffers: shared hit=2701, local hit=494
+                                            ->  Hash Join  (cost=12.59..4467.55 rows=507 width=20) (actual time=0.206..4.287 rows=2891.00 loops=1)
+                                                  Output: f.symbol_id, f.trade_date, s.session_no
+                                                  Hash Cond: (f.trade_date = s.trade_date)
+                                                  Buffers: shared hit=2698, local hit=4
+                                                  ->  Nested Loop  (cost=0.43..4440.11 rows=2722 width=12) (actual time=0.083..3.356 rows=2891.00 loops=1)
+                                                        Output: f.symbol_id, f.trade_date
+                                                        Buffers: shared hit=2698, local hit=1
+                                                        ->  Seq Scan on pg_temp.phase2_v3_symbol_batches bs  (cost=0.00..1.61 rows=49 width=8) (actual time=0.029..0.049 rows=49.00 loops=1)
+                                                              Output: bs.symbol_id, bs.batch_no
+                                                              Filter: (bs.batch_no = 0)
+                                                              Buffers: local hit=1
+                                                        ->  Index Only Scan using features_daily_pkey on feat.features_daily f  (cost=0.43..90.02 rows=56 width=12) (actual time=0.023..0.059 rows=59.00 loops=49)
+                                                              Output: f.symbol_id, f.trade_date, f.feature_version
+                                                              Index Cond: ((f.symbol_id = bs.symbol_id) AND (f.trade_date >= '2020-01-01'::date) AND (f.trade_date <= '2020-03-31'::date) AND (f.feature_version = 'phase2-v2'::text))
+                                                              Heap Fetches: 508
+                                                              Index Searches: 49
+                                                              Buffers: shared hit=2698
+                                                  ->  Hash  (cost=7.48..7.48 rows=374 width=12) (actual time=0.117..0.117 rows=374.00 loops=1)
+                                                        Output: s.trade_date, s.session_no
+                                                        Buckets: 1024  Batches: 1  Memory Usage: 26kB
+                                                        Buffers: local hit=3
+                                                        ->  CTE Scan on sessions s  (cost=0.00..7.48 rows=374 width=12) (actual time=0.018..0.080 rows=374.00 loops=1)
+                                                              Output: s.trade_date, s.session_no
+                                                              Storage: Memory  Maximum Storage: 31kB
+                                                              Buffers: local hit=3
+                                            ->  Hash  (cost=366.52..366.52 rows=18326 width=68) (actual time=528.845..528.846 rows=18326.00 loops=1)
+                                                  Output: es.ema5_ratio, es.ema10_ratio, es.ema20_ratio, es.ema50_ratio, es.ema100_ratio, es.ema200_ratio, es.macd_histogram_pct, es.symbol_id, es.trade_date
+                                                  Buckets: 32768  Batches: 1  Memory Usage: 1601kB
+                                                  Buffers: shared hit=3, local hit=490
+                                                  ->  CTE Scan on ema_signal es  (cost=0.00..366.52 rows=18326 width=68) (actual time=108.612..522.808 rows=18326.00 loops=1)
+                                                        Output: es.ema5_ratio, es.ema10_ratio, es.ema20_ratio, es.ema50_ratio, es.ema100_ratio, es.ema200_ratio, es.macd_histogram_pct, es.symbol_id, es.trade_date
+                                                        Storage: Memory  Maximum Storage: 3735kB
+                                                        Buffers: shared hit=3, local hit=490
+                                      ->  Hash  (cost=366.52..366.52 rows=18326 width=68) (actual time=955.581..955.582 rows=18326.00 loops=1)
+                                            Output: a.adx_count14, a.adx14_sma, a.return_count60, a.downside60, a.sd60, a.third_moment60, a.fourth_moment60, a.symbol_id, a.trade_date
+                                            Buckets: 32768  Batches: 1  Memory Usage: 1939kB
+                                            Buffers: local hit=490
+                                            ->  CTE Scan on adx_calc a  (cost=0.00..366.52 rows=18326 width=68) (actual time=844.815..950.526 rows=18326.00 loops=1)
+                                                  Output: a.adx_count14, a.adx14_sma, a.return_count60, a.downside60, a.sd60, a.third_moment60, a.fourth_moment60, a.symbol_id, a.trade_date
+                                                  Storage: Memory  Maximum Storage: 6085kB
+                                                  Buffers: local hit=490
+                                ->  Hash  (cost=366.52..366.52 rows=18326 width=52) (actual time=8.571..8.571 rows=18326.00 loops=1)
+                                      Output: t.return_count5, t.downside5, t.gap_count20, t.gap_mean20, t.gap_sd20, t.symbol_id, t.trade_date
+                                      Buckets: 32768  Batches: 1  Memory Usage: 1664kB
+                                      ->  CTE Scan on technical t  (cost=0.00..366.52 rows=18326 width=52) (actual time=0.001..4.924 rows=18326.00 loops=1)
+                                            Output: t.return_count5, t.downside5, t.gap_count20, t.gap_mean20, t.gap_sd20, t.symbol_id, t.trade_date
+                                            Storage: Memory  Maximum Storage: 5599kB
+                          ->  Hash  (cost=366.52..366.52 rows=18326 width=36) (actual time=44.521..44.522 rows=18326.00 loops=1)
+                                Output: st.k14, st.n3, st.d3, st.symbol_id, st.trade_date
+                                Buckets: 32768  Batches: 1  Memory Usage: 1296kB
+                                ->  CTE Scan on stochd st  (cost=0.00..366.52 rows=18326 width=36) (actual time=19.661..41.347 rows=18326.00 loops=1)
+                                      Output: st.k14, st.n3, st.d3, st.symbol_id, st.trade_date
+                                      Storage: Memory  Maximum Storage: 1507kB
+                    ->  Hash  (cost=344.82..344.82 rows=17241 width=148) (actual time=3756.984..3756.985 rows=17874.00 loops=1)
+                          Output: sm.stock_n231, sm.stock_log_12_1, sm.market_n231, sm.beta60_at_12_1_start, sm.market_log_12_1, sm.n60, sm.market_var60, sm.beta60, sm.n250, sm.market_var250, sm.beta250, sm.stock_var60, sm.covar60, sm.stock_var250, sm.covar250, sm.return_n20, sm.amihud20, sm.symbol_id, sm.trade_date
+                          Buckets: 32768  Batches: 1  Memory Usage: 3076kB
+                          Buffers: shared hit=68682 read=4170, local hit=1 read=5
+                          ->  CTE Scan on stock_market_windows sm  (cost=0.00..344.82 rows=17241 width=148) (actual time=3695.757..3750.891 rows=17874.00 loops=1)
+                                Output: sm.stock_n231, sm.stock_log_12_1, sm.market_n231, sm.beta60_at_12_1_start, sm.market_log_12_1, sm.n60, sm.market_var60, sm.beta60, sm.n250, sm.market_var250, sm.beta250, sm.stock_var60, sm.covar60, sm.stock_var250, sm.covar250, sm.return_n20, sm.amihud20, sm.symbol_id, sm.trade_date
+                                Storage: Memory  Maximum Storage: 9763kB
+                                Buffers: shared hit=68682 read=4170, local hit=1 read=5
+              ->  Hash  (cost=35.10..35.10 rows=1755 width=36) (actual time=27.295..27.296 rows=1613.00 loops=1)
+                    Output: rk.gauss_return20, rk.gauss_turnover, rk.gauss_vol20, rk.symbol_id, rk.trade_date
+                    Buckets: 2048  Batches: 1  Memory Usage: 117kB
+                    Buffers: local hit=1343 read=368
+                    ->  CTE Scan on ranks rk  (cost=0.00..35.10 rows=1755 width=36) (actual time=4.070..26.755 rows=1613.00 loops=1)
+                          Output: rk.gauss_return20, rk.gauss_turnover, rk.gauss_vol20, rk.symbol_id, rk.trade_date
+                          Storage: Memory  Maximum Storage: 110kB
+                          Buffers: local hit=1343 read=368
+        ->  Hash  (cost=7.48..7.48 rows=374 width=72) (actual time=0.280..0.281 rows=374.00 loops=1)
+              Output: ml.advance_minus_decline, ml.new_high_minus_low, ml.turnover_z20, ml.return_dispersion, ml.index_sma50_ratio, ml.index_sma200_ratio, ml.index_drawdown252, ml.vol60, ml.session_no
+              Buckets: 1024  Batches: 1  Memory Usage: 44kB
+              Buffers: local read=6
+              ->  CTE Scan on market_lagged ml  (cost=0.00..7.48 rows=374 width=72) (actual time=0.061..0.188 rows=374.00 loops=1)
+                    Output: ml.advance_minus_decline, ml.new_high_minus_low, ml.turnover_z20, ml.return_dispersion, ml.index_sma50_ratio, ml.index_sma200_ratio, ml.index_drawdown252, ml.vol60, ml.session_no
+                    Storage: Memory  Maximum Storage: 56kB
+                    Buffers: local read=6
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: NOTICE:  Phase 2 batch 0 feature rows 2891, elapsed 00:00:07.764845
+psql:docs/evidence/phase2/phase2_feature_full_context_probe_60_20261024.psql:60: NOTICE:  FULL-CONTEXT FEATURE PROBE requested=60 selected=49 rows=2891 elapsed=00:00:56.322561
+DO
+ROLLBACK

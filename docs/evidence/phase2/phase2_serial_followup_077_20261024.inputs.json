@@ -1,0 +1,450 @@
+[
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\001_init.sql",
+    "sha256": "4C82F05EC8F44869A3C8D0B9EFF2EC374049BF71C7FDE4331CC58E4C41BF97D6"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\002_ingest_state.sql",
+    "sha256": "F933E280E2F103C21599C4AD77B91BF6A541441C0C1047420D8217D2B2B30E06"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\003_quota_guard.sql",
+    "sha256": "06286D7DA87D156442B2DA7664620063E9C1F0953C0152BB43C986F37D15A672"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\004_raw_bytes.sql",
+    "sha256": "E1C19E5DBE487339598E4F2971D3FFD7A271218EFEC622AE7C1C963E6DB7F3EF"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\005_market_bar_quality.sql",
+    "sha256": "A337B6337FD5DECDE11DDA28F7F72790F4EEC5ADDE216025B637DC927564461C"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\006_unarchived_requeue_audit.sql",
+    "sha256": "6437CB818010A47071FFA111A2515CCF948932C802C9E980A078BEEBBFA8E23E"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\007_lifecycle_evidence.sql",
+    "sha256": "9276A9D6063C737D24DE75A72CAB79BA5785D272A4CA895D49A891867F6570FA"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\008_historical_security_master.sql",
+    "sha256": "88CCC05DE6FA7CA8A9530FE9FF38DB119336DEE3ABFDF55C243C973B764CEB7A"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\009_company_profile_observations.sql",
+    "sha256": "073B69E1AC00CD7C90FE39BA755B96540A22CE1B73A7DF413C4EA0D273E4DFEE"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\010_company_profile_batch.sql",
+    "sha256": "B7C7E39AA82FB21607FB302118C0FA985F3296DE399B83A19ABC99A68E636D65"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\011_company_profile_call_audit.sql",
+    "sha256": "DD47882A50B398C6E982D3C45B5EE488AAFCD9658A79C36A19ECACDB8400FD2D"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\012_dq_gate.sql",
+    "sha256": "4B1D9DBE3D6B26E49B995F70FC3C34AFB8C2127843649391C2FEE71D667625B2"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\013_observed_bar_calendar.sql",
+    "sha256": "E9D28F147CD2FBC0170793C9B518394CF41802245EC4991B4C475801AEE299E9"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\014_observed_calendar_cleanup.sql",
+    "sha256": "916F6A6DABF06A8F97134544C77248B12A6BF6012CB26DBD6C4AB43BA05C8CCE"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\015_dq_cross_source_lineage.sql",
+    "sha256": "3A7FCAFF27193346836606AFB33BDDD2384392491DFB9100FD8A2BA645C77027"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\016_raw_landings_append_only.sql",
+    "sha256": "71F76136E64C2BF3DEC0615EA1D5C1C83B6E03CBCBEE441770711A7183825165"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\017_traded_value_proxy.sql",
+    "sha256": "0CC5FE4774A7EC296C6BEC7F3FCDD2591B1128274B74CCB0355519518A7360AD"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\018_bar_quality_reprocess_audit.sql",
+    "sha256": "013CCEFDB1CCEA4AA02F8045F6CB82FAF044D3CE2E765C1D82E39049B5D399CF"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\019_vietnam_auction_ohlc.sql",
+    "sha256": "669A87583084CF14B0E447151B733182FC0EC6C9B0F88D00EAFC2CF326A70053"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\020_alternate_market_sources.sql",
+    "sha256": "3D61CCCD240FAF589F92E6E2CF1534B222F8D5BD4F9AF2C1F5539104AF28B519"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\021_vndirect_market_source.sql",
+    "sha256": "84F34953E90FFFB14FC00D0677184DF9E2C551E92EB9236256D026278B6F6329"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\022_ml_bar_eligibility_events.sql",
+    "sha256": "77B7B1D622199C39681415BE109B284F1FC1AD404C5AC1B3C78B60BE01F6CF67"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\023_exchange_daily_bar_evidence.sql",
+    "sha256": "3DE4C69B373C12552FF897EBC1AB9EC7A516BE8D7B8FEB0837D41C7B94A9FC41"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\024_source_keyed_index_bars.sql",
+    "sha256": "2F608A424D611729B70C6CC002439EF8CA865E5ACCB717A7D5BE3FBFEFBE306C"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\025_hnx_report_interpretations.sql",
+    "sha256": "D4CC1260683F633C412FAD187D225158F49B1FD4A31345C0B881B2063A47AC93"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\026_vndirect_adjusted_prices.sql",
+    "sha256": "BAEB47B327AED2A7A4D7B033E6B1367FAB49277C10AD401F8F73F106698C28F8"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\027_vndirect_bulk_as_of.sql",
+    "sha256": "0CFD636CCF05EC138483BF53A6C5804D9E3599ACB67E44594E24CE89AF0375C3"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\028_vndirect_reference_adjustment.sql",
+    "sha256": "263738E790054109A3041043605F189F7330AD41DDAF8DEAF9CCFC4743EDE461"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\029_vndirect_upcom_reference_carry.sql",
+    "sha256": "0C7541CBA9F44DAE114BD2A0B290E694B4CD644C439618BE78443E15DD7BD76C"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\030_vndirect_2019_reference_resolution.sql",
+    "sha256": "577DDCACA5F9A586A4FEB9BBFDAA43AC6A85A2DD43C7F0CDFBDFF4661FB31575"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\031_vndirect_model_price_and_episode_api.sql",
+    "sha256": "B42FAEE3653B2FCC904D5F6EDFF9BAA8B96AB3B84BB5FCE041021BEFB41F4707"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\032_vndirect_reference_factor_resolution.sql",
+    "sha256": "8C18996F9D477C72F04555A3B3C2912AFA5A52B5EE5C5CAD7CA8E7DAA392319E"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\033_vndirect_close_tick_price_corrections.sql",
+    "sha256": "605CE52AE05443E98EB9F70ECC58B6D8BE304C595D7BFC3AF74D2BC664AC4D1C"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\034_fundamentals_pit_archive.sql",
+    "sha256": "873F38C9C8B9962D960F6EFAAAF631D3CDF1EC5D81967321FC71E78DC9816153"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\035_phase2_features_labels.sql",
+    "sha256": "F3BBB03F650A2F28A38B64B6926F3CEF30A83222E303EA0679153B2BA96B6347"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\036_phase2_source_inputs.sql",
+    "sha256": "1F1A674CC158AAA64CCFEDDD1DBED461A3845ABA1CCF6362872C84FDF2D89F88"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\037_phase2_price_features.sql",
+    "sha256": "DC69D982834A54FA2D967CCBD210673B73E1B9645DD7F3FEE08120CE82A8AEF9"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\038_phase2_fundamental_features.sql",
+    "sha256": "ABFD24EB647D3D61480C707E872EB76EB43F9DC7966A3394AF323334D90A0A11"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\039_phase2_resumable_builds.sql",
+    "sha256": "1BE2A71CDED81B5B78BE5AAE0BEA98AE6C90EBB2F97AA1880916A5F874070E62"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\040_phase2_session_price_cache.sql",
+    "sha256": "C0A68CA8FF711EEA666AAB96C4605A10F049045A71035A350D5FA7959E72A535"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\041_phase2_deterministic_chunk_hashes.sql",
+    "sha256": "0D4FE736FABDA9D3075D641D2D5D985FF359EBFC3B31B04F662F2CC7001317B8"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\042_phase2_batched_adjustment_cache.sql",
+    "sha256": "F53E421B5669F018F414A51383643E070E32FDD97B273E824A99235249DA136C"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\043_phase2_vci_index_context.sql",
+    "sha256": "FA86D6E3038B307E5B49821ED96722FF3DE85950AB11C91FC201A92866BF792C"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\044_phase2_vci_inherited_index_features.sql",
+    "sha256": "6C8AF59380DCBB823C20F8F920C7BBF377E694D6414AC022D5F8547C7EFEAE3F"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\045_phase2_set_based_v3_symbol_eligibility.sql",
+    "sha256": "962DBF8ACC87F42E07490BD3887264A1DB0BAB18D11BAF509F4988837A705BF6"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\046_phase2_v3_selected_symbols_cte_fix.sql",
+    "sha256": "6B2DE6BF4913C103A4689FAD517ACDE28343EE75AA0CEA52C2E3E77E84801BF1"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\047_phase2_label_prefix_spans.sql",
+    "sha256": "326EC335CAAB9E820F6B4D381FF2C1098087CB111687018C0B8240911ED089DC"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\048_phase2_analyzed_label_hash_dates.sql",
+    "sha256": "7E034A5DD46A797AC1928FC282DC1868034E4FDD63DA8CC938CF00E085E0B8AC"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\049_phase2_cache_symbol_array_filter.sql",
+    "sha256": "F6E6E4459DC59F1A6779AAEC3A7278B1A20F1864FB1BB3C811A304D23A3CEBA7"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\050_phase2_direct_cache_insert.sql",
+    "sha256": "A84F0E9A6BA3F6FCAF80D05A3B05D6B75EF7F088C1A20F84FB39903E890593F5"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\051_phase2_label_factor_hash_scan.sql",
+    "sha256": "6718A3F4AE0B5719D983347641703FF05F9B23B3BE56A60F811B7A09593F34C3"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\052_phase2_shared_schema_builders.sql",
+    "sha256": "0CCCDF65503EBA0C2454333EBD5FF1957BC7DD1E0A5FF0A0BA7B1222DD8EEA6B"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\053_phase2_rank_population_integrity.sql",
+    "sha256": "3C7E5B20D40C712C0CDB21DDE8F3211A3FDC4871F4F7CCEDC5B9932F10A51159"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\054_phase2_bounded_rank_repair.sql",
+    "sha256": "138FFB8C22514A14C46F3806211D7B9C871C1E462A0E0D8DFD63224B66416A8C"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\055_phase2_market_input_projection.sql",
+    "sha256": "E0AE45D82CFE5E7365D83B13FFF967D384863E6642AC38EE032AAC6AAE20C95A"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\056_phase2_rank_repair_date_scoped_updates.sql",
+    "sha256": "6E1C3B5D7B3797154705DB2EC994D5AD09BFCD935911A71F4DE18FAC08C76661"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\057_lifecycle_landing_symbol_integrity.sql",
+    "sha256": "A732D99BD672BC5F6DBAC50D502064F24483D5D903989DCDEA884E8A3F6FA360"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\058_phase2_label_missing_session_guard.sql",
+    "sha256": "527CF276E4E3546B21E0D18E3FE1B804C1194DCD0460C38CD52D767EC524AEDC"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\059_phase2_training_gap_eligibility.sql",
+    "sha256": "19B565DC370E5544262B454AA0360DC2B00E09494121BABB0BE6CF78F46C5BF4"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\060_phase2_scope_label_adjustment_prefix.sql",
+    "sha256": "F8E7C3969AD2DDEDEC0C77DC2032457CCF231DAB20CC115B140502CEF09EDF57"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\061_phase2_label_derived_targets.sql",
+    "sha256": "3D15A2456C594783A6E751DAD52E7588B9127010AA98714D89FAD3CAF7A41305"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\062_phase2_vndirect_archived_price_limits.sql",
+    "sha256": "2B20FDD0E663916DB3C1F200FAC20C60D022601D5EB72574C0140B21F2B3AE28"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\063_phase2_label_execution_weights.sql",
+    "sha256": "58534688E5A0036D02EF36E3ADA65A486CB3AC2D01D31CB8CABD56C9FB9AABD4"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\064_phase2_v2_moving_windows.sql",
+    "sha256": "C8E57B3FD002B9768189F0863AE22922A9C37E159169B853955DCB3111429515"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\065_phase2_stable_market_regression.sql",
+    "sha256": "0DE9329F47AE72806492310D74BE1576E95BE89B5F4A3244E4B0C980838307D4"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\066_phase2_v2_rank_stream.sql",
+    "sha256": "A8631B1EDD81713A7B49357B59C968EB60ADF5AEC4DAD5654B1865FF35AD92A2"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\067_phase2_adjustment_batch_date_manifest.sql",
+    "sha256": "61BBBA2AAB17AEC858A2364190C8992E64CAD3B5834C4AFC4178E4F24049BC71"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\068_phase2_symbol_first_eligibility.sql",
+    "sha256": "63500B42387963245172DC0650A548A22E498DB3A3AFBF7435C3105D1654BB3B"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\069_phase2_date_local_adjustment_cache.sql",
+    "sha256": "EDBD6C532799983F413520D59358E2B40FDD175FDAAC2B99DFEB508DF200B19D"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\070_phase2_execution_weight_policy.sql",
+    "sha256": "FD168A8F92B4113A365AF4B1E8843CA276A09AEC5FCB6BEDBBDB7468F975B297"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\071_phase2_configured_cache_probe_batches.sql",
+    "sha256": "E2803193E45226C9FAF99F55C09ABA3D00AC9473C7AE8A23730C4E9E1E296DCB"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\072_phase2_cache_projection_accounting.sql",
+    "sha256": "DE0DF30E62A2F38A186B248D0D0B835C6745699FC7AA74DF4D105747B439E5F6"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\073_phase2_cache_first_load.sql",
+    "sha256": "49FAA52B77FD83338D28DFFC2E4C6CE92C081CB4753FB39287E429D382A30A62"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\074_phase2_reproducible_cache_probe.sql",
+    "sha256": "4E011F7103C4DC97E7CD3F83116C1F65FB65535A7D4CB42A15D1C20AF3256BAF"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\075_phase2_cache_hash_invalidation.sql",
+    "sha256": "4A87884AE3E45E4D1E83E1045A2D727F35C8FABF033BE26E2333E0AA74A57FA4"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\076_phase2_vci_lineage_archive.sql",
+    "sha256": "036683A616C93E603C766A8E0EC1AEBC82C009920769B848D9F79AD83C7E0107"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\sql\\migrations\\077_phase2_recovered_vci_lineage.sql",
+    "sha256": "D0275B9BE83DB6C33B3EB1CB725614A1E9DAB7B318AB35AC29237A2CBC10A308"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\fundamental_features_assertions.sql",
+    "sha256": "39196DB6787B87EB018EA8A8BCC9D042993ACBDDAD60E57A6582A8DFC264FDD3"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\fundamental_features_fixture.sql",
+    "sha256": "4B78794611B5542A238E139C718FBDE26BA178BB1E23B78DF6C7C67046E6260A"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\fundamentals_pit_assertions.sql",
+    "sha256": "4ECA5D373A8736AE5E14376301C17CD235E56F10C6F16ED2090EA7BD04FEAD55"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\fundamentals_pit_fixture.sql",
+    "sha256": "D9818F74B3E5B36B31DCF11B622C58ED48D3BFB7004201034B4D35BE280EBB5F"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_cache_first_load_assertions.sql",
+    "sha256": "752914CCE8DF704A7CC2F273248E019C77F78A9AF70B5E765D560C03F5B4C652"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_cache_probe_strategy_assertions.sql",
+    "sha256": "3C12E42A5B662999B84F816622BA8D72A0E79257E50F5B88C7C39F68C6A72802"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_cache_projection_assertions.sql",
+    "sha256": "987D1886B2322BB51B49B8BA3DF57CA216AB3BCA597EB0C199CE32114D394CD3"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_cache_replicate_assertions.sql",
+    "sha256": "9E61CCC7A0DD602FACF1ECCE9EDA5B9C1E1606AA07FF981A75A6064D0F608FA1"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_cache_reset_assertions.sql",
+    "sha256": "D9E03E79CB2D7D3E7367B0D5F32BB54B14F9A791F8EC9C19CC3233A45FFA7A53"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_chunk_assertions.sql",
+    "sha256": "60FCA9BC196867B45B57FB12EB6A844A43592E38B510067DB3E24DC345F99822"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_e2_real_assertions.sql",
+    "sha256": "C4D732477EF1DD5E44840AB3771B44363F483D0FB9C78D85AA4DA1C9BB5F79D2"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_execution_policy_assertions.sql",
+    "sha256": "D38A875F640AD6E90FEDA3E28C92B317C68B044C00879B56BBD459F6A3B136C2"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_feature_assertions.sql",
+    "sha256": "ECBA5BBF087F443C6527A47E1A217D368255B7D5639E3201A3B20CAC138B0245"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_feature_fixture.sql",
+    "sha256": "AE0043F6D07030B8FBA093A9D966E6651AC2CF8AA446170F6EA9776C149DADEE"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_label_outputs_assertions.sql",
+    "sha256": "D2419568ED380481F23C19AA33DEB9C4A877796F84B165320D85473BDDBD2A21"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_leakage_assertions.sql",
+    "sha256": "1A4B4880C4CE083A9C7DCC35148D6AD63FE5D23652920F2D8B4417C95BA7ABA8"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_market_projection_assertions.sql",
+    "sha256": "CF3AE72EB5655BBBE82A214491AA35EDCD4AFEECBDDB1D4DA8BCC99C7F421D8C"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_moving_window_assertions.sql",
+    "sha256": "3F34E5BFE614B4AD24CB72C31DC1101F760B7A531E891C26304F03F43520068A"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_rank_population_assertions.sql",
+    "sha256": "69D598DF4E03C0787567963604D681D70E8213E443789493E30430CCFE2F356E"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_rank_repair_assertions.sql",
+    "sha256": "11DC7E0DACC4231924EE4A40488277CD077D5344B0DCFCC63D5024D50EAE0A81"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_recursive_builder_golden.sql",
+    "sha256": "97C7456781B4557A72C2588A921C1B340A3A829714DB2F15D9E5D2111D76A524"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_session_cache_assertions.sql",
+    "sha256": "2AE1295CC518C97139106B452BD288247676EE339473988F5A0F2900615E91E0"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_shared_builder_assertions.sql",
+    "sha256": "2AC391650C1FA15AF5B241BB18613218687C5A4FCADB17BE0C75D792B4DBC4B2"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_source_inputs_assertions.sql",
+    "sha256": "D9BCBE10102714D4B1E540407238800F2B26CEC97A5677E4D0332D2326AC0B80"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_vci_backfill_assertions.sql",
+    "sha256": "9259233498D80E33E5F5EF749CA971EA7B90003447EB4BAFAFE09140AEBC3337"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_vci_lineage_assertions.sql",
+    "sha256": "265A61F956FEAC3500FC2C1CA66F8967704A5EF7E9C17B40F16DC56E907A6BD5"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\phase2_vci_recovery_lineage_assertions.sql",
+    "sha256": "8D1B4D45671AEAE3D3CACE315742E53C924B49CFCB9505E363DE1393A58F6EDF"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\schema_assertions.sql",
+    "sha256": "A586E4985D4F09BA7D6B8363AA585BD78E92CF9B162F6AA1C7716FAB60B4B2FE"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\test_migration.sh",
+    "sha256": "3212C94E54741BA407C82DD962268B6A47467498D32C264A89C36FBF1F5CACA6"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\vndirect_adjustment_assertions.sql",
+    "sha256": "5C2FB017EBA10EA7EE600E41B4D7862EC9A81AD617D2A7AA7752CF06B45E3C22"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\vndirect_adjustment_backfill_fixture.sql",
+    "sha256": "00B538F8AE1C4D82F3A25BAF950FD675A4FB4D3B264A2041224FF74E65DA12BB"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\vndirect_close_tick_assertions.sql",
+    "sha256": "085505E7488FAB556E65B415DC6422AA56D8B228D6E0A8F71D482DF9C10088AA"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\tests\\sql\\vndirect_close_tick_fixture.sql",
+    "sha256": "50AF6FDE707F1F335EEDA85C1CE7BE5D1FCC5090D8738527212118CA383FFB4F"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\py\\vnstock_worker.py",
+    "sha256": "68EA42456C4DA3314A33A81BDCCA125C39DAE7C97E30B889E29A5548D82CE589"
+  },
+  {
+    "path": "C:\\Users\\HP\\VN-Signal\\docs\\evidence\\phase2\\phase2_vci_lineage_full_077_20261024.sql",
+    "sha256": "5A8E474003D1F87F9CB3B7CBD6237904BCB96AF309CCA25A2CFB86AC993D02D5"
+  }
+]

@@ -1,0 +1,780 @@
+Pager usage is off.
+Timing is on.
+SET
+Time: 20.503 ms
+SET
+Time: 0.276 ms
+SET
+Time: 0.225 ms
+SET
+Time: 0.125 ms
+SET
+Time: 0.090 ms
+DO
+Time: 116.583 ms
+BEGIN
+Time: 0.210 ms
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:16: NOTICE:  Phase 2 adjustment cache initialized for 102 batches of up to 15 symbols
+ begin_phase2_adjustment_rows 
+------------------------------
+                          102
+(1 row)
+
+Time: 1904.447 ms (00:01.904)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:01.47206
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           23765
+(1 row)
+
+Time: 1479.828 ms (00:01.480)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29440
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.958851
+Time: 959.252 ms
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28440
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:13.945793
+Time: 13946.288 ms (00:13.946)
+ populate_phase2_adjustment_rows 
+---------------------------------
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:02.686086
+                           26686
+(1 row)
+
+Time: 2687.049 ms (00:02.687)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 4 rows 28935, dates 2008, elapsed 00:00:03.601075
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28935
+(1 row)
+
+Time: 3601.562 ms (00:03.602)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 5 rows 30019, dates 2008, elapsed 00:00:01.931764
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           30019
+(1 row)
+
+Time: 1932.245 ms (00:01.932)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 6 rows 27548, dates 2008, elapsed 00:00:05.257542
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27548
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 7 rows 28650, dates 2008, elapsed 00:00:04.599949
+Time: 5259.040 ms (00:05.259)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28650
+(1 row)
+
+Time: 4600.486 ms (00:04.600)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 8 rows 27443, dates 2008, elapsed 00:00:01.078334
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27443
+(1 row)
+
+Time: 1079.075 ms (00:01.079)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 9 rows 27995, dates 2008, elapsed 00:00:01.663725
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27995
+(1 row)
+
+Time: 1664.190 ms (00:01.664)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 10 rows 28450, dates 2008, elapsed 00:00:01.687978
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28450
+(1 row)
+
+Time: 1688.502 ms (00:01.689)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27414
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 11 rows 27414, dates 2008, elapsed 00:00:00.720037
+Time: 720.401 ms
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 12 rows 29159, dates 2008, elapsed 00:00:02.166084
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29159
+(1 row)
+
+Time: 2166.665 ms (00:02.167)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 13 rows 28341, dates 2008, elapsed 00:00:02.037621
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28341
+(1 row)
+
+Time: 2038.295 ms (00:02.038)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 14 rows 29524, dates 2008, elapsed 00:00:02.771308
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29524
+(1 row)
+
+Time: 2772.853 ms (00:02.773)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 15 rows 26855, dates 2008, elapsed 00:00:00.991158
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           26855
+(1 row)
+
+Time: 991.519 ms
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 16 rows 27839, dates 2008, elapsed 00:00:01.908783
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27839
+(1 row)
+
+Time: 1911.055 ms (00:01.911)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 17 rows 28432, dates 2008, elapsed 00:00:01.602167
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28432
+(1 row)
+
+Time: 1602.523 ms (00:01.603)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27830
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 18 rows 27830, dates 2008, elapsed 00:00:08.10946
+Time: 8109.827 ms (00:08.110)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 19 rows 30113, dates 2008, elapsed 00:00:02.111554
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           30113
+(1 row)
+
+Time: 2112.086 ms (00:02.112)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 20 rows 30045, dates 2008, elapsed 00:00:01.452609
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           30045
+(1 row)
+
+Time: 1455.018 ms (00:01.455)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 21 rows 30103, dates 2008, elapsed 00:00:01.644475
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           30103
+(1 row)
+
+Time: 1645.495 ms (00:01.645)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 22 rows 26165, dates 2008, elapsed 00:00:04.951856
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           26165
+(1 row)
+
+Time: 4952.605 ms (00:04.953)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 23 rows 28492, dates 2008, elapsed 00:00:04.289533
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28492
+(1 row)
+
+Time: 4291.096 ms (00:04.291)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 24 rows 26125, dates 2008, elapsed 00:00:05.252976
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           26125
+(1 row)
+
+Time: 5253.745 ms (00:05.254)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 25 rows 27346, dates 2008, elapsed 00:00:06.665846
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27346
+(1 row)
+
+Time: 6666.479 ms (00:06.666)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29025
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 26 rows 29025, dates 2008, elapsed 00:00:27.355888
+Time: 27363.353 ms (00:27.363)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 27 rows 30096, dates 2008, elapsed 00:00:11.632457
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           30096
+(1 row)
+
+Time: 11634.658 ms (00:11.635)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 28 rows 29104, dates 2008, elapsed 00:00:18.017345
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29104
+(1 row)
+
+Time: 18020.955 ms (00:18.021)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 29 rows 30114, dates 2008, elapsed 00:00:03.893846
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           30114
+(1 row)
+
+Time: 3894.901 ms (00:03.895)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 30 rows 27325, dates 2008, elapsed 00:00:01.893562
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27325
+(1 row)
+
+Time: 1894.000 ms (00:01.894)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 31 rows 30096, dates 2008, elapsed 00:00:01.08899
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           30096
+(1 row)
+
+Time: 1089.535 ms (00:01.090)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 32 rows 26161, dates 2008, elapsed 00:00:01.369558
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           26161
+(1 row)
+
+Time: 1370.316 ms (00:01.370)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 33 rows 26285, dates 2008, elapsed 00:00:04.798577
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           26285
+(1 row)
+
+Time: 4799.039 ms (00:04.799)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 34 rows 25668, dates 2008, elapsed 00:00:01.2964
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           25668
+(1 row)
+
+Time: 1296.745 ms (00:01.297)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 35 rows 28471, dates 2008, elapsed 00:00:03.813008
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28471
+(1 row)
+
+Time: 3820.920 ms (00:03.821)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 36 rows 26642, dates 2008, elapsed 00:00:01.525313
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           26642
+(1 row)
+
+Time: 1525.740 ms (00:01.526)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 37 rows 28592, dates 2008, elapsed 00:00:04.039041
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28592
+(1 row)
+
+Time: 4039.533 ms (00:04.040)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 38 rows 29471, dates 2008, elapsed 00:00:02.139741
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29471
+(1 row)
+
+Time: 2140.141 ms (00:02.140)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 39 rows 26653, dates 2008, elapsed 00:00:07.244967
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           26653
+(1 row)
+
+Time: 7245.583 ms (00:07.246)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 40 rows 26234, dates 2008, elapsed 00:00:04.537109
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           26234
+(1 row)
+
+Time: 4537.641 ms (00:04.538)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 41 rows 26396, dates 2008, elapsed 00:00:04.950539
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           26396
+(1 row)
+
+Time: 4951.862 ms (00:04.952)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 42 rows 29480, dates 2008, elapsed 00:00:22.070729
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29480
+(1 row)
+
+Time: 22071.172 ms (00:22.071)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 43 rows 24007, dates 2008, elapsed 00:00:03.625911
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           24007
+(1 row)
+
+Time: 3626.373 ms (00:03.626)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 44 rows 26717, dates 2008, elapsed 00:00:01.417865
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           26717
+(1 row)
+
+Time: 1418.257 ms (00:01.418)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 45 rows 29356, dates 2008, elapsed 00:00:01.617856
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29356
+(1 row)
+
+Time: 1618.554 ms (00:01.619)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 46 rows 27420, dates 2008, elapsed 00:00:06.357742
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27420
+(1 row)
+
+Time: 6358.271 ms (00:06.358)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 47 rows 30101, dates 2008, elapsed 00:00:11.572336
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           30101
+(1 row)
+
+Time: 11573.121 ms (00:11.573)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 48 rows 27693, dates 2008, elapsed 00:00:12.116753
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27693
+(1 row)
+
+Time: 12117.501 ms (00:12.118)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 49 rows 28003, dates 2008, elapsed 00:00:13.748611
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28003
+(1 row)
+
+Time: 13749.187 ms (00:13.749)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 50 rows 29556, dates 2008, elapsed 00:00:04.171773
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29556
+(1 row)
+
+Time: 4172.462 ms (00:04.172)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 51 rows 27376, dates 2008, elapsed 00:00:02.665766
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27376
+(1 row)
+
+Time: 2666.166 ms (00:02.666)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 52 rows 29119, dates 2008, elapsed 00:00:01.531175
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29119
+(1 row)
+
+Time: 1531.522 ms (00:01.532)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 53 rows 27281, dates 2008, elapsed 00:00:02.736385
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27281
+(1 row)
+
+Time: 2736.850 ms (00:02.737)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 54 rows 30066, dates 2008, elapsed 00:00:01.864775
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           30066
+(1 row)
+
+Time: 1865.219 ms (00:01.865)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 55 rows 26636, dates 2008, elapsed 00:00:03.765605
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           26636
+(1 row)
+
+Time: 3766.057 ms (00:03.766)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28765
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 56 rows 28765, dates 2008, elapsed 00:00:05.092857
+Time: 5093.468 ms (00:05.093)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 57 rows 28643, dates 2008, elapsed 00:00:05.706977
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28643
+(1 row)
+
+Time: 5707.761 ms (00:05.708)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 58 rows 28655, dates 2008, elapsed 00:00:04.639203
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28655
+(1 row)
+
+Time: 4639.722 ms (00:04.640)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27579
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 59 rows 27579, dates 2008, elapsed 00:00:08.276735
+Time: 8277.203 ms (00:08.277)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 60 rows 27902, dates 2008, elapsed 00:00:08.549894
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27902
+(1 row)
+
+Time: 8550.244 ms (00:08.550)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 61 rows 26646, dates 2008, elapsed 00:00:02.013925
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           26646
+(1 row)
+
+Time: 2014.284 ms (00:02.014)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 62 rows 30106, dates 2008, elapsed 00:00:01.18709
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           30106
+(1 row)
+
+Time: 1187.441 ms (00:01.187)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 63 rows 27255, dates 2008, elapsed 00:00:01.958843
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27255
+(1 row)
+
+Time: 1959.196 ms (00:01.959)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 64 rows 28642, dates 2008, elapsed 00:00:01.129926
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28642
+(1 row)
+
+Time: 1130.232 ms (00:01.130)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 65 rows 24793, dates 2008, elapsed 00:00:00.934417
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           24793
+(1 row)
+
+Time: 934.717 ms
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 66 rows 28285, dates 2008, elapsed 00:00:01.21864
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28285
+(1 row)
+
+Time: 1219.044 ms (00:01.219)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 67 rows 30082, dates 2008, elapsed 00:00:02.526771
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           30082
+(1 row)
+
+Time: 2527.144 ms (00:02.527)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 68 rows 27166, dates 2008, elapsed 00:00:01.201682
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27166
+(1 row)
+
+Time: 1202.015 ms (00:01.202)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 69 rows 29519, dates 2008, elapsed 00:00:01.933863
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29519
+(1 row)
+
+Time: 1934.191 ms (00:01.934)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 70 rows 29019, dates 2008, elapsed 00:00:04.64437
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29019
+(1 row)
+
+Time: 4645.449 ms (00:04.645)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 71 rows 29467, dates 2008, elapsed 00:00:08.218095
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29467
+(1 row)
+
+Time: 8218.558 ms (00:08.219)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 72 rows 29992, dates 2008, elapsed 00:00:13.717956
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29992
+(1 row)
+
+Time: 13719.341 ms (00:13.719)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 73 rows 28208, dates 2008, elapsed 00:00:03.900217
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28208
+(1 row)
+
+Time: 3900.726 ms (00:03.901)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28156
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 74 rows 28156, dates 2008, elapsed 00:00:34.037339
+Time: 34037.865 ms (00:34.038)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 75 rows 29115, dates 2008, elapsed 00:00:03.358706
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29115
+(1 row)
+
+Time: 3359.165 ms (00:03.359)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 76 rows 25850, dates 2008, elapsed 00:00:04.345176
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           25850
+(1 row)
+
+Time: 4345.495 ms (00:04.345)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 77 rows 27247, dates 2008, elapsed 00:00:04.277692
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27247
+(1 row)
+
+Time: 4278.031 ms (00:04.278)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 78 rows 29942, dates 2008, elapsed 00:00:09.643331
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29942
+(1 row)
+
+Time: 9643.780 ms (00:09.644)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 79 rows 29574, dates 2008, elapsed 00:00:08.689542
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29574
+(1 row)
+
+Time: 8690.103 ms (00:08.690)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 80 rows 28782, dates 2008, elapsed 00:00:13.14432
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28782
+(1 row)
+
+Time: 13145.319 ms (00:13.145)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 81 rows 29581, dates 2008, elapsed 00:00:13.475043
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29581
+(1 row)
+
+Time: 13475.760 ms (00:13.476)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 82 rows 25451, dates 2008, elapsed 00:00:07.015681
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           25451
+(1 row)
+
+Time: 7016.111 ms (00:07.016)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 83 rows 25655, dates 2008, elapsed 00:00:11.824933
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           25655
+(1 row)
+
+Time: 11825.615 ms (00:11.826)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29932
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 84 rows 29932, dates 2008, elapsed 00:00:25.273437
+Time: 25274.496 ms (00:25.274)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 85 rows 26081, dates 2008, elapsed 00:00:09.831804
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           26081
+(1 row)
+
+Time: 9833.286 ms (00:09.833)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29086
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 86 rows 29086, dates 2008, elapsed 00:00:29.656059
+Time: 29656.448 ms (00:29.656)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 87 rows 28992, dates 2008, elapsed 00:00:05.673386
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28992
+(1 row)
+
+Time: 5673.810 ms (00:05.674)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           30007
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 88 rows 30007, dates 2008, elapsed 00:00:18.184293
+Time: 18184.634 ms (00:18.185)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 89 rows 21527, dates 2008, elapsed 00:00:07.627873
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           21527
+(1 row)
+
+Time: 7628.535 ms (00:07.629)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 90 rows 30105, dates 2008, elapsed 00:00:09.27888
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           30105
+(1 row)
+
+Time: 9279.841 ms (00:09.280)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 91 rows 28412, dates 2008, elapsed 00:00:09.891644
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28412
+(1 row)
+
+Time: 9892.067 ms (00:09.892)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 92 rows 25233, dates 2008, elapsed 00:00:07.171469
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           25233
+(1 row)
+
+Time: 7171.862 ms (00:07.172)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29424
+(1 row)
+
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 93 rows 29424, dates 2008, elapsed 00:00:27.502366
+Time: 27502.825 ms (00:27.503)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 94 rows 27773, dates 2008, elapsed 00:00:09.741799
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27773
+(1 row)
+
+Time: 9742.349 ms (00:09.742)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 95 rows 30008, dates 2008, elapsed 00:00:21.586634
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           30008
+(1 row)
+
+Time: 21587.165 ms (00:21.587)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 96 rows 29375, dates 2008, elapsed 00:00:28.383381
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29375
+(1 row)
+
+Time: 28384.023 ms (00:28.384)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 97 rows 29282, dates 2008, elapsed 00:00:14.468195
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29282
+(1 row)
+
+Time: 14469.215 ms (00:14.469)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 98 rows 27717, dates 2008, elapsed 00:00:21.328037
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           27717
+(1 row)
+
+Time: 21328.682 ms (00:21.329)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 99 rows 29083, dates 2008, elapsed 00:00:26.538434
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29083
+(1 row)
+
+Time: 26538.844 ms (00:26.539)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 100 rows 25999, dates 2008, elapsed 00:00:16.892205
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           25999
+(1 row)
+
+Time: 16892.779 ms (00:16.893)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:26: NOTICE:  Phase 2 date-local adjustment cache batch 101 rows 6024, dates 2008, elapsed 00:00:03.787874
+ populate_phase2_adjustment_rows 
+---------------------------------
+                            6024
+(1 row)
+
+Time: 3788.431 ms (00:03.788)
+Time: 3.275 ms
+ finish_phase2_adjustment_rows 
+-------------------------------
+                       2844435
+(1 row)
+
+Time: 25089.571 ms (00:25.090)
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:27: NOTICE:  Phase 2 adjustment cache rows 2844435, finalize elapsed 00:00:25.075813
+SET
+Time: 4.434 ms
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:30: NOTICE:  Phase 2 price-day hash range 2021-03-09 through 2025-12-31: requested 1206, uncovered 1206, date planning elapsed 00:00:00.728031
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:30: NOTICE:  Phase 2 price-day hash aggregate completed: 1206 dates, elapsed 00:01:13.904811
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:30: NOTICE:  Phase 2 price-day hash coverage recorded: 1206 requested dates, total elapsed 00:01:13.916542
+ phase2_prepare_price_day_hashes 
+---------------------------------
+ 
+(1 row)
+
+Time: 73942.720 ms (01:13.943)
+ hashed_dates 
+--------------
+         1206
+(1 row)
+
+Time: 1.611 ms
+ covered_dates 
+---------------
+          1206
+(1 row)
+
+Time: 0.276 ms
+SET
+Time: 0.086 ms
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:34: NOTICE:  Phase 2 price-day hash range 2021-03-09 through 2025-12-31: requested 1206, uncovered 0, date planning elapsed 00:00:00.126653
+ phase2_prepare_price_day_hashes 
+---------------------------------
+ 
+(1 row)
+
+Time: 129.107 ms
+psql:docs/evidence/phase2/phase2_hash_lowmem_069_20261024.psql:34: NOTICE:  Phase 2 price-day hash coverage recorded: 1206 requested dates, total elapsed 00:00:00.128845
+ROLLBACK
+Time: 139.746 ms

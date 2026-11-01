@@ -144,12 +144,59 @@ func (p *PostgresStore) Completed(ctx context.Context, jobID string) (bool, erro
 	return completed, err
 }
 
+// FundamentalJobState reports the durable state used to preflight a VCI
+// fundamentals batch before any market-data request is sent.
+func (p *PostgresStore) FundamentalJobState(ctx context.Context, jobID string) (string, time.Time, bool, error) {
+	if p == nil || p.DB == nil {
+		return "", time.Time{}, false, errors.New("database missing")
+	}
+	var state string
+	var updatedAt time.Time
+	err := p.DB.QueryRowContext(ctx, `SELECT state,updated_at FROM ops.ingest_jobs WHERE idempotency_key=$1`, jobID).Scan(&state, &updatedAt)
+	if errors.Is(err, sql.ErrNoRows) {
+		return "", time.Time{}, false, nil
+	}
+	if err != nil {
+		return "", time.Time{}, false, err
+	}
+	return state, updatedAt, true, nil
+}
+
+// AvailableQuotaBudget returns the unreserved calls in the fresh, current-day
+// durable quota guard. It fails closed when the guard is absent, expired,
+// malformed, or belongs to a different Vietnam date.
+func (p *PostgresStore) AvailableQuotaBudget(ctx context.Context) (int, error) {
+	if p == nil || p.DB == nil {
+		return 0, ErrNoQuotaSnapshot
+	}
+	if err := ctx.Err(); err != nil {
+		return 0, err
+	}
+	var expires time.Time
+	var day string
+	var budget, spent int
+	err := p.DB.QueryRowContext(ctx, `SELECT expires_at,day_key::text,call_budget,spent
+		FROM ops.quota_guard WHERE singleton=true`).Scan(&expires, &day, &budget, &spent)
+	if errors.Is(err, sql.ErrNoRows) {
+		return 0, ErrNoQuotaSnapshot
+	}
+	if err != nil {
+		return 0, fmt.Errorf("quota guard budget read: %w", err)
+	}
+	now := p.clock()
+	if !now.Before(expires) || day != vietnamDate(now) || budget < 0 || spent < 0 || spent > budget {
+		return 0, ErrNoQuotaSnapshot
+	}
+	return budget - spent, nil
+}
+
 // ReserveAttempt is the database-wide serialized budget + per-job reservation.
 // Unknown, expired, spent or cross-date limits block before dispatch.
 func (p *PostgresStore) ReserveAttempt(ctx context.Context, job BackfillJob, key, source string, at time.Time) (time.Time, error) {
 	zero := time.Time{}
-	if p == nil || p.DB == nil || (job.Route != "equity_ohlcv" && !(job.Route == "index_ohlcv" && job.Symbol == "VNINDEX" && (source == "kbs" || source == "vci"))) || source == "" ||
-		key == "" || job.Symbol == "" || job.Start > job.End || job.Start == "" || job.End == "" {
+	fundamental := (job.Route == "income_statement" || job.Route == "balance_sheet" || job.Route == "cash_flow") && source == "vci"
+	if p == nil || p.DB == nil || (job.Route != "equity_ohlcv" && !(job.Route == "index_ohlcv" && job.Symbol == "VNINDEX" && (source == "kbs" || source == "vci")) && !fundamental) || source == "" ||
+		key == "" || job.Symbol == "" || (!fundamental && (job.Start > job.End || job.Start == "" || job.End == "")) || (fundamental && (job.Start != "" || job.End != "")) {
 		return zero, errors.New("invalid database reservation request")
 	}
 	now := p.clock()
@@ -192,9 +239,13 @@ func (p *PostgresStore) ReserveAttempt(ctx context.Context, job BackfillJob, key
 	if !when.Before(expires) || vietnamDate(when) != day {
 		return zero, ErrNoQuotaSnapshot
 	}
+	var dateFrom, dateTo any
+	if !fundamental {
+		dateFrom, dateTo = job.Start, job.End
+	}
 	_, err = tx.ExecContext(ctx, `INSERT INTO ops.ingest_jobs(idempotency_key,route,symbol,source,date_from,date_to)
 		VALUES($1,$2,$3,$4,$5::date,$6::date)
-		ON CONFLICT(idempotency_key) DO NOTHING`, key, job.Route, job.Symbol, source, job.Start, job.End)
+		ON CONFLICT(idempotency_key) DO NOTHING`, key, job.Route, job.Symbol, source, dateFrom, dateTo)
 	if err != nil {
 		return zero, err
 	}
@@ -202,14 +253,16 @@ func (p *PostgresStore) ReserveAttempt(ctx context.Context, job BackfillJob, key
 	var state string
 	var attempts int
 	var updated time.Time
-	var storedRoute, storedSymbol, storedSource, storedStart, storedEnd string
+	var storedRoute, storedSymbol, storedSource string
+	var storedStart, storedEnd sql.NullString
 	err = tx.QueryRowContext(ctx, `SELECT job_id,state,attempts,updated_at,route,symbol,source,date_from::text,date_to::text
         FROM ops.ingest_jobs WHERE idempotency_key=$1 FOR UPDATE`, key).
 		Scan(&id, &state, &attempts, &updated, &storedRoute, &storedSymbol, &storedSource, &storedStart, &storedEnd)
 	if err != nil {
 		return zero, err
 	}
-	if storedRoute != job.Route || storedSymbol != job.Symbol || storedSource != source || storedStart != job.Start || storedEnd != job.End {
+	if storedRoute != job.Route || storedSymbol != job.Symbol || storedSource != source ||
+		(fundamental && (storedStart.Valid || storedEnd.Valid)) || (!fundamental && (!storedStart.Valid || !storedEnd.Valid || storedStart.String != job.Start || storedEnd.String != job.End)) {
 		return zero, errors.New("job idempotency key collides with different parameters")
 	}
 	if state == "COMPLETED" || state == "PARTIAL" {

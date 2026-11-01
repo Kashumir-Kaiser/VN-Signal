@@ -1,0 +1,12 @@
+BEGIN
+SET
+SET
+DO
+CREATE TABLE
+COPY 834
+DO
+INSERT 0 834
+psql:docs/evidence/phase2/bsc_price_limits_20190102/import_report_clone.psql:133: NOTICE:  table "phase2_bsc_price_limit_candidates_106" does not exist, skipping
+DO
+psql:docs/evidence/phase2/bsc_price_limits_20190102/import_report_clone.psql:133: NOTICE:  BSC rows inserted on first application: 834
+COMMIT

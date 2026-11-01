@@ -1,0 +1,17 @@
+\set ON_ERROR_STOP on
+\pset pager off
+BEGIN;
+SET LOCAL application_name='phase2-cache-plan-diagnostic';
+SET LOCAL statement_timeout='5min';
+SET LOCAL jit=off;
+SET LOCAL work_mem='8MB';
+SET LOCAL maintenance_work_mem='16MB';
+SET LOCAL enable_nestloop=off;
+SELECT feat.begin_phase2_adjustment_rows(15,60);
+SELECT array_agg(symbol_id ORDER BY symbol_id)::text AS ids FROM pg_temp.phase2_adjustment_symbol_batches WHERE batch_no=0 \gset first_
+SELECT array_agg(symbol_id ORDER BY symbol_id)::text AS ids FROM pg_temp.phase2_adjustment_symbol_batches WHERE batch_no=1 \gset second_
+EXPLAIN (ANALYZE,BUFFERS,SETTINGS,FORMAT TEXT) SELECT * FROM feat.phase2_vndirect_adjustment_details_for_symbols(:'first_ids'::bigint[]);
+EXPLAIN (ANALYZE,BUFFERS,SETTINGS,FORMAT TEXT) SELECT * FROM feat.phase2_vndirect_adjustment_details_for_symbols(:'second_ids'::bigint[]);
+EXPLAIN (ANALYZE,BUFFERS,SETTINGS,FORMAT TEXT) SELECT * FROM feat.phase2_vndirect_adjustment_details_for_symbols(:'first_ids'::bigint[]);
+EXPLAIN (ANALYZE,BUFFERS,SETTINGS,FORMAT TEXT) SELECT * FROM feat.phase2_vndirect_adjustment_details_for_symbols(:'second_ids'::bigint[]);
+ROLLBACK;

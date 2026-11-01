@@ -1,0 +1,95 @@
+Timing is on.
+BEGIN
+NOTICE:  Phase 2 adjustment cache rows 2844435, elapsed 00:01:19.694541
+SET
+SET
+SET
+SET
+SET
+SET
+NOTICE:  Phase 2 sessions 567, elapsed 00:01:20.145255
+NOTICE:  Phase 2 market context rows 567, elapsed 00:00:38.000899
+NOTICE:  Phase 2 rank rows 113828, elapsed 00:00:01.93972
+NOTICE:  Phase 2 batch 0 spine rows 8505, elapsed 00:00:00.127936
+NOTICE:  Phase 2 batch 0 base rows 3341, elapsed 00:00:00.161325
+NOTICE:  Phase 2 batch 0 feature rows 3341, elapsed 00:00:02.580149
+ set_config 
+------------
+ 15
+(1 row)
+
+ build_price_features_v3_internal 
+----------------------------------
+                             3341
+(1 row)
+
+NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+NOTICE:  Phase 2 sessions 567, elapsed 00:00:00.086236
+NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+NOTICE:  Phase 2 market context rows 567, elapsed 00:00:36.482865
+NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+NOTICE:  Phase 2 rank rows 113828, elapsed 00:00:02.582757
+NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+NOTICE:  relation "phase2_v3_spine" already exists, skipping
+NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+NOTICE:  relation "phase2_v3_output" already exists, skipping
+NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+NOTICE:  relation "phase2_v3_computed" already exists, skipping
+NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+NOTICE:  Phase 2 batch 0 spine rows 17010, elapsed 00:00:00.263921
+NOTICE:  Phase 2 batch 0 base rows 7111, elapsed 00:00:00.520267
+NOTICE:  Phase 2 batch 0 feature rows 7111, elapsed 00:00:05.448265
+ set_config 
+------------
+ 30
+(1 row)
+
+ build_price_features_v3_internal 
+----------------------------------
+                             7111
+(1 row)
+
+NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+NOTICE:  Phase 2 sessions 567, elapsed 00:00:00.214054
+NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+NOTICE:  Phase 2 market context rows 567, elapsed 00:00:36.487331
+NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+NOTICE:  Phase 2 rank rows 113828, elapsed 00:00:02.158676
+NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+NOTICE:  relation "phase2_v3_spine" already exists, skipping
+NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+NOTICE:  relation "phase2_v3_output" already exists, skipping
+NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+NOTICE:  relation "phase2_v3_computed" already exists, skipping
+NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+NOTICE:  Phase 2 batch 0 spine rows 34020, elapsed 00:00:00.393354
+NOTICE:  Phase 2 batch 0 base rows 14350, elapsed 00:00:01.296042
+NOTICE:  Phase 2 batch 0 feature rows 14350, elapsed 00:00:10.684424
+ set_config 
+------------
+ 60
+(1 row)
+
+ build_price_features_v3_internal 
+----------------------------------
+                            14350
+(1 row)
+
+ROLLBACK
+Time: 334595.401 ms (05:34.595)

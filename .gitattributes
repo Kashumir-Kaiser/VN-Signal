@@ -1,3 +1,10 @@
 docs/probe/phase2-adjustment/*.html -text
 docs/probe/phase2-adjustment/**/*.html -text
 docs/probe/phase2-adjustment/**/*.json -text
+# Archived evidence retains exact captured bytes, including source line endings
+# and database output padding. Formatting checks apply to executable source.
+docs/evidence/** -text -whitespace
+docs/probe/** -text -whitespace
+# Function-body migration anchors must have the same bytes on Windows and CI.
+sql/**/*.sql text eol=lf
+tests/**/*.sql text eol=lf

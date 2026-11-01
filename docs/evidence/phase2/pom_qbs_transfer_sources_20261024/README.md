@@ -1,0 +1,19 @@
+# POM and QBS transfer evidence
+
+Capture date: 2026-10-24 (UTC). All source bytes below were fetched during this capture session. SHA-256 and sizes are of the archived files.
+
+| File | Source URL | Captured (UTC) | Bytes | SHA-256 | Evidence |
+|---|---|---:|---:|---|---|
+| pom_hose_delisting_decision_208_2024-04-10.pdf | https://cafef1.mediacdn.vn/download/110424/pom-quyet-dinh-huy-niem-yet-co-phieu-0.pdf | 2026-10-24T04:21:43Z | 446848 | E6E39ABD5E3D606CF917A6AEB9CACAF74C0BD00061F9E511ED3381E3D48163BD | Two-page signed HOSE decision 208/QĐ-SGDHCM dated 2024-04-10. Page 1 names POM and gives delisting effective 2024-05-10. Page 2, Article 2, explicitly gives final HOSE trading date 2024-05-09. The decision states late filing of annual financial statements for three consecutive years as the delisting reason. PDF is a CafeF-hosted copy of a HOSE-issued decision; CafeF source page: https://cafef.vn/du-lieu/pom-1975363/pom-quyet-dinh-huy-niem-yet-co-phieu.chn |
+| pom_hnx_upcom_profile.html | https://hnx.vn/vi-vn/cophieu-etfs/chi-tiet-chung-khoan-uc-pom.html | 2026-10-24T04:21:43Z | 259454 | 9D70A9E16F17063D038C46B2BC0F0C2B5C03D34C9CB39ED7FCCA7ABCB7E09B2C | Official HNX issuer profile states first trading date 2024-05-23 and UPCoM. |
+| qbs_hose_delisting_decision_209_2024-04-10.pdf | https://cafef1.mediacdn.vn/download/110424/qbs-quyet-dinh-huy-niem-yet-co-phieu-0.pdf | 2026-10-24T04:22:57Z | 453973 | 88CF2E3D24C769441DF68DC4E72BFC8FE94DA54EB347E7FBA8139C794B31AE16 | Two-page signed HOSE decision 209/QĐ-SGDHCM dated 2024-04-10. Page 1 identifies QBS and delisting effective 2024-05-10. Page 2 explicitly states final trading date 2024-05-09; reason is the auditor's disclaimer on the 2023 annual financial statements. PDF is a CafeF-hosted copy of a HOSE-issued decision; CafeF source page: https://cafef.vn/du-lieu/qbs-1975381/qbs-quyet-dinh-huy-niem-yet-co-phieu.chn |
+| qbs_vsdc_hose_upcom_transfer_2024-04-16.html | https://vsdc.vn/vi/ad/169876 | 2026-10-24T04:22:37Z | 72033 | 1FE32B0553AE556ABCCB5BD94053A3E32E9CCAE99A50D4AAEA49A0585DC352F0 | Official VSDC notice dated 2024-04-16 names QBS, old venue HOSE, new venue UPCoM, and transfer effective 2024-05-14. It cites HOSE Decision 209/QĐ-SGDHCM dated 2024-04-10. It does not itself state last HOSE trading day or first UPCoM trading day. |
+| qbs_hnx_upcom_profile.html | https://hnx.vn/vi-vn/cophieu-etfs/chi-tiet-chung-khoan-uc-qbs.html | 2026-10-24T04:23:08Z | 258081 | C35761AB68B2D239E4F877E55AE24FD189827690421CFE7CF379F62BEE8BC3C6 | Official HNX issuer profile states first trading date 2024-05-23 and UPCoM. |
+
+## Interval conclusion
+
+Both gap rows are 2024-05-09 to 2024-05-23. For POM and QBS, the signed HOSE decisions establish 2024-05-09 as the final HOSE trading date; the official HNX profiles establish 2024-05-23 as the UPCoM first trading date. Together these endpoints support a venue-transfer explanation for each interval. HNX first-date profile fields are current profile data as retrieved on the capture date, not a contemporaneous 2024 publication. No gap assessment or database was changed as part of this source capture.
+
+## Verified report-clone archival
+
+The five checked source files were staged from the manifest and imported with `import_landings_reportclone.sql`, guarded to `vnsignal_phase2_report_20261019`. `import_first_20261024.log` records five inserted raw landings and COMMIT. `import_repeat_20261024.log` records zero added landings and COMMIT. Both runs checked original bytes, SHA-256, size, ticker, exact metadata and capture time, and exactly one matching landing per source. HOSE decisions, HNX profiles and the VSDC notice retain only the date claims each document actually establishes. No historical publication date was invented for current profiles. No lifecycle rows, venue-interval classifications, bars, prices or training eligibility changed.

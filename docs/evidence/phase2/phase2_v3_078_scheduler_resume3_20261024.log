@@ -1,0 +1,7 @@
+Import-Clixml: C:\Users\HP\VN-Signal\docs\evidence\phase2\phase2_resume_scheduler_078_20261024.ps1:22
+Line |
+  22 |  … $credential=Import-Clixml -LiteralPath "$env:LOCALAPPDATA\VN-Signal\d …
+     |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Could not find file 'C:\Users\HP\AppData\Local\VN-Signal\db-credential.xml'.
+
+

@@ -1,0 +1,135 @@
+-- Import only exact-matched BSC limit rows into the disposable Phase 2 report clone.
+-- The stage contains archived public response bytes; it is never used as a feature source.
+BEGIN;
+SET LOCAL statement_timeout='30min';
+SET LOCAL lock_timeout='5s';
+
+DO $bsc_import_target_guard$
+BEGIN
+    IF current_database()<>'vnsignal_phase2_report_20261019' THEN
+        RAISE EXCEPTION 'BSC source import is restricted to the disposable Phase 2 report clone';
+    END IF;
+END;
+$bsc_import_target_guard$;
+
+CREATE TEMP TABLE phase2_bsc_import_stage_106 (
+    symbol text NOT NULL,
+    fetched_at timestamptz NOT NULL,
+    payload_sha256 text NOT NULL,
+    raw_response_base64 text NOT NULL,
+    payload_json jsonb NOT NULL
+) ON COMMIT DROP;
+
+\copy phase2_bsc_import_stage_106(symbol,fetched_at,payload_sha256,raw_response_base64,payload_json) FROM 'C:/Users/HP/VN-Signal/docs/evidence/phase2/bsc_price_limits_20190102/landing_stage.tsv' WITH (FORMAT csv,DELIMITER E'\t',HEADER true)
+
+DO $bsc_import_stage_assertions$
+DECLARE
+    v_count bigint;
+    v_distinct bigint;
+BEGIN
+    SELECT count(*),count(DISTINCT symbol)
+      INTO v_count,v_distinct
+      FROM pg_temp.phase2_bsc_import_stage_106;
+    IF v_count<>834 OR v_distinct<>834 THEN
+        RAISE EXCEPTION 'expected 834 unique exact-matched BSC rows; found % rows / % symbols',v_count,v_distinct;
+    END IF;
+    IF EXISTS (
+        SELECT 1
+          FROM pg_temp.phase2_bsc_import_stage_106 s
+         WHERE s.symbol !~ '^[A-Z0-9]{1,12}$'
+            OR s.payload_sha256 !~ '^[0-9a-f]{64}$'
+            OR encode(sha256(decode(s.raw_response_base64,'base64')),'hex')<>lower(s.payload_sha256)
+            OR ops.phase2_try_jsonb_bytes(decode(s.raw_response_base64,'base64'))
+                 IS DISTINCT FROM s.payload_json->'response'
+            OR s.payload_json->'request'->>'action' IS DISTINCT FROM 'filter_du_lieu_lich_su'
+            OR s.payload_json->'request'->>'mck' IS DISTINCT FROM s.symbol
+            OR s.payload_json->'request'->>'fromdate' IS DISTINCT FROM '2019-01-02'
+            OR s.payload_json->'request'->>'todate' IS DISTINCT FROM '2019-01-02'
+            OR (s.payload_json->'request' ? 'security')
+            OR s.payload_json->>'request_url' IS DISTINCT FROM 'https://www.bsc.com.vn/wp-admin/admin-ajax.php'
+            OR s.payload_json->>'source_page_url' IS DISTINCT FROM
+                 'https://www.bsc.com.vn/en/historical-data/?mck='||s.symbol
+            OR s.payload_json->'response'->'success' IS DISTINCT FROM 'true'::jsonb
+            OR jsonb_typeof(s.payload_json->'rows') IS DISTINCT FROM 'array'
+            OR jsonb_array_length(s.payload_json->'rows')<>1
+            OR s.payload_json->'rows'->0->>'code' IS DISTINCT FROM s.symbol
+            OR s.payload_json->'rows'->0->>'trade_date' IS DISTINCT FROM '2019-01-02'
+            OR position(s.payload_json->'rows'->0->>'source_row_html'
+                        IN s.payload_json->'response'->'data'->>'html')=0
+            OR coalesce(s.payload_json->'validation'->>'vndirect_landing_id','') !~ '^[0-9]+$'
+            OR coalesce(s.payload_json->'validation'->>'vndirect_source_row','') !~ '^[0-9]+$'
+            OR coalesce(s.payload_json->'validation'->>'vndirect_payload_sha256','') !~ '^[0-9a-f]{64}$'
+    ) THEN
+        RAISE EXCEPTION 'BSC stage contains a malformed response, request, row, or source hash';
+    END IF;
+    IF EXISTS (
+        SELECT 1
+          FROM pg_temp.phase2_bsc_import_stage_106 s
+          JOIN raw.landings old
+            ON old.ingest_id='8b000000-2019-4019-8000-000000000102'::uuid
+           AND old.source='bsc' AND old.route='historical_data_ajax'
+           AND old.symbol=s.symbol
+         WHERE old.payload_sha256<>s.payload_sha256
+            OR old.payload_bytes<>decode(s.raw_response_base64,'base64')
+            OR old.payload<>s.payload_json
+            OR old.fetched_at<>s.fetched_at
+    ) THEN
+        RAISE EXCEPTION 'an earlier BSC import with this ingest ID conflicts with the exact capture';
+    END IF;
+END;
+$bsc_import_stage_assertions$;
+
+INSERT INTO raw.landings(
+    ingest_id,source,route,fetched_at,symbol,payload,payload_sha256,payload_bytes
+)
+SELECT '8b000000-2019-4019-8000-000000000102'::uuid,'bsc','historical_data_ajax',
+       s.fetched_at,s.symbol,s.payload_json,s.payload_sha256,
+       decode(s.raw_response_base64,'base64')
+  FROM pg_temp.phase2_bsc_import_stage_106 s
+ WHERE NOT EXISTS (
+     SELECT 1 FROM raw.landings old
+      WHERE old.ingest_id='8b000000-2019-4019-8000-000000000102'::uuid
+        AND old.source='bsc' AND old.route='historical_data_ajax'
+        AND old.symbol=s.symbol AND old.payload_sha256=s.payload_sha256
+ );
+
+DO $bsc_import_materialize_batches$
+DECLARE
+    v_symbol_ids bigint[];
+    v_batch bigint[];
+    v_start integer:=1;
+    v_end integer;
+    v_inserted bigint:=0;
+    v_count bigint;
+BEGIN
+    SELECT array_agg(s.symbol_id ORDER BY s.symbol)
+      INTO v_symbol_ids
+      FROM pg_temp.phase2_bsc_import_stage_106 st
+      JOIN core.symbols s ON s.symbol=st.symbol;
+    SELECT count(*) INTO v_count FROM pg_temp.phase2_bsc_import_stage_106;
+    IF coalesce(cardinality(v_symbol_ids),0)<>v_count THEN
+        RAISE EXCEPTION 'BSC stage includes a symbol missing from core.symbols';
+    END IF;
+    WHILE v_start<=cardinality(v_symbol_ids) LOOP
+        v_end:=least(v_start+99,cardinality(v_symbol_ids));
+        v_batch:=v_symbol_ids[v_start:v_end];
+        v_inserted:=v_inserted+core.materialize_bsc_daily_price_limits(
+            DATE '2019-01-02',DATE '2019-01-02',v_batch
+        );
+        v_start:=v_end+1;
+    END LOOP;
+    IF (
+        SELECT count(*) FROM core.daily_price_limit_observations p
+        JOIN raw.landings l ON l.landing_id=p.raw_landing_id
+        JOIN pg_temp.phase2_bsc_import_stage_106 s
+          ON s.symbol=l.symbol AND s.payload_sha256=l.payload_sha256
+        WHERE p.source='bsc' AND p.trade_date=DATE '2019-01-02'
+          AND l.ingest_id='8b000000-2019-4019-8000-000000000102'::uuid
+    )<>v_count THEN
+        RAISE EXCEPTION 'BSC import did not materialize every exact-matched source row';
+    END IF;
+    RAISE NOTICE 'BSC rows inserted on first application: %',v_inserted;
+END;
+$bsc_import_materialize_batches$;
+
+COMMIT;

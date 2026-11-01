@@ -1,0 +1,13 @@
+SET
+                                                        QUERY PLAN                                                        
+--------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=12.75..12.76 rows=1 width=8) (actual rows=1.00 loops=1)
+   Buffers: shared hit=3268 read=10421
+   ->  Function Scan on phase2_cross_sectional_ranks  (cost=0.25..10.25 rows=1000 width=0) (actual rows=16771.00 loops=1)
+         Buffers: shared hit=3268 read=10421
+ Planning:
+   Buffers: shared hit=3
+ Planning Time: 0.183 ms
+ Execution Time: 3168.414 ms
+(8 rows)
+

@@ -1,0 +1,22 @@
+section,symbol,trade_date,curated_bar_source,is_traded,o,h,l,c,v,source_archive_rows,has_v2_feature,has_v3_feature
+curated_and_feature_rows,CTR,2022-02-14,vci,t,57.53,57.53,55.97,56.49,729829,2,t,t
+curated_and_feature_rows,CTR,2022-02-15,,,,,,,,0,f,f
+curated_and_feature_rows,CTR,2022-02-16,vci,t,88.6,88.6,86.2,87,729829,0,f,f
+curated_and_feature_rows,CTR,2022-02-17,vci,t,88.6,88.6,86.2,87,729829,0,f,f
+curated_and_feature_rows,CTR,2022-02-18,vci,t,88.6,88.6,86.2,87,729829,0,f,f
+curated_and_feature_rows,CTR,2022-02-21,vci,t,88.6,88.6,86.2,87,729829,0,f,f
+curated_and_feature_rows,CTR,2022-02-22,vci,t,88.6,88.6,86.2,87,729829,0,f,f
+curated_and_feature_rows,CTR,2022-02-23,vci,t,58.44,59.41,57.14,59.35,1029000,2,t,t
+section,landing_id,ingest_id,symbol,source,route,fetched_at,payload_sha256,source_row,observed_at,o,h,low,c,v
+raw_vci_landing_rows,2550,b0baf66d-9113-4bea-8739-c5d7ac32a3f3,CTR,vci,equity_ohlcv,2026-10-18 02:22:51.898675+07,9631b5e1ea8c48beb69d0dd8915bb81e1926620067b0aa89f51b3e9a8a30d00f,829,2022-02-14 07:00:00+07,57.53,57.53,55.97,56.49,729829
+raw_vci_landing_rows,2550,b0baf66d-9113-4bea-8739-c5d7ac32a3f3,CTR,vci,equity_ohlcv,2026-10-18 02:22:51.898675+07,9631b5e1ea8c48beb69d0dd8915bb81e1926620067b0aa89f51b3e9a8a30d00f,830,2022-02-16 07:00:00+07,88.6,88.6,86.2,87,729829
+raw_vci_landing_rows,2550,b0baf66d-9113-4bea-8739-c5d7ac32a3f3,CTR,vci,equity_ohlcv,2026-10-18 02:22:51.898675+07,9631b5e1ea8c48beb69d0dd8915bb81e1926620067b0aa89f51b3e9a8a30d00f,831,2022-02-17 07:00:00+07,88.6,88.6,86.2,87,729829
+raw_vci_landing_rows,2550,b0baf66d-9113-4bea-8739-c5d7ac32a3f3,CTR,vci,equity_ohlcv,2026-10-18 02:22:51.898675+07,9631b5e1ea8c48beb69d0dd8915bb81e1926620067b0aa89f51b3e9a8a30d00f,832,2022-02-18 07:00:00+07,88.6,88.6,86.2,87,729829
+raw_vci_landing_rows,2550,b0baf66d-9113-4bea-8739-c5d7ac32a3f3,CTR,vci,equity_ohlcv,2026-10-18 02:22:51.898675+07,9631b5e1ea8c48beb69d0dd8915bb81e1926620067b0aa89f51b3e9a8a30d00f,833,2022-02-21 07:00:00+07,88.6,88.6,86.2,87,729829
+raw_vci_landing_rows,2550,b0baf66d-9113-4bea-8739-c5d7ac32a3f3,CTR,vci,equity_ohlcv,2026-10-18 02:22:51.898675+07,9631b5e1ea8c48beb69d0dd8915bb81e1926620067b0aa89f51b3e9a8a30d00f,834,2022-02-22 07:00:00+07,88.6,88.6,86.2,87,729829
+raw_vci_landing_rows,2550,b0baf66d-9113-4bea-8739-c5d7ac32a3f3,CTR,vci,equity_ohlcv,2026-10-18 02:22:51.898675+07,9631b5e1ea8c48beb69d0dd8915bb81e1926620067b0aa89f51b3e9a8a30d00f,835,2022-02-23 07:00:00+07,58.44,59.41,57.14,59.35,1029000
+section,symbol,trade_date,source,landing_id,source_row,o,h,l,c,v,exchange_code,ingest_id
+audited_source_archive_rows,CTR,2022-02-14,dnse,5592,840,57.54,57.54,55.98,56.49,729600,,e4bf8166-551f-499e-acfc-3c31b30161db
+audited_source_archive_rows,CTR,2022-02-23,dnse,5592,841,58.46,59.41,57.15,59.34,1029000,,e4bf8166-551f-499e-acfc-3c31b30161db
+audited_source_archive_rows,CTR,2022-02-14,vndirect,7128,841,88.6,88.6,86.2,87,729829,UPCOM,fa831a2d-3091-4c0d-afba-7580bb766788
+audited_source_archive_rows,CTR,2022-02-23,vndirect,7128,842,90,91.5,88,91.4,1029000,HOSE,fa831a2d-3091-4c0d-afba-7580bb766788

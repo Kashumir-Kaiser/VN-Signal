@@ -1,0 +1,79 @@
+BEGIN
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 2601, dates 350, elapsed 00:00:00.109446
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.050069
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 sessions 30, elapsed 00:00:00.048824
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 market context rows 30, elapsed 00:00:00.084522
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 rank rows 103, elapsed 00:00:00.041501
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 batch 0 spine rows 240, elapsed 00:00:00.045244
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 batch 0 base rows 238, elapsed 00:00:00.046654
+psql:tests/sql/fundamental_features_assertions.sql:4: NOTICE:  Phase 2 batch 0 feature rows 238, elapsed 00:00:00.247034
+ build_price_features_v3 
+-------------------------
+                     238
+(1 row)
+
+DO
+DO
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 2601, dates 350, elapsed 00:00:00.088568
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.042888
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  Phase 2 sessions 1, elapsed 00:00:00.029888
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  Phase 2 market context rows 1, elapsed 00:00:00.049936
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  Phase 2 rank rows 8, elapsed 00:00:00.023986
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  Phase 2 batch 0 spine rows 8, elapsed 00:00:00.062093
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  Phase 2 batch 0 base rows 8, elapsed 00:00:00.058643
+psql:tests/sql/fundamental_features_assertions.sql:177: NOTICE:  Phase 2 batch 0 feature rows 8, elapsed 00:00:00.072917
+DO
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 2601, dates 350, elapsed 00:00:00.055553
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.059492
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  Phase 2 sessions 12, elapsed 00:00:00.038619
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  Phase 2 market context rows 12, elapsed 00:00:00.039021
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  Phase 2 rank rows 6, elapsed 00:00:00.018211
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  Phase 2 batch 0 spine rows 96, elapsed 00:00:00.028543
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  Phase 2 batch 0 base rows 16, elapsed 00:00:00.036794
+psql:tests/sql/fundamental_features_assertions.sql:178: NOTICE:  Phase 2 batch 0 feature rows 16, elapsed 00:00:00.103657
+ build_price_features_v3 
+-------------------------
+                      16
+(1 row)
+
+DO
+ROLLBACK

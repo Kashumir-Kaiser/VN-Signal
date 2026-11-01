@@ -1,0 +1,36 @@
+BEGIN
+SET
+SET
+SET
+NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, elapsed 00:00:00.550261
+NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.22663
+SET
+NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, elapsed 00:00:01.669005
+NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.358919
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |        1384
+(1 row)
+
+NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:03.012157
+NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:01.194508
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        2157
+(1 row)
+
+NOTICE:  Phase 2 adjustment cache scaling exponent 1.061, 15/30/60 timings 1384/2157/4500 ms, 1518 symbols in 26 batches of 60 (estimated per-batch 6023.7 ms), projected cache time 2.61 minutes (budget 40 minutes)
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        4500
+(1 row)
+
+ assert_phase2_adjustment_cache_scaling 
+----------------------------------------
+                     1.0608988249439453
+(1 row)
+
+ROLLBACK

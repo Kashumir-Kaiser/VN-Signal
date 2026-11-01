@@ -1,0 +1,20 @@
+  statement_type  | period_type | rows | periods |    min     |    max     | seen_ok | lag_ok 
+------------------+-------------+------+---------+------------+------------+---------+--------
+ balance_sheet    | quarter     |  168 |       8 | 2024-09-30 | 2026-06-30 | t       | t
+ balance_sheet    | year        |  168 |       8 | 2018-12-31 | 2025-12-31 | t       | t
+ cash_flow        | quarter     |   56 |       8 | 2024-09-30 | 2026-06-30 | t       | t
+ cash_flow        | year        |   56 |       8 | 2018-12-31 | 2025-12-31 | t       | t
+ income_statement | quarter     |  160 |       8 | 2024-09-30 | 2026-06-30 | t       | t
+ income_statement | year        |  160 |       8 | 2018-12-31 | 2025-12-31 | t       | t
+(6 rows)
+
+ landing_id |                route                | period  | checksum_ok | body_ok |   state   |  outcome  
+------------+-------------------------------------+---------+-------------+---------+-----------+-----------
+       9798 | fundamental.equity.income_statement | quarter | t           | t       | COMPLETED | SUCCEEDED
+       9802 | fundamental.equity.balance_sheet    | quarter | t           | t       | COMPLETED | SUCCEEDED
+       9803 | fundamental.equity.cash_flow        | quarter | t           | t       | COMPLETED | SUCCEEDED
+       9804 | fundamental.equity.income_statement | year    | t           | t       | COMPLETED | SUCCEEDED
+       9805 | fundamental.equity.balance_sheet    | year    | t           | t       | COMPLETED | SUCCEEDED
+       9806 | fundamental.equity.cash_flow        | year    | t           | t       | COMPLETED | SUCCEEDED
+(6 rows)
+

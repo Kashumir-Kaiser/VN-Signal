@@ -1,0 +1,431 @@
+Build: phase2-vci-labels-rechunk-20261022
+Database: vnsignal_phase2_report_20261019 at localhost:5432
+PostgreSQL server log source: C:\Program Files\PostgreSQL\18\data\log\postgresql-2026-10-22_092542.log
+Plan capture: session_preload_libraries=auto_explain; log_min_duration=10000; log_analyze=on; log_buffers=on; log_nested_statements=on; log_timing=on
+Captured plan excerpts below are from the two successful 2022 half-year label transactions.
+
+--- Source log lines 215-271 ---
+2026-10-22 10:47:25 +07 LOG:  duration: 189116.329 ms  plan:
+	Query Text: CREATE TEMP TABLE phase2_label_first_bad_factor ON COMMIT DROP AS
+	    SELECT r.symbol_id, min(r.trade_date) AS first_bad_date
+	      FROM pg_temp.phase2_adjustment_rows r
+	      JOIN pg_temp.phase2_label_latest_exit k
+	        ON k.symbol_id = r.symbol_id
+	       AND r.trade_date <= k.latest_exit_date
+	     WHERE r.source = 'vndirect'
+	       AND (r.reference_adjustment_ratio IS NULL
+	            OR r.reference_adjustment_ratio <= 0
+	            OR r.reference_adjustment_ratio >= 'Infinity'::double precision)
+	       AND NOT EXISTS (
+	           SELECT 1
+	             FROM ops.ml_symbol_scope x
+	            WHERE x.symbol_id = r.symbol_id
+	              AND x.scope_status = 'EXCLUDED'
+	       )
+	     GROUP BY r.symbol_id
+	GroupAggregate  (cost=0.71..86277.87 rows=1 width=12) (actual time=189110.592..189110.605 rows=0.00 loops=1)
+	  Group Key: r.symbol_id
+	  Buffers: local hit=267951 read=1044272 dirtied=901884 written=901052
+	  ->  Nested Loop Anti Join  (cost=0.71..86277.85 rows=1 width=12) (actual time=189110.583..189110.593 rows=0.00 loops=1)
+	        Join Filter: (x.symbol_id = r.symbol_id)
+	        Buffers: local hit=267951 read=1044272 dirtied=901884 written=901052
+	        ->  Nested Loop  (cost=0.71..86276.83 rows=1 width=12) (actual time=189110.552..189110.553 rows=0.00 loops=1)
+	              Buffers: local hit=267951 read=1044272 dirtied=901884 written=901052
+	              ->  Index Scan using phase2_label_latest_exit_pkey on phase2_label_latest_exit k  (cost=0.28..37.19 rows=1434 width=12) (actual time=0.010..61.364 rows=1434.00 loops=1)
+	                    Index Searches: 1
+	                    Buffers: local hit=26 read=1221 written=1186
+	              ->  Index Scan using phase2_adjustment_rows_symbol_date_idx on phase2_adjustment_rows r  (cost=0.43..60.13 rows=1 width=12) (actual time=131.826..131.826 rows=0.00 loops=1434)
+	                    Index Cond: ((symbol_id = k.symbol_id) AND (trade_date <= k.latest_exit_date))
+	                    Filter: ((source = 'vndirect'::text) AND ((reference_adjustment_ratio IS NULL) OR (reference_adjustment_ratio <= '0'::double precision) OR (reference_adjustment_ratio >= 'Infinity'::double precision)))
+	                    Rows Removed by Filter: 908
+	                    Index Searches: 1434
+	                    Buffers: local hit=267925 read=1043051 dirtied=901884 written=899866
+	        ->  Seq Scan on ml_symbol_scope x  (cost=0.00..1.01 rows=1 width=8) (never executed)
+	              Filter: (scope_status = 'EXCLUDED'::text)
+2026-10-22 10:47:25 +07 CONTEXT:  SQL statement "CREATE TEMP TABLE phase2_label_first_bad_factor ON COMMIT DROP AS
+	    SELECT r.symbol_id, min(r.trade_date) AS first_bad_date
+	      FROM pg_temp.phase2_adjustment_rows r
+	      JOIN pg_temp.phase2_label_latest_exit k
+	        ON k.symbol_id = r.symbol_id
+	       AND r.trade_date <= k.latest_exit_date
+	     WHERE r.source = 'vndirect'
+	       AND (r.reference_adjustment_ratio IS NULL
+	            OR r.reference_adjustment_ratio <= 0
+	            OR r.reference_adjustment_ratio >= 'Infinity'::double precision)
+	       AND NOT EXISTS (
+	           SELECT 1
+	             FROM ops.ml_symbol_scope x
+	            WHERE x.symbol_id = r.symbol_id
+	              AND x.scope_status = 'EXCLUDED'
+	       )
+	     GROUP BY r.symbol_id"
+	PL/pgSQL function feat.build_labels_set_based(date,date) line 155 at SQL statement
+	PL/pgSQL function feat.build_labels_internal(date,date) line 3 at RETURN
+	PL/pgSQL function inline_code_block line 42 at assignment
+
+--- Source log lines 446-597 ---
+2026-10-22 10:48:19 +07 LOG:  duration: 37693.789 ms  plan:
+	Query Text: WITH index_points AS MATERIALIZED (
+	        SELECT DISTINCT t.signal_date, t.horizon_sessions, t.entry_date, t.exit_date,
+	               ie.trade_date AS index_entry_date,
+	               ix.trade_date AS index_exit_date,
+	               ie.o AS index_entry_open,
+	               ix.c AS index_exit_close
+	          FROM pg_temp.phase2_label_targets t
+	          LEFT JOIN core.index_bars ie
+	            ON ie.index_symbol = 'VNINDEX'
+	           AND ie.source = 'vci'
+	           AND ie.trade_date = t.entry_date
+	          LEFT JOIN core.index_bars ix
+	            ON ix.index_symbol = 'VNINDEX'
+	           AND ix.source = 'vci'
+	           AND ix.trade_date = t.exit_date
+	    ), assembled AS (
+	        SELECT t.*,
+	               sp.factor_log_span, sp.factor_rows, sp.bad_factor_rows, sp.one_episode_span,
+	               fb.first_bad_date,
+	               ip.index_entry_date, ip.index_exit_date,
+	               ip.index_entry_open, ip.index_exit_close,
+	               CASE
+	                   WHEN t.entry_date IS NULL OR t.exit_date IS NULL THEN 'INSUFFICIENT_SESSIONS'
+	                   WHEN t.entry_bar_date IS NULL THEN 'MISSING_ENTRY'
+	                   WHEN t.exit_bar_date IS NULL THEN 'MISSING_EXIT'
+	                   WHEN fb.first_bad_date IS NOT NULL AND fb.first_bad_date <= t.exit_date
+	                       THEN 'UNRESOLVED_ADJUSTMENT'
+	                   WHEN sp.bad_factor_rows > 0 OR sp.factor_log_span IS NULL
+	                        OR NOT coalesce(sp.one_episode_span, true)
+	                       THEN 'UNRESOLVED_ADJUSTMENT'
+	                   WHEN t.entry_episode IS DISTINCT FROM t.exit_episode THEN 'EPISODE_CHANGED'
+	                   WHEN NOT t.entry_traded OR t.entry_volume <= 0 THEN 'SUSPENDED_ENTRY'
+	                   WHEN NOT t.exit_traded OR t.exit_volume <= 0 THEN 'SUSPENDED_EXIT'
+	                   WHEN ip.index_entry_date IS NULL OR ip.index_exit_date IS NULL
+	                        OR ip.index_entry_open <= 0 OR ip.index_exit_close <= 0
+	                       THEN 'MISSING_BENCHMARK'
+	                   ELSE 'READY'
+	               END AS label_status
+	          FROM pg_temp.phase2_label_endpoint_targets t
+	          LEFT JOIN pg_temp.phase2_label_spans sp
+	            USING (symbol_id, signal_date, horizon_sessions)
+	          LEFT JOIN pg_temp.phase2_label_first_bad_factor fb
+	            ON fb.symbol_id = t.symbol_id
+	          LEFT JOIN index_points ip
+	            ON ip.signal_date = t.signal_date
+	           AND ip.horizon_sessions = t.horizon_sessions
+	    )
+	    INSERT INTO feat.labels_daily (
+	        symbol_id, signal_date, horizon_sessions, label_version, feature_set_hash,
+	        entry_date, exit_date, label_status, stock_return, vnindex_return, excess_return,
+	        stock_entry_open, stock_exit_close, vnindex_entry_open, vnindex_exit_close,
+	        price_basis, adjustment_vintage_at, entry_adjustment_vintage_at,
+	        exit_adjustment_vintage_at, factor_log_span, entry_landing_id, exit_landing_id
+	    )
+	    SELECT a.symbol_id, a.signal_date, a.horizon_sessions, v_label, v_feature_hash,
+	           a.entry_date, a.exit_date, a.label_status,
+	           CASE WHEN a.label_status = 'READY'
+	                THEN a.exit_model_close / (a.entry_model_open * exp(a.factor_log_span)) - 1 END,
+	           CASE WHEN a.label_status = 'READY'
+	                THEN a.index_exit_close / a.index_entry_open - 1 END,
+	           CASE WHEN a.label_status = 'READY'
+	                THEN a.exit_model_close / (a.entry_model_open * exp(a.factor_log_span)) - 1
+	                     - (a.index_exit_close / a.index_entry_open - 1) END,
+	           CASE WHEN a.label_status = 'READY'
+	                THEN a.entry_model_open * exp(a.factor_log_span) END,
+	           CASE WHEN a.label_status = 'READY' THEN a.exit_model_close END,
+	           a.index_entry_open, a.index_exit_close, 'adjusted_as_of_exit', a.exit_vintage,
+	           a.entry_vintage, a.exit_vintage, a.factor_log_span,
+	           a.entry_landing_id, a.exit_landing_id
+	      FROM assembled a
+	    ON CONFLICT (symbol_id, signal_date, horizon_sessions, label_version) DO UPDATE SET
+	        feature_set_hash = EXCLUDED.feature_set_hash,
+	        entry_date = EXCLUDED.entry_date,
+	        exit_date = EXCLUDED.exit_date,
+	        label_status = EXCLUDED.label_status,
+	        stock_return = EXCLUDED.stock_return,
+	        vnindex_return = EXCLUDED.vnindex_return,
+	        excess_return = EXCLUDED.excess_return,
+	        stock_entry_open = EXCLUDED.stock_entry_open,
+	        stock_exit_close = EXCLUDED.stock_exit_close,
+	        vnindex_entry_open = EXCLUDED.vnindex_entry_open,
+	        vnindex_exit_close = EXCLUDED.vnindex_exit_close,
+	        price_basis = EXCLUDED.price_basis,
+	        adjustment_vintage_at = EXCLUDED.adjustment_vintage_at,
+	        entry_adjustment_vintage_at = EXCLUDED.entry_adjustment_vintage_at,
+	        exit_adjustment_vintage_at = EXCLUDED.exit_adjustment_vintage_at,
+	        factor_log_span = EXCLUDED.factor_log_span,
+	        entry_landing_id = EXCLUDED.entry_landing_id,
+	        exit_landing_id = EXCLUDED.exit_landing_id,
+	        computed_at = now()
+	Insert on labels_daily  (cost=113425.05..629551.23 rows=0 width=0) (actual time=28373.958..28373.969 rows=0.00 loops=1)
+	  Conflict Resolution: UPDATE
+	  Conflict Arbiter Indexes: labels_daily_pkey
+	  Tuples Inserted: 342614
+	  Conflicting Tuples: 0
+	  Buffers: shared hit=4462994 read=29867 dirtied=19141 written=2698, local hit=2 read=11454
+	  CTE index_points
+	    ->  HashAggregate  (cost=14488.70..17914.84 rows=342614 width=38) (actual time=325.359..326.511 rows=240.00 loops=1)
+	          Group Key: t_1.signal_date, t_1.horizon_sessions, t_1.entry_date, t_1.exit_date, ie.trade_date, ix.trade_date, ie.o, ix.c
+	          Batches: 1  Memory Usage: 8241kB
+	          Buffers: shared hit=29 read=29, local read=2240
+	          ->  Hash Left Join  (cost=167.72..7636.42 rows=342614 width=38) (actual time=21.490..203.486 rows=342614.00 loops=1)
+	                Hash Cond: (t_1.exit_date = ix.trade_date)
+	                Buffers: shared hit=29 read=29, local read=2240
+	                ->  Hash Left Join  (cost=83.86..6651.28 rows=342614 width=26) (actual time=20.876..140.034 rows=342614.00 loops=1)
+	                      Hash Cond: (t_1.entry_date = ie.trade_date)
+	                      Buffers: shared read=29, local read=2240
+	                      ->  Seq Scan on phase2_label_targets t_1  (cost=0.00..5666.14 rows=342614 width=14) (actual time=0.098..38.266 rows=342614.00 loops=1)
+	                            Buffers: local read=2240
+	                      ->  Hash  (cost=58.92..58.92 rows=1995 width=12) (actual time=19.333..19.334 rows=1995.00 loops=1)
+	                            Buckets: 2048  Batches: 1  Memory Usage: 110kB
+	                            Buffers: shared read=29
+	                            ->  Seq Scan on index_bars ie  (cost=0.00..58.92 rows=1995 width=12) (actual time=10.092..18.923 rows=1995.00 loops=1)
+	                                  Filter: ((index_symbol = 'VNINDEX'::text) AND (source = 'vci'::text))
+	                                  Buffers: shared read=29
+	                ->  Hash  (cost=58.92..58.92 rows=1995 width=12) (actual time=0.551..0.552 rows=1995.00 loops=1)
+	                      Buckets: 2048  Batches: 1  Memory Usage: 110kB
+	                      Buffers: shared hit=29
+	                      ->  Seq Scan on index_bars ix  (cost=0.00..58.92 rows=1995 width=12) (actual time=0.023..0.360 rows=1995.00 loops=1)
+	                            Filter: ((index_symbol = 'VNINDEX'::text) AND (source = 'vci'::text))
+	                            Buffers: shared hit=29
+	  ->  Merge Left Join  (cost=95510.22..611636.40 rows=2934609 width=262) (actual time=950.080..2469.159 rows=342614.00 loops=1)
+	        Merge Cond: ((t.signal_date = ip.signal_date) AND (t.horizon_sessions = ip.horizon_sessions))
+	        Buffers: shared hit=29 read=29, local hit=2 read=11454
+	        ->  Sort  (cost=57161.05..58017.58 rows=342614 width=125) (actual time=622.449..654.990 rows=342614.00 loops=1)
+	              Sort Key: t.signal_date, t.horizon_sessions
+	              Sort Method: quicksort  Memory: 68490kB
+	              Buffers: local hit=2 read=9214
+	              ->  Hash Left Join  (cost=12685.90..25664.16 rows=342614 width=125) (actual time=171.698..496.734 rows=342614.00 loops=1)
+	                    Hash Cond: (t.symbol_id = fb.symbol_id)
+	                    Buffers: local hit=2 read=9214
+	                    ->  Hash Left Join  (cost=12685.89..24762.12 rows=342614 width=121) (actual time=170.681..429.419 rows=342614.00 loops=1)
+	                          Hash Cond: ((t.symbol_id = sp.symbol_id) AND (t.signal_date = sp.signal_date) AND (t.horizon_sessions = sp.horizon_sessions))
+	                          Buffers: local hit=2 read=9214
+	                          ->  Seq Scan on phase2_label_endpoint_targets t  (cost=0.00..9378.14 rows=342614 width=104) (actual time=0.051..75.017 rows=342614.00 loops=1)
+	                                Buffers: local hit=1 read=5951
+	                          ->  Hash  (cost=6690.14..6690.14 rows=342614 width=31) (actual time=169.358..169.359 rows=342614.00 loops=1)
+	                                Buckets: 524288  Batches: 1  Memory Usage: 27517kB
+	                                Buffers: local hit=1 read=3263
+	                                ->  Seq Scan on phase2_label_spans sp  (cost=0.00..6690.14 rows=342614 width=31) (actual time=0.101..74.102 rows=342614.00 loops=1)
+	                                      Buffers: local hit=1 read=3263
+	                    ->  Hash  (cost=0.00..0.00 rows=1 width=12) (actual time=0.033..0.033 rows=0.00 loops=1)
+	                          Buckets: 1024  Batches: 1  Memory Usage: 8kB
+	                          ->  Seq Scan on phase2_label_first_bad_factor fb  (cost=0.00..0.00 rows=1 width=12) (actual time=0.032..0.032 rows=0.00 loops=1)
+	        ->  Sort  (cost=38349.17..39205.70 rows=342614 width=30) (actual time=327.599..383.505 rows=341183.00 loops=1)
+	              Sort Key: ip.signal_date, ip.horizon_sessions
+	              Sort Method: quicksort  Memory: 36kB
+	              Buffers: shared hit=29 read=29, local read=2240
+	              ->  CTE Scan on index_points ip  (cost=0.00..6852.28 rows=342614 width=30) (actual time=325.364..326.641 rows=240.00 loops=1)
+	                    Storage: Memory  Maximum Storage: 32kB
+	                    Buffers: shared hit=29 read=29, local read=2240
+
+--- Source log lines 751-807 ---
+2026-10-22 10:57:32 +07 LOG:  duration: 181060.600 ms  plan:
+	Query Text: CREATE TEMP TABLE phase2_label_first_bad_factor ON COMMIT DROP AS
+	    SELECT r.symbol_id, min(r.trade_date) AS first_bad_date
+	      FROM pg_temp.phase2_adjustment_rows r
+	      JOIN pg_temp.phase2_label_latest_exit k
+	        ON k.symbol_id = r.symbol_id
+	       AND r.trade_date <= k.latest_exit_date
+	     WHERE r.source = 'vndirect'
+	       AND (r.reference_adjustment_ratio IS NULL
+	            OR r.reference_adjustment_ratio <= 0
+	            OR r.reference_adjustment_ratio >= 'Infinity'::double precision)
+	       AND NOT EXISTS (
+	           SELECT 1
+	             FROM ops.ml_symbol_scope x
+	            WHERE x.symbol_id = r.symbol_id
+	              AND x.scope_status = 'EXCLUDED'
+	       )
+	     GROUP BY r.symbol_id
+	GroupAggregate  (cost=0.71..86512.59 rows=1 width=12) (actual time=181059.115..181059.116 rows=0.00 loops=1)
+	  Group Key: r.symbol_id
+	  Buffers: local hit=341293 read=1156698 dirtied=1020535 written=1019671
+	  ->  Nested Loop Anti Join  (cost=0.71..86512.58 rows=1 width=12) (actual time=181059.112..181059.113 rows=0.00 loops=1)
+	        Join Filter: (x.symbol_id = r.symbol_id)
+	        Buffers: local hit=341293 read=1156698 dirtied=1020535 written=1019671
+	        ->  Nested Loop  (cost=0.71..86511.55 rows=1 width=12) (actual time=181059.112..181059.112 rows=0.00 loops=1)
+	              Buffers: local hit=341293 read=1156698 dirtied=1020535 written=1019671
+	              ->  Index Scan using phase2_label_latest_exit_pkey on phase2_label_latest_exit k  (cost=0.28..37.31 rows=1442 width=12) (actual time=0.008..31.567 rows=1442.00 loops=1)
+	                    Index Searches: 1
+	                    Buffers: local hit=14 read=1249 written=393
+	              ->  Index Scan using phase2_adjustment_rows_symbol_date_idx on phase2_adjustment_rows r  (cost=0.43..59.96 rows=1 width=12) (actual time=125.534..125.534 rows=0.00 loops=1442)
+	                    Index Cond: ((symbol_id = k.symbol_id) AND (trade_date <= k.latest_exit_date))
+	                    Filter: ((source = 'vndirect'::text) AND ((reference_adjustment_ratio IS NULL) OR (reference_adjustment_ratio <= '0'::double precision) OR (reference_adjustment_ratio >= 'Infinity'::double precision)))
+	                    Rows Removed by Filter: 1032
+	                    Index Searches: 1442
+	                    Buffers: local hit=341279 read=1155449 dirtied=1020535 written=1019278
+	        ->  Seq Scan on ml_symbol_scope x  (cost=0.00..1.01 rows=1 width=8) (never executed)
+	              Filter: (scope_status = 'EXCLUDED'::text)
+2026-10-22 10:57:32 +07 CONTEXT:  SQL statement "CREATE TEMP TABLE phase2_label_first_bad_factor ON COMMIT DROP AS
+	    SELECT r.symbol_id, min(r.trade_date) AS first_bad_date
+	      FROM pg_temp.phase2_adjustment_rows r
+	      JOIN pg_temp.phase2_label_latest_exit k
+	        ON k.symbol_id = r.symbol_id
+	       AND r.trade_date <= k.latest_exit_date
+	     WHERE r.source = 'vndirect'
+	       AND (r.reference_adjustment_ratio IS NULL
+	            OR r.reference_adjustment_ratio <= 0
+	            OR r.reference_adjustment_ratio >= 'Infinity'::double precision)
+	       AND NOT EXISTS (
+	           SELECT 1
+	             FROM ops.ml_symbol_scope x
+	            WHERE x.symbol_id = r.symbol_id
+	              AND x.scope_status = 'EXCLUDED'
+	       )
+	     GROUP BY r.symbol_id"
+	PL/pgSQL function feat.build_labels_set_based(date,date) line 155 at SQL statement
+	PL/pgSQL function feat.build_labels_internal(date,date) line 3 at RETURN
+	PL/pgSQL function inline_code_block line 42 at assignment
+
+--- Source log lines 982-1133 ---
+2026-10-22 10:58:20 +07 LOG:  duration: 31665.746 ms  plan:
+	Query Text: WITH index_points AS MATERIALIZED (
+	        SELECT DISTINCT t.signal_date, t.horizon_sessions, t.entry_date, t.exit_date,
+	               ie.trade_date AS index_entry_date,
+	               ix.trade_date AS index_exit_date,
+	               ie.o AS index_entry_open,
+	               ix.c AS index_exit_close
+	          FROM pg_temp.phase2_label_targets t
+	          LEFT JOIN core.index_bars ie
+	            ON ie.index_symbol = 'VNINDEX'
+	           AND ie.source = 'vci'
+	           AND ie.trade_date = t.entry_date
+	          LEFT JOIN core.index_bars ix
+	            ON ix.index_symbol = 'VNINDEX'
+	           AND ix.source = 'vci'
+	           AND ix.trade_date = t.exit_date
+	    ), assembled AS (
+	        SELECT t.*,
+	               sp.factor_log_span, sp.factor_rows, sp.bad_factor_rows, sp.one_episode_span,
+	               fb.first_bad_date,
+	               ip.index_entry_date, ip.index_exit_date,
+	               ip.index_entry_open, ip.index_exit_close,
+	               CASE
+	                   WHEN t.entry_date IS NULL OR t.exit_date IS NULL THEN 'INSUFFICIENT_SESSIONS'
+	                   WHEN t.entry_bar_date IS NULL THEN 'MISSING_ENTRY'
+	                   WHEN t.exit_bar_date IS NULL THEN 'MISSING_EXIT'
+	                   WHEN fb.first_bad_date IS NOT NULL AND fb.first_bad_date <= t.exit_date
+	                       THEN 'UNRESOLVED_ADJUSTMENT'
+	                   WHEN sp.bad_factor_rows > 0 OR sp.factor_log_span IS NULL
+	                        OR NOT coalesce(sp.one_episode_span, true)
+	                       THEN 'UNRESOLVED_ADJUSTMENT'
+	                   WHEN t.entry_episode IS DISTINCT FROM t.exit_episode THEN 'EPISODE_CHANGED'
+	                   WHEN NOT t.entry_traded OR t.entry_volume <= 0 THEN 'SUSPENDED_ENTRY'
+	                   WHEN NOT t.exit_traded OR t.exit_volume <= 0 THEN 'SUSPENDED_EXIT'
+	                   WHEN ip.index_entry_date IS NULL OR ip.index_exit_date IS NULL
+	                        OR ip.index_entry_open <= 0 OR ip.index_exit_close <= 0
+	                       THEN 'MISSING_BENCHMARK'
+	                   ELSE 'READY'
+	               END AS label_status
+	          FROM pg_temp.phase2_label_endpoint_targets t
+	          LEFT JOIN pg_temp.phase2_label_spans sp
+	            USING (symbol_id, signal_date, horizon_sessions)
+	          LEFT JOIN pg_temp.phase2_label_first_bad_factor fb
+	            ON fb.symbol_id = t.symbol_id
+	          LEFT JOIN index_points ip
+	            ON ip.signal_date = t.signal_date
+	           AND ip.horizon_sessions = t.horizon_sessions
+	    )
+	    INSERT INTO feat.labels_daily (
+	        symbol_id, signal_date, horizon_sessions, label_version, feature_set_hash,
+	        entry_date, exit_date, label_status, stock_return, vnindex_return, excess_return,
+	        stock_entry_open, stock_exit_close, vnindex_entry_open, vnindex_exit_close,
+	        price_basis, adjustment_vintage_at, entry_adjustment_vintage_at,
+	        exit_adjustment_vintage_at, factor_log_span, entry_landing_id, exit_landing_id
+	    )
+	    SELECT a.symbol_id, a.signal_date, a.horizon_sessions, v_label, v_feature_hash,
+	           a.entry_date, a.exit_date, a.label_status,
+	           CASE WHEN a.label_status = 'READY'
+	                THEN a.exit_model_close / (a.entry_model_open * exp(a.factor_log_span)) - 1 END,
+	           CASE WHEN a.label_status = 'READY'
+	                THEN a.index_exit_close / a.index_entry_open - 1 END,
+	           CASE WHEN a.label_status = 'READY'
+	                THEN a.exit_model_close / (a.entry_model_open * exp(a.factor_log_span)) - 1
+	                     - (a.index_exit_close / a.index_entry_open - 1) END,
+	           CASE WHEN a.label_status = 'READY'
+	                THEN a.entry_model_open * exp(a.factor_log_span) END,
+	           CASE WHEN a.label_status = 'READY' THEN a.exit_model_close END,
+	           a.index_entry_open, a.index_exit_close, 'adjusted_as_of_exit', a.exit_vintage,
+	           a.entry_vintage, a.exit_vintage, a.factor_log_span,
+	           a.entry_landing_id, a.exit_landing_id
+	      FROM assembled a
+	    ON CONFLICT (symbol_id, signal_date, horizon_sessions, label_version) DO UPDATE SET
+	        feature_set_hash = EXCLUDED.feature_set_hash,
+	        entry_date = EXCLUDED.entry_date,
+	        exit_date = EXCLUDED.exit_date,
+	        label_status = EXCLUDED.label_status,
+	        stock_return = EXCLUDED.stock_return,
+	        vnindex_return = EXCLUDED.vnindex_return,
+	        excess_return = EXCLUDED.excess_return,
+	        stock_entry_open = EXCLUDED.stock_entry_open,
+	        stock_exit_close = EXCLUDED.stock_exit_close,
+	        vnindex_entry_open = EXCLUDED.vnindex_entry_open,
+	        vnindex_exit_close = EXCLUDED.vnindex_exit_close,
+	        price_basis = EXCLUDED.price_basis,
+	        adjustment_vintage_at = EXCLUDED.adjustment_vintage_at,
+	        entry_adjustment_vintage_at = EXCLUDED.entry_adjustment_vintage_at,
+	        exit_adjustment_vintage_at = EXCLUDED.exit_adjustment_vintage_at,
+	        factor_log_span = EXCLUDED.factor_log_span,
+	        entry_landing_id = EXCLUDED.entry_landing_id,
+	        exit_landing_id = EXCLUDED.exit_landing_id,
+	        computed_at = now()
+	Insert on labels_daily  (cost=123110.55..728000.86 rows=0 width=0) (actual time=21072.805..21072.836 rows=0.00 loops=1)
+	  Conflict Resolution: UPDATE
+	  Conflict Arbiter Indexes: labels_daily_pkey
+	  Tuples Inserted: 370978
+	  Conflicting Tuples: 0
+	  Buffers: shared hit=4833353 read=31650 dirtied=20138 written=3992, local hit=2 read=12286
+	  CTE index_points
+	    ->  HashAggregate  (cost=15616.84..19326.62 rows=370978 width=38) (actual time=341.583..342.772 rows=258.00 loops=1)
+	          Group Key: t_1.signal_date, t_1.horizon_sessions, t_1.entry_date, t_1.exit_date, ie.trade_date, ix.trade_date, ie.o, ix.c
+	          Batches: 1  Memory Usage: 8241kB
+	          Buffers: shared hit=29 read=29, local read=2368
+	          ->  Hash Left Join  (cost=167.72..8197.28 rows=370978 width=38) (actual time=9.448..209.132 rows=370978.00 loops=1)
+	                Hash Cond: (t_1.exit_date = ix.trade_date)
+	                Buffers: shared hit=29 read=29, local read=2368
+	                ->  Hash Left Join  (cost=83.86..7137.53 rows=370978 width=26) (actual time=8.027..137.852 rows=370978.00 loops=1)
+	                      Hash Cond: (t_1.entry_date = ie.trade_date)
+	                      Buffers: shared read=29, local read=2368
+	                      ->  Seq Scan on phase2_label_targets t_1  (cost=0.00..6077.78 rows=370978 width=14) (actual time=0.080..41.130 rows=370978.00 loops=1)
+	                            Buffers: local read=2368
+	                      ->  Hash  (cost=58.92..58.92 rows=1995 width=12) (actual time=7.931..7.932 rows=1995.00 loops=1)
+	                            Buckets: 2048  Batches: 1  Memory Usage: 110kB
+	                            Buffers: shared read=29
+	                            ->  Seq Scan on index_bars ie  (cost=0.00..58.92 rows=1995 width=12) (actual time=0.704..7.408 rows=1995.00 loops=1)
+	                                  Filter: ((index_symbol = 'VNINDEX'::text) AND (source = 'vci'::text))
+	                                  Buffers: shared read=29
+	                ->  Hash  (cost=58.92..58.92 rows=1995 width=12) (actual time=1.394..1.395 rows=1995.00 loops=1)
+	                      Buckets: 2048  Batches: 1  Memory Usage: 110kB
+	                      Buffers: shared hit=29
+	                      ->  Seq Scan on index_bars ix  (cost=0.00..58.92 rows=1995 width=12) (actual time=0.036..0.946 rows=1995.00 loops=1)
+	                            Filter: ((index_symbol = 'VNINDEX'::text) AND (source = 'vci'::text))
+	                            Buffers: shared hit=29
+	  ->  Merge Left Join  (cost=103783.93..708674.24 rows=3440617 width=262) (actual time=1020.277..2361.516 rows=370978.00 loops=1)
+	        Merge Cond: ((t.signal_date = ip.signal_date) AND (t.horizon_sessions = ip.horizon_sessions))
+	        Buffers: shared hit=29 read=29, local hit=2 read=12286
+	        ->  Sort  (cost=62047.10..62974.55 rows=370978 width=125) (actual time=677.265..707.854 rows=370978.00 loops=1)
+	              Sort Key: t.signal_date, t.horizon_sessions
+	              Sort Method: quicksort  Memory: 73145kB
+	              Buffers: local hit=2 read=9918
+	              ->  Hash Left Join  (cost=13721.91..27729.83 rows=370978 width=125) (actual time=205.761..550.444 rows=370978.00 loops=1)
+	                    Hash Cond: (t.symbol_id = fb.symbol_id)
+	                    Buffers: local hit=2 read=9918
+	                    ->  Hash Left Join  (cost=13721.90..26753.14 rows=370978 width=121) (actual time=205.722..479.793 rows=370978.00 loops=1)
+	                          Hash Cond: ((t.symbol_id = sp.symbol_id) AND (t.signal_date = sp.signal_date) AND (t.horizon_sessions = sp.horizon_sessions))
+	                          Buffers: local hit=2 read=9918
+	                          ->  Seq Scan on phase2_label_endpoint_targets t  (cost=0.00..10109.78 rows=370978 width=104) (actual time=0.085..78.924 rows=370978.00 loops=1)
+	                                Buffers: local hit=1 read=6399
+	                          ->  Hash  (cost=7229.78..7229.78 rows=370978 width=31) (actual time=204.404..204.405 rows=370978.00 loops=1)
+	                                Buckets: 524288  Batches: 1  Memory Usage: 29456kB
+	                                Buffers: local hit=1 read=3519
+	                                ->  Seq Scan on phase2_label_spans sp  (cost=0.00..7229.78 rows=370978 width=31) (actual time=0.058..91.045 rows=370978.00 loops=1)
+	                                      Buffers: local hit=1 read=3519
+	                    ->  Hash  (cost=0.00..0.00 rows=1 width=12) (actual time=0.023..0.039 rows=0.00 loops=1)
+	                          Buckets: 1024  Batches: 1  Memory Usage: 8kB
+	                          ->  Seq Scan on phase2_label_first_bad_factor fb  (cost=0.00..0.00 rows=1 width=12) (actual time=0.023..0.023 rows=0.00 loops=1)
+	        ->  Sort  (cost=41736.83..42664.28 rows=370978 width=30) (actual time=342.987..393.127 rows=369537.00 loops=1)
+	              Sort Key: ip.signal_date, ip.horizon_sessions
+	              Sort Method: quicksort  Memory: 37kB
+	              Buffers: shared hit=29 read=29, local read=2368
+	              ->  CTE Scan on index_points ip  (cost=0.00..7419.56 rows=370978 width=30) (actual time=341.588..342.889 rows=258.00 loops=1)
+	                    Storage: Memory  Maximum Storage: 33kB
+	                    Buffers: shared hit=29 read=29, local read=2368

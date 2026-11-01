@@ -1,0 +1,35 @@
+BEGIN
+CREATE TABLE
+psql:sql/migrations/076_phase2_vci_lineage_archive.sql:24: NOTICE:  relation "phase2_vci_bar_lineage" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/076_phase2_vci_lineage_archive.sql:26: NOTICE:  relation "phase2_vci_lineage_lookup" already exists, skipping
+psql:sql/migrations/076_phase2_vci_lineage_archive.sql:36: NOTICE:  relation "phase2_vci_lineage_batches" already exists, skipping
+CREATE TABLE
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+SET
+SET
+CREATE TABLE
+DO
+ materialize_phase2_vci_lineage 
+--------------------------------
+                              8
+(1 row)
+
+DO
+UPDATE 1
+ materialize_phase2_vci_lineage 
+--------------------------------
+                              1
+(1 row)
+
+DO
+ROLLBACK

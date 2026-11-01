@@ -1,0 +1,36 @@
+test_builder_supports_shorter_calendar_chunks (test_phase2_runner_wiring.Phase2RunnerWiringTests.test_builder_supports_shorter_calendar_chunks) ... ok
+test_cache_scaling_probe_warms_before_the_measured_series (test_phase2_runner_wiring.Phase2RunnerWiringTests.test_cache_scaling_probe_warms_before_the_measured_series) ... ok
+test_downstream_invalidation_and_windowed_limit_hash_are_present (test_phase2_runner_wiring.Phase2RunnerWiringTests.test_downstream_invalidation_and_windowed_limit_hash_are_present) ... ok
+test_label_chunks_build_and_hash_derived_targets (test_phase2_runner_wiring.Phase2RunnerWiringTests.test_label_chunks_build_and_hash_derived_targets) ... ok
+test_safe_exception_class_survives_without_vendor_text_in_category (test_worker.AdapterErrorCauseTests.test_safe_exception_class_survives_without_vendor_text_in_category) ... ok
+test_nonascii_exception_class_is_not_persisted (test_worker.ExtendedAdapterCauseTests.test_nonascii_exception_class_is_not_persisted) ... ok
+test_unknown_vendor_exception_class_is_retained_without_message (test_worker.ExtendedAdapterCauseTests.test_unknown_vendor_exception_class_is_retained_without_message) ... ok
+test_broken_pipe_terminates_cleanly (test_worker.FrameTests.test_broken_pipe_terminates_cleanly) ... ok
+test_malformed_non_object_unknown_and_oversized (test_worker.FrameTests.test_malformed_non_object_unknown_and_oversized) ... ok
+test_real_health_subprocess (test_worker.FrameTests.test_real_health_subprocess) ... ok
+test_stdout_from_vnstock_isolated (test_worker.FrameTests.test_stdout_from_vnstock_isolated) ... ok
+test_system_exit_is_returned_as_one_safe_frame (test_worker.FrameTests.test_system_exit_is_returned_as_one_safe_frame) ... ok
+test_vietnamese_text_round_trips_on_ascii_stdout (test_worker.FrameTests.test_vietnamese_text_round_trips_on_ascii_stdout) ... ok
+test_active_probe_is_never_unmetered (test_worker.LocalCLITests.test_active_probe_is_never_unmetered) ... ok
+test_cli_fatal_cases (test_worker.LocalCLITests.test_cli_fatal_cases) ... ok
+test_cli_places_global_json_option_before_subcommand (test_worker.LocalCLITests.test_cli_places_global_json_option_before_subcommand) ... ok
+test_default_ohlcv_does_not_override_floating (test_worker.LocalCLITests.test_default_ohlcv_does_not_override_floating) ... ok
+test_fatal_error_classes_safely_framed (test_worker.LocalCLITests.test_fatal_error_classes_safely_framed) ... ok
+test_offline_env_blocks_direct_route (test_worker.LocalCLITests.test_offline_env_blocks_direct_route) ... ok
+test_raw_prices_passes_floating_none_through_jsonl (test_worker.LocalCLITests.test_raw_prices_passes_floating_none_through_jsonl) ... ok
+test_safe_numpy_pandas_like_values (test_worker.LocalCLITests.test_safe_numpy_pandas_like_values) ... ok
+test_source_reaches_correct_method (test_worker.LocalCLITests.test_source_reaches_correct_method) ... ok
+test_trade_history_routes_vci_dates_to_documented_method (test_worker.LocalCLITests.test_trade_history_routes_vci_dates_to_documented_method) ... ok
+test_bad_vendor_metadata_is_omitted (test_worker.VendorMetadataDiagnosticsTests.test_bad_vendor_metadata_is_omitted) ... ok
+test_structured_provider_error_metadata_no_vendor_message (test_worker.VendorMetadataDiagnosticsTests.test_structured_provider_error_metadata_no_vendor_message) ... ok
+test_frame_preserves_provider_identity_allowlist (test_worker.WorkerTests.test_frame_preserves_provider_identity_allowlist) ... ok
+test_health (test_worker.WorkerTests.test_health) ... ok
+test_nan_is_json_null (test_worker.WorkerTests.test_nan_is_json_null) ... ok
+test_passive_probe_never_fetches_market_data (test_worker.WorkerTests.test_passive_probe_never_fetches_market_data) ... ok
+test_symbol_validation (test_worker.WorkerTests.test_symbol_validation) ... ok
+test_unknown_route_rejected (test_worker.WorkerTests.test_unknown_route_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 0.330s
+
+OK

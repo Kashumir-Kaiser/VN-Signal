@@ -1,0 +1,4 @@
+BEGIN
+SET
+psql:tests/sql/phase2_vci_recovery_lineage_assertions.sql:60: ERROR:  recovered rejected row accepted or hash stale
+CONTEXT:  PL/pgSQL function inline_code_block line 38 at RAISE

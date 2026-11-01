@@ -1,0 +1,2 @@
+\set ON_ERROR_STOP on
+\copy (SELECT jsonb_build_object('symbol',s.symbol,'landing',to_jsonb(l),'bars',(SELECT jsonb_agg(to_jsonb(b) ORDER BY b.trade_date) FROM core.bars_daily_sources b WHERE b.landing_id=l.landing_id AND b.source='vndirect')) FROM raw.landings l JOIN core.symbols s ON s.symbol=l.symbol WHERE l.landing_id=6870 AND l.symbol='ACB' AND l.source='vndirect') TO 'C:/Users/HP/VN-Signal/.phase2-runtime/execution_pilot.csv' WITH CSV

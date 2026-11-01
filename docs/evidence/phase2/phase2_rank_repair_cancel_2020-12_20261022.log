@@ -1,0 +1,10 @@
+ completion_rows 
+-----------------
+               0
+(1 row)
+
+ active_repair_sessions 
+------------------------
+                      0
+(1 row)
+

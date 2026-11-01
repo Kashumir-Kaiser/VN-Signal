@@ -1,0 +1,12 @@
+BEGIN
+SET
+SET
+SET
+psql:docs/evidence/phase2/phase2_e3_refresh_sample_065_20261023.sql:44: ERROR:  initialize and finish the Phase 2 adjustment cache before reusing it
+CONTEXT:  PL/pgSQL function prepare_phase2_adjustment_rows(boolean) line 30 at RAISE
+SQL statement "SELECT feat.prepare_phase2_adjustment_rows(false)"
+PL/pgSQL function build_price_features_v3_shared(date,date,bigint[]) line 29 at PERFORM
+SQL statement "SELECT feat.build_price_features_v3_shared(
+        DATE '2022-10-10',DATE '2024-09-04',symbol_ids
+    )"
+PL/pgSQL function inline_code_block line 31 at PERFORM

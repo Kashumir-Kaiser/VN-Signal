@@ -1,0 +1,64 @@
+\set ON_ERROR_STOP on
+\pset pager off
+
+-- Model the production cache's 15-symbol statement batches. Each populate is
+-- a separate bounded statement; duration_ms records the complete sample fill.
+BEGIN ISOLATION LEVEL REPEATABLE READ;
+SET LOCAL statement_timeout='5min';
+SET LOCAL temp_file_limit='90GB';
+SET LOCAL work_mem='128MB';
+SET LOCAL jit=off;
+SET LOCAL random_page_cost=1.1;
+SET LOCAL vnpipe.phase2_cache_time_budget_minutes='40';
+SET LOCAL application_name='phase2_adjustment_cache_probe';
+
+CREATE TEMP TABLE phase2_adjustment_cache_probe_results(
+    symbol_count integer PRIMARY KEY,
+    row_count bigint NOT NULL CHECK(row_count>0),
+    duration_ms bigint NOT NULL CHECK(duration_ms>0)
+) ON COMMIT PRESERVE ROWS;
+COMMENT ON TABLE pg_temp.phase2_adjustment_cache_probe_results IS
+    'VN-Signal Phase 2 session-local cache scaling probe results';
+
+CREATE TEMP TABLE phase2_adjustment_cache_probe_clock(
+    symbol_count integer PRIMARY KEY,
+    started_at timestamptz NOT NULL
+) ON COMMIT PRESERVE ROWS;
+
+INSERT INTO pg_temp.phase2_adjustment_cache_probe_clock VALUES(15,clock_timestamp());
+SELECT feat.begin_phase2_adjustment_rows(15,15);
+SELECT feat.populate_phase2_adjustment_rows(0);
+SELECT feat.finish_phase2_adjustment_rows();
+INSERT INTO pg_temp.phase2_adjustment_cache_probe_results
+SELECT 15,(SELECT count(*) FROM pg_temp.phase2_adjustment_rows),
+       GREATEST(1,(extract(epoch FROM clock_timestamp()-started_at)*1000)::bigint)
+FROM pg_temp.phase2_adjustment_cache_probe_clock WHERE symbol_count=15;
+DELETE FROM pg_temp.phase2_adjustment_cache_probe_clock WHERE symbol_count=15;
+
+INSERT INTO pg_temp.phase2_adjustment_cache_probe_clock VALUES(30,clock_timestamp());
+SELECT feat.begin_phase2_adjustment_rows(15,30);
+SELECT feat.populate_phase2_adjustment_rows(0);
+SELECT feat.populate_phase2_adjustment_rows(1);
+SELECT feat.finish_phase2_adjustment_rows();
+INSERT INTO pg_temp.phase2_adjustment_cache_probe_results
+SELECT 30,(SELECT count(*) FROM pg_temp.phase2_adjustment_rows),
+       GREATEST(1,(extract(epoch FROM clock_timestamp()-started_at)*1000)::bigint)
+FROM pg_temp.phase2_adjustment_cache_probe_clock WHERE symbol_count=30;
+DELETE FROM pg_temp.phase2_adjustment_cache_probe_clock WHERE symbol_count=30;
+
+INSERT INTO pg_temp.phase2_adjustment_cache_probe_clock VALUES(60,clock_timestamp());
+SELECT feat.begin_phase2_adjustment_rows(15,60);
+SELECT feat.populate_phase2_adjustment_rows(0);
+SELECT feat.populate_phase2_adjustment_rows(1);
+SELECT feat.populate_phase2_adjustment_rows(2);
+SELECT feat.populate_phase2_adjustment_rows(3);
+SELECT feat.finish_phase2_adjustment_rows();
+INSERT INTO pg_temp.phase2_adjustment_cache_probe_results
+SELECT 60,(SELECT count(*) FROM pg_temp.phase2_adjustment_rows),
+       GREATEST(1,(extract(epoch FROM clock_timestamp()-started_at)*1000)::bigint)
+FROM pg_temp.phase2_adjustment_cache_probe_clock WHERE symbol_count=60;
+DELETE FROM pg_temp.phase2_adjustment_cache_probe_clock WHERE symbol_count=60;
+
+TABLE pg_temp.phase2_adjustment_cache_probe_results;
+SELECT feat.assert_phase2_adjustment_cache_scaling();
+ROLLBACK;

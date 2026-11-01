@@ -1,0 +1,31 @@
+BEGIN
+SET
+CREATE FUNCTION
+psql:tests/sql/phase2_bsc_price_limits_assertions.sql:313: NOTICE:  table "phase2_bsc_price_limit_candidates_106" does not exist, skipping
+psql:tests/sql/phase2_bsc_price_limits_assertions.sql:313: NOTICE:  relation "phase2_label_input_hash_tx_cache_098" already exists, skipping
+psql:tests/sql/phase2_bsc_price_limits_assertions.sql:313: NOTICE:  table "phase2_weight_values_102" does not exist, skipping
+psql:tests/sql/phase2_bsc_price_limits_assertions.sql:313: NOTICE:  table "phase2_weight_evidence_counts_102" does not exist, skipping
+psql:tests/sql/phase2_bsc_price_limits_assertions.sql:313: NOTICE:  table "phase2_weight_evidence_102" does not exist, skipping
+psql:tests/sql/phase2_bsc_price_limits_assertions.sql:313: NOTICE:  table "phase2_weight_evidence_days_106" does not exist, skipping
+psql:tests/sql/phase2_bsc_price_limits_assertions.sql:313: NOTICE:  table "phase2_weight_verified_vndirect_landings_106" does not exist, skipping
+psql:tests/sql/phase2_bsc_price_limits_assertions.sql:313: NOTICE:  table "phase2_weight_eligible_bars_106" does not exist, skipping
+psql:tests/sql/phase2_bsc_price_limits_assertions.sql:313: NOTICE:  table "phase2_weight_unique_sessions_106" does not exist, skipping
+psql:tests/sql/phase2_bsc_price_limits_assertions.sql:313: NOTICE:  table "phase2_weight_expected_counts_102" does not exist, skipping
+psql:tests/sql/phase2_bsc_price_limits_assertions.sql:313: NOTICE:  table "phase2_weight_expected_102" does not exist, skipping
+psql:tests/sql/phase2_bsc_price_limits_assertions.sql:313: NOTICE:  table "phase2_weight_sessions_102" does not exist, skipping
+psql:tests/sql/phase2_bsc_price_limits_assertions.sql:313: NOTICE:  table "phase2_weight_windows_102" does not exist, skipping
+DO
+ROLLBACK
+DO
+psql:tests/sql/phase2_execution_weight_batch_assertions.sql:59: NOTICE:  schema "pg_temp" does not exist, skipping
+psql:tests/sql/phase2_execution_weight_batch_assertions.sql:59: NOTICE:  schema "pg_temp" does not exist, skipping
+psql:tests/sql/phase2_execution_weight_batch_assertions.sql:59: NOTICE:  schema "pg_temp" does not exist, skipping
+psql:tests/sql/phase2_execution_weight_batch_assertions.sql:59: NOTICE:  schema "pg_temp" does not exist, skipping
+psql:tests/sql/phase2_execution_weight_batch_assertions.sql:59: NOTICE:  schema "pg_temp" does not exist, skipping
+psql:tests/sql/phase2_execution_weight_batch_assertions.sql:59: NOTICE:  schema "pg_temp" does not exist, skipping
+psql:tests/sql/phase2_execution_weight_batch_assertions.sql:59: NOTICE:  schema "pg_temp" does not exist, skipping
+psql:tests/sql/phase2_execution_weight_batch_assertions.sql:59: NOTICE:  schema "pg_temp" does not exist, skipping
+psql:tests/sql/phase2_execution_weight_batch_assertions.sql:59: NOTICE:  schema "pg_temp" does not exist, skipping
+psql:tests/sql/phase2_execution_weight_batch_assertions.sql:59: NOTICE:  schema "pg_temp" does not exist, skipping
+psql:tests/sql/phase2_execution_weight_batch_assertions.sql:59: NOTICE:  schema "pg_temp" does not exist, skipping
+DO

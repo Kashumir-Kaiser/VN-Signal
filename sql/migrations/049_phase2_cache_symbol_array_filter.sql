@@ -1,0 +1,325 @@
+BEGIN;
+
+-- Keep the bounded symbol filter indexable while nest loops remain disabled for downstream episode joins.
+CREATE OR REPLACE FUNCTION feat.phase2_vndirect_adjustment_details_for_symbols(p_symbol_ids bigint[])
+RETURNS TABLE(
+    symbol_id bigint,
+    trade_date date,
+    source text,
+    v double precision,
+    is_traded boolean,
+    reference_adjustment_ratio double precision,
+    episode_start_date date,
+    model_o double precision,
+    model_h double precision,
+    model_l double precision,
+    model_c double precision,
+    adjustment_vintage_at timestamptz,
+    landing_id bigint,
+    source_row integer,
+    fetched_at timestamptz
+)
+LANGUAGE SQL STABLE
+AS $phase2_vndirect_adjustment_details$
+WITH source_rows AS (
+         SELECT b.symbol_id,
+            b.trade_date,
+            b.source,
+            b.o,
+            b.h,
+            b.l,
+            b.c,
+            b.v,
+            b.adj_basis,
+            b.is_traded,
+            b.landing_id,
+            b.source_row,
+            b.ingest_id,
+            b.fetched_at,
+            b.adjusted_o,
+            b.adjusted_h,
+            b.adjusted_l,
+            b.adjusted_c,
+            b.adjustment_vintage_at,
+            b.basic_price,
+            b.average_price,
+            b.exchange_code,
+            COALESCE(m.model_o, b.o) AS model_o,
+            COALESCE(m.model_h, b.h) AS model_h,
+            COALESCE(m.model_l, b.l) AS model_l,
+            COALESCE(m.model_c, b.c) AS model_c,
+            m.evidence_url AS model_bar_evidence_url,
+            m.evidence_sha256 AS model_bar_evidence_sha256,
+            m.secondary_evidence_url AS model_bar_secondary_evidence_url,
+            m.secondary_evidence_sha256 AS model_bar_secondary_evidence_sha256,
+            m.evidence_note AS model_bar_evidence_note,
+            row_number() OVER (PARTITION BY b.symbol_id ORDER BY b.trade_date) AS source_sequence,
+            min(b.trade_date) OVER (PARTITION BY b.symbol_id) AS first_trade_date
+          FROM core.bars_daily_sources b
+             LEFT JOIN core.vndirect_model_bar_overrides m ON m.symbol_id = b.symbol_id AND m.trade_date = b.trade_date AND m.source = b.source
+          WHERE b.source = 'vndirect'::text AND b.symbol_id = ANY(p_symbol_ids)
+        ), lifecycle_boundaries AS (
+         SELECT DISTINCT e.symbol_id,
+            e.date_from AS boundary_date
+           FROM core.security_lifecycle_evidence e
+          WHERE e.evidence_type = 'TRADE_ELIGIBLE'::text AND (EXISTS ( SELECT 1
+                   FROM core.security_lifecycle_evidence d
+                  WHERE d.symbol_id = e.symbol_id AND d.evidence_type = 'DELISTED'::text AND d.date_to IS NOT NULL AND d.date_to < e.date_from))
+        ), episode_assignment AS (
+         SELECT o.symbol_id,
+            o.trade_date,
+            o.source_sequence,
+            COALESCE(max(b.boundary_date), o.first_trade_date) AS episode_start_date
+           FROM source_rows o
+             LEFT JOIN lifecycle_boundaries b ON b.symbol_id = o.symbol_id AND b.boundary_date <= o.trade_date
+          GROUP BY o.symbol_id, o.trade_date, o.source_sequence, o.first_trade_date
+        ), episode_rows AS (
+         SELECT o.symbol_id,
+            o.trade_date,
+            o.source,
+            o.o,
+            o.h,
+            o.l,
+            o.c,
+            o.v,
+            o.adj_basis,
+            o.is_traded,
+            o.landing_id,
+            o.source_row,
+            o.ingest_id,
+            o.fetched_at,
+            o.adjusted_o,
+            o.adjusted_h,
+            o.adjusted_l,
+            o.adjusted_c,
+            o.adjustment_vintage_at,
+            o.basic_price,
+            o.average_price,
+            o.exchange_code,
+            o.model_o,
+            o.model_h,
+            o.model_l,
+            o.model_c,
+            o.model_bar_evidence_url,
+            o.model_bar_evidence_sha256,
+            o.model_bar_secondary_evidence_url,
+            o.model_bar_secondary_evidence_sha256,
+            o.model_bar_evidence_note,
+            o.source_sequence,
+            o.first_trade_date,
+            a.episode_start_date
+           FROM source_rows o
+             JOIN episode_assignment a ON a.symbol_id = o.symbol_id AND a.trade_date = o.trade_date AND a.source_sequence = o.source_sequence
+        ), ordered AS (
+         SELECT b.symbol_id,
+            b.trade_date,
+            b.source,
+            b.o,
+            b.h,
+            b.l,
+            b.c,
+            b.v,
+            b.adj_basis,
+            b.is_traded,
+            b.landing_id,
+            b.source_row,
+            b.ingest_id,
+            b.fetched_at,
+            b.adjusted_o,
+            b.adjusted_h,
+            b.adjusted_l,
+            b.adjusted_c,
+            b.adjustment_vintage_at,
+            b.basic_price,
+            b.average_price,
+            b.exchange_code,
+            b.model_o,
+            b.model_h,
+            b.model_l,
+            b.model_c,
+            b.model_bar_evidence_url,
+            b.model_bar_evidence_sha256,
+            b.model_bar_secondary_evidence_url,
+            b.model_bar_secondary_evidence_sha256,
+            b.model_bar_evidence_note,
+            b.source_sequence,
+            b.first_trade_date,
+            b.episode_start_date,
+            lag(b.c) OVER w AS prior_close,
+            lag(b.basic_price) OVER w AS prior_basic_price,
+            lag(b.average_price) OVER w AS prior_average_price,
+            lag(b.v) OVER w AS prior_volume,
+            lag(b.adjusted_c) OVER w AS prior_adjusted_close,
+            sum(
+                CASE
+                    WHEN b.v > 0::double precision THEN 1::bigint
+                    ELSE 0::bigint
+                END) OVER w AS traded_sequence,
+            row_number() OVER w AS episode_row_number
+           FROM episode_rows b
+          WINDOW w AS (PARTITION BY b.symbol_id, b.episode_start_date ORDER BY b.trade_date)
+        ), traded_references AS (
+         SELECT o.symbol_id,
+            o.episode_start_date,
+            o.traded_sequence,
+            max(o.average_price) AS last_traded_average_price,
+            max(o.c) AS last_traded_close
+           FROM ordered o
+          WHERE o.v > 0::double precision
+          GROUP BY o.symbol_id, o.episode_start_date, o.traded_sequence
+        ), reference_basis AS (
+         SELECT o.symbol_id,
+            o.trade_date,
+            o.source,
+            o.o,
+            o.h,
+            o.l,
+            o.c,
+            o.v,
+            o.adj_basis,
+            o.is_traded,
+            o.landing_id,
+            o.source_row,
+            o.ingest_id,
+            o.fetched_at,
+            o.adjusted_o,
+            o.adjusted_h,
+            o.adjusted_l,
+            o.adjusted_c,
+            o.adjustment_vintage_at,
+            o.basic_price,
+            o.average_price,
+            o.exchange_code,
+            o.model_o,
+            o.model_h,
+            o.model_l,
+            o.model_c,
+            o.model_bar_evidence_url,
+            o.model_bar_evidence_sha256,
+            o.model_bar_secondary_evidence_url,
+            o.model_bar_secondary_evidence_sha256,
+            o.model_bar_evidence_note,
+            o.source_sequence,
+            o.first_trade_date,
+            o.episode_start_date,
+            o.prior_close,
+            o.prior_basic_price,
+            o.prior_average_price,
+            o.prior_volume,
+            o.prior_adjusted_close,
+            o.traded_sequence,
+            o.episode_row_number,
+                CASE
+                    WHEN o.episode_row_number = 1 THEN NULL::double precision
+                    WHEN o.exchange_code = 'UPCOM'::text THEN
+                    CASE
+                        WHEN o.prior_volume > 0::double precision THEN COALESCE(NULLIF(o.prior_average_price, 0::double precision), o.prior_close)
+                        ELSE COALESCE(NULLIF(o.prior_basic_price, 0::double precision), NULLIF(t.last_traded_average_price, 0::double precision), o.prior_close)
+                    END
+                    ELSE
+                    CASE
+                        WHEN o.prior_volume > 0::double precision THEN o.prior_close
+                        ELSE COALESCE(NULLIF(o.prior_basic_price, 0::double precision), t.last_traded_close, o.prior_close)
+                    END
+                END AS reference_baseline,
+            x.reference_adjustment_ratio AS override_ratio,
+            x.resolution_kind AS override_resolution_kind,
+            x.evidence_url AS override_evidence_url,
+            x.secondary_evidence_url AS override_secondary_evidence_url,
+            x.evidence_note AS override_evidence_note
+           FROM ordered o
+             LEFT JOIN traded_references t ON t.symbol_id = o.symbol_id AND t.episode_start_date = o.episode_start_date AND t.traded_sequence = (o.traded_sequence -
+                CASE
+                    WHEN o.v > 0::double precision THEN 1::bigint
+                    ELSE 0::bigint
+                END::numeric)
+             LEFT JOIN core.vndirect_reference_adjustment_overrides x ON x.symbol_id = o.symbol_id AND x.trade_date = o.trade_date AND x.source = o.source
+        ), reference_tolerance AS (
+         SELECT r_1.symbol_id,
+            r_1.trade_date,
+            r_1.source,
+            r_1.o,
+            r_1.h,
+            r_1.l,
+            r_1.c,
+            r_1.v,
+            r_1.adj_basis,
+            r_1.is_traded,
+            r_1.landing_id,
+            r_1.source_row,
+            r_1.ingest_id,
+            r_1.fetched_at,
+            r_1.adjusted_o,
+            r_1.adjusted_h,
+            r_1.adjusted_l,
+            r_1.adjusted_c,
+            r_1.adjustment_vintage_at,
+            r_1.basic_price,
+            r_1.average_price,
+            r_1.exchange_code,
+            r_1.model_o,
+            r_1.model_h,
+            r_1.model_l,
+            r_1.model_c,
+            r_1.model_bar_evidence_url,
+            r_1.model_bar_evidence_sha256,
+            r_1.model_bar_secondary_evidence_url,
+            r_1.model_bar_secondary_evidence_sha256,
+            r_1.model_bar_evidence_note,
+            r_1.source_sequence,
+            r_1.first_trade_date,
+            r_1.episode_start_date,
+            r_1.prior_close,
+            r_1.prior_basic_price,
+            r_1.prior_average_price,
+            r_1.prior_volume,
+            r_1.prior_adjusted_close,
+            r_1.traded_sequence,
+            r_1.episode_row_number,
+            r_1.reference_baseline,
+            r_1.override_ratio,
+            r_1.override_resolution_kind,
+            r_1.override_evidence_url,
+            r_1.override_secondary_evidence_url,
+            r_1.override_evidence_note,
+                CASE
+                    WHEN r_1.exchange_code = 'HOSE'::text AND r_1.reference_baseline < 10::double precision THEN 0.005::double precision
+                    WHEN r_1.exchange_code = 'HOSE'::text AND r_1.reference_baseline < 50::double precision THEN 0.025::double precision
+                    ELSE 0.05::double precision
+                END AS half_tick
+           FROM reference_basis r_1
+        )
+ SELECT symbol_id,
+    trade_date,
+    source,
+    v,
+    is_traded,
+
+    COALESCE(override_ratio,
+        CASE
+            WHEN episode_row_number = 1 THEN 1::double precision
+            WHEN exchange_code IS NULL OR (exchange_code <> ALL (ARRAY['HOSE'::text, 'HNX'::text, 'UPCOM'::text])) THEN NULL::double precision
+            WHEN basic_price > 0::double precision AND reference_baseline > 0::double precision THEN
+            CASE
+                WHEN abs(basic_price - reference_baseline) <= (half_tick + 0.000000001::double precision) THEN 1::double precision
+                ELSE basic_price / reference_baseline
+            END
+            WHEN v = 0::double precision AND c = prior_close AND NOT adjusted_c IS DISTINCT FROM prior_adjusted_close THEN 1::double precision
+            ELSE NULL::double precision
+        END) AS reference_adjustment_ratio,
+    episode_start_date,
+    model_o,
+    model_h,
+    model_l,
+    model_c,
+    adjustment_vintage_at,
+    landing_id,
+    source_row,
+    fetched_at
+   FROM reference_tolerance r;
+$phase2_vndirect_adjustment_details$;
+
+COMMENT ON FUNCTION feat.phase2_vndirect_adjustment_details_for_symbols(bigint[]) IS
+    'Returns canonical VNDIRECT adjustment details for selected symbol IDs, filtering source bars with the symbol/date index before adjustment CTE evaluation.';
+
+COMMIT;

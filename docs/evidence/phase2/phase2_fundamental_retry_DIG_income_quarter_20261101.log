@@ -1,0 +1,2 @@
+retry_symbol=DIG; statement=income_statement; period=quarter; database=vnsignal_phase2_report_20261019; days=31
+Fundamentals archive: statement=income_statement period=quarter mode=backfill committed=1 skipped=0 blocked=0

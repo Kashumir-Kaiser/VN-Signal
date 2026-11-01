@@ -1,0 +1,17 @@
+Output format is csv.
+BEGIN
+SET
+SET
+SET
+SET
+DO
+DROP TABLE
+psql:docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/gdw_hnx_deregistration_capture_20261102/phase2_e4_feature_endpoint_semantics_20261102_postgdw.sql:28: NOTICE:  schema "pg_temp" does not exist, skipping
+SELECT 221
+COMMIT
+BEGIN
+SET
+gap_intervals,prior_feature_rows_not_traded,next_feature_rows_not_traded,prior_feature_after_last_positive_bar,strict_transfer_matches
+221,52,41,52,219
+COPY 221
+COMMIT

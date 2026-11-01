@@ -1,0 +1,30 @@
+BEGIN
+CREATE TABLE
+psql:sql/migrations/070_phase2_execution_weight_policy.sql:8: NOTICE:  relation "phase2_execution_weight_defaults" already exists, skipping
+INSERT 0 0
+CREATE FUNCTION
+CREATE FUNCTION
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+psql:sql/migrations/070_phase2_execution_weight_policy.sql:48: NOTICE:  column "execution_weight_policy" of relation "feature_chunks" already exists, skipping
+psql:sql/migrations/070_phase2_execution_weight_policy.sql:49: NOTICE:  column "execution_weight_policy" of relation "step_runs" already exists, skipping
+ALTER TABLE
+DO
+COMMIT
+BEGIN
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 2601, dates 350, elapsed 00:00:00.108656
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.078054
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 price-day hash range 2099-01-01 through 2099-02-02: requested 23, uncovered 23, date planning elapsed 00:00:00.36974
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 price-day hash aggregate completed: 23 dates, elapsed 00:00:00.401799
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 price-day hash coverage recorded: 23 requested dates, total elapsed 00:00:00.40337
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 price-day hash range 2099-01-01 through 2099-02-02: requested 23, uncovered 0, date planning elapsed 00:00:00.041173
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 price-day hash coverage recorded: 23 requested dates, total elapsed 00:00:00.042912
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 price-day hash range 2099-01-01 through 2099-02-02: requested 23, uncovered 0, date planning elapsed 00:00:00.048337
+psql:tests/sql/phase2_execution_policy_assertions.sql:34: NOTICE:  Phase 2 price-day hash coverage recorded: 23 requested dates, total elapsed 00:00:00.048853
+DO
+ROLLBACK
+BEGIN
+DO
+ROLLBACK

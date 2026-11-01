@@ -1,0 +1,42 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.18s
+     Running tests\sql_parity.rs (rust\target\debug\deps\sql_parity-a8e5847f67734581.exe)
+
+running 1 test
+E3 diagnostic-only sample restricted to 2023-04-04; this run cannot satisfy the full parity gate
+E3 checkpoint: selected 20 deterministic feature rows, elapsed 1.1242578s
+E3 checkpoint: selected source lineage verified, elapsed 317.3727ms
+E3 checkpoint: initializing point-in-time cache batches
+E3 checkpoint: cache batch 0/26 rows 108331, elapsed 2.0010704s
+E3 checkpoint: cache batch 1/26 rows 115152, elapsed 1.9082984s
+E3 checkpoint: cache batch 2/26 rows 111302, elapsed 2.0076228s
+E3 checkpoint: cache batch 3/26 rows 113879, elapsed 2.8189236s
+E3 checkpoint: cache batch 4/26 rows 114214, elapsed 1.7998743s
+E3 checkpoint: cache batch 5/26 rows 114805, elapsed 1.944136s
+E3 checkpoint: cache batch 6/26 rows 112592, elapsed 1.8461833s
+E3 checkpoint: cache batch 7/26 rows 116639, elapsed 2.1351497s
+E3 checkpoint: cache batch 8/26 rows 106585, elapsed 1.8658074s
+E3 checkpoint: cache batch 9/26 rows 111358, elapsed 1.9354879s
+E3 checkpoint: cache batch 10/26 rows 106117, elapsed 1.7735219s
+E3 checkpoint: cache batch 11/26 rows 113594, elapsed 1.9182426s
+E3 checkpoint: cache batch 12/26 rows 112628, elapsed 1.8981358s
+E3 checkpoint: cache batch 13/26 rows 113102, elapsed 2.0288544s
+E3 checkpoint: cache batch 14/26 rows 113642, elapsed 1.9622032s
+E3 checkpoint: cache batch 15/26 rows 111909, elapsed 2.0494668s
+E3 checkpoint: cache batch 16/26 rows 111802, elapsed 2.0307464s
+E3 checkpoint: cache batch 17/26 rows 115171, elapsed 2.2549647s
+E3 checkpoint: cache batch 18/26 rows 115471, elapsed 2.2515226s
+E3 checkpoint: cache batch 19/26 rows 112613, elapsed 2.1181384s
+E3 checkpoint: cache batch 20/26 rows 109469, elapsed 2.1239785s
+E3 checkpoint: cache batch 21/26 rows 114091, elapsed 2.2500845s
+E3 checkpoint: cache batch 22/26 rows 110051, elapsed 2.3015224s
+test postgres_features_match_polars_reference_for_twenty_symbol_days has been running for over 60 seconds
+E3 checkpoint: cache batch 23/26 rows 112438, elapsed 2.3212587s
+E3 checkpoint: cache batch 24/26 rows 115457, elapsed 3.2575198s
+E3 checkpoint: cache batch 25/26 rows 32023, elapsed 1.4179497s
+E3 checkpoint: point-in-time cache ready, rows 2844435, elapsed 65.9363983s
+E3 checkpoint: loaded 1545430 market rows and index context through 2023-04-04, elapsed 35.7824752s
+E3 checkpoint: Polars reference for 2023-04-04 completed, elapsed 525.2015145s
+test postgres_features_match_polars_reference_for_twenty_symbol_days ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 639.02s
+

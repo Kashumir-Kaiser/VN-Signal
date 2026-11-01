@@ -1,0 +1,16 @@
+   Compiling vn-signal-phase2-parity v0.1.0 (C:\Users\HP\VN-Signal\rust\crates\phase2-parity)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 16m 17s
+     Running unittests src\lib.rs (rust\target\debug\deps\vn_signal_phase2_parity-799d3d26ff6ed9fa.exe)
+
+running 8 tests
+test tests::episode_boundaries_reset_price_windows ... ok
+test tests::no_trade_sessions_are_not_compressed_into_windows ... ok
+test tests::gaussian_ranks_handle_singleton_and_empty_populations ... ok
+test tests::gaussian_ranks_use_independent_nullable_populations_and_average_ties ... ok
+test tests::population_skew_and_excess_kurtosis_use_one_window_mean ... ok
+test tests::recursive_ema_matches_independent_seeded_golden_values ... ok
+test tests::returns_and_rolling_features_use_session_offsets ... ok
+test tests::v3_source_independent_families_have_full_window_values ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.17s
+

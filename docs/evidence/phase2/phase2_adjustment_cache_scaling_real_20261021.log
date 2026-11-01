@@ -1,0 +1,29 @@
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |       51646
+(1 row)
+
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |       50761
+(1 row)
+
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |       51469
+(1 row)
+
+ assert_phase2_adjustment_cache_scaling 
+----------------------------------------
+                     0.0199832616609811
+(1 row)
+
+ROLLBACK

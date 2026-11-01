@@ -1,0 +1,737 @@
+Pager usage is off.
+Timing is on.
+SET
+Time: 1.916 ms
+DO
+Time: 7.044 ms
+CREATE TABLE
+Time: 152.047 ms
+CREATE VIEW
+Time: 89.883 ms
+CREATE VIEW
+Time: 2.475 ms
+CREATE VIEW
+Time: 3.095 ms
+CREATE VIEW
+Time: 2.749 ms
+CASE 1 symbol x 2000 sessions - direct native windows
+TRUNCATE TABLE
+Time: 6.517 ms
+INSERT 0 2000
+Time: 20.264 ms
+ANALYZE
+Time: 23.296 ms
+                                                                                         QUERY PLAN                                                                                          
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=253.65..253.66 rows=1 width=16) (actual rows=1.00 loops=1)
+   Buffers: local hit=22
+   ->  WindowAgg  (cost=0.53..208.65 rows=2000 width=40) (actual rows=2000.00 loops=1)
+         Window: w250 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '249'::bigint PRECEDING AND CURRENT ROW)
+         Storage: Memory  Maximum Storage: 34kB
+         Buffers: local hit=22
+         ->  WindowAgg  (cost=0.43..168.65 rows=2000 width=48) (actual rows=2000.00 loops=1)
+               Window: w60 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+               Storage: Memory  Maximum Storage: 20kB
+               Buffers: local hit=22
+               ->  WindowAgg  (cost=0.34..133.65 rows=2000 width=40) (actual rows=2000.00 loops=1)
+                     Window: w20 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '19'::bigint PRECEDING AND CURRENT ROW)
+                     Storage: Memory  Maximum Storage: 18kB
+                     Buffers: local hit=22
+                     ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input  (cost=0.28..98.65 rows=2000 width=32) (actual rows=2000.00 loops=1)
+                           Index Searches: 1
+                           Buffers: local hit=22
+ Planning:
+   Buffers: shared hit=37, local hit=1
+ Planning Time: 32.612 ms
+ Execution Time: 140.727 ms
+(21 rows)
+
+Time: 180.792 ms
+CASE 1 symbol x 2000 sessions - moving aggregates and block extrema
+                                                                                         QUERY PLAN                                                                                          
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=1061.66..1061.67 rows=1 width=16) (actual rows=1.00 loops=1)
+   Buffers: shared hit=251, local hit=44
+   ->  Hash Join  (cost=793.44..1016.66 rows=2000 width=40) (actual rows=2000.00 loops=1)
+         Hash Cond: ((phase2_window_scaling_input.symbol_id = e.symbol_id) AND (phase2_window_scaling_input.session_no = e.session_no))
+         Buffers: shared hit=251, local hit=44
+         CTE extrema_rows
+           ->  WindowAgg  (cost=0.34..138.65 rows=2000 width=40) (actual rows=2000.00 loops=1)
+                 Window: w1 AS (PARTITION BY i.symbol_id ORDER BY i.session_no ROWS UNBOUNDED PRECEDING)
+                 Storage: Memory  Maximum Storage: 17kB
+                 Buffers: local hit=22
+                 ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input i  (cost=0.28..98.65 rows=2000 width=32) (actual rows=2000.00 loops=1)
+                       Index Searches: 1
+                       Buffers: local hit=22
+         CTE extrema_blocks
+           ->  WindowAgg  (cost=155.23..279.68 rows=2000 width=80) (actual rows=2000.00 loops=1)
+                 Window: w2 AS (PARTITION BY e_1.symbol_id, ((e_1.row_no / 250)) ORDER BY e_1.row_no ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING)
+                 Storage: Memory  Maximum Storage: 40kB
+                 Buffers: local hit=22
+                 ->  WindowAgg  (cost=154.69..229.68 rows=2000 width=64) (actual rows=2000.00 loops=1)
+                       Window: w1 AS (PARTITION BY e_1.symbol_id, ((e_1.row_no / 250)) ORDER BY e_1.row_no ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+                       Storage: Memory  Maximum Storage: 17kB
+                       Buffers: local hit=22
+                       ->  Incremental Sort  (cost=154.66..179.68 rows=2000 width=48) (actual rows=2000.00 loops=1)
+                             Sort Key: e_1.symbol_id, ((e_1.row_no / 250)), e_1.row_no
+                             Presorted Key: e_1.symbol_id
+                             Full-sort Groups: 1  Sort Method: quicksort  Average Memory: 29kB  Peak Memory: 29kB
+                             Pre-sorted Groups: 1  Sort Method: quicksort  Average Memory: 187kB  Peak Memory: 187kB
+                             Buffers: local hit=22
+                             ->  CTE Scan on extrema_rows e_1  (cost=0.00..45.00 rows=2000 width=48) (actual rows=2000.00 loops=1)
+                                   Storage: Memory  Maximum Storage: 139kB
+                                   Buffers: local hit=22
+         CTE extrema_lags
+           ->  WindowAgg  (cost=149.98..214.68 rows=2000 width=96) (actual rows=2000.00 loops=1)
+                 Window: w1 AS (PARTITION BY b.symbol_id ORDER BY b.row_no)
+                 Storage: Memory  Maximum Storage: 44kB
+                 Buffers: shared hit=3, local hit=22
+                 ->  Incremental Sort  (cost=149.66..174.68 rows=2000 width=80) (actual rows=2000.00 loops=1)
+                       Sort Key: b.symbol_id, b.row_no
+                       Presorted Key: b.symbol_id
+                       Full-sort Groups: 1  Sort Method: quicksort  Average Memory: 31kB  Peak Memory: 31kB
+                       Pre-sorted Groups: 1  Sort Method: quicksort  Average Memory: 252kB  Peak Memory: 252kB
+                       Buffers: shared hit=3, local hit=22
+                       ->  CTE Scan on extrema_blocks b  (cost=0.00..40.00 rows=2000 width=80) (actual rows=2000.00 loops=1)
+                             Storage: Memory  Maximum Storage: 220kB
+                             Buffers: local hit=22
+         CTE extrema
+           ->  CTE Scan on extrema_lags l  (cost=0.00..90.00 rows=2000 width=112) (actual rows=2000.00 loops=1)
+                 Storage: Memory  Maximum Storage: 249kB
+                 Buffers: shared hit=3, local hit=22
+         ->  WindowAgg  (cost=0.43..168.65 rows=2000 width=24) (actual rows=2000.00 loops=1)
+               Window: w60 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+               Storage: Memory  Maximum Storage: 19kB
+               Buffers: shared hit=248, local hit=22
+               ->  WindowAgg  (cost=0.34..133.65 rows=2000 width=24) (actual rows=2000.00 loops=1)
+                     Window: w20 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '19'::bigint PRECEDING AND CURRENT ROW)
+                     Storage: Memory  Maximum Storage: 17kB
+                     Buffers: shared hit=248, local hit=22
+                     ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input  (cost=0.28..98.65 rows=2000 width=16) (actual rows=2000.00 loops=1)
+                           Index Searches: 1
+                           Buffers: local hit=22
+         ->  Hash  (cost=40.00..40.00 rows=2000 width=24) (actual rows=2000.00 loops=1)
+               Buckets: 2048  Batches: 1  Memory Usage: 126kB
+               Buffers: shared hit=3, local hit=22
+               ->  CTE Scan on extrema e  (cost=0.00..40.00 rows=2000 width=24) (actual rows=2000.00 loops=1)
+                     Storage: Memory  Maximum Storage: 280kB
+                     Buffers: shared hit=3, local hit=22
+ Planning:
+   Buffers: shared hit=26
+ Planning Time: 1.942 ms
+ Execution Time: 92.441 ms
+(70 rows)
+
+Time: 96.370 ms
+CASE 1 symbol x 2000 sessions - moving averages only
+                                                                                         QUERY PLAN                                                                                          
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=253.65..253.66 rows=1 width=16) (actual rows=1.00 loops=1)
+   Buffers: local hit=22
+   ->  WindowAgg  (cost=0.53..208.65 rows=2000 width=40) (actual rows=2000.00 loops=1)
+         Window: w250 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '249'::bigint PRECEDING AND CURRENT ROW)
+         Storage: Memory  Maximum Storage: 34kB
+         Buffers: local hit=22
+         ->  WindowAgg  (cost=0.43..168.65 rows=2000 width=48) (actual rows=2000.00 loops=1)
+               Window: w60 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+               Storage: Memory  Maximum Storage: 20kB
+               Buffers: local hit=22
+               ->  WindowAgg  (cost=0.34..133.65 rows=2000 width=40) (actual rows=2000.00 loops=1)
+                     Window: w20 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '19'::bigint PRECEDING AND CURRENT ROW)
+                     Storage: Memory  Maximum Storage: 18kB
+                     Buffers: local hit=22
+                     ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input  (cost=0.28..98.65 rows=2000 width=32) (actual rows=2000.00 loops=1)
+                           Index Searches: 1
+                           Buffers: local hit=22
+ Planning:
+   Buffers: shared hit=11
+ Planning Time: 0.209 ms
+ Execution Time: 102.743 ms
+(21 rows)
+
+Time: 103.511 ms
+CASE 1 symbol x 2000 sessions - prefix sum/count average only
+                                                                                         QUERY PLAN                                                                                          
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=343.65..343.66 rows=1 width=16) (actual rows=1.00 loops=1)
+   Buffers: local hit=22
+   ->  WindowAgg  (cost=0.69..298.65 rows=2000 width=40) (actual rows=2000.00 loops=1)
+         Window: w250 AS (PARTITION BY lagged.symbol_id ORDER BY lagged.session_no ROWS BETWEEN '249'::bigint PRECEDING AND CURRENT ROW)
+         Storage: Memory  Maximum Storage: 40kB
+         Buffers: local hit=22
+         ->  WindowAgg  (cost=0.55..233.65 rows=2000 width=72) (actual rows=2000.00 loops=1)
+               Window: w60 AS (PARTITION BY lagged.symbol_id ORDER BY lagged.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+               Storage: Memory  Maximum Storage: 22kB
+               Buffers: local hit=22
+               ->  Subquery Scan on lagged  (cost=0.44..198.65 rows=2000 width=64) (actual rows=2000.00 loops=1)
+                     Buffers: local hit=22
+                     ->  WindowAgg  (cost=0.44..178.65 rows=2000 width=64) (actual rows=2000.00 loops=1)
+                           Window: w AS (PARTITION BY i.symbol_id ORDER BY i.session_no)
+                           Storage: Memory  Maximum Storage: 18kB
+                           Buffers: local hit=22
+                           ->  WindowAgg  (cost=0.35..138.65 rows=2000 width=48) (actual rows=2000.00 loops=1)
+                                 Window: w AS (PARTITION BY i.symbol_id ORDER BY i.session_no ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+                                 Storage: Memory  Maximum Storage: 17kB
+                                 Buffers: local hit=22
+                                 ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input i  (cost=0.28..98.65 rows=2000 width=32) (actual rows=2000.00 loops=1)
+                                       Index Searches: 1
+                                       Buffers: local hit=22
+ Planning:
+   Buffers: shared hit=11
+ Planning Time: 0.219 ms
+ Execution Time: 81.263 ms
+(27 rows)
+
+Time: 82.084 ms
+CASE 1 symbol x 2000 sessions - block extrema only
+                                                                                         QUERY PLAN                                                                                          
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=1061.66..1061.67 rows=1 width=16) (actual rows=1.00 loops=1)
+   Buffers: local hit=44
+   ->  Hash Join  (cost=793.44..1016.66 rows=2000 width=40) (actual rows=2000.00 loops=1)
+         Hash Cond: ((phase2_window_scaling_input.symbol_id = e.symbol_id) AND (phase2_window_scaling_input.session_no = e.session_no))
+         Buffers: local hit=44
+         CTE extrema_rows
+           ->  WindowAgg  (cost=0.34..138.65 rows=2000 width=40) (actual rows=2000.00 loops=1)
+                 Window: w1 AS (PARTITION BY i.symbol_id ORDER BY i.session_no ROWS UNBOUNDED PRECEDING)
+                 Storage: Memory  Maximum Storage: 17kB
+                 Buffers: local hit=22
+                 ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input i  (cost=0.28..98.65 rows=2000 width=32) (actual rows=2000.00 loops=1)
+                       Index Searches: 1
+                       Buffers: local hit=22
+         CTE extrema_blocks
+           ->  WindowAgg  (cost=155.23..279.68 rows=2000 width=80) (actual rows=2000.00 loops=1)
+                 Window: w2 AS (PARTITION BY e_1.symbol_id, ((e_1.row_no / 250)) ORDER BY e_1.row_no ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING)
+                 Storage: Memory  Maximum Storage: 40kB
+                 Buffers: local hit=22
+                 ->  WindowAgg  (cost=154.69..229.68 rows=2000 width=64) (actual rows=2000.00 loops=1)
+                       Window: w1 AS (PARTITION BY e_1.symbol_id, ((e_1.row_no / 250)) ORDER BY e_1.row_no ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+                       Storage: Memory  Maximum Storage: 17kB
+                       Buffers: local hit=22
+                       ->  Incremental Sort  (cost=154.66..179.68 rows=2000 width=48) (actual rows=2000.00 loops=1)
+                             Sort Key: e_1.symbol_id, ((e_1.row_no / 250)), e_1.row_no
+                             Presorted Key: e_1.symbol_id
+                             Full-sort Groups: 1  Sort Method: quicksort  Average Memory: 29kB  Peak Memory: 29kB
+                             Pre-sorted Groups: 1  Sort Method: quicksort  Average Memory: 187kB  Peak Memory: 187kB
+                             Buffers: local hit=22
+                             ->  CTE Scan on extrema_rows e_1  (cost=0.00..45.00 rows=2000 width=48) (actual rows=2000.00 loops=1)
+                                   Storage: Memory  Maximum Storage: 139kB
+                                   Buffers: local hit=22
+         CTE extrema_lags
+           ->  WindowAgg  (cost=149.98..214.68 rows=2000 width=96) (actual rows=2000.00 loops=1)
+                 Window: w1 AS (PARTITION BY b.symbol_id ORDER BY b.row_no)
+                 Storage: Memory  Maximum Storage: 44kB
+                 Buffers: local hit=22
+                 ->  Incremental Sort  (cost=149.66..174.68 rows=2000 width=80) (actual rows=2000.00 loops=1)
+                       Sort Key: b.symbol_id, b.row_no
+                       Presorted Key: b.symbol_id
+                       Full-sort Groups: 1  Sort Method: quicksort  Average Memory: 31kB  Peak Memory: 31kB
+                       Pre-sorted Groups: 1  Sort Method: quicksort  Average Memory: 252kB  Peak Memory: 252kB
+                       Buffers: local hit=22
+                       ->  CTE Scan on extrema_blocks b  (cost=0.00..40.00 rows=2000 width=80) (actual rows=2000.00 loops=1)
+                             Storage: Memory  Maximum Storage: 220kB
+                             Buffers: local hit=22
+         CTE extrema
+           ->  CTE Scan on extrema_lags l  (cost=0.00..90.00 rows=2000 width=112) (actual rows=2000.00 loops=1)
+                 Storage: Memory  Maximum Storage: 249kB
+                 Buffers: local hit=22
+         ->  WindowAgg  (cost=0.43..168.65 rows=2000 width=24) (actual rows=2000.00 loops=1)
+               Window: w60 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+               Storage: Memory  Maximum Storage: 19kB
+               Buffers: local hit=22
+               ->  WindowAgg  (cost=0.34..133.65 rows=2000 width=24) (actual rows=2000.00 loops=1)
+                     Window: w20 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '19'::bigint PRECEDING AND CURRENT ROW)
+                     Storage: Memory  Maximum Storage: 17kB
+                     Buffers: local hit=22
+                     ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input  (cost=0.28..98.65 rows=2000 width=16) (actual rows=2000.00 loops=1)
+                           Index Searches: 1
+                           Buffers: local hit=22
+         ->  Hash  (cost=40.00..40.00 rows=2000 width=24) (actual rows=2000.00 loops=1)
+               Buckets: 2048  Batches: 1  Memory Usage: 126kB
+               Buffers: local hit=22
+               ->  CTE Scan on extrema e  (cost=0.00..40.00 rows=2000 width=24) (actual rows=2000.00 loops=1)
+                     Storage: Memory  Maximum Storage: 280kB
+                     Buffers: local hit=22
+ Planning:
+   Buffers: shared hit=3
+ Planning Time: 0.551 ms
+ Execution Time: 57.581 ms
+(70 rows)
+
+Time: 59.215 ms
+CASE 10 symbols x 2000 sessions - direct native windows
+TRUNCATE TABLE
+Time: 5.652 ms
+INSERT 0 20000
+Time: 94.796 ms
+ANALYZE
+Time: 41.476 ms
+                                                                                         QUERY PLAN                                                                                          
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=2415.29..2415.30 rows=1 width=16) (actual rows=1.00 loops=1)
+   Buffers: local hit=201
+   ->  WindowAgg  (cost=0.52..1965.29 rows=20000 width=40) (actual rows=20000.00 loops=1)
+         Window: w250 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '249'::bigint PRECEDING AND CURRENT ROW)
+         Storage: Memory  Maximum Storage: 34kB
+         Buffers: local hit=201
+         ->  WindowAgg  (cost=0.43..1565.29 rows=20000 width=48) (actual rows=20000.00 loops=1)
+               Window: w60 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+               Storage: Memory  Maximum Storage: 20kB
+               Buffers: local hit=201
+               ->  WindowAgg  (cost=0.35..1215.29 rows=20000 width=40) (actual rows=20000.00 loops=1)
+                     Window: w20 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '19'::bigint PRECEDING AND CURRENT ROW)
+                     Storage: Memory  Maximum Storage: 18kB
+                     Buffers: local hit=201
+                     ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input  (cost=0.29..865.29 rows=20000 width=32) (actual rows=20000.00 loops=1)
+                           Index Searches: 1
+                           Buffers: local hit=201
+ Planning:
+   Buffers: shared hit=32, local hit=1
+ Planning Time: 19.744 ms
+ Execution Time: 1135.425 ms
+(21 rows)
+
+Time: 1155.789 ms (00:01.156)
+CASE 10 symbols x 2000 sessions - moving aggregates and block extrema
+                                                                                         QUERY PLAN                                                                                          
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=10824.13..10824.14 rows=1 width=16) (actual rows=1.00 loops=1)
+   Buffers: local hit=402
+   ->  Hash Join  (cost=7809.27..10374.13 rows=20000 width=40) (actual rows=20000.00 loops=1)
+         Hash Cond: ((phase2_window_scaling_input.symbol_id = e.symbol_id) AND (phase2_window_scaling_input.session_no = e.session_no))
+         Buffers: local hit=402
+         CTE extrema_rows
+           ->  WindowAgg  (cost=0.35..1265.29 rows=20000 width=40) (actual rows=20000.00 loops=1)
+                 Window: w1 AS (PARTITION BY i.symbol_id ORDER BY i.session_no ROWS UNBOUNDED PRECEDING)
+                 Storage: Memory  Maximum Storage: 17kB
+                 Buffers: local hit=201
+                 ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input i  (cost=0.29..865.29 rows=20000 width=32) (actual rows=20000.00 loops=1)
+                       Index Searches: 1
+                       Buffers: local hit=201
+         CTE extrema_blocks
+           ->  WindowAgg  (cost=155.93..2796.78 rows=20000 width=80) (actual rows=20000.00 loops=1)
+                 Window: w2 AS (PARTITION BY e_1.symbol_id, ((e_1.row_no / 250)) ORDER BY e_1.row_no ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING)
+                 Storage: Memory  Maximum Storage: 40kB
+                 Buffers: local hit=201
+                 ->  WindowAgg  (cost=154.76..2296.78 rows=20000 width=64) (actual rows=20000.00 loops=1)
+                       Window: w1 AS (PARTITION BY e_1.symbol_id, ((e_1.row_no / 250)) ORDER BY e_1.row_no ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+                       Storage: Memory  Maximum Storage: 17kB
+                       Buffers: local hit=201
+                       ->  Incremental Sort  (cost=154.66..1796.78 rows=20000 width=48) (actual rows=20000.00 loops=1)
+                             Sort Key: e_1.symbol_id, ((e_1.row_no / 250)), e_1.row_no
+                             Presorted Key: e_1.symbol_id
+                             Full-sort Groups: 10  Sort Method: quicksort  Average Memory: 29kB  Peak Memory: 29kB
+                             Pre-sorted Groups: 10  Sort Method: quicksort  Average Memory: 187kB  Peak Memory: 187kB
+                             Buffers: local hit=201
+                             ->  CTE Scan on extrema_rows e_1  (cost=0.00..450.00 rows=20000 width=48) (actual rows=20000.00 loops=1)
+                                   Storage: Memory  Maximum Storage: 1482kB
+                                   Buffers: local hit=201
+         CTE extrema_lags
+           ->  WindowAgg  (cost=150.66..2146.78 rows=20000 width=96) (actual rows=20000.00 loops=1)
+                 Window: w1 AS (PARTITION BY b.symbol_id ORDER BY b.row_no)
+                 Storage: Memory  Maximum Storage: 44kB
+                 Buffers: local hit=201
+                 ->  Incremental Sort  (cost=149.66..1746.78 rows=20000 width=80) (actual rows=20000.00 loops=1)
+                       Sort Key: b.symbol_id, b.row_no
+                       Presorted Key: b.symbol_id
+                       Full-sort Groups: 10  Sort Method: quicksort  Average Memory: 31kB  Peak Memory: 31kB
+                       Pre-sorted Groups: 10  Sort Method: quicksort  Average Memory: 252kB  Peak Memory: 252kB
+                       Buffers: local hit=201
+                       ->  CTE Scan on extrema_blocks b  (cost=0.00..400.00 rows=20000 width=80) (actual rows=20000.00 loops=1)
+                             Storage: Memory  Maximum Storage: 2287kB
+                             Buffers: local hit=201
+         CTE extrema
+           ->  CTE Scan on extrema_lags l  (cost=0.00..900.00 rows=20000 width=112) (actual rows=20000.00 loops=1)
+                 Storage: Memory  Maximum Storage: 2577kB
+                 Buffers: local hit=201
+         ->  WindowAgg  (cost=0.43..1565.29 rows=20000 width=24) (actual rows=20000.00 loops=1)
+               Window: w60 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+               Storage: Memory  Maximum Storage: 19kB
+               Buffers: local hit=201
+               ->  WindowAgg  (cost=0.35..1215.29 rows=20000 width=24) (actual rows=20000.00 loops=1)
+                     Window: w20 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '19'::bigint PRECEDING AND CURRENT ROW)
+                     Storage: Memory  Maximum Storage: 17kB
+                     Buffers: local hit=201
+                     ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input  (cost=0.29..865.29 rows=20000 width=16) (actual rows=20000.00 loops=1)
+                           Index Searches: 1
+                           Buffers: local hit=201
+         ->  Hash  (cost=400.00..400.00 rows=20000 width=24) (actual rows=20000.00 loops=1)
+               Buckets: 32768  Batches: 1  Memory Usage: 1350kB
+               Buffers: local hit=201
+               ->  CTE Scan on extrema e  (cost=0.00..400.00 rows=20000 width=24) (actual rows=20000.00 loops=1)
+                     Storage: Memory  Maximum Storage: 2889kB
+                     Buffers: local hit=201
+ Planning Time: 0.457 ms
+ Execution Time: 1351.157 ms
+(68 rows)
+
+Time: 1352.185 ms (00:01.352)
+CASE 10 symbols x 2000 sessions - moving averages only
+                                                                                         QUERY PLAN                                                                                          
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=2415.29..2415.30 rows=1 width=16) (actual rows=1.00 loops=1)
+   Buffers: local hit=201
+   ->  WindowAgg  (cost=0.52..1965.29 rows=20000 width=40) (actual rows=20000.00 loops=1)
+         Window: w250 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '249'::bigint PRECEDING AND CURRENT ROW)
+         Storage: Memory  Maximum Storage: 34kB
+         Buffers: local hit=201
+         ->  WindowAgg  (cost=0.43..1565.29 rows=20000 width=48) (actual rows=20000.00 loops=1)
+               Window: w60 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+               Storage: Memory  Maximum Storage: 20kB
+               Buffers: local hit=201
+               ->  WindowAgg  (cost=0.35..1215.29 rows=20000 width=40) (actual rows=20000.00 loops=1)
+                     Window: w20 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '19'::bigint PRECEDING AND CURRENT ROW)
+                     Storage: Memory  Maximum Storage: 18kB
+                     Buffers: local hit=201
+                     ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input  (cost=0.29..865.29 rows=20000 width=32) (actual rows=20000.00 loops=1)
+                           Index Searches: 1
+                           Buffers: local hit=201
+ Planning Time: 0.205 ms
+ Execution Time: 954.359 ms
+(19 rows)
+
+Time: 954.987 ms
+CASE 10 symbols x 2000 sessions - prefix sum/count average only
+                                                                                           QUERY PLAN                                                                                           
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=3315.29..3315.30 rows=1 width=16) (actual rows=1.00 loops=1)
+   Buffers: local hit=201
+   ->  WindowAgg  (cost=0.68..2865.29 rows=20000 width=40) (actual rows=20000.00 loops=1)
+         Window: w250 AS (PARTITION BY lagged.symbol_id ORDER BY lagged.session_no ROWS BETWEEN '249'::bigint PRECEDING AND CURRENT ROW)
+         Storage: Memory  Maximum Storage: 40kB
+         Buffers: local hit=201
+         ->  WindowAgg  (cost=0.54..2215.29 rows=20000 width=72) (actual rows=20000.00 loops=1)
+               Window: w60 AS (PARTITION BY lagged.symbol_id ORDER BY lagged.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+               Storage: Memory  Maximum Storage: 22kB
+               Buffers: local hit=201
+               ->  Subquery Scan on lagged  (cost=0.43..1865.29 rows=20000 width=64) (actual rows=20000.00 loops=1)
+                     Buffers: local hit=201
+                     ->  WindowAgg  (cost=0.43..1665.29 rows=20000 width=64) (actual rows=20000.00 loops=1)
+                           Window: w AS (PARTITION BY i.symbol_id ORDER BY i.session_no)
+                           Storage: Memory  Maximum Storage: 18kB
+                           Buffers: local hit=201
+                           ->  WindowAgg  (cost=0.35..1265.29 rows=20000 width=48) (actual rows=20000.00 loops=1)
+                                 Window: w AS (PARTITION BY i.symbol_id ORDER BY i.session_no ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+                                 Storage: Memory  Maximum Storage: 17kB
+                                 Buffers: local hit=201
+                                 ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input i  (cost=0.29..865.29 rows=20000 width=32) (actual rows=20000.00 loops=1)
+                                       Index Searches: 1
+                                       Buffers: local hit=201
+ Planning Time: 0.368 ms
+ Execution Time: 750.437 ms
+(25 rows)
+
+Time: 751.260 ms
+CASE 10 symbols x 2000 sessions - block extrema only
+                                                                                         QUERY PLAN                                                                                          
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=10824.13..10824.14 rows=1 width=16) (actual rows=1.00 loops=1)
+   Buffers: local hit=402
+   ->  Hash Join  (cost=7809.27..10374.13 rows=20000 width=40) (actual rows=20000.00 loops=1)
+         Hash Cond: ((phase2_window_scaling_input.symbol_id = e.symbol_id) AND (phase2_window_scaling_input.session_no = e.session_no))
+         Buffers: local hit=402
+         CTE extrema_rows
+           ->  WindowAgg  (cost=0.35..1265.29 rows=20000 width=40) (actual rows=20000.00 loops=1)
+                 Window: w1 AS (PARTITION BY i.symbol_id ORDER BY i.session_no ROWS UNBOUNDED PRECEDING)
+                 Storage: Memory  Maximum Storage: 17kB
+                 Buffers: local hit=201
+                 ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input i  (cost=0.29..865.29 rows=20000 width=32) (actual rows=20000.00 loops=1)
+                       Index Searches: 1
+                       Buffers: local hit=201
+         CTE extrema_blocks
+           ->  WindowAgg  (cost=155.93..2796.78 rows=20000 width=80) (actual rows=20000.00 loops=1)
+                 Window: w2 AS (PARTITION BY e_1.symbol_id, ((e_1.row_no / 250)) ORDER BY e_1.row_no ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING)
+                 Storage: Memory  Maximum Storage: 40kB
+                 Buffers: local hit=201
+                 ->  WindowAgg  (cost=154.76..2296.78 rows=20000 width=64) (actual rows=20000.00 loops=1)
+                       Window: w1 AS (PARTITION BY e_1.symbol_id, ((e_1.row_no / 250)) ORDER BY e_1.row_no ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+                       Storage: Memory  Maximum Storage: 17kB
+                       Buffers: local hit=201
+                       ->  Incremental Sort  (cost=154.66..1796.78 rows=20000 width=48) (actual rows=20000.00 loops=1)
+                             Sort Key: e_1.symbol_id, ((e_1.row_no / 250)), e_1.row_no
+                             Presorted Key: e_1.symbol_id
+                             Full-sort Groups: 10  Sort Method: quicksort  Average Memory: 29kB  Peak Memory: 29kB
+                             Pre-sorted Groups: 10  Sort Method: quicksort  Average Memory: 187kB  Peak Memory: 187kB
+                             Buffers: local hit=201
+                             ->  CTE Scan on extrema_rows e_1  (cost=0.00..450.00 rows=20000 width=48) (actual rows=20000.00 loops=1)
+                                   Storage: Memory  Maximum Storage: 1482kB
+                                   Buffers: local hit=201
+         CTE extrema_lags
+           ->  WindowAgg  (cost=150.66..2146.78 rows=20000 width=96) (actual rows=20000.00 loops=1)
+                 Window: w1 AS (PARTITION BY b.symbol_id ORDER BY b.row_no)
+                 Storage: Memory  Maximum Storage: 44kB
+                 Buffers: local hit=201
+                 ->  Incremental Sort  (cost=149.66..1746.78 rows=20000 width=80) (actual rows=20000.00 loops=1)
+                       Sort Key: b.symbol_id, b.row_no
+                       Presorted Key: b.symbol_id
+                       Full-sort Groups: 10  Sort Method: quicksort  Average Memory: 31kB  Peak Memory: 31kB
+                       Pre-sorted Groups: 10  Sort Method: quicksort  Average Memory: 252kB  Peak Memory: 252kB
+                       Buffers: local hit=201
+                       ->  CTE Scan on extrema_blocks b  (cost=0.00..400.00 rows=20000 width=80) (actual rows=20000.00 loops=1)
+                             Storage: Memory  Maximum Storage: 2287kB
+                             Buffers: local hit=201
+         CTE extrema
+           ->  CTE Scan on extrema_lags l  (cost=0.00..900.00 rows=20000 width=112) (actual rows=20000.00 loops=1)
+                 Storage: Memory  Maximum Storage: 2577kB
+                 Buffers: local hit=201
+         ->  WindowAgg  (cost=0.43..1565.29 rows=20000 width=24) (actual rows=20000.00 loops=1)
+               Window: w60 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+               Storage: Memory  Maximum Storage: 19kB
+               Buffers: local hit=201
+               ->  WindowAgg  (cost=0.35..1215.29 rows=20000 width=24) (actual rows=20000.00 loops=1)
+                     Window: w20 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '19'::bigint PRECEDING AND CURRENT ROW)
+                     Storage: Memory  Maximum Storage: 17kB
+                     Buffers: local hit=201
+                     ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input  (cost=0.29..865.29 rows=20000 width=16) (actual rows=20000.00 loops=1)
+                           Index Searches: 1
+                           Buffers: local hit=201
+         ->  Hash  (cost=400.00..400.00 rows=20000 width=24) (actual rows=20000.00 loops=1)
+               Buckets: 32768  Batches: 1  Memory Usage: 1350kB
+               Buffers: local hit=201
+               ->  CTE Scan on extrema e  (cost=0.00..400.00 rows=20000 width=24) (actual rows=20000.00 loops=1)
+                     Storage: Memory  Maximum Storage: 2889kB
+                     Buffers: local hit=201
+ Planning Time: 0.347 ms
+ Execution Time: 581.357 ms
+(68 rows)
+
+Time: 582.229 ms
+CASE 60 symbols x 2000 sessions - direct native windows
+TRUNCATE TABLE
+Time: 5.586 ms
+INSERT 0 120000
+Time: 431.866 ms
+ANALYZE
+Time: 70.791 ms
+                                                                                         QUERY PLAN                                                                                          
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=14429.23..14429.24 rows=1 width=16) (actual rows=1.00 loops=1)
+   Buffers: local hit=639 read=558 written=454
+   ->  WindowAgg  (cost=0.53..11729.23 rows=120000 width=40) (actual rows=120000.00 loops=1)
+         Window: w250 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '249'::bigint PRECEDING AND CURRENT ROW)
+         Storage: Memory  Maximum Storage: 34kB
+         Buffers: local hit=639 read=558 written=454
+         ->  WindowAgg  (cost=0.43..9329.23 rows=120000 width=48) (actual rows=120000.00 loops=1)
+               Window: w60 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+               Storage: Memory  Maximum Storage: 20kB
+               Buffers: local hit=639 read=558 written=454
+               ->  WindowAgg  (cost=0.35..7229.23 rows=120000 width=40) (actual rows=120000.00 loops=1)
+                     Window: w20 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '19'::bigint PRECEDING AND CURRENT ROW)
+                     Storage: Memory  Maximum Storage: 18kB
+                     Buffers: local hit=639 read=558 written=454
+                     ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input  (cost=0.29..5129.23 rows=120000 width=32) (actual rows=120000.00 loops=1)
+                           Index Searches: 1
+                           Buffers: local hit=639 read=558 written=454
+ Planning:
+   Buffers: shared hit=26, local read=1 written=1
+ Planning Time: 19.149 ms
+ Execution Time: 4539.328 ms
+(21 rows)
+
+Time: 4559.360 ms (00:04.559)
+CASE 60 symbols x 2000 sessions - moving aggregates and block extrema
+                                                                                         QUERY PLAN                                                                                          
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=71066.21..71066.22 rows=1 width=16) (actual rows=1.00 loops=1)
+   Buffers: local hit=365 read=2029 written=390
+   ->  Merge Join  (cost=55114.61..68353.38 rows=120570 width=40) (actual rows=120000.00 loops=1)
+         Merge Cond: ((phase2_window_scaling_input.symbol_id = e.symbol_id) AND (phase2_window_scaling_input.session_no = e.session_no))
+         Buffers: local hit=365 read=2029 written=390
+         CTE extrema_rows
+           ->  WindowAgg  (cost=0.35..7529.23 rows=120000 width=40) (actual rows=120000.00 loops=1)
+                 Window: w1 AS (PARTITION BY i.symbol_id ORDER BY i.session_no ROWS UNBOUNDED PRECEDING)
+                 Storage: Memory  Maximum Storage: 17kB
+                 Buffers: local hit=187 read=1010 written=386
+                 ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input i  (cost=0.29..5129.23 rows=120000 width=32) (actual rows=120000.00 loops=1)
+                       Index Searches: 1
+                       Buffers: local hit=187 read=1010 written=386
+         CTE extrema_blocks
+           ->  WindowAgg  (cost=155.99..16780.67 rows=120000 width=80) (actual rows=120000.00 loops=1)
+                 Window: w2 AS (PARTITION BY e_1.symbol_id, ((e_1.row_no / 250)) ORDER BY e_1.row_no ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING)
+                 Storage: Memory  Maximum Storage: 40kB
+                 Buffers: local hit=187 read=1010 written=386
+                 ->  WindowAgg  (cost=154.77..13780.67 rows=120000 width=64) (actual rows=120000.00 loops=1)
+                       Window: w1 AS (PARTITION BY e_1.symbol_id, ((e_1.row_no / 250)) ORDER BY e_1.row_no ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+                       Storage: Memory  Maximum Storage: 17kB
+                       Buffers: local hit=187 read=1010 written=386
+                       ->  Incremental Sort  (cost=154.66..10780.67 rows=120000 width=48) (actual rows=120000.00 loops=1)
+                             Sort Key: e_1.symbol_id, ((e_1.row_no / 250)), e_1.row_no
+                             Presorted Key: e_1.symbol_id
+                             Full-sort Groups: 60  Sort Method: quicksort  Average Memory: 29kB  Peak Memory: 29kB
+                             Pre-sorted Groups: 60  Sort Method: quicksort  Average Memory: 187kB  Peak Memory: 187kB
+                             Buffers: local hit=187 read=1010 written=386
+                             ->  CTE Scan on extrema_rows e_1  (cost=0.00..2700.00 rows=120000 width=48) (actual rows=120000.00 loops=1)
+                                   Storage: Memory  Maximum Storage: 8380kB
+                                   Buffers: local hit=187 read=1010 written=386
+         CTE extrema_lags
+           ->  WindowAgg  (cost=150.72..12880.67 rows=120000 width=96) (actual rows=120000.00 loops=1)
+                 Window: w1 AS (PARTITION BY b.symbol_id ORDER BY b.row_no)
+                 Storage: Memory  Maximum Storage: 44kB
+                 Buffers: local hit=187 read=1010 written=386
+                 ->  Incremental Sort  (cost=149.66..10480.67 rows=120000 width=80) (actual rows=120000.00 loops=1)
+                       Sort Key: b.symbol_id, b.row_no
+                       Presorted Key: b.symbol_id
+                       Full-sort Groups: 60  Sort Method: quicksort  Average Memory: 31kB  Peak Memory: 31kB
+                       Pre-sorted Groups: 60  Sort Method: quicksort  Average Memory: 252kB  Peak Memory: 252kB
+                       Buffers: local hit=187 read=1010 written=386
+                       ->  CTE Scan on extrema_blocks b  (cost=0.00..2400.00 rows=120000 width=80) (actual rows=120000.00 loops=1)
+                             Storage: Memory  Maximum Storage: 13205kB
+                             Buffers: local hit=187 read=1010 written=386
+         CTE extrema
+           ->  CTE Scan on extrema_lags l  (cost=0.00..5400.00 rows=120000 width=112) (actual rows=120000.00 loops=1)
+                 Storage: Memory  Maximum Storage: 14945kB
+                 Buffers: local hit=187 read=1010 written=386
+         ->  WindowAgg  (cost=0.43..9329.23 rows=120000 width=24) (actual rows=120000.00 loops=1)
+               Window: w60 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+               Storage: Memory  Maximum Storage: 19kB
+               Buffers: local hit=178 read=1019 written=4
+               ->  WindowAgg  (cost=0.35..7229.23 rows=120000 width=24) (actual rows=120000.00 loops=1)
+                     Window: w20 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '19'::bigint PRECEDING AND CURRENT ROW)
+                     Storage: Memory  Maximum Storage: 17kB
+                     Buffers: local hit=178 read=1019 written=4
+                     ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input  (cost=0.29..5129.23 rows=120000 width=16) (actual rows=120000.00 loops=1)
+                           Index Searches: 1
+                           Buffers: local hit=178 read=1019 written=4
+         ->  Sort  (cost=12523.60..12823.60 rows=120000 width=24) (actual rows=120000.00 loops=1)
+               Sort Key: e.symbol_id, e.session_no
+               Sort Method: quicksort  Memory: 7760kB
+               Buffers: local hit=187 read=1010 written=386
+               ->  CTE Scan on extrema e  (cost=0.00..2400.00 rows=120000 width=24) (actual rows=120000.00 loops=1)
+                     Storage: Memory  Maximum Storage: 16820kB
+                     Buffers: local hit=187 read=1010 written=386
+ Planning Time: 0.529 ms
+ Execution Time: 7898.933 ms
+(69 rows)
+
+Time: 7900.109 ms (00:07.900)
+CASE 60 symbols x 2000 sessions - moving averages only
+                                                                                         QUERY PLAN                                                                                          
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=14429.23..14429.24 rows=1 width=16) (actual rows=1.00 loops=1)
+   Buffers: local hit=416 read=781 written=178
+   ->  WindowAgg  (cost=0.53..11729.23 rows=120000 width=40) (actual rows=120000.00 loops=1)
+         Window: w250 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '249'::bigint PRECEDING AND CURRENT ROW)
+         Storage: Memory  Maximum Storage: 34kB
+         Buffers: local hit=416 read=781 written=178
+         ->  WindowAgg  (cost=0.43..9329.23 rows=120000 width=48) (actual rows=120000.00 loops=1)
+               Window: w60 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+               Storage: Memory  Maximum Storage: 20kB
+               Buffers: local hit=416 read=781 written=178
+               ->  WindowAgg  (cost=0.35..7229.23 rows=120000 width=40) (actual rows=120000.00 loops=1)
+                     Window: w20 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '19'::bigint PRECEDING AND CURRENT ROW)
+                     Storage: Memory  Maximum Storage: 18kB
+                     Buffers: local hit=416 read=781 written=178
+                     ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input  (cost=0.29..5129.23 rows=120000 width=32) (actual rows=120000.00 loops=1)
+                           Index Searches: 1
+                           Buffers: local hit=416 read=781 written=178
+ Planning Time: 0.219 ms
+ Execution Time: 6560.323 ms
+(19 rows)
+
+Time: 6560.960 ms (00:06.561)
+CASE 60 symbols x 2000 sessions - prefix sum/count average only
+                                                                                            QUERY PLAN                                                                                             
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=19829.23..19829.24 rows=1 width=16) (actual rows=1.00 loops=1)
+   Buffers: local hit=283 read=914
+   ->  WindowAgg  (cost=0.68..17129.23 rows=120000 width=40) (actual rows=120000.00 loops=1)
+         Window: w250 AS (PARTITION BY lagged.symbol_id ORDER BY lagged.session_no ROWS BETWEEN '249'::bigint PRECEDING AND CURRENT ROW)
+         Storage: Memory  Maximum Storage: 40kB
+         Buffers: local hit=283 read=914
+         ->  WindowAgg  (cost=0.55..13229.23 rows=120000 width=72) (actual rows=120000.00 loops=1)
+               Window: w60 AS (PARTITION BY lagged.symbol_id ORDER BY lagged.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+               Storage: Memory  Maximum Storage: 22kB
+               Buffers: local hit=283 read=914
+               ->  Subquery Scan on lagged  (cost=0.44..11129.23 rows=120000 width=64) (actual rows=120000.00 loops=1)
+                     Buffers: local hit=283 read=914
+                     ->  WindowAgg  (cost=0.44..9929.23 rows=120000 width=64) (actual rows=120000.00 loops=1)
+                           Window: w AS (PARTITION BY i.symbol_id ORDER BY i.session_no)
+                           Storage: Memory  Maximum Storage: 18kB
+                           Buffers: local hit=283 read=914
+                           ->  WindowAgg  (cost=0.36..7529.23 rows=120000 width=48) (actual rows=120000.00 loops=1)
+                                 Window: w AS (PARTITION BY i.symbol_id ORDER BY i.session_no ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+                                 Storage: Memory  Maximum Storage: 17kB
+                                 Buffers: local hit=283 read=914
+                                 ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input i  (cost=0.29..5129.23 rows=120000 width=32) (actual rows=120000.00 loops=1)
+                                       Index Searches: 1
+                                       Buffers: local hit=283 read=914
+ Planning Time: 0.196 ms
+ Execution Time: 4647.491 ms
+(25 rows)
+
+Time: 4648.067 ms (00:04.648)
+CASE 60 symbols x 2000 sessions - block extrema only
+                                                                                         QUERY PLAN                                                                                          
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=71066.21..71066.22 rows=1 width=16) (actual rows=1.00 loops=1)
+   Buffers: local hit=845 read=1549
+   ->  Merge Join  (cost=55114.61..68353.38 rows=120570 width=40) (actual rows=120000.00 loops=1)
+         Merge Cond: ((phase2_window_scaling_input.symbol_id = e.symbol_id) AND (phase2_window_scaling_input.session_no = e.session_no))
+         Buffers: local hit=845 read=1549
+         CTE extrema_rows
+           ->  WindowAgg  (cost=0.35..7529.23 rows=120000 width=40) (actual rows=120000.00 loops=1)
+                 Window: w1 AS (PARTITION BY i.symbol_id ORDER BY i.session_no ROWS UNBOUNDED PRECEDING)
+                 Storage: Memory  Maximum Storage: 17kB
+                 Buffers: local hit=521 read=676
+                 ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input i  (cost=0.29..5129.23 rows=120000 width=32) (actual rows=120000.00 loops=1)
+                       Index Searches: 1
+                       Buffers: local hit=521 read=676
+         CTE extrema_blocks
+           ->  WindowAgg  (cost=155.99..16780.67 rows=120000 width=80) (actual rows=120000.00 loops=1)
+                 Window: w2 AS (PARTITION BY e_1.symbol_id, ((e_1.row_no / 250)) ORDER BY e_1.row_no ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING)
+                 Storage: Memory  Maximum Storage: 40kB
+                 Buffers: local hit=521 read=676
+                 ->  WindowAgg  (cost=154.77..13780.67 rows=120000 width=64) (actual rows=120000.00 loops=1)
+                       Window: w1 AS (PARTITION BY e_1.symbol_id, ((e_1.row_no / 250)) ORDER BY e_1.row_no ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+                       Storage: Memory  Maximum Storage: 17kB
+                       Buffers: local hit=521 read=676
+                       ->  Incremental Sort  (cost=154.66..10780.67 rows=120000 width=48) (actual rows=120000.00 loops=1)
+                             Sort Key: e_1.symbol_id, ((e_1.row_no / 250)), e_1.row_no
+                             Presorted Key: e_1.symbol_id
+                             Full-sort Groups: 60  Sort Method: quicksort  Average Memory: 29kB  Peak Memory: 29kB
+                             Pre-sorted Groups: 60  Sort Method: quicksort  Average Memory: 187kB  Peak Memory: 187kB
+                             Buffers: local hit=521 read=676
+                             ->  CTE Scan on extrema_rows e_1  (cost=0.00..2700.00 rows=120000 width=48) (actual rows=120000.00 loops=1)
+                                   Storage: Memory  Maximum Storage: 8380kB
+                                   Buffers: local hit=521 read=676
+         CTE extrema_lags
+           ->  WindowAgg  (cost=150.72..12880.67 rows=120000 width=96) (actual rows=120000.00 loops=1)
+                 Window: w1 AS (PARTITION BY b.symbol_id ORDER BY b.row_no)
+                 Storage: Memory  Maximum Storage: 44kB
+                 Buffers: local hit=521 read=676
+                 ->  Incremental Sort  (cost=149.66..10480.67 rows=120000 width=80) (actual rows=120000.00 loops=1)
+                       Sort Key: b.symbol_id, b.row_no
+                       Presorted Key: b.symbol_id
+                       Full-sort Groups: 60  Sort Method: quicksort  Average Memory: 31kB  Peak Memory: 31kB
+                       Pre-sorted Groups: 60  Sort Method: quicksort  Average Memory: 252kB  Peak Memory: 252kB
+                       Buffers: local hit=521 read=676
+                       ->  CTE Scan on extrema_blocks b  (cost=0.00..2400.00 rows=120000 width=80) (actual rows=120000.00 loops=1)
+                             Storage: Memory  Maximum Storage: 13205kB
+                             Buffers: local hit=521 read=676
+         CTE extrema
+           ->  CTE Scan on extrema_lags l  (cost=0.00..5400.00 rows=120000 width=112) (actual rows=120000.00 loops=1)
+                 Storage: Memory  Maximum Storage: 14945kB
+                 Buffers: local hit=521 read=676
+         ->  WindowAgg  (cost=0.43..9329.23 rows=120000 width=24) (actual rows=120000.00 loops=1)
+               Window: w60 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '59'::bigint PRECEDING AND CURRENT ROW)
+               Storage: Memory  Maximum Storage: 19kB
+               Buffers: local hit=324 read=873
+               ->  WindowAgg  (cost=0.35..7229.23 rows=120000 width=24) (actual rows=120000.00 loops=1)
+                     Window: w20 AS (PARTITION BY phase2_window_scaling_input.symbol_id ORDER BY phase2_window_scaling_input.session_no ROWS BETWEEN '19'::bigint PRECEDING AND CURRENT ROW)
+                     Storage: Memory  Maximum Storage: 17kB
+                     Buffers: local hit=324 read=873
+                     ->  Index Scan using phase2_window_scaling_input_pkey on phase2_window_scaling_input  (cost=0.29..5129.23 rows=120000 width=16) (actual rows=120000.00 loops=1)
+                           Index Searches: 1
+                           Buffers: local hit=324 read=873
+         ->  Sort  (cost=12523.60..12823.60 rows=120000 width=24) (actual rows=120000.00 loops=1)
+               Sort Key: e.symbol_id, e.session_no
+               Sort Method: quicksort  Memory: 7760kB
+               Buffers: local hit=521 read=676
+               ->  CTE Scan on extrema e  (cost=0.00..2400.00 rows=120000 width=24) (actual rows=120000.00 loops=1)
+                     Storage: Memory  Maximum Storage: 16820kB
+                     Buffers: local hit=521 read=676
+ Planning Time: 0.606 ms
+ Execution Time: 4131.779 ms
+(69 rows)
+
+Time: 4132.926 ms (00:04.133)

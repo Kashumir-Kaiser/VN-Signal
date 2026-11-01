@@ -1,0 +1,53 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.47s
+     Running tests\sql_parity.rs (target\debug\deps\sql_parity-a8e5847f67734581.exe)
+
+running 1 test
+E3 checkpoint: selected 20 deterministic feature rows, elapsed 18.8834717s
+E3 checkpoint: selected source lineage verified, elapsed 325.5529ms
+E3 checkpoint: initializing point-in-time cache batches
+E3 checkpoint: cache batch 0/26 rows 108331, elapsed 1.9699833s
+E3 checkpoint: cache batch 1/26 rows 115152, elapsed 2.1245293s
+E3 checkpoint: cache batch 2/26 rows 111302, elapsed 2.474471s
+E3 checkpoint: cache batch 3/26 rows 113879, elapsed 2.0756215s
+E3 checkpoint: cache batch 4/26 rows 114214, elapsed 1.7168469s
+E3 checkpoint: cache batch 5/26 rows 114805, elapsed 2.1191407s
+E3 checkpoint: cache batch 6/26 rows 112592, elapsed 1.9130503s
+E3 checkpoint: cache batch 7/26 rows 116639, elapsed 1.8269696s
+E3 checkpoint: cache batch 8/26 rows 106585, elapsed 2.1579361s
+E3 checkpoint: cache batch 9/26 rows 111358, elapsed 2.1859364s
+E3 checkpoint: cache batch 10/26 rows 106117, elapsed 1.6377682s
+E3 checkpoint: cache batch 11/26 rows 113594, elapsed 1.9335649s
+E3 checkpoint: cache batch 12/26 rows 112628, elapsed 1.841852s
+E3 checkpoint: cache batch 13/26 rows 113102, elapsed 2.4406735s
+E3 checkpoint: cache batch 14/26 rows 113642, elapsed 2.8265432s
+E3 checkpoint: cache batch 15/26 rows 111909, elapsed 2.7915961s
+E3 checkpoint: cache batch 16/26 rows 111802, elapsed 2.9366634s
+test postgres_features_match_polars_reference_for_twenty_symbol_days has been running for over 60 seconds
+E3 checkpoint: cache batch 17/26 rows 115171, elapsed 2.282017s
+E3 checkpoint: cache batch 18/26 rows 115471, elapsed 2.5208329s
+E3 checkpoint: cache batch 19/26 rows 112613, elapsed 2.6478103s
+E3 checkpoint: cache batch 20/26 rows 109469, elapsed 3.1273544s
+E3 checkpoint: cache batch 21/26 rows 114091, elapsed 3.0399761s
+E3 checkpoint: cache batch 22/26 rows 110051, elapsed 3.0720345s
+E3 checkpoint: cache batch 23/26 rows 112438, elapsed 2.5326502s
+E3 checkpoint: cache batch 24/26 rows 115457, elapsed 3.0573561s
+E3 checkpoint: cache batch 25/26 rows 32023, elapsed 1.8448103s
+E3 checkpoint: point-in-time cache ready, rows 2844435, elapsed 73.4814142s
+E3 checkpoint: loaded 2059819 market rows and index context through 2024-09-04, elapsed 42.7432076s
+E3 checkpoint: Polars reference for 2023-04-04 completed, elapsed 496.7757867s
+E3 checkpoint: Polars reference for 2022-10-10 completed, elapsed 474.8343607s
+E3 checkpoint: Polars reference for 2024-09-04 completed, elapsed 529.249512s
+
+thread 'postgres_features_match_polars_reference_for_twenty_symbol_days' (4912) panicked at crates\phase2-parity\tests\sql_parity.rs:1046:41:
+ema_100_ratio differs by more than relative tolerance 0.000000001 for 824 at 2023-04-04: SQL=0.004010006740238, Polars=0.004010006706455
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test postgres_features_match_polars_reference_for_twenty_symbol_days ... FAILED
+
+failures:
+
+failures:
+    postgres_features_match_polars_reference_for_twenty_symbol_days
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4 filtered out; finished in 1639.35s
+
+error: test failed, to rerun pass `--test sql_parity`

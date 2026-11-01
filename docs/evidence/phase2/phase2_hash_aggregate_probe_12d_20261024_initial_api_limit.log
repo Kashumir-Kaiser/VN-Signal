@@ -1,0 +1,13 @@
+Pager usage is off.
+Timing is on.
+SET
+Time: 14.457 ms
+SET
+Time: 0.156 ms
+SET
+Time: 0.110 ms
+BEGIN
+Time: 0.204 ms
+psql:docs/evidence/phase2/phase2_hash_aggregate_probe_12d_20261024.psql:9: ERROR:  direct adjustment-cache preparation is limited to 60 symbols; use staged begin/populate calls for 1518 in-scope symbols
+CONTEXT:  PL/pgSQL function feat.prepare_phase2_adjustment_rows(boolean) line 65 at RAISE
+Time: 1544.690 ms (00:01.545)

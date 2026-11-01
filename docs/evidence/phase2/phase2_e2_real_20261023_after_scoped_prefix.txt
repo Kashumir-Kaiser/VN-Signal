@@ -1,0 +1,279 @@
+Pager usage is off.
+Timing is on.
+BEGIN
+Time: 0.298 ms
+SET
+Time: 0.148 ms
+SET
+Time: 0.080 ms
+SET
+Time: 0.065 ms
+DO
+Time: 14.714 ms
+CREATE TABLE
+Time: 23.930 ms
+SELECT 2009
+Time: 29.372 ms
+CREATE INDEX
+Time: 23.685 ms
+CREATE INDEX
+Time: 5.401 ms
+ANALYZE
+Time: 99.735 ms
+SELECT 3
+Time: 7.137 ms
+CREATE INDEX
+Time: 5.110 ms
+E2 checkpoint: populating the production adjustment cache in bounded symbol batches
+ begin_phase2_adjustment_rows 
+------------------------------
+                           26
+(1 row)
+
+Time: 1014.916 ms (00:01.015)
+psql:tests/sql/phase2_e2_real_assertions.sql:55: NOTICE:  Phase 2 adjustment cache initialized for 26 batches of up to 60 symbols
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          108331
+(1 row)
+
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:05.720169
+Time: 5723.925 ms (00:05.724)
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 1 rows 115152, elapsed 00:00:04.621621
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115152
+(1 row)
+
+Time: 4622.406 ms (00:04.622)
+ populate_phase2_adjustment_rows 
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 2 rows 111302, elapsed 00:00:04.937548
+---------------------------------
+                          111302
+(1 row)
+
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 3 rows 113879, elapsed 00:00:04.919558
+Time: 4938.177 ms (00:04.938)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113879
+(1 row)
+
+Time: 4920.163 ms (00:04.920)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114214
+(1 row)
+
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 4 rows 114214, elapsed 00:00:04.731036
+Time: 4731.655 ms (00:04.732)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114805
+(1 row)
+
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 5 rows 114805, elapsed 00:00:05.209684
+Time: 5210.162 ms (00:05.210)
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 6 rows 112592, elapsed 00:00:06.170172
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112592
+(1 row)
+
+Time: 6170.742 ms (00:06.171)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          116639
+(1 row)
+
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 7 rows 116639, elapsed 00:00:06.318689
+Time: 6319.180 ms (00:06.319)
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 8 rows 106585, elapsed 00:00:06.579424
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106585
+(1 row)
+
+Time: 6579.843 ms (00:06.580)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111358
+(1 row)
+
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 9 rows 111358, elapsed 00:00:05.196077
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 10 rows 106117, elapsed 00:00:04.663254
+Time: 5196.613 ms (00:05.197)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106117
+(1 row)
+
+Time: 4663.750 ms (00:04.664)
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 11 rows 113594, elapsed 00:00:05.338175
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113594
+(1 row)
+
+Time: 5338.858 ms (00:05.339)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112628
+(1 row)
+
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 12 rows 112628, elapsed 00:00:05.088032
+Time: 5088.608 ms (00:05.089)
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 13 rows 113102, elapsed 00:00:06.150586
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113102
+(1 row)
+
+Time: 6151.217 ms (00:06.151)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113642
+(1 row)
+
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 14 rows 113642, elapsed 00:00:06.00228
+Time: 6002.871 ms (00:06.003)
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 15 rows 111909, elapsed 00:00:05.591817
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111909
+(1 row)
+
+Time: 5592.515 ms (00:05.593)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111802
+(1 row)
+
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 16 rows 111802, elapsed 00:00:05.895309
+Time: 5895.945 ms (00:05.896)
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 17 rows 115171, elapsed 00:00:05.474647
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115171
+(1 row)
+
+Time: 5475.221 ms (00:05.475)
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 18 rows 115471, elapsed 00:00:05.668752
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115471
+(1 row)
+
+Time: 5669.380 ms (00:05.669)
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 19 rows 112613, elapsed 00:00:06.589765
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112613
+(1 row)
+
+Time: 6590.319 ms (00:06.590)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          109469
+(1 row)
+
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 20 rows 109469, elapsed 00:00:05.605469
+Time: 5605.959 ms (00:05.606)
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 21 rows 114091, elapsed 00:00:06.085937
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114091
+(1 row)
+
+Time: 6086.501 ms (00:06.087)
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 22 rows 110051, elapsed 00:00:08.763231
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          110051
+(1 row)
+
+Time: 8763.831 ms (00:08.764)
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 23 rows 112438, elapsed 00:00:06.622946
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112438
+(1 row)
+
+Time: 6623.525 ms (00:06.624)
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 24 rows 115457, elapsed 00:00:05.980012
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115457
+(1 row)
+
+Time: 5980.557 ms (00:05.981)
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           32023
+(1 row)
+
+psql:tests/sql/phase2_e2_real_assertions.sql:60: NOTICE:  Phase 2 adjustment cache batch 25 rows 32023, elapsed 00:00:02.926989
+Time: 2927.490 ms (00:02.927)
+Time: 1.577 ms
+ finish_phase2_adjustment_rows 
+-------------------------------
+                       2844435
+(1 row)
+
+psql:tests/sql/phase2_e2_real_assertions.sql:61: NOTICE:  Phase 2 adjustment cache rows 2844435, finalize elapsed 00:00:19.088956
+Time: 19104.145 ms (00:19.104)
+E2 checkpoint: copying the finalized adjustment cache
+SELECT 2844435
+Time: 6046.966 ms (00:06.047)
+CREATE INDEX
+Time: 6049.647 ms (00:06.050)
+ANALYZE
+Time: 2799.252 ms (00:02.799)
+E2 checkpoint: raw input snapshot is ready
+CREATE TABLE
+Time: 31.997 ms
+CREATE TABLE
+Time: 9.677 ms
+E2 checkpoint: selecting the PIT-stratified 60-symbol cohort
+SELECT 60
+Time: 23397.165 ms (00:23.397)
+CREATE INDEX
+Time: 8.957 ms
+ANALYZE
+Time: 11.895 ms
+E2 checkpoint: cohort selection complete
+E2 checkpoint: validating the immutable current-hash baseline
+psql:tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_targets" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  Phase 2 label targets rows 235102, elapsed 00:00:01.909328
+psql:tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_latest_exit" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_endpoint_days" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  Phase 2 label endpoint days rows 117633, elapsed 00:00:01.17331
+psql:tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_endpoint_bounds" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_adjustment_prefix" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  Phase 2 label adjustment prefix rows 117499, elapsed 00:00:10.33906
+psql:tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_endpoint_bars" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  Phase 2 label endpoint bars rows 117491, elapsed 00:00:13.58642
+psql:tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_first_bad_factor" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:02.40147
+psql:tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_endpoint_targets" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  table "phase2_label_spans" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:290: NOTICE:  E2 baseline reused the current-hash 60-symbol feature cohort and rebuilt labels with current hash f4d61dd5e75ed4df90d90f28234413b9af73541853b650b5327cc0dd8be2deb1
+DO
+Time: 187827.922 ms (03:07.828)
+CREATE FUNCTION
+Time: 35.298 ms
+E2 checkpoint: running the independent 40 percent cutoff
+psql:tests/sql/phase2_e2_real_assertions.sql:590: ERROR:  canceling statement due to user request
+CONTEXT:  SQL statement "
+        UPDATE p2e2_15792_66804_40_ib.phase2_adjustment_rows r
+           SET model_o=r.model_o*f.price_factor,model_h=r.model_h*f.price_factor,
+               model_l=r.model_l*f.price_factor,model_c=r.model_c*f.price_factor,
+               v=CASE WHEN r.v IS NULL OR r.v=0 THEN r.v ELSE r.v*f.volume_factor END
+        FROM (SELECT symbol_id,trade_date,
+                     0.8::double precision+mod(abs(hashtext(symbol_id::text||trade_date::text||':price')::bigint),4001)::double precision/10000.0::double precision AS price_factor,
+                     0.8::double precision+mod(abs(hashtext(symbol_id::text||trade_date::text||':volume')::bigint),4001)::double precision/10000.0::double precision AS volume_factor
+              FROM p2e2_15792_66804_40_ib.phase2_adjustment_rows WHERE trade_date>$1) f
+        WHERE r.symbol_id=f.symbol_id AND r.trade_date=f.trade_date
+    "
+PL/pgSQL function pg_temp_90.phase2_e2_run_cut(integer) line 77 at EXECUTE
+Time: 1050945.860 ms (17:30.946)

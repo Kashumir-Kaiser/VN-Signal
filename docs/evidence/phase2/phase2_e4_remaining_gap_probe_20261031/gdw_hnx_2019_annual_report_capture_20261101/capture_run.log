@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "C:\Users\HP\VN-Signal\docs\evidence\phase2\phase2_e4_remaining_gap_probe_20261031\capture_gdw_2019_annual_report_hnx_20261101.py", line 173, in <module>
+    main()
+  File "C:\Users\HP\VN-Signal\docs\evidence\phase2\phase2_e4_remaining_gap_probe_20261031\capture_gdw_2019_annual_report_hnx_20261101.py", line 165, in main
+    print(json.dumps({
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python312\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u1edf' in position 131: character maps to <undefined>

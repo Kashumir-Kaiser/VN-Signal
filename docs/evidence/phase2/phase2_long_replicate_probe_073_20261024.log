@@ -1,0 +1,817 @@
+Pager usage is off.
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:12: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:12: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.395172
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:12: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.149935
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |         661
+(1 row)
+
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:13: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:13: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.456705
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:13: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.669909
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:13: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.279577
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:13: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:13: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:13: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        1504
+(1 row)
+
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:14: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:14: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.357106
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:14: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.399507
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:14: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.507596
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:14: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.362943
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:14: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.381215
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:14: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:14: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:14: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        2089
+(1 row)
+
+CREATE TABLE
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.358482
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.144706
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.31484
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.41206
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.247658
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.364955
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.463926
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.390261
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.359024
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.420873
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.313152
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.483741
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.257813
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.341386
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.427206
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.393922
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.36863
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.48289
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.316115
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.139033
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.730707
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.42544
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.427261
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.36274
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.362541
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.307663
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.127077
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.547699
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.47916
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.245576
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.474745
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.132131
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.336316
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.425102
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.238736
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.336631
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.413338
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.425426
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.372162
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.707371
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.553547
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.531601
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.298769
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.324424
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.404694
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.387134
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.365823
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.718644
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.333354
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.4113
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.41569
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.420505
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.423408
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.36397
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.359343
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.313981
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.127113
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.363876
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.446775
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.250284
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.328527
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.129806
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.369137
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.489119
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.245
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.328907
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.415091
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.41832
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.670187
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.435361
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.345132
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.537213
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.347543
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.433547
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.437459
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.402016
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.368118
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.363232
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.614045
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.13375
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.370679
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.519368
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.441189
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.918292
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.536292
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.436717
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.177335
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.558533
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.560021
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.408794
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.770352
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.197281
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.50202
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.464005
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.272503
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.396543
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.425868
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.408338
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.423932
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.382004
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.344345
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.445471
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.270969
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.346943
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.416009
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.415914
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.681276
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:01.235152
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.362135
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.137246
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.351496
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.43483
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.39802
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.379567
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.410922
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.35055
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.222288
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.391296
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.428245
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.25548
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.342889
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.127159
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.365598
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.434666
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.523227
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.410272
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.514225
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.643624
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.467536
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.885358
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.450997
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:01.06515
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.82401
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.835082
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:01.09316
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:01.404314
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.735345
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.794324
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.362478
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.146054
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.400622
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.455397
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.404402
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.375656
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.365016
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.601546
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.19368
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.69649
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.623988
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.252388
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.36878
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.136835
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.37407
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.433335
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.432239
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.383792
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.582762
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.456386
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.387974
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.35436
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.366443
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.596564
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.468006
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.372643
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.463681
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.526975
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.388421
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.370667
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.369974
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.1405
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.384829
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.454467
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.42258
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.37926
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.626145
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.482443
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.139462
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.399147
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.441492
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.579256
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.388881
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.1371
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.391336
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.491531
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.240632
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.396482
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.738213
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.556753
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.504087
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.708114
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.386813
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.461699
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.234662
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.381979
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.575046
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.529404
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.429837
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.416306
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.417804
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.14482
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.399993
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.463586
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.473979
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.427675
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.357462
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.415845
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.162325
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.382841
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.508436
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.29922
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.544968
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.163841
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.662717
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.564712
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.241208
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.421808
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.503946
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.480435
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.440086
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.372919
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.391904
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.463989
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.258197
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.42058
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.4632
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.425871
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.476157
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.398043
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.397684
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.130806
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.390602
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.46641
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.455368
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.479888
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.37891
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.459899
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.169785
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.504185
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.471475
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.244937
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.409982
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.165089
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.415224
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.569377
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.238148
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.43395
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.498521
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.437263
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.397725
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.451464
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.6103
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.52713
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.298666
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.618019
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.571264
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.647559
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.545592
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.371032
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.421426
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.138686
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.466946
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.549516
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.433408
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.437625
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.364462
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.406485
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.133881
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.432199
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.496054
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.250492
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.441275
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.141385
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.484553
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.488648
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.234452
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.43932
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.499829
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.478527
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.488914
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.374634
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.428975
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.494319
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.235974
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.419483
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.47814
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.445277
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.448098
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.390797
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.423602
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.131679
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 4 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.439463
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.5274
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 2 rows 28440, dates 2008, elapsed 00:00:00.428615
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 3 rows 26686, dates 2008, elapsed 00:00:00.460122
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.374071
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.447403
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.139646
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache initialized for 2 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.475117
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 date-local adjustment cache batch 1 rows 29440, dates 2008, elapsed 00:00:00.477157
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.281928
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "configured_batch_size" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "work_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:24: NOTICE:  column "maintenance_memory" of relation "phase2_adjustment_cache_probe_results" already exists, skipping
+DO
+ sample_no | symbol_count | row_count | duration_ms 
+-----------+--------------+-----------+-------------
+         1 |           15 |     23765 |         581
+         2 |           30 |     53205 |        1058
+         3 |           60 |    108331 |        2090
+         4 |           30 |     53205 |        1137
+         5 |           60 |    108331 |        2096
+         6 |           15 |     23765 |         532
+         7 |           60 |    108331 |        2398
+         8 |           15 |     23765 |         511
+         9 |           30 |     53205 |        1366
+        10 |           15 |     23765 |         690
+        11 |           30 |     53205 |        1081
+        12 |           60 |    108331 |        2332
+        13 |           30 |     53205 |        1493
+        14 |           60 |    108331 |        2280
+        15 |           15 |     23765 |         828
+        16 |           60 |    108331 |        2067
+        17 |           15 |     23765 |         517
+        18 |           30 |     53205 |        1144
+        19 |           15 |     23765 |         538
+        20 |           30 |     53205 |        1185
+        21 |           60 |    108331 |        2347
+        22 |           30 |     53205 |        1314
+        23 |           60 |    108331 |        2113
+        24 |           15 |     23765 |        1081
+        25 |           60 |    108331 |        2865
+        26 |           15 |     23765 |         713
+        27 |           30 |     53205 |        1622
+        28 |           15 |     23765 |        1090
+        29 |           30 |     53205 |        1363
+        30 |           60 |    108331 |        2121
+        31 |           30 |     53205 |        1141
+        32 |           60 |    108331 |        3184
+        33 |           15 |     23765 |         775
+        34 |           60 |    108331 |        2065
+        35 |           15 |     23765 |         917
+        36 |           30 |     53205 |        1206
+        37 |           15 |     23765 |         546
+        38 |           30 |     53205 |        1400
+        39 |           60 |    108331 |        3004
+        40 |           30 |     53205 |        2696
+        41 |           60 |    108331 |        5161
+        42 |           15 |     23765 |         631
+        43 |           60 |    108331 |        2087
+        44 |           15 |     23765 |         897
+        45 |           30 |     53205 |        1681
+        46 |           15 |     23765 |         683
+        47 |           30 |     53205 |        1321
+        48 |           60 |    108331 |        2243
+        49 |           30 |     53205 |        1509
+        50 |           60 |    108331 |        2203
+        51 |           15 |     23765 |         591
+        52 |           60 |    108331 |        2347
+        53 |           15 |     23765 |         706
+        54 |           30 |     53205 |        1510
+        55 |           15 |     23765 |         603
+        56 |           30 |     53205 |        1208
+        57 |           60 |    108331 |        2987
+        58 |           30 |     53205 |        1169
+        59 |           60 |    108331 |        2413
+        60 |           15 |     23765 |         641
+        61 |           60 |    108331 |        2211
+        62 |           15 |     23765 |         658
+        63 |           30 |     53205 |        1269
+        64 |           15 |     23765 |         825
+        65 |           30 |     53205 |        1580
+        66 |           60 |    108331 |        2305
+        67 |           30 |     53205 |        1192
+        68 |           60 |    108331 |        2289
+        69 |           15 |     23765 |         613
+        70 |           60 |    108331 |        2248
+        71 |           15 |     23765 |         729
+        72 |           30 |     53205 |        1325
+        73 |           15 |     23765 |         680
+        74 |           30 |     53205 |        1299
+        75 |           60 |    108331 |        2322
+        76 |           30 |     53205 |        1539
+        77 |           60 |    108331 |        2921
+        78 |           15 |     23765 |         642
+        79 |           60 |    108331 |        2341
+        80 |           15 |     23765 |         621
+        81 |           30 |     53205 |        1265
+        82 |           15 |     23765 |         668
+        83 |           30 |     53205 |        1310
+        84 |           60 |    108331 |        2363
+        85 |           30 |     53205 |        1244
+        86 |           60 |    108331 |        2263
+        87 |           15 |     23765 |         640
+        88 |           60 |    108331 |        2307
+        89 |           15 |     23765 |         679
+        90 |           30 |     53205 |        1323
+(90 rows)
+
+ symbol_count | minimum_ms | maximum_ms | median_ms | coefficient_of_variation | minimum_rows | maximum_rows | adjacent_exponent  
+--------------+------------+------------+-----------+--------------------------+--------------+--------------+--------------------
+           15 |        511 |       1090 |       663 |   0.20985783563712618842 |        23765 |        23765 |                   
+           30 |       1058 |       2696 |      1312 |   0.21563290864049523810 |        53205 |        53205 | 0.9846869445054961
+           60 |       2065 |       5161 |      2306 |   0.23626370942642504697 |       108331 |       108331 | 0.8136247930336882
+(3 rows)
+
+ symbol_count | blocks |  minimum_block_mean   |  maximum_block_mean   |        mean_ms        |   block_coefficient_of_variation   | adjacent_mean_exponent 
+--------------+--------+-----------------------+-----------------------+-----------------------+------------------------------------+------------------------
+           15 |      3 |  675.5000000000000000 |  708.1000000000000000 |  694.2000000000000000 | 0.01978517785096311175933063029026 |                       
+           30 |      3 | 1276.3000000000000000 | 1484.1000000000000000 | 1365.0000000000000000 | 0.06411360100345913894048642627835 | 0.97547768086593103840
+           60 |      3 | 2270.9000000000000000 | 2769.4000000000000000 | 2465.7666666666666667 | 0.08823198959866355023556520687812 | 0.85313533409042662399
+(3 rows)
+
+ROLLBACK
+psql:docs/evidence/phase2/phase2_long_replicate_probe_073_20261024.psql:49: ERROR:  syntax error at or near "_count"
+LINE 1: _count;
+        ^

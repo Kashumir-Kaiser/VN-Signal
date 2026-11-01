@@ -1,0 +1,174 @@
+{
+  "active": true,
+  "at": "2026-10-24T05:53:32.625039+00:00",
+  "routes": {
+    "income_statement": {
+      "attributes": {
+        "access_domain": [
+          "vietcap.com.vn"
+        ],
+        "access_method": [
+          "GET"
+        ],
+        "access_protocol": "https",
+        "organisation": "Công ty CP Chứng khoán Vietcap",
+        "requested_period": "quarter",
+        "requested_symbol": "FPT",
+        "route": "fundamental.equity.income_statement",
+        "source": "vci",
+        "source_name": "Vietcap (VCI)",
+        "symbol": "FPT",
+        "symbol_basis": "provider_and_request",
+        "tier_cap_periods": 8,
+        "tool": "vnstock"
+      },
+      "available": true,
+      "columns": [
+        "period",
+        "id",
+        "name",
+        "order",
+        "level",
+        "unit",
+        "value"
+      ],
+      "count": 160,
+      "duration_ms": 5699,
+      "first_observed_date": "",
+      "last_observed_date": ""
+    }
+  },
+  "status": {
+    "schema_version": 1,
+    "authenticated": true,
+    "active": true,
+    "tier": "free",
+    "device_id": "vndev_4fedec569abff89e2eb285360c581d4d72a9acd58d549996",
+    "expires_at": null,
+    "cache_until": "2026-10-25T05:01:27.671Z",
+    "core_version": "0.7.0",
+    "server_message": null,
+    "server_warning": null,
+    "release": {
+      "package": "vnstock",
+      "version": "5.0.3",
+      "disabled": false,
+      "code": null,
+      "reason": null,
+      "expires_at": "2027-10-16T04:37:26+00:00",
+      "expires_on": "2027-10-16",
+      "days_left": 356,
+      "expired": false,
+      "prerelease": false,
+      "notice_days": 30,
+      "action": "pip install -U --extra-index-url https://vnstocks.com/api/packages vnstock",
+      "build_date": "2026-10-16"
+    },
+    "libraries": {
+      "vnstock": "5.0.3",
+      "vnstock-quant": null,
+      "vnstock-news": null,
+      "vnstock-pipeline": null
+    },
+    "older_libraries": {},
+    "python": "3.12.10",
+    "platform": "Windows AMD64",
+    "updates": {
+      "vnstock": "5.2.0"
+    },
+    "update_commands": [
+      "uv pip install --upgrade-package vnstock --python C:\\Users\\HP\\VN-Signal\\.venv\\Scripts\\python.exe --extra-index-url https://vnstocks.com/api/packages vnstock"
+    ]
+  },
+  "usage": {
+    "tier": "free",
+    "authenticated": true,
+    "limits": {
+      "per_minute": 60,
+      "per_hour": 3600,
+      "per_day": 10000,
+      "per_month": 100000
+    },
+    "limit_source": "server",
+    "used": {
+      "minute": 0,
+      "hour": 13,
+      "day": 13,
+      "month": 6866
+    },
+    "used_by_lib": {
+      "vnstock": {
+        "day": 13,
+        "month": 6866
+      }
+    },
+    "pending_report": 0,
+    "expires_at": null,
+    "rule": {
+      "routes": [
+        "fundamental.company.affiliate",
+        "fundamental.company.capital_history",
+        "fundamental.company.events",
+        "fundamental.company.info",
+        "fundamental.company.insider_trading",
+        "fundamental.company.officers",
+        "fundamental.company.overview",
+        "fundamental.company.ownership",
+        "fundamental.company.shareholders",
+        "fundamental.company.subsidiaries",
+        "fundamental.equity.balance_sheet",
+        "fundamental.equity.cash_flow",
+        "fundamental.equity.income_statement",
+        "market.commodity.ohlcv",
+        "market.crypto.ohlcv",
+        "market.equity.ohlcv",
+        "market.equity.quote",
+        "market.equity.trades",
+        "market.forex.ohlcv",
+        "market.futures.ohlcv",
+        "market.futures.quote",
+        "market.futures.trades",
+        "market.global_index.ohlcv",
+        "market.index.ohlcv",
+        "market.warrant.ohlcv",
+        "market.warrant.quote",
+        "market.warrant.trades",
+        "reference.equity.list",
+        "reference.events.calendar",
+        "reference.events.market",
+        "reference.index.groups",
+        "reference.index.info",
+        "reference.index.list",
+        "reference.market.industries_icb",
+        "reference.market.status",
+        "reference.market.symbols_by_exchange",
+        "reference.market.symbols_by_group",
+        "reference.market.symbols_by_industries",
+        "reference.search.info",
+        "reference.search.symbol",
+        "retail.currency.exchange_rate",
+        "retail.gold.price"
+      ],
+      "routes_open": 42,
+      "sources": [
+        "binance",
+        "builtin",
+        "dukascopy",
+        "kbs",
+        "vcb",
+        "vci"
+      ],
+      "periods": 8,
+      "history_days": {
+        "minute": 180,
+        "intraday": 365,
+        "daily": 2920
+      },
+      "intraday_rows": 5000,
+      "row_cap": 10000,
+      "taxonomy": "reduced",
+      "limits": null,
+      "ci": true
+    }
+  }
+}

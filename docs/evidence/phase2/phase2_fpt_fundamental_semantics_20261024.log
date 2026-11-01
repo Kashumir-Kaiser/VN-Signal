@@ -1,0 +1,67 @@
+Pager usage is off.
+ landing_id | source |                route                | symbol |              ingest_id               |          fetched_at           |                          payload_sha256                          | checksum_ok |                                                                                                                                                                                                 attributes                                                                                                                                                                                                  | row_count 
+------------+--------+-------------------------------------+--------+--------------------------------------+-------------------------------+------------------------------------------------------------------+-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------
+       9798 | vci    | fundamental.equity.income_statement | FPT    | bbc3be04-2fbe-4aba-9287-104bbe453994 | 2026-10-24 12:07:59.669068+07 | f6df07917a5089cdc40514ea0c4df4a3516258a10165667ef15b75aa86b364a8 | t           | {"tool": "vnstock", "route": "fundamental.equity.income_statement", "source": "vci", "symbol": "FPT", "source_name": "Vietcap (VCI)", "organisation": "Công ty CP Chứng khoán Vietcap", "symbol_basis": "provider_and_request", "access_domain": ["vietcap.com.vn"], "access_method": ["GET"], "access_protocol": "https", "requested_period": "quarter", "requested_symbol": "FPT", "tier_cap_periods": 8} |       160
+       9802 | vci    | fundamental.equity.balance_sheet    | FPT    | 9e7e2517-0da8-4e63-9aca-e7b283234fbe | 2026-10-24 12:19:55.482685+07 | ad51a32d47c09ceab36542487e90847b471dc3ec20ed888fde80cb009901c98d | t           | {"tool": "vnstock", "route": "fundamental.equity.balance_sheet", "source": "vci", "symbol": "FPT", "source_name": "Vietcap (VCI)", "organisation": "Công ty CP Chứng khoán Vietcap", "symbol_basis": "provider_and_request", "access_domain": ["vietcap.com.vn"], "access_method": ["GET"], "access_protocol": "https", "requested_period": "quarter", "requested_symbol": "FPT", "tier_cap_periods": 8}    |       168
+       9803 | vci    | fundamental.equity.cash_flow        | FPT    | be13fa39-f5b3-43e3-bb85-49a8f19038c9 | 2026-10-24 12:20:15.477183+07 | ab9a4468440ab4bc343cc1393789c86d6c479e340a92c086442559f06e0cbde9 | t           | {"tool": "vnstock", "route": "fundamental.equity.cash_flow", "source": "vci", "symbol": "FPT", "source_name": "Vietcap (VCI)", "organisation": "Công ty CP Chứng khoán Vietcap", "symbol_basis": "provider_and_request", "access_domain": ["vietcap.com.vn"], "access_method": ["GET"], "access_protocol": "https", "requested_period": "quarter", "requested_symbol": "FPT", "tier_cap_periods": 8}        |        56
+(3 rows)
+
+ landing_id | period  |                      provider_id                       |                  provider_name                  | unit |      value       
+------------+---------+--------------------------------------------------------+-------------------------------------------------+------+------------------
+       9798 | 2025-Q1 | IS_GROSS_PROFIT                                        | LỢI NHUẬN GỘP VỀ BÁN HÀNG VÀ CUNG CẤP DỊCH VỤ   | VNĐ  |  6301347904266.0
+       9798 | 2025-Q1 | IS_NET_PROFIT_AFTER_TAX                                | LỢI NHUẬN SAU THUẾ THU NHẬP DOANH NGHIỆP        | VNĐ  |  2595557480309.0
+       9798 | 2025-Q1 | IS_NET_REVENUE                                         | Doanh thu thuần về bán hàng và cung cấp dịch vụ | VNĐ  | 16058140942460.0
+       9798 | 2025-Q1 | IS_OPERATING_PROFIT                                    | Lợi nhuận thuần từ hoạt động kinh doanh         | VNĐ  |  2993843378813.0
+       9798 | 2025-Q1 | IS_PROFIT_AFTER_TAX_FOR_SHAREHOLDERS_OF_PARENT_COMPANY | Lợi nhuận sau thuế của cổ đông công ty mẹ       | VNĐ  |  2174301386525.0
+       9798 | 2025-Q1 | IS_REVENUE                                             | DOANH THU BÁN HÀNG VÀ CUNG CẤP DỊCH VỤ          | VNĐ  | 16064980391264.0
+       9798 | 2025-Q1 | IS_REVENUE_DEDUCTIONS                                  | Các khoản giảm trừ doanh thu                    | VNĐ  |    -6839448804.0
+       9798 | 2025-Q2 | IS_GROSS_PROFIT                                        | LỢI NHUẬN GỘP VỀ BÁN HÀNG VÀ CUNG CẤP DỊCH VỤ   | VNĐ  |  6021040042975.0
+       9798 | 2025-Q2 | IS_NET_PROFIT_AFTER_TAX                                | LỢI NHUẬN SAU THUẾ THU NHẬP DOANH NGHIỆP        | VNĐ  |  2740271400678.0
+       9798 | 2025-Q2 | IS_NET_REVENUE                                         | Doanh thu thuần về bán hàng và cung cấp dịch vụ | VNĐ  | 16624713040067.0
+       9798 | 2025-Q2 | IS_OPERATING_PROFIT                                    | Lợi nhuận thuần từ hoạt động kinh doanh         | VNĐ  |  3129408582030.0
+       9798 | 2025-Q2 | IS_PROFIT_AFTER_TAX_FOR_SHAREHOLDERS_OF_PARENT_COMPANY | Lợi nhuận sau thuế của cổ đông công ty mẹ       | VNĐ  |  2257462588123.0
+       9798 | 2025-Q2 | IS_REVENUE                                             | DOANH THU BÁN HÀNG VÀ CUNG CẤP DỊCH VỤ          | VNĐ  | 16658335760739.0
+       9798 | 2025-Q2 | IS_REVENUE_DEDUCTIONS                                  | Các khoản giảm trừ doanh thu                    | VNĐ  |   -33622720672.0
+       9798 | 2025-Q3 | IS_GROSS_PROFIT                                        | LỢI NHUẬN GỘP VỀ BÁN HÀNG VÀ CUNG CẤP DỊCH VỤ   | VNĐ  |  6518866479010.0
+       9798 | 2025-Q3 | IS_NET_PROFIT_AFTER_TAX                                | LỢI NHUẬN SAU THUẾ THU NHẬP DOANH NGHIỆP        | VNĐ  |  2901545752650.0
+       9798 | 2025-Q3 | IS_NET_REVENUE                                         | Doanh thu thuần về bán hàng và cung cấp dịch vụ | VNĐ  | 17204521225302.0
+       9798 | 2025-Q3 | IS_OPERATING_PROFIT                                    | Lợi nhuận thuần từ hoạt động kinh doanh         | VNĐ  |  3346375732746.0
+       9798 | 2025-Q3 | IS_PROFIT_AFTER_TAX_FOR_SHAREHOLDERS_OF_PARENT_COMPANY | Lợi nhuận sau thuế của cổ đông công ty mẹ       | VNĐ  |  2434841434732.0
+       9798 | 2025-Q3 | IS_REVENUE                                             | DOANH THU BÁN HÀNG VÀ CUNG CẤP DỊCH VỤ          | VNĐ  | 17225507121683.0
+       9798 | 2025-Q3 | IS_REVENUE_DEDUCTIONS                                  | Các khoản giảm trừ doanh thu                    | VNĐ  |   -20985896381.0
+       9798 | 2025-Q4 | IS_GROSS_PROFIT                                        | LỢI NHUẬN GỘP VỀ BÁN HÀNG VÀ CUNG CẤP DỊCH VỤ   | VNĐ  |  7047275086162.0
+       9798 | 2025-Q4 | IS_NET_PROFIT_AFTER_TAX                                | LỢI NHUẬN SAU THUẾ THU NHẬP DOANH NGHIỆP        | VNĐ  |  2994964817096.0
+       9798 | 2025-Q4 | IS_NET_REVENUE                                         | Doanh thu thuần về bán hàng và cung cấp dịch vụ | VNĐ  | 20225449892881.0
+       9798 | 2025-Q4 | IS_OPERATING_PROFIT                                    | Lợi nhuận thuần từ hoạt động kinh doanh         | VNĐ  |  3482048271187.0
+       9798 | 2025-Q4 | IS_PROFIT_AFTER_TAX_FOR_SHAREHOLDERS_OF_PARENT_COMPANY | Lợi nhuận sau thuế của cổ đông công ty mẹ       | VNĐ  |  2509522220120.0
+       9798 | 2025-Q4 | IS_REVENUE                                             | DOANH THU BÁN HÀNG VÀ CUNG CẤP DỊCH VỤ          | VNĐ  | 20258865670867.0
+       9798 | 2025-Q4 | IS_REVENUE_DEDUCTIONS                                  | Các khoản giảm trừ doanh thu                    | VNĐ  |   -33415777986.0
+       9803 | 2025-Q1 | CF_NET_CASH_FLOWS_FROM_OPERATING_ACTIVITIES            | LƯU CHUYỂN TIỀN THUẦN TỪ HOẠT ĐỘNG KINH DOANH   | VNĐ  | -2506903722401.0
+       9803 | 2025-Q2 | CF_NET_CASH_FLOWS_FROM_OPERATING_ACTIVITIES            | LƯU CHUYỂN TIỀN THUẦN TỪ HOẠT ĐỘNG KINH DOANH   | VNĐ  |  4190477000730.0
+       9803 | 2025-Q3 | CF_NET_CASH_FLOWS_FROM_OPERATING_ACTIVITIES            | LƯU CHUYỂN TIỀN THUẦN TỪ HOẠT ĐỘNG KINH DOANH   | VNĐ  |  4344020060779.0
+       9803 | 2025-Q4 | CF_NET_CASH_FLOWS_FROM_OPERATING_ACTIVITIES            | LƯU CHUYỂN TIỀN THUẦN TỪ HOẠT ĐỘNG KINH DOANH   | VNĐ  |  4108450576803.0
+(32 rows)
+
+ landing_id |                      provider_id                       | quarter_count |    q1_q4_sum     
+------------+--------------------------------------------------------+---------------+------------------
+       9798 | IS_GROSS_PROFIT                                        |             4 | 25888529512413.0
+       9798 | IS_NET_PROFIT_AFTER_TAX                                |             4 | 11232339450733.0
+       9798 | IS_NET_REVENUE                                         |             4 | 70112825100710.0
+       9798 | IS_OPERATING_PROFIT                                    |             4 | 12951675964776.0
+       9798 | IS_PROFIT_AFTER_TAX_FOR_SHAREHOLDERS_OF_PARENT_COMPANY |             4 |  9376127629500.0
+       9798 | IS_REVENUE                                             |             4 | 70207688944553.0
+       9798 | IS_REVENUE_DEDUCTIONS                                  |             4 |   -94863843843.0
+       9803 | CF_NET_CASH_FLOWS_FROM_OPERATING_ACTIVITIES            |             4 | 10136043915911.0
+(8 rows)
+
+                      provider_id                       |    q1_q2_sum     
+--------------------------------------------------------+------------------
+ IS_NET_REVENUE                                         | 32682853982527.0
+ IS_PROFIT_AFTER_TAX_FOR_SHAREHOLDERS_OF_PARENT_COMPANY |  4431763974648.0
+(2 rows)
+
+ q1_q2_operating_cash_flow 
+---------------------------
+           1683573278329.0
+(1 row)
+

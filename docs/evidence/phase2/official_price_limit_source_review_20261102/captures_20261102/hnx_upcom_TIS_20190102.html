@@ -1,0 +1,85 @@
+
+<div id="divContainTable" class="divmousewheel" style="border: none !important">
+    <table id="_tableDatas" class="clsTable-freeze clsTable-stripe">
+        <thead>
+            <tr>
+                <th class="class30">STT</th>
+                <th class="class60 ThSort" id="col_a" onclick="SortByCol('col_a')">M&#227; CK</th>
+                <th class="class60 ThSort" id="col_z" onclick="SortByCol('col_z')">M&#227; ISIN</th>
+                <th class="class120 ThSort" id="col_b" onclick="SortByCol('col_b')">Gi&#225; Tham chiếu</th>
+                <th class="class120 ThSort" id="col_c" onclick="SortByCol('col_c')">Gi&#225; trần</th>
+                <th class="class120 ThSort" id="col_d" onclick="SortByCol('col_d')">Gi&#225; s&#224;n</th>
+                <th class="class120 ThSort" id="col_e" onclick="SortByCol('col_e')">Gi&#225; mở cửa</th>
+                <th class="class120 ThSort" id="col_f1" onclick="SortByCol('col_f1')">Gi&#225; đ&#243;ng cửa</th>
+                <th class="class120 ThSort" id="col_f2" onclick="SortByCol('col_f2')">Gi&#225; b&#236;nh qu&#226;n</th>
+                <th class="class120 ThSort" id="col_g" onclick="SortByCol('col_g')">Gi&#225; cao nhất</th>
+                <th class="class120 ThSort" id="col_h" onclick="SortByCol('col_h')">Gi&#225; thấp nhất</th>
+                <th class="class120 ThSort" id="col_i" onclick="SortByCol('col_i')">Thay đổi (điểm)</th>
+                <th class="class120 ThSort" id="col_j" onclick="SortByCol('col_j')">% thay đổi</th>
+            </tr>
+        </thead>
+        <tbody>
+                    <tr>
+                        <td class="tdCenterAlign">1</td>
+                        <td class="tdCenterAlign">
+                            <a href="/cophieu-etfs/chi-tiet-chung-khoan-uc-tis.html">TIS</a>
+                        </td>
+                        <td class="tdCenterAlign">
+                            <span></span>
+                        </td>
+                        <td class="tdRightAlign">
+                            <span>9.700</span>
+                        </td>
+                        <td class="tdRightAlign">
+                            <span>11.100</span>
+                        </td>
+                        <td class="tdRightAlign">
+                            <span>8.300</span>
+                        </td>
+                        <td class="tdRightAlign">
+                            <span>-</span>
+                        </td>
+                        <td class="tdRightAlign">
+                            <span>10.000</span>
+                        </td>
+                        <td class="tdRightAlign">
+                            <span>9.700</span>
+                        </td>
+                        <td class="tdRightAlign">
+                            <span>-</span>
+                        </td>
+                        <td class="tdRightAlign">
+                            <span>-</span>
+                        </td>
+                        <td class="tdRightAlign">
+                            <span>0</span>
+                        </td>
+                        <td class="tdRightAlign">
+                            <span>0</span>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+
+</div>
+<div class="paging paging_ss">
+    <ul>
+        <div id='d_page'><div id='d_total_rec'>Tổng số 1 bản ghi </div><div id='d_number_of_page'>
+    </ul>
+</div>
+<script>
+    $(function () {
+        ChangeIConSortWhenSortColumns();
+        CreateFixedTable(true);
+
+        if ('1' != "") {
+            if ('1' <= 0) {
+                jAlert("Th&#244;ng b&#225;o", "Kh&#244;ng t&#236;m thấy dữ liệu", function () {
+                    $("#txtDate").focus();
+                    return false;
+                });
+                $("#btnSubmitPopup2").text('Thoát');
+            }
+        }
+    });
+</script>

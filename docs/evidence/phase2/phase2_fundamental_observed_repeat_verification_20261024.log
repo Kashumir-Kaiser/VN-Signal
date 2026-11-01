@@ -1,0 +1,15 @@
+                    idempotency_key                    |   state   | attempts | reservations 
+-------------------------------------------------------+-----------+----------+--------------
+ fundamental:cash_flow:quarter:observed:FPT:2026-10-24 | COMPLETED |        1 |            1
+(1 row)
+
+ versions 
+----------
+      768
+(1 row)
+
+ observations 
+--------------
+          824
+(1 row)
+

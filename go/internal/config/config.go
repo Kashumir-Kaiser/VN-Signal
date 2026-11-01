@@ -117,7 +117,7 @@ func (c Config) Validate() error {
 	expected := map[string][]string{
 		"vnstock":         {"tier_rate_utilisation", "quota_soft_ceiling"},
 		"universe":        {"investable_n", "exit_rank", "min_sessions_listed", "min_adv20_vnd"},
-		"labels":          {"horizons", "entry", "benchmark"},
+		"labels":          {"horizons", "entry", "benchmark", "entry_ceiling_weight", "multiple_locked_weight"},
 		"validation":      {"min_train_years", "embargo_sessions", "test_block"},
 		"portfolio":       {"max_positions", "max_weight", "max_industry_weight", "rebalance_every_sessions", "order_to_adv_cap", "risk_off_gross_cap"},
 		"costs":           {"commission_per_side", "sale_tax", "slippage_base_bps", "slippage_impact_bps", "survivorship_haircut_per_year"},
@@ -138,6 +138,7 @@ func (c Config) Validate() error {
 		}
 	}
 	nums := [][4]any{
+		{"labels", "entry_ceiling_weight", 0.0, 1.0}, {"labels", "multiple_locked_weight", 0.0, 1.0},
 		{"vnstock", "tier_rate_utilisation", 0.01, 0.85}, {"vnstock", "quota_soft_ceiling", 0.01, 0.8},
 		{"universe", "min_adv20_vnd", 0.0, 1e15}, {"portfolio", "max_weight", 0.001, 1.0},
 		{"portfolio", "max_industry_weight", 0.001, 1.0}, {"portfolio", "order_to_adv_cap", 0.001, 0.05},

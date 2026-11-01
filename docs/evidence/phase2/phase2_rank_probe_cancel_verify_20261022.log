@@ -1,0 +1,10 @@
+        current_database         | committed_probe_rows 
+---------------------------------+----------------------
+ vnsignal_phase2_report_20261019 |                    0
+(1 row)
+
+ other_active_probe_sessions 
+-----------------------------
+                           0
+(1 row)
+

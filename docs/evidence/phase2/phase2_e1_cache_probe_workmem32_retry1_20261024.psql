@@ -1,0 +1,23 @@
+\set ON_ERROR_STOP on
+\pset pager off
+DO $guard$ BEGIN IF current_database()<>'vnsignal_phase2_report_20261019' THEN RAISE EXCEPTION 'wrong database'; END IF; END $guard$;
+BEGIN ISOLATION LEVEL REPEATABLE READ;
+SET LOCAL statement_timeout='30min';
+SET LOCAL temp_file_limit='90GB';
+SET LOCAL work_mem='32MB';
+SET LOCAL jit=off;
+SET LOCAL synchronous_commit=off;
+SET LOCAL random_page_cost=1.1;
+SET LOCAL vnpipe.phase2_symbol_batch_size='60';
+SET LOCAL vnpipe.phase2_cache_time_budget_minutes='40';
+SET LOCAL application_name='phase2_e1_cache_probe_workmem32_retry1';
+SELECT pg_backend_pid() AS diagnostic_backend_pid;
+SELECT temp_files,temp_bytes AS temp_bytes_before FROM pg_stat_database WHERE datname=current_database();
+\timing on
+SELECT * FROM feat.probe_phase2_adjustment_cache(15);
+SELECT * FROM feat.probe_phase2_adjustment_cache(30);
+SELECT * FROM feat.probe_phase2_adjustment_cache(60);
+SELECT feat.assert_phase2_adjustment_cache_scaling();
+SELECT pg_stat_force_next_flush();
+SELECT temp_files,temp_bytes AS temp_bytes_after FROM pg_stat_database WHERE datname=current_database();
+ROLLBACK;

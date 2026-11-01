@@ -49,6 +49,9 @@ type Runner struct {
 	Gateway *live.Gateway
 	Store   LandingStore
 	Now     func() time.Time
+	// FundamentalObservationNow freezes the Vietnam observation date used in
+	// daily idempotency keys. Market fetch timestamps continue to use Now.
+	FundamentalObservationNow func() time.Time
 	// BeforeCall refreshes a nearly expired durable quota guard from an
 	// independently verified absolute usage report. Called only for unfinished
 	// jobs, and always BEFORE the local pacer can reserve a call.
@@ -57,6 +60,7 @@ type Runner struct {
 
 type RunSummary struct {
 	Skipped, Committed, Blocked        int
+	EmptyResponses                     int
 	Partial, ZeroVolume, InvalidTraded int
 	BlockedPreview                     []string
 }
@@ -154,12 +158,15 @@ func (r *Runner) RunBarsBackfill(ctx context.Context, jobs []BackfillJob, source
 			}
 			continue
 		}
-		if assessment.FirstDate < job.Start || assessment.LastDate > job.End {
+		if assessment.SourceRows > 0 && (assessment.FirstDate < job.Start || assessment.LastDate > job.End) {
 			reason := fmt.Sprintf("OutsideRequestedRange: first=%s last=%s", assessment.FirstDate, assessment.LastDate)
 			if e := quarantine(jobID, job.Symbol, reason, reply.Data); e != nil {
 				return sum, e
 			}
 			continue
+		}
+		if assessment.SourceRows == 0 {
+			sum.EmptyResponses++
 		}
 		sha := sha256.Sum256(reply.Data)
 		landing := Landing{JobID: jobID, Source: source, FetchedAt: r.Now().UTC(),

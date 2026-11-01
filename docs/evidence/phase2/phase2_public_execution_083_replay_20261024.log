@@ -1,0 +1,64 @@
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE TABLE
+psql:sql/migrations/082_phase2_public_execution_tenure.sql:30: NOTICE:  relation "phase2_public_execution_proof" already exists, skipping
+CREATE INDEX
+psql:sql/migrations/082_phase2_public_execution_tenure.sql:31: NOTICE:  relation "phase2_public_execution_lookup" already exists, skipping
+ALTER TABLE
+psql:sql/migrations/082_phase2_public_execution_tenure.sql:35: NOTICE:  column "available_at" of relation "phase2_public_execution_proof" already exists, skipping
+psql:sql/migrations/082_phase2_public_execution_tenure.sql:37: NOTICE:  column "availability_basis" of relation "phase2_public_execution_proof" already exists, skipping
+ALTER TABLE
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+CREATE VIEW
+CREATE FUNCTION
+DO
+ALTER TABLE
+psql:sql/migrations/082_phase2_public_execution_tenure.sql:143: NOTICE:  column "membership_tenure_basis" of relation "phase2_liquidity_tiers_v3" already exists, skipping
+ALTER TABLE
+psql:sql/migrations/082_phase2_public_execution_tenure.sql:144: NOTICE:  column "membership_tenure_basis" of relation "phase2_label_targets_v3" already exists, skipping
+DO
+DO
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+DO
+COMMIT
+BEGIN
+DO
+CREATE FUNCTION
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 2871, dates 350, elapsed 00:00:00.365696
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 adjustment cache rows 2871, finalize elapsed 00:00:00.231016
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 price-day hash range 2098-12-19 through 2099-01-20: requested 23, uncovered 23, date planning elapsed 00:00:00.88435
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 price-day hash aggregate completed: 23 dates, elapsed 00:00:00.946081
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 price-day hash coverage recorded: 23 requested dates, total elapsed 00:00:00.947666
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 price-day hash range 2098-12-19 through 2099-01-20: requested 23, uncovered 0, date planning elapsed 00:00:00.056215
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 price-day hash coverage recorded: 23 requested dates, total elapsed 00:00:00.056846
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 2871, dates 350, elapsed 00:00:00.278892
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 adjustment cache rows 2871, finalize elapsed 00:00:00.348525
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 sessions 251, elapsed 00:00:00.355694
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 market context rows 251, elapsed 00:00:00.126748
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 rank rows 1238, elapsed 00:00:00.14534
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 batch 0 spine rows 2259, elapsed 00:00:00.069338
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 batch 0 base rows 2257, elapsed 00:00:00.165701
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 batch 0 feature rows 2257, elapsed 00:00:01.156117
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 price-day hash range 2098-01-06 through 2099-01-20: requested 272, uncovered 272, date planning elapsed 00:00:00.053854
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 price-day hash aggregate completed: 272 dates, elapsed 00:00:00.165357
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 price-day hash coverage recorded: 272 requested dates, total elapsed 00:00:00.17026
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  table "phase2_listing_session_prefix" does not exist, skipping
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  table "phase2_execution_session_prefix" does not exist, skipping
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  table "phase2_label_liquidity_median" does not exist, skipping
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  table "phase2_label_membership_rank" does not exist, skipping
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  table "phase2_label_tier_rank" does not exist, skipping
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  table "phase2_label_liquidity_day" does not exist, skipping
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 price-day hash range 2098-01-06 through 2099-01-20: requested 272, uncovered 0, date planning elapsed 00:00:00.080033
+psql:tests/sql/phase2_public_execution_assertions.sql:95: NOTICE:  Phase 2 price-day hash coverage recorded: 272 requested dates, total elapsed 00:00:00.08619
+DO
+ROLLBACK

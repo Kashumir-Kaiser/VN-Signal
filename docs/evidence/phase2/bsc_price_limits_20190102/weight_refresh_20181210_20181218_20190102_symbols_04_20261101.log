@@ -1,0 +1,19 @@
+DO
+SET
+NOTICE:  schema "pg_temp" does not exist, skipping
+NOTICE:  schema "pg_temp" does not exist, skipping
+NOTICE:  schema "pg_temp" does not exist, skipping
+NOTICE:  schema "pg_temp" does not exist, skipping
+NOTICE:  schema "pg_temp" does not exist, skipping
+NOTICE:  schema "pg_temp" does not exist, skipping
+NOTICE:  schema "pg_temp" does not exist, skipping
+NOTICE:  schema "pg_temp" does not exist, skipping
+NOTICE:  schema "pg_temp" does not exist, skipping
+NOTICE:  schema "pg_temp" does not exist, skipping
+NOTICE:  schema "pg_temp" does not exist, skipping
+SET
+ refreshed_targets 
+-------------------
+               877
+(1 row)
+

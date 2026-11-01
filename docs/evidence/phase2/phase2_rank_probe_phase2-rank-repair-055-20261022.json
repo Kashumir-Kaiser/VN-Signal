@@ -1,0 +1,56 @@
+{
+  "database": "vnsignal_phase2_report_20261019",
+  "build_id": "phase2-rank-repair-055-20261022",
+  "definition_sha256": "b4140c65e8a184843799c375cc110d0836ebe79e2fe9b26fec287e6cd9725c8c",
+  "transaction_scope": "read_only_rank_stage",
+  "state": "passed",
+  "warmup_sessions": 120,
+  "work_mem_mb": 16,
+  "statement_timeout_minutes": 5,
+  "io_concurrency": 0,
+  "parallel_query_workers": 0,
+  "measured_at": "2026-10-22T13:00:03.5178328Z",
+  "measurements": [
+    {
+      "sessions": 30,
+      "date_from": "2026-09-07",
+      "date_to": "2026-10-16",
+      "elapsed_seconds": 0.951241,
+      "rank_rows": 27702,
+      "trial_seconds": [
+        0.951241,
+        1.093829,
+        0.484292
+      ]
+    },
+    {
+      "sessions": 60,
+      "date_from": "2026-07-22",
+      "date_to": "2026-10-16",
+      "elapsed_seconds": 1.220656,
+      "rank_rows": 55690,
+      "trial_seconds": [
+        1.238177,
+        1.116977,
+        1.220656
+      ]
+    },
+    {
+      "sessions": 120,
+      "date_from": "2026-04-24",
+      "date_to": "2026-10-16",
+      "elapsed_seconds": 2.335167,
+      "rank_rows": 112189,
+      "trial_seconds": [
+        2.436734,
+        2.250747,
+        2.335167
+      ]
+    }
+  ],
+  "exponents": [
+    0.35977387953373996,
+    0.9358690447680544
+  ],
+  "passed": true
+}

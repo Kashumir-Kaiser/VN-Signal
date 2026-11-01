@@ -1,0 +1,64 @@
+go test started 2026-10-22T19:55:21.0032025+07:00
+flag provided but not defined: -symbols
+Usage of backfill:
+  -active
+    	explicitly authorize account-metered vendor calls
+  -days int
+    	remaining market sessions in calendar month
+  -from string
+    	earliest ISO trade date
+  -max-calls int
+    	maximum metered OHLCV calls in this run (default 20)
+  -probe string
+    	active verified vnstock capability report
+  -retry-legacy-invalid
+    	explicitly re-request previously invalid unarchived frames
+  -rotate-daily
+    	round-robin quota-capped symbols across daily runs
+  -source string
+    	supported vnstock OHLCV source (default "vci")
+  -to string
+    	latest ISO trade date
+--- FAIL: TestPercentageUsageStopsActiveProbe (2.45s)
+    main_test.go:65: percent accepted: worker exit: exit status 9009; stderr: Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+--- FAIL: TestProbeFailureDetailsExitCodeIsSafe (0.40s)
+    main_test.go:226: unexpected diagnostic fields: map[available:false error_type:WorkerExitError exit_code:9009 worker_cause:PythonSystemExit]
+FAIL
+FAIL	github.com/Kashumir-Kaiser/VN-Signal/go/cmd/vnpipe	6.507s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/checkpoint	1.301s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/config	2.076s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/dnse	2.855s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/dq	2.640s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/ingest	2.313s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/live	1.074s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/migrate	0.906s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/quota	1.049s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/vndirect	1.850s
+--- FAIL: TestWorkerFailureModes (5.70s)
+    --- FAIL: TestWorkerFailureModes/valid (0.38s)
+        worker_test.go:85: worker exit: exit status 9009; stderr: Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+    --- FAIL: TestWorkerFailureModes/warning_stdout (0.75s)
+        worker_test.go:88: want "frames" got worker exit: exit status 9009; stderr: Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+    --- FAIL: TestWorkerFailureModes/malformed (0.59s)
+        worker_test.go:88: want "malformed" got worker exit: exit status 9009; stderr: Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+    --- FAIL: TestWorkerFailureModes/multiple (0.19s)
+        worker_test.go:88: want "frames" got worker exit: exit status 9009; stderr: Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+    --- FAIL: TestWorkerFailureModes/id (0.90s)
+        worker_test.go:88: want "id mismatch" got worker exit: exit status 9009; stderr: Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+    --- FAIL: TestWorkerFailureModes/extra_tokens (0.19s)
+        worker_test.go:88: want "trailing" got worker exit: exit status 9009; stderr: Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+    --- FAIL: TestWorkerFailureModes/no_frame (1.17s)
+        worker_test.go:88: want "0 frames" got worker exit: exit status 9009; stderr: Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+    --- FAIL: TestWorkerFailureModes/large (0.19s)
+        worker_test.go:88: want "frame" got worker exit: exit status 9009; stderr: Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+--- FAIL: TestActualPythonHealth (0.16s)
+    worker_test.go:121: worker exit: exit status 9009; stderr: Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+--- FAIL: TestSecretsNotInherited (0.16s)
+    worker_test.go:133: worker exit: exit status 9009; stderr: Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+--- FAIL: TestSingleWorkerProcessAtATime (0.33s)
+    worker_test.go:169: worker exit: exit status 9009; stderr: Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+    worker_test.go:169: worker exit: exit status 9009; stderr: Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+    worker_test.go:175: unbounded worker process execution
+FAIL
+FAIL	github.com/Kashumir-Kaiser/VN-Signal/go/internal/worker	7.577s
+FAIL

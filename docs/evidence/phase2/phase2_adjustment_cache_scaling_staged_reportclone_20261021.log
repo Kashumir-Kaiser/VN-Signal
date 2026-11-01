@@ -1,0 +1,92 @@
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+CREATE TABLE
+COMMENT
+CREATE TABLE
+INSERT 0 1
+ begin_phase2_adjustment_rows 
+------------------------------
+                            1
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           23765
+(1 row)
+
+ finish_phase2_adjustment_rows 
+-------------------------------
+                         23765
+(1 row)
+
+INSERT 0 1
+DELETE 1
+INSERT 0 1
+ begin_phase2_adjustment_rows 
+------------------------------
+                            2
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           23765
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29440
+(1 row)
+
+ finish_phase2_adjustment_rows 
+-------------------------------
+                         53205
+(1 row)
+
+INSERT 0 1
+DELETE 1
+INSERT 0 1
+ begin_phase2_adjustment_rows 
+------------------------------
+                            4
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           23765
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           29440
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           28440
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           26686
+(1 row)
+
+ finish_phase2_adjustment_rows 
+-------------------------------
+                        108331
+(1 row)
+
+INSERT 0 1
+DELETE 1
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |      103078
+           30 |     53205 |      258105
+           60 |    108331 |      502219
+(3 rows)
+

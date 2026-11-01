@@ -1,0 +1,606 @@
+Pager usage is off.
+Timing is on.
+BEGIN
+Time: 7.370 ms
+SET
+Time: 2.686 ms
+SET
+Time: 0.090 ms
+SET
+Time: 0.071 ms
+SET
+Time: 0.073 ms
+SET
+Time: 0.075 ms
+SET
+Time: 0.075 ms
+LOAD
+Time: 10.011 ms
+SET
+Time: 0.822 ms
+SET
+Time: 0.072 ms
+SET
+Time: 0.064 ms
+SET
+Time: 0.065 ms
+SET
+Time: 0.064 ms
+SET
+Time: 0.063 ms
+DO
+Time: 54.318 ms
+DO
+Time: 54.278 ms
+CREATE TABLE
+Time: 125.610 ms
+SELECT 2009
+Time: 6042.190 ms (00:06.042)
+CREATE INDEX
+Time: 25.125 ms
+CREATE INDEX
+Time: 18.842 ms
+ANALYZE
+Time: 95.487 ms
+SELECT 3
+Time: 53.126 ms
+CREATE INDEX
+Time: 5.107 ms
+E2 checkpoint: populating the production adjustment cache in bounded symbol batches
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:124: NOTICE:  Phase 2 adjustment cache initialized for 26 batches of up to 60 symbols
+ begin_phase2_adjustment_rows 
+------------------------------
+                           26
+(1 row)
+
+Time: 4012.045 ms (00:04.012)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:04.001405
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          108331
+(1 row)
+
+Time: 4004.493 ms (00:04.004)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 1 rows 115152, elapsed 00:00:04.836128
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115152
+(1 row)
+
+Time: 4836.510 ms (00:04.837)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 2 rows 111302, elapsed 00:00:07.617777
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111302
+(1 row)
+
+Time: 7618.417 ms (00:07.618)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 3 rows 113879, elapsed 00:00:04.332576
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113879
+(1 row)
+
+Time: 4333.162 ms (00:04.333)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 4 rows 114214, elapsed 00:00:02.631061
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114214
+(1 row)
+
+Time: 2631.465 ms (00:02.631)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 5 rows 114805, elapsed 00:00:02.970721
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114805
+(1 row)
+
+Time: 2971.041 ms (00:02.971)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 6 rows 112592, elapsed 00:00:03.163937
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112592
+(1 row)
+
+Time: 3164.299 ms (00:03.164)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 7 rows 116639, elapsed 00:00:05.097564
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          116639
+(1 row)
+
+Time: 5097.917 ms (00:05.098)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 8 rows 106585, elapsed 00:00:02.86089
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106585
+(1 row)
+
+Time: 2861.261 ms (00:02.861)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 9 rows 111358, elapsed 00:00:04.249536
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111358
+(1 row)
+
+Time: 4257.479 ms (00:04.257)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 10 rows 106117, elapsed 00:00:04.039697
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106117
+(1 row)
+
+Time: 4041.077 ms (00:04.041)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 11 rows 113594, elapsed 00:00:04.084537
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113594
+(1 row)
+
+Time: 4084.898 ms (00:04.085)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 12 rows 112628, elapsed 00:00:05.32114
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112628
+(1 row)
+
+Time: 5321.528 ms (00:05.322)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 13 rows 113102, elapsed 00:00:02.68263
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113102
+(1 row)
+
+Time: 2683.012 ms (00:02.683)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 14 rows 113642, elapsed 00:00:02.140706
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113642
+(1 row)
+
+Time: 2141.125 ms (00:02.141)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 15 rows 111909, elapsed 00:00:02.264923
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111909
+(1 row)
+
+Time: 2265.293 ms (00:02.265)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 16 rows 111802, elapsed 00:00:02.069023
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111802
+(1 row)
+
+Time: 2069.393 ms (00:02.069)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 17 rows 115171, elapsed 00:00:02.732316
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115171
+(1 row)
+
+Time: 2732.774 ms (00:02.733)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 18 rows 115471, elapsed 00:00:02.958464
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115471
+(1 row)
+
+Time: 2958.837 ms (00:02.959)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 19 rows 112613, elapsed 00:00:02.300016
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112613
+(1 row)
+
+Time: 2300.341 ms (00:02.300)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 20 rows 109469, elapsed 00:00:03.079302
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          109469
+(1 row)
+
+Time: 3079.747 ms (00:03.080)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 21 rows 114091, elapsed 00:00:02.42317
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114091
+(1 row)
+
+Time: 2423.586 ms (00:02.424)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 22 rows 110051, elapsed 00:00:02.880398
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          110051
+(1 row)
+
+Time: 2880.810 ms (00:02.881)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 23 rows 112438, elapsed 00:00:02.728915
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112438
+(1 row)
+
+Time: 2729.306 ms (00:02.729)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 24 rows 115457, elapsed 00:00:02.845991
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115457
+(1 row)
+
+Time: 2846.357 ms (00:02.846)
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:129: NOTICE:  Phase 2 adjustment cache batch 25 rows 32023, elapsed 00:00:01.744919
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           32023
+(1 row)
+
+Time: 1745.275 ms (00:01.745)
+Time: 3.293 ms
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:130: NOTICE:  Phase 2 adjustment cache rows 2844435, finalize elapsed 00:00:11.2785
+ finish_phase2_adjustment_rows 
+-------------------------------
+                       2844435
+(1 row)
+
+Time: 11298.701 ms (00:11.299)
+E2 checkpoint: copying the finalized adjustment cache
+SELECT 2844435
+Time: 6766.925 ms (00:06.767)
+CREATE INDEX
+Time: 5463.563 ms (00:05.464)
+ANALYZE
+Time: 2028.270 ms (00:02.028)
+E2 checkpoint: raw input snapshot is ready
+CREATE TABLE
+Time: 26.419 ms
+CREATE TABLE
+Time: 4.753 ms
+E2 checkpoint: selecting the PIT-stratified 60-symbol cohort
+SELECT 60
+Time: 11579.773 ms (00:11.580)
+CREATE INDEX
+Time: 10.774 ms
+ANALYZE
+Time: 7.337 ms
+E2 checkpoint: cohort selection complete
+E2 checkpoint: validating the immutable current-hash baseline
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  Phase 2 sessions 2009, elapsed 00:00:01.601576
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  Phase 2 market context rows 2009, elapsed 00:00:07.932979
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  Phase 2 rank rows 103680, elapsed 00:00:02.173652
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  Phase 2 batch 0 spine rows 100450, elapsed 00:00:01.861194
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  Phase 2 batch 0 base rows 97567, elapsed 00:00:02.666851
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  Phase 2 batch 0 feature rows 97567, elapsed 00:00:33.49263
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  Phase 2 batch 1 spine rows 20090, elapsed 00:00:06.949101
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  Phase 2 batch 1 base rows 19984, elapsed 00:00:01.25117
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  Phase 2 batch 1 feature rows 19984, elapsed 00:00:06.151232
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  E2 baseline optimized V2/V3 feature rebuild elapsed 00:01:41.652232
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  table "phase2_label_targets" does not exist, skipping
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  Phase 2 label targets rows 235102, elapsed 00:00:00.75779
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  table "phase2_label_latest_exit" does not exist, skipping
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  table "phase2_label_endpoint_days" does not exist, skipping
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  Phase 2 label endpoint days rows 117633, elapsed 00:00:00.410687
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  table "phase2_label_endpoint_bounds" does not exist, skipping
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  table "phase2_label_adjustment_prefix" does not exist, skipping
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  Phase 2 label adjustment prefix rows 117499, elapsed 00:00:08.218725
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  table "phase2_label_endpoint_bars" does not exist, skipping
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  Phase 2 label endpoint bars rows 117491, elapsed 00:00:10.520637
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  table "phase2_label_first_bad_factor" does not exist, skipping
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:02.010972
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  table "phase2_label_endpoint_targets" does not exist, skipping
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  table "phase2_label_spans" does not exist, skipping
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:370: NOTICE:  E2 baseline reused the current-hash 60-symbol feature cohort and rebuilt labels with current hash f4d61dd5e75ed4df90d90f28234413b9af73541853b650b5327cc0dd8be2deb1
+DO
+Time: 238299.873 ms (03:58.300)
+CREATE FUNCTION
+Time: 17.980 ms
+E2 checkpoint: running the independent 40 percent cutoff
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:696: NOTICE:  E2 40 percent branch setup copied 117551 equity rows for 60 cohort symbols; elapsed 00:00:04.688865
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:696: NOTICE:  E2 40 percent future perturbations applied: 72208 equity rows and 1204 index rows; elapsed 00:00:03.06268
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:696: NOTICE:  E2 40 percent branch inputs ready; elapsed 00:00:04.467557
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:696: NOTICE:  E2 scoped cache preparation elapsed 00:00:00.00197
+psql:docs/evidence/phase2/phase2_e2_40_profile_128mb_jit_off_second_20261023.sql:696: ERROR:  canceling statement due to user request
+CONTEXT:  SQL statement "WITH prior_sessions AS (
+        SELECT trade_date,row_number() OVER(ORDER BY trade_date DESC) AS prior_no
+        FROM effective_trading_sessions
+        WHERE trade_date<p_date_from AND is_session
+    ), requested_sessions AS (
+        SELECT trade_date FROM effective_trading_sessions
+        WHERE trade_date BETWEEN p_date_from AND p_date_to AND is_session
+    ), bounded AS (
+        SELECT trade_date FROM requested_sessions
+        UNION
+        SELECT trade_date FROM prior_sessions WHERE prior_no<=250
+    ), sessions AS (
+        SELECT trade_date,row_number() OVER(ORDER BY trade_date)::bigint AS session_no
+        FROM bounded
+    ), adjustment_rows AS MATERIALIZED (
+        SELECT r.symbol_id,r.trade_date,r.v,r.is_traded,
+               r.reference_adjustment_ratio,r.episode_start_date,
+               r.model_o,r.model_h,r.model_l,r.model_c,
+               r.adjustment_vintage_at,r.landing_id,r.source_row,r.fetched_at
+        FROM pg_temp.phase2_adjustment_rows r
+        WHERE r.source='vndirect' AND r.trade_date<=p_date_to
+          AND (p_symbol_ids IS NULL OR r.symbol_id=ANY(p_symbol_ids))
+    ), first_bad AS (
+        SELECT r.symbol_id,min(r.trade_date) FILTER(WHERE
+                   r.reference_adjustment_ratio IS NULL OR
+                   r.reference_adjustment_ratio<=0 OR
+                   r.reference_adjustment_ratio>='Infinity'::double precision) AS first_bad_date
+        FROM adjustment_rows r
+        GROUP BY r.symbol_id
+    ), source_bars AS MATERIALIZED (
+        SELECT r.*,s.session_no,
+               sum(CASE WHEN r.reference_adjustment_ratio>0 AND
+                                  r.reference_adjustment_ratio<'Infinity'::double precision
+                        THEN ln(r.reference_adjustment_ratio) END) OVER (
+                   PARTITION BY r.symbol_id,r.episode_start_date
+                   ORDER BY r.trade_date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+               ) AS cumulative_log_factor
+        FROM adjustment_rows r
+        JOIN sessions s USING(trade_date)
+    ), neutral_bars AS MATERIALIZED (
+        SELECT b.symbol_id,b.trade_date,b.session_no,b.v,b.is_traded,
+               b.model_o*exp(-b.cumulative_log_factor) AS o,
+               b.model_h*exp(-b.cumulative_log_factor) AS h,
+               b.model_l*exp(-b.cumulative_log_factor) AS l,
+               b.model_c*exp(-b.cumulative_log_factor) AS c,
+               b.model_c,b.adjustment_vintage_at,b.landing_id,b.source_row,b.fetched_at,
+               b.episode_start_date
+        FROM source_bars b
+    ), phase2_v2_spine_symbols AS (
+        SELECT DISTINCT symbol_id FROM neutral_bars
+    ), spine0 AS (
+        SELECT y.symbol_id,s.trade_date,s.session_no,
+               b.o,b.h,b.l,b.c,b.model_c,b.v,b.is_traded,b.adjustment_vintage_at,
+               b.landing_id,b.source_row,b.fetched_at,b.episode_start_date AS bar_episode,
+               sym.exchange
+        FROM phase2_v2_spine_symbols y
+        CROSS JOIN sessions s
+        LEFT JOIN neutral_bars b ON b.symbol_id=y.symbol_id AND b.trade_date=s.trade_date
+        JOIN symbols sym ON sym.symbol_id=y.symbol_id
+    ), spine AS (
+        SELECT s0.*,
+               max(s0.bar_episode) OVER (
+                   PARTITION BY s0.symbol_id ORDER BY s0.session_no
+                   ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+               ) AS episode_key
+        FROM spine0 s0
+        ), extrema_rows AS (
+        SELECT s.*,row_number() OVER(PARTITION BY s.symbol_id,s.episode_key ORDER BY s.session_no)-1 AS episode_row,
+               CASE WHEN s.is_traded THEN s.h END AS high_value,
+               CASE WHEN s.is_traded THEN s.l END AS low_value
+        FROM spine s
+    ), extrema_blocks AS (
+        SELECT e.*,(e.episode_row/250)::bigint AS block_no,
+               max(e.high_value) OVER(PARTITION BY e.symbol_id,e.episode_key,(e.episode_row/250) ORDER BY e.episode_row ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS high_prefix,
+               max(e.high_value) OVER(PARTITION BY e.symbol_id,e.episode_key,(e.episode_row/250) ORDER BY e.episode_row ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) AS high_suffix,
+               min(e.low_value) OVER(PARTITION BY e.symbol_id,e.episode_key,(e.episode_row/250) ORDER BY e.episode_row ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS low_prefix,
+               min(e.low_value) OVER(PARTITION BY e.symbol_id,e.episode_key,(e.episode_row/250) ORDER BY e.episode_row ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) AS low_suffix
+        FROM extrema_rows e
+    ), extrema_lags AS (
+        SELECT e.*,lag(e.high_suffix,249) OVER(PARTITION BY e.symbol_id,e.episode_key ORDER BY e.episode_row) AS high_suffix_start,
+               lag(e.low_suffix,249) OVER(PARTITION BY e.symbol_id,e.episode_key ORDER BY e.episode_row) AS low_suffix_start
+        FROM extrema_blocks e
+    ), extrema250 AS (
+        SELECT e.symbol_id,e.trade_date,e.session_no,e.o,e.h,e.l,e.c,e.model_c,e.v,e.is_traded,
+               e.adjustment_vintage_at,e.landing_id,e.source_row,e.fetched_at,e.bar_episode,e.exchange,e.episode_key,
+               CASE WHEN e.episode_row<249 OR e.block_no=((e.episode_row-249)/250) THEN e.high_prefix
+                    ELSE greatest(e.high_prefix,e.high_suffix_start) END AS extrema_high250,
+               CASE WHEN e.episode_row<249 OR e.block_no=((e.episode_row-249)/250) THEN e.low_prefix
+                    ELSE least(e.low_prefix,e.low_suffix_start) END AS extrema_low250
+        FROM extrema_lags e
+    ), prior_daily AS (
+        SELECT x.*,
+               lag(x.is_traded) OVER w AS prior_is_traded,
+               lag(x.c) OVER w AS prior_c,
+               lag(x.session_no) OVER w AS prior_session_no
+        FROM extrema250 x
+        WINDOW w AS (PARTITION BY x.symbol_id,x.episode_key ORDER BY x.session_no)
+    ), daily AS (
+        SELECT x.*,
+               CASE WHEN x.is_traded AND x.prior_is_traded AND x.c>0 AND x.prior_c>0 THEN x.c/x.prior_c-1 END AS ret,
+               CASE WHEN x.is_traded AND x.prior_is_traded AND x.c>0 AND x.prior_c>0 THEN x.o/x.prior_c-1 END AS gap_now,
+               CASE WHEN x.is_traded AND x.o>0 THEN x.c/x.o-1 END AS intraday_now,
+               CASE WHEN x.is_traded AND x.c>0 THEN (x.h-x.l)/x.c END AS range_now,
+               CASE WHEN x.is_traded AND x.h>x.l THEN (x.c-x.l)/(x.h-x.l) END AS location_now,
+               CASE WHEN x.is_traded THEN x.v*x.model_c*1000 END AS turnover_now,
+               lag(CASE WHEN x.is_traded THEN x.c END,1) OVER w AS c1,
+               lag(CASE WHEN x.is_traded THEN x.c END,2) OVER w AS c2,
+               lag(CASE WHEN x.is_traded THEN x.c END,3) OVER w AS c3,
+               lag(CASE WHEN x.is_traded THEN x.c END,5) OVER w AS c5,
+               lag(CASE WHEN x.is_traded THEN x.c END,10) OVER w AS c10,
+               lag(CASE WHEN x.is_traded THEN x.c END,20) OVER w AS c20,
+               lag(CASE WHEN x.is_traded THEN x.c END,50) OVER w AS c50,
+               lag(CASE WHEN x.is_traded THEN x.c END,60) OVER w AS c60,
+               lag(CASE WHEN x.is_traded THEN x.c END,120) OVER w AS c120,
+               lag(CASE WHEN x.is_traded THEN x.c END,250) OVER w AS c250,
+               avg(x.c) FILTER(WHERE x.is_traded) OVER w5 AS sma5,
+               avg(x.c) FILTER(WHERE x.is_traded) OVER w20 AS sma20,
+               avg(x.c) FILTER(WHERE x.is_traded) OVER w50 AS sma50,
+               avg(x.c) FILTER(WHERE x.is_traded) OVER w60 AS sma60,
+               avg(x.c) FILTER(WHERE x.is_traded) OVER w100 AS sma100,
+               avg(x.c) FILTER(WHERE x.is_traded) OVER w200 AS sma200,
+               x.extrema_high250 AS high250,
+               x.extrema_low250 AS low250,
+               stddev_samp(x.c) FILTER(WHERE x.is_traded) OVER w20 AS sd20_close,
+               avg(CASE WHEN x.is_traded AND x.prior_is_traded AND x.prior_c>0 THEN greatest(0.0,x.prior_c-x.c)/x.prior_c END) OVER w14 AS avg_loss14,
+               avg(CASE WHEN x.is_traded AND x.prior_is_traded AND x.prior_c>0 THEN greatest(0.0,x.c-x.prior_c)/x.prior_c END) OVER w14 AS avg_gain14,
+               avg(CASE WHEN x.is_traded AND x.prior_is_traded AND x.prior_c>0 THEN greatest(x.h-x.l,abs(x.h-x.prior_c),abs(x.l-x.prior_c))/x.c END) OVER w14 AS atr14,
+               avg(x.v) FILTER(WHERE x.is_traded) OVER w20 AS avg_volume20,
+               stddev_samp(x.v) FILTER(WHERE x.is_traded) OVER w20 AS sd_volume20,
+               sum(CASE WHEN x.is_traded THEN x.v*CASE
+                   WHEN x.prior_session_no IS NOT NULL AND x.c>x.prior_c THEN 1
+                   WHEN x.prior_session_no IS NOT NULL AND x.c<x.prior_c THEN -1
+                   ELSE 0 END END) OVER w20 AS obv20,
+               stddev_samp(CASE WHEN x.is_traded AND x.prior_is_traded AND x.prior_c>0 THEN x.c/x.prior_c-1 END) OVER w5 AS vol5,
+               stddev_samp(CASE WHEN x.is_traded AND x.prior_is_traded AND x.prior_c>0 THEN x.c/x.prior_c-1 END) OVER w20 AS vol20,
+               stddev_samp(CASE WHEN x.is_traded AND x.prior_is_traded AND x.prior_c>0 THEN x.c/x.prior_c-1 END) OVER w60 AS vol60,
+               sqrt(avg(CASE WHEN x.is_traded AND x.prior_is_traded AND x.prior_c>0 THEN power(least(x.c/x.prior_c-1,0.0),2) END) OVER w20) AS downside_vol20,
+               count(x.c) FILTER(WHERE x.is_traded) OVER w5 AS traded_n5,
+               count(x.c) FILTER(WHERE x.is_traded) OVER w20 AS traded_n20,
+               count(x.c) FILTER(WHERE x.is_traded) OVER w50 AS traded_n50,
+               count(x.c) FILTER(WHERE x.is_traded) OVER w60 AS traded_n60,
+               count(CASE WHEN x.is_traded AND x.prior_is_traded AND x.prior_c>0 THEN 1 END) OVER w5 AS return_n5,
+               count(CASE WHEN x.is_traded AND x.prior_is_traded AND x.prior_c>0 THEN 1 END) OVER w20 AS return_n20,
+               count(CASE WHEN x.is_traded AND x.prior_is_traded AND x.prior_c>0 THEN 1 END) OVER w60 AS return_n60,
+               count(x.c) FILTER(WHERE x.is_traded) OVER w100 AS traded_n100,
+               count(x.c) FILTER(WHERE x.is_traded) OVER w200 AS traded_n200,
+               count(x.c) FILTER(WHERE x.is_traded) OVER w250 AS traded_n250,
+               count(CASE WHEN x.is_traded AND x.prior_is_traded AND x.prior_c>0 THEN 1 END) OVER w14 AS return_n14,
+               sum(CASE WHEN x.is_traded THEN x.v*CASE
+                   WHEN x.prior_session_no IS NOT NULL AND x.c>x.prior_c THEN 1
+                   WHEN x.prior_session_no IS NOT NULL AND x.c<x.prior_c THEN -1
+                   ELSE 0 END END) OVER w AS obv_cumulative,
+               avg(x.v*x.model_c*1000) FILTER(WHERE x.is_traded) OVER w20 AS turnover20,
+               avg(x.v) FILTER(WHERE x.is_traded) OVER w20 AS volume20
+        FROM prior_daily x
+        
+        WINDOW w AS (PARTITION BY x.symbol_id,x.episode_key ORDER BY x.session_no),
+               w5 AS (w ROWS BETWEEN 4 PRECEDING AND CURRENT ROW),
+               w20 AS (w ROWS BETWEEN 19 PRECEDING AND CURRENT ROW),
+               w50 AS (w ROWS BETWEEN 49 PRECEDING AND CURRENT ROW),
+               w60 AS (w ROWS BETWEEN 59 PRECEDING AND CURRENT ROW),
+               w14 AS (w ROWS BETWEEN 13 PRECEDING AND CURRENT ROW),
+               w100 AS (w ROWS BETWEEN 99 PRECEDING AND CURRENT ROW),
+               w200 AS (w ROWS BETWEEN 199 PRECEDING AND CURRENT ROW),
+               w250 AS (w ROWS BETWEEN 249 PRECEDING AND CURRENT ROW)
+    ), eligible_daily AS (
+        SELECT d.*
+        FROM daily d
+        JOIN first_bad fb USING(symbol_id)
+        WHERE fb.first_bad_date IS NULL OR fb.first_bad_date>d.trade_date
+    ), breadth AS (
+        SELECT d.session_no,
+               count(*) FILTER(WHERE d.is_traded AND d.sma50>0 AND d.c>d.sma50)::double precision /
+                   nullif(count(*) FILTER(WHERE d.is_traded AND d.sma50>0),0) AS breadth_sma50
+        FROM eligible_daily d
+        GROUP BY d.session_no
+    ), index0 AS (
+        SELECT s.trade_date,i.c AS index_close,lag(i.c) OVER(ORDER BY s.session_no) AS prior_close,
+               lag(i.c,20) OVER(ORDER BY s.session_no) AS close20,
+               lag(i.c,60) OVER(ORDER BY s.session_no) AS close60,
+               s.session_no
+        FROM sessions s
+        LEFT JOIN index_bars i ON i.trade_date=s.trade_date
+             AND i.index_symbol='VNINDEX' AND i.source='vndirect'
+    ), market AS (
+        SELECT i.*,
+               CASE WHEN i.index_close>0 AND i.close20>0 THEN i.index_close/i.close20-1 END AS idx20,
+               CASE WHEN i.index_close>0 AND i.close60>0 THEN i.index_close/i.close60-1 END AS idx60,
+               stddev_samp(CASE WHEN i.index_close>0 AND i.prior_close>0 THEN i.index_close/i.prior_close-1 END)
+                   OVER(ORDER BY i.session_no ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) AS idxvol20,
+               count(CASE WHEN i.index_close>0 AND i.prior_close>0 THEN 1 END)
+                   OVER(ORDER BY i.session_no ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) AS idxreturn_n20
+        FROM index0 i
+    ), market_context AS (
+        SELECT m.*,b.breadth_sma50
+        FROM market m
+        LEFT JOIN breadth b USING(session_no)
+    ), picked AS (
+        SELECT q.*,m.idx20,m.idx60,m.breadth_sma50,
+               CASE WHEN q.is_traded AND q.c>0 AND q.c2>0 THEN q.c/q.c2-1 END AS r2,
+               CASE WHEN q.is_traded AND q.c>0 AND q.c3>0 THEN q.c/q.c3-1 END AS r3,
+               CASE WHEN q.is_traded AND q.c>0 AND q.c10>0 THEN q.c/q.c10-1 END AS r10,
+               CASE WHEN q.is_traded AND q.c>0 AND q.c120>0 THEN q.c/q.c120-1 END AS r120,
+               CASE WHEN q.is_traded AND q.c>0 AND q.c250>0 THEN q.c/q.c250-1 END AS r250,
+               CASE WHEN q.is_traded AND q.c>0 AND q.traded_n100=100 AND q.sma100>0 THEN q.c/q.sma100-1 END AS sma100_ratio,
+               CASE WHEN q.is_traded AND q.c>0 AND q.traded_n200=200 AND q.sma200>0 THEN q.c/q.sma200-1 END AS sma200_ratio,
+               CASE WHEN q.is_traded AND q.traded_n250=250 AND q.high250>0 THEN q.c/q.high250-1 END AS high52_distance,
+               CASE WHEN q.is_traded AND q.traded_n250=250 AND q.low250>0 THEN q.c/q.low250-1 END AS low52_distance,
+               CASE WHEN q.is_traded AND q.return_n14=14 AND q.avg_loss14=0 THEN 100.0
+                    WHEN q.is_traded AND q.return_n14=14 THEN 100.0-100.0/(1+q.avg_gain14/nullif(q.avg_loss14,0)) END AS rsi14,
+               CASE WHEN q.is_traded AND q.traded_n20=20 AND q.sd20_close>0 THEN (q.c-(q.sma20-2*q.sd20_close))/(4*q.sd20_close) END AS bb_pct_b20,
+               CASE WHEN q.is_traded AND q.traded_n20=20 AND q.sma20>0 THEN 4*q.sd20_close/q.sma20 END AS bb_bandwidth20,
+               CASE WHEN q.return_n20=20 THEN q.downside_vol20 END AS downside_vol20_full,
+               CASE WHEN q.is_traded AND q.return_n14=14 THEN q.atr14 END AS atr_pct14,
+               CASE WHEN q.is_traded AND q.avg_volume20>0 AND q.sd_volume20>0 THEN (q.v-q.avg_volume20)/q.sd_volume20 END AS volume_z20,
+               regr_slope(q.obv_cumulative,q.session_no) OVER (PARTITION BY q.symbol_id,q.episode_key ORDER BY q.session_no ROWS BETWEEN 19 PRECEDING AND CURRENT ROW) AS obv_slope20,
+               CASE WHEN m.idxreturn_n20=20 THEN m.idxvol20 END AS idxvol20,
+               CASE WHEN q.is_traded AND q.c>0 AND q.c1>0 THEN q.c/q.c1-1 END AS r1,
+               CASE WHEN q.is_traded AND q.c>0 AND q.c5>0 THEN q.c/q.c5-1 END AS r5,
+               CASE WHEN q.is_traded AND q.c>0 AND q.c20>0 THEN q.c/q.c20-1 END AS r20,
+               CASE WHEN q.is_traded AND q.c>0 AND q.c60>0 THEN q.c/q.c60-1 END AS r60
+        FROM eligible_daily q
+        JOIN effective_trading_sessions s ON s.trade_date=q.trade_date AND s.is_session
+        -- Cross-asset market context is deliberately lagged by one effective
+        -- session to avoid same-close availability skew between index and stock.
+        LEFT JOIN market_context m ON m.session_no=q.session_no-1
+        WHERE q.trade_date BETWEEN p_date_from AND p_date_to AND q.c IS NOT NULL
+    ), ranked AS (
+        SELECT p.*,rr.rank_r20,rt.rank_turnover,rv.rank_vol
+        FROM picked p
+        LEFT JOIN (SELECT symbol_id,trade_date,percent_rank() OVER(PARTITION BY trade_date ORDER BY r20) AS rank_r20 FROM picked WHERE r20 IS NOT NULL) rr USING(symbol_id,trade_date)
+        LEFT JOIN (SELECT symbol_id,trade_date,percent_rank() OVER(PARTITION BY trade_date ORDER BY turnover_now) AS rank_turnover FROM picked WHERE turnover_now IS NOT NULL) rt USING(symbol_id,trade_date)
+        LEFT JOIN (SELECT symbol_id,trade_date,percent_rank() OVER(PARTITION BY trade_date ORDER BY vol20) AS rank_vol FROM picked WHERE vol20 IS NOT NULL AND return_n20=20) rv USING(symbol_id,trade_date)
+    )
+    INSERT INTO features_daily(
+        symbol_id,trade_date,feature_version,feature_set_hash,source,price_basis,
+        adjustment_vintage_at,as_of_factor,bar_landing_id,bar_source_row,bar_fetched_at,
+        is_traded,volume,ret_1,ret_5,return_1d,return_5s,return_20s,return_60s,momentum_20s,momentum_60s,
+        close_sma5_ratio,sma_5_ratio,close_sma20_ratio,close_sma50_ratio,close_sma60_ratio,
+        return_2s,return_3s,return_10s,return_120s,return_250s,close_sma100_ratio,close_sma200_ratio,
+        distance_52w_high,distance_52w_low,rsi_14,bollinger_pct_b_20,bollinger_bandwidth_20,
+        downside_vol20,atr_pct_14,volume_zscore_20,obv_slope_20,
+        realized_vol20,realized_vol60,vol_5,turnover_proxy_vnd,log_turnover_proxy_vnd,
+        turnover_sma20_vnd,volume_sma20,gap_open_1d,intraday_return,intraday_range_pct,
+        close_location,large_move_approx,session_ordinal,day_of_week,month_of_year,
+        vnindex_return_20s,vnindex_return_60s,vnindex_realized_vol20,
+        market_breadth_above_sma50,rank_momentum_20s,rank_turnover_proxy,rank_realized_vol20
+    )
+    SELECT r.symbol_id,r.trade_date,v_version,v_hash,'vndirect','adjusted_as_of_reference',
+           r.adjustment_vintage_at,1.0,r.landing_id,r.source_row,r.fetched_at,
+           r.is_traded,coalesce(r.v,0),r.r1,r.r5,r.r1,r.r5,r.r20,r.r60,r.r20,r.r60,
+           CASE WHEN r.is_traded AND r.traded_n5=5 AND r.sma5>0 THEN r.c/r.sma5-1 END,
+           CASE WHEN r.is_traded AND r.traded_n5=5 AND r.sma5>0 THEN r.c/r.sma5-1 END,
+           CASE WHEN r.is_traded AND r.traded_n20=20 AND r.sma20>0 THEN r.c/r.sma20-1 END,
+           CASE WHEN r.is_traded AND r.traded_n50=50 AND r.sma50>0 THEN r.c/r.sma50-1 END,
+           CASE WHEN r.is_traded AND r.traded_n60=60 AND r.sma60>0 THEN r.c/r.sma60-1 END,
+           r.r2,r.r3,r.r10,r.r120,r.r250,r.sma100_ratio,r.sma200_ratio,
+           r.high52_distance,r.low52_distance,r.rsi14,r.bb_pct_b20,r.bb_bandwidth20,
+           r.downside_vol20_full,r.atr_pct14,r.volume_z20,r.obv_slope20,
+           CASE WHEN r.return_n20=20 THEN r.vol20 END,
+           CASE WHEN r.return_n60=60 THEN r.vol60 END,
+           CASE WHEN r.return_n5=5 THEN r.vol5 END,
+           r.turnover_now,ln(1+r.turnover_now),r.turnover20,r.volume20,r.gap_now,
+           r.intraday_now,r.range_now,r.location_now,
+           CASE WHEN r.is_traded AND r.c1>0 THEN abs(r.c/r.c1-1)>=CASE r.exchange WHEN 'HOSE' THEN 0.069 WHEN 'HNX' THEN 0.099 ELSE 0.149 END END,
+           r.session_no,extract(isodow from r.trade_date)::smallint,extract(month from r.trade_date)::smallint,
+           r.idx20,r.idx60,r.idxvol20,r.breadth_sma50,r.rank_r20,r.rank_turnover,r.rank_vol
+    FROM ranked r
+    JOIN first_bad fb ON fb.symbol_id=r.symbol_id
+    WHERE fb.first_bad_date IS NULL OR fb.first_bad_date>r.trade_date
+    ON CONFLICT(symbol_id,trade_date,feature_version) DO UPDATE SET
+        feature_set_hash=EXCLUDED.feature_set_hash,source=EXCLUDED.source,price_basis=EXCLUDED.price_basis,
+        adjustment_vintage_at=EXCLUDED.adjustment_vintage_at,as_of_factor=EXCLUDED.as_of_factor,
+        bar_landing_id=EXCLUDED.bar_landing_id,bar_source_row=EXCLUDED.bar_source_row,bar_fetched_at=EXCLUDED.bar_fetched_at,
+        is_traded=EXCLUDED.is_traded,volume=EXCLUDED.volume,ret_1=EXCLUDED.ret_1,ret_5=EXCLUDED.ret_5,
+        return_1d=EXCLUDED.return_1d,return_5s=EXCLUDED.return_5s,return_20s=EXCLUDED.return_20s,
+        return_60s=EXCLUDED.return_60s,momentum_20s=EXCLUDED.momentum_20s,momentum_60s=EXCLUDED.momentum_60s,
+        close_sma5_ratio=EXCLUDED.close_sma5_ratio,sma_5_ratio=EXCLUDED.sma_5_ratio,
+        close_sma20_ratio=EXCLUDED.close_sma20_ratio,close_sma50_ratio=EXCLUDED.close_sma50_ratio,
+        close_sma60_ratio=EXCLUDED.close_sma60_ratio,realized_vol20=EXCLUDED.realized_vol20,
+        return_2s=EXCLUDED.return_2s,return_3s=EXCLUDED.return_3s,return_10s=EXCLUDED.return_10s,
+        return_120s=EXCLUDED.return_120s,return_250s=EXCLUDED.return_250s,
+        close_sma100_ratio=EXCLUDED.close_sma100_ratio,close_sma200_ratio=EXCLUDED.close_sma200_ratio,
+        distance_52w_high=EXCLUDED.distance_52w_high,distance_52w_low=EXCLUDED.distance_52w_low,
+        rsi_14=EXCLUDED.rsi_14,bollinger_pct_b_20=EXCLUDED.bollinger_pct_b_20,
+        bollinger_bandwidth_20=EXCLUDED.bollinger_bandwidth_20,downside_vol20=EXCLUDED.downside_vol20,
+        atr_pct_14=EXCLUDED.atr_pct_14,volume_zscore_20=EXCLUDED.volume_zscore_20,
+        obv_slope_20=EXCLUDED.obv_slope_20,
+        realized_vol60=EXCLUDED.realized_vol60,vol_5=EXCLUDED.vol_5,turnover_proxy_vnd=EXCLUDED.turnover_proxy_vnd,
+        log_turnover_proxy_vnd=EXCLUDED.log_turnover_proxy_vnd,turnover_sma20_vnd=EXCLUDED.turnover_sma20_vnd,
+        volume_sma20=EXCLUDED.volume_sma20,gap_open_1d=EXCLUDED.gap_open_1d,
+        intraday_return=EXCLUDED.intraday_return,intraday_range_pct=EXCLUDED.intraday_range_pct,
+        close_location=EXCLUDED.close_location,large_move_approx=EXCLUDED.large_move_approx,
+        session_ordinal=EXCLUDED.session_ordinal,day_of_week=EXCLUDED.day_of_week,month_of_year=EXCLUDED.month_of_year,
+        vnindex_return_20s=EXCLUDED.vnindex_return_20s,vnindex_return_60s=EXCLUDED.vnindex_return_60s,
+        vnindex_realized_vol20=EXCLUDED.vnindex_realized_vol20,
+        market_breadth_above_sma50=EXCLUDED.market_breadth_above_sma50,
+        rank_momentum_20s=EXCLUDED.rank_momentum_20s,rank_turnover_proxy=EXCLUDED.rank_turnover_proxy,
+        rank_realized_vol20=EXCLUDED.rank_realized_vol20,built_at=now()"
+PL/pgSQL function build_features_v2_shared(date,date,bigint[]) line 14 at SQL statement
+PL/pgSQL function feat.build_features_and_labels_scoped(date,date,text,text,text,bigint[]) line 121 at assignment
+SQL statement "SELECT feat.build_features_and_labels_scoped(min_date,cut_date,in_b,out_b,ops_b,cohort_ids)"
+PL/pgSQL function pg_temp_80.phase2_e2_run_cut(integer) line 183 at PERFORM
+Time: 1210796.576 ms (20:10.797)

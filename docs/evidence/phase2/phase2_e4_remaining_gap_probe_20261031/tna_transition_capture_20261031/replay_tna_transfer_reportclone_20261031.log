@@ -1,0 +1,13 @@
+BEGIN
+CREATE TABLE
+COPY 2
+CREATE TABLE
+COPY 1
+DO
+INSERT 0 0
+SELECT 2
+DO
+                            0
+
+DO
+COMMIT

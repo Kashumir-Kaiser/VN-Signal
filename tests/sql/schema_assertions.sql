@@ -236,10 +236,12 @@ DECLARE
     vci_payload text := '{"rows":[{"time":"2026-10-16T07:00:00+07:00"}]}';
     notice_payload text := '{"notice":"test lifecycle evidence"}';
     sid bigint;
+    other_sid bigint;
     landing bigint;
     delisted_evidence bigint;
     eligible_evidence bigint;
     mutation_blocked boolean := false;
+    mismatched_symbol_rejected boolean := false;
 BEGIN
     INSERT INTO raw.landings(ingest_id,source,route,fetched_at,symbol,payload,payload_sha256,payload_bytes)
     VALUES ('00000000-0000-4000-8000-000000000045','vci','equity_ohlcv',now(),'FPT',vci_payload::jsonb,
@@ -249,10 +251,22 @@ BEGIN
             encode(sha256(convert_to(notice_payload,'UTF8')),'hex'),convert_to(notice_payload,'UTF8'))
     RETURNING landing_id INTO landing;
     SELECT symbol_id INTO sid FROM core.symbols WHERE symbol='FPT';
+    SELECT symbol_id INTO other_sid FROM core.symbols WHERE symbol='YEG';
     INSERT INTO core.security_lifecycle_evidence
       (symbol_id,exchange,evidence_type,date_from,date_to,source_landing_id,source_url,source_document_date)
     VALUES (sid,'HOSE','DELISTED','2026-10-16','2026-10-16',landing,'https://example.com/test-notice','2026-10-16')
     RETURNING evidence_id INTO delisted_evidence;
+    BEGIN
+        INSERT INTO core.security_lifecycle_evidence
+          (symbol_id,exchange,evidence_type,date_from,date_to,source_landing_id,source_url,source_document_date)
+        VALUES (other_sid,'UPCOM','DELISTED','2026-10-16','2026-10-16',landing,
+                'https://example.com/test-notice','2026-10-16');
+    EXCEPTION WHEN raise_exception THEN
+        mismatched_symbol_rejected := true;
+    END;
+    IF NOT mismatched_symbol_rejected THEN
+        RAISE EXCEPTION 'lifecycle evidence accepted a landing for a different security';
+    END IF;
     INSERT INTO ops.ml_bar_eligibility_events
       (symbol_id,source,trade_date,decision,reason,evidence_id,raw_landing_id,source_row)
     VALUES (sid,'vci','2026-10-16','EXCLUDE','test exclusion',delisted_evidence,

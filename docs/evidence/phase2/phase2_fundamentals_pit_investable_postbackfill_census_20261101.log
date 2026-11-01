@@ -1,0 +1,44 @@
+          metric           | value  
+---------------------------+--------
+ active_line_item_mappings |      0
+ archive_managed_rows      | 114293
+ daily_overlay_rows        |      0
+ industry_mappings         |      0
+ line_item_mappings        |      0
+ observations              | 114349
+ raw_fundamental_landings  |    955
+ symbols                   |    159
+(8 rows)
+
+  statement_type  | period_type | row_versions | symbols | symbol_periods | first_period_end | last_period_end 
+------------------+-------------+--------------+---------+----------------+------------------+-----------------
+ balance_sheet    | quarter     |        24673 |     159 |           1269 | 2024-09-30       | 2026-09-30
+ balance_sheet    | year        |        24211 |     159 |           1247 | 2018-12-31       | 2025-12-31
+ cash_flow        | quarter     |         9219 |     159 |           1269 | 2024-06-30       | 2026-09-30
+ cash_flow        | year        |         9058 |     159 |           1246 | 2018-12-31       | 2025-12-31
+ income_statement | quarter     |        23776 |     159 |           1270 | 2024-09-30       | 2026-09-30
+ income_statement | year        |        23356 |     159 |           1249 | 2018-12-31       | 2025-12-31
+(6 rows)
+
+ availability_contract_violations 
+----------------------------------
+                                0
+(1 row)
+
+ same_availability_duplicate_groups 
+------------------------------------
+                                  0
+(1 row)
+
+ snapshots_with_missing_or_invalid_observation_lineage 
+-------------------------------------------------------
+                                                     0
+(1 row)
+
+      route       |   state   | jobs | attempts 
+------------------+-----------+------+----------
+ balance_sheet    | COMPLETED |  318 |      318
+ cash_flow        | COMPLETED |  319 |      319
+ income_statement | COMPLETED |  318 |      319
+(3 rows)
+

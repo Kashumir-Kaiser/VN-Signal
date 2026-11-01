@@ -1,0 +1,8 @@
+INFO:  analyzing "feat.features_daily"
+INFO:  "features_daily": scanned 30000 of 499009 pages, containing 343696 live rows and 0 dead rows; 30000 rows in sample, 5716913 estimated total rows
+INFO:  finished analyzing table "vnsignal_phase2_report_20261019.feat.features_daily"
+avg read rate: 22.603 MB/s, avg write rate: 0.048 MB/s
+buffer usage: 2520 hits, 29100 reads, 62 dirtied
+WAL usage: 224 records, 58 full page images, 432089 bytes, 0 buffers full
+system usage: CPU: user: 1.23 s, system: 1.48 s, elapsed: 10.05 s
+ANALYZE

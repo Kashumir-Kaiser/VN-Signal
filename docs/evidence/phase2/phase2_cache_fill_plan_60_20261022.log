@@ -1,0 +1,532 @@
+LOAD
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+BEGIN
+NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:03.697326
+ begin_phase2_adjustment_rows 
+------------------------------
+                            1
+(1 row)
+
+NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.660025
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          108331
+(1 row)
+
+ finish_phase2_adjustment_rows 
+-------------------------------
+                        108331
+(1 row)
+
+ROLLBACK
+
+--- PostgreSQL auto_explain server log excerpt ---
+	                          Buffers: shared hit=4875
+	                          ->  Seq Scan on symbols s_1  (cost=0.00..30.19 rows=1519 width=8) (actual time=0.094..1.580 rows=1519.00 loops=1)
+	                                Buffers: shared hit=15
+	                          ->  Index Only Scan using bars_daily_sources_pkey on bars_daily_sources b  (cost=0.43..973.36 rows=1882 width=8) (actual time=0.102..0.102 rows=1.00 loops=1519)
+	                                Index Cond: ((symbol_id = s_1.symbol_id) AND (source = 'vndirect'::text))
+	                                Heap Fetches: 0
+	                                Index Searches: 1519
+	                                Buffers: shared hit=4860
+	                    ->  Materialize  (cost=0.00..1.02 rows=1 width=8) (actual time=0.001..0.001 rows=1.00 loops=1519)
+	                          Storage: Memory  Maximum Storage: 17kB
+	                          Buffers: shared hit=1
+	                          ->  Seq Scan on ml_symbol_scope excluded  (cost=0.00..1.01 rows=1 width=8) (actual time=0.131..0.132 rows=1.00 loops=1)
+	                                Filter: (scope_status = 'EXCLUDED'::text)
+	                                Buffers: shared hit=1
+2026-10-22 08:14:36 +07 CONTEXT:  SQL statement "CREATE TEMP TABLE phase2_adjustment_symbol_batches ON COMMIT PRESERVE ROWS AS
+	    WITH eligible_symbols AS (
+	        -- core.symbols is the canonical one-row-per-security directory. Probe
+	        -- its symbol/date/source index for coverage rather than scanning and
+	        -- hashing every row in the 2.84M-row price table. Do not filter active:
+	        -- historical delisted names remain part of Phase 2.
+	        SELECT s.symbol_id
+	        FROM core.symbols s
+	        WHERE EXISTS (
+	              SELECT 1 FROM core.bars_daily_sources b
+	              WHERE b.symbol_id=s.symbol_id AND b.source='vndirect'
+	          )
+	          AND NOT EXISTS (
+	              SELECT 1 FROM ops.ml_symbol_scope excluded
+	              WHERE excluded.symbol_id=s.symbol_id
+	                AND excluded.scope_status='EXCLUDED'
+	          )
+	    ), ranked_symbols AS (
+	        SELECT e.symbol_id,
+	               row_number() OVER(ORDER BY md5(e.symbol_id::text),e.symbol_id) AS symbol_no
+	        FROM eligible_symbols e
+	    )
+	    SELECT s.symbol_id,
+	           ((s.symbol_no-1)/p_symbol_batch_size)::integer AS batch_no,
+	           false AS loaded
+	    FROM ranked_symbols s
+	    WHERE p_symbol_limit IS NULL OR s.symbol_no<=p_symbol_limit"
+	PL/pgSQL function feat.begin_phase2_adjustment_rows(integer,integer) line 57 at SQL statement
+2026-10-22 08:14:36 +07 LOG:  duration: 3.042 ms  plan:
+	Query Text: INSERT INTO pg_temp.phase2_adjustment_cache_state(ready,finalized_at)
+	    VALUES(false,NULL)
+	Insert on phase2_adjustment_cache_state  (cost=0.00..0.01 rows=0 width=0) (actual time=3.040..3.040 rows=0.00 loops=1)
+	  Buffers: shared hit=3, local hit=1 read=1 dirtied=3 written=2
+	  ->  Result  (cost=0.00..0.01 rows=1 width=13) (actual time=0.001..0.002 rows=1.00 loops=1)
+2026-10-22 08:14:36 +07 CONTEXT:  SQL statement "INSERT INTO pg_temp.phase2_adjustment_cache_state(ready,finalized_at)
+	    VALUES(false,NULL)"
+	PL/pgSQL function feat.begin_phase2_adjustment_rows(integer,integer) line 99 at SQL statement
+2026-10-22 08:14:36 +07 LOG:  duration: 0.424 ms  plan:
+	Query Text: SELECT count(DISTINCT batch_no)::integer
+	                               FROM pg_temp.phase2_adjustment_symbol_batches
+	Aggregate  (cost=3.67..3.68 rows=1 width=4) (actual time=0.415..0.415 rows=1.00 loops=1)
+	  Buffers: local hit=1
+	  ->  Sort  (cost=3.37..3.52 rows=60 width=4) (actual time=0.038..0.041 rows=60.00 loops=1)
+	        Sort Key: batch_no
+	        Sort Method: quicksort  Memory: 25kB
+	        Buffers: local hit=1
+	        ->  Seq Scan on phase2_adjustment_symbol_batches  (cost=0.00..1.60 rows=60 width=4) (actual time=0.018..0.024 rows=60.00 loops=1)
+	              Buffers: local hit=1
+2026-10-22 08:14:36 +07 CONTEXT:  SQL statement "SELECT count(DISTINCT batch_no)::integer
+	                               FROM pg_temp.phase2_adjustment_symbol_batches"
+	PL/pgSQL function feat.begin_phase2_adjustment_rows(integer,integer) line 102 at SQL statement
+2026-10-22 08:14:36 +07 LOG:  duration: 354.015 ms  plan:
+	Query Text: LOAD 'auto_explain';
+	SET auto_explain.log_min_duration=0;
+	SET auto_explain.log_analyze=on;
+	SET auto_explain.log_buffers=on;
+	SET auto_explain.log_verbose=off;
+	SET auto_explain.log_nested_statements=on;
+	SET auto_explain.log_format='text';
+	SET statement_timeout='5min';
+	SET work_mem='128MB';
+	SET jit=off;
+	BEGIN;
+	SELECT feat.begin_phase2_adjustment_rows(60,60);
+	SELECT feat.populate_phase2_adjustment_rows(0);
+	SELECT feat.finish_phase2_adjustment_rows();
+	ROLLBACK;
+	Result  (cost=0.00..0.26 rows=1 width=4) (actual time=354.004..354.005 rows=1.00 loops=1)
+	  Buffers: shared hit=7446 read=2 dirtied=7, local hit=6 read=3 dirtied=4 written=3
+2026-10-22 08:14:36 +07 LOG:  duration: 0.047 ms  plan:
+	Query Text: 
+	Query Parameters: $1 = '477148', $2 = 'pg_class'
+	Index Scan using pg_description_o_c_o_index on pg_description  (cost=8.58..16.60 rows=1 width=25) (actual time=0.045..0.045 rows=1.00 loops=1)
+	  Index Cond: ((objoid = '477148'::oid) AND (classoid = (InitPlan 1).col1) AND (objsubid = 0))
+	  Index Searches: 1
+	  Buffers: shared hit=6
+	  InitPlan 1
+	    ->  Index Scan using pg_class_relname_nsp_index on pg_class  (cost=0.28..8.29 rows=1 width=4) (actual time=0.031..0.032 rows=1.00 loops=1)
+	          Index Cond: ((relname = 'pg_class'::name) AND (relnamespace = '11'::oid))
+	          Index Searches: 1
+	          Buffers: shared hit=3
+2026-10-22 08:14:36 +07 CONTEXT:  SQL function "obj_description" statement 1
+	PL/pgSQL function feat.populate_phase2_adjustment_rows(integer) line 11 at IF
+2026-10-22 08:14:36 +07 LOG:  duration: 0.013 ms  plan:
+	Query Text: 
+	Query Parameters: $1 = '477153', $2 = 'pg_class'
+	Index Scan using pg_description_o_c_o_index on pg_description  (cost=8.58..16.60 rows=1 width=25) (actual time=0.011..0.012 rows=1.00 loops=1)
+	  Index Cond: ((objoid = '477153'::oid) AND (classoid = (InitPlan 1).col1) AND (objsubid = 0))
+	  Index Searches: 1
+	  Buffers: shared hit=6
+	  InitPlan 1
+	    ->  Index Scan using pg_class_relname_nsp_index on pg_class  (cost=0.28..8.29 rows=1 width=4) (actual time=0.007..0.007 rows=1.00 loops=1)
+	          Index Cond: ((relname = 'pg_class'::name) AND (relnamespace = '11'::oid))
+	          Index Searches: 1
+	          Buffers: shared hit=3
+2026-10-22 08:14:36 +07 CONTEXT:  SQL function "obj_description" statement 1
+	PL/pgSQL function feat.populate_phase2_adjustment_rows(integer) line 11 at IF
+2026-10-22 08:14:36 +07 LOG:  duration: 0.011 ms  plan:
+	Query Text: 
+	Query Parameters: $1 = '477160', $2 = 'pg_class'
+	Index Scan using pg_description_o_c_o_index on pg_description  (cost=8.58..16.60 rows=1 width=25) (actual time=0.010..0.010 rows=1.00 loops=1)
+	  Index Cond: ((objoid = '477160'::oid) AND (classoid = (InitPlan 1).col1) AND (objsubid = 0))
+	  Index Searches: 1
+	  Buffers: shared hit=6
+	  InitPlan 1
+	    ->  Index Scan using pg_class_relname_nsp_index on pg_class  (cost=0.28..8.29 rows=1 width=4) (actual time=0.006..0.006 rows=1.00 loops=1)
+	          Index Cond: ((relname = 'pg_class'::name) AND (relnamespace = '11'::oid))
+	          Index Searches: 1
+	          Buffers: shared hit=3
+2026-10-22 08:14:36 +07 CONTEXT:  SQL function "obj_description" statement 1
+	PL/pgSQL function feat.populate_phase2_adjustment_rows(integer) line 11 at IF
+2026-10-22 08:14:36 +07 LOG:  duration: 0.019 ms  plan:
+	Query Text: NOT EXISTS (
+	        SELECT 1 FROM pg_temp.phase2_adjustment_symbol_batches WHERE batch_no=p_batch_no
+	    )
+	Result  (cost=0.03..0.04 rows=1 width=1) (actual time=0.017..0.017 rows=1.00 loops=1)
+	  Buffers: local hit=1
+	  InitPlan 1
+	    ->  Seq Scan on phase2_adjustment_symbol_batches  (cost=0.00..1.75 rows=60 width=0) (actual time=0.016..0.016 rows=1.00 loops=1)
+	          Filter: (batch_no = 0)
+	          Buffers: local hit=1
+2026-10-22 08:14:36 +07 CONTEXT:  PL/pgSQL expression "NOT EXISTS (
+	        SELECT 1 FROM pg_temp.phase2_adjustment_symbol_batches WHERE batch_no=p_batch_no
+	    )"
+	PL/pgSQL function feat.populate_phase2_adjustment_rows(integer) line 19 at IF
+2026-10-22 08:14:36 +07 LOG:  duration: 0.959 ms  plan:
+	Query Text: SELECT array_agg(symbol_id ORDER BY symbol_id)
+	                              FROM pg_temp.phase2_adjustment_symbol_batches
+	     WHERE batch_no=p_batch_no
+	Aggregate  (cost=3.82..3.83 rows=1 width=32) (actual time=0.957..0.958 rows=1.00 loops=1)
+	  Buffers: local hit=1
+	  ->  Sort  (cost=3.52..3.67 rows=60 width=8) (actual time=0.042..0.046 rows=60.00 loops=1)
+	        Sort Key: symbol_id
+	        Sort Method: quicksort  Memory: 25kB
+	        Buffers: local hit=1
+	        ->  Seq Scan on phase2_adjustment_symbol_batches  (cost=0.00..1.75 rows=60 width=8) (actual time=0.021..0.027 rows=60.00 loops=1)
+	              Filter: (batch_no = 0)
+	              Buffers: local hit=1
+2026-10-22 08:14:36 +07 CONTEXT:  SQL statement "SELECT array_agg(symbol_id ORDER BY symbol_id)
+	                              FROM pg_temp.phase2_adjustment_symbol_batches
+	     WHERE batch_no=p_batch_no"
+	PL/pgSQL function feat.populate_phase2_adjustment_rows(integer) line 24 at SQL statement
+2026-10-22 08:14:36 +07 LOG:  duration: 0.082 ms  plan:
+	Query Text: UPDATE pg_temp.phase2_adjustment_cache_state
+	       SET ready=false,finalized_at=NULL
+	Update on phase2_adjustment_cache_state  (cost=0.00..29.90 rows=0 width=0) (actual time=0.081..0.081 rows=0.00 loops=1)
+	  Buffers: local hit=3
+	  ->  Seq Scan on phase2_adjustment_cache_state  (cost=0.00..29.90 rows=1990 width=15) (actual time=0.023..0.024 rows=1.00 loops=1)
+	        Buffers: local hit=1
+2026-10-22 08:14:36 +07 CONTEXT:  SQL statement "UPDATE pg_temp.phase2_adjustment_cache_state
+	       SET ready=false,finalized_at=NULL"
+	PL/pgSQL function feat.populate_phase2_adjustment_rows(integer) line 32 at SQL statement
+2026-10-22 08:14:36 +07 LOG:  duration: 0.055 ms  plan:
+	Query Text: DELETE FROM pg_temp.phase2_adjustment_rows r
+	    USING pg_temp.phase2_adjustment_symbol_batches s
+	    WHERE s.batch_no=p_batch_no AND r.symbol_id=s.symbol_id
+	Delete on phase2_adjustment_rows r  (cost=2.50..19.22 rows=0 width=0) (actual time=0.050..0.054 rows=0.00 loops=1)
+	  ->  Hash Join  (cost=2.50..19.22 rows=159 width=12) (actual time=0.049..0.053 rows=0.00 loops=1)
+	        Hash Cond: (r.symbol_id = s.symbol_id)
+	        ->  Seq Scan on phase2_adjustment_rows r  (cost=0.00..15.30 rows=530 width=14) (actual time=0.045..0.045 rows=0.00 loops=1)
+	        ->  Hash  (cost=1.75..1.75 rows=60 width=14) (never executed)
+	              ->  Seq Scan on phase2_adjustment_symbol_batches s  (cost=0.00..1.75 rows=60 width=14) (never executed)
+	                    Filter: (batch_no = 0)
+2026-10-22 08:14:36 +07 CONTEXT:  SQL statement "DELETE FROM pg_temp.phase2_adjustment_rows r
+	    USING pg_temp.phase2_adjustment_symbol_batches s
+	    WHERE s.batch_no=p_batch_no AND r.symbol_id=s.symbol_id"
+	PL/pgSQL function feat.populate_phase2_adjustment_rows(integer) line 36 at SQL statement
+2026-10-22 08:14:36 +07 LOG:  duration: 0.006 ms  plan:
+	Query Text: SELECT set_config('enable_nestloop','off',true)
+	Result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.005..0.005 rows=1.00 loops=1)
+2026-10-22 08:14:36 +07 CONTEXT:  SQL statement "SELECT set_config('enable_nestloop','off',true)"
+	PL/pgSQL function feat.populate_phase2_adjustment_rows(integer) line 44 at PERFORM
+2026-10-22 08:14:40 +07 LOG:  duration: 3601.720 ms  plan:
+	Query Text: INSERT INTO pg_temp.phase2_adjustment_rows(
+	        symbol_id,trade_date,source,v,is_traded,reference_adjustment_ratio,
+	        episode_start_date,model_o,model_h,model_l,model_c,
+	        adjustment_vintage_at,landing_id,source_row,fetched_at
+	    )
+	    SELECT r.symbol_id,r.trade_date,r.source,r.v,r.is_traded,
+	           r.reference_adjustment_ratio,r.episode_start_date,
+	           r.model_o,r.model_h,r.model_l,r.model_c,
+	           r.adjustment_vintage_at,r.landing_id,r.source_row,r.fetched_at
+	    FROM feat.phase2_vndirect_adjustment_details_for_symbols(v_symbol_ids) r
+	    WHERE r.source='vndirect'
+	      AND EXISTS (
+	          SELECT 1 FROM pg_temp.phase2_adjustment_symbol_batches s
+	          WHERE s.batch_no=p_batch_no AND s.symbol_id=r.symbol_id
+	      )
+	      AND NOT EXISTS (
+	          SELECT 1 FROM ops.ml_symbol_scope excluded
+	          WHERE excluded.symbol_id=r.symbol_id
+	            AND excluded.scope_status='EXCLUDED'
+	      )
+	Insert on phase2_adjustment_rows  (cost=150401.42..150403.41 rows=0 width=0) (actual time=3601.630..3601.715 rows=0.00 loops=1)
+	  Buffers: shared hit=4214, local hit=112268 dirtied=1970 written=2925
+	  ->  Hash Join  (cost=150401.42..150403.41 rows=1 width=125) (actual time=3362.450..3423.079 rows=108331.00 loops=1)
+	        Hash Cond: (s.symbol_id = o.symbol_id)
+	        Buffers: shared hit=4214, local hit=1
+	        ->  Seq Scan on phase2_adjustment_symbol_batches s  (cost=0.00..1.75 rows=60 width=8) (actual time=0.031..0.151 rows=60.00 loops=1)
+	              Filter: (batch_no = 0)
+	              Buffers: local hit=1
+	        ->  Hash  (cost=150401.41..150401.41 rows=1 width=125) (actual time=3362.394..3362.478 rows=108331.00 loops=1)
+	              Buckets: 131072 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 17105kB
+	              Buffers: shared hit=4214
+	              ->  Merge Anti Join  (cost=150401.38..150401.41 rows=1 width=125) (actual time=3235.183..3301.319 rows=108331.00 loops=1)
+	                    Merge Cond: (o.symbol_id = excluded.symbol_id)
+	                    Buffers: shared hit=4214
+	                    ->  Sort  (cost=150400.36..150400.37 rows=1 width=125) (actual time=3235.094..3252.271 rows=108331.00 loops=1)
+	                          Sort Key: o.symbol_id
+	                          Sort Method: quicksort  Memory: 17460kB
+	                          Buffers: shared hit=4213
+	                          ->  Hash Left Join  (cost=150232.63..150400.35 rows=1 width=125) (actual time=2561.817..3169.163 rows=108331.00 loops=1)
+	                                Hash Cond: ((o.symbol_id = t.symbol_id) AND (o.episode_start_date = t.episode_start_date) AND ((o.traded_sequence - (CASE WHEN (o.v > '0'::double precision) THEN '1'::bigint ELSE '0'::bigint END)::numeric) = t.traded_sequence))
+	                                Buffers: shared hit=4213
+	                                CTE source_rows
+	                                  ->  WindowAgg  (cost=137775.55..142321.39 rows=113721 width=371) (actual time=133.112..561.771 rows=108331.00 loops=1)
+	                                        Window: w2 AS (PARTITION BY b.symbol_id)
+	                                        Storage: Memory  Maximum Storage: 456kB
+	                                        Buffers: shared hit=4070
+	                                        ->  WindowAgg  (cost=137772.55..140615.57 rows=113721 width=367) (actual time=129.615..362.289 rows=108331.00 loops=1)
+	                                              Window: w1 AS (PARTITION BY b.symbol_id ORDER BY b.trade_date ROWS UNBOUNDED PRECEDING)
+	                                              Storage: Memory  Maximum Storage: 18kB
+	                                              Buffers: shared hit=4070
+	                                              ->  Merge Left Join  (cost=137772.53..138625.45 rows=113721 width=359) (actual time=129.606..205.202 rows=108331.00 loops=1)
+	                                                    Merge Cond: ((b.symbol_id = m.symbol_id) AND (b.trade_date = m.trade_date))
+	                                                    Buffers: shared hit=4070
+	                                                    ->  Sort  (cost=137769.20..138053.51 rows=113721 width=167) (actual time=129.456..137.655 rows=108331.00 loops=1)
+	                                                          Sort Key: b.symbol_id, b.trade_date
+	                                                          Sort Method: quicksort  Memory: 24231kB
+	                                                          Buffers: shared hit=4067
+	                                                          ->  Bitmap Heap Scan on bars_daily_sources b  (cost=6072.93..128219.40 rows=113721 width=167) (actual time=47.363..84.363 rows=108331.00 loops=1)
+	                                                                Recheck Cond: ((symbol_id = ANY ('{27,60,63,126,134,138,158,163,168,180,195,221,236,245,249,252,269,278,310,339,348,363,367,381,384,433,461,498,521,550,580,594,595,610,629,689,713,744,762,833,841,889,890,896,899,933,1019,1021,1024,1077,1089,1164,1195,1283,1329,1338,1428,1457,1460,1467}'::bigint[])) AND (source = 'vndirect'::text))
+	                                                                Heap Blocks: exact=2911
+	                                                                Buffers: shared hit=4067
+	                                                                ->  Bitmap Index Scan on bars_daily_sources_pkey  (cost=0.00..6044.35 rows=113721 width=0) (actual time=46.899..46.902 rows=108331.00 loops=1)
+	                                                                      Index Cond: ((symbol_id = ANY ('{27,60,63,126,134,138,158,163,168,180,195,221,236,245,249,252,269,278,310,339,348,363,367,381,384,433,461,498,521,550,580,594,595,610,629,689,713,744,762,833,841,889,890,896,899,933,1019,1021,1024,1077,1089,1164,1195,1283,1329,1338,1428,1457,1460,1467}'::bigint[])) AND (source = 'vndirect'::text))
+	                                                                      Index Searches: 58
+	                                                                      Buffers: shared hit=1156
+	                                                    ->  Sort  (cost=3.32..3.33 rows=1 width=236) (actual time=0.145..0.157 rows=25.00 loops=1)
+	                                                          Sort Key: m.symbol_id, m.trade_date
+	                                                          Sort Method: quicksort  Memory: 43kB
+	                                                          Buffers: shared hit=3
+	                                                          ->  Seq Scan on vndirect_model_bar_overrides m  (cost=0.00..3.31 rows=1 width=236) (actual time=0.072..0.115 rows=25.00 loops=1)
+	                                                                Filter: (source = 'vndirect'::text)
+	                                                                Buffers: shared hit=3
+	                                CTE ordered
+	                                  ->  WindowAgg  (cost=6444.10..7911.09 rows=2 width=529) (actual time=1082.076..1901.666 rows=108331.00 loops=1)
+	                                        Window: w AS (PARTITION BY o_2.symbol_id, a.episode_start_date ORDER BY o_2.trade_date)
+	                                        Storage: Memory  Maximum Storage: 18kB
+	                                        Buffers: shared hit=4072
+	                                        ->  Incremental Sort  (cost=6444.10..7911.02 rows=2 width=449) (actual time=1080.989..1376.303 rows=108331.00 loops=1)
+	                                              Sort Key: o_2.symbol_id, a.episode_start_date, o_2.trade_date
+	                                              Presorted Key: o_2.symbol_id
+	                                              Full-sort Groups: 60  Sort Method: quicksort  Average Memory: 41kB  Peak Memory: 41kB
+	                                              Pre-sorted Groups: 60  Sort Method: quicksort  Average Memory: 566kB  Peak Memory: 567kB
+	                                              Buffers: shared hit=4072
+	                                              ->  Merge Join  (cost=4977.26..7910.93 rows=2 width=449) (actual time=1075.617..1277.165 rows=108331.00 loops=1)
+	                                                    Merge Cond: ((o_2.symbol_id = a.symbol_id) AND (o_2.trade_date = a.trade_date))
+	                                                    Join Filter: (o_2.source_sequence = a.source_sequence)
+	                                                    Buffers: shared hit=4072
+	                                                    ->  CTE Scan on source_rows o_2  (cost=0.00..2274.42 rows=113721 width=445) (actual time=133.114..155.700 rows=108331.00 loops=1)
+	                                                          Storage: Memory  Maximum Storage: 28954kB
+	                                                          Buffers: shared hit=4070
+	                                                    ->  Sort  (cost=4977.26..5005.69 rows=11372 width=24) (actual time=942.490..964.149 rows=108331.00 loops=1)
+	                                                          Sort Key: a.symbol_id, a.trade_date
+	                                                          Sort Method: quicksort  Memory: 8151kB
+	                                                          Buffers: shared hit=2
+	                                                          ->  Subquery Scan on a  (cost=3983.74..4211.18 rows=11372 width=24) (actual time=726.024..791.115 rows=108331.00 loops=1)
+	                                                                Buffers: shared hit=2
+	                                                                ->  HashAggregate  (cost=3983.74..4097.46 rows=11372 width=28) (actual time=726.021..774.192 rows=108331.00 loops=1)
+	                                                                      Group Key: o_3.symbol_id, o_3.trade_date, o_3.source_sequence, o_3.first_trade_date
+	                                                                      Batches: 1  Memory Usage: 12313kB
+	                                                                      Buffers: shared hit=2
+	                                                                      ->  Merge Left Join  (cost=2.15..2562.22 rows=113721 width=28) (actual time=0.076..641.434 rows=108331.00 loops=1)
+	                                                                            Merge Cond: (o_3.symbol_id = e.symbol_id)
+	                                                                            Join Filter: (e.date_from <= o_3.trade_date)
+	                                                                            Buffers: shared hit=2
+	                                                                            ->  CTE Scan on source_rows o_3  (cost=0.00..2274.42 rows=113721 width=24) (actual time=0.001..582.762 rows=108331.00 loops=1)
+	                                                                                  Storage: Memory  Maximum Storage: 28954kB
+	                                                                            ->  Materialize  (cost=2.15..2.17 rows=1 width=12) (actual time=0.073..0.096 rows=1.00 loops=1)
+	                                                                                  Storage: Memory  Maximum Storage: 17kB
+	                                                                                  Buffers: shared hit=2
+	                                                                                  ->  Unique  (cost=2.15..2.16 rows=1 width=12) (actual time=0.072..0.093 rows=1.00 loops=1)
+	                                                                                        Buffers: shared hit=2
+	                                                                                        ->  Sort  (cost=2.15..2.16 rows=1 width=12) (actual time=0.072..0.090 rows=1.00 loops=1)
+	                                                                                              Sort Key: e.symbol_id, e.date_from
+	                                                                                              Sort Method: quicksort  Memory: 25kB
+	                                                                                              Buffers: shared hit=2
+	                                                                                              ->  Hash Semi Join  (cost=1.07..2.14 rows=1 width=12) (actual time=0.062..0.079 rows=1.00 loops=1)
+	                                                                                                    Hash Cond: (e.symbol_id = d.symbol_id)
+	                                                                                                    Join Filter: (d.date_to < e.date_from)
+	                                                                                                    Rows Removed by Join Filter: 1
+	                                                                                                    Buffers: shared hit=2
+	                                                                                                    ->  Seq Scan on security_lifecycle_evidence e  (cost=0.00..1.06 rows=1 width=12) (actual time=0.023..0.027 rows=3.00 loops=1)
+	                                                                                                          Filter: (evidence_type = 'TRADE_ELIGIBLE'::text)
+	                                                                                                          Rows Removed by Filter: 2
+	                                                                                                          Buffers: shared hit=1
+	                                                                                                    ->  Hash  (cost=1.06..1.06 rows=1 width=12) (actual time=0.019..0.027 rows=2.00 loops=1)
+	                                                                                                          Buckets: 1024  Batches: 1  Memory Usage: 9kB
+	                                                                                                          Buffers: shared hit=1
+	                                                                                                          ->  Seq Scan on security_lifecycle_evidence d  (cost=0.00..1.06 rows=1 width=12) (actual time=0.010..0.013 rows=2.00 loops=1)
+	                                                                                                                Filter: ((date_to IS NOT NULL) AND (evidence_type = 'DELISTED'::text))
+	                                                                                                                Rows Removed by Filter: 3
+	                                                                                                                Buffers: shared hit=1
+	                                ->  Hash Right Join  (cost=0.06..167.63 rows=1 width=261) (actual time=2293.003..2395.529 rows=108331.00 loops=1)
+	                                      Hash Cond: ((x.symbol_id = o.symbol_id) AND (x.trade_date = o.trade_date))
+	                                      Buffers: shared hit=4213
+	                                      ->  Seq Scan on vndirect_reference_adjustment_overrides x  (cost=0.00..157.60 rows=1328 width=29) (actual time=0.070..1.425 rows=1328.00 loops=1)
+	                                            Filter: (source = 'vndirect'::text)
+	                                            Buffers: shared hit=141
+	                                      ->  Hash  (cost=0.04..0.04 rows=1 width=253) (actual time=2292.889..2292.889 rows=108331.00 loops=1)
+	                                            Buckets: 131072 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 25240kB
+	                                            Buffers: shared hit=4072
+	                                            ->  CTE Scan on ordered o  (cost=0.00..0.04 rows=1 width=253) (actual time=1082.086..2175.843 rows=108331.00 loops=1)
+	                                                  Filter: (source = 'vndirect'::text)
+	                                                  Storage: Memory  Maximum Storage: 34876kB
+	                                                  Buffers: shared hit=4072
+	                                ->  Hash  (cost=0.08..0.08 rows=1 width=60) (actual time=268.329..268.332 rows=67784.00 loops=1)
+	                                      Buckets: 131072 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 5327kB
+	                                      ->  Subquery Scan on t  (cost=0.06..0.08 rows=1 width=60) (actual time=140.687..210.321 rows=67784.00 loops=1)
+	                                            ->  HashAggregate  (cost=0.06..0.07 rows=1 width=60) (actual time=140.685..192.932 rows=67784.00 loops=1)
+	                                                  Group Key: o_1.symbol_id, o_1.episode_start_date, o_1.traded_sequence
+	                                                  Batches: 1  Memory Usage: 10289kB
+	                                                  ->  CTE Scan on ordered o_1  (cost=0.00..0.04 rows=1 width=60) (actual time=0.004..38.008 rows=67784.00 loops=1)
+	                                                        Filter: (v > '0'::double precision)
+	                                                        Rows Removed by Filter: 40547
+	                                                        Storage: Memory  Maximum Storage: 34876kB
+	                    ->  Sort  (cost=1.02..1.03 rows=1 width=8) (actual time=0.079..0.080 rows=1.00 loops=1)
+	                          Sort Key: excluded.symbol_id
+	                          Sort Method: quicksort  Memory: 25kB
+	                          Buffers: shared hit=1
+	                          ->  Seq Scan on ml_symbol_scope excluded  (cost=0.00..1.01 rows=1 width=8) (actual time=0.053..0.054 rows=1.00 loops=1)
+	                                Filter: (scope_status = 'EXCLUDED'::text)
+	                                Buffers: shared hit=1
+2026-10-22 08:14:40 +07 CONTEXT:  SQL statement "INSERT INTO pg_temp.phase2_adjustment_rows(
+	        symbol_id,trade_date,source,v,is_traded,reference_adjustment_ratio,
+	        episode_start_date,model_o,model_h,model_l,model_c,
+	        adjustment_vintage_at,landing_id,source_row,fetched_at
+	    )
+	    SELECT r.symbol_id,r.trade_date,r.source,r.v,r.is_traded,
+	           r.reference_adjustment_ratio,r.episode_start_date,
+	           r.model_o,r.model_h,r.model_l,r.model_c,
+	           r.adjustment_vintage_at,r.landing_id,r.source_row,r.fetched_at
+	    FROM feat.phase2_vndirect_adjustment_details_for_symbols(v_symbol_ids) r
+	    WHERE r.source='vndirect'
+	      AND EXISTS (
+	          SELECT 1 FROM pg_temp.phase2_adjustment_symbol_batches s
+	          WHERE s.batch_no=p_batch_no AND s.symbol_id=r.symbol_id
+	      )
+	      AND NOT EXISTS (
+	          SELECT 1 FROM ops.ml_symbol_scope excluded
+	          WHERE excluded.symbol_id=r.symbol_id
+	            AND excluded.scope_status='EXCLUDED'
+	      )"
+	PL/pgSQL function feat.populate_phase2_adjustment_rows(integer) line 45 at SQL statement
+2026-10-22 08:14:40 +07 LOG:  duration: 0.015 ms  plan:
+	Query Text: SELECT set_config('enable_nestloop',v_enable_nestloop,true)
+	Result  (cost=0.00..0.01 rows=1 width=32) (actual time=0.012..0.013 rows=1.00 loops=1)
+2026-10-22 08:14:40 +07 CONTEXT:  SQL statement "SELECT set_config('enable_nestloop',v_enable_nestloop,true)"
+	PL/pgSQL function feat.populate_phase2_adjustment_rows(integer) line 66 at PERFORM
+2026-10-22 08:14:40 +07 LOG:  duration: 0.757 ms  plan:
+	Query Text: UPDATE pg_temp.phase2_adjustment_symbol_batches
+	       SET loaded=true
+	     WHERE batch_no=p_batch_no
+	Update on phase2_adjustment_symbol_batches  (cost=0.00..1.75 rows=0 width=0) (actual time=0.756..0.756 rows=0.00 loops=1)
+	  Buffers: local hit=121
+	  ->  Seq Scan on phase2_adjustment_symbol_batches  (cost=0.00..1.75 rows=60 width=7) (actual time=0.587..0.608 rows=60.00 loops=1)
+	        Filter: (batch_no = 0)
+	        Buffers: local hit=1
+2026-10-22 08:14:40 +07 CONTEXT:  SQL statement "UPDATE pg_temp.phase2_adjustment_symbol_batches
+	       SET loaded=true
+	     WHERE batch_no=p_batch_no"
+	PL/pgSQL function feat.populate_phase2_adjustment_rows(integer) line 67 at SQL statement
+2026-10-22 08:14:40 +07 LOG:  duration: 3699.092 ms  plan:
+	Query Text: LOAD 'auto_explain';
+	SET auto_explain.log_min_duration=0;
+	SET auto_explain.log_analyze=on;
+	SET auto_explain.log_buffers=on;
+	SET auto_explain.log_verbose=off;
+	SET auto_explain.log_nested_statements=on;
+	SET auto_explain.log_format='text';
+	SET statement_timeout='5min';
+	SET work_mem='128MB';
+	SET jit=off;
+	BEGIN;
+	SELECT feat.begin_phase2_adjustment_rows(60,60);
+	SELECT feat.populate_phase2_adjustment_rows(0);
+	SELECT feat.finish_phase2_adjustment_rows();
+	ROLLBACK;
+	Result  (cost=0.00..0.26 rows=1 width=8) (actual time=3699.085..3699.086 rows=1.00 loops=1)
+	  Buffers: shared hit=5079, local hit=112398 read=1 dirtied=1970 written=2925
+2026-10-22 08:14:40 +07 LOG:  duration: 0.069 ms  plan:
+	Query Text: 
+	Query Parameters: $1 = '477148', $2 = 'pg_class'
+	Index Scan using pg_description_o_c_o_index on pg_description  (cost=8.58..16.60 rows=1 width=25) (actual time=0.067..0.068 rows=1.00 loops=1)
+	  Index Cond: ((objoid = '477148'::oid) AND (classoid = (InitPlan 1).col1) AND (objsubid = 0))
+	  Index Searches: 1
+	  Buffers: shared hit=6
+	  InitPlan 1
+	    ->  Index Scan using pg_class_relname_nsp_index on pg_class  (cost=0.28..8.29 rows=1 width=4) (actual time=0.040..0.041 rows=1.00 loops=1)
+	          Index Cond: ((relname = 'pg_class'::name) AND (relnamespace = '11'::oid))
+	          Index Searches: 1
+	          Buffers: shared hit=3
+2026-10-22 08:14:40 +07 CONTEXT:  SQL function "obj_description" statement 1
+	PL/pgSQL function feat.finish_phase2_adjustment_rows() line 8 at IF
+2026-10-22 08:14:40 +07 LOG:  duration: 0.041 ms  plan:
+	Query Text: 
+	Query Parameters: $1 = '477153', $2 = 'pg_class'
+	Index Scan using pg_description_o_c_o_index on pg_description  (cost=8.58..16.60 rows=1 width=25) (actual time=0.040..0.040 rows=1.00 loops=1)
+	  Index Cond: ((objoid = '477153'::oid) AND (classoid = (InitPlan 1).col1) AND (objsubid = 0))
+	  Index Searches: 1
+	  Buffers: shared hit=6
+	  InitPlan 1
+	    ->  Index Scan using pg_class_relname_nsp_index on pg_class  (cost=0.28..8.29 rows=1 width=4) (actual time=0.022..0.023 rows=1.00 loops=1)
+	          Index Cond: ((relname = 'pg_class'::name) AND (relnamespace = '11'::oid))
+	          Index Searches: 1
+	          Buffers: shared hit=3
+2026-10-22 08:14:40 +07 CONTEXT:  SQL function "obj_description" statement 1
+	PL/pgSQL function feat.finish_phase2_adjustment_rows() line 8 at IF
+2026-10-22 08:14:40 +07 LOG:  duration: 0.046 ms  plan:
+	Query Text: 
+	Query Parameters: $1 = '477160', $2 = 'pg_class'
+	Index Scan using pg_description_o_c_o_index on pg_description  (cost=8.58..16.60 rows=1 width=25) (actual time=0.044..0.044 rows=1.00 loops=1)
+	  Index Cond: ((objoid = $1) AND (classoid = (InitPlan 1).col1) AND (objsubid = 0))
+	  Index Searches: 1
+	  Buffers: shared hit=6
+	  InitPlan 1
+	    ->  Index Scan using pg_class_relname_nsp_index on pg_class  (cost=0.28..8.29 rows=1 width=4) (actual time=0.020..0.021 rows=1.00 loops=1)
+	          Index Cond: ((relname = $2) AND (relnamespace = '11'::oid))
+	          Index Searches: 1
+	          Buffers: shared hit=3
+2026-10-22 08:14:40 +07 CONTEXT:  SQL function "obj_description" statement 1
+	PL/pgSQL function feat.finish_phase2_adjustment_rows() line 8 at IF
+2026-10-22 08:14:40 +07 LOG:  duration: 3.649 ms  plan:
+	Query Text: SELECT batch_no                          FROM pg_temp.phase2_adjustment_symbol_batches
+	    WHERE NOT loaded
+	    ORDER BY batch_no
+	    LIMIT 1
+	Limit  (cost=0.14..0.35 rows=1 width=4) (actual time=3.643..3.643 rows=0.00 loops=1)
+	  Buffers: local hit=1 read=1 written=1
+	  ->  Index Scan using phase2_adjustment_symbol_batches_batch_idx on phase2_adjustment_symbol_batches  (cost=0.14..13.04 rows=60 width=4) (actual time=0.940..0.940 rows=0.00 loops=1)
+	        Filter: (NOT loaded)
+	        Rows Removed by Filter: 60
+	        Index Searches: 1
+	        Buffers: local hit=1 read=1 written=1
+2026-10-22 08:14:40 +07 CONTEXT:  SQL statement "SELECT batch_no                          FROM pg_temp.phase2_adjustment_symbol_batches
+	    WHERE NOT loaded
+	    ORDER BY batch_no
+	    LIMIT 1"
+	PL/pgSQL function feat.finish_phase2_adjustment_rows() line 17 at SQL statement
+2026-10-22 08:14:40 +07 LOG:  duration: 59.147 ms  plan:
+	Query Text: SELECT count(*)             FROM pg_temp.phase2_adjustment_rows
+	Aggregate  (cost=3324.14..3324.15 rows=1 width=8) (actual time=59.138..59.139 rows=1.00 loops=1)
+	  Buffers: local read=1970
+	  ->  Seq Scan on phase2_adjustment_rows  (cost=0.00..3053.31 rows=108331 width=0) (actual time=0.101..42.620 rows=108331.00 loops=1)
+	        Buffers: local read=1970
+2026-10-22 08:14:40 +07 CONTEXT:  SQL statement "SELECT count(*)             FROM pg_temp.phase2_adjustment_rows"
+	PL/pgSQL function feat.finish_phase2_adjustment_rows() line 31 at SQL statement
+2026-10-22 08:14:40 +07 LOG:  duration: 0.157 ms  plan:
+	Query Text: UPDATE pg_temp.phase2_adjustment_cache_state
+	       SET ready=true,finalized_at=clock_timestamp()
+	Update on phase2_adjustment_cache_state  (cost=0.00..34.88 rows=0 width=0) (actual time=0.155..0.156 rows=0.00 loops=1)
+	  Buffers: local hit=2 read=1 dirtied=1
+	  ->  Seq Scan on phase2_adjustment_cache_state  (cost=0.00..34.88 rows=1990 width=15) (actual time=0.076..0.078 rows=1.00 loops=1)
+	        Buffers: local read=1
+2026-10-22 08:14:40 +07 CONTEXT:  SQL statement "UPDATE pg_temp.phase2_adjustment_cache_state
+	       SET ready=true,finalized_at=clock_timestamp()"
+	PL/pgSQL function feat.finish_phase2_adjustment_rows() line 35 at SQL statement
+2026-10-22 08:14:40 +07 LOG:  duration: 660.452 ms  plan:
+	Query Text: LOAD 'auto_explain';
+	SET auto_explain.log_min_duration=0;
+	SET auto_explain.log_analyze=on;
+	SET auto_explain.log_buffers=on;
+	SET auto_explain.log_verbose=off;
+	SET auto_explain.log_nested_statements=on;
+	SET auto_explain.log_format='text';
+	SET statement_timeout='5min';
+	SET work_mem='128MB';
+	SET jit=off;
+	BEGIN;
+	SELECT feat.begin_phase2_adjustment_rows(60,60);
+	SELECT feat.populate_phase2_adjustment_rows(0);
+	SELECT feat.finish_phase2_adjustment_rows();
+	ROLLBACK;
+	Result  (cost=0.00..0.26 rows=1 width=8) (actual time=660.441..660.442 rows=1.00 loops=1)
+	  Buffers: shared hit=499 read=2 dirtied=3, local hit=3 read=7884 dirtied=1 written=1022

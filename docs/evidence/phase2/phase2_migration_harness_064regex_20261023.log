@@ -1,0 +1,696 @@
+database=vnsignal_phase2_064regex_20261023_test started=2026-10-23T10:53:42.4300424+07:00
+BEGIN
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE FUNCTION
+CREATE TABLE
+DROP TRIGGER
+psql:sql/migrations/001_init.sql:58: NOTICE:  trigger "symbols_canonical_exchange" for relation "core.symbols" does not exist, skipping
+CREATE TRIGGER
+CREATE TABLE
+psql:sql/migrations/001_init.sql:68: NOTICE:  trigger "listing_canonical_exchange" for relation "core.listing_snapshots" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+COMMIT
+BEGIN
+CREATE TABLE
+COMMIT
+BEGIN
+ALTER TABLE
+psql:sql/migrations/004_raw_bytes.sql:8: NOTICE:  constraint "landings_payload_bytes_bound" of relation "landings" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+UPDATE 0
+psql:sql/migrations/005_market_bar_quality.sql:10: NOTICE:  constraint "bars_daily_is_traded_check" of relation "bars_daily" does not exist, skipping
+ALTER TABLE
+CREATE FUNCTION
+psql:sql/migrations/005_market_bar_quality.sql:20: NOTICE:  trigger "bars_daily_derive_is_traded" for relation "core.bars_daily" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+ALTER TABLE
+CREATE TABLE
+CREATE INDEX
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+COMMIT
+BEGIN
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+psql:sql/migrations/007_lifecycle_evidence.sql:56: NOTICE:  trigger "security_lifecycle_verify_source" for relation "core.security_lifecycle_evidence" does not exist, skipping
+CREATE TRIGGER
+CREATE FUNCTION
+psql:sql/migrations/007_lifecycle_evidence.sql:67: NOTICE:  trigger "security_lifecycle_append_only" for relation "core.security_lifecycle_evidence" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+psql:sql/migrations/008_historical_security_master.sql:42: NOTICE:  trigger "security_observation_immutable" for relation "core.security_observations" does not exist, skipping
+CREATE TRIGGER
+CREATE VIEW
+CREATE VIEW
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+psql:sql/migrations/009_company_profile_observations.sql:32: NOTICE:  trigger "profile_source_verify" for relation "core.company_profile_observations" does not exist, skipping
+CREATE TRIGGER
+CREATE FUNCTION
+DROP TRIGGER
+psql:sql/migrations/009_company_profile_observations.sql:42: NOTICE:  trigger "profile_append_only" for relation "core.company_profile_observations" does not exist, skipping
+CREATE TRIGGER
+CREATE VIEW
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE VIEW
+COMMIT
+BEGIN
+CREATE TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+COMMENT
+CREATE TABLE
+COMMENT
+COMMENT
+COMMENT
+CREATE VIEW
+COMMENT
+CREATE TABLE
+COMMIT
+BEGIN
+CREATE FUNCTION
+ record_observed_bar_session 
+-----------------------------
+(0 rows)
+
+CREATE FUNCTION
+psql:sql/migrations/013_observed_bar_calendar.sql:40: NOTICE:  trigger "bars_daily_observed_calendar" for relation "core.bars_daily" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+DO
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+CREATE VIEW
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+DROP TRIGGER
+psql:sql/migrations/016_raw_landings_append_only.sql:12: NOTICE:  trigger "raw_landings_no_row_mutation" for relation "raw.landings" does not exist, skipping
+CREATE TRIGGER
+psql:sql/migrations/016_raw_landings_append_only.sql:17: NOTICE:  trigger "raw_landings_no_truncate" for relation "raw.landings" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+CREATE VIEW
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+psql:sql/migrations/019_vietnam_auction_ohlc.sql:5: NOTICE:  constraint "bars_daily_high_low_order" of relation "bars_daily" does not exist, skipping
+ALTER TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+psql:sql/migrations/022_ml_bar_eligibility_events.sql:73: NOTICE:  trigger "ml_bar_eligibility_verify_source" for relation "ops.ml_bar_eligibility_events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+psql:sql/migrations/022_ml_bar_eligibility_events.sql:84: NOTICE:  trigger "ml_bar_eligibility_append_only" for relation "ops.ml_bar_eligibility_events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+psql:sql/migrations/023_exchange_daily_bar_evidence.sql:65: NOTICE:  trigger "exchange_daily_bar_evidence_verify_source" for relation "ops.exchange_daily_bar_evidence" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+psql:sql/migrations/023_exchange_daily_bar_evidence.sql:76: NOTICE:  trigger "exchange_daily_bar_evidence_append_only" for relation "ops.exchange_daily_bar_evidence" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+psql:sql/migrations/025_hnx_report_interpretations.sql:60: NOTICE:  trigger "exchange_evidence_interpretation_verify" for relation "ops.exchange_daily_bar_evidence_interpretations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+psql:sql/migrations/025_hnx_report_interpretations.sql:72: NOTICE:  trigger "exchange_evidence_interpretation_append_only" for relation "ops.exchange_daily_bar_evidence_interpretations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE VIEW
+CREATE VIEW
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+INSERT 0 8
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 2
+INSERT 0 3
+INSERT 0 3
+INSERT 0 2
+INSERT 0 2
+INSERT 0 5
+INSERT 0 4
+INSERT 0 2
+INSERT 0 1
+INSERT 0 2
+COMMIT
+BEGIN
+ALTER TABLE
+DO
+UPDATE 23
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+INSERT 0 0
+COMMENT
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+ALTER TABLE
+UPDATE 23
+COMMENT
+COMMENT
+COMMENT
+CREATE VIEW
+COMMENT
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+CREATE VIEW
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+COMMENT
+INSERT 0 2
+CREATE VIEW
+COMMENT
+COMMIT
+BEGIN
+DROP FUNCTION
+DROP FUNCTION
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:10: NOTICE:  function core.vndirect_bars_as_of_with_episodes(date) does not exist, skipping
+DROP FUNCTION
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:11: NOTICE:  function core.vndirect_bars_as_of_with_episodes(pg_catalog.int8,date) does not exist, skipping
+DROP FUNCTION
+DROP VIEW
+ALTER TABLE
+CREATE TABLE
+COMMENT
+CREATE VIEW
+CREATE VIEW
+COMMENT
+COMMENT
+COMMENT
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:201: NOTICE:  function core.vndirect_bars_as_of(pg_catalog.int8,date) does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:270: NOTICE:  function core.vndirect_bars_as_of(date) does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:342: NOTICE:  function core.vndirect_bars_as_of_with_episodes(pg_catalog.int8,date) does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+psql:sql/migrations/031_vndirect_model_price_and_episode_api.sql:371: NOTICE:  function core.vndirect_bars_as_of_with_episodes(date) does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+INSERT 0 0
+COMMIT
+BEGIN
+INSERT 0 0
+INSERT 0 0
+COMMIT
+BEGIN
+INSERT 0 20
+INSERT 0 20
+COMMIT
+BEGIN
+INSERT 0 20
+DO
+COMMIT
+BEGIN
+INSERT 0 1
+INSERT 0 1
+COMMIT
+BEGIN
+ALTER TABLE
+DO
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+psql:sql/migrations/034_fundamentals_pit_archive.sql:74: NOTICE:  trigger "fundamentals_pit_observations_no_update_delete" for relation "core.fundamentals_pit_observations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+psql:sql/migrations/034_fundamentals_pit_archive.sql:78: NOTICE:  trigger "fundamentals_pit_observations_no_truncate" for relation "core.fundamentals_pit_observations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+psql:sql/migrations/034_fundamentals_pit_archive.sql:102: NOTICE:  trigger "fundamentals_pit_archive_immutable" for relation "core.fundamentals_pit" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+CREATE FUNCTION
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "return_2s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "return_3s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "return_10s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "return_120s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "return_250s" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "close_sma100_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "close_sma200_ratio" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "distance_52w_high" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "distance_52w_low" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "rsi_14" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "bollinger_pct_b_20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "bollinger_bandwidth_20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "downside_vol20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "atr_pct_14" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "volume_zscore_20" of relation "features_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:94: NOTICE:  column "obv_slope_20" of relation "features_daily" already exists, skipping
+ALTER TABLE
+CREATE TABLE
+psql:sql/migrations/035_phase2_features_labels.sql:128: NOTICE:  column "entry_adjustment_vintage_at" of relation "labels_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:128: NOTICE:  column "exit_adjustment_vintage_at" of relation "labels_daily" already exists, skipping
+psql:sql/migrations/035_phase2_features_labels.sql:128: NOTICE:  column "factor_log_span" of relation "labels_daily" already exists, skipping
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE INDEX
+CREATE VIEW
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE FUNCTION
+psql:sql/migrations/036_phase2_source_inputs.sql:125: NOTICE:  trigger "listed_share_observations_verify_lineage" for relation "core.listed_share_observations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+psql:sql/migrations/036_phase2_source_inputs.sql:128: NOTICE:  trigger "daily_price_limit_observations_verify_lineage" for relation "core.daily_price_limit_observations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+psql:sql/migrations/036_phase2_source_inputs.sql:131: NOTICE:  trigger "bars_1m_observations_verify_lineage" for relation "core.bars_1m_observations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+psql:sql/migrations/036_phase2_source_inputs.sql:134: NOTICE:  trigger "calendar_event_observations_verify_lineage" for relation "core.calendar_event_observations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+psql:sql/migrations/036_phase2_source_inputs.sql:151: NOTICE:  trigger "listed_share_observations_append_only" for relation "core.listed_share_observations" does not exist, skipping
+psql:sql/migrations/036_phase2_source_inputs.sql:151: NOTICE:  trigger "listed_share_observations_no_truncate" for relation "core.listed_share_observations" does not exist, skipping
+psql:sql/migrations/036_phase2_source_inputs.sql:151: NOTICE:  trigger "daily_price_limit_observations_append_only" for relation "core.daily_price_limit_observations" does not exist, skipping
+psql:sql/migrations/036_phase2_source_inputs.sql:151: NOTICE:  trigger "daily_price_limit_observations_no_truncate" for relation "core.daily_price_limit_observations" does not exist, skipping
+psql:sql/migrations/036_phase2_source_inputs.sql:151: NOTICE:  trigger "bars_1m_observations_append_only" for relation "core.bars_1m_observations" does not exist, skipping
+psql:sql/migrations/036_phase2_source_inputs.sql:151: NOTICE:  trigger "bars_1m_observations_no_truncate" for relation "core.bars_1m_observations" does not exist, skipping
+psql:sql/migrations/036_phase2_source_inputs.sql:151: NOTICE:  trigger "calendar_event_observations_append_only" for relation "core.calendar_event_observations" does not exist, skipping
+psql:sql/migrations/036_phase2_source_inputs.sql:151: NOTICE:  trigger "calendar_event_observations_no_truncate" for relation "core.calendar_event_observations" does not exist, skipping
+DO
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+ALTER TABLE
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+COMMENT
+CREATE FUNCTION
+psql:sql/migrations/037_phase2_price_features.sql:128: NOTICE:  function feat.prepare_phase2_adjustment_rows() does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+DO
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+DO
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+DO
+CREATE FUNCTION
+CREATE FUNCTION
+psql:sql/migrations/041_phase2_deterministic_chunk_hashes.sql:47: NOTICE:  function ops.phase2_prepare_price_day_hashes() does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+psql:sql/migrations/042_phase2_batched_adjustment_cache.sql:127: NOTICE:  function feat.phase2_vndirect_adjustment_details_for_symbols(pg_catalog.int8[]) does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+DO
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE VIEW
+DO
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+DO
+COMMENT
+COMMIT
+BEGIN
+DO
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+COMMIT
+CREATE FUNCTION
+COMMENT
+BEGIN
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+DO
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE VIEW
+COMMENT
+CREATE FUNCTION
+DO
+DO
+DO
+DROP FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMIT
+BEGIN
+DO
+DO
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMENT
+DO
+CREATE TABLE
+CREATE TABLE
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMIT
+BEGIN
+DO
+COMMENT
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMIT
+BEGIN
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+DO
+UPDATE 0
+COMMENT
+COMMIT
+BEGIN
+CREATE VIEW
+CREATE VIEW
+COMMENT
+COMMENT
+COMMIT
+BEGIN
+DO
+DO
+COMMIT
+BEGIN
+DO
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+psql:sql/migrations/061_phase2_label_derived_targets.sql:526: ERROR:  missing-exit labels must not run a factor-span fallback lookup
+CONTEXT:  PL/pgSQL function inline_code_block line 7 at RAISE
+exit_code=3

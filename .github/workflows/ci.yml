@@ -46,10 +46,20 @@ jobs:
           --health-interval=5s --health-timeout=5s --health-retries=12
     env:
       DATABASE_URL: postgresql://vnsignal:test_only@localhost:5432/vnsignal_test
+      VNPIPE_TEST_DATABASE_NAME: vnsignal_test
+      VNPIPE_REQUIRE_PARITY: '1'
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
       - run: bash tests/sql/test_migration.sh
+      - run: cargo fmt --manifest-path rust/Cargo.toml --all -- --check
+      - run: cargo clippy --manifest-path rust/Cargo.toml --workspace --all-targets -- -D warnings
+      # This also runs the SQL/Polars parity check against the synthetic fixture
+      # left by test_migration.sh. The fixture contains no real market data.
+      - run: cargo test --manifest-path rust/Cargo.toml --workspace
       - run: psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 -f sql/diagnostics/ohlcv_quarantine.sql
       # Only the PostgreSQL integration job fetches pgx. Hosted CI never uses
       # user credentials, devices or live vnstock routes.

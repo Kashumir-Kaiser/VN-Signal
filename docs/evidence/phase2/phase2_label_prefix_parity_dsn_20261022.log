@@ -1,0 +1,6 @@
+Pager usage is off.
+ ready_dsn_labels | nonzero_factor_labels | exact_factor_mismatches | max_abs_factor_delta | exact_return_mismatches | max_abs_return_delta 
+------------------+-----------------------+-------------------------+----------------------+-------------------------+----------------------
+               98 |                    25 |                       0 |                    0 |                       0 |                    0
+(1 row)
+

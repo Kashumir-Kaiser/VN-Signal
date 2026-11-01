@@ -1,0 +1,25 @@
+\set ON_ERROR_STOP on
+\pset pager off
+DO $guard$ BEGIN IF current_database()<>'vnsignal_phase2_report_20261019' THEN RAISE EXCEPTION 'wrong database'; END IF; END $guard$;
+BEGIN;
+SET LOCAL statement_timeout='60s';
+SET LOCAL work_mem='32MB';
+SET LOCAL jit=off;
+SET LOCAL enable_nestloop=off;
+SET LOCAL application_name='phase2_e1_cache_probe_plan';
+EXPLAIN (VERBOSE, COSTS, SETTINGS)
+WITH eligible_symbols AS MATERIALIZED (
+    SELECT s.symbol_id
+    FROM core.symbols s
+    WHERE EXISTS (SELECT 1 FROM core.bars_daily_sources b WHERE b.symbol_id=s.symbol_id AND b.source='vndirect')
+      AND NOT EXISTS (SELECT 1 FROM ops.ml_symbol_scope x WHERE x.symbol_id=s.symbol_id AND x.scope_status='EXCLUDED')
+), ranked_symbols AS (
+    SELECT symbol_id,row_number() OVER(ORDER BY md5(symbol_id::text),symbol_id) AS symbol_no
+    FROM eligible_symbols
+), selected_ids AS (
+    SELECT array_agg(symbol_id ORDER BY symbol_id) AS ids FROM ranked_symbols WHERE symbol_no<=60
+)
+SELECT count(*)
+FROM feat.phase2_vndirect_adjustment_details_for_symbols((SELECT ids FROM selected_ids)) AS r
+WHERE r.source='vndirect';
+ROLLBACK;

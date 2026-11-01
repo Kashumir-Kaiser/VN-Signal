@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "scope": "HNX ASG transfer article and bounded official HOSE archive window around the unresolved 2021-09-21 to 2021-09-27 feature gap.",
+  "capture_time_basis": "actual HTTP capture UTC recorded per response",
+  "feature_gap": {
+    "prior_trade_date": "2021-09-21",
+    "next_trade_date": "2021-09-27",
+    "missing_effective_sessions": "3",
+    "bar_rows_between": "0",
+    "source_rows_between": "0"
+  },
+  "source_discovery": {
+    "hnx_index_reference": {
+      "file": "ASG_NY_29-01-2021_26-12-2021_p1.html",
+      "sha256": "6d7cc344a7740c79cc5cbce23379192f2ea0badd6708c6604a30362377e961ce",
+      "article_id": "401910",
+      "title": "Thông báo về việc chuyển giao dịch cổ phiếu"
+    },
+    "hose_query": {
+      "startDate": "2021-09-15",
+      "endDate": "2021-10-05",
+      "pageSize": 500,
+      "aliasCate": "tin-tuc"
+    },
+    "potential_hose_candidates": [
+      {
+        "article_id": "1483519",
+        "title": "ASG: Thông báo về ngày giao dịch đầu tiên trên HOSE",
+        "posted_at_epoch": 1632306240,
+        "code": null
+      }
+    ]
+  },
+  "captures": [
+    {
+      "file": "hnx_asg_transfer_article_401910.html",
+      "role": "official_hnx_transfer_article_detail",
+      "sha256": "9749558cc6c425e654e1ae6bf027f16d00e56cd9c2d3b2f5ea71c85f593bf535",
+      "bytes": 1154,
+      "request_url": "https://www.hnx.vn/ModuleArticles/ArticlesCPEtfs/PopupTinCongBoDetail",
+      "final_url": "https://www.hnx.vn/ModuleArticles/ArticlesCPEtfs/PopupTinCongBoDetail",
+      "method": "POST",
+      "http_status": 200,
+      "content_type": "text/html",
+      "started_at_utc": "2026-10-31T10:48:56.170999Z",
+      "completed_at_utc": "2026-10-31T10:48:56.598877Z",
+      "article_id": "401910",
+      "indexed_title": "Thông báo về việc chuyển giao dịch cổ phiếu",
+      "index_reference": {
+        "file": "ASG_NY_29-01-2021_26-12-2021_p1.html",
+        "sha256": "6d7cc344a7740c79cc5cbce23379192f2ea0badd6708c6604a30362377e961ce",
+        "article_id": "401910",
+        "title": "Thông báo về việc chuyển giao dịch cổ phiếu"
+      },
+      "request_parameters": {
+        "pArticlesID": "401910",
+        "pFileAttach": "1"
+      }
+    },
+    {
+      "file": "hnx_asg_transfer_notice_401910.pdf",
+      "role": "signed_hnx_transfer_notice",
+      "sha256": "764496291f307086f1dc39ee1702a199ea59087665b726a2f81786ce51661079",
+      "bytes": 293169,
+      "request_url": "https://owa.hnx.vn/ftp///cims/2021/9_W3/000000010833173_2884tb_20210916_1.PDF",
+      "final_url": "https://owa.hnx.vn/ftp///cims/2021/9_W3/000000010833173_2884tb_20210916_1.PDF",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "started_at_utc": "2026-10-31T10:48:56.608273Z",
+      "completed_at_utc": "2026-10-31T10:48:57.187328Z",
+      "article_id": "401910",
+      "source_url": "https://owa.hnx.vn/ftp///cims/2021/9_W3/000000010833173_2884tb_20210916_1.PDF"
+    },
+    {
+      "file": "hose_news_2021-09-15_2021-10-05_page001.json",
+      "role": "official_hose_archive_search_window",
+      "sha256": "516fd101dbd3471a7ce80154e4276f5c6547fce6534b5fe5ad513b671f55840f",
+      "bytes": 529337,
+      "request_url": "https://api.hsx.vn/n/api/v1/1/news?pageIndex=1&pageSize=500&startDate=2021-09-15&endDate=2021-10-05&aliasCate=tin-tuc",
+      "final_url": "https://api.hsx.vn/n/api/v1/1/news?pageIndex=1&pageSize=500&startDate=2021-09-15&endDate=2021-10-05&aliasCate=tin-tuc",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": "application/json",
+      "started_at_utc": "2026-10-31T10:48:57.202791Z",
+      "completed_at_utc": "2026-10-31T10:48:58.322568Z",
+      "query_parameters": {
+        "pageIndex": 1,
+        "pageSize": 500,
+        "startDate": "2021-09-15",
+        "endDate": "2021-10-05",
+        "aliasCate": "tin-tuc"
+      }
+    },
+    {
+      "file": "hose_news_2021-09-15_2021-10-05_page002.json",
+      "role": "official_hose_archive_search_window",
+      "sha256": "a3c6062a88a22cd4be23a1253e0eaeebe0551b2026c187c3873f0b9fcc919cf7",
+      "bytes": 522193,
+      "request_url": "https://api.hsx.vn/n/api/v1/1/news?pageIndex=2&pageSize=500&startDate=2021-09-15&endDate=2021-10-05&aliasCate=tin-tuc",
+      "final_url": "https://api.hsx.vn/n/api/v1/1/news?pageIndex=2&pageSize=500&startDate=2021-09-15&endDate=2021-10-05&aliasCate=tin-tuc",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": "application/json",
+      "started_at_utc": "2026-10-31T10:48:58.340691Z",
+      "completed_at_utc": "2026-10-31T10:48:59.508095Z",
+      "query_parameters": {
+        "pageIndex": 2,
+        "pageSize": 500,
+        "startDate": "2021-09-15",
+        "endDate": "2021-10-05",
+        "aliasCate": "tin-tuc"
+      }
+    },
+    {
+      "file": "hose_news_2021-09-15_2021-10-05_page003.json",
+      "role": "official_hose_archive_search_window",
+      "sha256": "e89ba6971082ccf825ec7ff8b6fa67eb7a30297b61842d0fc967ddad0122e7af",
+      "bytes": 543867,
+      "request_url": "https://api.hsx.vn/n/api/v1/1/news?pageIndex=3&pageSize=500&startDate=2021-09-15&endDate=2021-10-05&aliasCate=tin-tuc",
+      "final_url": "https://api.hsx.vn/n/api/v1/1/news?pageIndex=3&pageSize=500&startDate=2021-09-15&endDate=2021-10-05&aliasCate=tin-tuc",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": "application/json",
+      "started_at_utc": "2026-10-31T10:48:59.535052Z",
+      "completed_at_utc": "2026-10-31T10:49:00.672084Z",
+      "query_parameters": {
+        "pageIndex": 3,
+        "pageSize": 500,
+        "startDate": "2021-09-15",
+        "endDate": "2021-10-05",
+        "aliasCate": "tin-tuc"
+      }
+    },
+    {
+      "file": "hose_news_2021-09-15_2021-10-05_page004.json",
+      "role": "official_hose_archive_search_window",
+      "sha256": "772adfaf1fad11295ab499e21811d7cd7676058e27a58af7971e0b043a90038c",
+      "bytes": 350693,
+      "request_url": "https://api.hsx.vn/n/api/v1/1/news?pageIndex=4&pageSize=500&startDate=2021-09-15&endDate=2021-10-05&aliasCate=tin-tuc",
+      "final_url": "https://api.hsx.vn/n/api/v1/1/news?pageIndex=4&pageSize=500&startDate=2021-09-15&endDate=2021-10-05&aliasCate=tin-tuc",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": "application/json",
+      "started_at_utc": "2026-10-31T10:49:00.700772Z",
+      "completed_at_utc": "2026-10-31T10:49:01.660055Z",
+      "query_parameters": {
+        "pageIndex": 4,
+        "pageSize": 500,
+        "startDate": "2021-09-15",
+        "endDate": "2021-10-05",
+        "aliasCate": "tin-tuc"
+      }
+    }
+  ],
+  "limitations": [
+    "The HOSE archive window is a discovery capture; only a signed HOSE first-trade notice can establish the new venue endpoint.",
+    "The HNX transfer notice establishes its stated listing transition facts but does not establish every session in the feature gap."
+  ]
+}

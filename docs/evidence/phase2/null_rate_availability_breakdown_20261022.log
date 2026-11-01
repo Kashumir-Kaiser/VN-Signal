@@ -1,0 +1,8 @@
+Output format is unaligned.
+Field separator is "|".
+BEGIN
+SET
+is_traded|row_count|null_bar_landing_id|null_ret_1|null_close_sma200_ratio
+true|1823358|0|208515|1060539
+false|1021077|0|1021077|1021077
+ROLLBACK

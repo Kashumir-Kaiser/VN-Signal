@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html>
+
+
+     <script>
+         var _languagecodeInPortal = 'VI_VN';
+
+         var _language_datepicker_in_layout = _languagecodeInPortal;
+         if (_language_datepicker_in_layout == 'VI_VN') {
+             _language_datepicker_in_layout = "vi";
+         }
+         else {
+             _language_datepicker_in_layout = "en";
+         }
+     </script> 
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Sở GDCK H&#224; Nội chuyển giao dịch trở lại HOSE đối với 16 cổ phiếu ni&#234;m yết tại HOSE</title>
+    <script src="/Scripts/modernizr-2.5.3.js"></script>
+
+    <script src="/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="/Scripts/jquery-ui-1.8.20.min.js"></script>
+    <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <link rel="shortcut icon" href="/Content/img/icon_HNX.ico" />
+    <link href="/Content/Site.css?v=1.5.8.16" rel="stylesheet" />
+    <link href="/Content/StyleSheetGeneral.css?v=1.5.8.16" rel="stylesheet" />
+    <link href="/Content/FooterStyle.css" rel="stylesheet" />
+    <link href="/Content/CssFormPoup/StyleFormPopup.css" rel="stylesheet" />
+    <link href="/Content/font.css" rel="stylesheet" />
+    <script src="/Scripts/messagebox/JsFormPopup.js"></script>
+    <link href="/Content/MenuTopStyle.css?v=1.5.8.16" rel="stylesheet" />
+    <script src="/Scripts/jquery-validate-data.js?v=1.5.8.16"></script>
+    <link href="/Content/CssFormPoup/jquery.confirm.css?v=1.5.8.16" rel="stylesheet" />
+
+    <script src="/Scripts/Sliceshow/jssor.slider.min.js"></script>
+    <link href="/Content/CSSWaitingIcon/reload.css" rel="stylesheet" />
+    <link href="/Content/social-likes/social-likes_classic.css?v=1.5.8.16" rel="stylesheet" />
+    
+</head>
+<body>
+    <div id="wrapper">
+        <div id="wrapper-header">
+            
+
+
+<link href="/Content/PortalCSS/Style.css?v=1.5.8.16" rel="stylesheet" />
+
+<input type="hidden" id="menuActiveSearch" value="" />
+<link href="/Content/datepicker/ui-lightness/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" />
+
+
+
+
+
+<style>
+    .search_contain {
+        float: right;
+        padding-top: 2px;
+        position: relative;
+        margin-left: 10px;
+    }
+
+    #btn_search_menu {
+        position: relative;
+        z-index: 999;
+        background-color: #F5F5F5;
+        border: 1px solid #f5f5f5;
+        right: 0;
+        top: 1px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        max-width: 200px;
+        min-width: 200px;
+        width: 100%;
+        border-radius: 20px;
+        border: 1px solid
+    }
+
+        #btn_search_menu img {
+            margin-right: 12px;
+        }
+
+    .btn_search_menu {
+        border: 1px solid #ccc !important;
+        border-bottom: none !important;
+        background-color: #F9F9F8 !important;
+    }
+
+    #g_txt_search {
+        border: 1px solid;
+        -moz-border-radius: 20px;
+        -webkit-border-radius: 20px;
+        border-radius: 20px;
+        padding: 0 10px 0 7px;
+        margin: 0;
+        margin-top: 7px;
+        width: 250px;
+        font-size: 13px
+    }
+
+    .cls_display_none {
+        display: none !important;
+    }
+
+    .clsBtnDefault {
+        padding: 3px 15px 0;
+        text-transform: uppercase;
+        background-color: #1a8200;
+        color: #fff;
+        border: none;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 13px;
+        height: 25px
+    }
+
+    #g_txt_search:not(:empty) .advanced_search_menu {
+        display: flex;
+    }
+
+    .advanced_search_menu {
+        display: none;
+        align-items: center;
+        padding: 2px 8px;
+        width: 273px;
+    }
+
+    #box_search_menu img {
+        position: absolute;
+        right: 8px;
+        top: 8px;
+    }
+
+    #box_search_menu {
+        display: flex;
+        flex-direction: column;
+        /*box-shadow: 0 2px 7px 0 rgba(204, 204, 204, .96) !important;*/
+    }
+
+    .lang_contain .lang-en {
+        background: none !important;
+    }
+
+    .lang_contain {
+        height: 45px;
+        padding-top: 0px;
+    }
+
+    .containMenuHeader {
+        /*      height: 115px;
+        width: 1000px;*/
+    }
+
+    .menuright {
+        width: 830px;
+        float: right;
+        height: 80px;
+    }
+
+    .marquee {
+        width: 1000px;
+    }
+
+    .lang_contain .lang-vn, .lang_contain .lang-en {
+        padding: 0
+    }
+
+    .ui-autocomplete {
+        position: fixed;
+        z-index: 1004 !important;
+        background: #fff !important;
+        width: 245px !important;
+        max-height: 150px !important;
+        overflow: auto !important;
+    }
+
+
+    .clsCheck {
+        color: #daa520;
+    }
+
+    #box_search_menu {
+        top: 0px;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+        width: 250px;
+    }
+
+    .active {
+        background-color: #fff !important;
+    }
+
+    #wrapper-header {
+        background-color: #fff !important;
+        position: unset !important
+    }
+
+    #cssmenu > ul > li {
+        border-top: none;
+    }
+
+    #wrapper-content {
+        padding-top: 0px;
+    }
+
+    .box_search {
+        background: #fff;
+    }
+
+    #wrapper-header {
+        height: auto !important
+    }
+
+    #cssmenu > ul > li > a {
+        /*font-family: 'Noto Sans', sans-serif !important;*/
+        font-size: 18px;
+        font-family: MyriadPro-boldCond !important;
+        white-space: nowrap;
+        color: #0a4e08;
+    }
+
+    .advanced_search_menu {
+        background: rgb(253, 250, 250);
+        padding: 5px;
+    }
+
+    .marquee-content div {
+        font-size: 15px;
+        /*font-family: "Noto Sans", sans-serif !important*/
+    }
+
+
+
+    .ul-index div {
+        /*font-family: "Noto Sans", sans-serif !important*/
+    }
+
+    #g_txt_search::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        /*font-family: "Noto Sans", sans-serif !important*/
+    }
+
+    .container-index-2 {
+        /*background: #428b3d;*/
+    }
+
+
+   
+
+ 
+
+</style>
+<script src="/Scripts/vue.global.js"></script>
+<div id="header">
+    <div class="containMenuHeader">
+        <a href="/" class="hnx-icon"></a>
+        <div class="menuright">
+            <div class="lang_contain">
+                <div id="lang_icon">
+
+                        <a href="/Home/Language?culture=en-GB&returnUrl=home.html" class="lang-en">
+                            <img src="/Content/CountryFlags/united-states.png">
+                        </a>
+                </div>
+                <div id="cssmenu">
+                    <div class="search_contain" id="div_search_contain">
+                        <div id="box_search_menu" class="box_search ">
+                            <img alt="" src="/Content/TTTT/icon_search_24.png" />
+                            <input type="text" id="g_txt_search" style="height:26px;" placeholder="Nhập từ kh&#243;a t&#236;m kiếm" class="ui-autocomplete-input" />
+                            
+                            <div class="advanced_search_menu ">
+                                <input type="radio" name="name" id="g_MaCKOnSearchSuggest" value="" checked="checked" />
+                                &nbsp; M&#227; CK/Sản phẩm
+                                <input type="radio" name="name" id="g_NewsOnSearchSuggest" value="" style="margin-left: 45px" />
+                                &nbsp; Tin tức
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="cssmenu" class="ul-menu">
+                <ul>
+	 <li> <a style="display: block; text-align: center;"   href='/hnx.html'> HNX </a>  <ul class="ul-5-li"><li> <a class='a-title'   href='javascript:;'> <span>GIỚI THIỆU HNX</span> </a>   <ul><li> <a class='a-content'   href='/gioi-thieu-hnx-lspt.html'> <span>Lịch sử phát triển</span> </a> </li> <li> <a class='a-content'   href='/gioi-thieu-hnx-scct.html'> <span>Cơ cấu tổ chức</span> </a> </li> <li> <a class='a-content'   href='/gioi-thieu-hnx-sbld.html'> <span>Ban lãnh đạo</span> </a> </li> <li> <a class='a-content'   href='/trung-tam-truyen-thong-ap.html'> <span>Báo cáo thường niên</span> </a> </li> </ul></li><li> <a class='a-title'   href='/tin-tuc-su-kien-ttcbhnx.html'> <span>TIN TỨC SỰ KIỆN</span> </a>   <ul></ul></li><li> <a class='a-title'   href='/doi-tac-quoc-te.html'> <span>HỢP TÁC QUỐC TẾ</span> </a>   <ul></ul></li><li> <a class='a-title'   href='/dich-vu-cctt.html'> <span>DỊCH VỤ CUNG CẤP THÔNG TIN</span> </a>   <ul></ul></li></ul></li>
+	<li> <a style="display: block; text-align: center;"   href='/dau-gia.html'> ĐẤU GIÁ </a>  <ul class="ul-5-li"><li> <a class='a-title'   href='/dau-gia/lich-dau-gia.html'> <span>LỊCH ĐẤU GIÁ</span> </a>   <ul></ul></li><li> <a class='a-title'   href='/dau-gia/ket-qua-dau-gia.html'> <span>KẾT QUẢ ĐẤU GIÁ</span> </a>   <ul></ul></li><li> <a class='a-title'   href='/dau-gia/dau-gia-tin-cong-bo.html'> <span>TIN TỨC - SỰ KIỆN</span> </a>   <ul></ul></li><li> <a class='a-title'   href='/dau-gia/thong-ke-dau-gia.html'> <span>THỐNG KÊ ĐẤU GIÁ</span> </a>   <ul></ul></li></ul></li>
+	<li> <a style="display: block; text-align: center;"   href='/co-phieu.html'> CỔ PHIẾU </a>  <ul class="ul-5-li"><li> <a class='a-title'   href='javascript:;'> <span>CỔ PHIẾU NIÊM YẾT</span> </a>   <ul><li> <a class='a-content'   href='/co-phieu-etfs/du-lieu-thi-truong-ny.html'> <span>Dữ liệu giao dịch</span> </a> </li> <li> <a class='a-content'   href='/thong-tin-cong-bo-ny-hnx.html'> <span>Thông tin công bố</span> </a> </li> <li> <a class='a-content'   href='/cophieu-etfs/chung-khoan-ny.html'> <span>Danh sách Chứng khoán</span> </a> </li> </ul></li><li> <a class='a-title'   href='javascript:;'> <span>CỔ PHIẾU UPCoM</span> </a>   <ul><li> <a class='a-content'   href='/co-phieu-etfs/du-lieu-thi-truong-uc.html'> <span>Dữ liệu giao dịch</span> </a> </li> <li> <a class='a-content'   href='/thong-tin-cong-bo-up-hnx.html'> <span>Thông tin công bố</span> </a> </li> <li> <a class='a-content'   href='/cophieu-etfs/chung-khoan-uc.html'> <span>Danh sách Chứng khoán</span> </a> </li> </ul></li><li> <a class='a-title'   href='javascript:;'> <span>CHỈ SỐ</span> </a>   <ul><li> <a class='a-content'   href='/co-phieu-etfs/gioi-thieu-chi-so.html'> <span>Giới thiệu</span> </a> </li> <li> <a class='a-content'   href='/co-phieu-etfs/chi-so-tong-hop-thong-tin-co-ban.html'> <span>Chỉ số tổng hợp</span> </a> </li> <li> <a class='a-content'   href='/co-phieu-etfs/chi-so-top-thong-tin-co-ban.html'> <span>Chỉ số Top</span> </a> </li> <li> <a class='a-content'   href='/co-phieu-etfs/chi-so-quy-mo-thong-tin-co-ban.html'> <span>Chỉ số Quy mô</span> </a> </li> <li> <a class='a-content'   href='/co-phieu-etfs/chi-so-nganh-thong-tin-co-ban.html'> <span>Chỉ số Ngành</span> </a> </li> <li> <a class='a-content'   href='/co-phieu-etfs/chi-so-thu-nhap-thong-tin-co-ban.html'> <span>Chỉ số Tổng thu nhập</span> </a> </li> <li> <a class='a-content'   href='/co-phieu-etfs/chi-so-ftse-asean.html'> <span>Chỉ số FTSE Asean</span> </a> </li> <li> <a class='a-content'   href='/co-phieu-etfs/thong-ke-giao-dich.html'> <span>Thống kê</span> </a> </li> </ul></li></ul></li>
+	<li> <a style="display: block; text-align: center;"   href='/trai-phieu.html'> TRÁI PHIẾU </a>  <ul class="ul-5-li"><li> <a class='a-title'   href='javascript:;'> <span>PHÁT HÀNH</span> </a>   <ul><li> <a class='a-content'   href='/trai-phieu/to-chuc-phat-hanh.html'> <span>Tổ chức phát hành</span> </a> </li> <li> <a class='a-content'   href='/trai-phieu/lich-dau-thau.html'> <span>Đấu thầu</span> </a> </li> <li> <a class='a-content'   href='/trai-phieu/thong-bao-bao-lanh-phat-hanh.html'> <span>Bảo lãnh phát hành</span> </a> </li> </ul></li><li> <a class='a-title'   href='/tin-trai-phieu-hnx.html'> <span>THÔNG TIN CÔNG BỐ</span> </a>   <ul></ul></li><li> <a class='a-title'   href='javascript:;'> <span>DỮ LIỆU THỊ TRƯỜNG</span> </a>   <ul><li> <a class='a-content'   href='/trai-phieu/ket-qua-gd-trong-ngay.html'> <span>KQGD trong ngày</span> </a> </li> <li> <a class='a-content'   href='/trai-phieu/thong-ke-giao-dich.html'> <span>Thống kê giao dịch</span> </a> </li> <li> <a class='a-content'   href='/trai-phieu/bang-chao-gia-trong-ngay.html'> <span>Bảng chào giá trong ngày</span> </a> </li> </ul></li><li> <a class='a-title'   href='javascript:;'> <span>HỆ THỐNG CHỈ BÁO</span> </a>   <ul><li> <a class='a-content'   href='/trai-phieu/tong-quan-chi-so-trai-phieu.html'> <span>Chỉ số Trái phiếu</span> </a> </li> <li> <a class='a-content'   href='/trai-phieu/duong-cong-loi-suat.html'> <span>Đường cong lợi suất</span> </a> </li> </ul></li><li> <a class='a-title'   href='javascript:;'> <span>NIÊM YẾT</span> </a>   <ul><li> <a class='a-content'   href='/trai-phieu/danh-sach-trai-phieu.html'> <span>Danh sách Trái phiếu</span> </a> </li> <li> <a class='a-content'   href='/trai-phieu/quy-mo-niem-yet.html'> <span>Thống kê quy mô niêm yết</span> </a> </li> </ul></li></ul></li>
+	<li> <a style="display: block; text-align: center;"   href='/phai-sinh.html'> CHỨNG KHOÁN PHÁI SINH </a>  <ul class="ul-5-li"><li> <a class='a-title'   href='/phai-sinh/san-pham.html'> <span>SẢN PHẨM</span> </a>   <ul></ul></li><li> <a class='a-title'   href='javascript:;'> <span>DỮ LIỆU GIAO DỊCH</span> </a>   <ul><li> <a class='a-content'   href='/phai-sinh/ket-qua-giao-dich.html'> <span>Kết quả giao dịch</span> </a> </li> <li> <a class='a-content'   href='/phai-sinh/thong-ke.html'> <span>Thống kê</span> </a> </li> </ul></li><li> <a class='a-title'   href='/phai-sinh/thong-tin-cong-bo.html'> <span>THÔNG TIN CÔNG BỐ</span> </a>   <ul></ul> </li></ul></li>
+	<li> <a style="display: block; text-align: center;"   href='/cacbon.html'> SẢN PHẨM CÁC-BON </a>  <ul class="ul-5-li"><li> <a class='a-title'   href='javascript:;'> <span>SẢN PHẨM</span> </a>   <ul>
+                                                    <li>
+                                                        <a class='a-content'  href='javascript:;'>
+                                                            <span>Hạn ngạch phát thải</span>
+                                                        </a>
+                                                        <ul class='submenucon'>
+                                                            <li><a href='/cacbon/danh-muc-han-ngach.html'><span>Danh mục hạn ngạch</span></a></li>
+                                                           
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a class='a-content'  href='javascript:;'>
+                                                            <span>Tín chỉ Các-bon</span>
+                                                        </a>
+                                                        <ul class='submenucon'>
+                                                            <li><a href='/cacbon/danh-muc-tin-chi-danh-sach.html'><span>Danh mục tín chỉ</span></a></li>
+                                                            <li><a href='/cacbon/thong-tin-du-an.html'><span>Thông tin dự án</span></a></li>
+                                                           
+                                                        </ul>
+                                                    </li></ul></li><li> <a class='a-title'   href='javascript:;'> <span>GIAO DỊCH</span> </a>   <ul><li> <a class='a-content'   href='/cacbon/ket-qua-giao-dich.html'> <span>Kết quả giao dịch chi tiết</span> </a> </li> <li> <a class='a-content'   href='/cacbon/thong-ke-giao-dich.html'> <span>Thống kê giao dịch</span> </a> </li> </ul></li><li> <a class='a-title'   href='/cacbon/tin-cong-bo-tu-so.html'> <span>THÔNG TIN CÔNG BỐ</span> </a>   <ul></ul></li></ul></li>
+	<li> <a style="display: block; text-align: center;"   href='/van-ban-phap-ly.html'> VĂN BẢN PHÁP LÝ </a>  <ul class="ul-5-li"></ul></li>
+	
+            </div>
+            <div class="ul-index-1" id="TTChiSo">
+
+
+                <div class="ul-index" v-for="(DataChiSo, index) in lstDataChiSo" :key="index">
+
+                    <div class="font-bold">{{ DataChiSo.Floor_Text }} </div>
+                    <div>{{ DataChiSo.Current_Index }}</div>
+                    <div v-if="DataChiSo.Chg_Index > 0" style="float:left" class="triangle-up"></div>
+                    <div v-else-if="DataChiSo.Chg_Index < 0" style="float:left" class="triangle-down"></div>
+                    <div v-else style="float:left" class="square"></div>
+                    <div>{{ DataChiSo.Chg_Index }}</div>
+                    <div>({{ DataChiSo.Pct_Index }}%)</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="container-index-2 ">
+        <div class="ul-index-2 marquee ">
+            <div class="marquee-content">
+                <!--// nhân nhiều bản ghi để tránh bị đứt đoạn-->
+
+                <div class="index-2" v-for="(DataSymbol, index) in lstDataSymbol" :key="index">
+                    <div>{{ DataSymbol.Symbol }}</div>
+                    <div>{{ DataSymbol.Match_Price_format }}</div>
+                    <div v-if="DataSymbol.Change_Price > 0" class="triangle-up"></div>
+                    <div v-else-if="DataSymbol.Change_Price < 0" class="triangle-down"></div>
+                    <div v-else class="square"></div>
+                    <div>{{ DataSymbol.Change_Price_format }}</div>
+                    <div>({{ DataSymbol.Change_Price_Per_format }}%)</div>
+                </div>
+
+
+                <div class="index-2" v-for="(DataSymbol, index) in lstDataSymbol" :key="index">
+                    <div>{{ DataSymbol.Symbol }}</div>
+                    <div>{{ DataSymbol.Match_Price_format }}</div>
+                    <div v-if="DataSymbol.Change_Price > 0" class="triangle-up"></div>
+                    <div v-else-if="DataSymbol.Change_Price < 0" class="triangle-down"></div>
+                    <div v-else class="square"></div>
+                    <div>{{ DataSymbol.Change_Price_format }}</div>
+                    <div>({{ DataSymbol.Change_Price_Per_format }}%)</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<style>
+
+    #wrapper-header {
+        z-index: 10000; /* Đảm bảo slider ở trên marquee */
+    }
+
+    #wrapper-content {
+        z-index: 999; /* Marquee nằm dưới slider */
+    }
+
+    .ui-autocomplete {
+        position: fixed;
+        z-index: 1004 !important;
+        background: #fff !important;
+        width: 245px !important;
+        max-height: 150px !important;
+        overflow: auto !important;
+    }
+
+    .clsCheck {
+        color: #daa520;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        // Mở div .advanced_search_menu khi click vào input #g_txt_search
+        $("#g_txt_search").on("click", function () {
+            $(".advanced_search_menu").css("display", "flex");
+        });
+
+        // Ẩn div .advanced_search_menu khi blur khỏi input #g_txt_search
+        $("#g_txt_search").on("blur", function () {
+            // Sử dụng setTimeout để trì hoãn việc ẩn để người dùng có thể click vào .advanced_search_menu
+            setTimeout(function () {
+                if (!$(".advanced_search_menu:hover").length) {
+                    $(".advanced_search_menu").css("display", "none");
+                }
+            }, 100);
+        });
+
+        // Đảm bảo khi người dùng click vào .advanced_search_menu, thì nó không bị ẩn
+        $(".advanced_search_menu").on("click", function (e) {
+            e.stopPropagation(); // Ngừng sự kiện "click" lan ra ngoài để không ẩn div
+        });
+    });
+
+
+    $(window).scroll(function () {
+        var scroll = $(window).scrollTop();
+        if (scroll > 0) {
+            $("#wrapper-header").addClass("active");
+        }
+        else {
+            $("#wrapper-header").removeClass("active");
+        }
+    });
+
+    $(document).mousedown(function (e) {
+        e = e || window.event;
+        var key = e.which || e.buttons;
+        if (key == 1 && !$("#div_search_contain").is(':hover') && !$(".box_search").is(':hover')) {
+            //$(".box_search").addClass("cls_display_none");
+            //$("#box_search_menu").siblings().removeClass('btn_search_menu');
+        }
+    });
+
+    $(function () {
+        var mn_active = $("#menuActiveSearch").val();
+        if (mn_active != "") {
+            $("#MN_" + mn_active).addClass("menu_active");
+        }
+    });
+
+
+    function OpenBoxSearch() {
+        try {
+
+            if ($("#box_search_menu").hasClass("cls_display_none")) {
+                $("#box_search_menu").removeClass("cls_display_none");
+                $("#box_search_menu").siblings().addClass('btn_search_menu');
+                $("#g_txt_search").val("");
+                $("#g_txt_search").focus();
+            } else {
+                $("#box_search_menu").addClass("cls_display_none");
+                $("#box_search_menu").siblings().removeClass('btn_search_menu');
+            }
+        }
+        catch (e) {
+        }
+    }
+
+
+    $("#g_txt_search").keypress(function (e) {
+       
+        if (e.keyCode == 13) {
+            if ($("#g_NewsOnSearchSuggest").is(":checked") == true) {
+
+                funcSearchOnPageHNX();
+            } else {
+                //window.location.href = "/cophieu-etfs/chi-tiet-chung-khoan-ny-" + $("#g_txt_search").val().toLowerCase() + ".html";
+                window.location.href = "/cophieu-etfs/chi-tiet-chung-khoan-" + $("#g_txt_search").val().toLowerCase() + ".html";
+            }
+        }
+    });
+
+
+
+    $("#g_btn_search").click(function () {
+       
+        if ($("#g_NewsOnSearchSuggest").is(":checked") == true) {
+            funcSearchOnPageHNX();
+        } else {
+
+            //window.location.href = "/cophieu-etfs/chi-tiet-chung-khoan-ny-" + $("#g_txt_search").val().toLowerCase() + ".html";
+            window.location.href = "/cophieu-etfs/chi-tiet-chung-khoan-" + $("#g_txt_search").val().toLowerCase() + ".html";
+        }
+    });
+
+    function funcSearchOnPageHNX() {
+        try {
+            var keysearch = $('#g_txt_search').val();
+            if (keysearch != "") {
+                keysearch = keysearch.replace(/!|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'| |\"|\&|\#|\[|\]|~|$|_/g, " ");
+            }
+            if (keysearch != "") {
+                var url = "/ket-qua-tim-kiem.html?key=" + keysearch;
+                window.location.href = url;
+            }
+        } catch (e) {
+            console.log(e.message);
+        }
+    }
+
+    $("input#g_txt_search").autocomplete({
+        autoFocus: true,
+        source: function (request, response) {
+            if ($("#g_MaCKOnSearchSuggest").is(":checked") == true) { //neu la chung khoan thi moi cho search autogest
+                $.ajax({
+                    type: 'GET',
+                    url: "/ModuleSearchALL/SearchDataHNX/SearchSuggestSymbol",
+                    dataType: "json",
+                    data: { pSymbol: $("#g_txt_search").val().trim(), },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            //calcDropdownPosition();
+                            if (item.MARKETCODE == "CB") {
+                                return { label: item.STOCK_CODE, value: item.Link_To_Detail, }
+                            } else {
+                                return { label: item.STOCK_CODE + " - " + item.NAME, value: item.Link_To_Detail, }
+                            }
+                        }));
+                        //calcDropdownPosition();
+                    },
+                    error: function (data, type) {
+                        console.log(type);
+                    },
+                    complete: function () {
+                        //calcDropdownPosition();
+                        console.log("Request complete");
+                    }
+                });
+            }
+        },
+        select: function (event, data) {
+            window.location.href = "/cophieu-etfs/chi-tiet-chung-khoan-" + data.item.value.toLowerCase() + ".html";
+
+        }
+    });
+
+    $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+        var re = new RegExp("" + this.term.toUpperCase());
+        var t = item.label.replace(re, "<span class='clsCheck'>" +
+            this.term.toUpperCase() +
+            "</span>");
+
+        return $("<li></li>")
+            .data("item.autocomplete", item)
+            .append("<a>" + t + "</a>")
+            .appendTo(ul);
+    };
+
+    function calcDropdownPosition() {
+
+        const parentElement = document.querySelector('#box_search_menu');
+        const dropdownElement = document.querySelector('.ui-autocomplete');
+
+        if (parentElement && dropdownElement) {
+            const parentRect = parentElement.getBoundingClientRect();
+
+            const top = parentRect.bottom;
+            const left = parentRect.left;
+
+            //dropdownElement.style.display = 'block';
+            dropdownElement.style.top = top + 26 + "px";
+            dropdownElement.style.left = left + "px";
+        } else {
+            setTimeout(calcDropdownPosition, 250);
+
+        }
+    }
+
+    const appreceivedChiSo = Vue.createApp({
+        data() {
+            return {
+                message: 'hello',
+                lstDataChiSo: [],
+                lstDataSymbol: [],
+                intervalId: null, // Store interval ID to clear later
+            };
+        },
+        created() {
+            // Gọi hàm fetchData ngay khi component được tạo
+            this.loadMemdataChiSo();
+        },
+        mounted() {
+            this.loadMemdataChiSo();
+            this.startContentRotation();
+        },
+
+        beforeDestroy() {
+            // Clear the interval when component is destroyed to avoid memory leaks
+            clearInterval(this.intervalId);
+        },
+
+
+        methods: {
+            loadMemdataChiSo() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Home/GetDataChiSo',
+                    data: {},
+                    cache: false,
+                    traditional: true,
+                    beforeSend: function () {
+                        // Có thể thêm loading spinner ở đây nếu cần
+                    },
+                    success: (data) => { // Sử dụng arrow function để giữ `this`
+                        const _lstDataChiSo = data.dataIndex;
+                        const _lstDataSymbol = data.dataSymbol;
+                        // Gán dữ liệu vào thuộc tính của Vue instance
+                        this.lstDataChiSo = JSON.parse(_lstDataChiSo);
+                        this.lstDataSymbol = JSON.parse(_lstDataSymbol);
+
+                    },
+                    error: (xhr, status, error) => {
+                        console.error('Có lỗi xảy ra:', error);
+                    }
+                });
+            },
+
+            startContentRotation() {
+                this.intervalId = setInterval(() => {
+                    this.loadMemdataChiSo();  // Ensure `this` context is correct
+                }, 60000);
+            }
+
+
+
+        },
+
+    });
+    const vueReceivedChiSo = appreceivedChiSo.mount('#header');
+</script>
+
+<script>
+    $(window).scroll(function () {
+        var scroll = $(window).scrollTop();
+        if (scroll > 0) {
+            $("#wrapper-header").addClass("active");
+        }
+        else {
+            $("#wrapper-header").removeClass("active");
+        }
+    });
+
+    $(document).mousedown(function (e) {
+        e = e || window.event;
+        var key = e.which || e.buttons;
+        if (key == 1 && !$("#div_search_contain").is(':hover') && !$(".box_search").is(':hover')) {
+            //$(".box_search").addClass("cls_display_none");
+            //$("#box_search_menu").siblings().removeClass('btn_search_menu');
+        }
+    });
+
+    $(function () {
+        var mn_active = $("#menuActiveSearch").val();
+        if (mn_active != "") {
+            $("#MN_" + mn_active).addClass("menu_active");
+        }
+    });
+
+    //function OpenBoxSearch() {
+    //    try {
+
+    //        if ($("#box_search_menu").hasClass("cls_display_none")) {
+    //            $("#box_search_menu").removeClass("cls_display_none");
+    //            $("#box_search_menu").siblings().addClass('btn_search_menu');
+    //            $("#g_txt_search").val("");
+    //            $("#g_txt_search").focus();
+    //        } else {
+    //            $("#box_search_menu").addClass("cls_display_none");
+    //            $("#box_search_menu").siblings().removeClass('btn_search_menu');
+    //        }
+    //    }
+    //    catch (e) {
+    //    }
+    //}
+
+
+    $("#g_txt_search").keypress(function (e) {
+        if (e.keyCode == 13) {
+            if ($("#g_NewsOnSearchSuggest").is(":checked") == true) {
+
+                funcSearchOnPageHNX();
+            } else {
+                //window.location.href = "/cophieu-etfs/chi-tiet-chung-khoan-ny-" + $("#g_txt_search").val().toLowerCase() + ".html";
+                window.location.href = "/cophieu-etfs/chi-tiet-chung-khoan-" + $("#g_txt_search").val().toLowerCase() + ".html";
+            }
+        }
+    });
+
+    $("#g_btn_search").click(function () {
+        if ($("#g_NewsOnSearchSuggest").is(":checked") == true) {
+            funcSearchOnPageHNX();
+        } else {
+
+            //window.location.href = "/cophieu-etfs/chi-tiet-chung-khoan-ny-" + $("#g_txt_search").val().toLowerCase() + ".html";
+            window.location.href = "/cophieu-etfs/chi-tiet-chung-khoan-" + $("#g_txt_search").val().toLowerCase() + ".html";
+        }
+    });
+
+    function funcSearchOnPageHNX() {
+        try {
+            var keysearch = $('#g_txt_search').val();
+            if (keysearch != "") {
+                keysearch = keysearch.replace(/!|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'| |\"|\&|\#|\[|\]|~|$|_/g, " ");
+            }
+            if (keysearch != "") {
+                var url = "/ket-qua-tim-kiem.html?key=" + keysearch;
+                window.location.href = url;
+            }
+        } catch (e) {
+            console.log(e.message);
+        }
+    }
+
+    $("input#g_txt_search").autocomplete({
+        autoFocus: true,
+        source: function (request, response) {
+            if ($("#g_MaCKOnSearchSuggest").is(":checked") == true) { //neu la chung khoan thi moi cho search autogest
+                $.ajax({
+                    type: 'GET',
+                    url: "/ModuleSearchALL/SearchDataHNX/SearchSuggestSymbol",
+                    dataType: "json",
+                    data: { pSymbol: $("#g_txt_search").val().trim(), },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            //calcDropdownPosition();
+                            if (item.MARKETCODE == "CB") {
+                                return { label: item.STOCK_CODE, value: item.Link_To_Detail, }
+                            } else {
+                                return { label: item.STOCK_CODE + " - " + item.NAME, value: item.Link_To_Detail, }
+                            }
+                        }));
+                        //calcDropdownPosition();
+                    },
+                    error: function (data, type) {
+                        console.log(type);
+                    },
+                    complete: function () {
+                        //calcDropdownPosition();
+                        console.log("Request complete");
+                    }
+                });
+            }
+        },
+        select: function (event, data) {
+            window.location.href = "/cophieu-etfs/chi-tiet-chung-khoan-" + data.item.value.toLowerCase() + ".html";
+
+        }
+    });
+
+    $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+        var re = new RegExp("" + this.term.toUpperCase());
+        var t = item.label.replace(re, "<span class='clsCheck'>" +
+            this.term.toUpperCase() +
+            "</span>");
+
+        return $("<li></li>")
+            .data("item.autocomplete", item)
+            .append("<a>" + t + "</a>")
+            .appendTo(ul);
+    };
+
+    //function calcDropdownPosition() {
+
+    //    const parentElement = document.querySelector('#box_search_menu');
+    //    const dropdownElement = document.querySelector('.ui-autocomplete');
+
+    //    if (parentElement && dropdownElement) {
+    //        const parentRect = parentElement.getBoundingClientRect();
+
+    //        const top = parentRect.bottom;
+    //        const left = parentRect.left;
+
+    //        //dropdownElement.style.display = 'block';
+    //        dropdownElement.style.top = top + 26 + "px";
+    //        dropdownElement.style.left = left + "px";
+    //    } else {
+    //        setTimeout(calcDropdownPosition, 250);
+
+    //    }
+    //}
+
+
+</script>
+
+        </div>
+        <!-- #header -->
+        <div id="wrapper-content" style="width: auto;">
+            <div class="_navigator">
+    <ul>
+      
+        <li style="display: inline-block"><a href="/hnx.html">HNX</a></li>
+        <li style="display: inline-block"><a href="#">&gt; &nbsp;&nbsp;Tin tức sự kiện</a> </li>
+    </ul>
+</div>
+            <div class="_anh" style="width: 100%; height: 115px;
+                    background-position: left top,right top;
+                    background-repeat: no-repeat, no-repeat; background-size: 50% 100% , 50% 100% ;
+                    background-image: url('/Content/images/banner/banner2-left.jpg'), url('/Content/images/banner/banner2-right.jpg')">
+                <div class="_Title" style="height: 115px; width: 1000px; margin: 0 auto;  background-image: url('/Content/images/banner/banner2.jpg'); ">
+                    <div style="font-size: 19px;margin-top: 80px; height: 35px; line-height: 39px; display: inline-block; text-transform: uppercase;">TIN TỨC SỰ KIỆN</div>
+                </div>
+            </div>
+            <div class="content" style="width: 1000px; display: table; margin-top: 15px; margin-bottom: 19px">
+                
+
+<style>
+    .Box-Noidung p {
+        TEXT-INDENT: 0in !important;
+    }
+    .Box-Noidung, .Box-Noidung * {
+        font-size: 16px !important;
+        line-height: 1.5em !important;
+        font-family: MyriadPro-Cond!important;
+    }
+        .Box-Noidung img {
+            max-width:830px;
+        }
+</style>
+
+
+    <div class="divDetailEvent" style="position: relative">
+        <a class="clsBtnBack" href="/tin-tuc-su-kien-HNX.html?_page=1"></a>
+        <script src="/Content/social-likes/social-likes.min.js"></script>
+<div class="Box-Share" >
+    <div class="clsBtnShare" onclick="return funcLikeShareSocial(this);"></div>
+    <div class="social-likes">
+        <div class="facebook" title="Share link on Facebook"  >
+        </div>
+        <div class="twitter" title="Share link on Twitter"  >
+        </div>
+        <div class="plusone" title="Share link on Google+"  >
+        </div>
+    </div>
+</div>
+
+
+        <div class="Box-TieuDe">
+            <label >Sở GDCK H&#224; Nội chuyển giao dịch trở lại HOSE đối với 16 cổ phiếu ni&#234;m yết tại HOSE</label>
+        </div>
+        <div class="Box-Thoigian">
+            <label>17:26 25/08/2021</label>
+        </div>
+        
+        <div class="Box-Noidung"><div style="text-align: justify;">Trong thời gian từ th&aacute;ng 3/2021 đến th&aacute;ng 7/2021, Sở GDCK H&agrave; Nội (HNX) đ&atilde; tiếp nhận 16 doanh nghiệp chuyển giao dịch từ Sở GDCK&nbsp;TP.HCM&nbsp;(HOSE) sang HNX theo hướng dẫn tại c&ocirc;ng văn 713/UBCK-PTTT ng&agrave;y 3/3/2021 nhằm giảm t&igrave;nh trạng nghẽn lệnh tr&ecirc;n s&agrave;n HOSE.<br />
+Ng&agrave;y 5/8/2021, UBCKNN đ&atilde; ban h&agrave;nh C&ocirc;ng văn số 4236/UBCK - PTTT&nbsp;hướng dẫn về việc chuyển giao dịch cổ phiếu ni&ecirc;m yết từ HNX về HOSE. Theo đ&oacute;, HNX đ&atilde; th&ocirc;ng b&aacute;o cho 16 doanh nghiệp n&agrave;y v&agrave; chốt ng&agrave;y giao dịch cuối c&ugrave;ng của cổ phiếu c&aacute;c doanh nghiệp n&agrave;y tại HNX l&agrave; ng&agrave;y 27/8/2021. Danh s&aacute;ch 16 doanh nghiệp bao gồm:</div>
+
+<table border="1" cellpadding="0" cellspacing="0" style="width:583px;" width="583">
+	<tbody>
+		<tr>
+			<td style="width: 50px; height: 75px; text-align: justify;"><strong>STT</strong></td>
+			<td style="width: 224px; height: 75px; text-align: justify;"><strong>T&ecirc;n c&ocirc;ng ty</strong></td>
+			<td style="width: 61px; height: 75px; text-align: justify;"><strong>M&atilde; CK</strong></td>
+			<td style="width: 134px; height: 75px; text-align: justify;"><strong>&nbsp;Vốn đi&ecirc;u lệ </strong></td>
+			<td style="width: 113px; height: 75px; text-align: justify;"><strong>Khối lượng cổ phiếu ni&ecirc;m yết</strong></td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" style="width: 50px; height: 25px; text-align: justify;">1</td>
+			<td nowrap="nowrap" style="width: 224px; height: 25px; text-align: justify;">CTCP Xuất nhập khẩu Thủy sản Bến Tre</td>
+			<td nowrap="nowrap" style="width: 61px; height: 25px; text-align: justify;">ABT</td>
+			<td nowrap="nowrap" style="width: 134px; height: 25px; text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; 141,072,070,000</td>
+			<td nowrap="nowrap" style="width: 113px; height: 25px; text-align: justify;">14,107,207</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" style="width: 50px; height: 25px; text-align: justify;">2</td>
+			<td nowrap="nowrap" style="width: 224px; height: 25px; text-align: justify;">CTCP Bibica</td>
+			<td nowrap="nowrap" style="width: 61px; height: 25px; text-align: justify;">BBC</td>
+			<td nowrap="nowrap" style="width: 134px; height: 25px; text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; 154,207,820,000</td>
+			<td nowrap="nowrap" style="width: 113px; height: 25px; text-align: justify;">15,420,782</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" style="width: 50px; height: 50px; text-align: justify;">3</td>
+			<td style="width: 224px; height: 50px; text-align: justify;">CTCP Chứng kho&aacute;n Ng&acirc;n h&agrave;ng Đầu tư v&agrave; Ph&aacute;t triển Việt Nam</td>
+			<td nowrap="nowrap" style="width: 61px; height: 50px; text-align: justify;">BSI</td>
+			<td nowrap="nowrap" style="width: 134px; height: 50px; text-align: justify;">&nbsp; 1,220,700,780,000</td>
+			<td nowrap="nowrap" style="width: 113px; height: 50px; text-align: justify;">122,070,078</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" style="width: 50px; height: 25px; text-align: justify;">4</td>
+			<td nowrap="nowrap" style="width: 224px; height: 25px; text-align: justify;">CTCP D&acirc;y c&aacute;p điện Việt Nam</td>
+			<td nowrap="nowrap" style="width: 61px; height: 25px; text-align: justify;">CAV</td>
+			<td nowrap="nowrap" style="width: 134px; height: 25px; text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; 576,000,000,000</td>
+			<td nowrap="nowrap" style="width: 113px; height: 25px; text-align: justify;">57,600,000</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" style="width: 50px; height: 25px; text-align: justify;">5</td>
+			<td nowrap="nowrap" style="width: 224px; height: 25px; text-align: justify;">CTCP Dịch vụ Bất động sản Đất Xanh</td>
+			<td nowrap="nowrap" style="width: 61px; height: 25px; text-align: justify;">DXS</td>
+			<td nowrap="nowrap" style="width: 134px; height: 25px; text-align: justify;">&nbsp; 3,582,012,080,000</td>
+			<td nowrap="nowrap" style="width: 113px; height: 25px; text-align: justify;">358,201,208</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" style="width: 50px; height: 25px; text-align: justify;">6</td>
+			<td nowrap="nowrap" style="width: 224px; height: 25px; text-align: justify;">CTCP Tập đo&agrave;n HAPACO</td>
+			<td nowrap="nowrap" style="width: 61px; height: 25px; text-align: justify;">HAP</td>
+			<td nowrap="nowrap" style="width: 134px; height: 25px; text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; 556,266,210,000</td>
+			<td nowrap="nowrap" style="width: 113px; height: 25px; text-align: justify;">55,626,621</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" style="width: 50px; height: 25px; text-align: justify;">7</td>
+			<td nowrap="nowrap" style="width: 224px; height: 25px; text-align: justify;">CTCP Bất động sản Khải Ho&agrave;n Land</td>
+			<td nowrap="nowrap" style="width: 61px; height: 25px; text-align: justify;">KHG</td>
+			<td nowrap="nowrap" style="width: 134px; height: 25px; text-align: justify;">&nbsp; 1,748,175,470,000</td>
+			<td nowrap="nowrap" style="width: 113px; height: 25px; text-align: justify;">174,817,547</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" style="width: 50px; height: 25px; text-align: justify;">8</td>
+			<td nowrap="nowrap" style="width: 224px; height: 25px; text-align: justify;">CTCP Chế biến H&agrave;ng xuất khẩu Long An</td>
+			<td nowrap="nowrap" style="width: 61px; height: 25px; text-align: justify;">LAF</td>
+			<td nowrap="nowrap" style="width: 134px; height: 25px; text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; 147,280,190,000</td>
+			<td nowrap="nowrap" style="width: 113px; height: 25px; text-align: justify;">14,728,019</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" style="width: 50px; height: 25px; text-align: justify;">9</td>
+			<td nowrap="nowrap" style="width: 224px; height: 25px; text-align: justify;">CTCP Tập đo&agrave;n Giống c&acirc;y trồng Việt Nam</td>
+			<td nowrap="nowrap" style="width: 61px; height: 25px; text-align: justify;">NSC</td>
+			<td nowrap="nowrap" style="width: 134px; height: 25px; text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; 175,869,880,000</td>
+			<td nowrap="nowrap" style="width: 113px; height: 25px; text-align: justify;">17,586,988</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" style="width: 50px; height: 25px; text-align: justify;">10</td>
+			<td nowrap="nowrap" style="width: 224px; height: 25px; text-align: justify;">CTCP Tập đo&agrave;n PAN</td>
+			<td nowrap="nowrap" style="width: 61px; height: 25px; text-align: justify;">PAN</td>
+			<td nowrap="nowrap" style="width: 134px; height: 25px; text-align: justify;">&nbsp; 2,163,585,800,000</td>
+			<td nowrap="nowrap" style="width: 113px; height: 25px; text-align: justify;">216,358,580</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" style="width: 50px; height: 25px; text-align: justify;">11</td>
+			<td nowrap="nowrap" style="width: 224px; height: 25px; text-align: justify;">CTCP Xuất nhập khẩu Quảng B&igrave;nh</td>
+			<td nowrap="nowrap" style="width: 61px; height: 25px; text-align: justify;">QBS</td>
+			<td nowrap="nowrap" style="width: 134px; height: 25px; text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; 693,299,280,000</td>
+			<td nowrap="nowrap" style="width: 113px; height: 25px; text-align: justify;">69,329,928</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" style="width: 50px; height: 25px; text-align: justify;">12</td>
+			<td nowrap="nowrap" style="width: 224px; height: 25px; text-align: justify;">CTCP Giống c&acirc;y trồng Miền Nam</td>
+			<td nowrap="nowrap" style="width: 61px; height: 25px; text-align: justify;">SSC</td>
+			<td nowrap="nowrap" style="width: 134px; height: 25px; text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; 149,923,670,000</td>
+			<td nowrap="nowrap" style="width: 113px; height: 25px; text-align: justify;">14,992,367</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" style="width: 50px; height: 25px; text-align: justify;">13</td>
+			<td nowrap="nowrap" style="width: 224px; height: 25px; text-align: justify;">CTCP Thiết bị điện</td>
+			<td nowrap="nowrap" style="width: 61px; height: 25px; text-align: justify;">THI</td>
+			<td nowrap="nowrap" style="width: 134px; height: 25px; text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; 488,000,000,000</td>
+			<td nowrap="nowrap" style="width: 113px; height: 25px; text-align: justify;">48,800,000</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" style="width: 50px; height: 25px; text-align: justify;">14</td>
+			<td nowrap="nowrap" style="width: 224px; height: 25px; text-align: justify;">CTCP Chứng kho&aacute;n Tr&iacute; Việt</td>
+			<td nowrap="nowrap" style="width: 61px; height: 25px; text-align: justify;">TVB</td>
+			<td nowrap="nowrap" style="width: 134px; height: 25px; text-align: justify;">&nbsp; 1,067,154,610,000</td>
+			<td nowrap="nowrap" style="width: 113px; height: 25px; text-align: justify;">106,715,461</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" style="width: 50px; height: 25px; text-align: justify;">15</td>
+			<td nowrap="nowrap" style="width: 224px; height: 25px; text-align: justify;">CTCP Khử tr&ugrave;ng Việt Nam</td>
+			<td nowrap="nowrap" style="width: 61px; height: 25px; text-align: justify;">VFG</td>
+			<td nowrap="nowrap" style="width: 134px; height: 25px; text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; 320,888,640,000</td>
+			<td nowrap="nowrap" style="width: 113px; height: 25px; text-align: justify;">32,088,864</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap" style="width: 50px; height: 25px; text-align: justify;">16</td>
+			<td nowrap="nowrap" style="width: 224px; height: 25px; text-align: justify;">C&ocirc;ng ty Cổ phần Chứng kho&aacute;n VNDIRECT</td>
+			<td nowrap="nowrap" style="width: 61px; height: 25px; text-align: justify;">VND</td>
+			<td nowrap="nowrap" style="width: 134px; height: 25px; text-align: justify;">&nbsp; 4,349,446,870,000</td>
+			<td nowrap="nowrap" style="width: 113px; height: 25px; text-align: justify;">434,944,687</td>
+		</tr>
+	</tbody>
+</table>
+
+<div style="text-align: justify;">&nbsp;<br />
+Đồng thời, HNX cũng đề nghị c&aacute;c doanh nghiệp n&oacute;i tr&ecirc;n li&ecirc;n hệ với Sở GDCK TP.HCM để đăng k&yacute; ng&agrave;y giao dịch trở lại.</div>
+</div>
+        <div class="divLstFileAttach">
+        </div>
+        
+    </div>
+
+
+<script>
+    function funcBack(phref) {
+        window.location.href = phref;
+    }
+
+</script>
+
+            </div>
+        </div>
+        <!-- #content -->
+        <div id="wrapper-footer">
+            <div class="containMenuFooter">
+    <div class="footer-note">
+        <ul>
+            <li class="f-small">
+                <ul>
+                    <li class="li-title">DỊCH VỤ</li>
+                    <li class="li-content" style="padding-top: 10px;"><a href="/thong-tin-nha-dau-tu-gt.html">Th&#244;ng tin nh&#224; đầu tư</a></li>
+                    <li class="li-content"><a href="/trung-tam-truyen-thong-bc.html">Trung t&#226;m truyền th&#244;ng</a></li>
+                    <li class="li-content"><a href="/huong-dan-thu-tuc.html">Hướng dẫn thủ tục</a></li>
+                    <li class="li-content"><a href="/dich-vu-cctt.html" target="_blank">Dịch vụ cung cấp th&#244;ng tin</a></li>
+                </ul>
+            </li>
+            <li class="f-small">
+                <ul>
+                    <li class="li-title">TIN TỨC</li>
+                    <li class="li-content" style="padding-top: 10px;"><a href="/tin-tuc-su-kien-hnx.html">Hoạt động sự kiện</a></li>
+                    <li class="li-content"><a href="/tin-tuc-su-kien-hdxh.html">Hoạt động x&#227; hội</a></li>
+                    <li class="li-content"><a href="/tin-tuc-su-kien-sk.html">Lịch sự kiện HNX</a></li>
+                    <li class="li-content"><a href="/tin-tuc-su-kien-gd.html">Lịch nghỉ giao dịch</a></li>
+                </ul>
+            </li>
+            <li class="f-small">
+                <ul>
+                    <li class="li-title">KẾT NỐI</li>
+                    <li class="li-content" style="padding-top: 10px;">
+                        <a target="_blank" href="https://www.facebook.com/HanoiStockExchange2005/?fref=ts" class="link_facebook facebook">Facebook</a>
+                    </li>
+                    
+                    
+                </ul>
+            </li>
+            <li class="f-small">
+                <ul>
+                    <li class="li-title">LI&#202;N KẾT</li>
+                    <li class="li-content" style="padding-top: 10px;">
+                        
+<div id="divLKDT" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 258px; height: 100px; overflow: hidden; visibility: hidden;">
+    <div data-u="slides" style="cursor: default; position: relative; top: 0px; left: 0px; width: 280px; height: 100px; overflow: hidden;">
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\620012017045320.jpg' target="_blank" onclick="return funcClick('http://www.idx.co.id')" />
+        </div>
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\1120012017045508.jpg' target="_blank" onclick="return funcClick('http://www.pse.com.ph')" />
+        </div>
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\1720012017045440.jpg' target="_blank" onclick="return funcClick('http://www.twse.com.tw')" />
+        </div>
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\1320012017044544.jpg' target="_blank" onclick="return funcClick('http://www.sgx.com')" />
+        </div>
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\120012017050111.jpg' target="_blank" onclick="return funcClick('http://www.bursamalaysia.com')" />
+        </div>
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\420012017050152.jpg' target="_blank" onclick="return funcClick('http://www.euronext.com')" />
+        </div>
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\1020012017050134.jpg' target="_blank" onclick="return funcClick('http://www.londonstockexchange.com')" />
+        </div>
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\820012017050221.jpg' target="_blank" onclick="return funcClick('http://www.krx.co.kr')" />
+        </div>
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\1220012017045619.jpg' target="_blank" onclick="return funcClick('http://www.set.or.th')" />
+        </div>
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\720012017045635.jpg' target="_blank" onclick="return funcClick('http://www.jpx.co.jp')" />
+        </div>
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\imgpsh_fullsize20012017055150.jpg' target="_blank" onclick="return funcClick('http://www.szse.cn')" />
+        </div>
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\1420012017045729.jpg' target="_blank" onclick="return funcClick('http://www.sse.com.cn')" />
+        </div>
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\920012017045747.jpg' target="_blank" onclick="return funcClick('http://www.lsx.com.la')" />
+        </div>
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\1520012017045806.jpg' target="_blank" onclick="return funcClick('http://www.taifex.com.tw')" />
+        </div>
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\220012017050028.jpg' target="_blank" onclick="return funcClick('http://http://www.bsse.sk')" />
+        </div>
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\320012017050041.jpg' target="_blank" onclick="return funcClick('http://csx.com.kh')" />
+        </div>
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\520012017045532.jpg' target="_blank" onclick="return funcClick('http://www.hkex.com.hk')" />
+        </div>
+        <div>
+                <img src='https://owa.hnx.vn/ftp//PORTALNEW/SLIDE_COMPANIES\1620012017045414.jpg' target="_blank" onclick="return funcClick('http://www.tpex.org.tw')" />
+        </div>
+    </div>
+</div>
+<script>
+    function funcClick(href) {
+        return window.open(href, '_blank');
+    }
+</script>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="footer-contact" style="width: 986px;">
+        <span class="footer-contact-left">
+            <span style="display: block; margin-top: 10px;">Li&#234;n hệ với Sở Giao dịch Chứng kho&#225;n H&#224; Nội khi ph&#225;t h&#224;nh th&#244;ng tin từ Website n&#224;y.</span>
+            <span style="display: block; margin-top: 5px;">Giấy ph&#233;p số 151/GP-BC ng&#224;y 29/08/2005 của Cục B&#225;o ch&#237;, Bộ Văn h&#243;a TT về cung cấp th&#244;ng tin l&#234;n mạng Internet.</span>
+        </span>
+        <span class="footer-contact-right">
+            <span style="display: block; margin-top: 10px;">
+                <a href="/thuat-ngu.html">Thuật ngữ</a>
+                &nbsp;|&nbsp;<a href="/hoi-dap.html">FAQs</a>
+                &nbsp;|&nbsp;<a href="/cau-truc-website.html">Cấu tr&#250;c website</a>
+                &nbsp;|&nbsp;<a href="/lien-he.html">Li&#234;n hệ</a>
+                &nbsp;|&nbsp;<a href="/ban-do.html">Bản đồ</a>
+                &nbsp;|&nbsp;<a href="/khuyen-cao.html">Khuyến c&#225;o</a>
+                &nbsp;|&nbsp;<a href="/rss.html">RSS</a>
+            </span>
+                
+        </span>
+    </div>
+    <div class="footer-company">
+        <span style="display: block; margin-top: 10px;">&#169; 2016 Bản quyển thuộc &quot;Sở Giao dịch Chứng kho&#225;n H&#224; Nội&quot;.</span>
+    </div>
+</div>
+<script>
+    jssorSlideNoResize('divLKDT', 10000, 230, 100);
+</script>
+
+            <!-- #footer -->
+        </div>
+    </div>
+    <!-- #wrapper -->
+
+</body>
+</html> 

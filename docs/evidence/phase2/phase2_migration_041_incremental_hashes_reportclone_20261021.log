@@ -1,0 +1,19 @@
+BEGIN
+ALTER TABLE
+psql:sql/migrations/041_phase2_deterministic_chunk_hashes.sql:8: NOTICE:  column "input_sha256" of relation "feature_chunks" already exists, skipping
+psql:sql/migrations/041_phase2_deterministic_chunk_hashes.sql:8: NOTICE:  column "output_sha256" of relation "feature_chunks" already exists, skipping
+psql:sql/migrations/041_phase2_deterministic_chunk_hashes.sql:11: NOTICE:  column "input_sha256" of relation "step_runs" already exists, skipping
+psql:sql/migrations/041_phase2_deterministic_chunk_hashes.sql:11: NOTICE:  column "output_sha256" of relation "step_runs" already exists, skipping
+ALTER TABLE
+DO
+CREATE FUNCTION
+CREATE FUNCTION
+DROP FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMIT

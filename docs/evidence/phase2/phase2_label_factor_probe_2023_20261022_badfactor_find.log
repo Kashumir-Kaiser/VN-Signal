@@ -1,0 +1,296 @@
+BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:12: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:12: NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, elapsed 00:00:00.541047
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:12: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.495281
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |        1768
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:13: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:13: NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, elapsed 00:00:01.208859
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:13: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.271178
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        1624
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:14: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:14: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:01.709801
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:14: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.418237
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        2250
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:17: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:17: NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, elapsed 00:00:00.264164
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:17: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.173797
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |         523
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:18: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:18: NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, elapsed 00:00:00.657398
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:18: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.254504
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        1005
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:19: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:19: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:01.377707
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:19: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.422179
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        1915
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:20: NOTICE:  Phase 2 adjustment cache scaling exponent 0.942, 15/30/60 timings 523/1005/1915 ms, 1518 symbols in 26 batches of 60 (estimated per-batch 1931.2 ms), projected cache time 0.84 minutes (budget 40 minutes)
+ assert_phase2_adjustment_cache_scaling 
+----------------------------------------
+                     0.9423126498193496
+(1 row)
+
+ begin_phase2_adjustment_rows 
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:21: NOTICE:  Phase 2 adjustment cache initialized for 26 batches of up to 60 symbols
+------------------------------
+                           26
+(1 row)
+
+ populate_phase2_adjustment_rows 
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, elapsed 00:00:01.32134
+---------------------------------
+                          108331
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115152
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 1 rows 115152, elapsed 00:00:01.768641
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111302
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 2 rows 111302, elapsed 00:00:02.019827
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 3 rows 113879, elapsed 00:00:01.887602
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113879
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114214
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 4 rows 114214, elapsed 00:00:01.803399
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114805
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 5 rows 114805, elapsed 00:00:01.721537
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 6 rows 112592, elapsed 00:00:01.831742
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112592
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          116639
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 7 rows 116639, elapsed 00:00:01.774451
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106585
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 8 rows 106585, elapsed 00:00:01.682357
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111358
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 9 rows 111358, elapsed 00:00:01.737138
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          106117
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 10 rows 106117, elapsed 00:00:01.75166
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113594
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 11 rows 113594, elapsed 00:00:02.020805
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112628
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 12 rows 112628, elapsed 00:00:01.813238
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 13 rows 113102, elapsed 00:00:02.083267
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113102
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          113642
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 14 rows 113642, elapsed 00:00:02.067397
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111909
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 15 rows 111909, elapsed 00:00:02.457548
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          111802
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 16 rows 111802, elapsed 00:00:02.174508
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 17 rows 115171, elapsed 00:00:03.075333
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115171
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115471
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 18 rows 115471, elapsed 00:00:02.109465
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 19 rows 112613, elapsed 00:00:02.254776
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112613
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 20 rows 109469, elapsed 00:00:02.15512
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          109469
+(1 row)
+
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          114091
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 21 rows 114091, elapsed 00:00:02.180113
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          110051
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 22 rows 110051, elapsed 00:00:02.550623
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          112438
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 23 rows 112438, elapsed 00:00:02.181252
+ populate_phase2_adjustment_rows 
+---------------------------------
+                          115457
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 24 rows 115457, elapsed 00:00:02.551749
+ populate_phase2_adjustment_rows 
+---------------------------------
+                           32023
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:24: NOTICE:  Phase 2 adjustment cache batch 25 rows 32023, elapsed 00:00:01.307173
+ finish_phase2_adjustment_rows 
+-------------------------------
+                       2844435
+(1 row)
+
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:25: NOTICE:  Phase 2 adjustment cache rows 2844435, finalize elapsed 00:00:09.523918
+ cached_adjustment_rows 
+------------------------
+                2844435
+(1 row)
+
+DROP TABLE
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:28: NOTICE:  table "phase2_label_targets" does not exist, skipping
+SELECT 720718
+ALTER TABLE
+CREATE INDEX
+ANALYZE
+psql:docs/evidence/phase2/phase2_label_factor_probe_2023_20261022.sql:60: NOTICE:  table "phase2_label_latest_exit" does not exist, skipping
+DROP TABLE
+SELECT 1454
+ALTER TABLE
+ANALYZE
+SET
+SET
+                                                                                                                         QUERY PLAN                                                                                                                         
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=101536.38..101536.40 rows=1 width=12) (actual rows=0.00 loops=1)
+   Output: r.symbol_id, min(r.trade_date)
+   Group Key: r.symbol_id
+   Buffers: local read=51717 written=8
+   ->  Sort  (cost=101536.38..101536.39 rows=1 width=12) (actual rows=0.00 loops=1)
+         Output: r.symbol_id, r.trade_date
+         Sort Key: r.symbol_id
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: local read=51717 written=8
+         ->  Hash Anti Join  (cost=41.74..101536.37 rows=1 width=12) (actual rows=0.00 loops=1)
+               Output: r.symbol_id, r.trade_date
+               Hash Cond: (r.symbol_id = x.symbol_id)
+               Buffers: local read=51717 written=8
+               ->  Hash Join  (cost=40.72..101535.33 rows=1 width=12) (actual rows=0.00 loops=1)
+                     Output: r.symbol_id, r.trade_date
+                     Inner Unique: true
+                     Hash Cond: (r.symbol_id = k.symbol_id)
+                     Join Filter: (r.trade_date <= k.latest_exit_date)
+                     Buffers: local read=51717 written=8
+                     ->  Seq Scan on pg_temp.phase2_adjustment_rows r  (cost=0.00..101494.61 rows=2 width=12) (actual rows=0.00 loops=1)
+                           Output: r.symbol_id, r.trade_date, r.source, r.v, r.is_traded, r.reference_adjustment_ratio, r.episode_start_date, r.model_o, r.model_h, r.model_l, r.model_c, r.adjustment_vintage_at, r.landing_id, r.source_row, r.fetched_at
+                           Filter: ((r.source = 'vndirect'::text) AND ((r.reference_adjustment_ratio IS NULL) OR (r.reference_adjustment_ratio <= '0'::double precision) OR (r.reference_adjustment_ratio >= 'Infinity'::double precision)))
+                           Rows Removed by Filter: 2844435
+                           Buffers: local read=51717 written=8
+                     ->  Hash  (cost=22.54..22.54 rows=1454 width=12) (never executed)
+                           Output: k.symbol_id, k.latest_exit_date
+                           ->  Seq Scan on pg_temp.phase2_label_latest_exit k  (cost=0.00..22.54 rows=1454 width=12) (never executed)
+                                 Output: k.symbol_id, k.latest_exit_date
+               ->  Hash  (cost=1.01..1.01 rows=1 width=8) (never executed)
+                     Output: x.symbol_id
+                     ->  Seq Scan on ops.ml_symbol_scope x  (cost=0.00..1.01 rows=1 width=8) (never executed)
+                           Output: x.symbol_id
+                           Filter: (x.scope_status = 'EXCLUDED'::text)
+ Planning:
+   Buffers: shared hit=23 read=5, local hit=4 read=11
+ Planning Time: 2.890 ms
+ Execution Time: 1566.015 ms
+(37 rows)
+
+ symbol | symbol_id | trade_date | reference_adjustment_ratio | landing_id | source_row | fetched_at 
+--------+-----------+------------+----------------------------+------------+------------+------------
+(0 rows)
+
+ROLLBACK

@@ -1,0 +1,19 @@
+Pager usage is off.
+BEGIN
+CREATE TABLE
+COPY 2
+CREATE TABLE
+COPY 1
+DO
+INSERT 0 0
+SELECT 2
+DO
+DO
+INSERT 0 0
+DO
+COMMIT
+         target_database         | symbol | event_id | prior_venue | venue | prior_ceased_from | effective_date |                          source_sha256                           |                        continuity_sha256                         
+---------------------------------+--------+----------+-------------+-------+-------------------+----------------+------------------------------------------------------------------+------------------------------------------------------------------
+ vnsignal_phase2_report_20261019 | GDW    |      292 | UPCOM       | HNX   | 2018-12-07        | 2018-12-18     | 0755fec1e2e91593f2e2506f6fe65e68d70f672c06b809d685a78f7bd799af00 | aeba54a3203a3baf7fb7c6e7ff7b7cedcd3bece591075e232a44c9769bb642e5
+(1 row)
+

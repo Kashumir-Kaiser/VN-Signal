@@ -1,0 +1,29 @@
+Pager usage is off.
+Timing is on.
+BEGIN
+Time: 2.655 ms
+SET
+Time: 3.284 ms
+SET
+Time: 0.112 ms
+SET
+Time: 0.085 ms
+DO
+Time: 54.915 ms
+CREATE TABLE
+Time: 362.600 ms
+SELECT 2009
+Time: 1009.909 ms (00:01.010)
+CREATE INDEX
+Time: 26.569 ms
+CREATE INDEX
+Time: 2.988 ms
+ANALYZE
+Time: 69.702 ms
+SELECT 3
+Time: 11.999 ms
+CREATE INDEX
+Time: 7.142 ms
+E2 checkpoint: materializing immutable VNDIRECT adjustment inputs
+psql:C:/Users/HP/VN-Signal/tests/sql/phase2_e2_real_assertions.sql:61: ERROR:  canceling statement due to user request
+Time: 481230.562 ms (08:01.231)

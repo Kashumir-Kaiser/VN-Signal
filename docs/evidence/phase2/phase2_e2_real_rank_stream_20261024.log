@@ -1,0 +1,87 @@
+Pager usage is off.
+Timing is on.
+BEGIN
+Time: 12.277 ms
+SET
+Time: 4.133 ms
+SET
+Time: 0.118 ms
+SET
+Time: 0.081 ms
+SET
+Time: 0.068 ms
+DO
+Time: 69.380 ms
+DO
+Time: 90.072 ms
+CREATE TABLE
+Time: 105.525 ms
+SELECT 2009
+Time: 59.568 ms
+CREATE INDEX
+Time: 15.789 ms
+CREATE INDEX
+Time: 3.235 ms
+ANALYZE
+Time: 37.204 ms
+SELECT 3
+Time: 13.283 ms
+CREATE INDEX
+Time: 4.803 ms
+E2 checkpoint: selecting the PIT-stratified 60-symbol cohort
+SELECT 60
+Time: 22133.941 ms (00:22.134)
+CREATE INDEX
+Time: 7.032 ms
+ANALYZE
+Time: 45.116 ms
+E2 checkpoint: cohort selection complete
+E2 checkpoint: building the canonical adjustment cache for the selected cohort
+SELECT 117551
+Time: 464054.409 ms (07:44.054)
+COMMENT
+Time: 13.796 ms
+CREATE INDEX
+Time: 87.477 ms
+CREATE INDEX
+Time: 91.545 ms
+ANALYZE
+Time: 176.650 ms
+SELECT 60
+Time: 34.656 ms
+COMMENT
+Time: 0.247 ms
+ALTER TABLE
+Time: 8.448 ms
+CREATE INDEX
+Time: 3.717 ms
+ANALYZE
+Time: 17.584 ms
+CREATE TABLE
+Time: 15.028 ms
+COMMENT
+Time: 0.262 ms
+INSERT 0 1
+Time: 4.396 ms
+ prepare_phase2_adjustment_rows 
+--------------------------------
+ 
+(1 row)
+
+Time: 19.787 ms
+E2 checkpoint: copying the finalized adjustment cache
+SELECT 117551
+Time: 102.175 ms
+CREATE INDEX
+Time: 64.264 ms
+ANALYZE
+Time: 161.621 ms
+E2 checkpoint: raw input snapshot is ready
+CREATE TABLE
+Time: 8.839 ms
+CREATE TABLE
+Time: 5.140 ms
+E2 checkpoint: validating the immutable current-hash baseline
+psql:tests/sql/phase2_e2_real_assertions.sql:388: ERROR:  persistent baseline contains stale V2/V3 feature hashes for the selected cohort
+CONTEXT:  PL/pgSQL function inline_code_block line 76 at RAISE
+Time: 20188.023 ms (00:20.188)

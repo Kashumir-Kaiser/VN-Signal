@@ -1,0 +1,34 @@
+\set ON_ERROR_STOP on
+\pset pager off
+BEGIN;
+SET LOCAL statement_timeout='5min';
+SET LOCAL work_mem='8MB';
+SET LOCAL maintenance_work_mem='16MB';
+SET LOCAL jit=off;
+SET LOCAL random_page_cost=1.1;
+SET LOCAL vnpipe.phase2_symbol_batch_size='15';
+SET LOCAL application_name='phase2_fixed_replicate_diagnostic';
+-- Fixed warmup, followed by three balanced rounds. No retry-until-pass.
+SELECT * FROM feat.probe_phase2_adjustment_cache(15);
+SELECT * FROM feat.probe_phase2_adjustment_cache(30);
+SELECT * FROM feat.probe_phase2_adjustment_cache(60);
+CREATE TEMP TABLE measured_samples(sample_no integer,symbol_count integer,row_count bigint,duration_ms bigint) ON COMMIT DROP;
+DO $$
+DECLARE sizes integer[]:=ARRAY[15,30,60,30,60,15,60,15,30]; i integer;
+BEGIN
+    FOR i IN 1..9 LOOP
+        INSERT INTO measured_samples SELECT i,p.* FROM feat.probe_phase2_adjustment_cache(sizes[i]) p;
+    END LOOP;
+END $$;
+TABLE measured_samples;
+WITH summaries AS (
+ SELECT symbol_count,min(duration_ms) AS minimum_ms,max(duration_ms) AS maximum_ms,
+        percentile_cont(0.5) WITHIN GROUP (ORDER BY duration_ms) AS median_ms,
+        stddev_pop(duration_ms)/avg(duration_ms) AS coefficient_of_variation,
+        min(row_count) AS minimum_rows,max(row_count) AS maximum_rows
+ FROM measured_samples GROUP BY symbol_count
+)
+SELECT *, CASE WHEN lag(median_ms) OVER (ORDER BY symbol_count)>0
+               THEN ln(median_ms/lag(median_ms) OVER (ORDER BY symbol_count))/ln(2.0) END AS adjacent_exponent
+FROM summaries ORDER BY symbol_count;
+ROLLBACK;

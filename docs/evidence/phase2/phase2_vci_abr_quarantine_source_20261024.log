@@ -1,0 +1,6 @@
+ trade_date |              ingest_id               | landing_id |          route          | ordinal_1based | checksum_ok | body_ok | exact_ohlcv 
+------------+--------------------------------------+------------+-------------------------+----------------+-------------+---------+-------------
+ 2018-10-16 | c8c9d725-4248-4af6-81af-55037802fad7 |         11 | equity_ohlcv_quarantine |              1 | t           | t       | t
+ 2018-10-17 | c8c9d725-4248-4af6-81af-55037802fad7 |         11 | equity_ohlcv_quarantine |              2 | t           | t       | t
+(2 rows)
+

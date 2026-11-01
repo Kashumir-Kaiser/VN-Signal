@@ -1,0 +1,26 @@
+BEGIN
+ALTER TABLE
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+COMMIT
+BEGIN
+SET
+SET
+CREATE TABLE
+DO
+ materialize_phase2_vci_lineage 
+--------------------------------
+                              9
+(1 row)
+
+DO
+UPDATE 1
+ materialize_phase2_vci_lineage 
+--------------------------------
+                              1
+(1 row)
+
+DO
+DO
+ROLLBACK

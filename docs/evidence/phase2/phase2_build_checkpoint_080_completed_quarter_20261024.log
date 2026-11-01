@@ -1,0 +1,11 @@
+       clock_timestamp        |  pid  | application_name | state  | wait_event_type | wait_event |    query_age    
+------------------------------+-------+------------------+--------+-----------------+------------+-----------------
+ 2026-10-24 17:23:35.05308+07 | 14332 | phase2_features  | active |                 |            | 00:01:13.036545
+(1 row)
+
+ status  | chunks |  rows   | through_date 
+---------+--------+---------+--------------
+ pending |     19 |         | 2026-10-16
+ done    |     14 | 1183092 | 2022-03-31
+(2 rows)
+

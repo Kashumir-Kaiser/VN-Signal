@@ -1,0 +1,17 @@
+Pager usage is off.
+BEGIN
+SET
+SET
+SELECT 5
+ALTER TABLE
+SELECT 10032
+ALTER TABLE
+CREATE INDEX
+ANALYZE
+ year | sampled_labels | nonzero_factor_labels | exact_factor_mismatches |  max_abs_factor_delta  | exact_return_mismatches | max_abs_return_delta | invalid_spans 
+------+----------------+-----------------------+-------------------------+------------------------+-------------------------+----------------------+---------------
+ 2018 |            517 |                    86 |                       0 |                      0 |                       0 |                    0 |             0
+ 2019 |           2385 |                   198 |                      75 | 1.3877787807814457e-17 |                       0 |                    0 |             0
+(2 rows)
+
+ROLLBACK

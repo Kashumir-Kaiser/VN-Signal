@@ -1,0 +1,63 @@
+BEGIN
+DELETE 4478
+DELETE 4478
+DELETE 2239
+DELETE 320
+DELETE 320
+INSERT 0 0
+INSERT 0 320
+INSERT 0 2239
+INSERT 0 320
+INSERT 0 0
+INSERT 0 0
+COMMIT
+BEGIN
+DO
+CREATE TABLE
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 adjustment cache rows 2282, elapsed 00:00:00.313257
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.036077
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.06313
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 rank rows 872, elapsed 00:00:00.042017
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 batch 0 spine rows 2240, elapsed 00:00:00.041829
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 batch 0 base rows 2239, elapsed 00:00:00.072051
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 batch 0 feature rows 2239, elapsed 00:00:00.418879
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 adjustment cache rows 2282, elapsed 00:00:00.150904
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 sessions 320, elapsed 00:00:00.05284
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 market context rows 320, elapsed 00:00:00.100921
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 rank rows 872, elapsed 00:00:00.055492
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 batch 0 spine rows 640, elapsed 00:00:00.046137
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 batch 0 base rows 640, elapsed 00:00:00.062268
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 batch 0 feature rows 640, elapsed 00:00:00.219675
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 batch 1 spine rows 640, elapsed 00:00:00.043641
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 batch 1 base rows 640, elapsed 00:00:00.108011
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 batch 1 feature rows 640, elapsed 00:00:00.15953
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 batch 2 spine rows 640, elapsed 00:00:00.043996
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 batch 2 base rows 639, elapsed 00:00:00.314529
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 batch 2 feature rows 639, elapsed 00:00:00.201506
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 batch 3 spine rows 320, elapsed 00:00:00.057473
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 batch 3 base rows 320, elapsed 00:00:00.065229
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 batch 3 feature rows 320, elapsed 00:00:00.124628
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 adjustment cache rows 2282, elapsed 00:00:00.10564
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 adjustment cache rows 2282, elapsed 00:00:00.10838
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 adjustment cache rows 2282, elapsed 00:00:00.10175
+psql:tests/sql/phase2_feature_assertions.sql:427: NOTICE:  Phase 2 adjustment cache rows 2282, elapsed 00:00:00.37651
+DO
+ROLLBACK

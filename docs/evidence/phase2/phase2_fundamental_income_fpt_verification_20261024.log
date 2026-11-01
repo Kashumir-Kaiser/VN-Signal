@@ -1,0 +1,3 @@
+ERROR:  column reference "first_seen_at" is ambiguous
+LINE 1: ... periods,min(period_end),max(period_end),bool_and(first_seen...
+                                                             ^

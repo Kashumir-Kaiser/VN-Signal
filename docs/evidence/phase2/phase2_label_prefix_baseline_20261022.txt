@@ -1,0 +1,10 @@
+database=vnsignal_phase2_report_20261019
+phase2-vci-full-rebuild-20261021|labels|20181001-20181231|done|164436|27b61a3a54faf20b4ec11c3faf842885dfe1f1f2be52738771e79d47c03f4d6d|e21219d0a522b55e2086fe6e805ea94de6d7bf1d1fcf87da9a5da22851aaca58
+phase2-vci-full-rebuild-20261021|labels|20190101-20191231|done|652912|84964a58858588edccd3e718f64dfece9074f9b3b6447ac8a1dbf602aeebca24|1471ecdbd4ccc79fd410f5f69ea5cb1e3caacde5b5f5d008f829677c8fd720f2
+phase2-vci-full-rebuild-20261021|labels|20200101-20201231|done|682714|6f00b76f7bdfdefcf3a2469fa314b0d5b239b8af1607fb035646ec24e527ebe0|c98b4d22fa8349794c26113477736a9eeed0a0dae32d2f555694f75b5d1bd35e
+phase2-vci-full-rebuild-20261021|labels|20210101-20211231|failed|||
+phase2-vci-full-rebuild-20261021|labels|20220101-20221231|pending|||
+phase2-vci-full-rebuild-20261021|labels|20230101-20231231|pending|||
+phase2-vci-full-rebuild-20261021|labels|20240101-20241231|pending|||
+phase2-vci-full-rebuild-20261021|labels|20250101-20251231|pending|||
+phase2-vci-full-rebuild-20261021|labels|20260101-20261016|pending|||

@@ -1,0 +1,54 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.78s
+     Running tests\sql_parity.rs (rust\target\debug\deps\sql_parity-a8e5847f67734581.exe)
+
+running 1 test
+E3 diagnostic-only sample restricted to 2023-04-04; this run cannot satisfy the full parity gate
+E3 checkpoint: selected 20 deterministic feature rows, elapsed 741.0588ms
+E3 checkpoint: selected source lineage verified, elapsed 342.0372ms
+E3 checkpoint: initializing point-in-time cache batches
+E3 checkpoint: cache batch 0/26 rows 108331, elapsed 1.6748447s
+E3 checkpoint: cache batch 1/26 rows 115152, elapsed 1.8205303s
+E3 checkpoint: cache batch 2/26 rows 111302, elapsed 1.6742557s
+E3 checkpoint: cache batch 3/26 rows 113879, elapsed 1.833188s
+E3 checkpoint: cache batch 4/26 rows 114214, elapsed 1.7373231s
+E3 checkpoint: cache batch 5/26 rows 114805, elapsed 1.7424535s
+E3 checkpoint: cache batch 6/26 rows 112592, elapsed 1.7454266s
+E3 checkpoint: cache batch 7/26 rows 116639, elapsed 2.235257s
+E3 checkpoint: cache batch 8/26 rows 106585, elapsed 1.7231183s
+E3 checkpoint: cache batch 9/26 rows 111358, elapsed 1.8001504s
+E3 checkpoint: cache batch 10/26 rows 106117, elapsed 1.6972326s
+E3 checkpoint: cache batch 11/26 rows 113594, elapsed 2.3394828s
+E3 checkpoint: cache batch 12/26 rows 112628, elapsed 2.4710863s
+E3 checkpoint: cache batch 13/26 rows 113102, elapsed 2.3487573s
+E3 checkpoint: cache batch 14/26 rows 113642, elapsed 2.5024874s
+E3 checkpoint: cache batch 15/26 rows 111909, elapsed 4.3831461s
+E3 checkpoint: cache batch 16/26 rows 111802, elapsed 3.7256291s
+E3 checkpoint: cache batch 17/26 rows 115171, elapsed 2.9118512s
+E3 checkpoint: cache batch 18/26 rows 115471, elapsed 2.3759033s
+E3 checkpoint: cache batch 19/26 rows 112613, elapsed 2.2064909s
+E3 checkpoint: cache batch 20/26 rows 109469, elapsed 2.2028846s
+test postgres_features_match_polars_reference_for_twenty_symbol_days has been running for over 60 seconds
+E3 checkpoint: cache batch 21/26 rows 114091, elapsed 2.448584s
+E3 checkpoint: cache batch 22/26 rows 110051, elapsed 2.1556148s
+E3 checkpoint: cache batch 23/26 rows 112438, elapsed 2.8120204s
+E3 checkpoint: cache batch 24/26 rows 115457, elapsed 3.2584063s
+E3 checkpoint: cache batch 25/26 rows 32023, elapsed 2.3561147s
+E3 checkpoint: point-in-time cache ready, rows 2844435, elapsed 72.7156591s
+E3 checkpoint: loaded 1545430 market rows and index context through 2023-04-04, elapsed 34.3780393s
+E3 checkpoint: Polars reference for 2023-04-04 completed, elapsed 524.8424482s
+
+thread 'postgres_features_match_polars_reference_for_twenty_symbol_days' (10796) panicked at crates\phase2-parity\tests\sql_parity.rs:915:9:
+assertion `left == right` failed: session_ordinal differs for 824 at 2023-04-04
+  left: 1127
+ right: 1061
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test postgres_features_match_polars_reference_for_twenty_symbol_days ... FAILED
+
+failures:
+
+failures:
+    postgres_features_match_polars_reference_for_twenty_symbol_days
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4 filtered out; finished in 643.31s
+
+error: test failed, to rerun pass `-p vn-signal-phase2-parity --test sql_parity`

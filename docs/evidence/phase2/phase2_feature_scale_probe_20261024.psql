@@ -1,0 +1,125 @@
+\set ON_ERROR_STOP on
+\pset pager off
+
+-- Rollback-only 15/30/60-symbol feature-plan probe on the disposable report clone.
+-- The cache is deliberately limited to 60 symbols; ranks and market context are sample-scoped.
+BEGIN ISOLATION LEVEL REPEATABLE READ;
+SET LOCAL statement_timeout='30min';
+SET LOCAL temp_file_limit='90GB';
+SET LOCAL work_mem='32MB';
+SET LOCAL jit=off;
+SET LOCAL synchronous_commit=off;
+SET LOCAL random_page_cost=1.1;
+SET LOCAL vnpipe.phase2_symbol_batch_size='60';
+SET LOCAL vnpipe.phase2_cache_time_budget_minutes='40';
+SET LOCAL application_name='phase2_feature_scale_cache';
+SELECT feat.begin_phase2_adjustment_rows(60,60);
+SELECT feat.populate_phase2_adjustment_rows(0);
+SELECT feat.finish_phase2_adjustment_rows();
+COMMIT;
+
+LOAD 'auto_explain';
+SET auto_explain.log_min_duration='2s';
+SET auto_explain.log_nested_statements=on;
+SET auto_explain.log_analyze=on;
+SET auto_explain.log_buffers=on;
+SET auto_explain.log_verbose=on;
+SET auto_explain.log_level='DEBUG1';
+SET client_min_messages='DEBUG1';
+
+BEGIN ISOLATION LEVEL REPEATABLE READ;
+SET LOCAL statement_timeout='50s';
+SET LOCAL temp_file_limit='90GB';
+SET LOCAL work_mem='32MB';
+SET LOCAL jit=off;
+SET LOCAL synchronous_commit=off;
+SET LOCAL random_page_cost=1.1;
+SET LOCAL vnpipe.phase2_symbol_batch_size='60';
+SET LOCAL application_name='phase2_feature_scale_probe';
+DO $phase2_feature_scale_15$
+DECLARE
+    v_previous_path text;
+    v_symbols bigint[];
+    v_rows bigint;
+    v_actual_symbols bigint;
+    v_started timestamptz;
+BEGIN
+    SELECT array_agg(symbol_id ORDER BY symbol_id) INTO v_symbols
+    FROM (SELECT symbol_id FROM pg_temp.phase2_adjustment_symbol_batches ORDER BY symbol_id LIMIT 15) s;
+    DELETE FROM feat.features_daily
+    WHERE feature_version='phase2-v3' AND symbol_id=ANY(v_symbols)
+      AND trade_date BETWEEN DATE '2020-01-01' AND DATE '2020-03-31';
+    v_started:=clock_timestamp();
+    v_previous_path:=feat.phase2_builder_set_context('core','feat','ops');
+    v_rows:=feat.build_price_features_v3_shared(DATE '2020-01-01',DATE '2020-03-31',v_symbols);
+    PERFORM feat.phase2_builder_restore_context(v_previous_path);
+    SELECT count(*) INTO v_actual_symbols FROM pg_temp.phase2_v3_symbol_batches;
+    RAISE NOTICE 'FEATURE SCALE PROBE requested=15 selected=% rows=% elapsed=%',
+        v_actual_symbols,v_rows,clock_timestamp()-v_started;
+END
+$phase2_feature_scale_15$;
+ROLLBACK;
+
+BEGIN ISOLATION LEVEL REPEATABLE READ;
+SET LOCAL statement_timeout='100s';
+SET LOCAL temp_file_limit='90GB';
+SET LOCAL work_mem='32MB';
+SET LOCAL jit=off;
+SET LOCAL synchronous_commit=off;
+SET LOCAL random_page_cost=1.1;
+SET LOCAL vnpipe.phase2_symbol_batch_size='60';
+SET LOCAL application_name='phase2_feature_scale_probe';DO $phase2_feature_scale_30$
+DECLARE
+    v_previous_path text;
+    v_symbols bigint[];
+    v_rows bigint;
+    v_actual_symbols bigint;
+    v_started timestamptz;
+BEGIN
+    SELECT array_agg(symbol_id ORDER BY symbol_id) INTO v_symbols
+    FROM (SELECT symbol_id FROM pg_temp.phase2_adjustment_symbol_batches ORDER BY symbol_id LIMIT 30) s;
+    DELETE FROM feat.features_daily
+    WHERE feature_version='phase2-v3' AND symbol_id=ANY(v_symbols)
+      AND trade_date BETWEEN DATE '2020-01-01' AND DATE '2020-03-31';
+    v_started:=clock_timestamp();
+    v_previous_path:=feat.phase2_builder_set_context('core','feat','ops');
+    v_rows:=feat.build_price_features_v3_shared(DATE '2020-01-01',DATE '2020-03-31',v_symbols);
+    PERFORM feat.phase2_builder_restore_context(v_previous_path);
+    SELECT count(*) INTO v_actual_symbols FROM pg_temp.phase2_v3_symbol_batches;
+    RAISE NOTICE 'FEATURE SCALE PROBE requested=30 selected=% rows=% elapsed=%',
+        v_actual_symbols,v_rows,clock_timestamp()-v_started;
+END
+$phase2_feature_scale_30$;
+ROLLBACK;
+
+BEGIN ISOLATION LEVEL REPEATABLE READ;
+SET LOCAL statement_timeout='200s';
+SET LOCAL temp_file_limit='90GB';
+SET LOCAL work_mem='32MB';
+SET LOCAL jit=off;
+SET LOCAL synchronous_commit=off;
+SET LOCAL random_page_cost=1.1;
+SET LOCAL vnpipe.phase2_symbol_batch_size='60';
+SET LOCAL application_name='phase2_feature_scale_probe';DO $phase2_feature_scale_60$
+DECLARE
+    v_previous_path text;
+    v_symbols bigint[];
+    v_rows bigint;
+    v_actual_symbols bigint;
+    v_started timestamptz;
+BEGIN
+    SELECT array_agg(symbol_id ORDER BY symbol_id) INTO v_symbols
+    FROM (SELECT symbol_id FROM pg_temp.phase2_adjustment_symbol_batches ORDER BY symbol_id LIMIT 60) s;
+    DELETE FROM feat.features_daily
+    WHERE feature_version='phase2-v3' AND symbol_id=ANY(v_symbols)
+      AND trade_date BETWEEN DATE '2020-01-01' AND DATE '2020-03-31';
+    v_started:=clock_timestamp();
+    v_previous_path:=feat.phase2_builder_set_context('core','feat','ops');
+    v_rows:=feat.build_price_features_v3_shared(DATE '2020-01-01',DATE '2020-03-31',v_symbols);
+    PERFORM feat.phase2_builder_restore_context(v_previous_path);
+    SELECT count(*) INTO v_actual_symbols FROM pg_temp.phase2_v3_symbol_batches;
+    RAISE NOTICE 'FEATURE SCALE PROBE requested=60 selected=% rows=% elapsed=%',
+        v_actual_symbols,v_rows,clock_timestamp()-v_started;
+END
+$phase2_feature_scale_60$;
+ROLLBACK;

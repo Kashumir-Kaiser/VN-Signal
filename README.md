@@ -6,7 +6,7 @@ VN-Signal is designed around the **vnstock v5 free tier**. It must not claim tha
 
 ## Current implementation
 
-Phase 0 foundation and a portion of Phase 1, including an offline, transactionally persisted current-universe listing importer: a Go 1.23 CLI with offline OHLCV frame normalization and quota-aware backfill previews; supervised JSON-lines Python 3.12 vnstock adapter; status/usage/capability probes; fail-closed quota reservations and single-worker process bound; bar quality/publishing gates; crash-aware checkpoints; checked configuration; PostgreSQL schemas and transactional ingestion store with durable quota audit; tagged PostgreSQL driver and migration tooling; integration tests and CI. **No trained model, portfolio recommendations, usable desktop app, full backfill, or deployed scheduler yet.** See [Build status](docs/BUILD_STATUS.md).
+Phase 0 foundation and a portion of Phase 1, including an offline, transactionally persisted current-universe listing importer: a Go 1.23 CLI with offline OHLCV frame normalization and quota-aware backfill previews; supervised JSON-lines Python 3.12 vnstock adapter; status/usage/capability probes; fail-closed quota reservations and single-worker process bound; bar quality/publishing gates; crash-aware checkpoints; checked configuration; PostgreSQL schemas and transactional ingestion store with durable quota audit; tagged PostgreSQL driver and migration tooling; integration tests and CI. **No trained model, portfolio recommendations, usable desktop app, or complete backfill yet. A local Windows VCI/VNDIRECT refresh is scheduled at 06:00; Phase 6 remains in progress.** See [Build status](docs/BUILD_STATUS.md).
 
 ## Prerequisites
 
@@ -40,6 +40,14 @@ export VNPIPE_PYTHON="$(cygpath -aw "$PWD/.venv/Scripts/python.exe")"
 
 `VNPIPE_PYTHON` should resolve to an absolute path before running `go -C go`, because Go runs the worker from the `go/` directory. Set `VNSTOCK_HOME` to the authenticated state directory shown by `vnstock env`; otherwise the worker may find a different, unauthenticated project-local state after `go -C go` changes directories. The example uses the default profile directory under `%USERPROFILE%`. `probe` writes a date-stamped report to `docs/probe/` locally. Without `--active`, it checks the installed tier and quota policy but does not request market data. The active probe checks one sample for each supported route (listings, equity/index OHLCV, three statements and market calendar), records actual columns and limitations, and never treats missing data as success. Use `--routes equity_list` to retry only the listing route after a partial probe. Reports include safe error categories, route durations, numeric worker exit codes, and safe worker cause labels where available, without worker stderr. **It refuses live calls unless the local CLI reports an authenticated `free`/`community` account and exact `limits.per_day` / `limits.per_month`, `used.day` / `used.month`, and `limits.per_minute` values.** On Windows, inspect them with `& .venv\Scripts\vnstock.exe --json status` and `& .venv\Scripts\vnstock.exe --json usage`. Remaining counts are computed as limit minus used; percentages alone, Guest accounts and unknown fields fail closed. A durable API reservation ledger is implemented for explicit backfill, but real account entitlements and database transactions still require local verification. **Do not use GitHub-hosted runners for live vnstock calls.**
 
+## Daily Windows refresh
+
+Windows Task Scheduler runs a local VCI and VNDIRECT refresh at 06:00 Asia/Ho_Chi_Minh. VCI updates the canonical series under the durable quota guard. VNDIRECT updates its separate source series, which Phase 2 reads through the point-in-time adjustment view. If VCI quota or route verification blocks that branch, the VNDIRECT branch is still attempted; KBS remains comparison-only.
+
+The task runs as the current Windows user, can wake the computer from sleep when supported, starts a missed run when the machine becomes available, and retries failures twice at 15-minute intervals. The Windows user must be logged in. Logs and probe reports are stored under LocalAppData, and the PostgreSQL credential is encrypted for that Windows account.
+
+The refresh and task registration scripts are in ops/windows. To re-register the task, run install-daily-market-refresh.ps1. To replace the encrypted database credential, run save-db-credential.ps1 first.
+
 ## Next gates
 
 Read [Runbook](docs/RUNBOOK.md), [Data contract](docs/DATA_CONTRACT.md), and [Decisions](docs/DECISIONS.md). Nothing is presented as a validated market signal until historical point-in-time checks, walk-forward testing, cross-language parity, and paper-trading checks pass.
@@ -58,7 +66,7 @@ py -3.12 -m unittest discover -s tests -v
 
 CI sets `VNPIPE_DISABLE_LIVE=1` and never registers vnstock or queries market data. Its PostgreSQL 16 service runs migration and SQL assertions including transaction rollback. Run locally against a disposable PostgreSQL database with `DATABASE_URL` set: `bash tests/sql/test_migration.sh`. Do not point fault-injection tests at a valuable database.
 
-The SQL migration CI check is **not evidence of a successful local historical backfill**. Tests requiring valid vnstock quota data, real histories, a deployed scheduler, or a serving SQLite snapshot remain incomplete until those components exist.
+The SQL migration CI check is **not evidence of a successful local historical backfill**. Live provider runs, seven unattended trading-day scheduler runs, recovery checks, and serving SQLite snapshot work remain incomplete.
 
 ## Phase 1 offline ingestion checks
 
@@ -164,3 +172,18 @@ Use `vnpipe refresh-listings --active --trading-days N` for one genuine quota-me
 ### Resumable profile collection and coverage review (Phase 1)
 
 After migration 010, run `vnpipe collect-company-profiles --active --trading-days N --max-calls 50` to collect source-backed VCI profiles in a resumable PostgreSQL queue, with global quota-guard reservations and original-frame archives. Use `vnpipe company-profile-status --limit 30` and `sql/diagnostics/company_profile_coverage.sql` for offline coverage flags (not inferred lifecycle dates). See [batch collection runbook](docs/COMPANY_PROFILE_BATCH.md).
+
+### Point-in-time financial statements (Phase 2)
+
+On the registered machine, first verify the exact statement family and frequency:
+
+```text
+vnpipe probe --active --trading-days N --routes income_statement,balance_sheet,cash_flow --period quarter --out PATH
+vnpipe probe --active --trading-days N --routes income_statement,balance_sheet,cash_flow --period year --out OTHER_PATH
+```
+
+Use the corresponding fresh report with `vnpipe backfill-fundamentals --active --probe REPORT --statement income_statement --period quarter --symbols FPT --days N --mode backfill`. Each statement/frequency uses its own validated capability evidence; a quarterly report cannot authorize annual ingestion. `N` is the remaining trading-session count for quota budgeting. PostgreSQL commands require a binary built with the `postgres` tag and a configured `DATABASE_URL`. On Windows, set `VNPIPE_PYTHON` to the registered virtual environment's interpreter.
+
+The adapter records the requested ticker/period and the ticker attribution basis, rejecting conflicting provider metadata. Backfill availability uses the specified conservative quarterly/annual lag and is explicitly marked assumed; `--mode observed` uses actual ingestion time. Raw frames and versioned row observations remain archived. Source IDs, units, accounting basis and quarterly versus cumulative flow semantics must be verified before activating overlay mappings. Financial features stay separate from core price features; no valid champion means suggestions remain disabled. All live requests are blocked by `VNPIPE_DISABLE_LIVE=1` in hosted CI.
+
+Observed fundamental refreshes use a Vietnam-calendar-day job key: same-day repeats skip completed jobs, and a later day can collect a new response. Schedule weekly pulls in observed mode; the key controls duplicate requests, while actual fetched_at determines financial availability. Historical backfill jobs retain their permanent idempotency keys.

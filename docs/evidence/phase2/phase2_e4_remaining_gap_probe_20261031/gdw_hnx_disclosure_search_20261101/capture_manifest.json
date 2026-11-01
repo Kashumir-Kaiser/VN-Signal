@@ -1,0 +1,33 @@
+{
+  "captured_at_utc": "2026-10-31T19:03:13.2014778Z",
+  "source_page": "https://hnx.vn/vi-vn/cophieu-etfs/chi-tiet-chung-khoan-ny-gdw.html",
+  "method": "POST",
+  "symbol": "GDW",
+  "queries": [
+    {
+      "market": "NY",
+      "from_date": "01/11/2018",
+      "to_date": "31/12/2018",
+      "status": 200,
+      "request_url": "https://hnx.vn/ModuleIssuer/List/ThongTinCongBo",
+      "capture_file": "ny_2018-11-01_to_2018-12-31.html",
+      "sha256": "76285e5d7604e39cb247871eb161be12c12fc58055c48e6b1228471fc59208cf",
+      "items": [
+        "1 13/12/2018 09:32 Thông báo về việc bổ sung cổ phiếu GDW vào danh sách chứng khoán không được phép giao dịch ký quỹ",
+        "2 06/12/2018 15:19 Ngày 18/12/2018, ngày giao dịch đầu tiên cổ phiếu niêm yết của CTCP Cấp nước Gia Định (GDW)"
+      ]
+    },
+    {
+      "market": "UC",
+      "from_date": "07/09/2018",
+      "to_date": "18/03/2019",
+      "status": 200,
+      "request_url": "https://hnx.vn/ModuleIssuer/List/ThongTinCongBo",
+      "capture_file": "upcom_2018-09-07_to_2019-03-18.html",
+      "sha256": "7abcd921b354229ad525cc951dff65ee549ca6a1ac66dea55a0add4f02a756f4",
+      "items": [
+        "1 08/11/2018 15:11 Nghị quyết Hội đồng quản trị"
+      ]
+    }
+  ]
+}

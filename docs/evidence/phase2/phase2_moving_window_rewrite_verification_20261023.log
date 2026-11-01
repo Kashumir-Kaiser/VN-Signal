@@ -1,0 +1,4 @@
+database=vnsignal_phase2_report_20261019
+function_projection=
+t|t|t|t
+fixture=BEGIN DO ROLLBACK

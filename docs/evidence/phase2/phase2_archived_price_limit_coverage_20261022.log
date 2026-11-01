@@ -1,0 +1,4 @@
+Pager usage is off.
+BEGIN
+SET
+psql:sql/diagnostics/phase2_archived_price_limit_coverage.sql:38: ERROR:  canceling statement due to statement timeout

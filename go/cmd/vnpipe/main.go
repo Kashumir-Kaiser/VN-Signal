@@ -27,6 +27,7 @@ func usage() {
 Usage:
   vnpipe probe [--active --trading-days N] [--routes route,...] [--out DIR]
   vnpipe probe --active --trading-days N --routes company_info --symbol TICKER --out DIR
+  vnpipe probe --active --trading-days N --routes income_statement,balance_sheet,cash_flow --period quarter|year --out DIR
   vnpipe probe-ohlcv --active --symbol TICKER --source vci|kbs --from DATE --to DATE [--raw-prices] [--out DIR]
   vnpipe budget --daily N --monthly N --days N --rpm N
   vnpipe validate-bars --input FILE --symbol TICKER
@@ -41,11 +42,12 @@ Usage:
   vnpipe backfill-status --from DATE --to DATE [--source vci] (read-only)
   vnpipe reprocess-archived --from DATE --to DATE --source vci (offline no-quota)
   vnpipe requeue-unarchived --symbol SYMBOL --from DATE --to DATE --source vci (audited offline opt-in)
-  vnpipe backfill --active --probe FILE --from DATE --to DATE --days N
+  vnpipe backfill --active --probe FILE --from DATE --to DATE --days N [--max-calls N] [--rotate-daily]
   vnpipe dq-run --date YYYY-MM-DD (Postgres-backed, offline quality gate)
   vnpipe tier-a-build --date YYYY-MM-DD (offline, evidence-gated membership build)
   vnpipe select-dq-cross-source --date YYYY-MM-DD (offline, selects 30 replay-verified VCI/KBS or VCI/VNDIRECT pairs)
   vnpipe backfill-index --active --probe FILE --from DATE --to DATE --days N (one-call VNINDEX/KBS backfill)
+  vnpipe backfill-fundamentals --active --probe FILE --statement TYPE --period quarter|year --symbols ABC,XYZ --days N [--mode backfill|observed]
   vnpipe ingest-kbs-cross-source --active --from DATE --to DATE --days N [--max-calls N] (audited raw-only KBS equity comparison, max 30)
   vnpipe ingest-kbs-invalid-history --active --from DATE --to DATE --days N [--max-calls N] (audited raw-only KBS histories for partial VCI symbols)
   vnpipe backfill-dnse --active --from DATE --to DATE [--symbols ABC,VCB] [--max-calls N] [--pace 500ms] (audited alternate-source historical OHLCV)
@@ -73,6 +75,23 @@ func configPath() string {
 	}
 	return "config/default.toml"
 }
+func setFundamentalProbePeriod(requests []map[string]any, period string) error {
+	if (period != "quarter" && period != "year") || len(requests) == 0 {
+		return errors.New("--period requires quarter or year and selected fundamental routes")
+	}
+	for _, request := range requests {
+		switch request["op"] {
+		case "income_statement", "balance_sheet", "cash_flow":
+		default:
+			return errors.New("--period only applies to fundamental statement probes")
+		}
+	}
+	for _, request := range requests {
+		request["period"] = period
+	}
+	return nil
+}
+
 func probeRequests(endDate string) []map[string]any {
 	return []map[string]any{
 		{"op": "equity_list"},
@@ -389,6 +408,19 @@ func run(args []string) error {
 		return nil
 	}
 	switch args[0] {
+	case "label-policy":
+		if len(args) != 1 {
+			return fmt.Errorf("label-policy accepts no arguments; use VNPIPE_CONFIG to select a profile")
+		}
+		profile, err := config.Load(configPath())
+		if err != nil {
+			return err
+		}
+		policy, err := profile.LabelExecutionPolicy()
+		if err != nil {
+			return err
+		}
+		return json.NewEncoder(os.Stdout).Encode(policy)
 	case "-h", "--help", "help":
 		usage()
 		return nil
@@ -403,6 +435,7 @@ func run(args []string) error {
 		indexSource := f.String("index-source", "", "index_ohlcv provider for a selected probe: kbs or vci")
 		probeStart := f.String("from", "", "start ISO date for selected equity_ohlcv/index_ohlcv probes")
 		probeEnd := f.String("to", "", "end ISO date for selected equity_ohlcv/index_ohlcv probes")
+		statementPeriod := f.String("period", "", "quarter or year; selected fundamental routes only")
 		companySymbol := f.String("symbol", "", "company_info only: ticker whose profile to inspect")
 		out := f.String("out", filepath.Join("..", "docs", "probe"), "report directory")
 		if err := f.Parse(args[1:]); err != nil {
@@ -412,7 +445,11 @@ func run(args []string) error {
 			return errors.New("unexpected arguments")
 		}
 		routesSet := false
+		periodSet := false
 		f.Visit(func(fl *flag.Flag) {
+			if fl.Name == "period" {
+				periodSet = true
+			}
 			if fl.Name == "routes" {
 				routesSet = true
 			}
@@ -448,6 +485,14 @@ func run(args []string) error {
 			}
 		} else if *companySymbol != "" {
 			return errors.New("--symbol requires an active company_info probe")
+		}
+		if periodSet {
+			if !*active {
+				return errors.New("--period requires --active")
+			}
+			if err := setFundamentalProbePeriod(requests, *statementPeriod); err != nil {
+				return err
+			}
 		}
 		if *probeStart != "" || *probeEnd != "" {
 			if !*active {
@@ -695,6 +740,8 @@ func run(args []string) error {
 		return runSelectDQCrossSource(args[1:])
 	case "backfill-index":
 		return runIndexBackfill(args[1:])
+	case "backfill-fundamentals":
+		return runFundamentalsBackfill(args[1:])
 	case "ingest-kbs-cross-source":
 		return runKBSCrossSource(args[1:])
 	case "ingest-kbs-invalid-history":

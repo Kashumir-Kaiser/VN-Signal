@@ -1,0 +1,224 @@
+Pager usage is off.
+Timing is on.
+BEGIN
+Time: 0.406 ms
+SET
+Time: 1.016 ms
+SET
+Time: 0.097 ms
+SET
+Time: 0.075 ms
+SET
+Time: 0.072 ms
+SET
+Time: 0.063 ms
+SET
+Time: 0.081 ms
+SET
+Time: 0.075 ms
+LOAD
+Time: 0.910 ms
+SET
+Time: 0.144 ms
+SET
+Time: 0.079 ms
+SET
+Time: 0.068 ms
+SET
+Time: 0.061 ms
+SET
+Time: 0.067 ms
+SET
+Time: 0.062 ms
+SET
+Time: 0.061 ms
+DO
+Time: 65.531 ms
+SELECT 2009
+Time: 188.812 ms
+CREATE INDEX
+Time: 29.148 ms
+CREATE INDEX
+Time: 3.228 ms
+ANALYZE
+Time: 44.809 ms
+SELECT 1
+Time: 14.720 ms
+SELECT 60
+Time: 15924.555 ms (00:15.925)
+CREATE INDEX
+Time: 7.526 ms
+ANALYZE
+Time: 26.973 ms
+DO
+Time: 10.697 ms
+SELECT 58535
+Time: 197864.215 ms (03:17.864)
+COMMENT
+Time: 7.458 ms
+CREATE INDEX
+Time: 48.513 ms
+CREATE INDEX
+Time: 49.785 ms
+ANALYZE
+Time: 152.604 ms
+SELECT 30
+Time: 21.861 ms
+COMMENT
+Time: 0.198 ms
+ALTER TABLE
+Time: 24.926 ms
+CREATE INDEX
+Time: 3.176 ms
+ANALYZE
+Time: 15.888 ms
+CREATE TABLE
+Time: 9.165 ms
+COMMENT
+Time: 0.196 ms
+INSERT 0 1
+Time: 5.288 ms
+ prepare_phase2_adjustment_rows 
+--------------------------------
+ 
+(1 row)
+
+Time: 25.608 ms
+CREATE TABLE
+Time: 25.401 ms
+E2 V2 profile: 15-symbol call (rollback after measurement)
+ pg_stat_clear_snapshot 
+------------------------
+ 
+(1 row)
+
+Time: 1.637 ms
+INSERT 0 1
+Time: 14.861 ms
+SAVEPOINT
+Time: 0.101 ms
+ phase2_builder_set_context 
+----------------------------
+ "$user", public
+(1 row)
+
+Time: 14.464 ms
+                                                                                      QUERY PLAN                                                                                      
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Result  (cost=37.93..38.19 rows=1 width=8) (actual rows=1.00 loops=1)
+   Buffers: shared hit=309921 read=16302 dirtied=7671 written=51, local hit=147 read=162
+   InitPlan 2
+     ->  Result  (cost=0.32..0.33 rows=1 width=4) (actual rows=1.00 loops=1)
+           Buffers: local read=3
+           InitPlan 1
+             ->  Limit  (cost=0.28..0.32 rows=1 width=4) (actual rows=1.00 loops=1)
+                   Buffers: local read=3
+                   ->  Index Only Scan using phase2_e2_profile_sessions_trade_date_idx on phase2_e2_profile_sessions  (cost=0.28..86.44 rows=2009 width=4) (actual rows=1.00 loops=1)
+                         Index Cond: (trade_date IS NOT NULL)
+                         Heap Fetches: 1
+                         Index Searches: 1
+                         Buffers: local read=3
+   InitPlan 3
+     ->  Seq Scan on phase2_e2_profile_cut  (cost=0.00..35.50 rows=2550 width=4) (actual rows=1.00 loops=1)
+           Buffers: local read=1
+   InitPlan 4
+     ->  Aggregate  (cost=2.09..2.10 rows=1 width=32) (actual rows=1.00 loops=1)
+           Buffers: local read=1
+           ->  Sort  (cost=2.02..2.05 rows=14 width=8) (actual rows=15.00 loops=1)
+                 Sort Key: phase2_e2_profile_cohort.symbol_id
+                 Sort Method: quicksort  Memory: 25kB
+                 Buffers: local read=1
+                 ->  Seq Scan on phase2_e2_profile_cohort  (cost=0.00..1.75 rows=14 width=8) (actual rows=15.00 loops=1)
+                       Filter: (symbol_ordinal <= 15)
+                       Rows Removed by Filter: 45
+                       Buffers: local read=1
+ Planning Time: 0.357 ms
+ Execution Time: 6688.108 ms
+(29 rows)
+
+Time: 8700.422 ms (00:08.700)
+ROLLBACK
+Time: 2.111 ms
+ pg_stat_clear_snapshot 
+------------------------
+ 
+(1 row)
+
+Time: 0.238 ms
+INSERT 0 1
+Time: 0.768 ms
+ cohort_symbols |     elapsed     | temp_files_delta | temp_bytes_delta 
+----------------+-----------------+------------------+------------------
+             15 | 00:00:08.719125 |                0 |                0
+(1 row)
+
+Time: 1.750 ms
+E2 V2 profile: 30-symbol call (rollback after measurement)
+ pg_stat_clear_snapshot 
+------------------------
+ 
+(1 row)
+
+Time: 0.222 ms
+INSERT 0 1
+Time: 0.677 ms
+SAVEPOINT
+Time: 0.101 ms
+ phase2_builder_set_context 
+----------------------------
+ "$user", public
+(1 row)
+
+Time: 12.150 ms
+                                                                                      QUERY PLAN                                                                                      
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Result  (cost=38.44..38.70 rows=1 width=8) (actual rows=1.00 loops=1)
+   Buffers: shared hit=648173 read=38757 dirtied=12975 written=6701, local hit=572 read=77
+   InitPlan 2
+     ->  Result  (cost=0.32..0.33 rows=1 width=4) (actual rows=1.00 loops=1)
+           Buffers: local hit=3
+           InitPlan 1
+             ->  Limit  (cost=0.28..0.32 rows=1 width=4) (actual rows=1.00 loops=1)
+                   Buffers: local hit=3
+                   ->  Index Only Scan using phase2_e2_profile_sessions_trade_date_idx on phase2_e2_profile_sessions  (cost=0.28..86.44 rows=2009 width=4) (actual rows=1.00 loops=1)
+                         Index Cond: (trade_date IS NOT NULL)
+                         Heap Fetches: 1
+                         Index Searches: 1
+                         Buffers: local hit=3
+   InitPlan 3
+     ->  Seq Scan on phase2_e2_profile_cut  (cost=0.00..35.50 rows=2550 width=4) (actual rows=1.00 loops=1)
+           Buffers: local hit=1
+   InitPlan 4
+     ->  Aggregate  (cost=2.60..2.61 rows=1 width=32) (actual rows=1.00 loops=1)
+           Buffers: local hit=1
+           ->  Sort  (cost=2.45..2.53 rows=29 width=8) (actual rows=30.00 loops=1)
+                 Sort Key: phase2_e2_profile_cohort.symbol_id
+                 Sort Method: quicksort  Memory: 25kB
+                 Buffers: local hit=1
+                 ->  Seq Scan on phase2_e2_profile_cohort  (cost=0.00..1.75 rows=29 width=8) (actual rows=30.00 loops=1)
+                       Filter: (symbol_ordinal <= 30)
+                       Rows Removed by Filter: 30
+                       Buffers: local hit=1
+ Planning Time: 0.283 ms
+ Execution Time: 19564.463 ms
+(29 rows)
+
+Time: 19660.254 ms (00:19.660)
+ROLLBACK
+Time: 0.300 ms
+ pg_stat_clear_snapshot 
+------------------------
+ 
+(1 row)
+
+Time: 0.243 ms
+INSERT 0 1
+Time: 0.640 ms
+ cohort_symbols |     elapsed     | temp_files_delta | temp_bytes_delta 
+----------------+-----------------+------------------+------------------
+             30 | 00:00:19.674546 |                0 |                0
+(1 row)
+
+Time: 0.544 ms
+ROLLBACK
+Time: 22.385 ms

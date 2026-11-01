@@ -1,0 +1,7 @@
+symbol,trade_date,curated_bar_source,is_traded,o,h,l,c,v,source_archive_rows,has_v2_feature,has_v3_feature
+TSB,2022-02-15,,,,,,,,0,f,f
+TSB,2022-02-16,vci,t,88.6,88.6,86.2,87,729829,0,f,f
+TSB,2022-02-17,vci,t,88.6,88.6,86.2,87,729829,0,f,f
+TSB,2022-02-18,vci,t,88.6,88.6,86.2,87,729829,0,f,f
+TSB,2022-02-21,vci,t,88.6,88.6,86.2,87,729829,0,f,f
+TSB,2022-02-22,vci,t,88.6,88.6,86.2,87,729829,0,f,f

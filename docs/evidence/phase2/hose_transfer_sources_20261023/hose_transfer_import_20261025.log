@@ -1,0 +1,20 @@
+Pager usage is off.
+BEGIN
+CREATE TABLE
+COPY 14
+CREATE TABLE
+COPY 13
+CREATE TABLE
+COPY 13
+DO
+INSERT 0 9
+DO
+INSERT 0 13
+DO
+ inserted_transfer_events 
+--------------------------
+                       13
+(1 row)
+
+DO
+COMMIT

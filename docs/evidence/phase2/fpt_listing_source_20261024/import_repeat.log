@@ -1,0 +1,4 @@
+BEGIN
+psql:docs/evidence/phase2/fpt_listing_source_20261024/import_capture.sql:12: NOTICE:  FPT issuer document captures inserted: 0
+DO
+COMMIT

@@ -1,0 +1,5 @@
+Target database: vnsignal_phase2_report_20261019
+BEGIN
+CREATE FUNCTION
+DO
+COMMIT

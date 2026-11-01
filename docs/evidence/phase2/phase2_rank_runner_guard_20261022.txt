@@ -1,0 +1,1 @@
+PASS: rank runner refused a non-report database before repair.

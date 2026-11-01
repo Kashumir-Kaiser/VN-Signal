@@ -1,0 +1,11 @@
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/cmd/vnpipe	4.155s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/checkpoint	1.899s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/config	1.776s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/dnse	2.283s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/dq	1.814s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/ingest	2.237s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/live	2.800s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/migrate	1.919s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/quota	1.611s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/vndirect	2.250s
+ok  	github.com/Kashumir-Kaiser/VN-Signal/go/internal/worker	6.791s

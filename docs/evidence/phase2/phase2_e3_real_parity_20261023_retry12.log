@@ -1,0 +1,46 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.53s
+     Running tests\sql_parity.rs (rust\target\debug\deps\sql_parity-a8e5847f67734581.exe)
+
+running 1 test
+E3 checkpoint: selected 20 deterministic feature rows, elapsed 20.2095934s
+E3 checkpoint: selected source lineage verified, elapsed 340.5734ms
+E3 checkpoint: initializing point-in-time cache batches
+E3 checkpoint: cache batch 0/26 rows 108331, elapsed 1.8306607s
+E3 checkpoint: cache batch 1/26 rows 115152, elapsed 1.9199207s
+E3 checkpoint: cache batch 2/26 rows 111302, elapsed 2.080243s
+E3 checkpoint: cache batch 3/26 rows 113879, elapsed 2.4997077s
+E3 checkpoint: cache batch 4/26 rows 114214, elapsed 1.7712919s
+E3 checkpoint: cache batch 5/26 rows 114805, elapsed 1.786856s
+E3 checkpoint: cache batch 6/26 rows 112592, elapsed 1.7111151s
+E3 checkpoint: cache batch 7/26 rows 116639, elapsed 1.8111686s
+E3 checkpoint: cache batch 8/26 rows 106585, elapsed 1.7663442s
+E3 checkpoint: cache batch 9/26 rows 111358, elapsed 2.1695348s
+E3 checkpoint: cache batch 10/26 rows 106117, elapsed 1.7342464s
+E3 checkpoint: cache batch 11/26 rows 113594, elapsed 2.136281s
+E3 checkpoint: cache batch 12/26 rows 112628, elapsed 2.0806568s
+E3 checkpoint: cache batch 13/26 rows 113102, elapsed 2.1417206s
+test postgres_features_match_polars_reference_for_twenty_symbol_days has been running for over 60 seconds
+E3 checkpoint: cache batch 14/26 rows 113642, elapsed 1.9320708s
+E3 checkpoint: cache batch 15/26 rows 111909, elapsed 1.8813521s
+E3 checkpoint: cache batch 16/26 rows 111802, elapsed 2.0020976s
+E3 checkpoint: cache batch 17/26 rows 115171, elapsed 2.1525108s
+E3 checkpoint: cache batch 18/26 rows 115471, elapsed 2.2614616s
+E3 checkpoint: cache batch 19/26 rows 112613, elapsed 2.803102s
+E3 checkpoint: cache batch 20/26 rows 109469, elapsed 3.0041765s
+E3 checkpoint: cache batch 21/26 rows 114091, elapsed 3.3299905s
+E3 checkpoint: cache batch 22/26 rows 110051, elapsed 2.9732695s
+E3 checkpoint: cache batch 23/26 rows 112438, elapsed 3.3801302s
+E3 checkpoint: cache batch 24/26 rows 115457, elapsed 3.4807315s
+E3 checkpoint: cache batch 25/26 rows 32023, elapsed 1.2727691s
+E3 checkpoint: point-in-time cache ready, rows 2844435, elapsed 69.8562309s
+E3 checkpoint: loaded 2059819 market rows and index context through 2024-09-04, elapsed 43.7893968s
+E3 checkpoint: starting Polars reference for 2023-04-04
+E3 checkpoint: Polars reference for 2023-04-04 completed, elapsed 354.6841104s
+E3 checkpoint: starting Polars reference for 2022-10-10
+E3 checkpoint: Polars reference for 2022-10-10 completed, elapsed 332.4007596s
+E3 checkpoint: starting Polars reference for 2024-09-04
+E3 checkpoint: Polars reference for 2024-09-04 completed, elapsed 420.5145299s
+test postgres_features_match_polars_reference_for_twenty_symbol_days ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 1256.75s
+

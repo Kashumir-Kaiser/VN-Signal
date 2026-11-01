@@ -1,0 +1,7 @@
+{
+  "pid": 7220,
+  "process_started_utc": "2026-10-24T05:49:19.3464851Z",
+  "phase": "process_lost_before_database_work",
+  "exit_code": null,
+  "updated_utc": "2026-10-24T05:49:21.0149647Z"
+}

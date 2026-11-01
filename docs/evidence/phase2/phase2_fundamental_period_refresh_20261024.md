@@ -1,0 +1,15 @@
+# Fundamental frequency and observed refresh corrections
+
+The probe CLI now supports an explicit `--period quarter|year` for selected statement routes. It rejects mixed/non-statement selections and invalid/passive period options before invoking a worker. Fundamental ingestion requires fresh, active, nonempty bounded capability evidence for the exact statement and requested frequency. A quarterly report no longer authorizes annual ingestion; missing frequency metadata is unverified. Tests also reject stale/future reports, missing columns, wrong provider/route and empty/oversized results.
+
+All three quarterly and annual FPT statement archives committed through the recorded Go gateway. `phase2_fundamental_six_frames_verification_20261024.log` verifies 768 versions: income160, balance168 and cash56 rows for each frequency, eight periods each. Quarterly coverage is 2024-09-30..2026-06-30; annual coverage is 2018-12-31..2025-12-31. Every source landing passed byte/body checks, its job is COMPLETED and its matching reservation SUCCEEDED. Availability uses the specified assumed45/100-day lag; this is not a proof of original historical publication or unrevised data.
+
+Observed-mode jobs previously had permanent completion keys and could never collect another response after their first success. They now include a frozen Vietnam calendar day. Same-day repeats skip completed jobs; later local days can observe changes, while actual fetch time determines availability. Historical backfill keys remain permanent. Mock runner tests exercise same-day retry, crossing Vietnam midnight on the same UTC day, a later weekly refresh, fresh quota reservations and stable backfill idempotence. The first mock test lacked the required quarantine interface; its failure was retained and the mock now has compile-time interface assertions. The corrected test passed.
+
+The real FPT quarterly cash-flow observed refresh committed one new source frame. Same-day repeat skipped it; the durable job has one attempt/reservation. Versions remained768, observations increased to824 (`phase2_fundamental_observed_repeat_verification_20261024.log`). No value was fabricated or overwritten.
+
+Go tests/vet, Python32 and the explicit UCRT64/CGO race suite passed after the changes (`*_fundamental_complete_20261024.log`). The Windows interpreter default was also corrected from python3 to python, matching the virtual environment executable while retaining the explicit override; its separate Go/vet/Python/race checks passed (`*_windows_python_20261024.log`). A passive smoke check without the override is pending terminal output.
+
+Mappings, bank data, historical shares, accounting-basis handling and overlay population remain open. No champion or suggestions are enabled.
+
+Terminal Windows smoke check passed without VNPIPE_PYTHON override and with the repository virtual environment on PATH. The report is passive, contains no route calls, and identifies installed vnstock5.0.3. See phase2_windows_python_default_smoke_20261024.log and windows_python_default_20261024/2026-10-24.passive.json.

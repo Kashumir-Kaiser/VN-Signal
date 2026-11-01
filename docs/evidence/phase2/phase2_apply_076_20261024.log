@@ -1,0 +1,22 @@
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+psql:sql/migrations/076_phase2_vci_lineage_archive.sql:41: NOTICE:  trigger "phase2_lineage_append_only" for relation "ops.phase2_vci_bar_lineage" does not exist, skipping
+psql:sql/migrations/076_phase2_vci_lineage_archive.sql:44: NOTICE:  trigger "phase2_lineage_no_truncate" for relation "ops.phase2_vci_bar_lineage" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+psql:sql/migrations/076_phase2_vci_lineage_archive.sql:47: NOTICE:  trigger "phase2_lineage_batch_append_only" for relation "ops.phase2_vci_lineage_batches" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+psql:sql/migrations/076_phase2_vci_lineage_archive.sql:50: NOTICE:  trigger "phase2_lineage_batch_no_truncate" for relation "ops.phase2_vci_lineage_batches" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+COMMIT

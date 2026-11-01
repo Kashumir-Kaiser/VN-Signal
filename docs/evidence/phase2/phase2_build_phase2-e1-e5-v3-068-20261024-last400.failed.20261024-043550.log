@@ -1,0 +1,65 @@
+Build ID: phase2-e1-e5-v3-068-20261024-last400
+Stage: features,labels
+Date range: 2025-03-11 through 2026-10-16
+Failure recorded at: 2026-10-24 04:35:50 +07:00
+
+psql failed with exit code 3. BEGIN
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:16: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:16: NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.785718
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:16: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.459736
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |        3714
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:17: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:17: NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, dates 2008, elapsed 00:00:03.889425
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:17: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.480017
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        5468
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:18: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:18: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:04.758243
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:18: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.58923
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        5852
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:19: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 15 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:19: NOTICE:  Phase 2 adjustment cache batch 0 rows 23765, dates 2008, elapsed 00:00:00.523416
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:19: NOTICE:  Phase 2 adjustment cache rows 23765, finalize elapsed 00:00:00.23002
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           15 |     23765 |        1017
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:20: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 30 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:20: NOTICE:  Phase 2 adjustment cache batch 0 rows 53205, dates 2008, elapsed 00:00:01.617688
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:20: NOTICE:  Phase 2 adjustment cache rows 53205, finalize elapsed 00:00:00.692007
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           30 |     53205 |        2511
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:21: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:21: NOTICE:  Phase 2 adjustment cache batch 0 rows 108331, dates 2008, elapsed 00:00:02.807112
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:21: NOTICE:  Phase 2 adjustment cache rows 108331, finalize elapsed 00:00:00.623665
+ symbol_count | row_count | duration_ms 
+--------------+-----------+-------------
+           60 |    108331 |        3625
+(1 row)
+
+psql:C:/Users/HP/AppData/Local/Temp/vn-signal-phase2-b5e789aa8809476aaab83f6c661bee57.sql:22: ERROR:  cache scaling exponent 1.304 exceeds 1.3; inspect the sampled plan and re-probe
+CONTEXT:  PL/pgSQL function feat.assert_phase2_adjustment_cache_scaling() line 37 at RAISE

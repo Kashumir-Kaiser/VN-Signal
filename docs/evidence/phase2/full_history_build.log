@@ -1,0 +1,17 @@
+Exception: C:\Users\HP\VN-Signal\ops\phase2_build.ps1:56
+Line |
+  56 |          throw "psql failed with exit code $exitCode. $details"
+     |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | psql failed with exit code 1. BEGIN ERROR:  canceling statement due to user request CONTEXT:  SQL statement
+     | "CREATE TEMP TABLE phase2_adjustment_rows ON COMMIT DROP AS     SELECT
+     | r.symbol_id,r.trade_date,r.source,r.v,r.is_traded,            r.reference_adjustment_ratio,r.episode_start_date,
+     | r.model_o,r.model_h,r.model_l,r.model_c,           
+     | r.adjustment_vintage_at,r.landing_id,r.source_row,r.fetched_at     FROM
+     | core.vndirect_reference_adjustment_details r     WHERE r.source='vndirect'       AND NOT EXISTS (          
+     | SELECT 1 FROM ops.ml_symbol_scope excluded           WHERE excluded.symbol_id=r.symbol_id             AND
+     | excluded.scope_status='EXCLUDED'       )" PL/pgSQL function feat.prepare_phase2_adjustment_rows(boolean) line 24
+     | at SQL statement SQL statement "SELECT feat.prepare_phase2_adjustment_rows(true)" PL/pgSQL function
+     | feat.build_price_features_v3(date,date) line 6 at PERFORM PL/pgSQL function inline_code_block line 5 at
+     | assignment SET SET SET SET SET SET SET SET
+
+

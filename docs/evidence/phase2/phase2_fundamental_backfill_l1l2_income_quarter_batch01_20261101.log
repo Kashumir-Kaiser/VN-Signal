@@ -1,0 +1,5 @@
+scope_symbols=100; statement=income_statement; period=quarter; database=vnsignal_phase2_report_20261019; days=31
+vnpipe: passive quota probe worker failed: worker exit: exit status 2; stderr: C:\Users\HP\AppData\Local\Programs\Python\Python312\python.exe: can't open file 'C:\\Users\\HP\\py\\vnstock_worker.py': [Errno 2] No such file or directory
+retry_scope_symbols=100; worker_path=py/vnstock_worker.py; database=vnsignal_phase2_report_20261019
+Fundamentals archive: statement=income_statement period=quarter mode=backfill committed=46 skipped=0 blocked=0
+vnpipe: fundamental route failed or response id mismatch

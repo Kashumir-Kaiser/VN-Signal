@@ -1,0 +1,14 @@
+{
+  "symbol": "FPT",
+  "source": "fpt",
+  "source_url": "https://fpt.com/vi/tin-tuc/fpt-duoc-bo-tai-chinh-tang-ky-niem-chuong",
+  "local_file": "fpt_issuer_listing_history_2015-07-23.html",
+  "fetched_at": "2026-10-24T10:26:27.7073021Z",
+  "payload_sha256": "0aca4c95cf379e4d7dc68f315c8b8a806156e68b0d8e9192b13aa9587aadbda2",
+  "payload_size": 91808,
+  "document_date": "2015-07-23",
+  "claim_admission_date": "2006-12-13",
+  "claim_venue": "HOSE",
+  "claim_basis": "Issuer page publication header and explicit original admission date; manually reviewed text",
+  "limitation": "Current capture of historical issuer article; independent original-page vintage not established. Do not backdate availability to admission date."
+}

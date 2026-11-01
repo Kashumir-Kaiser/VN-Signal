@@ -1,0 +1,49 @@
+<div class="table-portal">
+    <table id="tblListMaCKChuyenSan">
+        <thead>
+            <tr>
+                <th style="width:60px;text-align:center">STT</th>
+                <th style="width:120px;text-align:center" data-sort="StockCode">M&#xE3; ch&#x1EE9;ng kho&#xE1;n</th>
+                <th style="width:180px;text-align:center" data-sort="IsinCode">M&#xE3; ISIN</th>
+                <th style="width:250px;text-align:center" data-sort="StockName">T&#xEA;n ch&#x1EE9;ng kho&#xE1;n</th>
+                <th style="width:150px;text-align:center" data-sort="SANCHUYENDI">S&#xE0;n chuy&#x1EC3;n &#x111;i</th>
+                <th style="width:150px;text-align:center" data-sort="SANCHUYENDEN">S&#xE0;n chuy&#x1EC3;n &#x111;&#x1EBF;n</th>
+                <th style="width:150px;text-align:center" data-sort="NgayChotSoDu">Ng&#xE0;y hi&#x1EC7;u l&#x1EF1;c</th>
+                <th style="width:200px;text-align:center" data-sort="Title">Ti&#xEA;u &#x111;&#x1EC1;</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: center">GDW</td>
+                    <td style="text-align: center">VN000000GDW9</td>
+                    <td>C&#x1ED5; phi&#x1EBF;u CTCP C&#x1EA5;p n&#x1B0;&#x1EDB;c Gia &#x110;&#x1ECB;nh</td>
+                    <td>UpCOM</td>
+                    <td>HNX</td>
+                    <td style="text-align: center">11/12/2018</td>
+                    <td>
+                        <a class="link-main" href="/ad1/51464">GDW: Chuy&#x1EC3;n d&#x1EEF; li&#x1EC7;u &#x111;&#x103;ng k&#xFD;, l&#x1B0;u k&#xFD; c&#x1ED5; phi&#x1EBF;u GDW t&#x1EEB; th&#x1ECB; tr&#x1B0;&#x1EDD;ng UPCOM sang th&#x1ECB; tr&#x1B0;&#x1EDD;ng HNX</a>
+                    </td>
+                </tr>
+        </tbody>
+    </table>
+</div>
+<div class="text-right"><div class='paging'><div id='d_page'><div><div id='d_total_rec'>Hiển thị:  1 - 1 / 1 bản ghi </div></div><div id='d_number_of_page'></div></div></div></div>
+<script>
+    function showMsgErr() {
+        showError('Kh&#xF4;ng c&#xF3; b&#xE0;i vi&#x1EBF;t ho&#x1EB7;c &#x111;&#xE3; b&#x1ECB; g&#x1EE1; b&#x1ECF;!');
+    }
+</script>
+
+<script>
+    $(function () {
+        $("#tblListMaCKChuyenSan th[data-sort]").on("click", function () {
+            SortTable($(this).attr("data-sort"), function () {
+                if (!!window.tablMaCKChuyenSan) {
+                    tablMaCKChuyenSan(1);
+                }
+            });
+        });
+        ChangeIconSortTable();
+    });
+</script>

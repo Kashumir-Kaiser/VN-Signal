@@ -1,0 +1,5 @@
+Output format is csv.
+BEGIN
+SET
+SET
+psql:sql/diagnostics/phase2_integrity_report_chunked.sql:165: ERROR:  canceling statement due to statement timeout

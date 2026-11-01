@@ -1,0 +1,22 @@
+Build ID: phase2-vci-repair-bounded-20261022
+Database: vnsignal_phase2_report_20261019
+Chunk days: 30
+Statement timeout minutes: 25
+
+Date range: 2018-10-01 through 2026-10-16
+Expected chunks: 98
+Context rows: 2009
+Context SHA-256: fca2e344e5cb46a79c021ad5babcb0f23b3f3f3ba197d3e521cd503a61039d10
+DONE 2026-08-20 through 2026-09-18 rows=28799 changed=28799 sha256=8b14cfcc9e1ed34fa10a40558cab1a95c60031ad5ccb151e9784897dd854cabc
+DONE 2026-09-19 through 2026-10-16 rows=30349 changed=30349 sha256=ed7b72c20f5540ee77154d17b7d47509dea30b0977bff9e2206278b1a460a678
+
+Final status:
+build_id              |  status  | context_rows |                          context_sha256                          
+------------------------------------+----------+--------------+------------------------------------------------------------------
+ phase2-vci-repair-bounded-20261022 | complete |         2009 | fca2e344e5cb46a79c021ad5babcb0f23b3f3f3ba197d3e521cd503a61039d10
+(1 row)
+
+ status | chunks |  rows   | changed_rows 
+--------+--------+---------+--------------
+ done   |     98 | 2844435 |      2844435
+(1 row)

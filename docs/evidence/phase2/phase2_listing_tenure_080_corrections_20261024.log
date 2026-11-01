@@ -1,0 +1,83 @@
+BEGIN
+CREATE TABLE
+psql:sql/migrations/080_phase2_listing_tenure.sql:27: NOTICE:  relation "security_listing_events" already exists, skipping
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+psql:sql/migrations/080_phase2_listing_tenure.sql:31: NOTICE:  constraint "security_listing_events_supersedes_check" of relation "security_listing_events" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+CREATE INDEX
+psql:sql/migrations/080_phase2_listing_tenure.sql:35: NOTICE:  relation "security_listing_event_lookup" already exists, skipping
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+COMMENT
+DO
+DO
+COMMIT
+BEGIN
+CREATE TABLE
+psql:sql/migrations/080_phase2_listing_tenure.sql:27: NOTICE:  relation "security_listing_events" already exists, skipping
+ALTER TABLE
+psql:sql/migrations/080_phase2_listing_tenure.sql:28: NOTICE:  column "supersedes_event_id" of relation "security_listing_events" already exists, skipping
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE INDEX
+psql:sql/migrations/080_phase2_listing_tenure.sql:33: NOTICE:  relation "security_listing_event_one_successor" already exists, skipping
+psql:sql/migrations/080_phase2_listing_tenure.sql:35: NOTICE:  relation "security_listing_event_lookup" already exists, skipping
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+COMMENT
+DO
+DO
+COMMIT
+BEGIN
+CREATE FUNCTION
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 2601, dates 350, elapsed 00:00:00.129976
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.062024
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 price-day hash range 2098-12-19 through 2099-01-20: requested 23, uncovered 23, date planning elapsed 00:00:00.377805
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 price-day hash aggregate completed: 23 dates, elapsed 00:00:00.401193
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 price-day hash coverage recorded: 23 requested dates, total elapsed 00:00:00.402467
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 price-day hash range 2098-12-19 through 2099-01-20: requested 23, uncovered 0, date planning elapsed 00:00:00.035849
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 price-day hash coverage recorded: 23 requested dates, total elapsed 00:00:00.036339
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 price-day hash range 2098-05-23 through 2098-06-30: requested 27, uncovered 27, date planning elapsed 00:00:00.03342
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 price-day hash aggregate completed: 27 dates, elapsed 00:00:00.052798
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 price-day hash coverage recorded: 27 requested dates, total elapsed 00:00:00.053578
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 price-day hash range 2098-05-23 through 2098-06-30: requested 27, uncovered 0, date planning elapsed 00:00:00.029392
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 price-day hash coverage recorded: 27 requested dates, total elapsed 00:00:00.029921
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 60 symbols
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 2601, dates 350, elapsed 00:00:00.120796
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 adjustment cache rows 2601, finalize elapsed 00:00:00.124787
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 sessions 251, elapsed 00:00:00.34098
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 market context rows 251, elapsed 00:00:00.134526
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 rank rows 987, elapsed 00:00:00.093451
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 batch 0 spine rows 2008, elapsed 00:00:00.113913
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 batch 0 base rows 2006, elapsed 00:00:00.123607
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 batch 0 feature rows 2006, elapsed 00:00:01.444975
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 price-day hash range 2098-01-06 through 2099-01-20: requested 272, uncovered 272, date planning elapsed 00:00:00.037958
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 price-day hash aggregate completed: 272 dates, elapsed 00:00:00.109668
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  Phase 2 price-day hash coverage recorded: 272 requested dates, total elapsed 00:00:00.112351
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  table "phase2_listing_session_prefix" does not exist, skipping
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  table "phase2_label_liquidity_median" does not exist, skipping
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  table "phase2_label_membership_rank" does not exist, skipping
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  table "phase2_label_tier_rank" does not exist, skipping
+psql:tests/sql/phase2_listing_tenure_assertions.sql:98: NOTICE:  table "phase2_label_liquidity_day" does not exist, skipping
+DO
+ROLLBACK
