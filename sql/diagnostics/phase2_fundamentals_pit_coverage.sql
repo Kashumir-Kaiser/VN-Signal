@@ -96,20 +96,42 @@ ORDER BY versions DESC, f.symbol_id, f.statement_type, f.period_end, f.row_id
 LIMIT 200;
 
 -- Observation lineage: every archived version should have at least one
--- observation, and observations should point to the same raw landing/source.
-SELECT f.snapshot_id, f.raw_landing_id, f.source, f.symbol_id,
+-- observation. Unchanged repeats intentionally keep the original version's
+-- raw_landing_id while appending an observation linked to the new landing, so
+-- validate each observation against its own immutable landing and row ordinal.
+SELECT f.snapshot_id, f.raw_landing_id AS version_raw_landing_id, f.source,
+       f.symbol_id,
        f.statement_type, f.period_type, f.period_end, f.row_id,
        count(o.observation_id) AS observations,
-       count(*) FILTER (WHERE o.raw_landing_id IS DISTINCT FROM f.raw_landing_id
-                         OR o.source IS DISTINCT FROM f.source) AS mismatched_observations
+       count(o.observation_id) FILTER (WHERE
+             l.landing_id IS NULL
+          OR o.source IS DISTINCT FROM l.source
+          OR o.ingest_id IS DISTINCT FROM l.ingest_id
+          OR o.fetched_at IS DISTINCT FROM l.fetched_at
+          OR CASE WHEN jsonb_typeof(l.payload->'rows')='array' THEN
+               o.source_row<0
+               OR o.source_row>=jsonb_array_length(l.payload->'rows')
+               OR o.row_payload IS DISTINCT FROM l.payload->'rows'->o.source_row
+             ELSE true END
+       ) AS invalid_observations
 FROM core.fundamentals_pit f
 LEFT JOIN core.fundamentals_pit_observations o USING (snapshot_id)
+LEFT JOIN raw.landings l ON l.landing_id=o.raw_landing_id
 WHERE f.archive_managed
 GROUP BY f.snapshot_id, f.raw_landing_id, f.source, f.symbol_id,
          f.statement_type, f.period_type, f.period_end, f.row_id
 HAVING count(o.observation_id) = 0
-    OR count(*) FILTER (WHERE o.raw_landing_id IS DISTINCT FROM f.raw_landing_id
-                         OR o.source IS DISTINCT FROM f.source) > 0
+    OR count(o.observation_id) FILTER (WHERE
+             l.landing_id IS NULL
+          OR o.source IS DISTINCT FROM l.source
+          OR o.ingest_id IS DISTINCT FROM l.ingest_id
+          OR o.fetched_at IS DISTINCT FROM l.fetched_at
+          OR CASE WHEN jsonb_typeof(l.payload->'rows')='array' THEN
+               o.source_row<0
+               OR o.source_row>=jsonb_array_length(l.payload->'rows')
+               OR o.row_payload IS DISTINCT FROM l.payload->'rows'->o.source_row
+             ELSE true END
+       ) > 0
 ORDER BY f.snapshot_id
 LIMIT 200;
 

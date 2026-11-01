@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "scope": "Read-only HNX listed-market disclosure search for GDW's 2018 annual report and prior-venue endpoint clues.",
+  "capture_method": "HTTPS POST with normal certificate validation; no vnstock route or database write.",
+  "symbol": "GDW",
+  "market_code": "NY",
+  "query_parameters": {
+    "pToDate": "05/04/2019",
+    "pNumPage": "1",
+    "pStockCode": "GDW",
+    "pTieuDeTin": "",
+    "pAction": "1",
+    "pFromDate": "18/03/2019",
+    "pMarketCode": "NY",
+    "pOrderBy": "",
+    "pNhomTin": "",
+    "pNumRecord": "50"
+  },
+  "index_capture": {
+    "file": "GDW_NY_18-03-2019_05-04-2019_p1.html",
+    "url": "https://www.hnx.vn/ModuleIssuer/List/ThongTinCongBo",
+    "final_url": "https://www.hnx.vn/ModuleIssuer/List/ThongTinCongBo",
+    "http_status": 200,
+    "content_type": "text/html",
+    "started_at_utc": "2026-11-01T15:59:42.397967Z",
+    "completed_at_utc": "2026-11-01T15:59:44.440760Z",
+    "bytes": 4667,
+    "sha256": "055646f505a6b08de7e3c6aa20d68aa74ce1ef4e10937a13fdf9165ff0fa8764"
+  },
+  "articles": [
+    {
+      "article_id": "310069",
+      "published_display": "28/03/2019 15:44",
+      "title": "Báo cáo sở hữu của cổ đông lớn - AMERICA LLC"
+    },
+    {
+      "article_id": "309502",
+      "published_display": "26/03/2019 09:22",
+      "title": "Báo cáo thường niên 2018"
+    },
+    {
+      "article_id": "308727",
+      "published_display": "21/03/2019 08:48",
+      "title": "Ngày đăng ký cuối cùng Đại hội đồng cổ đông thường niên năm 2019"
+    },
+    {
+      "article_id": "308550",
+      "published_display": "20/03/2019 09:58",
+      "title": "Công bố thông tin giải trình Báo cáo kế toán năm 2018"
+    },
+    {
+      "article_id": "308433",
+      "published_display": "19/03/2019 16:06",
+      "title": "Báo cáo tài chính năm 2018"
+    }
+  ],
+  "attachments": [
+    {
+      "file": "GDW_annual_report_2018_attachment_01.pdf",
+      "url": "https://owa.hnx.vn/ftp///cims/2019/3_W5/000000008272545_Cong_bo_thong_tin_Bao_cao_thuong_nien_nam_2018.pdf",
+      "label": "1.GDW_2019.3.26_68b625b_Cong_bo_thong_tin_Bao_cao_thuong_nien_nam_2018.pdf",
+      "final_url": "https://owa.hnx.vn/ftp///cims/2019/3_W5/000000008272545_Cong_bo_thong_tin_Bao_cao_thuong_nien_nam_2018.pdf",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "started_at_utc": "2026-11-01T16:00:27.518471Z",
+      "completed_at_utc": "2026-11-01T16:00:35.177400Z",
+      "bytes": 10009167,
+      "sha256": "d0617795ee1592d5180fd144814791d0f63b0478525117df19bc4819a8a3edf6"
+    }
+  ],
+  "limitations": [],
+  "article_detail": {
+    "article": {
+      "article_id": "309502",
+      "published_display": "26/03/2019 09:22",
+      "title": "Báo cáo thường niên 2018"
+    },
+    "file": "GDW_article_309502_detail.html",
+    "url": "https://www.hnx.vn/ModuleArticles/ArticlesCPEtfs/PopupTinCongBoDetail",
+    "final_url": "https://www.hnx.vn/ModuleArticles/ArticlesCPEtfs/PopupTinCongBoDetail",
+    "http_status": 200,
+    "content_type": "text/html",
+    "started_at_utc": "2026-11-01T16:00:25.543124Z",
+    "completed_at_utc": "2026-11-01T16:00:27.510228Z",
+    "bytes": 1189,
+    "sha256": "45d549fe01d3c9731fafcefe17005b829e26dd96f85c14ee24a7769a9ba1f410"
+  }
+}

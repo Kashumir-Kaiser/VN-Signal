@@ -1,0 +1,23 @@
+SET
+SET
+SET
+SET
+BEGIN
+DO
+CREATE FUNCTION
+COMMENT
+COMMENT
+CREATE FUNCTION
+DO
+psql:docs/evidence/phase2/phase2_e3_year_anchored_smoke_20261025.sql:209: NOTICE:  Phase 2 adjustment cache initialized for 1 batches of up to 1 symbols
+psql:docs/evidence/phase2/phase2_e3_year_anchored_smoke_20261025.sql:209: NOTICE:  Phase 2 date-local adjustment cache batch 0 rows 2008, dates 2008, elapsed 00:00:01.375585
+psql:docs/evidence/phase2/phase2_e3_year_anchored_smoke_20261025.sql:209: NOTICE:  Phase 2 adjustment cache rows 2008, finalize elapsed 00:00:02.038078
+psql:docs/evidence/phase2/phase2_e3_year_anchored_smoke_20261025.sql:209: NOTICE:  Phase 2 sessions 1061, elapsed 00:00:00.269473
+psql:docs/evidence/phase2/phase2_e3_year_anchored_smoke_20261025.sql:209: NOTICE:  Phase 2 market context rows 1061, elapsed 00:01:37.474529
+psql:docs/evidence/phase2/phase2_e3_year_anchored_smoke_20261025.sql:209: NOTICE:  Phase 2 rank rows 1, elapsed 00:00:03.688086
+psql:docs/evidence/phase2/phase2_e3_year_anchored_smoke_20261025.sql:209: NOTICE:  Phase 2 batch 0 spine rows 1061, elapsed 00:00:00.164874
+psql:docs/evidence/phase2/phase2_e3_year_anchored_smoke_20261025.sql:209: NOTICE:  Phase 2 batch 0 base rows 1, elapsed 00:00:00.113236
+psql:docs/evidence/phase2/phase2_e3_year_anchored_smoke_20261025.sql:209: NOTICE:  Phase 2 batch 0 feature rows 1, elapsed 00:00:15.694252
+psql:docs/evidence/phase2/phase2_e3_year_anchored_smoke_20261025.sql:209: NOTICE:  E3 year-anchor smoke observed ema_100_ratio=0.0040100067402384365, feature_hash=28089ed13c1be5a19865bc9cea34c44cb84f3e460ee3f3f2ee837a853d317f6b
+DO
+ROLLBACK

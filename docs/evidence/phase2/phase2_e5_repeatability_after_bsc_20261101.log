@@ -1,0 +1,14 @@
+Pager usage is off.
+BEGIN
+         set_config          |          set_config          | set_config | set_config 
+-----------------------------+------------------------------+------------+------------
+ phase2-v3-089-full-20261025 | phase2-e5-refresh-a-20261030 | 2023-01-01 | 2023-12-31
+(1 row)
+
+DO
+           build_a           |           build_b            | date_from  |  date_to   |                       current_feature_hash                       | verified_month_chunks | months_with_target_hash |                    durable_year_output_hash_a                    |                    durable_year_output_hash_b                    |                 canonical_full_year_content_hash                 |                           effective_execution_policy                            
+-----------------------------+------------------------------+------------+------------+------------------------------------------------------------------+-----------------------+-------------------------+------------------------------------------------------------------+------------------------------------------------------------------+------------------------------------------------------------------+---------------------------------------------------------------------------------
+ phase2-v3-089-full-20261025 | phase2-e5-refresh-a-20261030 | 2023-01-01 | 2023-12-31 | 28089ed13c1be5a19865bc9cea34c44cb84f3e460ee3f3f2ee837a853d317f6b |                    12 |                      12 | 9492d3cd1d9a3e38921e0155157ae2a51faf5a14bd7a99cca102f272ee1bd41e | 9492d3cd1d9a3e38921e0155157ae2a51faf5a14bd7a99cca102f272ee1bd41e | 320159a4b68e90021bf874a6cfbb750506ecfc4054a89254507abfe06c0028bf | {"policy_version": 1, "entry_ceiling_weight": 0, "multiple_locked_weight": 0.5}
+(1 row)
+
+ROLLBACK

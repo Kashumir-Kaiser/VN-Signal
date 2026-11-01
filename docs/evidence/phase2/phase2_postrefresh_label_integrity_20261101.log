@@ -1,0 +1,23 @@
+Pager usage is off.
+BEGIN
+SET
+SET
+SET
+SET
+DO
+                       current_feature_hash                       | current_hash_feature_rows | feature_from | feature_to | feature_symbols 
+------------------------------------------------------------------+---------------------------+--------------+------------+-----------------
+ 28089ed13c1be5a19865bc9cea34c44cb84f3e460ee3f3f2ee837a853d317f6b |                   2844435 | 2018-10-01   | 2026-10-16 |            1518
+(1 row)
+
+ refreshed_label_rows | ready_rows | label_from |  label_to  
+----------------------+------------+------------+------------
+              5688870 |    3161496 | 2018-10-01 | 2026-10-16
+(1 row)
+
+ monthly_label_chunks | done_monthly_chunks | recorded_monthly_label_rows | first_chunk | last_chunk 
+----------------------+---------------------+-----------------------------+-------------+------------
+                   97 |                  97 |                     5688870 | 2018-10-01  | 2026-10-16
+(1 row)
+
+COMMIT

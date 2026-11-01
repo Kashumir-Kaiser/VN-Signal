@@ -2,7 +2,7 @@
 \pset format csv
 \pset footer off
 
--- Read-only detail for the 221 V3 continuity gaps. Missing security snapshots
+-- Read-only detail for the V3 continuity gaps. Missing security snapshots
 -- are not interpreted as delisting or suspension. Raw-bar coverage and
 -- explicit lifecycle evidence are reported separately for review.
 BEGIN READ ONLY;
@@ -56,13 +56,36 @@ SELECT g.symbol,
            AS overlapping_lifecycle_evidence,
        coalesce(lifecycle.lifecycle_source_mismatch, false)
            AS lifecycle_source_mismatch,
+       lifecycle.covered_gap_sessions,
+       coalesce(lifecycle.conflicting_evidence_types, false)
+           AS conflicting_evidence_types,
+       transfer.exact_transfer_shapes,
+       transfer.overlapping_transfer_shapes,
+       coalesce(transfer.overlapping_transfer_evidence, 'none')
+           AS overlapping_transfer_evidence,
        observations.security_observations_between,
        CASE
            WHEN lifecycle.overlapping_lifecycle_evidence IS NOT NULL
                 AND lifecycle.lifecycle_source_mismatch
                THEN 'lifecycle/source ticker mismatch; manual review required'
+           WHEN lifecycle.conflicting_evidence_types
+               THEN 'conflicting lifecycle evidence; manual review required'
            WHEN lifecycle.overlapping_lifecycle_evidence IS NOT NULL
+                AND lifecycle.covered_gap_sessions=g.missing_effective_sessions
                THEN 'lifecycle evidence and source ticker match; interval explained'
+           WHEN lifecycle.overlapping_lifecycle_evidence IS NOT NULL
+               THEN 'partial lifecycle evidence; interval unresolved'
+           WHEN transfer.overlapping_transfer_shapes > 1
+               THEN 'conflicting venue-transfer endpoints; interval unresolved'
+           WHEN transfer.overlapping_transfer_shapes = 1
+                AND transfer.exact_transfer_shapes = 0
+               THEN 'partial or misaligned venue-transfer evidence; interval unresolved'
+           WHEN transfer.exact_transfer_shapes = 1
+                AND (bars.traded_bar_rows_between > 0
+                     OR sources.traded_source_rows_between > 0)
+               THEN 'venue-transfer endpoints conflict with positive-trade rows; review required'
+           WHEN transfer.exact_transfer_shapes = 1
+               THEN 'documented venue-transfer gap; no bars or labels imputed'
            WHEN bars.sessions_without_daily_bar = g.missing_effective_sessions
                THEN 'no daily bars in gap; suspension vs source gap unresolved'
            WHEN bars.bar_rows_between = g.missing_effective_sessions
@@ -97,18 +120,64 @@ CROSS JOIN LATERAL (
       AND src.trade_date < g.trade_date
 ) sources
 CROSS JOIN LATERAL (
-    SELECT string_agg(
-               e.evidence_type || ':' || e.date_from::text || '..' || coalesce(e.date_to::text, 'open')
-                   || '[landing=' || coalesce(l.symbol, 'missing') ||
-                   CASE WHEN l.symbol = g.symbol THEN ';ticker-match]' ELSE ';ticker-mismatch]' END,
-               '; ' ORDER BY e.date_from, e.evidence_type
-           ) AS overlapping_lifecycle_evidence,
-           bool_or(l.symbol IS DISTINCT FROM g.symbol) AS lifecycle_source_mismatch
-    FROM core.security_lifecycle_evidence e
-    LEFT JOIN raw.landings l ON l.landing_id = e.source_landing_id
-    WHERE e.symbol_id = g.symbol_id
-      AND e.date_from <= g.trade_date
-      AND coalesce(e.date_to, 'infinity'::date) >= g.prior_trade_date
+    SELECT count(DISTINCT (t.prior_venue,t.venue,t.prior_ceased_from,t.effective_date))
+               FILTER (WHERE t.prior_ceased_from=(
+                   SELECT min(missing.trade_date) FROM sessions missing
+                   WHERE missing.session_no>g.prior_session_no
+                     AND missing.session_no<g.session_no
+               ) AND t.effective_date=g.trade_date) AS exact_transfer_shapes,
+           count(DISTINCT (t.prior_venue,t.venue,t.prior_ceased_from,t.effective_date))
+               AS overlapping_transfer_shapes,
+           string_agg(DISTINCT
+               t.prior_venue||'>'||t.venue||':'||t.prior_ceased_from::text||'..'||t.effective_date::text
+                   ||'[source='||t.source_landing_id::text
+                   ||';continuity='||t.continuity_landing_id::text||']',
+               '; ' ORDER BY
+               t.prior_venue||'>'||t.venue||':'||t.prior_ceased_from::text||'..'||t.effective_date::text
+                   ||'[source='||t.source_landing_id::text
+                   ||';continuity='||t.continuity_landing_id::text||']'
+           ) AS overlapping_transfer_evidence
+    FROM ops.phase2_verified_security_transfers t
+    WHERE t.symbol_id=g.symbol_id
+      AND t.prior_ceased_from<=g.trade_date
+      AND t.effective_date>=g.prior_trade_date
+) transfer
+CROSS JOIN LATERAL (
+    WITH missing AS (
+        SELECT s.trade_date
+        FROM sessions s
+        WHERE s.session_no>g.prior_session_no AND s.session_no<g.session_no
+    ), gap_evidence AS (
+        SELECT e.evidence_id,e.evidence_type,e.date_from,e.date_to,l.symbol,
+               l.symbol IS DISTINCT FROM g.symbol AS source_mismatch
+        FROM core.security_lifecycle_evidence e
+        LEFT JOIN raw.landings l ON l.landing_id=e.source_landing_id
+        WHERE e.symbol_id=g.symbol_id
+          AND EXISTS (
+              SELECT 1 FROM missing m
+              WHERE m.trade_date BETWEEN e.date_from AND coalesce(e.date_to,'infinity'::date)
+          )
+    )
+    SELECT (SELECT string_agg(
+               e.evidence_type||':'||e.date_from::text||'..'||coalesce(e.date_to::text,'open')
+                   ||'[landing='||coalesce(e.symbol,'missing')||
+                   CASE WHEN e.source_mismatch THEN ';ticker-mismatch]' ELSE ';ticker-match]' END,
+               '; ' ORDER BY e.date_from,e.evidence_type,e.evidence_id
+           ) FROM gap_evidence e) AS overlapping_lifecycle_evidence,
+           coalesce((SELECT bool_or(e.source_mismatch) FROM gap_evidence e),false)
+               AS lifecycle_source_mismatch,
+           (SELECT count(*) FROM missing m
+            WHERE EXISTS (
+                SELECT 1 FROM gap_evidence e
+                WHERE m.trade_date BETWEEN e.date_from AND coalesce(e.date_to,'infinity'::date)
+            ))::bigint AS covered_gap_sessions,
+           EXISTS (
+               SELECT 1 FROM missing m
+               JOIN core.security_lifecycle_evidence e ON e.symbol_id=g.symbol_id
+                 AND m.trade_date BETWEEN e.date_from AND coalesce(e.date_to,'infinity'::date)
+               GROUP BY m.trade_date
+               HAVING count(DISTINCT e.evidence_type)>1
+           ) AS conflicting_evidence_types
 ) lifecycle
 CROSS JOIN LATERAL (
     SELECT count(*)::bigint AS security_observations_between

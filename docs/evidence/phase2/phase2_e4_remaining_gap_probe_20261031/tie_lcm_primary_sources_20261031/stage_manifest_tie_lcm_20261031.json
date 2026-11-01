@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "built_at_utc": "2026-10-31T11:27:32.751939Z",
+  "scope": "TIE and LCM transfer endpoint stage for guarded import into disposable report clone only.",
+  "capture_manifests": {
+    "capture_manifest_tie_lcm_20261031.json": "e0668dce61ebdc4c0f5cb583a0364b0a01ba94464daeba4fa958d10aecf81d54",
+    "capture_manifest_lcm_hose_decision_20261031.json": "6e8fcd7f4c260e06e7c06ff6ba896b33d1dafab3f2a9facd3c6093f7b17430c6",
+    "capture_manifest.json": "73095b38df25db47796012176c9b5abcd33629e21afb68dd5333ef4aa335d471"
+  },
+  "landings": 4,
+  "events": 2,
+  "source_reviews": 7,
+  "date_semantics": {
+    "TIE prior_trade_date": "positive-volume VCI bar on the final effective session before the HNX article's explicit 2019-08-01 HOSE delisting date; source does not state a separate final-trade date",
+    "TIE prior_ceased_from": "official HNX article's HOSE delisting date 2019-08-01",
+    "TIE effective_date": "signed HNX Notice 872/TB-SGDHN and HNX profile first UPCoM trading date 2019-08-09",
+    "LCM prior_trade_date": "signed HOSE Decision 520/QD-SGDHCM final-trade date 2022-08-26",
+    "LCM prior_ceased_from": "signed HOSE Decision 520/QD-SGDHCM delisting-effective date 2022-08-29",
+    "LCM effective_date": "signed HNX Notice 2754/TB-SGDHN and HNX profile first UPCoM trading date 2022-09-09; VSDC's 2022-08-31 transfer-data date is retained as a distinct milestone"
+  },
+  "limitations": [
+    "Venue endpoints only; no bars, prices, labels, gap-session trade status, or suspension status are imported or inferred."
+  ],
+  "files": [
+    {
+      "file": "landing_stage_tie_lcm_20261031.csv",
+      "bytes": 1994987,
+      "sha256": "08ee5ddd533f6c522118f502ac7815754bd97458b770d0c46ae5cfafd04694f9"
+    },
+    {
+      "file": "transfer_event_stage_tie_lcm_20261031.csv",
+      "bytes": 1677,
+      "sha256": "c1051f18ca4c1aa207afb0cf564fb8911d6e07b9591c3e9e3313df54a2709b86"
+    },
+    {
+      "file": "source_review_tie_lcm_20261031.csv",
+      "bytes": 4246,
+      "sha256": "530b3d5f80e7bbe181fdd16b88bcce3e0f1e1ac32b0a5d1fbc94ff1a962abdd6"
+    }
+  ]
+}

@@ -68,13 +68,6 @@ func runFundamentalsBackfill(args []string) error {
 	if err != nil {
 		return err
 	}
-	budget, err := quota.Budget(q.DailyRemaining, q.MonthlyRemaining, *days)
-	if err != nil {
-		return err
-	}
-	if budget < len(jobs) {
-		return fmt.Errorf("fresh account quota covers %d calls, need %d", budget, len(jobs))
-	}
 	db, err := openPostgres(ctx, os.Getenv("DATABASE_URL"))
 	if err != nil {
 		return err
@@ -87,7 +80,16 @@ func runFundamentalsBackfill(args []string) error {
 	if err = store.InstallQuota(ctx, q); err != nil {
 		return fmt.Errorf("quota verification not durable: %w", err)
 	}
-	pacer, err := quota.NewPacer(q.VerifiedRPM, 1)
+	runStartedAt := time.Now()
+	pending, err := pendingFundamentalJobs(ctx, store, jobs, runStartedAt)
+	if err != nil {
+		return fmt.Errorf("fundamental completion preflight: %w", err)
+	}
+	available, err := store.AvailableQuotaBudget(ctx)
+	if err != nil {
+		return fmt.Errorf("durable quota preflight: %w", err)
+	}
+	pacer, err := fundamentalBatchPacer(q.VerifiedRPM, pending, available)
 	if err != nil {
 		return err
 	}
@@ -97,10 +99,59 @@ func runFundamentalsBackfill(args []string) error {
 	if err != nil {
 		return err
 	}
-	runner := ingest.Runner{Gateway: gateway, Store: store, Now: time.Now, BeforeCall: func(ctx context.Context) error { return ensureFreshQuota(ctx, store, q.VerifiedRPM, quotaRead) }}
+	runner := ingest.Runner{Gateway: gateway, Store: store, Now: time.Now, FundamentalObservationNow: func() time.Time { return runStartedAt }, BeforeCall: func(ctx context.Context) error { return ensureFreshQuota(ctx, store, q.VerifiedRPM, quotaRead) }}
 	summary, err := runner.RunFundamentalsBackfill(ctx, jobs)
 	fmt.Printf("Fundamentals archive: statement=%s period=%s mode=%s committed=%d skipped=%d blocked=%d\n", *statement, *period, *mode, summary.Committed, summary.Skipped, summary.Blocked)
 	return err
+}
+
+func fundamentalBatchPacer(rpm, pending, available int) (*quota.Pacer, error) {
+	if pending < 0 || available < 0 {
+		return nil, quota.ErrUnknown
+	}
+	if pending > available {
+		return nil, fmt.Errorf("durable quota covers %d unfinished calls, need %d; no market-data request sent", available, pending)
+	}
+	return quota.NewPacer(rpm, pending)
+}
+
+func pendingFundamentalJobs(ctx context.Context, store interface {
+	FundamentalJobState(context.Context, string) (string, time.Time, bool, error)
+}, jobs []ingest.FundamentalJob, observedAt time.Time) (int, error) {
+	if store == nil || len(jobs) == 0 {
+		return 0, errors.New("fundamental completion preflight requires jobs and a store")
+	}
+	pending := 0
+	for _, job := range jobs {
+		key, err := ingest.FundamentalJobID(job, observedAt)
+		if err != nil {
+			return 0, err
+		}
+		state, updatedAt, found, err := store.FundamentalJobState(ctx, key)
+		if err != nil {
+			return 0, err
+		}
+		if !found {
+			pending++
+			continue
+		}
+		switch state {
+		case "COMPLETED", "PARTIAL":
+			continue
+		case "PENDING":
+			pending++
+		case "BLOCKED":
+			return 0, fmt.Errorf("fundamental job %s is blocked; recover it before starting this batch", key)
+		case "RESERVED", "RUNNING":
+			if observedAt.Before(updatedAt.Add(15 * time.Minute)) {
+				return 0, fmt.Errorf("fundamental job %s has an active lease; retry after it expires", key)
+			}
+			pending++
+		default:
+			return 0, fmt.Errorf("fundamental job %s has unknown durable state %q", key, state)
+		}
+	}
+	return pending, nil
 }
 
 func validateFundamentalProbe(raw []byte, now time.Time, statement, period string) error {

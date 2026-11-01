@@ -1,0 +1,9 @@
+{
+  "target_symbols": 865,
+  "matched_symbols": 834,
+  "unique_quarantined_symbols": 32,
+  "matched_quarantined_overlap": 1,
+  "materialized_candidates": 834,
+  "input_capture_sha256": "a61847bf4c9c4ba072cf3d358d6a136fc9324f1960c43f8164ec859f0d6d50d1",
+  "landing_stage_sha256": "d69eb873874390db6b973481a6492875d9cf76bf143157092aff6c81da94c061"
+}

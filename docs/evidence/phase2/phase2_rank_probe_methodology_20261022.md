@@ -41,5 +41,11 @@ S2 scaling is measured at 30, 60, and 120 effective trading sessions using
 window is run once as a warm-up before the timed samples. The probe does not
 update `feat.features_daily`; historical repair remains a distinct monthly,
 checkpointed operation. Each statement retains a five-minute timeout and the
-existing 1.3 exponent gate. Remeasurement is pending a report-copy vacuum to
-remove the dead tuple versions created by the previous probe.
+existing 1.3 exponent gate. The accepted 2026-10-25 remeasurement followed the
+report clone's 10:39 autovacuum and migration 088's narrow V2 rank-input index.
+It used 32 MB `work_mem`, the feature runner's random-page cost and I/O
+concurrency, and warmed 120 sessions before timing 30/60/120. See
+`phase2_s2_rank_stage_runner_settings_20261025.sql` and
+`phase2_s2_rank_stage_coveridx_rewarmed_20261025.log` for the exact run and
+results. The earlier zero-I/O-concurrency run is not accepted as runner-scale
+evidence.

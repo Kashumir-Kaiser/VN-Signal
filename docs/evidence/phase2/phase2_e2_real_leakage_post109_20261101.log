@@ -1,0 +1,983 @@
+Pager usage is off.
+Timing is on.
+BEGIN
+Time: 288.691 ms
+SET
+Time: 11.578 ms
+SET
+Time: 0.155 ms
+SET
+Time: 0.148 ms
+SET
+Time: 0.118 ms
+DO
+Time: 103.708 ms
+DO
+Time: 52.640 ms
+CREATE TABLE
+Time: 110.090 ms
+SELECT 2009
+Time: 62.518 ms
+CREATE INDEX
+Time: 24.105 ms
+CREATE INDEX
+Time: 3.904 ms
+ANALYZE
+Time: 55.416 ms
+SELECT 3
+Time: 27.792 ms
+CREATE INDEX
+Time: 5.609 ms
+E2 checkpoint: selecting the PIT-stratified 60-symbol cohort
+SELECT 60
+Time: 14269.429 ms (00:14.269)
+CREATE INDEX
+Time: 18.804 ms
+ANALYZE
+Time: 18.913 ms
+E2 checkpoint: cohort selection complete
+E2 checkpoint: building the canonical adjustment cache for the selected cohort
+SELECT 117551
+Time: 521766.567 ms (08:41.767)
+COMMENT
+Time: 33.392 ms
+CREATE INDEX
+Time: 120.132 ms
+CREATE INDEX
+Time: 126.193 ms
+ANALYZE
+Time: 584.266 ms
+SELECT 60
+Time: 63.373 ms
+COMMENT
+Time: 0.505 ms
+ALTER TABLE
+Time: 25.600 ms
+CREATE INDEX
+Time: 6.935 ms
+ANALYZE
+Time: 249.640 ms
+CREATE TABLE
+Time: 1271.768 ms (00:01.272)
+COMMENT
+Time: 0.449 ms
+INSERT 0 1
+Time: 17.229 ms
+ prepare_phase2_adjustment_rows 
+--------------------------------
+ 
+(1 row)
+
+Time: 65.511 ms
+E2 checkpoint: copying the finalized adjustment cache
+SELECT 117551
+Time: 1002.178 ms (00:01.002)
+CREATE INDEX
+Time: 1236.183 ms (00:01.236)
+ANALYZE
+Time: 236.602 ms
+E2 checkpoint: raw input snapshot is ready
+CREATE TABLE
+Time: 8.308 ms
+CREATE TABLE
+Time: 8.644 ms
+E2 checkpoint: validating the immutable current-hash baseline
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 sessions 65, elapsed 00:00:01.537717
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 market context rows 65, elapsed 00:00:07.285162
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 rank rows 2588, elapsed 00:00:00.101177
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 spine rows 3250, elapsed 00:00:00.094799
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 base rows 3237, elapsed 00:00:00.156492
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 feature rows 3237, elapsed 00:00:01.714712
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 spine rows 195, elapsed 00:00:00.079945
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 base rows 195, elapsed 00:00:00.057792
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 feature rows 195, elapsed 00:00:00.239091
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 sessions 315, elapsed 00:00:00.66399
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 market context rows 315, elapsed 00:00:03.868865
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 rank rows 10736, elapsed 00:00:00.389422
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 spine rows 15750, elapsed 00:00:00.309766
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 base rows 12471, elapsed 00:00:00.595032
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 feature rows 12471, elapsed 00:00:04.688552
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 spine rows 1575, elapsed 00:00:00.100319
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 base rows 1242, elapsed 00:00:00.10581
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 feature rows 1242, elapsed 00:00:00.38425
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 sessions 567, elapsed 00:00:01.21749
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 market context rows 567, elapsed 00:00:03.6655
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 rank rows 12029, elapsed 00:00:00.351615
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 spine rows 28350, elapsed 00:00:00.390775
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 base rows 12141, elapsed 00:00:00.553117
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 feature rows 12141, elapsed 00:00:06.966435
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 spine rows 4536, elapsed 00:00:00.090272
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 base rows 2010, elapsed 00:00:00.127313
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 feature rows 2010, elapsed 00:00:01.282286
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 sessions 817, elapsed 00:00:00.622913
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 market context rows 817, elapsed 00:00:05.836428
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 rank rows 14452, elapsed 00:00:00.484004
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 spine rows 40850, elapsed 00:00:00.550046
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 base rows 12338, elapsed 00:00:00.563783
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 feature rows 12338, elapsed 00:00:13.054905
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 spine rows 8170, elapsed 00:00:00.165302
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 base rows 2489, elapsed 00:00:00.153973
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 feature rows 2489, elapsed 00:00:04.573548
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 sessions 1066, elapsed 00:00:00.530151
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 market context rows 1066, elapsed 00:00:06.674992
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 rank rows 13873, elapsed 00:00:00.447769
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 spine rows 53300, elapsed 00:00:01.407298
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 base rows 12442, elapsed 00:00:00.563405
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 feature rows 12442, elapsed 00:00:46.267064
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 spine rows 10660, elapsed 00:00:03.533708
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 base rows 2490, elapsed 00:00:01.897367
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 feature rows 2490, elapsed 00:00:11.617458
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 sessions 1249, elapsed 00:00:02.169024
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 market context rows 1249, elapsed 00:00:12.395671
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 rank rows 13781, elapsed 00:00:00.753478
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 spine rows 62450, elapsed 00:00:01.09429
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 base rows 12450, elapsed 00:00:01.812435
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 feature rows 12450, elapsed 00:00:18.652212
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 spine rows 12490, elapsed 00:00:00.20702
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 base rows 2490, elapsed 00:00:00.163496
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 feature rows 2490, elapsed 00:00:03.979481
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 sessions 1250, elapsed 00:00:00.455687
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 market context rows 1250, elapsed 00:00:07.503973
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 rank rows 13641, elapsed 00:00:01.218332
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 spine rows 62500, elapsed 00:00:00.682486
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 base rows 12500, elapsed 00:00:00.681622
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 feature rows 12500, elapsed 00:00:17.570222
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 spine rows 12500, elapsed 00:00:00.204595
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 base rows 2500, elapsed 00:00:00.308854
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 feature rows 2500, elapsed 00:00:05.063145
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 sessions 1249, elapsed 00:00:00.786601
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 market context rows 1249, elapsed 00:00:08.77662
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 rank rows 13109, elapsed 00:00:00.639947
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 spine rows 62450, elapsed 00:00:00.715778
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 base rows 12440, elapsed 00:00:00.670856
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 feature rows 12440, elapsed 00:00:16.453513
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 spine rows 12490, elapsed 00:00:00.195056
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 base rows 2490, elapsed 00:00:00.211407
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 feature rows 2490, elapsed 00:00:04.324726
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 sessions 1195, elapsed 00:00:00.547448
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 market context rows 1195, elapsed 00:00:07.343532
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 rank rows 9471, elapsed 00:00:00.498998
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 spine rows 59750, elapsed 00:00:01.243822
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 base rows 9686, elapsed 00:00:00.452174
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 0 feature rows 9686, elapsed 00:00:16.147798
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 spine rows 11950, elapsed 00:00:00.200286
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 base rows 1940, elapsed 00:00:00.122949
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 batch 1 feature rows 1940, elapsed 00:00:03.644083
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  E2 baseline optimized V2/V3 feature rebuild elapsed 00:05:27.407426
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_targets" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 label targets rows 235102, elapsed 00:00:02.132021
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_latest_exit" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_endpoint_days" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 label endpoint days rows 117633, elapsed 00:00:00.38071
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_endpoint_bounds" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_adjustment_prefix" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 label adjustment prefix rows 117499, elapsed 00:00:00.856529
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_endpoint_bars" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 label endpoint bars rows 117491, elapsed 00:00:00.47137
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_first_bad_factor" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.160041
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_endpoint_targets" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  table "phase2_label_spans" does not exist, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:392: NOTICE:  E2 baseline reused the current-hash 60-symbol feature cohort and rebuilt labels with current hash 28089ed13c1be5a19865bc9cea34c44cb84f3e460ee3f3f2ee837a853d317f6b
+DO
+Time: 453274.164 ms (07:33.274)
+CREATE FUNCTION
+Time: 318.458 ms
+E2 checkpoint: running the independent 40 percent cutoff
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 40 percent branch setup copied 117551 equity rows for 60 cohort symbols; elapsed 00:00:02.437339
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 40 percent future perturbations applied: 72208 equity rows and 1204 index rows; elapsed 00:00:01.291699
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 40 percent branch inputs ready; elapsed 00:00:04.88
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 scoped cache preparation elapsed 00:00:00.002227
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 V2 feature rebuild elapsed 00:00:11.909074, rows 45343
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 sessions 65, elapsed 00:00:00.061166
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 market context rows 65, elapsed 00:00:01.401972
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 rank rows 2588, elapsed 00:00:00.124401
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 0 spine rows 3250, elapsed 00:00:00.097679
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 0 base rows 3237, elapsed 00:00:00.398495
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 0 feature rows 3237, elapsed 00:00:00.753415
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 1 spine rows 195, elapsed 00:00:00.036112
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 1 base rows 195, elapsed 00:00:00.051977
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 1 feature rows 195, elapsed 00:00:00.14382
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 sessions 315, elapsed 00:00:00.070802
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 market context rows 315, elapsed 00:00:01.233391
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 rank rows 10736, elapsed 00:00:00.229672
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 0 spine rows 15750, elapsed 00:00:00.183601
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 0 base rows 12471, elapsed 00:00:00.449514
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 0 feature rows 12471, elapsed 00:00:05.783165
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 1 spine rows 1575, elapsed 00:00:00.054079
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 1 base rows 1242, elapsed 00:00:00.100361
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 1 feature rows 1242, elapsed 00:00:00.570689
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 sessions 567, elapsed 00:00:00.074763
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 market context rows 567, elapsed 00:00:02.129079
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 rank rows 12029, elapsed 00:00:00.348234
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 0 spine rows 28350, elapsed 00:00:00.321624
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 0 base rows 12141, elapsed 00:00:00.462725
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 0 feature rows 12141, elapsed 00:00:09.584783
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 1 spine rows 4536, elapsed 00:00:00.125679
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 1 base rows 2010, elapsed 00:00:00.463131
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 1 feature rows 2010, elapsed 00:00:01.850467
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 sessions 804, elapsed 00:00:00.07799
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 market context rows 804, elapsed 00:00:02.595408
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 rank rows 13673, elapsed 00:00:00.350421
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 0 spine rows 40200, elapsed 00:00:00.409222
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 0 base rows 11688, elapsed 00:00:00.50993
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 0 feature rows 11688, elapsed 00:00:12.71535
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 1 spine rows 8040, elapsed 00:00:00.154743
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 1 base rows 2359, elapsed 00:00:00.175916
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 batch 1 feature rows 2359, elapsed 00:00:02.739266
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 V3 feature rebuild elapsed 00:00:47.081749, rows 45343
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 label targets rows 90686, elapsed 00:00:00.439963
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 label endpoint days rows 46593, elapsed 00:00:00.213158
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 label adjustment prefix rows 46551, elapsed 00:00:00.852286
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 label endpoint bars rows 46543, elapsed 00:00:01.507567
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.108982
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 scoped label rebuild elapsed 00:00:07.58464, rows 90686
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 40 percent production feature and label rebuild complete; elapsed 00:01:09.10886
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  E2 checkpoint: cut 2021-12-14 (40 percent), feature rows 90686, zero pre-cut and completed-label mismatches, crossing labels 1620, perturbed equity/index rows 72208/1204
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  drop cascades to 2 other objects
+DETAIL:  drop cascades to table p2e2_932_92666_40_ob.features_daily
+drop cascades to table p2e2_932_92666_40_ob.labels_daily
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  drop cascades to table p2e2_932_92666_40_xb.ml_symbol_scope
+psql:tests/sql/phase2_e2_real_assertions.sql:718: NOTICE:  drop cascades to 6 other objects
+DETAIL:  drop cascades to table p2e2_932_92666_40_ib.effective_trading_sessions
+drop cascades to table p2e2_932_92666_40_ib.symbols
+drop cascades to table p2e2_932_92666_40_ib.index_bars
+drop cascades to table p2e2_932_92666_40_ib.phase2_adjustment_rows
+drop cascades to table p2e2_932_92666_40_ib.phase2_vci_index_features
+drop cascades to table p2e2_932_92666_40_ib.phase2_market_features_daily
+ phase2_e2_run_cut 
+-------------------
+ 
+(1 row)
+
+Time: 93351.394 ms (01:33.351)
+E2 checkpoint: running the independent 70 percent cutoff
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 70 percent branch setup copied 117551 equity rows for 60 cohort symbols; elapsed 00:00:02.972942
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 70 percent future perturbations applied: 36036 equity rows and 601 index rows; elapsed 00:00:01.191227
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 70 percent branch inputs ready; elapsed 00:00:19.729055
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 scoped cache preparation elapsed 00:00:00.014824
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 V2 feature rebuild elapsed 00:00:26.465779, rows 81515
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 sessions 65, elapsed 00:00:00.119375
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 market context rows 65, elapsed 00:00:01.097535
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 rank rows 2588, elapsed 00:00:00.667545
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 spine rows 3250, elapsed 00:00:00.136206
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 base rows 3237, elapsed 00:00:00.308913
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 feature rows 3237, elapsed 00:00:00.938171
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 spine rows 195, elapsed 00:00:00.050438
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 base rows 195, elapsed 00:00:00.060825
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 feature rows 195, elapsed 00:00:00.156176
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 sessions 315, elapsed 00:00:00.052923
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 market context rows 315, elapsed 00:00:01.652739
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 rank rows 10736, elapsed 00:00:00.227627
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 spine rows 15750, elapsed 00:00:00.243252
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 base rows 12471, elapsed 00:00:00.431442
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 feature rows 12471, elapsed 00:00:05.529476
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 spine rows 1575, elapsed 00:00:00.060084
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 base rows 1242, elapsed 00:00:00.127423
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 feature rows 1242, elapsed 00:00:01.746631
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 sessions 567, elapsed 00:00:00.066052
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 market context rows 567, elapsed 00:00:03.533798
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 rank rows 12029, elapsed 00:00:00.348872
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 spine rows 28350, elapsed 00:00:00.301793
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 base rows 12141, elapsed 00:00:00.460916
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 feature rows 12141, elapsed 00:00:10.704938
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 spine rows 4536, elapsed 00:00:00.10945
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 base rows 2010, elapsed 00:00:00.117707
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 feature rows 2010, elapsed 00:00:01.329132
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 sessions 817, elapsed 00:00:00.073918
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 market context rows 817, elapsed 00:00:03.145179
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 rank rows 14452, elapsed 00:00:00.358944
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 spine rows 40850, elapsed 00:00:00.391208
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 base rows 12338, elapsed 00:00:00.729131
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 feature rows 12338, elapsed 00:00:16.108366
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 spine rows 8170, elapsed 00:00:00.133095
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 base rows 2489, elapsed 00:00:00.164145
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 feature rows 2489, elapsed 00:00:02.62468
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 sessions 1066, elapsed 00:00:00.132017
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 market context rows 1066, elapsed 00:00:03.851179
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 rank rows 13873, elapsed 00:00:00.340038
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 spine rows 53300, elapsed 00:00:01.058861
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 base rows 12442, elapsed 00:00:01.128609
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 feature rows 12442, elapsed 00:00:19.865794
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 spine rows 10660, elapsed 00:00:00.156354
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 base rows 2490, elapsed 00:00:00.142611
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 feature rows 2490, elapsed 00:00:03.837137
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 sessions 1249, elapsed 00:00:00.079937
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 market context rows 1249, elapsed 00:00:06.005829
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 rank rows 13781, elapsed 00:00:00.446461
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 spine rows 62450, elapsed 00:00:00.702589
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 base rows 12450, elapsed 00:00:00.508415
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 feature rows 12450, elapsed 00:00:22.29765
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 spine rows 12490, elapsed 00:00:00.160818
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 base rows 2490, elapsed 00:00:00.147252
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 feature rows 2490, elapsed 00:00:04.378879
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 sessions 1092, elapsed 00:00:00.064425
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 market context rows 1092, elapsed 00:00:04.404606
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 rank rows 5132, elapsed 00:00:00.221343
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 spine rows 54600, elapsed 00:00:00.802202
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 base rows 4600, elapsed 00:00:00.567634
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 0 feature rows 4600, elapsed 00:00:20.041858
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 spine rows 10920, elapsed 00:00:00.215143
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 base rows 920, elapsed 00:00:00.093049
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 batch 1 feature rows 920, elapsed 00:00:02.784202
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 V3 feature rebuild elapsed 00:02:30.066219, rows 81515
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 label targets rows 163030, elapsed 00:00:01.713496
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 label endpoint days rows 82773, elapsed 00:00:00.279153
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 label adjustment prefix rows 82723, elapsed 00:00:00.621486
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 label endpoint bars rows 82715, elapsed 00:00:00.609051
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.054725
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 scoped label rebuild elapsed 00:00:11.016217, rows 163030
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 70 percent production feature and label rebuild complete; elapsed 00:03:09.749551
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  E2 checkpoint: cut 2024-05-21 (70 percent), feature rows 163030, zero pre-cut and completed-label mismatches, crossing labels 1620, perturbed equity/index rows 36036/601
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  drop cascades to 2 other objects
+DETAIL:  drop cascades to table p2e2_932_92666_70_ob.features_daily
+drop cascades to table p2e2_932_92666_70_ob.labels_daily
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  drop cascades to table p2e2_932_92666_70_xb.ml_symbol_scope
+psql:tests/sql/phase2_e2_real_assertions.sql:720: NOTICE:  drop cascades to 6 other objects
+DETAIL:  drop cascades to table p2e2_932_92666_70_ib.effective_trading_sessions
+drop cascades to table p2e2_932_92666_70_ib.symbols
+drop cascades to table p2e2_932_92666_70_ib.index_bars
+drop cascades to table p2e2_932_92666_70_ib.phase2_adjustment_rows
+drop cascades to table p2e2_932_92666_70_ib.phase2_vci_index_features
+drop cascades to table p2e2_932_92666_70_ib.phase2_market_features_daily
+ phase2_e2_run_cut 
+-------------------
+ 
+(1 row)
+
+Time: 231658.534 ms (03:51.659)
+E2 checkpoint: running the independent 95 percent cutoff
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 95 percent branch setup copied 117551 equity rows for 60 cohort symbols; elapsed 00:00:01.090704
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 95 percent future perturbations applied: 5937 equity rows and 99 index rows; elapsed 00:00:00.196171
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 95 percent branch inputs ready; elapsed 00:00:10.765871
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 scoped cache preparation elapsed 00:00:00.002798
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 V2 feature rebuild elapsed 00:00:31.009675, rows 111614
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 sessions 65, elapsed 00:00:00.111731
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 market context rows 65, elapsed 00:00:01.438491
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 rank rows 2588, elapsed 00:00:00.124048
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 spine rows 3250, elapsed 00:00:00.124715
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 base rows 3237, elapsed 00:00:00.345843
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 feature rows 3237, elapsed 00:00:00.775274
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 spine rows 195, elapsed 00:00:00.051584
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 base rows 195, elapsed 00:00:00.052965
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 feature rows 195, elapsed 00:00:00.131366
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 sessions 315, elapsed 00:00:00.053189
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 market context rows 315, elapsed 00:00:02.061709
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 rank rows 10736, elapsed 00:00:00.301844
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 spine rows 15750, elapsed 00:00:00.293446
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 base rows 12471, elapsed 00:00:00.529614
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 feature rows 12471, elapsed 00:00:05.559236
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 spine rows 1575, elapsed 00:00:00.143155
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 base rows 1242, elapsed 00:00:00.123616
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 feature rows 1242, elapsed 00:00:00.515428
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 sessions 567, elapsed 00:00:00.071326
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 market context rows 567, elapsed 00:00:03.050917
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 rank rows 12029, elapsed 00:00:00.328846
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 spine rows 28350, elapsed 00:00:00.863345
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 base rows 12141, elapsed 00:00:00.584263
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 feature rows 12141, elapsed 00:00:17.389202
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 spine rows 4536, elapsed 00:00:00.199132
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 base rows 2010, elapsed 00:00:00.183884
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 feature rows 2010, elapsed 00:00:02.584263
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 sessions 817, elapsed 00:00:00.135275
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 market context rows 817, elapsed 00:00:08.555838
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 rank rows 14452, elapsed 00:00:00.605843
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 spine rows 40850, elapsed 00:00:02.037416
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 base rows 12338, elapsed 00:00:02.779663
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 feature rows 12338, elapsed 00:00:16.392897
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 spine rows 8170, elapsed 00:00:00.165194
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 base rows 2489, elapsed 00:00:00.184828
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 feature rows 2489, elapsed 00:00:02.702838
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 sessions 1066, elapsed 00:00:00.085549
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 market context rows 1066, elapsed 00:00:04.351681
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 rank rows 13873, elapsed 00:00:00.423486
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 spine rows 53300, elapsed 00:00:00.572659
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 base rows 12442, elapsed 00:00:00.671121
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 feature rows 12442, elapsed 00:00:35.744382
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 spine rows 10660, elapsed 00:00:00.161574
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 base rows 2490, elapsed 00:00:00.180275
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 feature rows 2490, elapsed 00:00:04.074755
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 sessions 1249, elapsed 00:00:00.097237
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 market context rows 1249, elapsed 00:00:06.663951
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 rank rows 13781, elapsed 00:00:00.37547
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 spine rows 62450, elapsed 00:00:00.626853
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 base rows 12450, elapsed 00:00:00.534071
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 feature rows 12450, elapsed 00:00:25.746781
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 spine rows 12490, elapsed 00:00:00.201094
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 base rows 2490, elapsed 00:00:00.204997
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 feature rows 2490, elapsed 00:00:04.754829
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 sessions 1250, elapsed 00:00:00.134305
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 market context rows 1250, elapsed 00:00:05.22752
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 rank rows 13641, elapsed 00:00:00.381439
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 spine rows 62500, elapsed 00:00:00.755679
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 base rows 12500, elapsed 00:00:00.544352
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 feature rows 12500, elapsed 00:00:27.418696
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 spine rows 12500, elapsed 00:00:00.180689
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 base rows 2500, elapsed 00:00:00.196031
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 feature rows 2500, elapsed 00:00:05.243437
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 sessions 1249, elapsed 00:00:00.089261
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 market context rows 1249, elapsed 00:00:04.948278
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 rank rows 13109, elapsed 00:00:00.338189
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 spine rows 62450, elapsed 00:00:00.81131
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 base rows 12440, elapsed 00:00:00.618151
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 feature rows 12440, elapsed 00:00:25.022086
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 spine rows 12490, elapsed 00:00:00.225246
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 base rows 2490, elapsed 00:00:00.143709
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 feature rows 2490, elapsed 00:00:04.177796
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_no_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_sessions_date_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 sessions 1095, elapsed 00:00:00.062021
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_index_raw_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_market_lagged_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 market context rows 1095, elapsed 00:00:05.255037
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_ranks_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 rank rows 4839, elapsed 00:00:00.174649
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_symbol_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_symbol_batches_batch_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_spine_symbol_session_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_output_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  relation "phase2_v3_computed_key_idx" already exists, skipping
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 spine rows 54750, elapsed 00:00:00.761374
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 base rows 4739, elapsed 00:00:00.270535
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 0 feature rows 4739, elapsed 00:00:24.557527
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 spine rows 10950, elapsed 00:00:00.155783
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 base rows 950, elapsed 00:00:00.070888
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 batch 1 feature rows 950, elapsed 00:00:02.822215
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 V3 feature rebuild elapsed 00:04:28.878258, rows 111614
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 label targets rows 223228, elapsed 00:00:07.286512
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 label endpoint days rows 112882, elapsed 00:00:00.391799
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 label adjustment prefix rows 112819, elapsed 00:00:00.488331
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 label endpoint bars rows 112800, elapsed 00:00:00.496453
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  Phase 2 label first bad factor rows 0, elapsed 00:00:00.056994
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 scoped label rebuild elapsed 00:00:25.741062, rows 223228
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 95 percent production feature and label rebuild complete; elapsed 00:05:26.379791
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  E2 checkpoint: cut 2026-05-27 (95 percent), feature rows 223228, zero pre-cut and completed-label mismatches, crossing labels 1601, perturbed equity/index rows 5937/99
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  drop cascades to 2 other objects
+DETAIL:  drop cascades to table p2e2_932_92666_95_ob.features_daily
+drop cascades to table p2e2_932_92666_95_ob.labels_daily
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  drop cascades to table p2e2_932_92666_95_xb.ml_symbol_scope
+psql:tests/sql/phase2_e2_real_assertions.sql:722: NOTICE:  drop cascades to 6 other objects
+DETAIL:  drop cascades to table p2e2_932_92666_95_ib.effective_trading_sessions
+drop cascades to table p2e2_932_92666_95_ib.symbols
+drop cascades to table p2e2_932_92666_95_ib.index_bars
+drop cascades to table p2e2_932_92666_95_ib.phase2_adjustment_rows
+drop cascades to table p2e2_932_92666_95_ib.phase2_vci_index_features
+drop cascades to table p2e2_932_92666_95_ib.phase2_market_features_daily
+ phase2_e2_run_cut 
+-------------------
+ 
+(1 row)
+
+Time: 363268.777 ms (06:03.269)
+DO
+Time: 24.622 ms
+ cut_percent |  cut_date  | cohort_symbols | pre_cut_feature_rows | pre_cut_feature_mismatches | labels_ending_by_cut | labels_crossing_cut | completed_label_mismatches | label_boundary_mismatches | perturbed_equity_rows | perturbed_index_rows |  rank_population   |                                                                                                                                                                                                                                          perturbation_summary                                                                                                                                                                                                                                          
+-------------+------------+----------------+----------------------+----------------------------+----------------------+---------------------+----------------------------+---------------------------+-----------------------+----------------------+--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+          40 | 2021-12-14 |             60 |                90686 |                          0 |                89066 |                1620 |                          0 |                         0 |                 72208 |                 1204 | selected_cohort_60 | {"index_price_max_abs_delta": 0.1995, "equity_price_max_abs_delta": 0.2000000000000004, "index_price_negative_delta": true, "index_price_positive_delta": true, "index_volume_max_abs_delta": 0.20000000000000018, "equity_price_negative_delta": true, "equity_price_positive_delta": true, "equity_volume_max_abs_delta": 0.20000000000000018, "index_volume_negative_delta": true, "index_volume_positive_delta": true, "equity_volume_negative_delta": true, "equity_volume_positive_delta": true}
+          70 | 2024-05-21 |             60 |               163030 |                          0 |               161410 |                1620 |                          0 |                         0 |                 36036 |                  601 | selected_cohort_60 | {"index_price_max_abs_delta": 0.1995, "equity_price_max_abs_delta": 0.2000000000000004, "index_price_negative_delta": true, "index_price_positive_delta": true, "index_volume_max_abs_delta": 0.19979999999999998, "equity_price_negative_delta": true, "equity_price_positive_delta": true, "equity_volume_max_abs_delta": 0.20000000000000018, "index_volume_negative_delta": true, "index_volume_positive_delta": true, "equity_volume_negative_delta": true, "equity_volume_positive_delta": true}
+          95 | 2026-05-27 |             60 |               223228 |                          0 |               221627 |                1601 |                          0 |                         0 |                  5937 |                   99 | selected_cohort_60 | {"index_price_max_abs_delta": 0.19720000000000004, "equity_price_max_abs_delta": 0.2000000000000004, "index_price_negative_delta": true, "index_price_positive_delta": true, "index_volume_max_abs_delta": 0.1996, "equity_price_negative_delta": true, "equity_price_positive_delta": true, "equity_volume_max_abs_delta": 0.20000000000000018, "index_volume_negative_delta": true, "index_volume_positive_delta": true, "equity_volume_negative_delta": true, "equity_volume_positive_delta": true}
+(3 rows)
+
+Time: 1.518 ms
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           selected_cohort                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ [{"exchange": "HNX", "symbol_id": 42, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 6885, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 216, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 7084, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 783, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 7611, "exchange_source_row": 796}, {"exchange": "HNX", "symbol_id": 1087, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 7900, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 1348, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 8216, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 204, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7069, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 616, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7481, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 646, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7490, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 945, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7792, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 1425, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 8247, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 121, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 6982, "exchange_source_row": 295}, {"exchange": "HNX", "symbol_id": 423, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7266, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 1074, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7939, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 1128, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 8026, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 1396, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 8258, "exchange_source_row": 730}, {"exchange": "HNX", "symbol_id": 8, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 6858, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 56, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 6914, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 157, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 7017, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 685, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 7531, "exchange_source_row": 803}, {"exchange": "HNX", "symbol_id": 981, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 7825, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 392, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 7248, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 1109, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 7954, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 1130, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 7999, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 1142, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 8016, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 1351, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 8158, "exchange_source_row": 792}, {"exchange": "HOSE", "symbol_id": 291, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7136, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 424, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7274, "exchange_source_row": 790}, {"exchange": "HOSE", "symbol_id": 698, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7546, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 1102, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7968, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 1117, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7963, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 115, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 6949, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 404, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7258, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 490, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7338, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 958, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7816, "exchange_source_row": 372}, {"exchange": "HOSE", "symbol_id": 1173, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 8008, "exchange_source_row": 729}, {"exchange": "HOSE", "symbol_id": 500, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 7354, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 786, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 7646, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 855, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 7671, "exchange_source_row": 218}, {"exchange": "HOSE", "symbol_id": 1352, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 6849, "exchange_source_row": 803}, {"exchange": "HOSE", "symbol_id": 1357, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 8187, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 130, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 6966, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 595, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 7440, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 648, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 7511, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 1230, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 8111, "exchange_source_row": 797}, {"exchange": "UPCOM", "symbol_id": 1383, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 1, "exchange_landing_id": 8199, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 10, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 6856, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 301, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7162, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 478, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7327, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 962, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 7822, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 1375, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 2, "exchange_landing_id": 8188, "exchange_source_row": 797}, {"exchange": "UPCOM", "symbol_id": 23, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 6871, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 318, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7149, "exchange_source_row": 797}, {"exchange": "UPCOM", "symbol_id": 988, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7861, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 1076, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7964, "exchange_source_row": 795}, {"exchange": "UPCOM", "symbol_id": 1080, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 3, "exchange_landing_id": 7970, "exchange_source_row": 797}, {"exchange": "UPCOM", "symbol_id": 6, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 6854, "exchange_source_row": 351}, {"exchange": "UPCOM", "symbol_id": 19, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 6865, "exchange_source_row": 92}, {"exchange": "UPCOM", "symbol_id": 119, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 6953, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 439, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 7281, "exchange_source_row": 803}, {"exchange": "UPCOM", "symbol_id": 1376, "exchange_as_of": "2021-12-14", "pit_liquidity_tier": 4, "exchange_landing_id": 8239, "exchange_source_row": 803}]
+(1 row)
+
+Time: 12.249 ms
+ROLLBACK
+Time: 1207.142 ms (00:01.207)

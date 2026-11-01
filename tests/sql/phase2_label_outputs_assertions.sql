@@ -14,6 +14,10 @@ DECLARE
     v_base_after text;
     v_rows bigint;
     v_builder_def text;
+    v_shared_label_def text;
+    v_target_builder_def text;
+    v_manifest_def text;
+    v_manifest_comment text;
     v_limit_hash_def text;
 BEGIN
     SELECT percentile_cont(0.01) WITHIN GROUP (ORDER BY x),
@@ -50,14 +54,14 @@ BEGIN
     END IF;
     IF EXISTS (
         WITH scores(symbol_id,signal_date,horizon_sessions,liquidity_tier,score,expected_rank,expected_count) AS (
-            VALUES (1::bigint,DATE '2024-01-02',5::smallint,'L1',0.5::double precision,1,3),
-                   (2::bigint,DATE '2024-01-02',5::smallint,'L1',0.5::double precision,2,3),
-                   (3::bigint,DATE '2024-01-02',5::smallint,'L1',0.2::double precision,3,3),
+            VALUES (1::bigint,DATE '2024-01-02',5::smallint,'L1',0.5::double precision,2,3),
+                   (2::bigint,DATE '2024-01-02',5::smallint,'L1',0.5::double precision,3,3),
+                   (3::bigint,DATE '2024-01-02',5::smallint,'L1',0.2::double precision,1,3),
                    (4::bigint,DATE '2024-01-02',5::smallint,'L2',0.1::double precision,1,1)
         ), ranked AS (
             SELECT *,row_number() OVER (
                        PARTITION BY signal_date,horizon_sessions,liquidity_tier
-                       ORDER BY score DESC,symbol_id
+                       ORDER BY score ASC,symbol_id
                    )::integer AS target_rank,
                    count(*) OVER (PARTITION BY signal_date,horizon_sessions,liquidity_tier)::integer AS tier_count
               FROM scores
@@ -68,6 +72,47 @@ BEGIN
                    ((expected_rank-0.5)::double precision/expected_count))>1e-12
     ) THEN
         RAISE EXCEPTION 'within-tier target ranking, deterministic ties, or date/horizon partition fixture failed';
+    END IF;
+
+    v_shared_label_def:=pg_get_functiondef(
+        'feat.build_labels_set_based_shared(date,date,bigint[])'::regprocedure
+    );
+    v_target_builder_def:=pg_get_functiondef(
+        'feat.build_phase2_label_targets_v3(date,date)'::regprocedure
+    );
+    v_manifest_def:=pg_get_functiondef(
+        'ops.phase2_chunk_input_hash(text,date,date)'::regprocedure
+    );
+    v_manifest_comment:=obj_description(
+        'ops.phase2_chunk_input_hash(text,date,date)'::regprocedure,'pg_proc'
+    );
+    IF position('f.feature_set_hash = v_feature_hash' IN v_shared_label_def)=0
+       OR position($stale$
+       AND f.feature_version = 'phase2-v3'
+       AND (p_symbol_ids IS NULL OR f.symbol_id=ANY(p_symbol_ids));$stale$ IN v_shared_label_def)>0 THEN
+        RAISE EXCEPTION 'shared raw-label builder does not fence inputs to the current feature hash';
+    END IF;
+    IF position('ORDER BY volatility_scaled_score ASC,symbol_id' IN v_target_builder_def)=0
+       OR position('ORDER BY volatility_scaled_score DESC,symbol_id' IN v_target_builder_def)>0 THEN
+        RAISE EXCEPTION 'higher score must map to a higher uniform label target';
+    END IF;
+    IF position('CASE WHEN p_stage=''features'' THEN ''3'' WHEN p_stage=''labels'' THEN ''4'' ELSE ''2'' END' IN v_manifest_def)=0 THEN
+        RAISE EXCEPTION 'label manifest must be independently versioned after the target contract fix';
+    END IF;
+    IF position('Feature manifest domain is v3 and label manifest domain is v4.' IN v_manifest_comment)=0 THEN
+        RAISE EXCEPTION 'input manifest function comment must distinguish feature v3 and label v4';
+    END IF;
+    IF (
+        WITH feature_rows(symbol_id,feature_version,feature_set_hash,current_hash) AS (
+            VALUES (1::bigint,'phase2-v3','current','current'),
+                   (2::bigint,'phase2-v3','stale','current'),
+                   (3::bigint,'phase2-v2','current','current')
+        )
+        SELECT array_agg(symbol_id ORDER BY symbol_id)
+          FROM feature_rows
+         WHERE feature_version='phase2-v3' AND feature_set_hash=current_hash
+    ) IS DISTINCT FROM ARRAY[1::bigint] THEN
+        RAISE EXCEPTION 'stale or wrong-version features must not enter a current-hash label build';
     END IF;
     IF feat.phase2_execution_weight_decision(false,10,11,0) IS NOT NULL
        OR feat.phase2_execution_weight_decision(true,11,11,0) IS DISTINCT FROM 0::double precision
@@ -86,9 +131,10 @@ BEGIN
     IF position('invalidated_at' IN v_builder_def)=0 OR position('date_to>=v_first_signal' IN v_builder_def)=0 THEN
         RAISE EXCEPTION 'downstream target chunk ledger invalidation is not wired to output deletion';
     END IF;
-    IF position('BETWEEN w.entry_date AND w.exit_date' IN v_limit_hash_def)=0
-       OR position('daily_price_limit_observations' IN v_limit_hash_def)=0 THEN
-        RAISE EXCEPTION 'exact execution input hash does not cover each label entry-to-exit window';
+    IF position('ops.phase2_label_dependency_watermark()' IN v_limit_hash_def)=0
+       OR position('exact_limits_revision=v2' IN v_limit_hash_def)=0
+       OR position('daily_price_limit_observations' IN v_limit_hash_def)>0 THEN
+        RAISE EXCEPTION 'exact execution input hash must be covered by the source revision watermark';
     END IF;
 
     SELECT min(trade_date),max(trade_date) INTO v_first,v_last
@@ -122,7 +168,7 @@ BEGIN
             WITH expected AS (
                 SELECT t.target_rank_in_tier,t.target_tier_count,t.target_uniform_rank,
                        row_number() OVER (PARTITION BY t.signal_date,t.horizon_sessions,t.liquidity_tier
-                                          ORDER BY t.volatility_scaled_score DESC,t.symbol_id)::integer AS actual_rank,
+                                          ORDER BY t.volatility_scaled_score ASC,t.symbol_id)::integer AS actual_rank,
                        count(*) OVER (PARTITION BY t.signal_date,t.horizon_sessions,t.liquidity_tier)::integer AS actual_count
                   FROM feat.phase2_label_targets_v3 t
                  WHERE t.signal_date BETWEEN v_first AND least(v_last,v_first+90)

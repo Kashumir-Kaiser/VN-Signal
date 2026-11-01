@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "scope": "Official HOSE, HNX, and VSDC source reconciliation for TIE and LCM; no market data or lifecycle rows imported by this capture script.",
+  "capture_time_basis": "actual HTTP capture UTC recorded per response",
+  "captures": [
+    {
+      "file": "hnx_tie_transition_article_60005646.html",
+      "role": "official_hnx_tie_transfer_chronology_article",
+      "symbol": "TIE",
+      "source_url": "https://www.hnx.vn/vi-vn/m-tin-tuc-hnx/CTCP%20TIE%20dang%20ky%20giao%20dich%20tren%20UPCoM-60005646-0.html",
+      "final_url": "https://www.hnx.vn/vi-vn/m-tin-tuc-hnx/CTCP%20TIE%20dang%20ky%20giao%20dich%20tren%20UPCoM-60005646-0.html",
+      "http_status": 200,
+      "content_type": "text/html",
+      "started_at_utc": "2026-10-31T11:24:10.291671Z",
+      "completed_at_utc": "2026-10-31T11:24:10.825837Z",
+      "bytes": 14867,
+      "sha256": "060a703c8616b9330e60c5640043a64123309fdcac09a53a7c298e0b37cd1455",
+      "required_claims": [
+        "TIE",
+        "01/8/2019",
+        "9/8/2019",
+        "9.569.900"
+      ]
+    },
+    {
+      "file": "hnx_tie_upcom_profile.html",
+      "role": "official_hnx_tie_upcom_profile",
+      "symbol": "TIE",
+      "source_url": "https://hnx.vn/vi-vn/cophieu-etfs/chi-tiet-chung-khoan-uc-tie.html",
+      "final_url": "https://hnx.vn/vi-vn/cophieu-etfs/chi-tiet-chung-khoan-uc-tie.html",
+      "http_status": 200,
+      "content_type": "text/html",
+      "started_at_utc": "2026-10-31T11:24:10.841274Z",
+      "completed_at_utc": "2026-10-31T11:24:13.771047Z",
+      "bytes": 258070,
+      "sha256": "036ffb2a99ca97a867c522d096e3f2f1e44558f63c56a99afdb80bf5e2e0c10c",
+      "required_claims": [
+        "TIE",
+        "09/08/2019",
+        "9.569.900"
+      ]
+    },
+    {
+      "file": "hnx_lcm_upcom_profile.html",
+      "role": "official_hnx_lcm_upcom_profile",
+      "symbol": "LCM",
+      "source_url": "https://hnx.vn/vi-vn/cophieu-etfs/chi-tiet-chung-khoan-uc-lcm.html",
+      "final_url": "https://hnx.vn/vi-vn/cophieu-etfs/chi-tiet-chung-khoan-uc-lcm.html",
+      "http_status": 200,
+      "content_type": "text/html",
+      "started_at_utc": "2026-10-31T11:24:13.796042Z",
+      "completed_at_utc": "2026-10-31T11:24:16.625126Z",
+      "bytes": 258201,
+      "sha256": "6b0fe33e5b83a16488c9808b70e5160235d83d4f54e743a0bbbeec57e222b192",
+      "required_claims": [
+        "LCM",
+        "09/09/2022",
+        "24.633.000"
+      ]
+    },
+    {
+      "file": "vsdc_lcm_transfer_notice_152362.html",
+      "role": "official_vsdc_lcm_hose_to_upcom_transfer_notice",
+      "symbol": "LCM",
+      "source_url": "https://vsdc.vn/vi/ad/152362",
+      "final_url": "https://vsdc.vn/vi/ad/152362",
+      "http_status": 200,
+      "content_type": "text/html",
+      "started_at_utc": "2026-10-31T11:24:16.637231Z",
+      "completed_at_utc": "2026-10-31T11:24:17.047975Z",
+      "bytes": 71941,
+      "sha256": "891889491bceee7023cde4d2061d2c1c1fc235b249cc666171a43db33d4624c1",
+      "required_claims": [
+        "LCM",
+        "31/08/2022",
+        "24.633.000",
+        "HOSE",
+        "UpCOM"
+      ]
+    }
+  ],
+  "failures": [
+    {
+      "file": "hose_2019_annual_report_tie.pdf",
+      "role": "official_hose_2019_delisting_summary",
+      "source_url": "https://staticfile.hsx.vn/Uploads/UploadDocuments/2372186/BAO%20CAO%20THUONG%20NIEN%202019_%20FINAL.pdf",
+      "error": "HTTPError: HTTP Error 500: Internal Server Error",
+      "failed_at_utc": "2026-10-31T11:24:09.428120Z"
+    },
+    {
+      "file": "hose_2022_annual_report_lcm.pdf",
+      "role": "official_hose_2022_delisting_summary",
+      "source_url": "https://staticfile.hsx.vn/Uploads/UploadDocuments/1641900/Bao%20cao%20thuong%20nien%202022_tv.pdf",
+      "error": "HTTPError: HTTP Error 500: Internal Server Error",
+      "failed_at_utc": "2026-10-31T11:24:10.291671Z"
+    }
+  ],
+  "limitations": [
+    "HOSE daily-trading recap for TIE (news item 1126123) reverses its stated delisting and final-trading dates; it is retained separately as a conflicting source and is not treated as authoritative.",
+    "The HOSE annual reports are retrospective exchange records; their selected delisting rows were visually checked in rendered page images before any proposed event import."
+  ],
+  "manifest_sha256": "1f6078a9e3826b7a9dd159f6737913c65badf5e67d6140b4fc1ea7551b759566"
+}

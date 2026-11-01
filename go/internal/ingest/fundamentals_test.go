@@ -88,6 +88,52 @@ func TestFundamentalPeriodDatabaseYearBounds(t *testing.T) {
 	}
 }
 
+func TestFundamentalJobIDUsesFrozenVietnamObservationDay(t *testing.T) {
+	job := FundamentalJob{Symbol: "FPT", StatementType: "income_statement", PeriodType: "quarter", Mode: "observed"}
+	start := time.Date(2026, 10, 31, 17, 30, 0, 0, time.UTC) // 2026-11-01 in Vietnam.
+	keyAtStart, err := FundamentalJobID(job, start)
+	if err != nil {
+		t.Fatal(err)
+	}
+	keyLaterSameRun, err := FundamentalJobID(job, start.Add(3*time.Hour))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if keyAtStart != keyLaterSameRun || !strings.HasSuffix(keyAtStart, ":2026-11-01") {
+		t.Fatalf("observed job key changed within its frozen Vietnam day: %q, %q", keyAtStart, keyLaterSameRun)
+	}
+	keyNextVietnamDay, err := FundamentalJobID(job, start.Add(24*time.Hour))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if keyNextVietnamDay == keyAtStart || !strings.HasSuffix(keyNextVietnamDay, ":2026-11-02") {
+		t.Fatalf("observed job key did not advance on the next Vietnam day: %q", keyNextVietnamDay)
+	}
+}
+
+func TestFundamentalResponseFailureExposesSafeDiagnosticsOnly(t *testing.T) {
+	var reply worker.Response
+	raw := `{"id":"job-key","ok":false,"error":{"type":"AdapterError","message":"private vendor detail must not escape","cause":"VnstockProviderError"},"diagnostic":{"kind":"network","provider":"vci","http_status":502,"retryable":true}}`
+	if err := json.Unmarshal([]byte(raw), &reply); err != nil {
+		t.Fatal(err)
+	}
+	err := fundamentalResponseFailure(reply, "job-key")
+	if err == nil {
+		t.Fatal("failed provider response was accepted")
+	}
+	for _, want := range []string{"type=AdapterError", "cause=VnstockProviderError", "kind=network", "provider=vci", "http_status=502", "retryable=true"} {
+		if !strings.Contains(err.Error(), want) {
+			t.Fatalf("error %q is missing safe diagnostic %q", err, want)
+		}
+	}
+	if strings.Contains(err.Error(), "private vendor detail") {
+		t.Fatalf("vendor message leaked into error: %q", err)
+	}
+	if err := fundamentalResponseFailure(reply, "different-key"); err == nil || err.Error() != "fundamental route response id mismatch" {
+		t.Fatalf("response id mismatch was not distinguished safely: %v", err)
+	}
+}
+
 func TestAnalyzeFundamentalFrameLongPeriods(t *testing.T) {
 	raw := json.RawMessage(`{"count":4,"columns":["period","id","name","order","level","unit","value"],"attributes":{"source":"vci","symbol":"FPT","route":"fundamental.equity.income_statement"},"rows":[{"period":"2024-Q1","id":"1","name":"Revenue","order":1,"level":1,"unit":"VND","value":2},{"period":"2024-Q2","id":"1","name":"Revenue","order":1,"level":1,"unit":"VND","value":3},{"period":"2024-Q1","id":"2","name":"Profit","order":2,"level":1,"unit":"VND","value":null},{"period":"2024-Q2","id":"2","name":"Profit","order":2,"level":1,"unit":"VND","value":4}]}`)
 	f, p, err := AnalyzeFundamentalFrame("FPT", "income_statement", "quarter", raw)

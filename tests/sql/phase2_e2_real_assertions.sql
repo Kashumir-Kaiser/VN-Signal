@@ -58,7 +58,7 @@ BEGIN
     END IF;
     definition:=replace(definition,anchor,replacement);
 
-    anchor:='    feature_rows:=feat.build_price_features_v3_shared(p_date_from,p_date_to,p_symbol_ids);';
+    anchor:='    feature_rows:=feat.build_price_features_v3_calendar_chunked(p_date_from,p_date_to,p_symbol_ids);';
     replacement:='    v_stage_started:=clock_timestamp();'||E'\n'
         ||anchor||E'\n'
         ||'    RAISE NOTICE ''E2 V3 feature rebuild elapsed %, rows %'',clock_timestamp()-v_stage_started,feature_rows;';
@@ -349,7 +349,7 @@ BEGIN
     previous_path:=feat.phase2_builder_set_context(base_in,base_out,base_ops);
     baseline_feature_started:=clock_timestamp();
     PERFORM feat.build_features_v2_shared(min_date,max_date,cohort_ids);
-    PERFORM feat.build_price_features_v3_shared(min_date,max_date,cohort_ids);
+    PERFORM feat.build_price_features_v3_calendar_chunked(min_date,max_date,cohort_ids);
     RAISE NOTICE 'E2 baseline optimized V2/V3 feature rebuild elapsed %',clock_timestamp()-baseline_feature_started;
     EXECUTE format('SELECT count(*) FROM %I.features_daily WHERE feature_version=''phase2-v3'' AND feature_set_hash IS DISTINCT FROM $1',base_out)
         INTO v3_feature_hash_mismatches USING feat.phase2_feature_set_hash_v3();

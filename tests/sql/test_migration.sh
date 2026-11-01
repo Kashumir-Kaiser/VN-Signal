@@ -63,7 +63,9 @@ psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_shared_builder_assertions.sql "$D
 psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_market_projection_assertions.sql "$DATABASE_URL"
 psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_rank_population_assertions.sql "$DATABASE_URL"
 psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_source_inputs_assertions.sql "$DATABASE_URL"
+psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_bsc_price_limits_assertions.sql "$DATABASE_URL"
 psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_chunk_assertions.sql "$DATABASE_URL"
+psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_year_anchor_manifest_assertions.sql "$DATABASE_URL"
 psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_cache_probe_strategy_assertions.sql "$DATABASE_URL"
 if psql -X -v ON_ERROR_STOP=1 "$DATABASE_URL" <<'SQL'
 BEGIN;
@@ -97,4 +99,11 @@ psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_vci_lineage_assertions.sql "$DATA
 psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_vci_recovery_lineage_assertions.sql "$DATABASE_URL"
 psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_listing_tenure_assertions.sql "$DATABASE_URL"
 psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_public_execution_assertions.sql "$DATABASE_URL"
+psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_rank_covering_index_assertions.sql "$DATABASE_URL"
+psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_e4_transfer_assertions.sql "$DATABASE_URL"
+psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_label_build_link_assertions.sql "$DATABASE_URL"
+psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_label_first_date_cache_assertions.sql "$DATABASE_URL"
+psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_label_input_hash_window_assertions.sql "$DATABASE_URL"
+psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_label_dependency_watermark_assertions.sql "$DATABASE_URL"
+psql -X -v ON_ERROR_STOP=1 -f tests/sql/phase2_execution_weight_batch_assertions.sql "$DATABASE_URL"
 echo 'Phase 2 SQL migration harness passed.'

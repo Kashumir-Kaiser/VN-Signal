@@ -1,0 +1,11 @@
+BEGIN
+CREATE TABLE
+COPY 2
+CREATE TABLE
+COPY 1
+DO
+INSERT 0 2
+SELECT 2
+DO
+
+Attempt 1 rolled back before commit. core.verify_listing_event_source treated the HNX signed-notice landing as an HNX profile because the generic metadata used the profile-only first_upcom_trade_date key. The retry removes that marker and records the signed notice date as first_trade_date.

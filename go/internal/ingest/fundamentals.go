@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/live"
+	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/worker"
 )
 
 // FundamentalJob is bounded to one statement family and one period frequency.
@@ -171,6 +172,67 @@ func validateFundamentalJob(j FundamentalJob) error {
 	return nil
 }
 
+// FundamentalJobID returns the durable idempotency key for a validated job.
+// Observed-availability jobs are intentionally repeatable once per Vietnam day.
+func FundamentalJobID(j FundamentalJob, observedAt time.Time) (string, error) {
+	if err := validateFundamentalJob(j); err != nil {
+		return "", err
+	}
+	key := fmt.Sprintf("fundamental:%s:%s:%s:%s", j.StatementType, j.PeriodType, j.Mode, j.Symbol)
+	if j.Mode == "observed" {
+		key += ":" + observedAt.In(time.FixedZone("Asia/Ho_Chi_Minh", 7*3600)).Format("2006-01-02")
+	}
+	return key, nil
+}
+
+func fundamentalResponseFailure(reply worker.Response, expectedID string) error {
+	if reply.ID != expectedID {
+		return errors.New("fundamental route response id mismatch")
+	}
+	if reply.OK {
+		return nil
+	}
+	fields := make([]string, 0, 7)
+	if reply.Error != nil {
+		if safeAdapterLabel(reply.Error.Type) {
+			fields = append(fields, "type="+reply.Error.Type)
+		}
+		if safeAdapterLabel(reply.Error.Cause) {
+			fields = append(fields, "cause="+reply.Error.Cause)
+		}
+	}
+	if d := reply.Diagnostic; d != nil {
+		if d.Kind == "input" || d.Kind == "auth" || d.Kind == "entitlement" || d.Kind == "network" || d.Kind == "provider" || d.Kind == "schema" || d.Kind == "unsupported" || d.Kind == "internal" {
+			fields = append(fields, "kind="+d.Kind)
+		}
+		if d.Provider == "vci" || d.Provider == "kbs" {
+			fields = append(fields, "provider="+d.Provider)
+		}
+		if d.HTTPStatus != nil && *d.HTTPStatus >= 100 && *d.HTTPStatus <= 599 {
+			fields = append(fields, fmt.Sprintf("http_status=%d", *d.HTTPStatus))
+		}
+		if d.Retryable != nil {
+			fields = append(fields, fmt.Sprintf("retryable=%t", *d.Retryable))
+		}
+	}
+	if len(fields) == 0 {
+		return errors.New("fundamental route failed without a safe diagnostic")
+	}
+	return fmt.Errorf("fundamental route failed: %s", strings.Join(fields, ","))
+}
+
+func safeAdapterLabel(s string) bool {
+	if len(s) == 0 || len(s) > 80 {
+		return false
+	}
+	for _, c := range s {
+		if !((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '_') {
+			return false
+		}
+	}
+	return true
+}
+
 // RunFundamentalsBackfill only accepts the VCI capability validated by caller; each
 // attempt uses the recorded audit boundary and a fresh pre-call quota check.
 func (r *Runner) RunFundamentalsBackfill(ctx context.Context, jobs []FundamentalJob) (RunSummary, error) {
@@ -190,14 +252,14 @@ func (r *Runner) RunFundamentalsBackfill(ctx context.Context, jobs []Fundamental
 		return sum, errors.New("fundamental quarantine store unavailable")
 	}
 	// Freeze a run's local observation day; actual availability remains FetchedAt.
-	observationDay := r.Now().In(time.FixedZone("Asia/Ho_Chi_Minh", 7*3600)).Format("2006-01-02")
+	observedAt := r.Now()
+	if r.FundamentalObservationNow != nil {
+		observedAt = r.FundamentalObservationNow()
+	}
 	for _, j := range jobs {
-		if e := validateFundamentalJob(j); e != nil {
+		key, e := FundamentalJobID(j, observedAt)
+		if e != nil {
 			return sum, e
-		}
-		key := fmt.Sprintf("fundamental:%s:%s:%s:%s", j.StatementType, j.PeriodType, j.Mode, j.Symbol)
-		if j.Mode == "observed" {
-			key += ":" + observationDay
 		}
 		done, e := r.Store.Completed(ctx, key)
 		if e != nil {
@@ -221,8 +283,8 @@ func (r *Runner) RunFundamentalsBackfill(ctx context.Context, jobs []Fundamental
 		if e != nil {
 			return sum, e
 		}
-		if reply.ID != key || !reply.OK {
-			return sum, errors.New("fundamental route failed or response id mismatch")
+		if e = fundamentalResponseFailure(reply, key); e != nil {
+			return sum, e
 		}
 		frame, periods, e := AnalyzeFundamentalFrame(j.Symbol, j.StatementType, j.PeriodType, reply.Data)
 		if e != nil {

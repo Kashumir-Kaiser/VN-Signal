@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+<html>
+
+<script>
+    var _languagecodeInPortal = 'VI_VN';
+
+    var _language_datepicker_in_layout = _languagecodeInPortal;
+    if (_language_datepicker_in_layout == 'VI_VN') {
+        _language_datepicker_in_layout = "vi";
+    }
+    else {
+        _language_datepicker_in_layout = "en";
+    }
+</script>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+    <link rel="shortcut icon" href="/Content/img/icon_HNX.ico" />
+    <title>CTCP TIE đăng k&#253; giao dịch tr&#234;n UPCoM</title>
+    <script src="/bundles/modernizr?v=jmdBhqkI3eMaPZJduAyIYBj7MpXrGd2ZqmHAOSNeYcg1"></script>
+
+
+    <script src="/Scripts/jquery-3.7.1.min.js"></script>
+    <script src="/Scripts/jquery-ui-1.14.2.min.js"></script>
+    <script src="/Scripts/jquery.unobtrusive-ajax.min.js?v=3.2.6"></script>
+
+    <script src="/Content/datepicker/jquery.ui.datepicker-vi.js?v1.0"></script>
+    <link href="/Content/datepicker/ui-lightness-1.14.2/jquery-ui.min.css" rel="stylesheet" />
+    <link href="/Content/font.css" rel="stylesheet" />
+    <script src="/Scripts/jquery-validate-data.js?v=1.5.8.16"></script>
+    <link href="/Content/MobileCSS/Style.css?v=1.5.8.16" rel="stylesheet" />
+    <script>
+        $(function () {
+            $(".btn-menu-expand").on("click", function (e) {
+                $(".menu-left-popup").toggle("slide", { direction: "left" }, 200);
+            });
+
+            $(document).on("click", function (e) {
+                var container = $('.menu-container'), popupmenu = $('.menu-left-popup');
+
+                if (container.has(e.target).length <= 0 && popupmenu.is(e.target)) {
+                    $(".menu-left-popup").toggle("slide", { direction: "left" }, 200);
+                }
+            });
+
+            $(".am-clicksubmenu").on("click", function (e) {
+                if ($(this).parent().hasClass("active")) {
+                    $(".menu-left li.active").removeClass("active");
+                }
+                else {
+                    $(".menu-left li.active").removeClass("active");
+                    $(this).parent().addClass("active");
+                }
+            });
+
+            $('#txtGStockSearch').on("keypress", function (e) {
+                e = window.event || e;
+                if (e.keyCode == 13) {
+                    var _stock_code = this.value.trim();
+                    if (_stock_code != "") {
+                        window.location.href = "/m-tim-kiem-" + _stock_code + ".html";
+                    }
+                    else {
+                        this.value = "";
+                    }
+                }
+            });
+
+            $("#btnGStockSearch").on("click", function () {
+                var _stock_code = $('#txtGStockSearch').val().trim();
+                if (_stock_code != "") {
+                    window.location.href = "/m-tim-kiem-" + _stock_code + ".html";
+                }
+                else {
+                    $('#txtGStockSearch').val("");
+                }
+            });
+
+
+            $.ajax({
+                url: '/Home/MobileSearchAutocompleteStockCode',
+                type: 'POST',
+                data: {},
+                sync: false, cache: false, traditional: true,
+                success: function (data) {
+                    var lts = data.lst;
+                    $('#txtGStockSearch').autocomplete({
+                        autoFocus: true,
+                        source: function (request, response) {
+                            var matcher = new RegExp("" + $.ui.autocomplete.escapeRegex(request.term.toUpperCase()), "i");
+                            response($.grep(lts, function (item) {
+                                return matcher.test(item.STOCK_CODE);
+                            }));
+                        },
+                        select: function (event, ui) {
+                          
+                                window.location.href = "/m-tim-kiem-" + ui.item.STOCK_CODE + ".html";
+                           
+                           
+                        },
+                        focus: function (event, ui) {
+                            //this.value = ui.item.STOCK_CODE;
+                            var arrResult = $("ul .ui-corner-all");
+                            for (var i = 0; i < arrResult.length; i++) {
+                                var label = $.trim($(arrResult[i]).text().split("-")[0]);
+                                if (label == ui.item.STOCK_CODE) {
+                                    $(".clsLiActive").removeClass("clsLiActive")
+                                    $(arrResult[i]).addClass("clsLiActive");
+                                    break;
+                                }
+                            }
+                            event.preventDefault();
+                        },
+                        open: function (event, ui) {
+                            $("ul").scrollTop(0);
+                            event.preventDefault();
+                        },
+                    });
+                }
+            });
+
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+
+
+                
+
+                var re = new RegExp("" + this.term.toUpperCase());
+
+
+                if (item.MARKETCODE == "CB") {
+                    var t = ("<label style=\"color: red;\">" + item.STOCK_CODE + "</label> ");
+                }else{
+                    var t = ("<label style=\"color: red;\">" + item.STOCK_CODE + "</label> - " + item.NAME );
+                }
+
+                
+                t = t.replace(re, "<b>" + this.term.toUpperCase() + "</b></span>");
+
+                return $("<li></li>")
+                        .data("item.autocomplete", item)
+                        .append("<a>" + t + "</a>")
+                        .appendTo(ul);
+            };
+        });
+
+    </script>
+
+
+    <style>
+        #txtGStockSearch {
+            position: relative;
+        }
+
+        .ui-autocomplete {
+            position: fixed;
+            top: 45px !important;
+            left: 0 !important;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+
+        .btn-menu-expand, .btn-search {
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="wrapper-header">
+            <div class="menu-head">
+                <button type="button" class="btn-menu-expand"><span class="fa fa-bar"></span></button>
+                <input type="text" placeholder="M&#227; CK/Sản phẩm" id="txtGStockSearch" />
+                <button type="button" class="btn-search" id="btnGStockSearch"><span class="fa fa-search"></span></button>
+            </div>
+        </div>
+        <!-- #header -->
+        <div id="wrapper-content">
+            <div class="content">
+                
+
+<div class="content-news">
+    <div class="main-header">
+        <div class="mh-big">Tin tức từ HNX</div>
+    </div>
+
+        <div class="news-container">
+            <div class="news-title">CTCP TIE đăng k&#253; giao dịch tr&#234;n UPCoM</div>
+            <div class="news-public-time">08/08/2019 16:50 </div>
+            <div class="news-content"><div style="text-align: justify;"><img alt="" src="https://owa.hnx.vn/ftp/PORTALNEW/FileContent/TIE(20190808_164946_102).jpg" style="width: 825px; height: 488px;" /><br />
+<br />
+Ng&agrave;y 9/8/2019, hơn 9,5 triệu cổ phiếu CTCP TIE ch&iacute;nh thức được đưa v&agrave;o giao dịch tr&ecirc;n UPCoM.<br />
+<strong>CTCP TIE</strong></div>
+
+<table border="1" cellpadding="0" cellspacing="0">
+	<tbody>
+		<tr>
+			<td style="width: 600px; text-align: justify;">- M&atilde; chứng kho&aacute;n: TIE<br />
+			- Số lượng chứng kho&aacute;n đăng k&yacute; giao dịch: 9.569.900 cổ phiếu<br />
+			- Gi&aacute; trị chứng kho&aacute;n đăng k&yacute; giao dịch: 95.699.000.000 đồng<br />
+			- Gi&aacute; tham chiếu trong ng&agrave;y giao dịch đầu ti&ecirc;n: 6.800 đồng/cổ phiếu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+
+<div style="text-align: justify;">&nbsp;<br />
+CTCP TIE, tiền th&acirc;n l&agrave; C&ocirc;ng ty Sản xuất kinh doanh Xuất nhập khẩu Điện &ndash; Điện tử Quận 10, được th&agrave;nh lập từ th&aacute;ng 9 năm 1990. C&ocirc;ng ty hoạt động đa ng&agrave;nh từ sản xuất, kinh doanh đến dịch vụ. Về sản xuất, c&oacute; 3 d&ograve;ng sản phẩm chủ lực l&agrave; cuộn d&acirc;y cao tần v&agrave; si&ecirc;u cao tần, sản phẩm quảng c&aacute;o v&agrave; sản phẩm m&agrave;n h&igrave;nh LFD. Về kinh doanh, sản phẩm kinh doanh chủ lực của c&ocirc;ng ty l&agrave; c&aacute;c sản phẩm điện tử - tin học như m&agrave;n h&igrave;nh m&aacute;y t&iacute;nh, m&aacute;y t&iacute;nh tiền, m&aacute;y chiếu, m&aacute;y nghe nhạc MP3,&hellip; với hệ thống ph&acirc;n phối tr&ecirc;n 64 tỉnh th&agrave;nh của cả nước. Về dịch vụ, c&ocirc;ng ty thực hiện dịch vụ sửa chữa v&agrave; bảo h&agrave;nh cho c&aacute;c sản phẩm do c&ocirc;ng ty ph&acirc;n phối.<br />
+Ngo&agrave;i c&aacute;c hoạt động tr&ecirc;n, hoạt động đầu tư t&agrave;i ch&iacute;nh của c&ocirc;ng ty cũng ph&aacute;t triển từ rất sớm th&ocirc;ng qua việc li&ecirc;n kết, li&ecirc;n doanh, g&oacute;p vốn, mua cổ phần của nhiều doanh nghiệp kh&aacute;c. C&ocirc;ng ty th&agrave;nh vi&ecirc;n của CTCP TIE l&agrave; CTCP Văn h&oacute;a TIE, th&agrave;nh lập năm 2016 nhằm n&acirc;ng cao thị phần của TIE trong Tập học sinh v&agrave; Văn ph&ograve;ng phẩm tại khu vực ph&iacute;a Nam.<br />
+CTCP TIE đ&atilde; ni&ecirc;m yết cổ phiếu tr&ecirc;n HOSE từ năm 2009 v&agrave; bị hủy ni&ecirc;m yết ng&agrave;y 01/8/2019 với l&yacute; do tổ chức kiểm to&aacute;n c&oacute; &yacute; kiến kiểm to&aacute;n tr&aacute;i ngược với BCTC hợp nhất năm 2018 được kiểm to&aacute;n, thuộc trường hợp chứng kho&aacute;n bị hủy ni&ecirc;m yết bắt buộc theo quy định.&nbsp;</div>
+</div>
+            <div class="news-file-attach">
+            </div>
+        </div>
+</div>
+            </div>
+        </div>
+        <!-- #content -->
+        <div id="wrapper-footer">
+            <!-- #footer -->
+            <p style="padding: 10px; border-top: 2px solid #cacaca; font-size: 14px;">&#169; 2009 Bản quyển thuộc &quot;Sở Giao dịch Chứng kho&#225;n H&#224; Nội&quot;. Ph&#225;t triển bởi <a target="_blank" href="http://www.navisoft.com.vn/" style="color: orange;">Navisoft.</a></p>
+        </div>
+    </div>
+    <!-- #wrapper -->
+
+    <div class="menu-left-popup">
+        
+
+<div class="menu-container">
+    <div class="menu-left-logo">
+        <a class="left-logo">
+            <img src="/Content/MobileImages/logo.png?v=1.5.8.16" /></a>
+            <a href="/Home/Language?culture=en-GB&returnUrl=Home/MobileIndex" class="lang-en"></a>
+    </div>
+
+    <ul class="menu-left">
+        <li><a href="/trang-chu-mobile.html">Trang chủ</a></li>
+        <li class="">
+            <a class="am-clicksubmenu" href="javascript:;">Ni&#234;m yết<span class="am-btnsubmenu fa fa-angle"></span></a>
+            <ul class="ul-small">
+                <li><a href="/m-niem-yet/du-lieu-thi-truong.html" class="">Dữ liệu thị trường</a></li>
+                <li><a href="/m-niem-yet/chi-so.html" class="">Chỉ số</a></li>
+                <li><a href="/m-niem-yet/tin-tuc.html" class="">Tin tức</a></li>
+            </ul>
+        </li>
+        <li class="">
+            <a class="am-clicksubmenu" href="javascript:;" style="text-transform: none;">UPCoM<span class="am-btnsubmenu fa fa-angle"></span></a>
+            <ul class="ul-small">
+                <li><a href="/m-upcom/du-lieu-thi-truong.html" class="">Dữ liệu thị trường</a></li>
+                <li><a href="/m-upcom/chi-so.html" class="">Chỉ số</a></li>
+                <li><a href="/m-upcom/tin-tuc.html" class="">Tin tức</a></li>
+            </ul>
+        </li>
+        <li class="">
+            <a class="am-clicksubmenu" href="javascript:;">Tr&#225;i phiếu<span class="am-btnsubmenu fa fa-angle"></span></a>
+            <ul>
+                <li><a href="/m-trai-phieu/thong-tin-giao-dich.html" class="">Th&#244;ng tin giao dịch</a></li>
+                <li><a href="/m-trai-phieu/lich-phat-hanh.html" class="">Lịch ph&#225;t h&#224;nh</a></li>
+                <li><a href="/m-trai-phieu/dau-thau-va-ket-qua-dau-thau.html" class="">Đấu thầu v&#224; kết quả đấu thầu</a></li>
+                <li><a href="/m-trai-phieu/duong-cong-loi-suat.html" class="">Đường cong Spot Rate</a></li>
+                <li><a href="/m-trai-phieu/chi-so.html" class="">Chỉ số</a></li>
+            </ul>
+        </li>
+
+        <li class="">
+            <a class="am-clicksubmenu" href="javascript:;">Chứng kho&#225;n Ph&#225;i sinh<span class="am-btnsubmenu fa fa-angle"></span></a>
+            <ul>
+                <li><a href="/m-phai-sinh/hop-dong-tuong-lai-cscp.html" class="">HĐTL Chỉ số cổ phiếu</a></li>
+                <li><a href="/m-phai-sinh/hop-dong-tuong-lai-tpcp.html" class="">HĐTL Tr&#225;i phiếu ch&#237;nh phủ</a></li>
+                
+                
+            </ul>
+        </li>
+
+
+
+
+
+
+        <li class="">
+            <a class="am-clicksubmenu" href="javascript:;">Đấu gi&#225;<span class="am-btnsubmenu fa fa-angle"></span></a>
+            <ul class="ul-small">
+                <li><a href="/m-dau-gia/lich-dau-gia.html" class="">Lịch đấu gi&#225;</a></li>
+                <li><a href="/m-dau-gia/ket-qua-dau-gia.html" class="">Kết quả đấu gi&#225;</a></li>
+                <li><a href="/m-dau-gia/tin-tuc.html" class="">Th&#244;ng tin c&#244;ng bố</a></li>
+            </ul>
+        </li>
+
+
+
+
+
+        <li class="">
+            <a class="am-clicksubmenu" href="javascript:;">Sản phẩm c&#225;c-bon<span class="am-btnsubmenu fa fa-angle"></span></a>
+            <ul>
+                <li><a href="/m-cac-bon/han-ngach.html" class="">Hạn ngạch ph&#225;t thải</a></li>
+                <li><a href="/m-cac-bon/tin-chi.html" class="">T&#237;n chỉ</a></li>
+                
+            </ul>
+        </li>
+
+
+
+
+
+
+
+
+        <li>
+            <a href="/m-tin-tuc-hnx.html">Tin tức</a>
+        </li>
+        <li>
+            <a href="/home/Desktop">Phi&#234;n bản Desktop</a>
+        </li>
+    </ul>
+</div>
+
+    </div>
+</body>
+</html>

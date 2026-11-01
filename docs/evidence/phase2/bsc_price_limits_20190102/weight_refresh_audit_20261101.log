@@ -1,0 +1,84 @@
+BEGIN
+SET
+SET
+DO
+                 metric                 | value 
+----------------------------------------+-------
+ bsc_observations                       | 834
+ bsc_symbols                            | 834
+ affected_current_hash_windows          | 14866
+ windows_with_exact_bsc_observation     | 14641
+ windows_without_exact_bsc_observation  | 225
+ windows_with_non_null_execution_weight | 14641
+ windows_with_null_execution_weight     | 225
+ bsc_observation_but_null_weight        | 0
+ no_bsc_observation_but_non_null_weight | 0
+(9 rows)
+
+ signal_date | horizon_sessions | affected_targets | null_weight_after_refresh | nonnull_weight_after_refresh 
+-------------+------------------+------------------+---------------------------+------------------------------
+ 2018-11-30  |               20 |              552 |                         2 |                          550
+ 2018-12-03  |               20 |              560 |                         9 |                          551
+ 2018-12-04  |               20 |              558 |                         8 |                          550
+ 2018-12-05  |               20 |              550 |                         9 |                          541
+ 2018-12-06  |               20 |              572 |                        11 |                          561
+ 2018-12-07  |               20 |              548 |                         6 |                          542
+ 2018-12-10  |               20 |              558 |                        10 |                          548
+ 2018-12-11  |               20 |              545 |                        15 |                          530
+ 2018-12-12  |               20 |              563 |                         9 |                          554
+ 2018-12-13  |               20 |              556 |                         5 |                          551
+ 2018-12-14  |               20 |              524 |                         4 |                          520
+ 2018-12-17  |               20 |              530 |                        10 |                          520
+ 2018-12-18  |               20 |              538 |                         9 |                          529
+ 2018-12-19  |               20 |              543 |                        14 |                          529
+ 2018-12-20  |               20 |              545 |                        10 |                          535
+ 2018-12-21  |                5 |              558 |                         2 |                          556
+ 2018-12-21  |               20 |              545 |                         8 |                          537
+ 2018-12-24  |                5 |              557 |                         9 |                          548
+ 2018-12-24  |               20 |              536 |                         9 |                          527
+ 2018-12-25  |                5 |              560 |                         9 |                          551
+ 2018-12-25  |               20 |              552 |                        10 |                          542
+ 2018-12-26  |                5 |              563 |                         8 |                          555
+ 2018-12-26  |               20 |              554 |                         9 |                          545
+ 2018-12-27  |                5 |              571 |                        15 |                          556
+ 2018-12-27  |               20 |              530 |                        11 |                          519
+ 2018-12-28  |                5 |              555 |                         2 |                          553
+ 2018-12-28  |               20 |              543 |                         2 |                          541
+(27 rows)
+
+ symbol | unresolved_windows 
+--------+--------------------
+ AFX    |                  1
+ BMS    |                  3
+ BSL    |                  2
+ BWS    |                  6
+ CBS    |                  2
+ CKA    |                  9
+ CLX    |                  2
+ DND    |                  9
+ DNL    |                  6
+ DNW    |                  4
+ DSP    |                 17
+ DVC    |                  4
+ FIC    |                  7
+ GTS    |                  6
+ HNF    |                  2
+ HSM    |                  1
+ KHP    |                 19
+ L63    |                  4
+ LG9    |                  1
+ M10    |                  5
+ MGG    |                  3
+ MKP    |                  9
+ NAS    |                 14
+ NSG    |                  1
+ PVO    |                 20
+ PVP    |                 14
+ SAS    |                 12
+ SGP    |                 14
+ TCI    |                  6
+ TIS    |                 19
+ VTA    |                  3
+(31 rows)
+
+COMMIT

@@ -1,12 +1,101 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"path/filepath"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/ingest"
+	"github.com/Kashumir-Kaiser/VN-Signal/go/internal/quota"
 )
+
+type fundamentalJobState struct {
+	state     string
+	updatedAt time.Time
+}
+
+type fundamentalCompletionSet map[string]fundamentalJobState
+
+func (s fundamentalCompletionSet) FundamentalJobState(_ context.Context, jobID string) (string, time.Time, bool, error) {
+	job, ok := s[jobID]
+	return job.state, job.updatedAt, ok, nil
+}
+
+func TestFundamentalBatchPacerAdmitsCompleteSafeBatch(t *testing.T) {
+	pacer, err := fundamentalBatchPacer(60, 12, 20)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got := pacer.Remaining(); got != 12 {
+		t.Fatalf("pacer capacity=%d, want all 12 pending jobs", got)
+	}
+	if _, err := fundamentalBatchPacer(60, 12, 11); err == nil || !strings.Contains(err.Error(), "no market-data request sent") {
+		t.Fatalf("underfunded batch was not rejected during preflight: %v", err)
+	}
+	if _, err := fundamentalBatchPacer(60, -1, 12); err != quota.ErrUnknown {
+		t.Fatalf("negative pending count did not fail closed: %v", err)
+	}
+}
+
+func TestPendingFundamentalJobsUsesDurableIdempotencyKeys(t *testing.T) {
+	jobs := []ingest.FundamentalJob{
+		{Symbol: "VIC", StatementType: "income_statement", PeriodType: "quarter", Mode: "backfill"},
+		{Symbol: "VHM", StatementType: "income_statement", PeriodType: "quarter", Mode: "backfill"},
+	}
+	completedKey, err := ingest.FundamentalJobID(jobs[0], time.Date(2026, 11, 1, 0, 0, 0, 0, time.UTC))
+	if err != nil {
+		t.Fatal(err)
+	}
+	completedAt := time.Date(2026, 11, 1, 0, 0, 0, 0, time.UTC)
+	pending, err := pendingFundamentalJobs(context.Background(), fundamentalCompletionSet{completedKey: {state: "COMPLETED", updatedAt: completedAt}}, jobs, completedAt)
+	if err != nil || pending != 1 {
+		t.Fatalf("pending=%d err=%v, want only VHM pending", pending, err)
+	}
+}
+
+func TestPendingFundamentalJobsRejectsBlockedAndActivelyLeasedJobsBeforeCalls(t *testing.T) {
+	job := ingest.FundamentalJob{Symbol: "VIC", StatementType: "income_statement", PeriodType: "quarter", Mode: "backfill"}
+	key, err := ingest.FundamentalJobID(job, time.Date(2026, 11, 1, 0, 0, 0, 0, time.UTC))
+	if err != nil {
+		t.Fatal(err)
+	}
+	now := time.Date(2026, 11, 1, 0, 0, 0, 0, time.UTC)
+	for _, tc := range []struct {
+		name string
+		job  fundamentalJobState
+		want string
+	}{
+		{name: "blocked", job: fundamentalJobState{state: "BLOCKED"}, want: "blocked"},
+		{name: "active reservation", job: fundamentalJobState{state: "RESERVED", updatedAt: now.Add(-14 * time.Minute)}, want: "active lease"},
+		{name: "active dispatch", job: fundamentalJobState{state: "RUNNING", updatedAt: now.Add(-14 * time.Minute)}, want: "active lease"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			if _, err := pendingFundamentalJobs(context.Background(), fundamentalCompletionSet{key: tc.job}, []ingest.FundamentalJob{job}, now); err == nil || !strings.Contains(err.Error(), tc.want) {
+				t.Fatalf("preflight err=%v; want %q and zero calls", err, tc.want)
+			}
+		})
+	}
+}
+
+func TestPendingFundamentalJobsResumesExpiredLeaseAndRejectsUnknownState(t *testing.T) {
+	job := ingest.FundamentalJob{Symbol: "VIC", StatementType: "income_statement", PeriodType: "quarter", Mode: "backfill"}
+	key, err := ingest.FundamentalJobID(job, time.Date(2026, 11, 1, 0, 0, 0, 0, time.UTC))
+	if err != nil {
+		t.Fatal(err)
+	}
+	now := time.Date(2026, 11, 1, 0, 0, 0, 0, time.UTC)
+	store := fundamentalCompletionSet{key: {state: "RESERVED", updatedAt: now.Add(-15 * time.Minute)}}
+	if got, err := pendingFundamentalJobs(context.Background(), store, []ingest.FundamentalJob{job}, now); err != nil || got != 1 {
+		t.Fatalf("expired lease preflight=(%d,%v), want one resumable job", got, err)
+	}
+	store[key] = fundamentalJobState{state: "UNEXPECTED", updatedAt: now}
+	if _, err := pendingFundamentalJobs(context.Background(), store, []ingest.FundamentalJob{job}, now); err == nil || !strings.Contains(err.Error(), "unknown durable state") {
+		t.Fatalf("unknown state did not fail closed: %v", err)
+	}
+}
 
 func TestFundamentalProbePeriodSelection(t *testing.T) {
 	for _, period := range []string{"quarter", "year"} {

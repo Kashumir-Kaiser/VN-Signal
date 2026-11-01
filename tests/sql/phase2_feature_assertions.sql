@@ -37,9 +37,21 @@ BEGIN
     label_function:=pg_get_functiondef('feat.build_labels_set_based_shared(date,date,bigint[])'::regprocedure);
     public_v3_function:=pg_get_functiondef('feat.build_price_features_v3_internal(date,date)'::regprocedure);
     public_label_function:=pg_get_functiondef('feat.build_labels_set_based(date,date)'::regprocedure);
-    IF position('build_price_features_v3_shared(p_date_from,p_date_to,NULL)' IN public_v3_function)=0 OR
+    IF position('build_price_features_v3_calendar_chunked(p_date_from,p_date_to,NULL)' IN public_v3_function)=0 OR
        position('build_labels_set_based_shared(p_date_from,p_date_to,NULL)' IN public_label_function)=0 THEN
-        RAISE EXCEPTION 'public Phase 2 builders must delegate to the generated shared implementations';
+        RAISE EXCEPTION 'public Phase 2 builders must delegate to the generated V3 calendar and shared label implementations';
+    END IF;
+    IF position('phase2_v3_compute_batch_size' IN v3_function)=0 OR
+       position('phase2_v3_calendar_shared_guard' IN v3_function)=0 OR
+       position('phase2_v3_compute_batch_size' IN
+          pg_get_functiondef('ops.phase2_chunk_input_hash(text,date,date)'::regprocedure))>0 THEN
+        RAISE EXCEPTION 'V3 compute batching must be configurable without changing the canonical chunk input hash';
+    END IF;
+    IF to_regprocedure('feat.build_price_features_v3_year_impl(date,date,bigint[],date)') IS NULL OR
+       to_regprocedure('feat.build_price_features_v3_calendar_chunked(date,date,bigint[])') IS NULL OR
+       position('p_history_from' IN pg_get_functiondef(
+           'feat.build_price_features_v3_year_impl(date,date,bigint[],date)'::regprocedure))=0 THEN
+        RAISE EXCEPTION 'V3 year-anchored implementation or calendar wrapper is missing';
     END IF;
     IF position('stable_pair_moments_v1' IN v3_function)=0 OR
        position('var_samp(CASE WHEN x.stock_return IS NOT NULL AND x.index_return_lagged IS NOT NULL' IN v3_function)=0 OR
@@ -56,8 +68,9 @@ BEGIN
     END IF;
     IF position('stable_pair_moments' IN v3_hash_function)=0 OR
        position('independent_nonnull_rank_populations_v1' IN v3_hash_function)=0 OR
-       position('vnindex_inherited_returns_vol20_vci' IN v3_hash_function)=0 THEN
-        RAISE EXCEPTION 'V3 feature hash must retain rank, inherited-return and stable-moment contracts';
+       position('vnindex_inherited_returns_vol20_vci' IN v3_hash_function)=0 OR
+       position('year_anchored_jan1_v1' IN v3_hash_function)=0 THEN
+        RAISE EXCEPTION 'V3 feature hash must retain rank, inherited-return, stable-moment and year-anchored EMA contracts';
     END IF;
     rank_repair_guard_rejected:=false;
     BEGIN
@@ -156,6 +169,8 @@ DECLARE
     d253 date;
     d254 date;
     dlast date;
+    month_cursor date;
+    month_end date;
     ready_id bigint;
     stoch_id bigint;
     zero_id bigint;
@@ -225,13 +240,14 @@ BEGIN
     -- Compare one large symbol batch with several small batches. The fixture
     -- has enough symbols to cross batch boundaries and includes tied/edge
     -- populations used by the rank and episode assertions below.
-    PERFORM set_config('vnpipe.phase2_symbol_batch_size','250',true);
+    PERFORM set_config('vnpipe.phase2_symbol_batch_size','15',true);
+    PERFORM set_config('vnpipe.phase2_v3_compute_batch_size','250',true);
     PERFORM feat.build_features(d0,dlast);
     INSERT INTO phase2_v3_batch_reference(symbol_id,trade_date,row_image)
     SELECT fx.symbol_id,fx.trade_date,to_jsonb(fx)-'built_at'
     FROM feat.features_daily fx
     WHERE fx.feature_version='phase2-v3' AND fx.trade_date BETWEEN d0 AND dlast;
-    PERFORM set_config('vnpipe.phase2_symbol_batch_size','2',true);
+    PERFORM set_config('vnpipe.phase2_v3_compute_batch_size','2',true);
     PERFORM feat.build_features(d0,dlast);
     IF (SELECT count(DISTINCT batch_no) FROM pg_temp.phase2_v3_symbol_batches)<2 THEN
         RAISE EXCEPTION 'batch parity fixture did not span multiple symbol batches';
@@ -276,7 +292,34 @@ BEGIN
         RAISE EXCEPTION 'batched Phase 2 v3 mismatch for symbol %, date %, fields %',
             batch_mismatch_symbol,batch_mismatch_date,batch_mismatch_fields;
     END IF;
+
+    -- Rebuild the same range in calendar-month slices. Each slice retains the
+    -- full required prior-session window, so its row images must match the
+    -- one-call baseline while allowing durable monthly checkpoints.
+    month_cursor:=d0;
+    WHILE month_cursor<=dlast LOOP
+        month_end:=least(
+            (date_trunc('month',month_cursor::timestamp)+interval '1 month'-interval '1 day')::date,
+            dlast
+        );
+        PERFORM feat.build_price_features_v3_internal(month_cursor,month_end);
+        month_cursor:=month_end+1;
+    END LOOP;
+    IF EXISTS (
+        SELECT 1
+        FROM phase2_v3_batch_reference old
+        FULL JOIN (
+            SELECT fx.symbol_id,fx.trade_date,to_jsonb(fx)-'built_at' AS row_image
+            FROM feat.features_daily fx
+            WHERE fx.feature_version='phase2-v3' AND fx.trade_date BETWEEN d0 AND dlast
+        ) current USING(symbol_id,trade_date)
+        WHERE old.symbol_id IS NULL OR current.symbol_id IS NULL
+           OR old.row_image IS DISTINCT FROM current.row_image
+    ) THEN
+        RAISE EXCEPTION 'monthly Phase 2 V3 slices changed the canonical row images';
+    END IF;
     PERFORM set_config('vnpipe.phase2_symbol_batch_size','50',true);
+    PERFORM set_config('vnpipe.phase2_v3_compute_batch_size','',true);
     PERFORM feat.build_labels(d0,d0);
     PERFORM feat.build_labels(d24,d24);
     PERFORM feat.build_labels(dlast,dlast);

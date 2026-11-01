@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "scope": "ASG's 2021 HNX-to-HOSE transfer endpoint review, guarded report-clone import, replay, and post-import E4 census.",
+  "feature_hash": "28089ed13c1be5a19865bc9cea34c44cb84f3e460ee3f3f2ee837a853d317f6b",
+  "target_database": "vnsignal_phase2_report_20261019 (disposable report clone)",
+  "event_id": 288,
+  "strict_transfer_view": "PASS",
+  "first_import": {
+    "signed_endpoint_landings": 2,
+    "transfer_events": 1
+  },
+  "idempotent_replay": {
+    "new_endpoint_landings": 0,
+    "new_transfer_events": 0,
+    "strict_transfer_view": "PASS"
+  },
+  "source_facts": {
+    "final_hnx_trading_day": "2021-09-21",
+    "prior_ceased_from": "2021-09-22",
+    "prior_ceased_from_basis": "first effective exchange session after the source-stated final HNX trading date; not a separately stated legal cancellation date",
+    "first_hose_trading_day": "2021-09-27",
+    "shares": 75653891,
+    "gap_sessions": 3,
+    "intervening_bars": 0,
+    "intervening_source_rows": 0
+  },
+  "post_import_e4_census": {
+    "gap_intervals": 221,
+    "missing_effective_sessions": 3225,
+    "strictly_verified_transfers": 216,
+    "strictly_verified_transfer_sessions": 1519,
+    "unmatched_intervals": 5,
+    "unmatched_sessions": 1706
+  },
+  "files": [
+    {
+      "path": "docs/BUILD_STATUS.md",
+      "bytes": 311137,
+      "sha256": "d4361bdde03d3400b226bc3e83f728a3671d778e270f4799859cd0c9b32ffe1d"
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "bytes": 287011,
+      "sha256": "167b31e31a27ab43d96dcabd07333fb4a780231e9bef3bf3c7cd1ac610703de1"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_currenthash_gap_pairs_20261031_postasg1.csv",
+      "bytes": 16382,
+      "sha256": "32fb0e393e5642fa5638f0ad839792f0258941e254f40016becd7c8d9f69a570"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_currenthash_gap_pairs_20261031_postasg1.log",
+      "bytes": 125,
+      "sha256": "3eb4cae7faf09164ecb63154625847c3b06e19e10b44823b0d8dc7050a2603da"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_currenthash_gap_pairs_20261031_postasg1.sql",
+      "bytes": 5931,
+      "sha256": "7560534021076012e0b8f9dfab2a8c2277bee45ed18c6024abe2e14a6ce03f53"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_currenthash_postasg1_20261031.md",
+      "bytes": 3784,
+      "sha256": "60267edb0562e218252a56f09dd3972e69e76db63e4164b16b327193416db66a"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_feature_endpoint_semantics_20261031_postasg1.csv",
+      "bytes": 14486,
+      "sha256": "4fc8554848896b362c3ac70e5d189f7c966b2243bf71c60326deabe1e0a66179"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_feature_endpoint_semantics_20261031_postasg1.log",
+      "bytes": 111,
+      "sha256": "e7d2972cf529abc1cda4c9964cfa8d6995f155880414f0794fbc082ff4a92d80"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_feature_endpoint_semantics_20261031_postasg1.sql",
+      "bytes": 4537,
+      "sha256": "4eea3bb47c2fa4a32f583c653a1eec269bd3f09995b58e8cc6bfed52bb797f06"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/README.md",
+      "bytes": 3848,
+      "sha256": "f5e8b15dac61da6afdbece1fe051c15c641d52b224d346cf10e333a5e6b83955"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/capture_manifest_asg_20261031.json",
+      "bytes": 7066,
+      "sha256": "adc57ba563abbe7856bcaecb41a4c9707ecab305322f1a13d99e1e2bd3a28bee"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/hnx_asg_transfer_article_401910.html",
+      "bytes": 1154,
+      "sha256": "9749558cc6c425e654e1ae6bf027f16d00e56cd9c2d3b2f5ea71c85f593bf535"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/hnx_asg_transfer_notice_401910.pdf",
+      "bytes": 293169,
+      "sha256": "764496291f307086f1dc39ee1702a199ea59087665b726a2f81786ce51661079"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/hose_asg_first_trade_1483519.json",
+      "bytes": 939,
+      "sha256": "a9ce542220861b034e9b832d89fd22dffa7fc6f6a2e7ecc119d1879442bd92e1"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/hose_asg_first_trade_1483519.pdf",
+      "bytes": 721402,
+      "sha256": "85f964de0898e3e0202940eac2c516f9837459ecdccdb10acfcc35a55a78bd05"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/hose_asg_first_trade_attachments_1483519.json",
+      "bytes": 520,
+      "sha256": "3db57f5c5734463d5e4b71c3a95cda1cb7c71a37ecffcefde13d0791eca98a38"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/hose_first_trade_capture_manifest_asg_20261031.json",
+      "bytes": 4024,
+      "sha256": "834b8a308d569f3eab3124942bc16ba1c67f086266f6d38e85f7739b158d5b25"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/hose_news_2021-09-15_2021-10-05_page001.json",
+      "bytes": 529337,
+      "sha256": "516fd101dbd3471a7ce80154e4276f5c6547fce6534b5fe5ad513b671f55840f"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/hose_news_2021-09-15_2021-10-05_page002.json",
+      "bytes": 522193,
+      "sha256": "a3c6062a88a22cd4be23a1253e0eaeebe0551b2026c187c3873f0b9fcc919cf7"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/hose_news_2021-09-15_2021-10-05_page003.json",
+      "bytes": 543867,
+      "sha256": "e89ba6971082ccf825ec7ff8b6fa67eb7a30297b61842d0fc967ddad0122e7af"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/hose_news_2021-09-15_2021-10-05_page004.json",
+      "bytes": 350693,
+      "sha256": "772adfaf1fad11295ab499e21811d7cd7676058e27a58af7971e0b043a90038c"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/import_asg_transfer_reportclone_20261031.log",
+      "bytes": 292,
+      "sha256": "b6a8ebaab7e8be2c770db0955b27ab66262a72f1fe5c1df48de8e558fb9e8600"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/import_asg_transfer_reportclone_20261031.sql",
+      "bytes": 16636,
+      "sha256": "6b9e3f2d21411191427761f90fddae67a0cb9688d44e0e49862a71e6a1ead159"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/landing_stage_asg_20261031.csv",
+      "bytes": 2033745,
+      "sha256": "6d842ffba33e9205ad3b716b372a47f05a07e51e82b509100e617178c31bb8bb"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/replay_asg_transfer_reportclone_20261031.log",
+      "bytes": 292,
+      "sha256": "4018c282e6c6a34fa287a22f29ceb71b3e95acfdb9744fed77265098bb10a051"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/seal_asg_evidence_manifest_20261031.py",
+      "bytes": 5710,
+      "sha256": "e13e9d3df1718dd71dda34caffeab0da2e5b11bd5c5d4f5773a777b434154c0f"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/stage_manifest_asg_20261031.json",
+      "bytes": 2150,
+      "sha256": "46014e4be5b5b695e72147f77d8885bca6cd912dbd4b8d5b65198df5d44dd187"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/asg_second_transfer_capture_20261031/transfer_event_stage_asg_20261031.csv",
+      "bytes": 1049,
+      "sha256": "954e4b17f7626587a6d88504842cc4a5549a79f9c3a3e0868fd39e744733def9"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/capture_asg_hose_first_trade_20261031.py",
+      "bytes": 6871,
+      "sha256": "310315b0bdb600363bea86da439308fa6cbf33d7fdbd8d78517f67bd3fb38d8e"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/capture_asg_second_transfer_20261031.py",
+      "bytes": 10629,
+      "sha256": "7203401dd2b25fcf869322a12b19dd060986be4bdd59f70ee4b14183b90b20c0"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/hnx_disclosure_probe_20261031/ASG_NY_29-01-2021_26-12-2021_p1.html",
+      "bytes": 22306,
+      "sha256": "6d7cc344a7740c79cc5cbce23379192f2ea0badd6708c6604a30362377e961ce"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/hnx_disclosure_probe_20261031/hnx_disclosure_probe_manifest_20261031.json",
+      "bytes": 1396310,
+      "sha256": "5e16b85a1a5304a57f6bb90b0b78d9eaad1134a40e89d50ea2873688cde2412a"
+    },
+    {
+      "path": "docs/evidence/phase2/phase2_e4_remaining_gap_probe_20261031/prepare_asg_second_transfer_stages_20261031.py",
+      "bytes": 10989,
+      "sha256": "969bb50b877a7d96c72e21f8979597f70ae7c679d1590cb41576c80410b81803"
+    },
+    {
+      "path": "tmp/pdfs/asg_second_transfer_source_review_20261031/hnx_asg-1.png",
+      "bytes": 1349957,
+      "sha256": "d64d452a0a09e94c914188610debea9d63f154f060d03ffc70450de863c12f77"
+    },
+    {
+      "path": "tmp/pdfs/asg_second_transfer_source_review_20261031/hose_asg-1.png",
+      "bytes": 296266,
+      "sha256": "d3b9694e43bca414fd469bc42e6dd22ef0109321ad96c2c177b0c24a81f1900f"
+    }
+  ]
+}

@@ -13,7 +13,7 @@ function Save-State {
 function Check-Exit([string]$step) { if($LASTEXITCODE -ne 0){throw "$step failed with exit $LASTEXITCODE"} }
 $result=1
 try {
- $files=@(Get-ChildItem sql/migrations,tests/sql -File -Recurse) + @(Get-Item py/vnstock_worker.py,docs/evidence/phase2/phase2_vci_lineage_full_077_20261024.sql,docs/evidence/phase2/phase2_public_execution_full_082_20261024.sql)
+ $files=@(Get-ChildItem sql/migrations,tests/sql -File -Recurse) + @(Get-Item py/vnstock_worker.py,docs/evidence/phase2/phase2_vci_lineage_full_077_20261024.sql,docs/evidence/phase2/phase2_public_execution_full_082_20261024.sql,docs/evidence/phase2/phase2_real_final_preflight_083_20261024.sql)
  $expected=@($files | ForEach-Object { [ordered]@{path=$_.FullName;sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash} })
  $expected|ConvertTo-Json -Depth 3|Set-Content -LiteralPath ($prefix+'.inputs.json')
  Save-State
@@ -27,12 +27,15 @@ try {
   Start-Sleep -Seconds 30
  }
  foreach($entry in $expected){if((Get-FileHash -LiteralPath $entry.path -Algorithm SHA256).Hash -ne $entry.sha256){throw "queued input changed: $($entry.path)"}}
- $currentFiles=@(Get-ChildItem sql/migrations,tests/sql -File -Recurse) + @(Get-Item py/vnstock_worker.py,docs/evidence/phase2/phase2_vci_lineage_full_077_20261024.sql,docs/evidence/phase2/phase2_public_execution_full_082_20261024.sql)
+ $currentFiles=@(Get-ChildItem sql/migrations,tests/sql -File -Recurse) + @(Get-Item py/vnstock_worker.py,docs/evidence/phase2/phase2_vci_lineage_full_077_20261024.sql,docs/evidence/phase2/phase2_public_execution_full_082_20261024.sql,docs/evidence/phase2/phase2_real_final_preflight_083_20261024.sql)
  if($currentFiles.Count -ne $expected.Count){throw 'queued migration/test file set changed'}
  $credential=Import-Clixml -LiteralPath "C:\Users\HP\VN-Signal\.phase2-runtime\db-credential.xml"
  $env:PGPASSWORD=$credential.GetNetworkCredential().Password
  $env:PATH='C:\Program Files\PostgreSQL\18\bin;'+$env:PATH
  $env:VNPIPE_DISABLE_LIVE='1'
+ $state.phase='feature_preflight';Save-State
+ & 'C:\Program Files\PostgreSQL\18\bin\psql.exe' -X -v ON_ERROR_STOP=1 -U postgres -d vnsignal_phase2_report_20261019 -f docs/evidence/phase2/phase2_real_final_preflight_083_20261024.sql *> ($prefix+'.preflight.log')
+ Check-Exit 'full homogeneous feature preflight'
  $state.phase='migration_harness';Save-State
  $env:DATABASE_URL='postgresql://postgres@localhost:5432/vnsignal_phase2_078_serial_20261024_disposable'
  $env:VNPIPE_TEST_DATABASE_NAME='vnsignal_phase2_078_serial_20261024_disposable'

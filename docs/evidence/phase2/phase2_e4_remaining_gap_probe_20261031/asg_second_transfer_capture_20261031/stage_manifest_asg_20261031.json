@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "scope": "One signed HNX-to-HOSE ASG transfer event for the current-hash E4 feature gap 2021-09-21 to 2021-09-27.",
+  "source_review": "Both official signed PDF endpoints were visually reviewed; their printed ticker, dates, and 75,653,891 share count agree.",
+  "event_date_semantics": "prior_ceased_from=2021-09-22 is the first effective session after the signed final HNX trading day; it is not represented as a separately stated legal delisting date.",
+  "feature_hash": "28089ed13c1be5a19865bc9cea34c44cb84f3e460ee3f3f2ee837a853d317f6b",
+  "current_gap": {
+    "prior_trade_date": "2021-09-21",
+    "next_trade_date": "2021-09-27",
+    "missing_effective_sessions": "3",
+    "bar_rows_between": "0",
+    "source_rows_between": "0"
+  },
+  "source_captures": [
+    {
+      "file": "hnx_asg_transfer_notice_401910.pdf",
+      "bytes": 293169,
+      "sha256": "764496291f307086f1dc39ee1702a199ea59087665b726a2f81786ce51661079",
+      "captured_at_utc": "2026-10-31T10:48:57.187328Z",
+      "source_url": "https://owa.hnx.vn/ftp///cims/2021/9_W3/000000010833173_2884tb_20210916_1.PDF"
+    },
+    {
+      "file": "hose_asg_first_trade_1483519.pdf",
+      "bytes": 721402,
+      "sha256": "85f964de0898e3e0202940eac2c516f9837459ecdccdb10acfcc35a55a78bd05",
+      "captured_at_utc": "2026-10-31T10:50:25.692097Z",
+      "source_url": "https://staticfile.hsx.vn/Uploads/News/ea6c1642d4df4dd686c023866017ca55/20210922_20210920%20-%20ASG%20-%20TB%20ngay%20giao%20dich%20dau%20tien%20tren%20HOSE.pdf"
+    }
+  ],
+  "source_manifests": {
+    "capture_manifest_asg_20261031.json": "adc57ba563abbe7856bcaecb41a4c9707ecab305322f1a13d99e1e2bd3a28bee",
+    "hose_first_trade_capture_manifest_asg_20261031.json": "834b8a308d569f3eab3124942bc16ba1c67f086266f6d38e85f7739b158d5b25"
+  },
+  "landing_stage": {
+    "file": "landing_stage_asg_20261031.csv",
+    "sha256": "6d842ffba33e9205ad3b716b372a47f05a07e51e82b509100e617178c31bb8bb"
+  },
+  "event_stage": {
+    "file": "transfer_event_stage_asg_20261031.csv",
+    "sha256": "954e4b17f7626587a6d88504842cc4a5549a79f9c3a3e0868fd39e744733def9"
+  }
+}

@@ -1,10 +1,24 @@
 \set ON_ERROR_STOP on
 BEGIN;
+CREATE TEMP TABLE phase2_v2_hash_cache_probe ON COMMIT DROP AS
+SELECT * FROM feat.features_daily
+ WHERE symbol_id=(SELECT symbol_id FROM core.symbols WHERE symbol='P2READY')
+   AND feature_version='phase2-v2'
+ ORDER BY trade_date
+ LIMIT 1;
 DO $$
 DECLARE
     v_symbol_id bigint;
     v_date date;
+    v_probe_date date:=DATE '1901-01-02';
+    v_probe_date_next date:=DATE '1901-01-03';
     v_rows bigint;
+    v_probe_rows bigint;
+    v_probe_hash text;
+    v_reference_hash text;
+    v_input_after_v2 text;
+    v_input_after_probe text;
+    v_input_after_schema text;
     v_input_a text;
     v_input_b text;
     v_output_a text;
@@ -31,6 +45,18 @@ BEGIN
         RAISE EXCEPTION 'identical Phase 2 feature inputs did not produce a stable SHA-256';
     END IF;
 
+    SELECT row_count,day_sha256 INTO v_probe_rows,v_probe_hash
+      FROM ops.phase2_v2_feature_day_hash_cache
+     WHERE trade_date=v_date AND NOT is_dirty;
+    SELECT count(*),ops.phase2_hash_text(string_agg(ops.phase2_hash_jsonb(to_jsonb(f)),''
+                                                    ORDER BY f.symbol_id,f.trade_date))
+      INTO v_rows,v_reference_hash
+      FROM feat.features_daily f
+     WHERE f.trade_date=v_date AND f.feature_version='phase2-v2';
+    IF v_probe_rows IS DISTINCT FROM v_rows OR v_probe_hash IS DISTINCT FROM v_reference_hash THEN
+        RAISE EXCEPTION 'cached V2 daily digest differs from the canonical row-by-row digest';
+    END IF;
+
     v_output_a:=ops.phase2_chunk_output_hash('features',v_date,v_date);
     v_output_b:=ops.phase2_chunk_output_hash('features',v_date,v_date);
     IF v_output_a IS DISTINCT FROM v_output_b OR v_output_a !~ '^[0-9a-f]{64}$' THEN
@@ -52,8 +78,123 @@ BEGIN
 
     UPDATE feat.features_daily SET return_1d=coalesce(return_1d,0)+0.125
      WHERE symbol_id=v_symbol_id AND trade_date=v_date AND feature_version='phase2-v2';
-    IF ops.phase2_chunk_input_hash('features',v_date,v_date) IS NOT DISTINCT FROM v_input_a THEN
+    v_input_after_v2:=ops.phase2_chunk_input_hash('features',v_date,v_date);
+    IF v_input_after_v2 IS NOT DISTINCT FROM v_input_a THEN
         RAISE EXCEPTION 'changing a Phase 2 v2 source feature did not change the v3 input hash';
+    END IF;
+    SELECT row_count,day_sha256 INTO v_probe_rows,v_probe_hash
+      FROM ops.phase2_v2_feature_day_hash_cache
+     WHERE trade_date=v_date AND NOT is_dirty;
+    SELECT count(*),ops.phase2_hash_text(string_agg(ops.phase2_hash_jsonb(to_jsonb(f)),''
+                                                    ORDER BY f.symbol_id,f.trade_date))
+      INTO v_rows,v_reference_hash
+      FROM feat.features_daily f
+     WHERE f.trade_date=v_date AND f.feature_version='phase2-v2';
+    IF v_probe_rows IS DISTINCT FROM v_rows OR v_probe_hash IS DISTINCT FROM v_reference_hash THEN
+        RAISE EXCEPTION 'V2 UPDATE did not refresh the exact cached daily digest';
+    END IF;
+
+    IF v_probe_date>=date_trunc('year',v_date)::date THEN
+        RAISE EXCEPTION 'synthetic V2 cache-probe date must precede the feature year anchor';
+    END IF;
+    IF EXISTS (SELECT 1 FROM feat.features_daily
+                WHERE trade_date IN (v_probe_date,v_probe_date_next)) THEN
+        RAISE EXCEPTION 'synthetic V2 cache-probe dates unexpectedly collide with fixture data';
+    END IF;
+
+    -- New V2 dates are added to the catalog by the INSERT statement trigger.
+    UPDATE pg_temp.phase2_v2_hash_cache_probe SET trade_date=v_probe_date;
+    INSERT INTO feat.features_daily SELECT * FROM pg_temp.phase2_v2_hash_cache_probe;
+    PERFORM ops.phase2_refresh_v2_feature_day_hashes(v_probe_date,v_probe_date);
+    SELECT row_count,day_sha256 INTO v_probe_rows,v_probe_hash
+      FROM ops.phase2_v2_feature_day_hash_cache
+     WHERE trade_date=v_probe_date AND NOT is_dirty;
+    SELECT count(*),ops.phase2_hash_text(string_agg(ops.phase2_hash_jsonb(to_jsonb(f)),''
+                                                    ORDER BY f.symbol_id,f.trade_date))
+      INTO v_rows,v_reference_hash
+      FROM feat.features_daily f
+     WHERE f.trade_date=v_probe_date AND f.feature_version='phase2-v2';
+    IF v_probe_rows IS DISTINCT FROM v_rows OR v_probe_hash IS DISTINCT FROM v_reference_hash THEN
+        RAISE EXCEPTION 'V2 INSERT did not create an exact cached daily digest';
+    END IF;
+    v_input_after_probe:=ops.phase2_chunk_input_hash('features',v_date,v_date);
+    IF v_input_after_probe IS DISTINCT FROM v_input_after_v2 THEN
+        RAISE EXCEPTION 'an out-of-range V2 INSERT changed the year-anchored input hash';
+    END IF;
+
+    -- Moving a V2 row invalidates both its old and new trade dates.
+    UPDATE feat.features_daily SET trade_date=v_probe_date_next
+     WHERE symbol_id=v_symbol_id AND trade_date=v_probe_date AND feature_version='phase2-v2';
+    PERFORM ops.phase2_refresh_v2_feature_day_hashes(v_probe_date,v_probe_date_next);
+    SELECT row_count,day_sha256 INTO v_probe_rows,v_probe_hash
+      FROM ops.phase2_v2_feature_day_hash_cache
+     WHERE trade_date=v_probe_date AND NOT is_dirty;
+    IF v_probe_rows IS DISTINCT FROM 0 OR v_probe_hash IS NOT NULL THEN
+        RAISE EXCEPTION 'V2 date move did not clear the old date digest';
+    END IF;
+    SELECT row_count,day_sha256 INTO v_probe_rows,v_probe_hash
+      FROM ops.phase2_v2_feature_day_hash_cache
+     WHERE trade_date=v_probe_date_next AND NOT is_dirty;
+    SELECT count(*),ops.phase2_hash_text(string_agg(ops.phase2_hash_jsonb(to_jsonb(f)),''
+                                                    ORDER BY f.symbol_id,f.trade_date))
+      INTO v_rows,v_reference_hash
+      FROM feat.features_daily f
+     WHERE f.trade_date=v_probe_date_next AND f.feature_version='phase2-v2';
+    IF v_probe_rows IS DISTINCT FROM v_rows OR v_probe_hash IS DISTINCT FROM v_reference_hash THEN
+        RAISE EXCEPTION 'V2 date move did not refresh the new date digest exactly';
+    END IF;
+
+    -- Changing out of V2 and back must invalidate the same date both times.
+    UPDATE feat.features_daily SET feature_version='phase2-cache-probe-v1'
+     WHERE symbol_id=v_symbol_id AND trade_date=v_probe_date_next AND feature_version='phase2-v2';
+    PERFORM ops.phase2_refresh_v2_feature_day_hashes(v_probe_date_next,v_probe_date_next);
+    SELECT row_count,day_sha256 INTO v_probe_rows,v_probe_hash
+      FROM ops.phase2_v2_feature_day_hash_cache
+     WHERE trade_date=v_probe_date_next AND NOT is_dirty;
+    IF v_probe_rows IS DISTINCT FROM 0 OR v_probe_hash IS NOT NULL THEN
+        RAISE EXCEPTION 'V2 version transition did not clear the V2 date digest';
+    END IF;
+    UPDATE feat.features_daily SET feature_version='phase2-v2'
+     WHERE symbol_id=v_symbol_id AND trade_date=v_probe_date_next AND feature_version='phase2-cache-probe-v1';
+    PERFORM ops.phase2_refresh_v2_feature_day_hashes(v_probe_date_next,v_probe_date_next);
+    SELECT row_count,day_sha256 INTO v_probe_rows,v_probe_hash
+      FROM ops.phase2_v2_feature_day_hash_cache
+     WHERE trade_date=v_probe_date_next AND NOT is_dirty;
+    SELECT count(*),ops.phase2_hash_text(string_agg(ops.phase2_hash_jsonb(to_jsonb(f)),''
+                                                    ORDER BY f.symbol_id,f.trade_date))
+      INTO v_rows,v_reference_hash
+      FROM feat.features_daily f
+     WHERE f.trade_date=v_probe_date_next AND f.feature_version='phase2-v2';
+    IF v_probe_rows IS DISTINCT FROM v_rows OR v_probe_hash IS DISTINCT FROM v_reference_hash THEN
+        RAISE EXCEPTION 'V2 version transition back did not restore the exact daily digest';
+    END IF;
+
+    -- Deleting the last V2 row for a date must leave a clean empty cache entry.
+    DELETE FROM feat.features_daily
+     WHERE symbol_id=v_symbol_id AND trade_date=v_probe_date_next AND feature_version='phase2-v2';
+    PERFORM ops.phase2_refresh_v2_feature_day_hashes(v_probe_date_next,v_probe_date_next);
+    SELECT row_count,day_sha256 INTO v_probe_rows,v_probe_hash
+      FROM ops.phase2_v2_feature_day_hash_cache
+     WHERE trade_date=v_probe_date_next AND NOT is_dirty;
+    IF v_probe_rows IS DISTINCT FROM 0 OR v_probe_hash IS NOT NULL THEN
+        RAISE EXCEPTION 'deleting the last V2 row did not clear its daily digest';
+    END IF;
+
+    -- A row-shape change alters to_jsonb(f), so the schema signature must
+    -- invalidate cached day digests before they are reused.
+    EXECUTE 'ALTER TABLE feat.features_daily ADD COLUMN phase2_hash_cache_probe boolean NOT NULL DEFAULT false';
+    v_input_after_schema:=ops.phase2_chunk_input_hash('features',v_date,v_date);
+    SELECT row_count,day_sha256 INTO v_probe_rows,v_probe_hash
+      FROM ops.phase2_v2_feature_day_hash_cache
+     WHERE trade_date=v_date AND NOT is_dirty;
+    SELECT count(*),ops.phase2_hash_text(string_agg(ops.phase2_hash_jsonb(to_jsonb(f)),''
+                                                    ORDER BY f.symbol_id,f.trade_date))
+      INTO v_rows,v_reference_hash
+      FROM feat.features_daily f
+     WHERE f.trade_date=v_date AND f.feature_version='phase2-v2';
+    IF v_input_after_schema IS NOT DISTINCT FROM v_input_after_v2 OR
+       v_probe_rows IS DISTINCT FROM v_rows OR v_probe_hash IS DISTINCT FROM v_reference_hash THEN
+        RAISE EXCEPTION 'V2 daily digest cache was not invalidated after a feature row-shape change';
     END IF;
 
     v_label_input:=ops.phase2_chunk_input_hash('labels',v_date,v_date);

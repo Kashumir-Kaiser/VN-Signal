@@ -1,0 +1,58 @@
+
+<input id="idCheckLoadTinCBTV" type="hidden" />
+
+<div class="_divShowHideOnReport">
+    <div class="divDisplayNumberRecordOnPage">
+        <label>Hiển thị </label>
+        <select id="divNumberRecordOnPageTinCB" onchange="ChangeRecordOnpageTinCB()" style="width: 50px;">
+                <option value="10">10</option> 
+                <option value="20">20</option> 
+                <option value="30">30</option> 
+                <option value="40">40</option> 
+                <option selected="selected" value="50">50</option> 
+        </select>
+        <label>bản ghi</label>
+    </div>
+</div>
+
+
+<div class="divDataTables">
+    <div id="divContainTable" class="divmousewheel divTablesListData">
+        <table id="_tableDatas" class="clsTable clsTable-border clsTable-stripe">
+            <thead>
+                <tr>
+                    <th class="STT">
+                        STT
+                    </th>
+                    <th class="PUBLICTIME">
+                        Ng&#224;y đăng tin
+                    </th>
+                    <th class="TITLE">
+                        Ti&#234;u đề tin
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td class="tdCenterAlign STT">
+                            1
+                        </td>
+                        <td class="tdCenterAlign">
+                            08/11/2018 15:11 
+                        </td>
+                        <td class="tdLeftAlign classbreakword">
+                            <a href="javascript:;" onclick="return XemChiTietDetailArticlesByID(298983,1)" class="hrefViewDetail">
+Nghị quyết Hội đồng quản trị                            </a>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="paging">
+        <ul>
+            <div id='d_total_rec' class='_clsstotal_rec'>Tổng số 1 bản ghi </div><div id='d_number_of_page'></div>
+        </ul>
+    </div>
+</div>
+
+  

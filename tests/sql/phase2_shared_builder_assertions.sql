@@ -24,11 +24,15 @@ DECLARE
     mismatch_fields text;
     old_image jsonb;
     rebuilt_image jsonb;
+    year_image_sha text;
+    direct_shared_rejected boolean:=false;
     invalid_schema_rejected boolean:=false;
     canonical_output_rejected boolean:=false;
 BEGIN
     IF to_regprocedure('feat.build_features_v2_shared(date,date,bigint[])') IS NULL
        OR to_regprocedure('feat.build_price_features_v3_shared(date,date,bigint[])') IS NULL
+       OR to_regprocedure('feat.build_price_features_v3_year_impl(date,date,bigint[],date)') IS NULL
+       OR to_regprocedure('feat.build_price_features_v3_calendar_chunked(date,date,bigint[])') IS NULL
        OR to_regprocedure('feat.build_labels_set_based_shared(date,date,bigint[])') IS NULL
        OR to_regprocedure('feat.build_features_and_labels(date,date)') IS NULL
        OR to_regprocedure('feat.build_features_and_labels_scoped(date,date,text,text,text,bigint[])') IS NULL THEN
@@ -49,6 +53,29 @@ BEGIN
     -- shared SQL with a NULL scope. `record_send` compares every stored field,
     -- including float8 wire bytes and transaction-stable timestamps.
     PERFORM feat.build_features_and_labels(date_from,date_to);
+    SELECT md5(encode(pg_catalog.record_send(f),'hex')) INTO year_image_sha
+      FROM feat.features_daily f
+     WHERE f.symbol_id=symbol_ids[1] AND f.trade_date=date_to AND f.feature_version='phase2-v3';
+    IF year_image_sha IS NULL THEN
+        RAISE EXCEPTION 'calendar builder did not produce the final synthetic year row';
+    END IF;
+    BEGIN
+        PERFORM feat.build_price_features_v3_shared(date_to,date_to,NULL);
+    EXCEPTION WHEN OTHERS THEN
+        direct_shared_rejected:=position('requires a January 1 year start' IN SQLERRM)>0;
+    END;
+    IF NOT direct_shared_rejected THEN
+        RAISE EXCEPTION 'unsafe partial-year call was accepted by the shared V3 implementation';
+    END IF;
+    previous_path:=feat.phase2_builder_set_context('core','feat','ops');
+    PERFORM feat.build_price_features_v3_calendar_chunked(date_to,date_to,NULL);
+    PERFORM feat.phase2_builder_restore_context(previous_path);
+    IF (SELECT md5(encode(pg_catalog.record_send(f),'hex'))
+          FROM feat.features_daily f
+         WHERE f.symbol_id=symbol_ids[1] AND f.trade_date=date_to AND f.feature_version='phase2-v3')
+       IS DISTINCT FROM year_image_sha THEN
+        RAISE EXCEPTION 'V3 row bytes changed when rebuilding one date through the calendar wrapper';
+    END IF;
     CREATE TEMP TABLE phase2_shared_legacy_features ON COMMIT DROP AS
     SELECT f.symbol_id,f.trade_date,f.feature_version,
            md5(encode(pg_catalog.record_send(f),'hex')) AS row_sha256
@@ -77,7 +104,7 @@ BEGIN
     previous_path:=feat.phase2_builder_set_context('core','feat','ops');
     PERFORM feat.prepare_phase2_adjustment_rows(true);
     PERFORM feat.build_features_v2_shared(date_from,date_to,NULL);
-    PERFORM feat.build_price_features_v3_shared(date_from,date_to,NULL);
+    PERFORM feat.build_price_features_v3_calendar_chunked(date_from,date_to,NULL);
     PERFORM feat.build_labels_set_based_shared(date_from,date_to,NULL);
     PERFORM feat.phase2_builder_restore_context(previous_path);
 
@@ -201,7 +228,7 @@ BEGIN
     previous_path:=feat.phase2_builder_set_context('core','feat','ops');
     PERFORM feat.prepare_phase2_adjustment_rows(true);
     PERFORM feat.build_features_v2_shared(date_from,date_to,symbol_ids);
-    PERFORM feat.build_price_features_v3_shared(date_from,date_to,symbol_ids);
+    PERFORM feat.build_price_features_v3_calendar_chunked(date_from,date_to,symbol_ids);
     PERFORM feat.build_labels_set_based_shared(date_from,date_to,symbol_ids);
     PERFORM feat.phase2_builder_restore_context(previous_path);
 

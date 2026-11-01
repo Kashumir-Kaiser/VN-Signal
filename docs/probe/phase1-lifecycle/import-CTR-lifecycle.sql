@@ -22,31 +22,33 @@ DO $$ BEGIN
   END IF;
 END $$;
 
-WITH inserted AS (
-  INSERT INTO raw.landings(ingest_id,source,route,fetched_at,symbol,payload,payload_sha256,payload_bytes)
-  SELECT gen_random_uuid(),'hnx','security_lifecycle_notice',clock_timestamp(),d.symbol,
-         d.payload_json,d.payload_sha256,decode(d.body_b64,'base64')
-  FROM ctr_lifecycle_stage d
-  WHERE NOT EXISTS (
-    SELECT 1 FROM raw.landings l
-    WHERE l.source='hnx' AND l.route='security_lifecycle_notice'
-      AND lower(l.payload_sha256)=lower(d.payload_sha256)
-  )
-  RETURNING landing_id,payload_sha256
-), resolved AS (
-  SELECT landing_id,payload_sha256 FROM inserted
-  UNION ALL
-  SELECT l.landing_id,l.payload_sha256
-  FROM raw.landings l JOIN ctr_lifecycle_stage d
-    ON lower(l.payload_sha256)=lower(d.payload_sha256)
+INSERT INTO raw.landings(ingest_id,source,route,fetched_at,symbol,payload,payload_sha256,payload_bytes)
+SELECT gen_random_uuid(),'hnx','security_lifecycle_notice',clock_timestamp(),d.symbol,
+       d.payload_json,d.payload_sha256,decode(d.body_b64,'base64')
+FROM ctr_lifecycle_stage d
+WHERE NOT EXISTS (
+  SELECT 1 FROM raw.landings l
   WHERE l.source='hnx' AND l.route='security_lifecycle_notice'
-)
+    AND l.symbol=d.symbol AND lower(l.payload_sha256)=lower(d.payload_sha256)
+);
+DO $$ BEGIN
+  IF EXISTS (
+    SELECT 1 FROM ctr_lifecycle_stage d
+    WHERE (SELECT count(*) FROM raw.landings l
+           WHERE l.source='hnx' AND l.route='security_lifecycle_notice'
+             AND l.symbol=d.symbol AND lower(l.payload_sha256)=lower(d.payload_sha256)) <> 1
+  ) THEN
+    RAISE EXCEPTION 'each CTR lifecycle document must resolve to exactly one same-symbol landing';
+  END IF;
+END $$;
 INSERT INTO core.security_lifecycle_evidence
   (symbol_id,exchange,evidence_type,date_from,date_to,source_landing_id,source_url,source_document_date)
 SELECT s.symbol_id,'UPCOM','DELISTED',DATE '2022-02-15',DATE '2022-02-22',
-       r.landing_id,d.source_url,d.source_document_date
+       l.landing_id,d.source_url,d.source_document_date
 FROM ctr_lifecycle_stage d
-JOIN resolved r ON lower(r.payload_sha256)=lower(d.payload_sha256)
+JOIN raw.landings l
+  ON l.source='hnx' AND l.route='security_lifecycle_notice'
+ AND l.symbol=d.symbol AND lower(l.payload_sha256)=lower(d.payload_sha256)
 JOIN core.symbols s ON s.symbol=d.symbol
 ON CONFLICT(symbol_id,evidence_type,date_from,source_landing_id) DO NOTHING;
 

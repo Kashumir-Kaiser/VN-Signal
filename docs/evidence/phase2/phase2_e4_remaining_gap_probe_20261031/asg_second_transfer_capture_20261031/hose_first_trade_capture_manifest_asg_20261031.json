@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "scope": "Signed HOSE first-trading-day attachment for ASG, linked from official article 1483519.",
+  "capture_time_basis": "actual HTTP capture UTC recorded per response",
+  "discovery_manifest": {
+    "file": "capture_manifest_asg_20261031.json",
+    "sha256": "adc57ba563abbe7856bcaecb41a4c9707ecab305322f1a13d99e1e2bd3a28bee"
+  },
+  "article": {
+    "article_id": "1483519",
+    "title": "ASG: Thông báo về ngày giao dịch đầu tiên trên HOSE"
+  },
+  "attachment": {
+    "file_name": "20210922_20210920 - ASG - TB ngay giao dich dau tien tren HOSE.pdf",
+    "file_path": "~/Uploads/News/ea6c1642d4df4dd686c023866017ca55/20210922_20210920 - ASG - TB ngay giao dich dau tien tren HOSE.pdf",
+    "url": "https://staticfile.hsx.vn/Uploads/News/ea6c1642d4df4dd686c023866017ca55/20210922_20210920%20-%20ASG%20-%20TB%20ngay%20giao%20dich%20dau%20tien%20tren%20HOSE.pdf"
+  },
+  "captures": [
+    {
+      "file": "hose_asg_first_trade_1483519.json",
+      "role": "official_hose_first_trade_article_metadata",
+      "sha256": "a9ce542220861b034e9b832d89fd22dffa7fc6f6a2e7ecc119d1879442bd92e1",
+      "bytes": 939,
+      "request_url": "https://api.hsx.vn/n/api/v1/1/news/1483519",
+      "final_url": "https://api.hsx.vn/n/api/v1/1/news/1483519",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": "application/json",
+      "started_at_utc": "2026-10-31T10:50:22.462807Z",
+      "completed_at_utc": "2026-10-31T10:50:23.232502Z",
+      "article_id": "1483519",
+      "title": "ASG: Thông báo về ngày giao dịch đầu tiên trên HOSE",
+      "discovery_manifest_sha256": "adc57ba563abbe7856bcaecb41a4c9707ecab305322f1a13d99e1e2bd3a28bee"
+    },
+    {
+      "file": "hose_asg_first_trade_attachments_1483519.json",
+      "role": "official_hose_first_trade_attachment_listing",
+      "sha256": "3db57f5c5734463d5e4b71c3a95cda1cb7c71a37ecffcefde13d0791eca98a38",
+      "bytes": 520,
+      "request_url": "https://api.hsx.vn/m/api/v1/1/mediafiles/1/1483519?pageIndex=1&pageSize=100",
+      "final_url": "https://api.hsx.vn/m/api/v1/1/mediafiles/1/1483519?pageIndex=1&pageSize=100",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": "application/json",
+      "started_at_utc": "2026-10-31T10:50:23.242841Z",
+      "completed_at_utc": "2026-10-31T10:50:24.266506Z",
+      "article_id": "1483519",
+      "title": "ASG: Thông báo về ngày giao dịch đầu tiên trên HOSE"
+    },
+    {
+      "file": "hose_asg_first_trade_1483519.pdf",
+      "role": "signed_hose_first_trade_attachment",
+      "sha256": "85f964de0898e3e0202940eac2c516f9837459ecdccdb10acfcc35a55a78bd05",
+      "bytes": 721402,
+      "request_url": "https://staticfile.hsx.vn/Uploads/News/ea6c1642d4df4dd686c023866017ca55/20210922_20210920%20-%20ASG%20-%20TB%20ngay%20giao%20dich%20dau%20tien%20tren%20HOSE.pdf",
+      "final_url": "https://staticfile.hsx.vn/Uploads/News/ea6c1642d4df4dd686c023866017ca55/20210922_20210920%20-%20ASG%20-%20TB%20ngay%20giao%20dich%20dau%20tien%20tren%20HOSE.pdf",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "started_at_utc": "2026-10-31T10:50:24.268990Z",
+      "completed_at_utc": "2026-10-31T10:50:25.692097Z",
+      "article_id": "1483519",
+      "title": "ASG: Thông báo về ngày giao dịch đầu tiên trên HOSE",
+      "source_url": "https://staticfile.hsx.vn/Uploads/News/ea6c1642d4df4dd686c023866017ca55/20210922_20210920%20-%20ASG%20-%20TB%20ngay%20giao%20dich%20dau%20tien%20tren%20HOSE.pdf",
+      "file_name": "20210922_20210920 - ASG - TB ngay giao dich dau tien tren HOSE.pdf",
+      "file_path": "~/Uploads/News/ea6c1642d4df4dd686c023866017ca55/20210922_20210920 - ASG - TB ngay giao dich dau tien tren HOSE.pdf"
+    }
+  ],
+  "limitations": [
+    "The signed notice establishes the HOSE first-trading-day endpoint; it does not establish individual trading activity during the feature-row gap."
+  ]
+}

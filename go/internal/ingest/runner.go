@@ -49,6 +49,9 @@ type Runner struct {
 	Gateway *live.Gateway
 	Store   LandingStore
 	Now     func() time.Time
+	// FundamentalObservationNow freezes the Vietnam observation date used in
+	// daily idempotency keys. Market fetch timestamps continue to use Now.
+	FundamentalObservationNow func() time.Time
 	// BeforeCall refreshes a nearly expired durable quota guard from an
 	// independently verified absolute usage report. Called only for unfinished
 	// jobs, and always BEFORE the local pacer can reserve a call.

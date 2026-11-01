@@ -102,7 +102,7 @@ BEGIN
             rank_realized_vol20=CASE i WHEN 1 THEN 0 WHEN 3 THEN 1 WHEN 4 THEN 0 END
          WHERE feature_version='phase2-v2' AND trade_date=d AND symbol_id=ids[i];
     END LOOP;
-    PERFORM feat.build_price_features_v3_shared(d,d,ids);
+    PERFORM feat.build_price_features_v3_calendar_chunked(d,d,ids);
     expected_return:=ARRAY[low_score,high_score,NULL,low_score];
     expected_turnover:=ARRAY[NULL,low_score,high_score,low_score];
     expected_vol:=ARRAY[low_score,NULL,high_score,low_score];
@@ -137,7 +137,7 @@ BEGIN
         rank_momentum_20s=NULL,rank_realized_vol20=NULL,
         rank_turnover_proxy=CASE WHEN symbol_id=ids[1] THEN 0 END
      WHERE feature_version='phase2-v2' AND trade_date=d AND symbol_id=ANY(ids);
-    PERFORM feat.build_price_features_v3_shared(d,d,ids);
+    PERFORM feat.build_price_features_v3_calendar_chunked(d,d,ids);
     IF EXISTS (
         SELECT 1 FROM feat.features_daily
          WHERE feature_version='phase2-v3' AND trade_date=d AND symbol_id=ANY(ids)
@@ -149,7 +149,7 @@ BEGIN
     UPDATE feat.features_daily SET feature_set_hash=repeat('0',64)
      WHERE feature_version='phase2-v2' AND trade_date=d AND symbol_id=ids[1];
     BEGIN
-        PERFORM feat.build_price_features_v3_shared(d,d,ids);
+        PERFORM feat.build_price_features_v3_calendar_chunked(d,d,ids);
     EXCEPTION WHEN raise_exception THEN
         IF SQLERRM LIKE 'Phase 2 V3 requires current, rank-consistent V2 inputs%' THEN
             rejected:=true;

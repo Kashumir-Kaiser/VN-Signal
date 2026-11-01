@@ -16,6 +16,93 @@ BEGIN
  '2097-01-01',known,'ARCHIVE_FETCH','https://example.invalid/synthetic-notice',
  'Synthetic-only explicit admission, closure or same-identity transfer proof');
 END $$;
+DO $hnx_upcom_profile_transfer$
+DECLARE
+    sid bigint;
+    notice_id bigint;
+    profile_id bigint;
+    v_event_id bigint;
+    notice_body bytea:=convert_to('Synthetic dated HNX delisting notice for transfer-path test.','UTF8');
+    profile_body bytea:=convert_to('<input id="StockCode" value="P2PROFILE">','UTF8');
+    notice_payload jsonb:=jsonb_build_object(
+        'source_url','https://example.invalid/p2profile-hnx-delisting',
+        'document_date','2097-01-01',
+        'source_claim','Synthetic HNX notice establishes a final HNX trading date for the migration test.'
+    );
+    profile_payload jsonb:=jsonb_build_object(
+        'source_url','https://hnx.vn/vi-vn/cophieu-etfs/chi-tiet-chung-khoan-uc-p2profile.html',
+        'document_date',NULL,
+        'capture_time_basis','actual HTTP capture UTC recorded in source manifest',
+        'first_upcom_trade_date','2097-01-03',
+        'source_claim','Synthetic current HNX profile field for transfer-path testing.'
+    );
+BEGIN
+    -- Keep this orphan-profile transfer proof separate from the later
+    -- tenure-continuity fixture for an independently admitted identity.
+    INSERT INTO core.symbols(symbol,exchange,first_seen_at,last_seen_at)
+    VALUES('P2PROFILE','UPCOM','2097-01-01+07','2099-05-01+07')
+    ON CONFLICT(symbol) DO NOTHING;
+    SELECT symbol_id INTO STRICT sid FROM core.symbols WHERE symbol='P2PROFILE';
+    INSERT INTO raw.landings(
+        ingest_id,source,route,fetched_at,symbol,payload,payload_sha256,payload_bytes
+    ) VALUES(
+        gen_random_uuid(),'hnx','security_lifecycle_notice','2097-01-02 09:00:00+07',
+        'P2PROFILE',notice_payload,encode(sha256(notice_body),'hex'),notice_body
+    ) RETURNING landing_id INTO notice_id;
+    INSERT INTO raw.landings(
+        ingest_id,source,route,fetched_at,symbol,payload,payload_sha256,payload_bytes
+    ) VALUES(
+        gen_random_uuid(),'hnx','security_lifecycle_notice','2097-01-02 10:00:00+07',
+        'P2PROFILE',profile_payload,encode(sha256(profile_body),'hex'),profile_body
+    ) RETURNING landing_id INTO profile_id;
+
+    INSERT INTO core.security_listing_events(
+        symbol_id,episode_id,event_type,venue,effective_date,prior_venue,
+        prior_ceased_from,source_landing_id,continuity_landing_id,
+        document_date,available_at,availability_basis,source_url,reviewed_claim
+    ) VALUES(
+        sid,md5('phase2-profile-hnx-upcom-test')::uuid,'TRANSFER','UPCOM',
+        DATE '2097-01-03','HNX',DATE '2097-01-02',notice_id,profile_id,
+        DATE '2097-01-01','2097-01-03 16:00:00+07','ARCHIVE_FETCH',
+        notice_payload->>'source_url',
+        'Synthetic HNX-to-UPCoM transfer context; no individual gap sessions or bars are inferred.'
+    ) RETURNING event_id INTO v_event_id;
+
+    IF NOT EXISTS (
+        SELECT 1 FROM ops.phase2_verified_security_transfers v
+         WHERE v.event_id=v_event_id
+           AND v.prior_venue='HNX' AND v.venue='UPCOM'
+           AND v.effective_date=DATE '2097-01-03'
+           AND v.continuity_landing_id=profile_id
+    ) THEN
+        RAISE EXCEPTION 'exact HNX current-profile endpoint was not accepted for HNX-to-UPCoM transfer context';
+    END IF;
+
+    profile_payload:=jsonb_set(profile_payload,'{capture_time_basis}','"filesystem timestamp only"'::jsonb);
+    INSERT INTO raw.landings(
+        ingest_id,source,route,fetched_at,symbol,payload,payload_sha256,payload_bytes
+    ) VALUES(
+        gen_random_uuid(),'hnx','security_lifecycle_notice','2097-01-02 10:00:00+07',
+        'P2PROFILE',profile_payload,encode(sha256(profile_body),'hex'),profile_body
+    ) RETURNING landing_id INTO profile_id;
+    BEGIN
+        INSERT INTO core.security_listing_events(
+            symbol_id,episode_id,event_type,venue,effective_date,prior_venue,
+            prior_ceased_from,source_landing_id,continuity_landing_id,
+            document_date,available_at,availability_basis,source_url,reviewed_claim
+        ) VALUES(
+            sid,md5('phase2-profile-bad-capture-test')::uuid,'TRANSFER','UPCOM',
+            DATE '2097-01-03','HNX',DATE '2097-01-02',notice_id,profile_id,
+            DATE '2097-01-01','2097-01-03 16:00:00+07','ARCHIVE_FETCH',
+            notice_payload->>'source_url',
+            'Synthetic negative case for a profile without a verified HTTP capture timestamp.'
+        );
+        RAISE EXCEPTION 'profile without an actual HTTP capture timestamp was accepted';
+    EXCEPTION WHEN raise_exception THEN
+        IF SQLERRM='profile without an actual HTTP capture timestamp was accepted' THEN RAISE; END IF;
+    END;
+END;
+$hnx_upcom_profile_transfer$;
 DO $$
 DECLARE d date[]; sid bigint; before_hash text; after_hash text; n integer;
 BEGIN
@@ -55,7 +142,8 @@ BEGIN
  PERFORM pg_temp.listing_event('P2ENTRY',1,'TRANSFER','HOSE',d[111],'HNX',d[101]);
  SELECT symbol_id INTO sid FROM core.symbols WHERE symbol='P2ENTRY';
  IF core.verified_listing_tenure(sid,d[105]) IS DISTINCT FROM 0 OR core.verified_listing_tenure(sid,d[251]) IS DISTINCT FROM 240 THEN
-  RAISE EXCEPTION 'transfer gap or preserved identity count wrong';
+  RAISE EXCEPTION 'transfer gap or preserved identity count wrong: gap %, post-transfer %',
+   core.verified_listing_tenure(sid,d[105]),core.verified_listing_tenure(sid,d[251]);
  END IF;
  -- Future-effective transfer whose cessation is already in the chunk must hash.
  before_hash:=ops.phase2_label_target_chunk_base_input_hash(d[100],d[105]);

@@ -3,8 +3,10 @@ BEGIN;
 DO $$
 DECLARE d text:=pg_get_functiondef('ops.phase2_label_target_chunk_base_input_hash(date,date)'::regprocedure);
 BEGIN
- IF regexp_count(d,'execution_proof=v[0-9]+')<>1 OR position('bounded_symbols' IN d)=0 THEN
-  RAISE EXCEPTION 'execution proof hash must have exactly one bounded versioned dependency';
+ IF regexp_count(d,'execution_proof=v[0-9]+')<>1
+    OR position('ops.phase2_public_execution_proof_watermark()' IN d)=0
+    OR position('FROM ops.phase2_current_public_execution_proof p' IN d)>0 THEN
+  RAISE EXCEPTION 'execution proof hash must use one bounded versioned dependency and the append-only watermark';
  END IF;
 END $$;
 CREATE FUNCTION pg_temp.public_execution_fixture(sym text,variant text)
@@ -47,7 +49,10 @@ BEGIN
  IF core.verified_listing_tenure(sid,d[251]) IS NOT NULL THEN RAISE EXCEPTION 'stale canonical proof remained eligible'; END IF;
  new_hash:=ops.phase2_label_target_chunk_base_input_hash(d[250],d[251]);
  IF old_hash=new_hash THEN RAISE EXCEPTION 'old proof dependency missing from label hash'; END IF;
+ old_hash:=new_hash;
  IF ops.archive_phase2_public_execution_proof(ARRAY[sid])<>1 THEN RAISE EXCEPTION 'changed canonical source not reobserved'; END IF;
+ new_hash:=ops.phase2_label_target_chunk_base_input_hash(d[250],d[251]);
+ IF old_hash=new_hash THEN RAISE EXCEPTION 'proof archive watermark did not invalidate the label hash'; END IF;
  IF NOT EXISTS(SELECT 1 FROM ops.phase2_public_execution_proof WHERE symbol_id=sid AND trade_date=d[10] AND status='ROW_MISMATCH') THEN RAISE EXCEPTION 'source mismatch accepted'; END IF;
  UPDATE core.bars_daily_sources SET c=10 WHERE symbol_id=sid AND trade_date=d[10];
  IF core.verified_listing_tenure(sid,d[251]) IS DISTINCT FROM 250 THEN RAISE EXCEPTION 'exact restored source proof not reusable'; END IF;

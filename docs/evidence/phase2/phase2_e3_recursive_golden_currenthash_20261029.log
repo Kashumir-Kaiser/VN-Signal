@@ -1,0 +1,12 @@
+   Compiling vn-signal-phase2-parity v0.1.0 (C:\Users\HP\VN-Signal\rust\crates\phase2-parity)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 38.67s
+     Running tests\recursive_builder_golden.rs (rust\target\debug\deps\recursive_builder_golden-57b807c914e1b211.exe)
+
+running 3 tests
+test recursive_ema_carries_untraded_and_missing_rows_and_resets_episodes ... ok
+test recursive_builder_series_matches_pandas_golden ... ok
+test recursive_features_use_exactly_the_prior_1000_sessions_at_year_anchor ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.43s
+
+cargo_exit_code=0

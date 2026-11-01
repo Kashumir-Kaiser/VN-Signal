@@ -29,7 +29,7 @@ CREATE TEMP TABLE hose_transfer_stage (
   payload_size bigint,
   media_type text,
   source_attribution text,
-  body_b64 text
+  body_hex text
 ) ON COMMIT DROP;
 \copy hose_transfer_stage FROM 'C:/Users/HP/VN-Signal/docs/evidence/phase2/hose_transfer_sources_20261023/landing_stage.csv' WITH (FORMAT csv, HEADER true)
 
@@ -76,8 +76,8 @@ BEGIN
     WHERE d.route <> 'security_lifecycle_notice'
        OR d.payload_sha256 !~ '^[0-9a-fA-F]{64}$'
        OR d.payload_size < 2
-       OR octet_length(decode(d.body_b64,'base64')) <> d.payload_size
-       OR lower(d.payload_sha256) <> lower(encode(sha256(decode(d.body_b64,'base64')),'hex'))
+       OR octet_length(decode(d.body_hex,'hex')) <> d.payload_size
+       OR lower(d.payload_sha256) <> lower(encode(sha256(decode(d.body_hex,'hex')),'hex'))
        OR d.source_url !~ '^https?://[^[:space:]]+$'
        OR (d.source_context_url <> '' AND d.source_context_url !~ '^https://[^[:space:]]+$')
        OR d.retrieved_at_utc IS NULL
@@ -115,9 +115,9 @@ SELECT gen_random_uuid(),d.source,d.route,d.retrieved_at_utc,NULLIF(d.symbol,'')
          'local_file',d.local_file,
          'media_type',d.media_type,
          'source_attribution',d.source_attribution,
-         'original_payload_encoding','base64 staging decoded to original bytes'
+         'original_payload_encoding','hex staging decoded to original bytes'
        ),
-       lower(d.payload_sha256),decode(d.body_b64,'base64')
+       lower(d.payload_sha256),decode(d.body_hex,'hex')
 FROM hose_transfer_stage d
 WHERE NOT EXISTS (
   SELECT 1 FROM raw.landings l

@@ -1,0 +1,2 @@
+symbols=44; statement=income_statement; period=year; database=vnsignal_phase2_report_20261019; days=31
+Fundamentals archive: statement=income_statement period=year mode=backfill committed=44 skipped=0 blocked=0

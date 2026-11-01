@@ -1,0 +1,2 @@
+Command: cargo fmt --manifest-path rust/Cargo.toml -- --check
+Result: PASS; exit code 0; no formatting differences.
